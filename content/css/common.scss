@@ -1017,6 +1017,13 @@ div.sidebar-item-container .sidebar-link > code {
   padding-inline: 1pt;
 }
 
+// Docked left nav: restore comfortable horizontal inset (default rule above
+// strips it, leaving title/search/items flush against the viewport edge).
+#quarto-sidebar {
+  padding-left: 1rem;
+  padding-right: 0.75rem;
+}
+
 .sidebar-item-text {
   width: 100%;
   // font-size: inherit;
