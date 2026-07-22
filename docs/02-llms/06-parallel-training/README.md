@@ -11,10 +11,12 @@ Sam Foreman
 
 # 🚀 Parallel Training Methods for AI
 
-[Sam Foreman](https://samforeman.me)  
-[Intro to AI-driven Science on
-Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)  
+[Sam Foreman](https://samforeman.me) [Intro to AI-driven Science on
+Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
 *2026-07-22*
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/06-parallel-training/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/06-parallel-training/index.qmd)
 
 - Slides: <https://samforeman.me/talks/ai-for-science-2024/slides>
   - HTML version: <https://samforeman.me/talks/ai-for-science-2024>
@@ -29,26 +31,28 @@ Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
 > scheduler-agnostic — it auto-detects the environment (PBS → `mpiexec`,
 > SLURM → `srun`) — so the same steps work on ALCF PBS systems too.
 
+> [!NOTE]
+>
+> ### Proxies on ALCF login nodes
+>
+> On ALCF PBS systems (e.g. Sophia, Polaris) the login/compute nodes
+> need proxy settings for outbound network access — run these before
+> cloning/installing:
+>
+> ``` bash
+> export HTTP_PROXY="http://proxy.alcf.anl.gov:3128"
+> export HTTPS_PROXY="http://proxy.alcf.anl.gov:3128"
+> export http_proxy="http://proxy.alcf.anl.gov:3128"
+> export https_proxy="http://proxy.alcf.anl.gov:3128"
+> export ftp_proxy="http://proxy.alcf.anl.gov:3128"
+> ```
+
 1.  Submit interactive job (PBS example; on Perlmutter use `salloc`
     instead):
 
     ``` bash
     qsub -A <project> -q by-node -l select=1 -l walltime=01:00:00,filesystems=eagle:home -I
     ```
-
-    ::: {.callout-note title=“Proxies on ALCF login nodes”} On ALCF PBS
-    systems (e.g. Sophia, Polaris) the login/compute nodes need proxy
-    settings for outbound network access:
-
-    ``` bash
-    export HTTP_PROXY="http://proxy.alcf.anl.gov:3128"
-    export HTTPS_PROXY="http://proxy.alcf.anl.gov:3128"
-    export http_proxy="http://proxy.alcf.anl.gov:3128"
-    export https_proxy="http://proxy.alcf.anl.gov:3128"
-    export ftp_proxy="http://proxy.alcf.anl.gov:3128"
-    ```
-
-    :::
 
 2.  Clone [`saforem2/wordplay`](https://github.com/saforem2/wordplay):
 

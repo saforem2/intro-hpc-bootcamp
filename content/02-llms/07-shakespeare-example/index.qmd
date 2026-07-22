@@ -7,7 +7,9 @@ jupyter: python3
 We will be using the [Shakespeare dataset](https://github.com/saforem2/wordplay/blob/main/data/shakespeare/readme.md) to train a (~ small) 10M param LLM _from scratch_.
 
 ::: {.callout-tip title="➡️ Next steps"}
+
 Ready to scale up? See the [Advanced / Large-Scale LLMs track](../advanced/index.qmd).
+
 :::
 
 <div>
