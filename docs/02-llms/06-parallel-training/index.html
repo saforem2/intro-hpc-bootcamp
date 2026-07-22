@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../02-llms/08-shakespeare-example-colab/index.html" rel="next">
-<link href="../../02-llms/01-hands-on-llms/index.html" rel="prev">
+<link href="../../02-llms/00-intro-to-llms/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -394,7 +394,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.1] Parallel Training</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -559,32 +559,20 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/00-intro-to-llms-v2/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[02.0] Intro to LLMs (v2 draft)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[02.1] Hands-on LLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">[02.2] Parallel Training</span></a>
+ <span class="menu-text">[02.1] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[02.3] Shakespeare Example (Colab)</span></a>
+ <span class="menu-text">[02.2] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[02.4] Evaluating LLMs</span></a>
+ <span class="menu-text">[02.3] Evaluating LLMs</span></a>
   </div>
 </li>
       </ul>
@@ -655,7 +643,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.1] Parallel Training</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Intro to HPC Bootcamp</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
@@ -1276,8 +1264,8 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 22. <a href="
     }
   });
   </script>
-<input type="hidden" id="giscus-base-theme" value="dark">
-<input type="hidden" id="giscus-alt-theme" value="light">
+<input type="hidden" id="giscus-base-theme" value="preferred_color_scheme">
+<input type="hidden" id="giscus-alt-theme" value="preferred_color_scheme">
 <script>
   function loadGiscus() {
     // Function to get the theme based on body class
@@ -1294,12 +1282,12 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 22. <a href="
     script.async = true;
     script.dataset.repo = "saforem2/intro-hpc-bootcamp";
     script.dataset.repoId = "R_kgDOPQ7DhQ";
-    script.dataset.category = "General";
-    script.dataset.categoryId = "DIC_kwDOPQ7Dhc4CtXSR";
-    script.dataset.mapping = "title";
+    script.dataset.category = "Announcements";
+    script.dataset.categoryId = "DIC_kwDOPQ7Dhc4CtXSQ";
+    script.dataset.mapping = "pathname";
     script.dataset.reactionsEnabled = "1";
     script.dataset.emitMetadata = "0";
-    script.dataset.inputPosition = "top";
+    script.dataset.inputPosition = "bottom";
     script.dataset.theme = getTheme();
     script.dataset.lang = "en";
     script.crossOrigin = "anonymous";
@@ -1310,13 +1298,13 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 22. <a href="
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../02-llms/01-hands-on-llms/index.html" class="pagination-link" aria-label="[02.1] Hands-on LLMs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[02.1] Hands-on LLMs</span>
+      <a href="../../02-llms/00-intro-to-llms/index.html" class="pagination-link" aria-label="[02.0] Intro to LLMs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[02.0] Intro to LLMs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="pagination-link" aria-label="[02.3] Shakespeare Example (Colab)">
-        <span class="nav-page-text">[02.3] Shakespeare Example (Colab)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="pagination-link" aria-label="[02.2] Shakespeare Example (Colab)">
+        <span class="nav-page-text">[02.2] Shakespeare Example (Colab)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">

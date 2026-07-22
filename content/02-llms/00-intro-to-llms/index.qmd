@@ -1,214 +1,296 @@
 ---
-title: Language models (LMs)
-description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."
-jupyter: python3
+title: "🗣️ Language Models (LMs)"
+description: "From sequences to Transformers: a hands-on introduction to how language models represent, process, and generate sequential data — for text and for science."
+categories:
+  - ai
+  - hpc
+  - llm
 date: 2025-08-05
 date-modified: last-modified
+jupyter: python3
 ---
 
-
 ::: {.callout-note title="Authors" collapse="false"}
-Author: Archit Vasan , including materials on LLMs by Varuni Sastri and Carlo
+Content by Archit Vasan, including materials on LLMs by Varuni Sastri and Carlo
 Graziani at Argonne, and discussion/editorial work by Taylor Childers, Bethany
-Lusch, and Venkat Vishwanath (Argonne)
-
-Modification by Huihuo Zheng on August 1, 2025
+Lusch, and Venkat Vishwanath (Argonne). Modified by Huihuo Zheng (Aug 1, 2025).
 :::
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/00-intro-to-llms/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/00-intro-to-llms/index.qmd)
 
-Inspiration from the blog posts "The Illustrated Transformer" and "The
-Illustrated GPT2" by Jay Alammar, highly recommended reading.
+Although the term *"language model"* comes from Natural Language Processing, the
+same machinery applies to a surprisingly broad range of **scientific** problems.
+This session builds up the core ideas of sequential-data modeling and the key
+architectural element behind modern LLMs: the **Transformer**.
 
-Although the name "language models" is derived from Natural Language
-Processing, the models used in these approaches can be applied to diverse
-scientific applications as illustrated below. 
+::: {.callout-tip title="🎯 Learning objectives" collapse="false"}
+By the end of this session you will be able to:
 
-This session is dedicated to setting out the basics of sequential data
-modeling, and introducing a few key elements required for DL approaches to such
-modeling---principally Transformers.
+1. Explain what **sequential data** is and why it shows up across science.
+2. Trace the **evolution** of language models from RNNs to Transformers.
+3. Describe **tokenization** and **embeddings** — how text becomes numbers.
+4. Explain the **attention mechanism** and the anatomy of a Transformer block.
+5. Understand the **training objective** (cross-entropy) and **perplexity**.
+6. Build a **mini-LLM from scratch** and recognize the major Transformer families.
+7. Run a **pretrained model** end-to-end with 🤗 HuggingFace.
+:::
 
-## Overview
+> Inspired by Jay Alammar's superb
+> [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
+> and [The Illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/) —
+> highly recommended companion reading.
 
-During this session I will cover:
+## 🧬 Why Sequences? Motivation from Science
 
-1. Scientific applications modeling sequential data
-2. Brief History of Language Models
-3. Tokenization and embedding of sequential data
-5. Elements of a Transformer
-6. Attention mechanisms
-7. Output layers
-8. Training loops
-9. Different types of Transformers
+Before the math, the motivation. A **sequence** is an ordered list whose
+elements depend on what came before (and sometimes after). Language is the
+obvious example — but so is much of science.
 
-## Modeling Sequential Data
+::: {#fig-seq-applications .column-page}
 
-Sequences are variable-length lists with data in subsequent iterations that
-depends on previous iterations (or tokens).
+```{mermaid}
+flowchart LR
+    subgraph IN["`Sequential data`"]
+        direction TB
+        d0("`DNA / RNA`")
+        d1("`Proteins`")
+        d2("`SMILES / molecules`")
+        d3("`Text`")
+        d4("`Time series`")
+    end
+    M["`Sequence
+    model`"]
+    subgraph OUT["`Tasks`"]
+        direction TB
+        o0("`Generation`")
+        o1("`Translation`")
+        o2("`Property prediction`")
+        o3("`Error detection`")
+    end
+    d0 --> M
+    d1 --> M
+    d2 --> M
+    d3 --> M
+    d4 --> M
+    M --> o0
+    M --> o1
+    M --> o2
+    M --> o3
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class IN,OUT block
+class d0,d1,d2,d3,d4 blue
+class M purple
+class o0,o1,o2,o3 green
+```
 
-Mathematically: 
-A sequence is a list of tokens:
+One model family, many modalities. The same sequence-modeling tools power text
+generation *and* scientific discovery.
+:::
 
-$$T = [t_1, t_2, t_3,...,t_N]$$
+### Scientific examples
 
-where each token within the list depends on the others with a particular
-probability:
-
-$$P(t_2 | t_1, t_3, t_4, ..., t_N)$$
-
-The purpose of sequential modeling is to learn these probabilities for possible
-tokens in a distribution to perform various tasks including:
-
-- Sequence generation based on a prompt
-- Language translation (e.g. English --> French)
-- Property prediction (predicting a property based on an entire sequence)
-- Identifying mistakes or missing elements in sequential data
-
-## Scientific sequential data modeling examples
-
-### Nucleic acid sequences + genomic data
-
-Nucleic acid sequences can be used to predict translation of proteins,
-mutations, and gene expression levels.
+**Nucleic-acid & genomic data.** DNA/RNA sequences predict protein translation,
+mutations, and gene expression.
 
 ::: {#fig-rna-sequences}
 ![](images/RNA-codons.svg.png)
 
-RNA sequences
+RNA codon structure.
 :::
 
-Here is an image of GenSLM.
-This is a language model developed by Argonne researchers that can model
-genomic information in a single model.
-It was shown to model the evolution of SARS-COV2 without expensive experiments.
+[GenSLM](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v1), a genomic
+language model developed at Argonne, modeled the evolution of SARS-CoV-2 —
+capturing viral variant dynamics *without* expensive wet-lab experiments.
 
 ::: {#fig-genslm}
-
 ![](images/genslm.png)
 
-GenSLM. Image credit: Zvyagin et. al 2022. BioRXiv
+GenSLM. Image credit: Zvyagin et al. 2022, bioRxiv.
 :::
 
-### Protein sequences
-
-Protein sequences can be used to predict folding structure, protein-protein
-interactions, chemical/binding properties, protein function and many more
-properties.
+**Protein sequences** predict folding structure, protein–protein interactions,
+binding properties, and function.
 
 ::: {#fig-protein-sequences}
 ![](images/Protein-Structure-06.png)
 
-Protein sequences
+Protein sequences.
 :::
 
-### Other applications:
+Other active areas include **biomedical text**, **SMILES strings** (molecules),
+**weather prediction**, and **coupling to simulations** such as molecular
+dynamics.
 
-* Biomedical text
-* SMILES strings
-* Weather predictions
-* Interfacing with simulations such as molecular dynamics simulation
+### Formalizing sequence modeling
 
-## Overview of Language models
+Mathematically, a sequence is an ordered list of **tokens**:
 
-We will now briefly talk about the progression of language models.
+$$T = [t_1, t_2, t_3, \ldots, t_N]$$
 
-### RNNs
+The central object is the probability of a token given its context. An
+autoregressive language model factorizes the joint probability of the whole
+sequence into a product of next-token predictions:
 
-Recurrent Neural Newtorks(RNNs) were a traditional model used to determine
-temporal dependencies within data. 
+$$P(T) = \prod_{i=1}^{N} P(t_i \mid t_1, t_2, \ldots, t_{i-1})$$
 
-In RNNs, the hidden state from the previous time step is fed back into the
-network, allowing it to maintain a “memory” of past inputs. 
+Learning these conditional distributions is what lets a model **generate**
+(sample the next token), **translate** (map one sequence to another),
+**predict properties** (condition on the whole sequence), and **spot errors**
+(flag low-probability tokens).
 
-They were ideal for tasks with short sequences such as natural language
-processing and time-series prediction.
+## 📜 A Brief History of Language Models
+
+::: {#fig-lm-history .column-body-outset}
+
+```{mermaid}
+flowchart LR
+    RNN("`RNNs
+    (memory via
+    hidden state)`")
+    LSTM("`LSTM / GRU
+    (longer memory)`")
+    TF("`Transformer
+    2017
+    'Attention is
+    All You Need'`")
+    LLM("`LLMs
+    GPT · BERT · Llama
+    DeepSeek · …`")
+    RNN --> LSTM --> TF --> LLM
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+class RNN red
+class LSTM yellow
+class TF blue
+class LLM green
+```
+
+The road to modern LLMs.
+:::
+
+### Recurrent Neural Networks (RNNs)
+
+RNNs were the traditional tool for temporal dependencies. The hidden state from
+the previous step is fed back into the network, giving it a "memory" of past
+inputs — ideal for short sequences in NLP and time-series prediction.
 
 ::: {#fig-rnn}
 ![](images/recurrent_nn.png)
 
-RNN
+An RNN unrolled over time.
 :::
 
-However, these networks had significant challenges.
+But RNNs have two crippling limitations:
 
-- **Slow to train**:
-  RNNs process data one element at a time, maintaining an internal hidden state
-  that is updated at each step. They operate recurrently, where each output
-  depends on the previous hidden state and the current input; thus, parallel
-  computation is not possible.
-- **Cannot handle large sequences**:
-  Exploding and vanishing gradients limit the RNN modelling of long
-  sequences. Some variants of RNNs such as LSTM and GRU addressed this problem,
-  they cannot engage with very large sequences.
+- **Slow to train.** Each step depends on the previous hidden state, so
+  computation is inherently **sequential** — it can't be parallelized across the
+  sequence.
+- **Poor with long sequences.** Vanishing/exploding gradients limit how far back
+  an RNN can "see." LSTMs and GRUs mitigate this but don't fully solve it.
 
 ### Transformers
 
-The newest LMs referred to as "large language models" (since they have large
-parameter size) were developed to address many of these challenges.
+The 2017 paper [*Attention Is All You
+Need*](https://arxiv.org/abs/1706.03762) replaced recurrence with the
+**attention mechanism**, which processes all positions **in parallel** and
+directly models long-range dependencies. This unlocked the scale that defines
+today's "large" language models.
 
-These new models base their desin on the Transformer architecture that was
-introduced in 2017 in the "Attention is all you need" paper.
+Since 2017 the field has moved fast. A rough chronology of landmark models:
 
-Since then a multitude of LLM architectures have been designed.
+::: {#fig-transformers-chrono .column-page}
 
-::: {#fig-chapter1-transformers-chrono}
+```{mermaid}
+gantt
+    title A Chronology of Transformers and LLMs
+    dateFormat YYYY
+    axisFormat %Y
 
-![](images/en_chapter1_transformers_chrono.svg)
-Image credit: https://huggingface.co/learn/nlp-course/chapter1/4
+    section Foundations
+    Transformer — Attention Is All You Need   :milestone, m1, 2017, 0d
+    RNN / LSTM / GRU era                       :done,      f1, 2014, 2017-06-01
+
+    section Encoders
+    BERT                                       :milestone, e1, 2018, 0d
+    RoBERTa / ALBERT / DistilBERT              :active,     e2, 2019, 2020-01-01
+
+    section Decoders (GPT line)
+    GPT                                        :milestone, d1, 2018, 0d
+    GPT-2                                       :milestone, d2, 2019, 0d
+    GPT-3 (175B)                               :milestone, d3, 2020, 0d
+    InstructGPT / RLHF / ChatGPT               :milestone, d4, 2022, 0d
+    GPT-4                                       :milestone, d5, 2023, 0d
+
+    section Open weights
+    LLaMA / Llama 2                            :milestone, o1, 2023, 0d
+    Mistral / Mixtral (MoE)                    :active,     o2, 2023-09-01, 2024-06-01
+    Llama 3                                     :milestone, o3, 2024, 0d
+
+    section Reasoning & MoE
+    DeepSeek-V3                                :milestone, r1, 2024-12-01, 0d
+    DeepSeek-R1 / reasoning models             :milestone, r2, 2025, 0d
+```
+
+A (non-exhaustive) timeline of landmark Transformer models. From a single 2017
+architecture to today's frontier reasoning and Mixture-of-Experts systems.
 :::
-
-The power of these models comes from the "attention mechanism" defined in the
-Vaswani 2017 seminal paper. 
 
 ::: {#fig-transformer-arch}
-![](images/attention_is_all_you_need.png)
+![](images/transformer-architecture.png){width=70%}
 
-Transformer architecture
+The full encoder–decoder Transformer architecture (Vaswani et al., 2017): a
+stack of `N` encoder layers (left) feeding cross-attention in a stack of `N`
+decoder layers (right). Image: ["Transformer, full
+architecture"](https://commons.wikimedia.org/wiki/File:Transformer,_full_architecture.png)
+by Daniel Voigt Godoy ([dl-visuals](https://github.com/dvgodoy/dl-visuals)),
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0).
 :::
 
-## Coding example of LLMs in action!
+## ⚡ LLMs in Action: The Black Box First
 
-Let's look at an example of running inference with a LLM as a block box to
-generate text given a prompt and we will also initiate a training loop for an
-LLM:
+Before we open it up, let's *use* an LLM. We'll rely on
+[🤗 `transformers`](https://huggingface.co/docs/transformers), which packages
+pretrained models, tokenizers, and pipelines.
 
-Here, we will use the `transformers` library which is as part of HuggingFace, a
-repository of different models, tokenizers and information on how to apply
-these models
-
-*Warning: Large Language Models are only as good as their training data. They
-have no ethics, no judgement, or editing ability. We will be using some
-pretrained models from Hugging Face which used wide samples of internet hosted
-text. The datasets have not been strictly filtered to restrict all malign
-content so the generated text may be surprisingly dark or questionable. They do
-not reflect our core values and are only used for demonstration purposes.*
+::: {.callout-warning title="⚠️ A note on generated content" collapse="false"}
+LLMs are only as good as their training data. The pretrained models we use were
+trained on wide samples of internet text that were **not** strictly filtered, so
+generated output may occasionally be dark, biased, or nonsensical. It does not
+reflect our values and is shown for demonstration only.
+:::
 
 ```{python}
-#| scrolled: true
-# !pip install transformers
-# !pip install pandas
-# !pip install torch
+#| eval: false
+# One-time setup (Colab / fresh env). Skip if these are already installed.
+%pip install transformers torch pandas rich \
+    umap-learn plotly scikit-learn nltk bertviz
 ```
 
 ```{python}
 %load_ext autoreload
 %autoreload 2
 %matplotlib inline
-# settings for jupyter book: svg for html version, high-resolution png for pdf
+# svg for HTML, high-res png for PDF
 import matplotlib_inline.backend_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina', 'svg', 'png')
 import matplotlib as mpl
-# mpl.rcParams['figure.dpi'] = 400
 from rich import print
 ```
 
+Generating text is three lines with a `pipeline`:
+
 ```{python}
 #| scrolled: true
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
-
-input_text = "I got an A+ in my final exam; I am very"
 from transformers import pipeline
 
+input_text = "I got an A+ in my final exam; I am very"
 generator = pipeline("text-generation", model="openai-community/gpt2")
 print(
     [
@@ -218,93 +300,118 @@ print(
 )
 ```
 
-We can also train a language model given input data:
+That's the whole black box: **text in, text out**. The rest of this session is
+about what happens *inside*.
 
-## What's going on under the hood?
-There are two components that are "black-boxes" here:
+## 🔬 Opening the Black Box
 
-1. The method for tokenization
-2. The model that generates novel text.
+Two components turn a prompt into generated text:
 
-Image credit: https://blog.floydhub.com/tokenization-nlp/
+::: {#fig-blackbox .column-body-outset}
 
-### Tokenization
+```{mermaid}
+flowchart LR
+    P("`Prompt
+    (text)`")
+    T["`1 · Tokenizer`"]
+    M["`2 · Model
+    (Transformer)`"]
+    O("`Generated
+    text`")
+    P --> T --> M --> O
+    M -.->|"`next token`"| M
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class P red
+class T,M blue
+class O green
+```
+
+The two black boxes: a **tokenizer** and the **model** itself.
+:::
+
+### 1 · Tokenization
+
+Computers operate on numbers, not characters. **Tokenization** splits text into
+units (tokens) and maps each to an integer ID.
+
+::: {#fig-tokenization-pipeline .column-page}
+
+```{mermaid}
+flowchart LR
+    A("`'I am very'`")
+    B("`tokens
+    ['I', ' am', ' very']`")
+    C("`ids
+    [40, 716, 845]`")
+    D("`embeddings
+    (vectors)`")
+    A -->|"`tokenize`"| B
+    B -->|"`convert_tokens_to_ids`"| C
+    C -->|"`embedding table`"| D
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class A red
+class B yellow
+class C blue
+class D green
+```
+
+From raw text to model-ready vectors.
+:::
+
+GPT-2 uses **Byte-Pair Encoding (BPE)**, a subword scheme that balances
+vocabulary size against sequence length. Let's inspect a tokenizer:
 
 ```{python}
 from transformers import AutoTokenizer
 
-# A utility function to tokenize a sequence and print out some information about it.
-
 
 def tokenization_summary(tokenizer, sequence):
-    # get the vocabulary
-    vocab = tokenizer.vocab
-    # Number of entries to print
-    n = 10
-
-    # Print subset of the vocabulary
+    # Peek at a slice of the vocabulary
     print("Subset of tokenizer.vocab:")
     for i, (token, index) in enumerate(tokenizer.vocab.items()):
         print(f"{token}: {index}")
-        if i >= n - 1:
+        if i >= 9:
             break
 
-    print("Vocab size of the tokenizer = ", len(vocab))
+    print("Vocab size of the tokenizer =", len(tokenizer.vocab))
     print("------------------------------------------")
 
-    # .tokenize chunks the existing sequence into different tokens based on the rules and vocab of the tokenizer.
+    # .tokenize -> subword tokens
     tokens = tokenizer.tokenize(sequence)
-    print("Tokens : ", tokens)
+    print("Tokens :", tokens)
     print("------------------------------------------")
 
-    # .convert_tokens_to_ids or .encode or .tokenize converts the tokens to their corresponding numerical representation.
-    #  .convert_tokens_to_ids has a 1-1 mapping between tokens and numerical representation
-    # ids = tokenizer.convert_tokens_to_ids(tokens)
-    # print("encoded Ids: ", ids)
+    # .encode -> integer ids (adds special tokens where applicable)
+    print("tokenized sequence :", tokenizer.encode(sequence))
 
-    # .encode also adds additional information like Start of sequence tokens and End of sequene
-    print("tokenized sequence : ", tokenizer.encode(sequence))
-
-    # .tokenizer has additional information about attention_mask.
-    # encode = tokenizer(sequence)
-    # print("Encode sequence : ", encode)
-    # print("------------------------------------------")
-
-    # .decode decodes the ids to raw text
+    # .decode -> back to text
     ids = tokenizer.convert_tokens_to_ids(tokens)
-    decode = tokenizer.decode(ids)
-    print("Decode sequence : ", decode)
+    print("Decode sequence :", tokenizer.decode(ids))
 
 
-tokenizer_1 = AutoTokenizer.from_pretrained(
-    "gpt2"
-)  # GPT-2 uses "Byte-Pair Encoding (BPE)"
-
+tokenizer_1 = AutoTokenizer.from_pretrained("gpt2")  # Byte-Pair Encoding (BPE)
 sequence = "I got an A+ in my final exam; I am very"
-
 tokenization_summary(tokenizer_1, sequence)
 ```
 
-### Token embedding:
+### 2 · Token Embeddings
 
-Words are turned into vectors based on their location within a vocabulary.
+Each token ID is mapped to a vector in a moderate-dimensional space. The key
+idea: **similar or related tokens land near each other**, and the model can
+*learn* this geometry during training.
 
-The strategy of choice for learning language structure from tokenized text is to find a clever way to map each token into a moderate-dimension vector space, adjusting the mapping so that
+The embedding dimension is high (e.g. 768–1024) but much smaller than the
+vocabulary (30k–500k). Unlike static word vectors, Transformers **adjust their
+embeddings during training**.
 
-Similar, or associated tokens take up residence nearby each other, and different regions of the space correspond to different position in the sequence.
-Such a mapping from token ID to a point in a vector space is called a token embedding. The dimension of the vector space is often high (e.g. 1024-dimensional), but much smaller than the vocabulary size (30,000--500,000). 
-
-Various approaches have been attempted for generating such embeddings, including static algorithms that operate on a corpus of tokenized data as preprocessors for NLP tasks. Transformers, however, adjust their embeddings during training.
-
-### We can visualize these embeddings of the popular BERT model using PCA!
-
-```{python}
-#| scrolled: true
-# !pip install umap
-# !pip install plotly
-# !pip install scikit-learn
-# !pip install nltk
-```
+We can *see* this structure by projecting BERT embeddings down to 3-D with PCA:
 
 ```{python}
 #| scrolled: true
@@ -312,207 +419,222 @@ import nltk
 import numpy as np
 import pandas as pd
 import plotly.express as px
-import umap
 from nltk.corpus import stopwords
 from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
 from transformers import BertModel, BertTokenizer
 
 nltk.download("stopwords")
 import torch
 
-# Load BERT model and tokenizer
 model_name = "bert-base-uncased"
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertModel.from_pretrained(model_name)
 
-if True:
-    text = "The diligent student diligently studied hard for his upcoming exams He was incredibly conscientious in his efforts and committed himself to mastering every subject"
+text = (
+    "The diligent student diligently studied hard for his upcoming exams "
+    "He was incredibly conscientious in his efforts and committed himself "
+    "to mastering every subject"
+)
 
-    # Tokenize and get BERT embeddings
-    tokens = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
-    with torch.no_grad():
-        outputs = model(**tokens)
-        embeddings = outputs.last_hidden_state.squeeze(
-            0
-        ).numpy()  # Shape: (num_tokens, 768) for BERT-base
+# Tokenize and get BERT embeddings
+tokens = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+with torch.no_grad():
+    outputs = model(**tokens)
+    embeddings = outputs.last_hidden_state.squeeze(0).numpy()  # (num_tokens, 768)
 
-    # Get the list of token labels without special tokens and subword tokens
-    labels = [
-        tokenizer.convert_ids_to_tokens(id) for id in tokens.input_ids[0].tolist()
-    ]
-    filtered_labels = [
-        label
-        for label in labels
-        if not (label.startswith("[") and label.endswith("]")) and "##" not in label
-    ]
+# Labels without special/subword tokens
+labels = [tokenizer.convert_ids_to_tokens(i) for i in tokens.input_ids[0].tolist()]
+filtered_labels = [
+    label
+    for label in labels
+    if not (label.startswith("[") and label.endswith("]")) and "##" not in label
+]
 
-    # Remove stopwords from labels and embeddings
-    stop_words = set(stopwords.words("english"))
-    filtered_labels = [
-        label for label in filtered_labels if label.lower() not in stop_words
-    ]
-    filtered_embeddings = embeddings[: len(filtered_labels)]
+# Drop stopwords
+stop_words = set(stopwords.words("english"))
+filtered_labels = [l for l in filtered_labels if l.lower() not in stop_words]
+filtered_embeddings = embeddings[: len(filtered_labels)]
 
-    # Perform PCA for dimensionality reduction (3D)
-    pca = PCA(n_components=3)
-    embeddings_pca = pca.fit_transform(filtered_embeddings)
-
-    # Convert embeddings and labels to DataFrame for Plotly
-    data_pca = {
+# PCA -> 3-D
+embeddings_pca = PCA(n_components=3).fit_transform(filtered_embeddings)
+df_pca = pd.DataFrame(
+    {
         "x": embeddings_pca[:, 0],
         "y": embeddings_pca[:, 1],
         "z": embeddings_pca[:, 2],
         "label": filtered_labels,
     }
-    df_pca = pd.DataFrame(data_pca)
+)
 
-    # Plot PCA in 3D with Plotly (interactive)
-    fig_pca = px.scatter_3d(
-        df_pca,
-        x="x",
-        y="y",
-        z="z",
-        text="label",
-        title="PCA 3D Visualization of Token Embeddings",
-        labels={"x": "Dimension 1", "y": "Dimension 2", "z": "Dimension 3"},
-        hover_name="label",
-    )
-    fig_pca.update_traces(marker=dict(size=5), textfont=dict(size=8))
-    fig_pca.show()
+fig_pca = px.scatter_3d(
+    df_pca, x="x", y="y", z="z", text="label",
+    title="PCA 3-D Visualization of Token Embeddings",
+    labels={"x": "Dim 1", "y": "Dim 2", "z": "Dim 3"},
+    hover_name="label",
+)
+fig_pca.update_traces(marker=dict(size=5), textfont=dict(size=8))
+fig_pca.show()
 ```
 
-You should see common words grouped together!
+You should see semantically related words cluster together!
 
-## Elements of a Transformer
+## 🧱 Inside a Transformer
 
-Now let's look at the base elements that make up a Transformer by dissecting the popular GPT2 model
+Now the model itself. We'll dissect **GPT-2**, a *Transformer decoder* used to
+generate text. Let's look at its structure:
 
 ```{python}
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers import GPT2LMHeadModel
 
 model = GPT2LMHeadModel.from_pretrained("gpt2")
 print(model)
 ```
 
-GPT2 is an example of a Transformer Decoder which is used to generate novel text. 
+Decoder-only models like GPT are **auto-regressive**: at each step, the
+attention layers can only see tokens *before* the current position, and the
+model is trained to predict the next token. This makes them ideal for text
+generation (GPT, GPT-2, CTRL, Transformer-XL, …).
 
-Decoder models use only the decoder of a Transformer model. At each stage, for a given word the attention layers can only access the words positioned before it in the sentence. These models are often called auto-regressive models.
+A Transformer decoder is a stack of identical **blocks**, each with two
+sub-layers: **masked self-attention** and a **feed-forward network**, wrapped in
+residual connections and layer normalization.
 
-The pretraining of decoder models usually revolves around predicting the next word in the sentence.
+::: {#fig-decoder-block}
 
-These models are best suited for tasks involving text generation.
+```{mermaid}
+flowchart TB
+    IN("`token + positional
+    embeddings`")
+    subgraph BLK["`Decoder block  ×N`"]
+        direction TB
+        SA["`Masked
+        Self-Attention`"]
+        AN1(["`Add & Norm`"])
+        FF["`Feed-Forward
+        Network`"]
+        AN2(["`Add & Norm`"])
+        SA --> AN1 --> FF --> AN2
+    end
+    LIN["`Linear`"]
+    SM["`Softmax`"]
+    OUT("`next-token
+    probabilities`")
+    IN --> SA
+    AN2 --> LIN --> SM --> OUT
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class BLK block
+class IN red
+class SA blue
+class FF yellow
+class AN1,AN2 purple
+class LIN,SM blue
+class OUT green
+```
 
-Examples of these include:
-* CTRL
-* GPT
-* GPT-2
-* Transformer XL
+The anatomy of a decoder block. The stack repeats `N` times before the final
+projection to vocabulary logits.
+:::
 
-Let's discuss one of the most popular models, GPT-2 in a little more detail.
-
-The architecture of GPT-2 is inspired by the paper: "Generating Wikipedia by Summarizing Long Sequences" which is another arrangement of the transformer block that can do language modeling. This model threw away the encoder and thus is known as the “Transformer-Decoder”.
-
-![transformer-decoder-intro.png](images/transformer-decoder-intro.png)
-
-Image credit: https://jalammar.github.io/illustrated-gpt2/
-
-The Transformer-Decoder is composed of Decoder blocks stacked ontop of each other where each contains two types of layers: 
-1. Masked Self-Attention and 
-2. Feed Forward Neural Networks.
-
-In this lecture, we will 
-* First, discuss attention mechanisms at length as this is arguably the greatest contribution by Transformers.
-* Second, extend the discussion from last week (https://github.com/argonne-lcf/ai-science-training-series/blob/main/04_intro_to_llms/Sequential_Data_Models.ipynb) on embedding input data while taking into account position.
-* Third, discuss outputting real text/sequences from the models.
-* Fourth, build a training loop for a mini-LLM.
+We'll set some hyperparameters we'll reuse throughout:
 
 ```{python}
-## IMPORTS
-
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
 torch.manual_seed(1337)
+
 # hyperparameters
-batch_size = 16  # how many independent sequences will we process in parallel?
-block_size = 32  # what is the maximum context length for predictions?
+batch_size = 16    # independent sequences processed in parallel
+block_size = 32    # maximum context length
 max_iters = 5000
 eval_interval = 100
 learning_rate = 1e-3
 device = "cuda" if torch.cuda.is_available() else "cpu"
 eval_iters = 200
 n_embd = 64
-n_head = 4  ## so head_size = 16
+n_head = 4         # -> head_size = 16
 n_layer = 4
 dropout = 0.0
-# ------------
-
-torch.manual_seed(1337)
 ```
 
-## Attention mechanisms
+### Attention: the core idea
 
-Suppose the following sentence is an input sentence we want to translate using an LLM:
+Consider the sentence:
 
-`”The animal didn't cross the street because it was too tired”`
+> "The animal didn't cross the street because **it** was too tired."
 
-Earlier, we mentioned that the Transformer learns an embedding of all words allowing interpretation of meanings of words.
+We intuitively know "it" refers to "animal." **Self-attention** is how a
+Transformer learns these relationships: as it processes each token, it looks at
+*other* positions for context.
 
-<img src="images/viz-bert-voc-verbs.png" alt="Drawing" style="width: 400px;"/>
+::: {#fig-attention-viz}
+![](images/transformer_self-attention_visualization.png){width=300}
 
-So, if the model did a good job in token embedding, it will "know" what all the words in this sentence mean. 
+Self-attention relates each word to others in the sentence. Image credit: [Jay Alammar](https://jalammar.github.io/illustrated-transformer/).
+:::
 
-But to understand a full sentence, the model also need to understand what each word means in relation to other words.
+Attention uses three learned projections of each token:
 
-For example, when we read the sentence:
-`”The animal didn't cross the street because it was too tired”`
-we know intuitively that the word `"it"` refers to `"animal"`, the state for `"it"` is `"tired"`, and the associated action is `"didn't cross"`.
+- **Query (Q)** — what this token is *looking for*
+- **Key (K)** — what each token *offers* (matched against queries)
+- **Value (V)** — the actual content to aggregate
 
-However, the model needs a way to learn all of this information in a simple yet generalizable way.
-What makes Transformers particularly powerful compared to earlier sequential architectures is how it encodes context with the **self-attention mechanism**.
+Jay Alammar's analogy: picking a file from a cabinet using a sticky note. The
+note (query) matches a folder label (key); you then read that folder's contents
+(value), weighted by how well it matched.
 
-As the model processes each word in the input sequence, attention looks at other positions in the input sequence for clues to a better understanding for this word.
+::: {#fig-attention-flow .column-page}
 
-<img src="images/transformer_self-attention_visualization.png" alt="Drawing" style="width: 300px;"/>
-
-Image credit: https://jalammar.github.io/illustrated-transformer/
-
-Self-attention mechanisms use 3 vectors to encode the context of a word in a sequence with another word:
-1. Query: the word representation we score other words against using the other word's keys
-2. Key: labels for the words in a sequence that we match against the query
-3. Value: actual word representation. We will use the queries and keys to score the word's relevance to the query, and multiply this by the value. 
-
-An analogy provided by Jay Alammar is thinking about attention as choosing a file from a file cabinet according to information on a post-it note. You can use the post-it note (query) to identify the folder (key) that most matches the topic you are looking up. Then you access the contents of the file (value) according to its relevance to your query.
-
-<img src="images/self-attention-example-folders-3.png" alt="Drawing" style="width: 500px;"/>
-Image credit: https://jalammar.github.io/illustrated-gpt2/
-
-In our models, we can encode queries, keys, and values using simple linear layers with the same size (`sequence length, head_size`). During the training process, these layers will be updated to best encode context.
-
-```{python}
-C = 32  # channels
-head_size = 16
-
-key = nn.Linear(C, head_size, bias=False)
-query = nn.Linear(C, head_size, bias=False)
-value = nn.Linear(C, head_size, bias=False)
+```{mermaid}
+flowchart LR
+    X("`x
+    (token vectors)`")
+    Q["`Q = xWq`"]
+    K["`K = xWk`"]
+    V["`V = xWv`"]
+    S["`scores =
+    Q·Kᵀ / √dₖ`"]
+    A["`weights =
+    softmax(scores)`"]
+    O("`output =
+    weights · V`")
+    X --> Q
+    X --> K
+    X --> V
+    Q --> S
+    K --> S
+    S --> A
+    A --> O
+    V --> O
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+class X red
+class Q,K,V blue
+class S,A yellow
+class O green
 ```
 
-The algorithm for self-attention is as follows:
+Scaled dot-product attention. The $\sqrt{d_k}$ divisor stabilizes gradients
+before the softmax.
+:::
 
-1. Generate query, key and value vectors for each word
-2. Calculate a score for each word in the input sentence against each other.
-3. Divide the scores by the square root of the dimension of the key vectors to stabilize the gradients. This is then passed through a softmax operation.
-4. Multiply each value vector by the softmax score.
-5. Sum up the weighted value vectors to produce the output.
+The algorithm in words:
 
-<img src="images/self-attention-output.png" alt="Drawing" style="width: 450px;"/>
+1. Compute Q, K, V for each token.
+2. Score every token against every other: $\text{scores} = QK^{\top}$.
+3. Scale by $\sqrt{d_k}$ and apply softmax → attention weights.
+4. Weight the value vectors by these weights and sum.
 
-Image credit: https://jalammar.github.io/illustrated-transformer/
-
-Let's see how attention is performed in the code.
+In code:
 
 ```{python}
 import torch
@@ -523,178 +645,156 @@ torch.manual_seed(1337)
 B, T, C = 4, 8, 32  # batch, time, channels
 x = torch.randn(B, T, C)
 
-# Here we want the wei to be data dependent - ie gather info from the past but in a data dependant way
-
 head_size = 16
 key = nn.Linear(C, head_size, bias=False)
 query = nn.Linear(C, head_size, bias=False)
 value = nn.Linear(C, head_size, bias=False)
-k = key(
-    x
-)  # (B, T, 16) # each token here (totally B*T) produce a key and query in parallel and independently
-q = query(x)  # (B, T, 16)
-v = value(x)
 
-wei = (
-    q @ k.transpose(-2, -1) * head_size**-0.5
-)  # (B, T, 16) @ (B, 16, T) ---> (B, T, T). #
-wei = F.softmax(
-    wei, dim=-1
-)  # exponentiate and normalize giving a nice distibution that sums to 1 and
-# now it tells us that in a data dependent manner how much of info to aggregate from
+k = key(x)       # (B, T, 16)
+q = query(x)     # (B, T, 16)
+v = value(x)     # (B, T, 16)
 
-out = wei @ v  # aggregate the attention scores and value vector.
-```
-
-```{python}
+wei = q @ k.transpose(-2, -1) * head_size**-0.5  # (B, T, T)
+wei = F.softmax(wei, dim=-1)                      # normalize -> distribution
+out = wei @ v                                     # (B, T, 16)
 print(out[0])
 ```
 
 ### Multi-head attention
 
-In practice, multiple attention heads are used which
-1. Expands the model’s ability to focus on different positions and prevent the attention to be dominated by the word itself.
-2. Have multiple “representation subspaces”. Have multiple sets of Query/Key/Value weight matrices
+In practice we run several attention "heads" in parallel. Each head can focus on
+a different kind of relationship (syntax, coreference, …), and their outputs are
+concatenated. This gives the model multiple **representation subspaces**.
 
-<img src="images/transformer_multi-headed_self-attention-recap.png" alt="Drawing" style="width: 700px;"/>
+::: {#fig-multihead}
+![](images/transformer_multi-headed_self-attention-recap.png)
 
-Image credit: https://jalammar.github.io/illustrated-transformer/
+Multi-head attention. Image credit: [Jay Alammar](https://jalammar.github.io/illustrated-transformer/).
+:::
 
-### Let's see attention mechanisms in action!
+### Attention, visualized interactively
 
-We are going to use the powerful visualization tool bertviz, which allows an interactive experience of the attention mechanisms. Normally these mechanisms are abstracted away but this will allow us to inspect our model in more detail.
-
-```{python}
-#| scrolled: true
-!pip install bertviz
-```
-
-Let's load in the model, GPT2 and look at the attention mechanisms. 
-
-**Hint... click on the different blocks in the visualization to see the attention**
+[`bertviz`](https://github.com/jessevig/bertviz) lets us inspect real attention
+weights. **Click the different colored blocks** to see which tokens attend to
+which.
 
 ```{python}
 #| scrolled: true
 from bertviz import model_view
-from transformers import AutoModel, AutoModelForCausalLM, AutoTokenizer, utils
+from transformers import AutoModelForCausalLM, AutoTokenizer, utils
 
-utils.logging.set_verbosity_error()  # Suppress standard warnings
+utils.logging.set_verbosity_error()  # suppress standard warnings
 
 model_name = "openai-community/gpt2"
 input_text = "The animal didn't cross the street because it was too tired"
 model = AutoModelForCausalLM.from_pretrained(model_name, output_attentions=True)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-inputs = tokenizer.encode(input_text, return_tensors="pt")  # Tokenize input text
-outputs = model(inputs)  # Run model
-attention = outputs[-1]  # Retrieve attention from model outputs
-tokens = tokenizer.convert_ids_to_tokens(
-    inputs[0]
-)  # Convert input ids to token strings
-model_view(attention, tokens)  # Display model view
+
+inputs = tokenizer.encode(input_text, return_tensors="pt")
+outputs = model(inputs)
+attention = outputs[-1]
+tokens = tokenizer.convert_ids_to_tokens(inputs[0])
+model_view(attention, tokens)
 ```
 
-## Positional encoding
+### Positional encoding
 
-We just discussed attention mechanisms which account for context between words. Another question we should ask is how do we account for the order of words in an input sentence
+Attention alone is **order-blind** — it sees a *set* of tokens, not a sequence.
+But order matters enormously:
 
-Consider the following two sentences to see why this is important:
+> "The man ate the sandwich." vs. "The sandwich ate the man."
 
-``The man ate the sandwich.``
-
-``The sandwich ate the man.``
-
-Clearly, these are two vastly different situations even though they have the same words. The Transformer can 
-
-Transformers differentiate between these situations by adding a **Positional encoding** vector to each input embedding. These vectors follow a specific pattern that the model learns, which helps it determine the position of each word.
+Same words, very different meaning. Transformers restore order by **adding a
+positional encoding** vector to each token embedding.
 
 ::: {#fig-positional-encoding}
 ![](images/positional_encoding.png)
 
-Positional encoding
+Positional encodings are added to token embeddings. Image credit: [Chen](https://medium.com/@xuer.chen.human/llm-study-notes-positional-encoding-0639a1002ec0).
 :::
 
-Image credit: <https://medium.com/@xuer.chen.human/llm-study-notes-positional-encoding-0639a1002ec0>
-
-We set up positional encoding similarly as token embedding using the ``nn.Embedding`` tool. We use a simple embedding here but there are more complex positional encodings used such as sinusoidal. 
-
-For an explanation of different positional encodings, refer to this post: https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/
+We can implement a (learned) positional embedding with `nn.Embedding`, sized
+`(block_size, n_embd)` — one vector per position:
 
 ```{python}
 vocab_size = 65
 n_embd = 64
+block_size = 32
 
 token_embedding_table = nn.Embedding(vocab_size, n_embd)
-block_size = 32  # what is the maximum context length for predictions?
 position_embedding_table = nn.Embedding(block_size, n_embd)
 ```
 
-You will notice the positional encoding size is `(block_size, n_embed)` because it encodes for the postion of a token within the sequence of size `block_size`
-
-Then, the position embedding used is simply added to the token embedding to apply positional embedding.
-
-Let's look at token embedding alone:
+Token embedding alone:
 
 ```{python}
 x = torch.tensor([1, 3, 15, 4, 7, 1, 4, 9])
-x = token_embedding_table(x)
-print(x[0])
+print(token_embedding_table(x)[0])
 ```
 
-And token + positional embeddings:
+Token **+** positional embedding (note the offset):
 
 ```{python}
 x = torch.tensor([1, 3, 15, 4, 7, 1, 4, 9])
-x = position_embedding_table(x) + token_embedding_table(x)
-print(x[0])
+print((position_embedding_table(x) + token_embedding_table(x))[0])
 ```
 
-You can see a clear offset between these two embeddings.
+Both are learned during training to best encode content *and* position.
 
-During the training process, these embeddings will be learned to best encode the token and positional embeddings of the sequences.
+### Output layer: from vectors back to words
 
-## Output layers
+After the decoder stack, each position holds a vector. A final **Linear** layer
+projects it to a **logits** vector — one score per vocabulary entry — and
+**softmax** turns those scores into probabilities. The highest-probability token
+(or a sample from the distribution) becomes the output.
 
-At the end of our Transformer model, we are left with a vector, so how do we turn this into a word?
-
-<img src="images/transformer-decoder-intro.png" alt="Drawing" style="width: 400px;"/>
-
-Using a final Linear layer and a Softmax Layer.
-The Linear layer projects the vector produced by the stack of decoders, into a larger vector called a logits vector.
-
-If our model knows 10,000 unique English words learned from its training dataset the logits vector is 10,000 cells wide – each cell corresponds to the score of a unique word.
-
-The softmax layer turns those scores into probabilities. The cell with the highest probability is chosen, and the word associated with it is produced as the output for this time step.
-
-::: {#fig-transformer-decoder-output-softmax}
-
+::: {#fig-output-softmax}
 ![](images/transformer_decoder_output_softmax.png)
 
-Transformer decoder output softmax
+Linear + softmax turn the final vector into a next-token distribution. Image
+credit: [Jay Alammar](https://jalammar.github.io/illustrated-transformer/).
 :::
 
-Image credit: https://jalammar.github.io/illustrated-transformer/
+## 🎯 Training a Language Model
 
-## Training
+How does the model improve? We compare its predicted next-token distribution to
+the ground truth and minimize the difference.
 
-How does an LLM improve over time?
-We want to compare the probabilitiy distribution for each token generated by our model to the ground truths.
-Our model produces a probability distribution for each token. We want to compare these probability distributions to the ground truths.
-For example, when translating the sentence: “je suis étudiant” into “i am a student” as can be seen in the example:
+::: {#fig-training-loop .column-page}
 
-::: {#fig-output-target-probability-distribution}
+```{mermaid}
+flowchart LR
+    B("`batch
+    (x, y)`")
+    FWD["`forward
+    logits`"]
+    L["`cross-entropy
+    loss`"]
+    BWD["`backward
+    (gradients)`"]
+    OPT["`optimizer
+    step`"]
+    B --> FWD --> L --> BWD --> OPT
+    OPT -.->|"`repeat`"| B
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+class B red
+class FWD blue
+class L yellow
+class BWD blue
+class OPT green
+```
 
-![](images/output_target_probability_distributions.png)
-
-Output target probability distributions
+The training loop: predict → score → update, repeated over many batches.
 :::
 
-Image credit: https://jalammar.github.io/illustrated-transformer/
+The standard loss is **cross-entropy** between the true distribution $p$ and the
+predicted distribution $q$:
 
-The model can calculate the loss between the vector it generates and the ground truth vector seen in this example. A commonly used loss function is cross entropy loss:
-
-$$CE = -\sum_{x \in X} p(x) log q(x)$$
-
-where p(x) represents the true distribution and q(x) represents the predicted distribution.
+$$\mathrm{CE} = -\sum_{x \in X} p(x)\, \log q(x)$$
 
 ```{python}
 from torch.nn import functional as F
@@ -705,44 +805,40 @@ loss = F.cross_entropy(logits, targets)
 print(loss)
 ```
 
-Another important metric commonly used in LLMs is **perplexity**.
+A closely related, more interpretable metric is **perplexity** — intuitively,
+"how surprised" the model is by new data. Lower is better. It's just the
+exponential of the cross-entropy:
 
-Intuitively, perplexity means to be surprised. We measure how much the model is surprised by seeing new data. The lower the perplexity, the better the training is.
-
-Mathematically, perplexity is just the exponent of the negative cross entropy loss:
-
-$$\text{perplexity} = exp(\text{CE})$$
+$$\text{perplexity} = \exp(\mathrm{CE})$$
 
 ```{python}
-perplexity = torch.exp(loss)
-print(perplexity)
+print(torch.exp(loss))
 ```
 
-## Let's train a mini-LLM from scratch
+## 🛠️ Build a Mini-LLM from Scratch
 
-### Set up hyperparameters:
+Time to assemble everything into a small, working GPT-style model, trained on
+the tiny-Shakespeare dataset with a character-level tokenizer.
+
+### Hyperparameters
 
 ```{python}
-# hyperparameters
-batch_size = 4  # how many independent sequences will we process in parallel?
-block_size = 32  # what is the maximum context length for predictions?
+batch_size = 4     # independent sequences in parallel
+block_size = 32    # maximum context length
 max_iters = 500
 eval_interval = 50
 learning_rate = 1e-3
 device = "cuda" if torch.cuda.is_available() else "cpu"
 eval_iters = 200
 n_embd = 64
-n_head = 4  ## so head_size = 16
+n_head = 4         # head_size = 16
 n_layer = 4
 dropout = 0.0
-# ------------
 ```
 
-### Load in data and create train and test datasets
+### Data: tiny-Shakespeare
 
-We're going to be using the tiny Shakespeare dataset.
-Data is tokenized according to a simple character based tokenizer.
-Data is split into a train and test set so we have something to test after performing training (9:1 split).
+We use a simple **character-level** tokenizer and a 90/10 train/val split.
 
 ```{python}
 ! [ ! -f "input.txt" ] && wget https://raw.githubusercontent.com/argonne-lcf/ATPESC_MachineLearning/refs/heads/master/02_intro_to_LLMs/dataset/input.txt
@@ -752,35 +848,27 @@ Data is split into a train and test set so we have something to test after perfo
 with open("input.txt", "r", encoding="utf-8") as f:
     text = f.read()
 
-# here are all the unique characters that occur in this text
+# unique characters -> vocabulary
 chars = sorted(list(set(text)))
 vocab_size = len(chars)
-# create a mapping from characters to integers
 stoi = {ch: i for i, ch in enumerate(chars)}
 itos = {i: ch for i, ch in enumerate(chars)}
-encode = lambda s: [
-    stoi[c] for c in s
-]  # encoder: take a string, output a list of integers
-decode = lambda l: "".join(
-    [itos[i] for i in l]
-)  # decoder: take a list of integers, output a string
+encode = lambda s: [stoi[c] for c in s]           # string -> list[int]
+decode = lambda l: "".join([itos[i] for i in l])  # list[int] -> string
 
-# Train and test splits
+# train / val split
 data = torch.tensor(encode(text), dtype=torch.long)
-n = int(0.9 * len(data))  # first 90% will be train, rest val
+n = int(0.9 * len(data))
 train_data = data[:n]
 val_data = data[n:]
 
 
-# data loading
 def get_batch(split):
-    # generate a small batch of data of inputs x and targets y
     data = train_data if split == "train" else val_data
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([data[i : i + block_size] for i in ix])
     y = torch.stack([data[i + 1 : i + block_size + 1] for i in ix])
-    x, y = x.to(device), y.to(device)
-    return x, y
+    return x.to(device), y.to(device)
 ```
 
 ```{python}
@@ -788,13 +876,11 @@ def get_batch(split):
 print(text[:1000])
 ```
 
-### Set up the components of the Decoder block: 
-* MultiHeadAttention
-* FeedForward Network
+### Components: attention head, multi-head, feed-forward
 
 ```{python}
 class Head(nn.Module):
-    """one head of self-attention"""
+    """One head of self-attention."""
 
     def __init__(self, head_size):
         super().__init__()
@@ -802,26 +888,23 @@ class Head(nn.Module):
         self.query = nn.Linear(n_embd, head_size, bias=False)
         self.value = nn.Linear(n_embd, head_size, bias=False)
         self.register_buffer("tril", torch.tril(torch.ones(block_size, block_size)))
-
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
         B, T, C = x.shape
-        k = self.key(x)  # (B,T,C) 16,32,16
-        q = self.query(x)  # (B,T,C)
-        # compute attention scores ("affinities")
-        wei = q @ k.transpose(-2, -1) * C**-0.5  # (B, T, C) @ (B, C, T) -> (B, T, T)
-        wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))  # (B, T, T)
-        wei = F.softmax(wei, dim=-1)  # (B, T, T)
+        k = self.key(x)    # (B, T, C)
+        q = self.query(x)  # (B, T, C)
+        # attention scores ("affinities")
+        wei = q @ k.transpose(-2, -1) * C**-0.5      # (B, T, T)
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))  # causal mask
+        wei = F.softmax(wei, dim=-1)
         wei = self.dropout(wei)
-        # perform the weighted aggregation of the values
-        v = self.value(x)  # (B,T,C)
-        out = wei @ v  # (B, T, T) @ (B, T, C) -> (B, T, C)
-        return out
+        v = self.value(x)  # (B, T, C)
+        return wei @ v     # (B, T, C)
 
 
 class MultiHeadAttention(nn.Module):
-    """multiple heads of self-attention in parallel"""
+    """Multiple heads of self-attention in parallel."""
 
     def __init__(self, num_heads, head_size):
         super().__init__()
@@ -831,21 +914,18 @@ class MultiHeadAttention(nn.Module):
 
     def forward(self, x):
         out = torch.cat([h(x) for h in self.heads], dim=-1)
-        out = self.dropout(self.proj(out))
-        return out
+        return self.dropout(self.proj(out))
 
 
 class FeedFoward(nn.Module):
-    """a simple linear layer followed by a non-linearity"""
+    """A linear layer followed by a non-linearity."""
 
     def __init__(self, n_embd):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(n_embd, 4 * n_embd),
             nn.ReLU(),
-            nn.Linear(
-                4 * n_embd, n_embd
-            ),  # Projection layer going back into the residual pathway
+            nn.Linear(4 * n_embd, n_embd),  # projection back to residual stream
             nn.Dropout(dropout),
         )
 
@@ -853,14 +933,16 @@ class FeedFoward(nn.Module):
         return self.net(x)
 ```
 
-### Combine components into the Decoder block
+### The Transformer block
+
+Each block does **communication** (attention) followed by **computation**
+(feed-forward), each with a residual connection and pre-layer-norm:
 
 ```{python}
 class Block(nn.Module):
-    """Transformer block: communication followed by computation"""
+    """Transformer block: communication followed by computation."""
 
     def __init__(self, n_embd, n_head):
-        # n_embd: embedding dimension, n_head: the number of heads we'd like
         super().__init__()
         head_size = n_embd // n_head
         self.sa = MultiHeadAttention(n_head, head_size)
@@ -869,38 +951,36 @@ class Block(nn.Module):
         self.ln2 = nn.LayerNorm(n_embd)
 
     def forward(self, x):
-        x = x + self.sa(self.ln1(x))  # Communication
-        x = x + self.ffwd(self.ln2(x))  # Computation
+        x = x + self.sa(self.ln1(x))    # communication
+        x = x + self.ffwd(self.ln2(x))  # computation
         return x
 ```
 
-### Set up the full Transformer model 
-This is a combination of the Token embeddings, Positional embeddings, a stack of Transformer blocks and an output block.
+### The full model
+
+Token embeddings + positional embeddings → a stack of blocks → final layer-norm
+→ linear head to vocabulary logits:
 
 ```{python}
-# super simple language model
 class LanguageModel(nn.Module):
     def __init__(self):
         super().__init__()
-        # each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
         self.position_embedding_table = nn.Embedding(block_size, n_embd)
         self.blocks = nn.Sequential(
             *[Block(n_embd, n_head=n_head) for _ in range(n_layer)]
         )
-        self.ln_f = nn.LayerNorm(n_embd)  # final layer norm
+        self.ln_f = nn.LayerNorm(n_embd)
         self.lm_head = nn.Linear(n_embd, vocab_size)
 
     def forward(self, idx, targets=None):
         B, T = idx.shape
-
-        # idx and targets are both (B,T) tensor of integers
-        tok_emb = self.token_embedding_table(idx)  # (B,T,C)
+        tok_emb = self.token_embedding_table(idx)                         # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device))  # (T,C)
-        x = tok_emb + pos_emb  # (B,T,C)
-        x = self.blocks(x)  # (B,T,C)
-        x = self.ln_f(x)  # (B,T,C)
-        logits = self.lm_head(x)  # (B,T,vocab_size)
+        x = tok_emb + pos_emb          # (B,T,C)
+        x = self.blocks(x)             # (B,T,C)
+        x = self.ln_f(x)               # (B,T,C)
+        logits = self.lm_head(x)       # (B,T,vocab_size)
 
         if targets is None:
             loss = None
@@ -909,251 +989,299 @@ class LanguageModel(nn.Module):
             logits = logits.view(B * T, C)
             targets = targets.view(B * T)
             loss = F.cross_entropy(logits, targets)
-
         return logits, loss
 
     def generate(self, idx, max_new_tokens):
-        # idx is (B, T) array of indices in the current context
         for _ in range(max_new_tokens):
-            # crop idx to the last block_size tokens
-            idx_cond = idx[:, -block_size:]
-            # get the predictions
-            logits, loss = self(idx_cond)
-            # focus only on the last time step
-            logits = logits[:, -1, :]  # becomes (B, C)
-            # apply softmax to get probabilities
-            probs = F.softmax(logits, dim=-1)  # (B, C)
-            # sample from the distribution
-            idx_next = torch.multinomial(probs, num_samples=1)  # (B, 1)
-            # append sampled index to the running sequence
-            idx = torch.cat((idx, idx_next), dim=1)  # (B, T+1)
+            idx_cond = idx[:, -block_size:]        # crop to context window
+            logits, _ = self(idx_cond)
+            logits = logits[:, -1, :]              # last time step -> (B, C)
+            probs = F.softmax(logits, dim=-1)      # (B, C)
+            idx_next = torch.multinomial(probs, num_samples=1)  # sample
+            idx = torch.cat((idx, idx_next), dim=1)             # append
         return idx
 ```
 
-## Homework
+## 🤗 Using Pretrained Models with HuggingFace
 
-1. In this notebook, we learned the various components of an LLM.  
-   Take the mini LLM we created from scratch and run your own training loop. Show how the training and validation perplexity change over the steps.  
-   Hint: this function might be useful for you:
+Building from scratch teaches you *how* Transformers work. In practice, you'll
+usually start from a **pretrained** model and adapt it. The
+[🤗 `transformers`](https://huggingface.co/docs/transformers) library makes this
+a few lines of code. Let's walk a complete **sentiment-classification** pipeline
+end-to-end.
 
-```{python}
-@torch.no_grad()
-def estimate_loss():
-    out = {}
-    model.eval()
-    for split in ["train", "val"]:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            X, Y = get_batch(split)
-            logits, loss = model(X, Y)
-            losses[k] = loss.item()
-        out[split] = losses.mean()
-    model.train()
-    return out
+::: {#fig-hf-pipeline}
+
+```{mermaid}
+flowchart LR
+    P("`1 · Prompt
+    (input text)`")
+    M["`2 · Load pretrained
+    model`"]
+    T["`3 · Tokenize`"]
+    I["`4 · Inference
+    (logits)`"]
+    O("`5 · Interpret
+    (softmax → label)`")
+    P --> M --> T --> I --> O
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class P red
+class M,T blue
+class I yellow
+class O green
 ```
 
-2. Run the same training loop but modify one of the hyperparameters from the below list. Run this at least 4 times with a different value and plot each perplexity over training step.
-
-```{python}
-# hyperparameters
-n_embd = 64
-n_head = 4  ## so head_size = 16
-n_layer = 4
-```
-
-3. Output some generated text from each model you trained. Did the output make more sense with some hyperparameters than others?
-
-4. We saw a cool visualization of attention mechanisms with BertViz. Take a more complicated model than GPT2 such as "meta-llama/Llama-2-7b-chat-hf" and see how the attention mechanisms are different
-
-## Different types of Transformers
-
-### Encoder-Decoder architecture
-Incorporates both an encoder + decoder architecture
-
-The output of the top encoder is then transformed into a set of attention vectors K and V. These are to be used by each decoder in its “encoder-decoder attention” layer which helps the decoder focus on appropriate places in the input sequence.
-
-In the decoder, the self-attention layer only attends to earlier positions in the output sequence. The future positions are masked (setting them to -inf) before the softmax step in the self-attention calculation.
-
-The “Encoder-Decoder Attention” layer creates its Queries matrix from the layer below it, and takes the Keys and Values matrix from the output of the encoder stack.
-
-The following steps repeat the process until a special symbol is reached indicating the transformer decoder has completed its output.
-
-The output of each step is fed to the bottom decoder in the next time step, and the decoders bubble up their decoding results just like the encoders did.
-
-And just like we did with the encoder inputs, we embed and add positional encoding to those decoder inputs to indicate the position of each word.
-
-::: {#fig-animated-transformer}
-
-![](images/transformer_decoding_2.gif)
-
-Illustration of the Encoder-Decoder architecture
+The five steps of a HuggingFace inference pipeline.
 :::
 
-Image credit: https://jalammar.github.io/illustrated-transformer/
+**Step 1 — Set up a prompt.** A *prompt* is the input provided to the model; its
+structure guides the output.
 
-### Encoder-only Transformers
+```{python}
+input_text = "The panoramic view of the ocean was breathtaking."
+```
 
-In addition to the encoder-decoder architecture shown here there various other architectures which are either only encoder or decoder models.
+**Step 2 — Load a pretrained model.** `from_pretrained()` downloads (and caches)
+the model weights, config, and tokenizer from the HuggingFace Model Hub. We use
+a DistilBERT model fine-tuned for sentiment (SST-2). Heavy download, so
+display-only here:
 
-### Bidirectional Encoder Representations from Transformers (BERT) model
+```{python}
+#| eval: false
+import torch
+import torch.nn.functional as F
+from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer
 
+model_name = "distilbert-base-uncased-finetuned-sst-2-english"
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
+config = AutoConfig.from_pretrained(model_name)
+```
 
-Encoder-only models only use the encoder layer of the Transformer.
+**Step 3 — Tokenize the input.** Load the tokenizer that matches the model and
+convert text to input IDs:
 
-These models are usually used for "understanding" natural language; however, they typically are not used for text generation. Examples of uses for these models are:
+```{python}
+#| eval: false
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+input_ids = tokenizer(input_text, return_tensors="pt")["input_ids"]
+print(input_ids)
+```
 
-1. Determining how positive or negative a movie’s reviews are. (Sentiment Analysis)
-2. Summarizing long legal contracts. (Summarization)
-3. Differentiating words that have multiple meanings (like ‘bank’) based on the surrounding text. (Polysemy resolution)
+**Step 4 & 5 — Infer and interpret.** Run the model to get **logits**, convert
+them to probabilities with softmax, and map the argmax to a label:
 
-These models are often characterized as having “bi-directional” attention, and are often called auto-encoding models.
-The attention mechanisms of these models can access all the words in the initial sentence.
+```{python}
+#| eval: false
+outputs = model(input_ids)
+logits = outputs.logits
 
-The most common encoder only architectures are:
+probabilities = F.softmax(logits, dim=-1)
+predicted_class = torch.argmax(probabilities, dim=-1).item()
+labels = ["NEGATIVE", "POSITIVE"]
+print(f"{labels[predicted_class]}  (score={probabilities[0][predicted_class]:.4f})")
+```
 
-* ALBERT
-* BERT
-* DistilBERT
-* ELECTRA
-* RoBERTa
+::: {.callout-tip title="⚡ The one-liner shortcut"}
+For quick use, `pipeline()` wraps all five steps into a single call:
 
-As example, let's consider BERT model in a little more detail.
+```{python}
+#| eval: false
+from transformers import pipeline
 
-::: {#fig-bert-explanation}
+classifier = pipeline("sentiment-analysis")
+classifier("The panoramic view of the ocean was breathtaking.")
+# -> [{'label': 'POSITIVE', 'score': 0.9998}]
+```
+:::
 
+### Saving & loading models
+
+A model (pretrained or fine-tuned) can be saved to and loaded from a local
+directory:
+
+```{python}
+#| eval: false
+from transformers import AutoModel, AutoModelForCausalLM
+
+model = AutoModelForCausalLM.from_pretrained("bert-base-uncased")
+# ... train or fine-tune ...
+model.save_pretrained("my_local_model")           # save
+loaded = AutoModel.from_pretrained("my_local_model")  # load back
+```
+
+### The Model Hub
+
+The [🤗 Model Hub](https://huggingface.co/docs/hub/en/models-the-hub) hosts
+hundreds of thousands of community model checkpoints. You can:
+
+- Download pretrained models with `transformers` (for inference or fine-tuning).
+- Filter by task, framework, dataset, language, and more.
+- Read each model's **model card** — description, intended use, limitations, and
+  often a live inference widget.
+
+## 🎒 Homework
+
+1. **Train the mini-LLM.** Run a training loop for the model above and plot how
+   training and validation **perplexity** evolve. This helper will be useful:
+
+   ```{python}
+   #| eval: false
+   @torch.no_grad()
+   def estimate_loss():
+       out = {}
+       model.eval()
+       for split in ["train", "val"]:
+           losses = torch.zeros(eval_iters)
+           for k in range(eval_iters):
+               X, Y = get_batch(split)
+               _, loss = model(X, Y)
+               losses[k] = loss.item()
+           out[split] = losses.mean()
+       model.train()
+       return out
+   ```
+
+2. **Sweep a hyperparameter.** Pick one of `n_embd`, `n_head`, or `n_layer` and
+   train with ≥4 different values. Plot perplexity vs. training step for each.
+
+3. **Generate text** from each trained variant. Did some hyperparameters produce
+   more coherent output than others?
+
+4. **Explore attention.** Use `bertviz` on a larger model (e.g.
+   `meta-llama/Llama-2-7b-chat-hf`) and compare its attention patterns to GPT-2's.
+
+## 🌗 The Transformer Family
+
+Not every Transformer is a decoder. The architecture splits into three families,
+depending on which halves are used and how attention is masked:
+
+::: {#fig-transformer-family}
+
+```{mermaid}
+flowchart TB
+    TF["`Transformer`"]
+    E["`Encoder-only
+    (bidirectional)`"]
+    D["`Decoder-only
+    (autoregressive)`"]
+    ED["`Encoder–Decoder
+    (seq-to-seq)`"]
+    E1("`BERT · RoBERTa
+    understanding`")
+    D1("`GPT · Llama
+    generation`")
+    ED1("`T5 · BART
+    translation, summarization`")
+    TF --> E --> E1
+    TF --> D --> D1
+    TF --> ED --> ED1
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class TF purple
+class E,D,ED blue
+class E1 red
+class D1 green
+class ED1 yellow
+```
+
+The three Transformer families and representative models.
+:::
+
+### Encoder-only (BERT)
+
+Encoder-only models use **bidirectional** attention — every token can see the
+whole sentence. This makes them excellent for *understanding* tasks (sentiment
+analysis, summarization inputs, disambiguation) but poor at open-ended
+generation.
+
+::: {#fig-bert}
 ![](images/BERT_Explanation.webp)
 
-BERT Explanation
+BERT reads the entire sequence at once (bidirectional). Image credit: [Towards Data Science](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270).
 :::
 
-Image credit: https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
-
-The BERT model is bidirectionally trained to have a deeper sense of language context and flow than single-direction language models.
-
-The Transformer encoder reads the entire sequence of words at once. Therefore it is considered bidirectional. This characteristic allows the model to learn the context of a word based on all of its surroundings (left and right of the word).
-
-In the BERT training process, the model receives pairs of sentences as input and learns to predict if the second sentence in the pair is the subsequent sentence in the original document. During training, 50% of the inputs are a pair in which the second sentence is the subsequent sentence in the original document, while in the other 50% a random sentence from the corpus is chosen as the second sentence.
-
-To help the model distinguish between the two sentences in training, the input is processed in the following way before entering the model:
-
-1. A [CLS] token is inserted at the beginning of the first sentence and a [SEP] token is inserted at the end of each sentence.
-2. A sentence embedding indicating Sentence A or Sentence B is added to each token. Sentence embeddings are similar in concept to token embeddings with a vocabulary of 2.
-3. A positional embedding is added to each token to indicate its position in the sequence. The concept and implementation of positional embedding are presented in the Transformer paper.
+BERT is trained with two objectives: **masked language modeling** (predict
+hidden words) and **next-sentence prediction**. Its input is built with special
+tokens — `[CLS]` at the start and `[SEP]` between/after sentences — plus segment
+and positional embeddings.
 
 ::: {#fig-bert-input}
-
 ![](images/BERT_input_sent.webp)
 
-Illustration of BERT input
+BERT input construction. Image credit: [Towards Data Science](https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270).
 :::
 
-Image credit: https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
+| | **Encoder-only (BERT)** | **Decoder-only (GPT)** |
+|:--|:--|:--|
+| Attention | Bidirectional | Masked (causal) |
+| Best at | Understanding | Generation |
+| Training | Masked LM + NSP | Next-token prediction |
+| Examples | BERT, RoBERTa, ALBERT | GPT, Llama, CTRL |
 
-To predict if the second sentence is indeed connected to the first, the following steps are performed:
+: Encoder-only vs. decoder-only Transformers {.responsive .striped .hover}
 
-1. The entire input sequence goes through the Transformer model.
-2. The output of the [CLS] token is transformed into a 2×1 shaped vector, using a simple classification layer (learned matrices of weights and biases).
-3. Calculating the probability of IsNextSequence with softmax.
+### Decoder-only (GPT)
 
-#### Advantages and disadvantages:
+As we saw, decoder-only models use **masked self-attention** so a token attends
+only to earlier positions — essential for learning generation without "peeking"
+at the answer.
 
-**Advantages**:
-
-* Contextualized embeddings: Good for tasks where contextualized embeddings of input tokens are crucial, such as natural language understanding.
-* Parallel processing: Allows for parallel processing of input tokens, making it computationally efficient.
-
-**Disadvantages:**
-
-* Not designed for sequence generation: Might not perform well on tasks that require sequential generation of output, as there is no inherent mechanism for auto-regressive decoding.
-
-Here is an example of a BERT code that can be used to
-
-### Decoder-only models
-
-An important difference of the GPT-2 architecture compared to the encoder-Transformer architecture has to do with the type of attention mechanism used.
-
-In models such as BERT, the self-attention mechanism has access to tokens to the left and right of the query token. However, in decoder-based models such as GPT-2, masked self-attention is used instead which allows access only to tokens to the left of the query.
-
-The masked self-attention mechanism is important for GPT-2 since it allows the model to be trained for token-by-token generation without simply "memorizing" the future tokens.
-
-::: {#fig-self-attention-and-masked-self-attention}
-
+::: {#fig-masked-attention}
 ![](images/self-attention-and-masked-self-attention.png)
 
+Full (bidirectional) vs. masked self-attention. Image credit: [Jay Alammar](https://jalammar.github.io/illustrated-gpt2/).
 :::
 
-Image credit: https://jalammar.github.io/illustrated-gpt2/
+### Beyond text: Vision & Graph Transformers
 
-The masked self-attention adds understanding of associated words to explain contexts of certain words before passing it through a neural network. It assigns scores to how relevant each word in the segment is, and then adds up the vector representation. This is then passed through the feed-forward network resulting in an output vector.
+The Transformer is modality-agnostic. **Vision Transformers (ViT)** split an
+image into patches, embed each patch (plus a positional encoding), and feed the
+sequence to a Transformer encoder.
 
-::: {#fig-gpt2-self-attention}
+::: {#fig-vit}
+![](images/vision-transformer-vit.png)
 
-![](images/gpt2-self-attention-example-2.png)
-
+Vision Transformer. Image credit: Dosovitskiy et al., [*An Image is Worth 16×16 Words*](https://arxiv.org/abs/2010.11929) (2020).
 :::
 
-Image credit: https://jalammar.github.io/illustrated-gpt2/
+**Graph Transformers** extend attention to graph-structured data (molecules,
+interaction networks).
 
-The resulting vector then needs to be converted to an output token. A common method of obtaining this output token is known as top-k.
+::: {#fig-graphformer}
+![](images/Graphformer.png)
 
-Here, the output vector is multiplied by the token embeddings which results in probabilities for each token in the vocabulary. Then the output token is sampled according to this probability.
-
-::: {#fig-gpt2-output}
-
-![](images/gpt2-output.png)
-
+A Graph Transformer.
 :::
 
-Image credit: https://jalammar.github.io/illustrated-gpt2/
+## ✅ Key Takeaways
 
-### Advantages and disadvantages
+::: {.callout-tip title="Recap" collapse="false"}
+- **Sequences are everywhere** — text, DNA, proteins, molecules, time series.
+- **Attention replaced recurrence**, enabling parallel training and long-range
+  context — the breakthrough behind LLMs.
+- Text becomes numbers via **tokenization** → **embeddings** (learned geometry).
+- A Transformer block = **masked self-attention** + **feed-forward**, with
+  residuals and layer-norm, repeated `N` times.
+- Models are trained to minimize **cross-entropy** (≈ minimize **perplexity**).
+- Three families — **encoder-only** (understand), **decoder-only** (generate),
+  **encoder–decoder** (translate) — plus vision and graph variants.
+:::
 
-**Advantages:**
+## 📚 References & Further Reading
 
-* Auto-regressive generation: Well-suited for tasks that require sequential generation, as the model can generate one token at a time based on the previous tokens.
-* Variable-length output: Can handle tasks where the output sequence length is not fixed.
-
-**Disadvantages:**
-
-* No direct access to input context: The decoder doesn't directly consider the input context during decoding, which might be a limitation for certain tasks.
-* Potential for inefficiency: Decoding token by token can be less computationally efficient compared to parallel processing.
-
-## Additional architectures
-
-In addition to text, LLMs have also been applied on other data sources such as images and graphs. Here I will describe two particular architectures:
-1. Vision Transformers
-2. Graph Transformers
-
-### Vision Transformers
-
-Vision Transformers (ViT) is an architecture that uses self-attention mechanisms to process images.
-
-The way this works is:
-
-1. Split image into patches (size is fixed)
-2. Flatten the image patches
-3. Create lower-dimensional linear embeddings from these flattened image patches and include positional embeddings
-4. Feed the sequence as an input to a transformer encoder
-5. Pre-train the ViT model with image labels, which is then fully supervised on a big dataset Fine-tune the downstream dataset for image classification
-
-![vision-transformer-vit.png](images/vision-transformer-vit.png)
-
-Image credit: Dosovitskiy, Alexey, et al. "An image is worth 16x16 words: Transformers for image recognition at scale." arXiv preprint arXiv:2010.11929 (2020).
-
-### Graph Transformers
-
-![Graphformer.png](images/Graphformer.png)
-
-## References
-
-Here are some recommendations for further reading and additional code for review.
-
-* "The Illustrated Transformer" by Jay Alammar 
-* "Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)"
-* "The Illustrated GPT-2 (Visualizing Transformer Language Models)"
-* "A gentle introduction to positional encoding"
-* "LLM Tutorial Workshop (Argonne National Laboratory)"
-* "LLM Tutorial Workshop Part 2 (Argonne National Laboratory)"
-
-
-
+- Vaswani et al., [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762) (2017)
+- Jay Alammar, [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
+- Jay Alammar, [The Illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/)
+- Jay Alammar, [Visualizing Neural Machine Translation (seq2seq + attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
+- 🤗 [HuggingFace LLM Course](https://huggingface.co/learn/llm-course/chapter1/1)
+- [A Gentle Introduction to Positional Encoding](https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/)
+- Jay Mody, [GPT in 60 Lines of NumPy](https://jaykmody.com/blog/gpt-from-scratch/)
+- Andrej Karpathy, [Let's build GPT (nanoGPT)](https://www.youtube.com/watch?v=kCc8FmEb1nY) — the tiny-Shakespeare model above is based on this

@@ -39,13 +39,10 @@ Sam Foreman
       Training](./01-neural-networks/5-distributed-training/)
   - 📂 [**\[02\] Large Language Models**](./02-llms/)
     - 📗 [\[02.0\] Intro to LLMs](./02-llms/00-intro-to-llms/)
-    - 📗 [\[02.0\] Intro to LLMs (v2
-      draft)](./02-llms/00-intro-to-llms-v2/)
-    - 📗 [\[02.1\] Hands-on LLMs](./02-llms/01-hands-on-llms/)
-    - 📗 [\[02.2\] Parallel Training](./02-llms/06-parallel-training/)
-    - 📗 [\[02.3\] Shakespeare Example
+    - 📗 [\[02.1\] Parallel Training](./02-llms/06-parallel-training/)
+    - 📗 [\[02.2\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
-    - 📊 [\[02.4\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
+    - 📊 [\[02.3\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
   - 📂 [**\[03\] Advanced / Large-Scale LLMs**](./03-advanced-llms/)
     - 📗 [\[03.0\] Mixture of Experts & Expert
       Parallelism](./03-advanced-llms/0-moe/)

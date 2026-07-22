@@ -24,11 +24,10 @@ Sam Foreman
 
 - 📂 [02-llms/](index.qmd)
   - [\[02.0\] Intro to LLMs](00-intro-to-llms/index.qmd)
-  - [\[02.1\] Hands-on LLMs](01-hands-on-llms/index.ipynb)
-  - [\[02.2\] Parallel Training](06-parallel-training/index.qmd)
-  - [\[02.3\] Shakespeare Example
+  - [\[02.1\] Parallel Training](06-parallel-training/index.qmd)
+  - [\[02.2\] Shakespeare Example
     (Colab)](08-shakespeare-example-colab/index.ipynb)
-  - [\[02.4\] Evaluating LLMs](10-evaluating-llms/index.qmd)
+  - [\[02.3\] Evaluating LLMs](10-evaluating-llms/index.qmd)
 
 Ready to scale up? Continue to the 🚀 **[\[03\] Advanced / Large-Scale
 LLMs](../03-advanced-llms/index.qmd)** track.

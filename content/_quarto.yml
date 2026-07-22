@@ -246,12 +246,11 @@ project:
 
     - "./02-llms/index.qmd"
     - "./02-llms/00-intro-to-llms/index.qmd"
-    - "./02-llms/00-intro-to-llms-v2/index.qmd"
-    - "./02-llms/01-hands-on-llms/index.ipynb"
     - "./02-llms/06-parallel-training/index.qmd"
     - "./02-llms/08-shakespeare-example-colab/index.ipynb"
     - "./02-llms/10-evaluating-llms/index.qmd"
     - "!./02-llms/00-intro-to-llms/OLD/"
+    - "!./02-llms/01-hands-on-llms/index.ipynb"
     - "!./02-llms/02-prompt-engineering/index.qmd"
 
     - "./03-advanced-llms/index.qmd"
@@ -296,6 +295,14 @@ website:
   comments:
     giscus:
       repo: saforem2/intro-hpc-bootcamp
+      repo-id: R_kgDOPQ7DhQ
+      category: Announcements
+      category-id: DIC_kwDOPQ7Dhc4CtXSQ
+      mapping: pathname
+      reactions-enabled: true
+      input-position: bottom
+      theme: preferred_color_scheme
+      language: en
   open-graph: true
   twitter-card:
     site: "saforem2"
@@ -369,15 +376,11 @@ website:
         contents:
           - text: "[02.0] Intro to LLMs"
             href: "./02-llms/00-intro-to-llms/index.qmd"
-          - text: "[02.0] Intro to LLMs (v2 draft)"
-            href: "./02-llms/00-intro-to-llms-v2/index.qmd"
-          - text: "[02.1] Hands-on LLMs"
-            href: "./02-llms/01-hands-on-llms/index.ipynb"
-          - text: "[02.2] Parallel Training"
+          - text: "[02.1] Parallel Training"
             href: "./02-llms/06-parallel-training/index.qmd"
-          - text: "[02.3] Shakespeare Example (Colab)"
+          - text: "[02.2] Shakespeare Example (Colab)"
             href: "./02-llms/08-shakespeare-example-colab/index.ipynb"
-          - text: "[02.4] Evaluating LLMs"
+          - text: "[02.3] Evaluating LLMs"
             href: "./02-llms/10-evaluating-llms/index.qmd"
 
       - id: 03-advanced-llms
