@@ -1342,7 +1342,7 @@
     "href": "01-neural-networks/index.html",
     "title": "Introduction to Neural Networks",
     "section": "",
-    "text": "📂 01-neural-networks/\n\n📄 0-intro\n📗 1-mnist\n📗 2-advanced\n📗 3-conv-nets\n📗 4-representation-learning\n\n\n\n\n\n\nCitationBibTeX citation:@online{foreman2025,\n  author = {Foreman, Sam},\n  title = {Introduction to {Neural} {Networks}},\n  date = {2025-07-15},\n  url = {https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nForeman, Sam. 2025. “Introduction to Neural Networks.” July\n15. https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/.",
+    "text": "📂 01-neural-networks/\n\n📄 0-intro\n📗 1-mnist\n📗 2-advanced\n📗 3-conv-nets\n📗 4-representation-learning\n\n\n\n\n\n\nCitationBibTeX citation:@online{foreman2025,\n  author = {Foreman, Sam},\n  title = {Introduction to {Neural} {Networks}},\n  date = {2025-07-15},\n  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/01-neural-networks/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nForeman, Sam. 2025. “Introduction to Neural Networks.” July\n15. https://saforem2.github.io/intro-hpc-bootcamp-2025/01-neural-networks/.",
     "crumbs": [
       "[01] Neural Networks"
     ]

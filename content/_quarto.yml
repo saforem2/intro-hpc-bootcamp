@@ -6,7 +6,7 @@ number-sections: false
 image-lazy-loading: true
 bibliography: references.bib
 google-scholar: true
-site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
+site-url: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
 citation: true
 strip-comments: true
 affiliation: "[ALCF](https://alcf.anl.gov/about/people/sam-foreman)"
@@ -287,7 +287,7 @@ website:
   image: assets/thumbnail.png
   favicon: assets/favicon-sf.svg
   page-navigation: true
-  site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
+  site-url: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
   repo-url: https://github.com/saforem2/intro-hpc-bootcamp-2025
   repo-actions: [source, edit, issue]
   # repo-subdir: content
