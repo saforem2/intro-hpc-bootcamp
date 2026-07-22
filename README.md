@@ -17,7 +17,7 @@ NODES=2 ; HRS=02 ; QUEUE=interactive ; salloc --nodes $NODES --qos $QUEUE --time
 ```bash
 git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
 cd intro-hpc-bootcamp-2025
-source <(curl -L https://bit.ly/ezpz-utils) && ezpz_setup_env
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
 ```
 
 ---

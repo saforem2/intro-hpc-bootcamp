@@ -6,6 +6,12 @@ jupyter: python3
 
 We will be using the [Shakespeare dataset](https://github.com/saforem2/wordplay/blob/main/data/shakespeare/readme.md) to train a (~ small) 10M param LLM _from scratch_.
 
+::: {.callout-tip title="➡️ Next steps"}
+
+Ready to scale up? See the [Advanced / Large-Scale LLMs track](../advanced/index.qmd).
+
+:::
+
 <div>
 
 <div align="center" style="text-align:center;">
@@ -116,7 +122,7 @@ Explicitly, we:
 #| jupyter: {outputs_hidden: false, source_hidden: false}
 import os
 import numpy as np
-from ezpz import setup
+from ezpz import setup_torch
 from hydra.utils import instantiate
 from wordplay.configs import get_config, PROJECT_ROOT
 from wordplay.trainer import Trainer
@@ -128,8 +134,7 @@ os.environ['HF_DATASETS_CACHE'] = HF_DATASETS_CACHE.as_posix()
 
 BACKEND = 'DDP'
 
-rank = setup(
-    framework='pytorch',
+rank = setup_torch(
     backend=BACKEND,
     seed=1234,
 )

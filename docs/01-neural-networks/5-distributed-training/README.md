@@ -27,7 +27,7 @@ Sam Foreman
 - [🕸️ Going Beyond Data
   Parallelism](#spider_web-going-beyond-data-parallelism)
   - [Going beyond Data Parallelism: DeepSpeed +
-    `ZeRO`](#going-beyond-data-parallelism----deepspeed--zero)
+    `ZeRO`](#going-beyond-data-parallelism-b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2069636f6e696679206c6f676f73206d6963726f736f66742d69636f6e203e7d7d-deepspeed--zero)
   - [Fully Sharded Data Parallel: 🔥 PyTorch +
     `FSDP`](#fully-sharded-data-parallel-fire-pytorch--fsdp)
   - [🕸️ Additional Parallelism
@@ -54,13 +54,15 @@ Sam Foreman
   - [🧑‍💻 Hands On: Getting
     Started](#technologist-hands-on-getting-started)
   - [📦 Install {`ezpz`, `wordplay`}](#package-install-ezpz-wordplay)
-  - [ `ezpz`: Example \[video\]](#---ezpz-example-video)
+  - [ `ezpz`: Example
+    \[video\]](#b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206272616e647320676974687562203e7d7d-ezpz-example-video)
   - [Install `wordplay`
     🎮💬](#install-wordplay-video_gamespeech_balloon)
   - [Prepare Data](#prepare-data)
   - [Launch Training (DDP)](#launch-training-ddp)
   - [Training: Example Output](#training-example-output)
-  - [ `wordplay`: Example \[video\]](#---wordplay-example-video)
+  - [ `wordplay`: Example
+    \[video\]](#b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206272616e647320676974687562203e7d7d-wordplay-example-video)
 - [❤️ Acknowledgements](#heart-acknowledgements)
   - [🙌 Thank you!](#raised_hands-thank-you)
   - [📓 References](#notebook-references)
@@ -1326,7 +1328,7 @@ Figure 27: Language Model trained for causal language modeling[^7].
 
 ### 🧑‍💻 Hands On: Getting Started
 
-1.  🌱 Clone Repo(s):
+1.  🌱 Clone Repo:
 
     -  [saforem2/`wordplay`](https://github.com/saforem2/wordplay)
 
@@ -1335,18 +1337,10 @@ Figure 27: Language Model trained for causal language modeling[^7].
       cd wordplay
       ```
 
-    -  [saforem2/`ezpz`](https://github.com/saforem2/ezpz)
-
-      ``` bash
-      git clone https://github.com/saforem2/ezpz deps/ezpz
-      ```
-
 2.  🐍 Setup Python:
 
     ``` bash
-    export PBS_O_WORKDIR=$(pwd) && source deps/ezpz/src/ezpz/bin/utils.sh
-    ezpz_setup_python
-    ezpz_setup_job
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
     ```
 
 ### 📦 Install {`ezpz`, `wordplay`}
@@ -1356,20 +1350,20 @@ Figure 27: Language Model trained for causal language modeling[^7].
     1.   [saforem2/`ezpz`](https://github.com/saforem2/ezpz):
 
         ``` bash
-        python3 -m pip install -e "./deps/ezpz" --require-virtualenv
+        uv pip install git+https://github.com/saforem2/ezpz
         ```
 
     2.   [saforem2/`wordplay`](https://github.com/saforem2/ezpz):
 
         ``` bash
         # from inside `wordplay/`
-        python3 -m pip install -e . --require-virtualenv
+        uv pip install -e .
         ```
 
 2.  Test distributed setup:
 
     ``` bash
-    mpirun -n "${NGPUS}" python3 -m ezpz.test_dist
+    ezpz test
     ```
 
     See: 🍋
@@ -1382,7 +1376,7 @@ Figure 27: Language Model trained for causal language modeling[^7].
 <script src="https://asciinema.org/a/668460.js" id="asciicast-668460" async="true"></script>
 
 Figure 28: Example: using [🍋
-`ezpz.test_dist`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)
+`ezpz test`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/examples/test.py)
 to train a small model using DDP
 
 </div>
@@ -1415,7 +1409,7 @@ val has 111,540 tokens
 ### Launch Training (DDP)
 
 ``` bash
-launch python3 -m wordplay \
+ezpz launch python3 -m wordplay \
     train.backend=DDP \
     train.eval_interval=100 \
     data=shakespeare \
@@ -1771,22 +1765,19 @@ Figure 30: Training a LLM to talk like Shakespeare using
 - Title slide (Tetris animation) from:
   [emilhvitfeldt/quarto-iframe-examples](https://github.com/emilhvitfeldt/quarto-iframe-examples)
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-wei2022emergentabilitieslargelanguage" class="csl-entry">
 
-Wei, Jason, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph,
-Sebastian Borgeaud, Dani Yogatama, et al. 2022. “Emergent Abilities of
-Large Language Models.” <https://arxiv.org/abs/2206.07682>.
+Wei, Jason, Yi Tay, Rishi Bommasani, et al. 2022. *Emergent Abilities of
+Large Language Models*. <https://arxiv.org/abs/2206.07682>.
 
 </div>
 
 <div id="ref-yao2023tree" class="csl-entry">
 
-Yao, Shunyu, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas L. Griffiths,
-Yuan Cao, and Karthik Narasimhan. 2023. “Tree of Thoughts: Deliberate
-Problem Solving with Large Language Models.”
+Yao, Shunyu, Dian Yu, Jeffrey Zhao, et al. 2023. *Tree of Thoughts:
+Deliberate Problem Solving with Large Language Models*.
 <https://arxiv.org/abs/2305.10601>.
 
 </div>

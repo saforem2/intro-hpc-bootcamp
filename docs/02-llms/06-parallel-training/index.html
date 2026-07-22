@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.18">
+<meta name="generator" content="quarto-1.10.16">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Intro to HPC Bootcamp 2025</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -71,17 +74,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9bf6f933b760cbb4c99ada293d62cb55.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-12fe1e89b9f42ad3d3ed9a3f5e317272.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-43a1b3f9a601701e1d84c4114ff60a02.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-74e6a280c4563555881229b92d5e81ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -134,11 +136,11 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Intro to HPC Bootcamp 2025">
 <meta property="og:description" content="An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience.">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/assets/thumbnail.png">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta name="twitter:title" content="Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience.">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/assets/thumbnail.png">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Intro to HPC Bootcamp 2025">
@@ -147,7 +149,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta name="citation_cover_date" content="2025-07-22">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-22">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -214,7 +216,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics;,citation_abstract=We seek to transform how new and emergent variants of pandemiccausing viruses, specifically SARS-CoV-2, are identified and classified. By adapting large language models (LLMs) for genomic data, we build genome-scale language models (GenSLMs) which can learn the evolutionary landscape of SARS-CoV-2 genomes. By pretraining on over 110 million prokaryotic gene sequences and finetuning a SARS-CoV-2-specific model on 1.5 million genomes, we show that GenSLMs can accurately and rapidly identify variants of concern. Thus, to our knowledge, GenSLMs represents one of the first whole genome scale foundation models which can generalize to other prediction tasks. We demonstrate scaling of GenSLMs on GPU-based supercomputers and AI-hardware accelerators utilizing 1.63 Zettaflops in training runs with a sustained performance of 121 PFLOPS in mixed precision and peak of 850 PFLOPS. We present initial scientific insights from examining GenSLMs in tracking evolutionary dynamics of SARS-CoV-2, paving the path to realizing this on large biological data.Competing Interest StatementThe authors have declared no competing interest.;,citation_author=Maxim Zvyagin;,citation_author=Alexander Brace;,citation_author=Kyle Hippe;,citation_author=Yuntian Deng;,citation_author=Bin Zhang;,citation_author=Cindy Orozco Bohorquez;,citation_author=Austin Clyde;,citation_author=Bharat Kale;,citation_author=Danilo Perez-Rivera;,citation_author=Heng Ma;,citation_author=Carla M. Mann;,citation_author=Michael Irvin;,citation_author=J. Gregory Pauloski;,citation_author=Logan Ward;,citation_author=Valerie Hayot-Sasson;,citation_author=Murali Emani;,citation_author=Sam Foreman;,citation_author=Zhen Xie;,citation_author=Diangen Lin;,citation_author=Maulik Shukla;,citation_author=Weili Nie;,citation_author=Josh Romero;,citation_author=Christian Dallago;,citation_author=Arash Vahdat;,citation_author=Chaowei Xiao;,citation_author=Thomas Gibbs;,citation_author=Ian Foster;,citation_author=James J. Davis;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.biorxiv.org/content/early/2022/11/23/2022.10.10.511571;,citation_doi=10.1101/2022.10.10.511571;,citation_journal_title=bioRxiv;,citation_publisher=Cold Spring Harbor Laboratory;">
 </head>
 
-<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -392,7 +394,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[6] Parallel Training</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -404,10 +406,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../../index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp 2025</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -436,55 +436,55 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Compute Systems</span></a>
+ <span class="menu-text">[00.0] Compute Systems</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Shared Resources</span></a>
+ <span class="menu-text">[00.1] Shared Resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Jupyter Notebooks</span></a>
+ <span class="menu-text">[00.2] Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Using Python</span></a>
+ <span class="menu-text">[00.3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Working with Data</span></a>
+ <span class="menu-text">[00.4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] MCMC Example</span></a>
+ <span class="menu-text">[00.5] MCMC Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Linear Regression</span></a>
+ <span class="menu-text">[00.6] Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Statistical Learning</span></a>
+ <span class="menu-text">[00.7] Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Clustering</span></a>
+ <span class="menu-text">[00.8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -501,43 +501,43 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to NNs</span></a>
+ <span class="menu-text">[01.0] Intro to NNs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example</span></a>
+ <span class="menu-text">[01.1] MNIST Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist-ipynb/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example (ipynb)</span></a>
+ <span class="menu-text">[01.1] MNIST Example (ipynb)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Advanced</span></a>
+ <span class="menu-text">[01.2] Advanced</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Conv. Nets</span></a>
+ <span class="menu-text">[01.3] Conv. Nets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Representation Learning</span></a>
+ <span class="menu-text">[01.4] Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Distributed Training</span></a>
+ <span class="menu-text">[01.5] Distributed Training</span></a>
   </div>
 </li>
       </ul>
@@ -554,25 +554,78 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to LLMs</span></a>
+ <span class="menu-text">[02.0] Intro to LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/00-intro-to-llms-v2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.0] Intro to LLMs (v2 draft)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Hands-on LLMs</span></a>
+ <span class="menu-text">[02.1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">[6] Parallel Training</span></a>
+ <span class="menu-text">[02.2] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
+ <span class="menu-text">[02.3] Shakespeare Example (Colab)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.4] Evaluating LLMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03] Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/0-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.0] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.1] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/2-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.2] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/3-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.3] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.4] RL &amp; Reasoning Models</span></a>
   </div>
 </li>
       </ul>
@@ -602,7 +655,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[6] Parallel Training</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Intro to HPC Bootcamp 2025</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
@@ -637,7 +690,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 5, 2025</p>
+      <p class="date-modified">July 22, 2026</p>
     </div>
   </div>
     
@@ -650,9 +703,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <section id="parallel-training-methods-for-ai" class="level1">
 <h1>🚀 Parallel Training Methods for AI</h1>
-<p><a href="https://samforeman.me">Sam Foreman</a><br>
-<a href="https://www.alcf.anl.gov/alcf-ai-science-training-series">Intro to AI-driven Science on Supercomputers</a><br>
-<em>2024-11-05</em></p>
+<p><a href="https://samforeman.me">Sam Foreman</a> <a href="https://www.alcf.anl.gov/alcf-ai-science-training-series">Intro to AI-driven Science on Supercomputers</a> <em>2026-07-22</em></p>
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/06-parallel-training/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/06-parallel-training/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <ul>
 <li>Slides: <a href="https://samforeman.me/talks/ai-for-science-2024/slides" class="uri">https://samforeman.me/talks/ai-for-science-2024/slides</a>
 <ul>
@@ -661,51 +713,66 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </ul>
 <section id="hands-on" class="level2">
 <h2 class="anchored" data-anchor-id="hands-on">👋 Hands On</h2>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This workshop runs on <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a> (SLURM: use <code>salloc</code> / Jupyter). The <code>ezpz launch</code> command below is scheduler-agnostic — it auto-detects the environment (PBS → <code>mpiexec</code>, SLURM → <code>srun</code>) — so the same steps work on ALCF PBS systems too.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="Proxies on ALCF login nodes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proxies on ALCF login nodes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On ALCF PBS systems (e.g.&nbsp;Sophia, Polaris) the login/compute nodes need proxy settings for outbound network access — run these before cloning/installing:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="bu">export</span> <span class="va">HTTP_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="bu">export</span> <span class="va">HTTPS_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="bu">export</span> <span class="va">http_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="bu">export</span> <span class="va">https_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="bu">export</span> <span class="va">ftp_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
 <ol type="1">
-<li><p>Submit interactive job:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-q</span> by-node <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=01:00:00,filesystems=eagle:home <span class="at">-I</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>On Sophia:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="bu">export</span> <span class="va">HTTP_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="bu">export</span> <span class="va">HTTPS_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="bu">export</span> <span class="va">http_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="bu">export</span> <span class="va">https_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="bu">export</span> <span class="va">ftp_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Clone repos:</p>
-<ol type="1">
-<li><p><a href="https://github.com/saforem2/wordplay"><code>saforem2/wordplay</code></a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="bu">cd</span> wordplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><a href="https://github.com/saforem2/ezpz"><code>saforem2/ezpz</code></a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> clone https://github.com/saforem2/ezpz deps/ezpz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-</ol></li>
-<li><p>Setup python:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="bu">export</span> <span class="va">PBS_O_WORKDIR</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="bu">source</span> deps/ezpz/src/ezpz/bin/utils.sh</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">ezpz_setup_python</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="ex">ezpz_setup_job</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Submit interactive job (PBS example; on Perlmutter use <code>salloc</code> instead):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="ex">qsub</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q by-node <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=01:00:00,filesystems=eagle:home <span class="at">-I</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Clone <a href="https://github.com/saforem2/wordplay"><code>saforem2/wordplay</code></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="bu">cd</span> wordplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Setup python (creates / activates a <code>.venv</code> and detects the job):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Install <code>{ezpz, wordplay}</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">-e</span> deps/ezpz <span class="at">--require-virtualenv</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">-e</span> . <span class="at">--require-virtualenv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="ex">uv</span> pip install <span class="at">-e</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Setup (or disable) <a href="https://wandb.ai"><code>wandb</code></a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># to setup:</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="ex">wandb</span> login</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co"># to disable:</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># to setup:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="ex">wandb</span> login</span>
+<span id="cb6-3"><a href="#cb6-3" aria-label="3"></a><span class="co"># to disable:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-label="4"></a><span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Test Distributed Setup:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">mpirun</span> <span class="at">-n</span> <span class="st">"</span><span class="va">${NGPUS}</span><span class="st">"</span> python3 <span class="at">-m</span> ezpz.test_dist</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="ex">ezpz</span> test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>See: <a href="https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py"><code>ezpz/test_dist.py</code></a></p></li>
 <li><p>Prepare Data:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">python3</span> data/shakespeare_char/prepare.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="ex">python3</span> data/shakespeare_char/prepare.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Launch Training:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">mpirun</span> <span class="at">-n</span> <span class="st">"</span><span class="va">${NGPUS}</span><span class="st">"</span> python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>    train.backend=DDP <span class="dt">\</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>    train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>    data=shakespeare <span class="dt">\</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>    train.dtype=bf16 <span class="dt">\</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>    model.batch_size=64 <span class="dt">\</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>    model.block_size=1024 <span class="dt">\</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>    train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>    train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a>    train.compile=false</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>    train.backend=DDP <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>    train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-label="4"></a>    data=shakespeare <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-label="5"></a>    train.dtype=bf16 <span class="dt">\</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-label="6"></a>    model.batch_size=64 <span class="dt">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-label="7"></a>    model.block_size=1024 <span class="dt">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-label="8"></a>    train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-label="9"></a>    train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-label="10"></a>    train.compile=false</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 </section>
 <section id="homework" class="level2">
@@ -734,12 +801,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   author = {Foreman, Sam},
   title = {Intro to {HPC} {Bootcamp} 2025},
   date = {2025-07-22},
-  url = {https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22,
-2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/">https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/</a>.
+Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22.
+<a href="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/">https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -805,13 +872,14 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22,
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -845,16 +913,16 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22,
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -877,7 +945,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22,
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/hpc-bootcamp-2025\/");
+        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp-2025\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1243,129 +1311,128 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 22,
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../02-llms/01-hands-on-llms/index.html" class="pagination-link" aria-label="[1] Hands-on LLMs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[1] Hands-on LLMs</span>
+      <a href="../../02-llms/01-hands-on-llms/index.html" class="pagination-link" aria-label="[02.1] Hands-on LLMs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[02.1] Hands-on LLMs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="pagination-link" aria-label="[8] Shakespeare Example (Colab)">
-        <span class="nav-page-text">[8] Shakespeare Example (Colab)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="pagination-link" aria-label="[02.3] Shakespeare Example (Colab)">
+        <span class="nav-page-text">[02.3] Shakespeare Example (Colab)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu"># 🚀 Parallel Training Methods for AI</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">[</span><span class="ot">Sam Foreman</span><span class="co">](https://samforeman.me)</span>  </span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">[</span><span class="ot">Intro to AI-driven Science on Supercomputers</span><span class="co">](https://www.alcf.anl.gov/alcf-ai-science-training-series)</span>  </span>
-<span id="cb11-5"><a href="#cb11-5"></a>_2024-11-05_</span>
-<span id="cb11-6"><a href="#cb11-6"></a></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="ss">- </span>Slides: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024/slides&gt;</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="ss">  - </span>HTML version: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024&gt;</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="fu">## 👋 Hands On</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="ss">1. </span>Submit interactive job:</span>
-<span id="cb11-13"><a href="#cb11-13"></a></span>
-<span id="cb11-14"><a href="#cb11-14"></a>    <span class="in">```bash</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a>    <span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-q</span> by-node <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=01:00:00,filesystems=eagle:home <span class="at">-I</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a>    <span class="in">```</span></span>
-<span id="cb11-17"><a href="#cb11-17"></a></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="ss">1. </span>On Sophia:</span>
-<span id="cb11-19"><a href="#cb11-19"></a></span>
-<span id="cb11-20"><a href="#cb11-20"></a>    <span class="in">```bash</span></span>
-<span id="cb11-21"><a href="#cb11-21"></a>    <span class="bu">export</span> <span class="va">HTTP_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a>    <span class="bu">export</span> <span class="va">HTTPS_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a>    <span class="bu">export</span> <span class="va">http_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb11-24"><a href="#cb11-24"></a>    <span class="bu">export</span> <span class="va">https_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb11-25"><a href="#cb11-25"></a>    <span class="bu">export</span> <span class="va">ftp_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb11-26"><a href="#cb11-26"></a>    <span class="in">```</span></span>
-<span id="cb11-27"><a href="#cb11-27"></a></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="ss">1. </span>Clone repos:</span>
-<span id="cb11-29"><a href="#cb11-29"></a></span>
-<span id="cb11-30"><a href="#cb11-30"></a><span class="ss">    1. </span><span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
-<span id="cb11-31"><a href="#cb11-31"></a></span>
-<span id="cb11-32"><a href="#cb11-32"></a>        <span class="in">```bash</span></span>
-<span id="cb11-33"><a href="#cb11-33"></a>        <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
-<span id="cb11-34"><a href="#cb11-34"></a>        <span class="bu">cd</span> wordplay</span>
-<span id="cb11-35"><a href="#cb11-35"></a>        <span class="in">```</span></span>
-<span id="cb11-36"><a href="#cb11-36"></a></span>
-<span id="cb11-37"><a href="#cb11-37"></a><span class="ss">    1. </span><span class="co">[</span><span class="ot">`saforem2/ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span>:</span>
-<span id="cb11-38"><a href="#cb11-38"></a></span>
-<span id="cb11-39"><a href="#cb11-39"></a>        <span class="in">```bash</span></span>
-<span id="cb11-40"><a href="#cb11-40"></a>        <span class="fu">git</span> clone https://github.com/saforem2/ezpz deps/ezpz</span>
-<span id="cb11-41"><a href="#cb11-41"></a>        <span class="in">```</span></span>
-<span id="cb11-42"><a href="#cb11-42"></a></span>
-<span id="cb11-43"><a href="#cb11-43"></a><span class="ss">1. </span>Setup python:</span>
-<span id="cb11-44"><a href="#cb11-44"></a></span>
-<span id="cb11-45"><a href="#cb11-45"></a>    <span class="in">```bash</span></span>
-<span id="cb11-46"><a href="#cb11-46"></a>    <span class="bu">export</span> <span class="va">PBS_O_WORKDIR</span><span class="op">=</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="bu">source</span> deps/ezpz/src/ezpz/bin/utils.sh</span>
-<span id="cb11-47"><a href="#cb11-47"></a>    <span class="ex">ezpz_setup_python</span></span>
-<span id="cb11-48"><a href="#cb11-48"></a>    <span class="ex">ezpz_setup_job</span></span>
-<span id="cb11-49"><a href="#cb11-49"></a>    <span class="in">```</span></span>
-<span id="cb11-50"><a href="#cb11-50"></a></span>
-<span id="cb11-51"><a href="#cb11-51"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
-<span id="cb11-52"><a href="#cb11-52"></a></span>
-<span id="cb11-53"><a href="#cb11-53"></a>    <span class="in">```bash</span></span>
-<span id="cb11-54"><a href="#cb11-54"></a>    <span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">-e</span> deps/ezpz <span class="at">--require-virtualenv</span></span>
-<span id="cb11-55"><a href="#cb11-55"></a>    <span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">-e</span> . <span class="at">--require-virtualenv</span></span>
-<span id="cb11-56"><a href="#cb11-56"></a>    <span class="in">```</span></span>
-<span id="cb11-57"><a href="#cb11-57"></a></span>
-<span id="cb11-58"><a href="#cb11-58"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
-<span id="cb11-59"><a href="#cb11-59"></a></span>
-<span id="cb11-60"><a href="#cb11-60"></a>    <span class="in">```bash</span></span>
-<span id="cb11-61"><a href="#cb11-61"></a>    <span class="co"># to setup:</span></span>
-<span id="cb11-62"><a href="#cb11-62"></a>    <span class="ex">wandb</span> login</span>
-<span id="cb11-63"><a href="#cb11-63"></a>    <span class="co"># to disable:</span></span>
-<span id="cb11-64"><a href="#cb11-64"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
-<span id="cb11-65"><a href="#cb11-65"></a>    <span class="in">```</span></span>
-<span id="cb11-66"><a href="#cb11-66"></a></span>
-<span id="cb11-67"><a href="#cb11-67"></a><span class="ss">1. </span>Test Distributed Setup:</span>
-<span id="cb11-68"><a href="#cb11-68"></a></span>
-<span id="cb11-69"><a href="#cb11-69"></a>    <span class="in">```bash</span></span>
-<span id="cb11-70"><a href="#cb11-70"></a>    <span class="ex">mpirun</span> <span class="at">-n</span> <span class="st">"</span><span class="va">${NGPUS}</span><span class="st">"</span> python3 <span class="at">-m</span> ezpz.test_dist</span>
-<span id="cb11-71"><a href="#cb11-71"></a>    <span class="in">```</span></span>
-<span id="cb11-72"><a href="#cb11-72"></a></span>
-<span id="cb11-73"><a href="#cb11-73"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
-<span id="cb11-74"><a href="#cb11-74"></a></span>
-<span id="cb11-75"><a href="#cb11-75"></a><span class="ss">1. </span>Prepare Data:</span>
-<span id="cb11-76"><a href="#cb11-76"></a></span>
-<span id="cb11-77"><a href="#cb11-77"></a>    <span class="in">```bash</span></span>
-<span id="cb11-78"><a href="#cb11-78"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
-<span id="cb11-79"><a href="#cb11-79"></a>    <span class="in">```</span></span>
-<span id="cb11-80"><a href="#cb11-80"></a></span>
-<span id="cb11-81"><a href="#cb11-81"></a><span class="ss">1. </span>Launch Training:</span>
-<span id="cb11-82"><a href="#cb11-82"></a></span>
-<span id="cb11-83"><a href="#cb11-83"></a>    <span class="in">```bash</span></span>
-<span id="cb11-84"><a href="#cb11-84"></a>    <span class="ex">mpirun</span> <span class="at">-n</span> <span class="st">"</span><span class="va">${NGPUS}</span><span class="st">"</span> python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb11-85"><a href="#cb11-85"></a>        train.backend=DDP <span class="dt">\</span></span>
-<span id="cb11-86"><a href="#cb11-86"></a>        train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb11-87"><a href="#cb11-87"></a>        data=shakespeare <span class="dt">\</span></span>
-<span id="cb11-88"><a href="#cb11-88"></a>        train.dtype=bf16 <span class="dt">\</span></span>
-<span id="cb11-89"><a href="#cb11-89"></a>        model.batch_size=64 <span class="dt">\</span></span>
-<span id="cb11-90"><a href="#cb11-90"></a>        model.block_size=1024 <span class="dt">\</span></span>
-<span id="cb11-91"><a href="#cb11-91"></a>        train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb11-92"><a href="#cb11-92"></a>        train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb11-93"><a href="#cb11-93"></a>        train.compile=false</span>
-<span id="cb11-94"><a href="#cb11-94"></a>    <span class="in">```</span></span>
-<span id="cb11-95"><a href="#cb11-95"></a></span>
-<span id="cb11-96"><a href="#cb11-96"></a><span class="fu">## 🎒 Homework</span></span>
-<span id="cb11-97"><a href="#cb11-97"></a></span>
-<span id="cb11-98"><a href="#cb11-98"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
-<span id="cb11-99"><a href="#cb11-99"></a></span>
-<span id="cb11-100"><a href="#cb11-100"></a>Where _proof_ can be any of:</span>
-<span id="cb11-101"><a href="#cb11-101"></a></span>
-<span id="cb11-102"><a href="#cb11-102"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
-<span id="cb11-103"><a href="#cb11-103"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the ALCF filesystems</span>
-<span id="cb11-104"><a href="#cb11-104"></a><span class="ss">- </span>A screenshot of:</span>
-<span id="cb11-105"><a href="#cb11-105"></a><span class="ss">  - </span>the text printed out from the run</span>
-<span id="cb11-106"><a href="#cb11-106"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
-<span id="cb11-107"><a href="#cb11-107"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
-<span id="cb11-108"><a href="#cb11-108"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
-<span id="cb11-109"><a href="#cb11-109"></a><span class="ss">- </span>etc.</span>
-<span id="cb11-110"><a href="#cb11-110"></a></span>
-<span id="cb11-111"><a href="#cb11-111"></a></span>
-<span id="cb11-112"><a href="#cb11-112"></a></span>
-<span id="cb11-113"><a href="#cb11-113"></a><span class="co">&lt;!--[^gpu]: If you do not have access to the ALCF systems, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="fu"># 🚀 Parallel Training Methods for AI</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="co">[</span><span class="ot">Sam Foreman</span><span class="co">](https://samforeman.me)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a><span class="co">[</span><span class="ot">Intro to AI-driven Science on Supercomputers</span><span class="co">](https://www.alcf.anl.gov/alcf-ai-science-training-series)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>_2026-07-22_</span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-label="7"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/06-parallel-training/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/06-parallel-training/index.qmd)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-label="8"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-label="9"></a><span class="ss">- </span>Slides: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024/slides&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-label="10"></a><span class="ss">  - </span>HTML version: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-label="11"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-label="12"></a><span class="fu">## 👋 Hands On</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-label="13"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-label="14"></a>::: {.callout-note}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-label="15"></a>This workshop runs on <span class="co">[</span><span class="ot">NERSC Perlmutter</span><span class="co">](https://docs.nersc.gov/systems/perlmutter/)</span> (SLURM: use <span class="in">`salloc`</span> / Jupyter). The <span class="in">`ezpz launch`</span> command below is scheduler-agnostic — it auto-detects the environment (PBS → <span class="in">`mpiexec`</span>, SLURM → <span class="in">`srun`</span>) — so the same steps work on ALCF PBS systems too.</span>
+<span id="cb10-16"><a href="#cb10-16" aria-label="16"></a>:::</span>
+<span id="cb10-17"><a href="#cb10-17" aria-label="17"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-label="18"></a>::: {.callout-note title="Proxies on ALCF login nodes"}</span>
+<span id="cb10-19"><a href="#cb10-19" aria-label="19"></a>On ALCF PBS systems (e.g. Sophia, Polaris) the login/compute nodes need proxy</span>
+<span id="cb10-20"><a href="#cb10-20" aria-label="20"></a>settings for outbound network access — run these before cloning/installing:</span>
+<span id="cb10-21"><a href="#cb10-21" aria-label="21"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-label="22"></a><span class="in">```bash</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-label="23"></a><span class="bu">export</span> <span class="va">HTTP_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-label="24"></a><span class="bu">export</span> <span class="va">HTTPS_PROXY</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-label="25"></a><span class="bu">export</span> <span class="va">http_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-label="26"></a><span class="bu">export</span> <span class="va">https_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-label="27"></a><span class="bu">export</span> <span class="va">ftp_proxy</span><span class="op">=</span><span class="st">"http://proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-label="28"></a><span class="in">```</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-label="29"></a>:::</span>
+<span id="cb10-30"><a href="#cb10-30" aria-label="30"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-label="31"></a><span class="ss">1. </span>Submit interactive job (PBS example; on Perlmutter use <span class="in">`salloc`</span> instead):</span>
+<span id="cb10-32"><a href="#cb10-32" aria-label="32"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-label="33"></a>    <span class="in">```bash</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-label="34"></a>    <span class="ex">qsub</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q by-node <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=01:00:00,filesystems=eagle:home <span class="at">-I</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-label="35"></a>    <span class="in">```</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-label="36"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-label="37"></a><span class="ss">1. </span>Clone <span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
+<span id="cb10-38"><a href="#cb10-38" aria-label="38"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-label="39"></a>    <span class="in">```bash</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-label="40"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb10-41"><a href="#cb10-41" aria-label="41"></a>    <span class="bu">cd</span> wordplay</span>
+<span id="cb10-42"><a href="#cb10-42" aria-label="42"></a>    <span class="in">```</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-label="43"></a></span>
+<span id="cb10-44"><a href="#cb10-44" aria-label="44"></a><span class="ss">1. </span>Setup python (creates / activates a <span class="in">`.venv`</span> and detects the job):</span>
+<span id="cb10-45"><a href="#cb10-45" aria-label="45"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-label="46"></a>    <span class="in">```bash</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-label="47"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb10-48"><a href="#cb10-48" aria-label="48"></a>    <span class="in">```</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-label="49"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-label="50"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
+<span id="cb10-51"><a href="#cb10-51" aria-label="51"></a></span>
+<span id="cb10-52"><a href="#cb10-52" aria-label="52"></a>    <span class="in">```bash</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-label="53"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
+<span id="cb10-54"><a href="#cb10-54" aria-label="54"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> .</span>
+<span id="cb10-55"><a href="#cb10-55" aria-label="55"></a>    <span class="in">```</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-label="56"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-label="57"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
+<span id="cb10-58"><a href="#cb10-58" aria-label="58"></a></span>
+<span id="cb10-59"><a href="#cb10-59" aria-label="59"></a>    <span class="in">```bash</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-label="60"></a>    <span class="co"># to setup:</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-label="61"></a>    <span class="ex">wandb</span> login</span>
+<span id="cb10-62"><a href="#cb10-62" aria-label="62"></a>    <span class="co"># to disable:</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-label="63"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
+<span id="cb10-64"><a href="#cb10-64" aria-label="64"></a>    <span class="in">```</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-label="65"></a></span>
+<span id="cb10-66"><a href="#cb10-66" aria-label="66"></a><span class="ss">1. </span>Test Distributed Setup:</span>
+<span id="cb10-67"><a href="#cb10-67" aria-label="67"></a></span>
+<span id="cb10-68"><a href="#cb10-68" aria-label="68"></a>    <span class="in">```bash</span></span>
+<span id="cb10-69"><a href="#cb10-69" aria-label="69"></a>    <span class="ex">ezpz</span> test</span>
+<span id="cb10-70"><a href="#cb10-70" aria-label="70"></a>    <span class="in">```</span></span>
+<span id="cb10-71"><a href="#cb10-71" aria-label="71"></a></span>
+<span id="cb10-72"><a href="#cb10-72" aria-label="72"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
+<span id="cb10-73"><a href="#cb10-73" aria-label="73"></a></span>
+<span id="cb10-74"><a href="#cb10-74" aria-label="74"></a><span class="ss">1. </span>Prepare Data:</span>
+<span id="cb10-75"><a href="#cb10-75" aria-label="75"></a></span>
+<span id="cb10-76"><a href="#cb10-76" aria-label="76"></a>    <span class="in">```bash</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-label="77"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
+<span id="cb10-78"><a href="#cb10-78" aria-label="78"></a>    <span class="in">```</span></span>
+<span id="cb10-79"><a href="#cb10-79" aria-label="79"></a></span>
+<span id="cb10-80"><a href="#cb10-80" aria-label="80"></a><span class="ss">1. </span>Launch Training:</span>
+<span id="cb10-81"><a href="#cb10-81" aria-label="81"></a></span>
+<span id="cb10-82"><a href="#cb10-82" aria-label="82"></a>    <span class="in">```bash</span></span>
+<span id="cb10-83"><a href="#cb10-83" aria-label="83"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
+<span id="cb10-84"><a href="#cb10-84" aria-label="84"></a>        train.backend=DDP <span class="dt">\</span></span>
+<span id="cb10-85"><a href="#cb10-85" aria-label="85"></a>        train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb10-86"><a href="#cb10-86" aria-label="86"></a>        data=shakespeare <span class="dt">\</span></span>
+<span id="cb10-87"><a href="#cb10-87" aria-label="87"></a>        train.dtype=bf16 <span class="dt">\</span></span>
+<span id="cb10-88"><a href="#cb10-88" aria-label="88"></a>        model.batch_size=64 <span class="dt">\</span></span>
+<span id="cb10-89"><a href="#cb10-89" aria-label="89"></a>        model.block_size=1024 <span class="dt">\</span></span>
+<span id="cb10-90"><a href="#cb10-90" aria-label="90"></a>        train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb10-91"><a href="#cb10-91" aria-label="91"></a>        train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb10-92"><a href="#cb10-92" aria-label="92"></a>        train.compile=false</span>
+<span id="cb10-93"><a href="#cb10-93" aria-label="93"></a>    <span class="in">```</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-label="94"></a></span>
+<span id="cb10-95"><a href="#cb10-95" aria-label="95"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb10-96"><a href="#cb10-96" aria-label="96"></a></span>
+<span id="cb10-97"><a href="#cb10-97" aria-label="97"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
+<span id="cb10-98"><a href="#cb10-98" aria-label="98"></a></span>
+<span id="cb10-99"><a href="#cb10-99" aria-label="99"></a>Where _proof_ can be any of:</span>
+<span id="cb10-100"><a href="#cb10-100" aria-label="100"></a></span>
+<span id="cb10-101"><a href="#cb10-101" aria-label="101"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
+<span id="cb10-102"><a href="#cb10-102" aria-label="102"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the ALCF filesystems</span>
+<span id="cb10-103"><a href="#cb10-103" aria-label="103"></a><span class="ss">- </span>A screenshot of:</span>
+<span id="cb10-104"><a href="#cb10-104" aria-label="104"></a><span class="ss">  - </span>the text printed out from the run</span>
+<span id="cb10-105"><a href="#cb10-105" aria-label="105"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
+<span id="cb10-106"><a href="#cb10-106" aria-label="106"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
+<span id="cb10-107"><a href="#cb10-107" aria-label="107"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
+<span id="cb10-108"><a href="#cb10-108" aria-label="108"></a><span class="ss">- </span>etc.</span>
+<span id="cb10-109"><a href="#cb10-109" aria-label="109"></a></span>
+<span id="cb10-110"><a href="#cb10-110" aria-label="110"></a></span>
+<span id="cb10-111"><a href="#cb10-111" aria-label="111"></a></span>
+<span id="cb10-112"><a href="#cb10-112" aria-label="112"></a><span class="co">&lt;!--[^gpu]: If you do not have access to the ALCF systems, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

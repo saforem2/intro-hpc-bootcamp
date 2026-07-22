@@ -696,6 +696,13 @@ samp {
   font-size: 1rem;
 }
 
+// Cap tall cell output (e.g. long training logs) so a single cell can't
+// span a huge chunk of the page; scroll within a bounded viewport instead.
+.cell-output {
+  max-height: calc(0.66 * 100vh);
+  overflow-y: auto;
+}
+
 pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
@@ -1008,6 +1015,13 @@ div.sidebar-item-container .sidebar-link > code {
 
 .sidebar {
   padding-inline: 1pt;
+}
+
+// Docked left nav: restore comfortable horizontal inset (default rule above
+// strips it, leaving title/search/items flush against the viewport edge).
+#quarto-sidebar {
+  padding-left: 1rem;
+  padding-right: 0.75rem;
 }
 
 .sidebar-item-text {

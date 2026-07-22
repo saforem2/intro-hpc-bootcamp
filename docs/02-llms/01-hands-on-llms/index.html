@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.18">
+<meta name="generator" content="quarto-1.10.16">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>Hands On: Introduction to Large Language Models (LLMs) – Intro to HPC Bootcamp 2025</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,21 +71,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../02-llms/06-parallel-training/index.html" rel="next">
-<link href="../../02-llms/00-intro-to-llms/index.html" rel="prev">
+<link href="../../02-llms/00-intro-to-llms-v2/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9bf6f933b760cbb4c99ada293d62cb55.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-12fe1e89b9f42ad3d3ed9a3f5e317272.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-43a1b3f9a601701e1d84c4114ff60a02.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-74e6a280c4563555881229b92d5e81ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -122,7 +124,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
@@ -185,11 +187,11 @@ window.Quarto = {
 
 <meta property="og:title" content="Hands On: Introduction to Large Language Models (LLMs) – Intro to HPC Bootcamp 2025">
 <meta property="og:description" content="An introduction to Large Language Models (LLMs), their architecture, and how they can be applied to scientific applications.">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/assets/thumbnail.png">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta name="twitter:title" content="Hands On: Introduction to Large Language Models (LLMs) – Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="An introduction to Large Language Models (LLMs), their architecture, and how they can be applied to scientific applications.">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/assets/thumbnail.png">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Hands On: Introduction to Large Language Models (LLMs)">
@@ -198,7 +200,7 @@ window.Quarto = {
 <meta name="citation_cover_date" content="2025-07-23">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-23">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -265,7 +267,7 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics;,citation_abstract=We seek to transform how new and emergent variants of pandemiccausing viruses, specifically SARS-CoV-2, are identified and classified. By adapting large language models (LLMs) for genomic data, we build genome-scale language models (GenSLMs) which can learn the evolutionary landscape of SARS-CoV-2 genomes. By pretraining on over 110 million prokaryotic gene sequences and finetuning a SARS-CoV-2-specific model on 1.5 million genomes, we show that GenSLMs can accurately and rapidly identify variants of concern. Thus, to our knowledge, GenSLMs represents one of the first whole genome scale foundation models which can generalize to other prediction tasks. We demonstrate scaling of GenSLMs on GPU-based supercomputers and AI-hardware accelerators utilizing 1.63 Zettaflops in training runs with a sustained performance of 121 PFLOPS in mixed precision and peak of 850 PFLOPS. We present initial scientific insights from examining GenSLMs in tracking evolutionary dynamics of SARS-CoV-2, paving the path to realizing this on large biological data.Competing Interest StatementThe authors have declared no competing interest.;,citation_author=Maxim Zvyagin;,citation_author=Alexander Brace;,citation_author=Kyle Hippe;,citation_author=Yuntian Deng;,citation_author=Bin Zhang;,citation_author=Cindy Orozco Bohorquez;,citation_author=Austin Clyde;,citation_author=Bharat Kale;,citation_author=Danilo Perez-Rivera;,citation_author=Heng Ma;,citation_author=Carla M. Mann;,citation_author=Michael Irvin;,citation_author=J. Gregory Pauloski;,citation_author=Logan Ward;,citation_author=Valerie Hayot-Sasson;,citation_author=Murali Emani;,citation_author=Sam Foreman;,citation_author=Zhen Xie;,citation_author=Diangen Lin;,citation_author=Maulik Shukla;,citation_author=Weili Nie;,citation_author=Josh Romero;,citation_author=Christian Dallago;,citation_author=Arash Vahdat;,citation_author=Chaowei Xiao;,citation_author=Thomas Gibbs;,citation_author=Ian Foster;,citation_author=James J. Davis;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.biorxiv.org/content/early/2022/11/23/2022.10.10.511571;,citation_doi=10.1101/2022.10.10.511571;,citation_journal_title=bioRxiv;,citation_publisher=Cold Spring Harbor Laboratory;">
 </head>
 
-<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -443,7 +445,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/01-hands-on-llms/index.html">[1] Hands-on LLMs</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/01-hands-on-llms/index.html">[02.1] Hands-on LLMs</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -455,10 +457,8 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../../index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp 2025</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -487,55 +487,55 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Compute Systems</span></a>
+ <span class="menu-text">[00.0] Compute Systems</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Shared Resources</span></a>
+ <span class="menu-text">[00.1] Shared Resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Jupyter Notebooks</span></a>
+ <span class="menu-text">[00.2] Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Using Python</span></a>
+ <span class="menu-text">[00.3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Working with Data</span></a>
+ <span class="menu-text">[00.4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] MCMC Example</span></a>
+ <span class="menu-text">[00.5] MCMC Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Linear Regression</span></a>
+ <span class="menu-text">[00.6] Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Statistical Learning</span></a>
+ <span class="menu-text">[00.7] Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Clustering</span></a>
+ <span class="menu-text">[00.8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -552,43 +552,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to NNs</span></a>
+ <span class="menu-text">[01.0] Intro to NNs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example</span></a>
+ <span class="menu-text">[01.1] MNIST Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist-ipynb/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example (ipynb)</span></a>
+ <span class="menu-text">[01.1] MNIST Example (ipynb)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Advanced</span></a>
+ <span class="menu-text">[01.2] Advanced</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Conv. Nets</span></a>
+ <span class="menu-text">[01.3] Conv. Nets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Representation Learning</span></a>
+ <span class="menu-text">[01.4] Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Distributed Training</span></a>
+ <span class="menu-text">[01.5] Distributed Training</span></a>
   </div>
 </li>
       </ul>
@@ -605,25 +605,78 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to LLMs</span></a>
+ <span class="menu-text">[02.0] Intro to LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/00-intro-to-llms-v2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.0] Intro to LLMs (v2 draft)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">[1] Hands-on LLMs</span></a>
+ <span class="menu-text">[02.1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Parallel Training</span></a>
+ <span class="menu-text">[02.2] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
+ <span class="menu-text">[02.3] Shakespeare Example (Colab)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.4] Evaluating LLMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03] Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/0-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.0] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.1] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/2-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.2] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/3-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.3] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.4] RL &amp; Reasoning Models</span></a>
   </div>
 </li>
       </ul>
@@ -683,7 +736,7 @@ window.Quarto = {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/01-hands-on-llms/index.html">[1] Hands-on LLMs</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/01-hands-on-llms/index.html">[02.1] Hands-on LLMs</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Hands On: Introduction to Large Language Models (LLMs)</h1>
 </div>
@@ -907,36 +960,36 @@ Figure&nbsp;6: Transformers, chronologically
 </summary>
 <ul>
 <li><p>If running this notebook on any of the ALCF machines, be sure to:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> os</span>
-<span id="cb1-2"><a href="#cb1-2"></a>os.environ[<span class="st">"HTTP_PROXY"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>os.environ[<span class="st">"HTTPS_PROXY"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>os.environ[<span class="st">"http_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>os.environ[<span class="st">"https_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>os.environ[<span class="st">"ftp_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>os.environ[<span class="st">"HTTP_PROXY"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>os.environ[<span class="st">"HTTPS_PROXY"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>os.environ[<span class="st">"http_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>os.environ[<span class="st">"https_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>os.environ[<span class="st">"ftp_proxy"</span>]<span class="op">=</span><span class="st">"proxy.alcf.anl.gov:3128"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </details>
 </section>
 <section id="hands-on" class="level2">
 <h2 class="anchored" data-anchor-id="hands-on">🧑‍💻 Hands On</h2>
 <div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:20:53.859224Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:20:53.858981Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:20:53.861469Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:20:53.860960Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:20:53.859210Z&quot;}}" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#!pip install transformers</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#!pip install pandas</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#!pip install torch</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co">#!pip install transformers</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="co">#!pip install pandas</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co">#!pip install torch</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:20:55.331034Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:20:55.330879Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:20:55.391288Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:20:55.390972Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:20:55.331023Z&quot;}}" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>load_ext autoreload</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:03.917811Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:03.917545Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:08.369950Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:08.369757Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:03.917792Z&quot;}}" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> ezpz</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> ambivalent</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
-<span id="cb4-8"><a href="#cb4-8"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">import</span> ezpz</span>
+<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="im">import</span> ambivalent</span>
+<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
+<span id="cb4-8"><a href="#cb4-8" aria-label="8"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-label="9"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>[2025-08-01 <span style="opacity:0.7;color:rgb(127,127,127)">17:21:08,089521</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ezpz</span>/<span class="ansi-blue-fg">__init__</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">265</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">ezpz</span>] Setting logging level to <span class="ansi-green-fg">'INFO'</span> on <span class="ansi-green-fg">'RANK == 0'</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
@@ -947,13 +1000,13 @@ Figure&nbsp;6: Transformers, chronologically
 </div>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:19.191490Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:19.190975Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:47.769024Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:47.768319Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:19.191474Z&quot;}}" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoConfig, AutoModelForCausalLM, AutoTokenizer, pipeline</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>input_text <span class="op">=</span> <span class="st">"What is the ALCF?"</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>generator <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a>pipe <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"meta-llama/Llama-3.2-3B"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a>output <span class="op">=</span> generator(input_text, max_length<span class="op">=</span><span class="dv">20</span>, num_return_sequences<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoConfig, AutoModelForCausalLM, AutoTokenizer, pipeline</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>input_text <span class="op">=</span> <span class="st">"What is the ALCF?"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a>generator <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a>pipe <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"meta-llama/Llama-3.2-3B"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a>output <span class="op">=</span> generator(input_text, max_length<span class="op">=</span><span class="dv">20</span>, num_return_sequences<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"6ec6886a3c9147daaac7dc2b750bff3a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -961,13 +1014,13 @@ Figure&nbsp;6: Transformers, chronologically
 </div>
 </div>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:47.770212Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:47.770091Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:47.823357Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:47.823180Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:47.770200Z&quot;}}" data-scrolled="true" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> rich</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="cf">for</span> i, response <span class="kw">in</span> <span class="bu">enumerate</span>([i[<span class="st">"generated_text"</span>] <span class="cf">for</span> i <span class="kw">in</span> output]):</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="co"># print(f"Response {i}:\n\t{' '.join(response.split('\n'))}")</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="co"># rich.print(f"Response {i}:\n\t{' '.join(response.split('\n'))}")</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="bu">print</span>(<span class="ss">f"Response </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">:</span><span class="ch">\n\t</span><span class="sc">{</span><span class="st">' '</span><span class="sc">.</span>join(response.split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>))<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># print("\n".join([f"Response {i}: {c}"] for i, c in enumerate(outputs)))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> rich</span>
+<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-label="3"></a><span class="cf">for</span> i, response <span class="kw">in</span> <span class="bu">enumerate</span>([i[<span class="st">"generated_text"</span>] <span class="cf">for</span> i <span class="kw">in</span> output]):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-label="4"></a>    <span class="co"># print(f"Response {i}:\n\t{' '.join(response.split('\n'))}")</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-label="5"></a>    <span class="co"># rich.print(f"Response {i}:\n\t{' '.join(response.split('\n'))}")</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-label="6"></a>    <span class="bu">print</span>(<span class="ss">f"Response </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">:</span><span class="ch">\n\t</span><span class="sc">{</span><span class="st">' '</span><span class="sc">.</span>join(response.split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>))<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-label="7"></a><span class="co"># print("\n".join([f"Response {i}: {c}"] for i, c in enumerate(outputs)))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Response <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>:
         What is the ALCF?  The ALCF is a process to determine the level of calcium contained in the blood. This 
@@ -1046,52 +1099,52 @@ Figure&nbsp;8
 <h3 class="anchored" data-anchor-id="example-of-tokenization">Example of tokenization</h3>
 <p>Let’s look at an example of tokenization using byte-pair encoding.</p>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:47.823893Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:47.823790Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:48.238281Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:48.238142Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:47.823885Z&quot;}}" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">def</span> tokenization_summary(tokenizer, sequence):</span>
-<span id="cb7-4"><a href="#cb7-4"></a>    <span class="co"># get the vocabulary</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>    vocab <span class="op">=</span> tokenizer.vocab</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    <span class="co"># Number of entries to print</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>    n <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="co"># print subset of the vocabulary</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>    <span class="bu">print</span>(<span class="st">"Subset of tokenizer.vocab:"</span>)</span>
-<span id="cb7-10"><a href="#cb7-10"></a>    <span class="cf">for</span> i, (token, index) <span class="kw">in</span> <span class="bu">enumerate</span>(tokenizer.vocab.items()):</span>
-<span id="cb7-11"><a href="#cb7-11"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-12"><a href="#cb7-12"></a>        <span class="cf">if</span> i <span class="op">&gt;=</span> n <span class="op">-</span> <span class="dv">1</span>:</span>
-<span id="cb7-13"><a href="#cb7-13"></a>            <span class="cf">break</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>    <span class="bu">print</span>(<span class="ss">f"Vocab size of the tokenizer = </span><span class="sc">{</span><span class="bu">len</span>(vocab)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-15"><a href="#cb7-15"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16"></a>    <span class="co"># .tokenize chunks the existing sequence into different tokens based on the rules and vocab of the tokenizer.</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>    tokens <span class="op">=</span> tokenizer.tokenize(sequence)</span>
-<span id="cb7-18"><a href="#cb7-18"></a>    <span class="bu">print</span>(<span class="ss">f"Tokens : </span><span class="sc">{</span>tokens<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-19"><a href="#cb7-19"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
-<span id="cb7-20"><a href="#cb7-20"></a></span>
-<span id="cb7-21"><a href="#cb7-21"></a>    <span class="co"># .convert_tokens_to_ids or .encode or .tokenize converts the tokens to their corresponding numerical representation.</span></span>
-<span id="cb7-22"><a href="#cb7-22"></a>    <span class="co">#  .convert_tokens_to_ids has a 1-1 mapping between tokens and numerical representation</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a>    <span class="co"># ids = tokenizer.convert_tokens_to_ids(tokens)</span></span>
-<span id="cb7-24"><a href="#cb7-24"></a>    <span class="co"># print("encoded Ids: ", ids)</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a></span>
-<span id="cb7-26"><a href="#cb7-26"></a>    <span class="co"># .encode also adds additional information like Start of sequence tokens and End of sequene</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a>    <span class="bu">print</span>(<span class="ss">f"tokenized sequence : </span><span class="sc">{</span>tokenizer<span class="sc">.</span>encode(sequence)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-28"><a href="#cb7-28"></a></span>
-<span id="cb7-29"><a href="#cb7-29"></a>    <span class="co"># .tokenizer has additional information about attention_mask.</span></span>
-<span id="cb7-30"><a href="#cb7-30"></a>    <span class="co"># encode = tokenizer(sequence)</span></span>
-<span id="cb7-31"><a href="#cb7-31"></a>    <span class="co"># print("Encode sequence : ", encode)</span></span>
-<span id="cb7-32"><a href="#cb7-32"></a>    <span class="co"># print("------------------------------------------")</span></span>
-<span id="cb7-33"><a href="#cb7-33"></a></span>
-<span id="cb7-34"><a href="#cb7-34"></a>    <span class="co"># .decode decodes the ids to raw text</span></span>
-<span id="cb7-35"><a href="#cb7-35"></a>    ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
-<span id="cb7-36"><a href="#cb7-36"></a>    decode <span class="op">=</span> tokenizer.decode(ids)</span>
-<span id="cb7-37"><a href="#cb7-37"></a>    <span class="bu">print</span>(<span class="ss">f"Decode sequence </span><span class="sc">{</span>decode<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-38"><a href="#cb7-38"></a></span>
-<span id="cb7-39"><a href="#cb7-39"></a></span>
-<span id="cb7-40"><a href="#cb7-40"></a>tokenizer_1 <span class="op">=</span> AutoTokenizer.from_pretrained(</span>
-<span id="cb7-41"><a href="#cb7-41"></a>    <span class="st">"gpt2"</span></span>
-<span id="cb7-42"><a href="#cb7-42"></a>)  <span class="co"># GPT-2 uses "Byte-Pair Encoding (BPE)"</span></span>
-<span id="cb7-43"><a href="#cb7-43"></a></span>
-<span id="cb7-44"><a href="#cb7-44"></a>sequence <span class="op">=</span> <span class="st">"Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat"</span></span>
-<span id="cb7-45"><a href="#cb7-45"></a></span>
-<span id="cb7-46"><a href="#cb7-46"></a>tokenization_summary(tokenizer_1, sequence)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="kw">def</span> tokenization_summary(tokenizer, sequence):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>    <span class="co"># get the vocabulary</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a>    vocab <span class="op">=</span> tokenizer.vocab</span>
+<span id="cb7-6"><a href="#cb7-6" aria-label="6"></a>    <span class="co"># Number of entries to print</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-label="7"></a>    n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-label="8"></a>    <span class="co"># print subset of the vocabulary</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-label="9"></a>    <span class="bu">print</span>(<span class="st">"Subset of tokenizer.vocab:"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-label="10"></a>    <span class="cf">for</span> i, (token, index) <span class="kw">in</span> <span class="bu">enumerate</span>(tokenizer.vocab.items()):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-label="11"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-label="12"></a>        <span class="cf">if</span> i <span class="op">&gt;=</span> n <span class="op">-</span> <span class="dv">1</span>:</span>
+<span id="cb7-13"><a href="#cb7-13" aria-label="13"></a>            <span class="cf">break</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-label="14"></a>    <span class="bu">print</span>(<span class="ss">f"Vocab size of the tokenizer = </span><span class="sc">{</span><span class="bu">len</span>(vocab)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-label="15"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-label="16"></a>    <span class="co"># .tokenize chunks the existing sequence into different tokens based on the rules and vocab of the tokenizer.</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-label="17"></a>    tokens <span class="op">=</span> tokenizer.tokenize(sequence)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-label="18"></a>    <span class="bu">print</span>(<span class="ss">f"Tokens : </span><span class="sc">{</span>tokens<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-label="19"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-label="20"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-label="21"></a>    <span class="co"># .convert_tokens_to_ids or .encode or .tokenize converts the tokens to their corresponding numerical representation.</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-label="22"></a>    <span class="co">#  .convert_tokens_to_ids has a 1-1 mapping between tokens and numerical representation</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-label="23"></a>    <span class="co"># ids = tokenizer.convert_tokens_to_ids(tokens)</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-label="24"></a>    <span class="co"># print("encoded Ids: ", ids)</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-label="25"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-label="26"></a>    <span class="co"># .encode also adds additional information like Start of sequence tokens and End of sequene</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-label="27"></a>    <span class="bu">print</span>(<span class="ss">f"tokenized sequence : </span><span class="sc">{</span>tokenizer<span class="sc">.</span>encode(sequence)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-label="28"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-label="29"></a>    <span class="co"># .tokenizer has additional information about attention_mask.</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-label="30"></a>    <span class="co"># encode = tokenizer(sequence)</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-label="31"></a>    <span class="co"># print("Encode sequence : ", encode)</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-label="32"></a>    <span class="co"># print("------------------------------------------")</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-label="33"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-label="34"></a>    <span class="co"># .decode decodes the ids to raw text</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-label="35"></a>    ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-label="36"></a>    decode <span class="op">=</span> tokenizer.decode(ids)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-label="37"></a>    <span class="bu">print</span>(<span class="ss">f"Decode sequence </span><span class="sc">{</span>decode<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-label="38"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-label="39"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-label="40"></a>tokenizer_1 <span class="op">=</span> AutoTokenizer.from_pretrained(</span>
+<span id="cb7-41"><a href="#cb7-41" aria-label="41"></a>    <span class="st">"gpt2"</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-label="42"></a>)  <span class="co"># GPT-2 uses "Byte-Pair Encoding (BPE)"</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-label="43"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-label="44"></a>sequence <span class="op">=</span> <span class="st">"Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat"</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-label="45"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-label="46"></a>tokenization_summary(tokenizer_1, sequence)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Subset of tokenizer.vocab:
 </pre>
@@ -1176,10 +1229,10 @@ Figure&nbsp;8
 <h2 class="anchored" data-anchor-id="transformer-model-architecture">Transformer Model Architecture</h2>
 <p>Now let’s look at the base elements that make up a Transformer by dissecting the popular GPT2 model</p>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:48.239604Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:48.239523Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:48.780432Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:48.780279Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:48.239596Z&quot;}}" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2LMHeadModel, GPT2Tokenizer</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">"gpt2"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="bu">print</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2LMHeadModel, GPT2Tokenizer</span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">"gpt2"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-label="4"></a><span class="bu">print</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2LMHeadModel</span><span style="font-weight: bold">(</span>
   <span style="font-weight: bold">(</span>transformer<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2Model</span><span style="font-weight: bold">(</span>
@@ -1250,27 +1303,27 @@ Figure&nbsp;8
 <h4 class="anchored" data-anchor-id="lets-see-multi-head-attention-mechanisms-in-action">Let’s see multi-head attention mechanisms in action!</h4>
 <p>We are going to use the powerful visualization tool bertviz, which allows an interactive experience of the attention mechanisms. Normally these mechanisms are abstracted away but this will allow us to inspect our model in more detail.</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:48.787770Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:48.787692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:48.820848Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:48.820664Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:48.787756Z&quot;}}" data-scrolled="true" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># !pip install bertviz</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co"># !pip install bertviz</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s load in the model, GPT2 and look at the attention mechanisms.</p>
 <p><strong>Hint… click on the different blocks in the visualization to see the attention</strong></p>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:50.809762Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:50.809606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:53.221988Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:53.221865Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:50.809752Z&quot;}}" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> bertviz <span class="im">import</span> model_view</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM, AutoTokenizer, utils</span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a>utils.logging.set_verbosity_error()  <span class="co"># Suppress standard warnings</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a>model_name <span class="op">=</span> <span class="st">"openai-community/gpt2"</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>input_text <span class="op">=</span> <span class="st">"No, I am your father"</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(model_name, output_attentions<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-9"><a href="#cb10-9"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
-<span id="cb10-10"><a href="#cb10-10"></a>inputs <span class="op">=</span> tokenizer.encode(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)  <span class="co"># Tokenize input text</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>outputs <span class="op">=</span> model(inputs)  <span class="co"># Run model</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a>attention <span class="op">=</span> outputs[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Retrieve attention from model outputs</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(</span>
-<span id="cb10-14"><a href="#cb10-14"></a>    inputs[<span class="dv">0</span>]</span>
-<span id="cb10-15"><a href="#cb10-15"></a>)  <span class="co"># Convert input ids to token strings</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a>model_view(attention, tokens)  <span class="co"># Display model view</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">from</span> bertviz <span class="im">import</span> model_view</span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM, AutoTokenizer, utils</span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a>utils.logging.set_verbosity_error()  <span class="co"># Suppress standard warnings</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>model_name <span class="op">=</span> <span class="st">"openai-community/gpt2"</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-label="7"></a>input_text <span class="op">=</span> <span class="st">"No, I am your father"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-label="8"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(model_name, output_attentions<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-label="9"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-label="10"></a>inputs <span class="op">=</span> tokenizer.encode(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)  <span class="co"># Tokenize input text</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-label="11"></a>outputs <span class="op">=</span> model(inputs)  <span class="co"># Run model</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-label="12"></a>attention <span class="op">=</span> outputs[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Retrieve attention from model outputs</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-label="13"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-label="14"></a>    inputs[<span class="dv">0</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-label="15"></a>)  <span class="co"># Convert input ids to token strings</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-label="16"></a>model_view(attention, tokens)  <span class="co"># Display model view</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 </div>
@@ -1727,10 +1780,10 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <p>Now, let’s see a practical application of LLMs using a HuggingFace pipeline for classification.</p>
 <p>This involves a few steps including: 1. Setting up a prompt 2. Loading in a pretrained model 3. Loading in the tokenizer and tokenizing input text 4. Performing model inference 5. Interpreting inference output</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:53.635709Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:53.635568Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:53.672325Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:53.672151Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:53.635699Z&quot;}}" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># STEP 0 : Installations and imports</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> torch</span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="im">from</span> transformers <span class="im">import</span> AutoConfig, AutoModelForSequenceClassification, AutoTokenizer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="co"># STEP 0 : Installations and imports</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="im">import</span> torch</span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a><span class="im">from</span> transformers <span class="im">import</span> AutoConfig, AutoModelForSequenceClassification, AutoTokenizer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="setting-up-a-prompt" class="level3">
 <h3 class="anchored" data-anchor-id="setting-up-a-prompt">1. Setting up a prompt</h3>
@@ -1738,8 +1791,8 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <p>The choice and structure of the prompt depends on the specific task, the context and desired output. Prompts can be “discrete” or “instructive” where they are explicit instructions or questions directed to the language model. They can also be more nuanced by more providing suggestions, directions and contexts to the model.</p>
 <p>We will use very simple prompts in this tutorial section, but we will learn more about prompt engineering and how it helps in optimizing the performance of the model for a given use case in the following tutorials.</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:55.926394Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:55.925977Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:55.957987Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:55.957723Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:55.926383Z&quot;}}" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># STEP 1 : Set up the prompt</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>input_text <span class="op">=</span> <span class="st">"The panoramic view of the ocean was breathtaking."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># STEP 1 : Set up the prompt</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>input_text <span class="op">=</span> <span class="st">"The panoramic view of the ocean was breathtaking."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="loading-pretrained-models" class="level3">
@@ -1754,11 +1807,11 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <li>tokenizer information (tokenizer.json, vocab.json, merges.txt, tokenizer.model)</li>
 </ul>
 <div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:21:58.286281Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:21:58.286118Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:21:58.605104Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:21:58.604969Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:21:58.286270Z&quot;}}" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># STEP 2 : Load the pretrained model.</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>model_name <span class="op">=</span> <span class="st">"distilbert-base-uncased-finetuned-sst-2-english"</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_name)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>config <span class="op">=</span> AutoConfig.from_pretrained(model_name)</span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="bu">print</span>(config)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="co"># STEP 2 : Load the pretrained model.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>model_name <span class="op">=</span> <span class="st">"distilbert-base-uncased-finetuned-sst-2-english"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_name)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>config <span class="op">=</span> AutoConfig.from_pretrained(model_name)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-label="5"></a><span class="bu">print</span>(config)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">DistilBertConfig <span style="font-weight: bold">{</span>
   <span style="color: #008000; text-decoration-color: #008000">"activation"</span>: <span style="color: #008000; text-decoration-color: #008000">"gelu"</span>,
@@ -1801,10 +1854,10 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <h3 class="anchored" data-anchor-id="loading-in-the-tokenizer-and-tokenizing-input-text">3. Loading in the tokenizer and tokenizing input text</h3>
 <p>Here, we load in a pretrained tokenizer associated with this model.</p>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:22:01.070650Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:22:01.070501Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:22:01.592156Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:22:01.592038Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:22:01.070640Z&quot;}}" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># STEP 3 : Load the tokenizer and tokenize the input text</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>input_ids <span class="op">=</span> tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)[<span class="st">"input_ids"</span>]</span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="bu">print</span>(input_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="co"># STEP 3 : Load the tokenizer and tokenize the input text</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>input_ids <span class="op">=</span> tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)[<span class="st">"input_ids"</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a><span class="bu">print</span>(input_ids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([[</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">101</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1996</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6090</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6525</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7712</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3193</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1997</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1996</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4153</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2001</span>,
           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3052</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17904</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1012</span>,   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">102</span><span style="font-weight: bold">]])</span>
@@ -1817,24 +1870,24 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <p>Here, we: * load data into the model, * perform inference to obtain logits, * Convert logits into probabilities * According to probabilities assign label</p>
 <p>The end result is that we can predict whether the input phrase is positive or negative.</p>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:22:06.630142Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:22:06.629910Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:22:07.058427Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:22:07.058302Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:22:06.630130Z&quot;}}" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># STEP 5 : Perform inference</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>outputs <span class="op">=</span> model(input_ids)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>result <span class="op">=</span> outputs.logits</span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="bu">print</span>(result)</span>
-<span id="cb15-5"><a href="#cb15-5"></a></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="co"># STEP 6 :  Interpret the output.</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a>probabilities <span class="op">=</span> F.softmax(result, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="bu">print</span>(probabilities)</span>
-<span id="cb15-9"><a href="#cb15-9"></a>predicted_class <span class="op">=</span> torch.argmax(probabilities, dim<span class="op">=-</span><span class="dv">1</span>).item()</span>
-<span id="cb15-10"><a href="#cb15-10"></a>labels <span class="op">=</span> [<span class="st">"NEGATIVE"</span>, <span class="st">"POSITIVE"</span>]</span>
-<span id="cb15-11"><a href="#cb15-11"></a>out_string <span class="op">=</span> (</span>
-<span id="cb15-12"><a href="#cb15-12"></a>    <span class="st">"[{'label': '"</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a>    <span class="op">+</span> <span class="bu">str</span>(labels[predicted_class])</span>
-<span id="cb15-14"><a href="#cb15-14"></a>    <span class="op">+</span> <span class="st">"', 'score': "</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a>    <span class="op">+</span> <span class="bu">str</span>(probabilities[<span class="dv">0</span>][predicted_class].tolist())</span>
-<span id="cb15-16"><a href="#cb15-16"></a>    <span class="op">+</span> <span class="st">"}]"</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a>)</span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="bu">print</span>(out_string)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="co"># STEP 5 : Perform inference</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>outputs <span class="op">=</span> model(input_ids)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>result <span class="op">=</span> outputs.logits</span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a><span class="bu">print</span>(result)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a><span class="co"># STEP 6 :  Interpret the output.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a>probabilities <span class="op">=</span> F.softmax(result, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a><span class="bu">print</span>(probabilities)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a>predicted_class <span class="op">=</span> torch.argmax(probabilities, dim<span class="op">=-</span><span class="dv">1</span>).item()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a>labels <span class="op">=</span> [<span class="st">"NEGATIVE"</span>, <span class="st">"POSITIVE"</span>]</span>
+<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a>out_string <span class="op">=</span> (</span>
+<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a>    <span class="st">"[{'label': '"</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a>    <span class="op">+</span> <span class="bu">str</span>(labels[predicted_class])</span>
+<span id="cb15-14"><a href="#cb15-14" aria-label="14"></a>    <span class="op">+</span> <span class="st">"', 'score': "</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-label="15"></a>    <span class="op">+</span> <span class="bu">str</span>(probabilities[<span class="dv">0</span>][predicted_class].tolist())</span>
+<span id="cb15-16"><a href="#cb15-16" aria-label="16"></a>    <span class="op">+</span> <span class="st">"}]"</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-label="17"></a>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-label="18"></a><span class="bu">print</span>(out_string)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4.2767</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.5486</span><span style="font-weight: bold">]]</span>, <span style="color: #808000; text-decoration-color: #808000">grad_fn</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">AddmmBackward0</span><span style="font-weight: bold">&gt;)</span>
 </pre>
@@ -1853,19 +1906,19 @@ requirejs(['jquery', 'd3'], function($, d3) {
 <h3 class="anchored" data-anchor-id="saving-and-loading-models">Saving and loading models</h3>
 <p>Model can be saved and loaded to and from a local model directory.</p>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-01T21:22:12.798323Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-01T21:22:12.798179Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-01T21:22:16.652098Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-01T21:22:16.651872Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-01T21:22:12.798314Z&quot;}}" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM</span>
-<span id="cb16-2"><a href="#cb16-2"></a></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># Instantiate and train or fine-tune a model</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(<span class="st">"bert-base-uncased"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5"></a></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co"># Train or fine-tune the model...</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co"># Save the model to a local directory</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a>directory <span class="op">=</span> <span class="st">"my_local_model"</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a>model.save_pretrained(directory)</span>
-<span id="cb16-11"><a href="#cb16-11"></a></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co"># Load a pre-trained model from a local directory</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a>loaded_model <span class="op">=</span> AutoModel.from_pretrained(directory)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM</span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="co"># Instantiate and train or fine-tune a model</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-label="4"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(<span class="st">"bert-base-uncased"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-label="5"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-label="6"></a><span class="co"># Train or fine-tune the model...</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-label="7"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a><span class="co"># Save the model to a local directory</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-label="9"></a>directory <span class="op">=</span> <span class="st">"my_local_model"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-label="10"></a>model.save_pretrained(directory)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-label="11"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-label="12"></a><span class="co"># Load a pre-trained model from a local directory</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-label="13"></a>loaded_model <span class="op">=</span> AutoModel.from_pretrained(directory)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[2025-08-01 17:22:13,442] [INFO] [real_accelerator.py:254:get_accelerator] Setting ds_accelerator to mps (auto detect)</code></pre>
 </div>
@@ -1935,12 +1988,12 @@ W0801 17:22:13.658000 89497 torch/distributed/elastic/multiprocessing/redirects.
   title = {Hands {On:} {Introduction} to {Large} {Language} {Models}
     {(LLMs)}},
   date = {2025-07-23},
-  url = {https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam. 2025. <span>“Hands On: Introduction to Large Language
-Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/">https://saforem2.github.io/hpc-bootcamp-2025/02-llms/01-hands-on-llms/</a>.
+Models (LLMs).”</span> July 23. <a href="https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/">https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script type="application/vnd.jupyter.widget-state+json">
 {"state":{"1a01376d27c3497b9a65ca104a94412b":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"3875a9223576424181b8c015523010cd":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_1a01376d27c3497b9a65ca104a94412b","style":"IPY_MODEL_622d0dcbd865420885c58c9a29e2fe30","value":" 2/2 [00:00&lt;00:00, 28.94it/s]"}},"622d0dcbd865420885c58c9a29e2fe30":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"6a7d339d79ba4fea9b3a31ca986ddbab":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"ProgressStyleModel","state":{"description_width":""}},"6d79fb5305f64ab086b851a3bce643e7":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"6ec6886a3c9147daaac7dc2b750bff3a":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HBoxModel","state":{"children":["IPY_MODEL_dd9a1dc20e7648bd9f97ba18ccc91655","IPY_MODEL_c42ed1f4e75041ce9d12044b858e709e","IPY_MODEL_3875a9223576424181b8c015523010cd"],"layout":"IPY_MODEL_89c9a410f4614b3abad0bae738e2f69c"}},"89c9a410f4614b3abad0bae738e2f69c":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b2b2f06b8be0440f83d1c694ba1c414a":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{}},"b8f874fb185749ac89c0f841203ed8d2":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLStyleModel","state":{"description_width":"","font_size":null,"text_color":null}},"c42ed1f4e75041ce9d12044b858e709e":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"FloatProgressModel","state":{"bar_style":"success","layout":"IPY_MODEL_6d79fb5305f64ab086b851a3bce643e7","max":2,"style":"IPY_MODEL_6a7d339d79ba4fea9b3a31ca986ddbab","value":2}},"dd9a1dc20e7648bd9f97ba18ccc91655":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"HTMLModel","state":{"layout":"IPY_MODEL_b2b2f06b8be0440f83d1c694ba1c414a","style":"IPY_MODEL_b8f874fb185749ac89c0f841203ed8d2","value":"Loading checkpoint shards: 100%"}}},"version_major":2,"version_minor":0}
@@ -2009,13 +2062,14 @@ Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -2049,16 +2103,16 @@ Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -2081,7 +2135,7 @@ Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/hpc-bootcamp-2025\/");
+        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp-2025\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -2447,13 +2501,13 @@ Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../02-llms/00-intro-to-llms/index.html" class="pagination-link" aria-label="[0] Intro to LLMs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[0] Intro to LLMs</span>
+      <a href="../../02-llms/00-intro-to-llms-v2/index.html" class="pagination-link" aria-label="[02.0] Intro to LLMs (v2 draft)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[02.0] Intro to LLMs (v2 draft)</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../02-llms/06-parallel-training/index.html" class="pagination-link" aria-label="[6] Parallel Training">
-        <span class="nav-page-text">[6] Parallel Training</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../02-llms/06-parallel-training/index.html" class="pagination-link" aria-label="[02.2] Parallel Training">
+        <span class="nav-page-text">[02.2] Parallel Training</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

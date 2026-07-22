@@ -11,63 +11,70 @@ Sam Foreman
 
 # 🚀 Parallel Training Methods for AI
 
-[Sam Foreman](https://samforeman.me)  
-[Intro to AI-driven Science on
-Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)  
-*2024-11-05*
+[Sam Foreman](https://samforeman.me) [Intro to AI-driven Science on
+Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
+*2026-07-22*
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/06-parallel-training/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/06-parallel-training/index.qmd)
 
 - Slides: <https://samforeman.me/talks/ai-for-science-2024/slides>
   - HTML version: <https://samforeman.me/talks/ai-for-science-2024>
 
 ## 👋 Hands On
 
-1.  Submit interactive job:
+> [!NOTE]
+>
+> This workshop runs on [NERSC
+> Perlmutter](https://docs.nersc.gov/systems/perlmutter/) (SLURM: use
+> `salloc` / Jupyter). The `ezpz launch` command below is
+> scheduler-agnostic — it auto-detects the environment (PBS → `mpiexec`,
+> SLURM → `srun`) — so the same steps work on ALCF PBS systems too.
+
+> [!NOTE]
+>
+> ### Proxies on ALCF login nodes
+>
+> On ALCF PBS systems (e.g. Sophia, Polaris) the login/compute nodes
+> need proxy settings for outbound network access — run these before
+> cloning/installing:
+>
+> ``` bash
+> export HTTP_PROXY="http://proxy.alcf.anl.gov:3128"
+> export HTTPS_PROXY="http://proxy.alcf.anl.gov:3128"
+> export http_proxy="http://proxy.alcf.anl.gov:3128"
+> export https_proxy="http://proxy.alcf.anl.gov:3128"
+> export ftp_proxy="http://proxy.alcf.anl.gov:3128"
+> ```
+
+1.  Submit interactive job (PBS example; on Perlmutter use `salloc`
+    instead):
 
     ``` bash
-    qsub -A ALCFAITP -q by-node -l select=1 -l walltime=01:00:00,filesystems=eagle:home -I
+    qsub -A <project> -q by-node -l select=1 -l walltime=01:00:00,filesystems=eagle:home -I
     ```
 
-2.  On Sophia:
+2.  Clone [`saforem2/wordplay`](https://github.com/saforem2/wordplay):
 
     ``` bash
-    export HTTP_PROXY="http://proxy.alcf.anl.gov:3128"
-    export HTTPS_PROXY="http://proxy.alcf.anl.gov:3128"
-    export http_proxy="http://proxy.alcf.anl.gov:3128"
-    export https_proxy="http://proxy.alcf.anl.gov:3128"
-    export ftp_proxy="http://proxy.alcf.anl.gov:3128"
+    git clone https://github.com/saforem2/wordplay
+    cd wordplay
     ```
 
-3.  Clone repos:
-
-    1.  [`saforem2/wordplay`](https://github.com/saforem2/wordplay):
-
-        ``` bash
-        git clone https://github.com/saforem2/wordplay
-        cd wordplay
-        ```
-
-    2.  [`saforem2/ezpz`](https://github.com/saforem2/ezpz):
-
-        ``` bash
-        git clone https://github.com/saforem2/ezpz deps/ezpz
-        ```
-
-4.  Setup python:
+3.  Setup python (creates / activates a `.venv` and detects the job):
 
     ``` bash
-    export PBS_O_WORKDIR=$(pwd) && source deps/ezpz/src/ezpz/bin/utils.sh
-    ezpz_setup_python
-    ezpz_setup_job
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
     ```
 
-5.  Install `{ezpz, wordplay}`:
+4.  Install `{ezpz, wordplay}`:
 
     ``` bash
-    python3 -m pip install -e deps/ezpz --require-virtualenv
-    python3 -m pip install -e . --require-virtualenv
+    uv pip install git+https://github.com/saforem2/ezpz
+    uv pip install -e .
     ```
 
-6.  Setup (or disable) [`wandb`](https://wandb.ai):
+5.  Setup (or disable) [`wandb`](https://wandb.ai):
 
     ``` bash
     # to setup:
@@ -76,25 +83,25 @@ Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
     export WANDB_DISABLED=1
     ```
 
-7.  Test Distributed Setup:
+6.  Test Distributed Setup:
 
     ``` bash
-    mpirun -n "${NGPUS}" python3 -m ezpz.test_dist
+    ezpz test
     ```
 
     See:
     [`ezpz/test_dist.py`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)
 
-8.  Prepare Data:
+7.  Prepare Data:
 
     ``` bash
     python3 data/shakespeare_char/prepare.py
     ```
 
-9.  Launch Training:
+8.  Launch Training:
 
     ``` bash
-    mpirun -n "${NGPUS}" python3 -m wordplay \
+    ezpz launch python3 -m wordplay \
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.18">
+<meta name="generator" content="quarto-1.10.16">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -72,17 +75,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9bf6f933b760cbb4c99ada293d62cb55.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-12fe1e89b9f42ad3d3ed9a3f5e317272.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-43a1b3f9a601701e1d84c4114ff60a02.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-74e6a280c4563555881229b92d5e81ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -138,12 +140,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025">
 <meta property="og:description" content="A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta property="og:image:alt" content="Login GIF">
 <meta name="twitter:title" content="Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image:alt" content="Login GIF">
 <meta name="twitter:card" content="summary_large_image">
@@ -153,7 +155,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta name="citation_cover_date" content="2025-07-15">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-15">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -220,7 +222,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics;,citation_abstract=We seek to transform how new and emergent variants of pandemiccausing viruses, specifically SARS-CoV-2, are identified and classified. By adapting large language models (LLMs) for genomic data, we build genome-scale language models (GenSLMs) which can learn the evolutionary landscape of SARS-CoV-2 genomes. By pretraining on over 110 million prokaryotic gene sequences and finetuning a SARS-CoV-2-specific model on 1.5 million genomes, we show that GenSLMs can accurately and rapidly identify variants of concern. Thus, to our knowledge, GenSLMs represents one of the first whole genome scale foundation models which can generalize to other prediction tasks. We demonstrate scaling of GenSLMs on GPU-based supercomputers and AI-hardware accelerators utilizing 1.63 Zettaflops in training runs with a sustained performance of 121 PFLOPS in mixed precision and peak of 850 PFLOPS. We present initial scientific insights from examining GenSLMs in tracking evolutionary dynamics of SARS-CoV-2, paving the path to realizing this on large biological data.Competing Interest StatementThe authors have declared no competing interest.;,citation_author=Maxim Zvyagin;,citation_author=Alexander Brace;,citation_author=Kyle Hippe;,citation_author=Yuntian Deng;,citation_author=Bin Zhang;,citation_author=Cindy Orozco Bohorquez;,citation_author=Austin Clyde;,citation_author=Bharat Kale;,citation_author=Danilo Perez-Rivera;,citation_author=Heng Ma;,citation_author=Carla M. Mann;,citation_author=Michael Irvin;,citation_author=J. Gregory Pauloski;,citation_author=Logan Ward;,citation_author=Valerie Hayot-Sasson;,citation_author=Murali Emani;,citation_author=Sam Foreman;,citation_author=Zhen Xie;,citation_author=Diangen Lin;,citation_author=Maulik Shukla;,citation_author=Weili Nie;,citation_author=Josh Romero;,citation_author=Christian Dallago;,citation_author=Arash Vahdat;,citation_author=Chaowei Xiao;,citation_author=Thomas Gibbs;,citation_author=Ian Foster;,citation_author=James J. Davis;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.biorxiv.org/content/early/2022/11/23/2022.10.10.511571;,citation_doi=10.1101/2022.10.10.511571;,citation_journal_title=bioRxiv;,citation_publisher=Cold Spring Harbor Laboratory;">
 </head>
 
-<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -398,7 +400,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html">[2] Jupyter Notebooks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html">[00.2] Jupyter Notebooks</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -410,10 +412,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../../index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp 2025</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -442,55 +442,55 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Compute Systems</span></a>
+ <span class="menu-text">[00.0] Compute Systems</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Shared Resources</span></a>
+ <span class="menu-text">[00.1] Shared Resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">[2] Jupyter Notebooks</span></a>
+ <span class="menu-text">[00.2] Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Using Python</span></a>
+ <span class="menu-text">[00.3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Working with Data</span></a>
+ <span class="menu-text">[00.4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] MCMC Example</span></a>
+ <span class="menu-text">[00.5] MCMC Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Linear Regression</span></a>
+ <span class="menu-text">[00.6] Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Statistical Learning</span></a>
+ <span class="menu-text">[00.7] Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Clustering</span></a>
+ <span class="menu-text">[00.8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -507,43 +507,43 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to NNs</span></a>
+ <span class="menu-text">[01.0] Intro to NNs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example</span></a>
+ <span class="menu-text">[01.1] MNIST Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist-ipynb/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example (ipynb)</span></a>
+ <span class="menu-text">[01.1] MNIST Example (ipynb)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Advanced</span></a>
+ <span class="menu-text">[01.2] Advanced</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Conv. Nets</span></a>
+ <span class="menu-text">[01.3] Conv. Nets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Representation Learning</span></a>
+ <span class="menu-text">[01.4] Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Distributed Training</span></a>
+ <span class="menu-text">[01.5] Distributed Training</span></a>
   </div>
 </li>
       </ul>
@@ -560,25 +560,78 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to LLMs</span></a>
+ <span class="menu-text">[02.0] Intro to LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/00-intro-to-llms-v2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.0] Intro to LLMs (v2 draft)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Hands-on LLMs</span></a>
+ <span class="menu-text">[02.1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Parallel Training</span></a>
+ <span class="menu-text">[02.2] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
+ <span class="menu-text">[02.3] Shakespeare Example (Colab)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02.4] Evaluating LLMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03] Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/0-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.0] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.1] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/2-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.2] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/3-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.3] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.4] RL &amp; Reasoning Models</span></a>
   </div>
 </li>
       </ul>
@@ -604,7 +657,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html">[2] Jupyter Notebooks</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html">[00.2] Jupyter Notebooks</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Jupyter Notebooks on Supercomputers</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
@@ -664,9 +717,9 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li><p><strong>Project Setup</strong>:</p>
 <ul>
 <li><p>Login to Perlmutter:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><p><strong>Using Jupyter on Perlmutter @ NERSC</strong></p>
 <ul>
@@ -745,12 +798,12 @@ ALCF Instructions
   author = {Foreman, Sam},
   title = {Jupyter {Notebooks} on {Supercomputers}},
   date = {2025-07-15},
-  url = {https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam. 2025. <span>“Jupyter Notebooks on Supercomputers.”</span>
-July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/</a>.
+July 15. <a href="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -816,13 +869,14 @@ July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -856,16 +910,16 @@ July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -888,7 +942,7 @@ July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/hpc-bootcamp-2025\/");
+        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp-2025\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1254,92 +1308,92 @@ July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="pagination-link" aria-label="[1] Shared Resources">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[1] Shared Resources</span>
+      <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="pagination-link" aria-label="[00.1] Shared Resources">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[00.1] Shared Resources</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../00-intro-AI-HPC/3-python/index.html" class="pagination-link" aria-label="[3] Using Python">
-        <span class="nav-page-text">[3] Using Python</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../00-intro-AI-HPC/3-python/index.html" class="pagination-link" aria-label="[00.3] Using Python">
+        <span class="nav-page-text">[00.3] Using Python</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">---</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="an">title:</span><span class="co"> "Jupyter Notebooks on Supercomputers"</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="an">description:</span><span class="co"> "A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF)."</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="an">categories:</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">    - hpc</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="an">format:</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">  html: default</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">  gfm:</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">    toc: true</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">---</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="fu">## NERSC Instructions</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="ss">1. </span>**Project Setup**:</span>
-<span id="cb2-17"><a href="#cb2-17"></a></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="ss">   - </span>Login to Perlmutter:</span>
-<span id="cb2-19"><a href="#cb2-19"></a></span>
-<span id="cb2-20"><a href="#cb2-20"></a>     <span class="in">```bash</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>     <span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
-<span id="cb2-22"><a href="#cb2-22"></a>     <span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
-<span id="cb2-23"><a href="#cb2-23"></a>     <span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a>     <span class="in">```</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="ss">1. </span>**Using Jupyter on Perlmutter @ NERSC**</span>
-<span id="cb2-27"><a href="#cb2-27"></a></span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="ss">   - </span><span class="co">[</span><span class="ot">jupyter.nersc.gov</span><span class="co">](https://jupyter.nersc.gov/)</span></span>
-<span id="cb2-29"><a href="#cb2-29"></a></span>
-<span id="cb2-30"><a href="#cb2-30"></a>   <span class="in">```{=html}</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a><span class="in">   &lt;iframe src="perlmutter.pdf" width="100%" height="800px"&gt;</span></span>
-<span id="cb2-32"><a href="#cb2-32"></a><span class="in">     &lt;p&gt;Your browser does not support iframes.&lt;/p&gt;</span></span>
-<span id="cb2-33"><a href="#cb2-33"></a><span class="in">   &lt;/iframe&gt;</span></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="in">   ```</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a></span>
-<span id="cb2-36"><a href="#cb2-36"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>ALCF Instructions<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb2-37"><a href="#cb2-37"></a></span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="ss">1. </span>**Logging In**: <span class="ot">&lt;https://jupyter.alcf.anl.gov/&gt;</span></span>
-<span id="cb2-39"><a href="#cb2-39"></a></span>
-<span id="cb2-40"><a href="#cb2-40"></a>   Select "Login Polaris" and use your ALCF credentials and Multi-Factor</span>
-<span id="cb2-41"><a href="#cb2-41"></a>   Authentication.</span>
-<span id="cb2-42"><a href="#cb2-42"></a></span>
-<span id="cb2-43"><a href="#cb2-43"></a>   ::: {.callout-note icon="false" title="📝 Note" collapse="true"}</span>
-<span id="cb2-44"><a href="#cb2-44"></a>   Some of the images below show "ThetaGPU" being used, however, similar</span>
-<span id="cb2-45"><a href="#cb2-45"></a>   instructions apply to "Polaris" or "Sophia".</span>
-<span id="cb2-46"><a href="#cb2-46"></a>   :::</span>
-<span id="cb2-47"><a href="#cb2-47"></a></span>
-<span id="cb2-48"><a href="#cb2-48"></a>   <span class="al">![Login GIF](../img/jupyter_login_01.gif)</span></span>
-<span id="cb2-49"><a href="#cb2-49"></a></span>
-<span id="cb2-50"><a href="#cb2-50"></a><span class="ss">1. </span>**Server settings &amp; start up**</span>
-<span id="cb2-51"><a href="#cb2-51"></a></span>
-<span id="cb2-52"><a href="#cb2-52"></a>   <span class="al">![server options](../img/jupyter_server_options.png)</span></span>
-<span id="cb2-53"><a href="#cb2-53"></a></span>
-<span id="cb2-54"><a href="#cb2-54"></a>   You'll want to set your server options to the following:</span>
-<span id="cb2-55"><a href="#cb2-55"></a><span class="ss">   - </span>job profile: ThetaGPU Compute Node</span>
-<span id="cb2-56"><a href="#cb2-56"></a><span class="ss">   - </span>Sophia Queue: by-gpu</span>
-<span id="cb2-57"><a href="#cb2-57"></a><span class="ss">   - </span>Project List: ALCFAITP</span>
-<span id="cb2-58"><a href="#cb2-58"></a><span class="ss">   - </span>Runtime: can be 5 to 60 minutes</span>
-<span id="cb2-59"><a href="#cb2-59"></a></span>
-<span id="cb2-60"><a href="#cb2-60"></a>   When you click "start" you are submitting a job to the batch queue and</span>
-<span id="cb2-61"><a href="#cb2-61"></a>   waiting for the job to begin.</span>
-<span id="cb2-62"><a href="#cb2-62"></a></span>
-<span id="cb2-63"><a href="#cb2-63"></a><span class="ss">1. </span>**Server shutdown &amp; logout**</span>
-<span id="cb2-64"><a href="#cb2-64"></a></span>
-<span id="cb2-65"><a href="#cb2-65"></a>   ALCF's guiding policy is:</span>
-<span id="cb2-66"><a href="#cb2-66"></a></span>
-<span id="cb2-67"><a href="#cb2-67"></a><span class="at">   &gt; "We ask that all users follow good etiquette and be excellent to one</span></span>
-<span id="cb2-68"><a href="#cb2-68"></a><span class="at">   &gt; another."</span></span>
-<span id="cb2-69"><a href="#cb2-69"></a></span>
-<span id="cb2-70"><a href="#cb2-70"></a>   If you simply close your browser window, or logout without shutting down the</span>
-<span id="cb2-71"><a href="#cb2-71"></a>   jupyter server, your job will continue to occupy the worker node.</span>
-<span id="cb2-72"><a href="#cb2-72"></a>   Be considerate and shutdown your job when you finish.</span>
-<span id="cb2-73"><a href="#cb2-73"></a></span>
-<span id="cb2-74"><a href="#cb2-74"></a>   <span class="al">![Shutdown GIF](../img/jupyter_shutdown_01.gif)</span></span>
-<span id="cb2-75"><a href="#cb2-75"></a></span>
-<span id="cb2-76"><a href="#cb2-76"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "Jupyter Notebooks on Supercomputers"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF)."</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-label="4"></a><span class="an">categories:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-label="5"></a><span class="co">    - hpc</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-label="7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-label="8"></a><span class="an">format:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-label="9"></a><span class="co">  html: default</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-label="10"></a><span class="co">  gfm:</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-label="11"></a><span class="co">    toc: true</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-label="12"></a><span class="co">---</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-label="13"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-label="14"></a><span class="fu">## NERSC Instructions</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-label="15"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-label="16"></a><span class="ss">1. </span>**Project Setup**:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-label="17"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-label="18"></a><span class="ss">   - </span>Login to Perlmutter:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-label="19"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-label="20"></a>     <span class="in">```bash</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-label="21"></a>     <span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb2-22"><a href="#cb2-22" aria-label="22"></a>     <span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
+<span id="cb2-23"><a href="#cb2-23" aria-label="23"></a>     <span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-label="24"></a>     <span class="in">```</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-label="25"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-label="26"></a><span class="ss">1. </span>**Using Jupyter on Perlmutter @ NERSC**</span>
+<span id="cb2-27"><a href="#cb2-27" aria-label="27"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-label="28"></a><span class="ss">   - </span><span class="co">[</span><span class="ot">jupyter.nersc.gov</span><span class="co">](https://jupyter.nersc.gov/)</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-label="29"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-label="30"></a>   <span class="in">```{=html}</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-label="31"></a><span class="in">   &lt;iframe src="perlmutter.pdf" width="100%" height="800px"&gt;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-label="32"></a><span class="in">     &lt;p&gt;Your browser does not support iframes.&lt;/p&gt;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-label="33"></a><span class="in">   &lt;/iframe&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-label="34"></a><span class="in">   ```</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-label="35"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-label="36"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>ALCF Instructions<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-label="37"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-label="38"></a><span class="ss">1. </span>**Logging In**: <span class="ot">&lt;https://jupyter.alcf.anl.gov/&gt;</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-label="39"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-label="40"></a>   Select "Login Polaris" and use your ALCF credentials and Multi-Factor</span>
+<span id="cb2-41"><a href="#cb2-41" aria-label="41"></a>   Authentication.</span>
+<span id="cb2-42"><a href="#cb2-42" aria-label="42"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-label="43"></a>   ::: {.callout-note icon="false" title="📝 Note" collapse="true"}</span>
+<span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>   Some of the images below show "ThetaGPU" being used, however, similar</span>
+<span id="cb2-45"><a href="#cb2-45" aria-label="45"></a>   instructions apply to "Polaris" or "Sophia".</span>
+<span id="cb2-46"><a href="#cb2-46" aria-label="46"></a>   :::</span>
+<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a>   <span class="al">![Login GIF](../img/jupyter_login_01.gif)</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a><span class="ss">1. </span>**Server settings &amp; start up**</span>
+<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-label="52"></a>   <span class="al">![server options](../img/jupyter_server_options.png)</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-label="53"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-label="54"></a>   You'll want to set your server options to the following:</span>
+<span id="cb2-55"><a href="#cb2-55" aria-label="55"></a><span class="ss">   - </span>job profile: ThetaGPU Compute Node</span>
+<span id="cb2-56"><a href="#cb2-56" aria-label="56"></a><span class="ss">   - </span>Sophia Queue: by-gpu</span>
+<span id="cb2-57"><a href="#cb2-57" aria-label="57"></a><span class="ss">   - </span>Project List: ALCFAITP</span>
+<span id="cb2-58"><a href="#cb2-58" aria-label="58"></a><span class="ss">   - </span>Runtime: can be 5 to 60 minutes</span>
+<span id="cb2-59"><a href="#cb2-59" aria-label="59"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-label="60"></a>   When you click "start" you are submitting a job to the batch queue and</span>
+<span id="cb2-61"><a href="#cb2-61" aria-label="61"></a>   waiting for the job to begin.</span>
+<span id="cb2-62"><a href="#cb2-62" aria-label="62"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-label="63"></a><span class="ss">1. </span>**Server shutdown &amp; logout**</span>
+<span id="cb2-64"><a href="#cb2-64" aria-label="64"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-label="65"></a>   ALCF's guiding policy is:</span>
+<span id="cb2-66"><a href="#cb2-66" aria-label="66"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-label="67"></a><span class="at">   &gt; "We ask that all users follow good etiquette and be excellent to one</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-label="68"></a><span class="at">   &gt; another."</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-label="69"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-label="70"></a>   If you simply close your browser window, or logout without shutting down the</span>
+<span id="cb2-71"><a href="#cb2-71" aria-label="71"></a>   jupyter server, your job will continue to occupy the worker node.</span>
+<span id="cb2-72"><a href="#cb2-72" aria-label="72"></a>   Be considerate and shutdown your job when you finish.</span>
+<span id="cb2-73"><a href="#cb2-73" aria-label="73"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-label="74"></a>   <span class="al">![Shutdown GIF](../img/jupyter_shutdown_01.gif)</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-label="75"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-label="76"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
