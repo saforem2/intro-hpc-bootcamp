@@ -8,7 +8,7 @@ We will be using the [Shakespeare dataset](https://github.com/saforem2/wordplay/
 
 ::: {.callout-tip title="➡️ Next steps"}
 
-Ready to scale up? See the [Advanced / Large-Scale LLMs track](../advanced/index.qmd).
+Ready to scale up? See the [Advanced / Large-Scale LLMs track](../../03-advanced-llms/index.qmd).
 
 :::
 

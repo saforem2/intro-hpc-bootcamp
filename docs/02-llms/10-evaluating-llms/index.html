@@ -70,7 +70,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../02-llms/15-rl-and-reasoning/index.html" rel="prev">
+<link href="../../03-advanced-llms/index.html" rel="next">
+<link href="../../02-llms/08-shakespeare-example-colab/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -441,7 +442,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/10-evaluating-llms/index.html">[10] Evaluating LLMs</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/10-evaluating-llms/index.html">[02.4] Evaluating LLMs</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -483,55 +484,55 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Compute Systems</span></a>
+ <span class="menu-text">[00.0] Compute Systems</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Shared Resources</span></a>
+ <span class="menu-text">[00.1] Shared Resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Jupyter Notebooks</span></a>
+ <span class="menu-text">[00.2] Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Using Python</span></a>
+ <span class="menu-text">[00.3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Working with Data</span></a>
+ <span class="menu-text">[00.4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] MCMC Example</span></a>
+ <span class="menu-text">[00.5] MCMC Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Linear Regression</span></a>
+ <span class="menu-text">[00.6] Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Statistical Learning</span></a>
+ <span class="menu-text">[00.7] Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Clustering</span></a>
+ <span class="menu-text">[00.8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -548,43 +549,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to NNs</span></a>
+ <span class="menu-text">[01.0] Intro to NNs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example</span></a>
+ <span class="menu-text">[01.1] MNIST Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/1-mnist-ipynb/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] MNIST Example (ipynb)</span></a>
+ <span class="menu-text">[01.1] MNIST Example (ipynb)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] Advanced</span></a>
+ <span class="menu-text">[01.2] Advanced</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Conv. Nets</span></a>
+ <span class="menu-text">[01.3] Conv. Nets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] Representation Learning</span></a>
+ <span class="menu-text">[01.4] Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Distributed Training</span></a>
+ <span class="menu-text">[01.5] Distributed Training</span></a>
   </div>
 </li>
       </ul>
@@ -601,72 +602,72 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to LLMs</span></a>
+ <span class="menu-text">[02.0] Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] Hands-on LLMs</span></a>
+ <span class="menu-text">[02.1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[6] Parallel Training</span></a>
+ <span class="menu-text">[02.2] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../02-llms/advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">🚀 Advanced / Large-Scale LLMs</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/11-moe/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[11] Mixture of Experts &amp; Expert Parallelism</span></a>
+ <span class="menu-text">[02.3] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/12-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[12] Pretraining at Scale</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/13-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[13] Fault-Tolerant Training</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/14-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[14] Mid- &amp; Post-Training</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/15-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[15] RL &amp; Reasoning Models</span></a>
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">[02.4] Evaluating LLMs</span></a>
   </div>
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03] Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">[10] Evaluating LLMs</span></a>
+  <a href="../../03-advanced-llms/0-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.0] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.1] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/2-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.2] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/3-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.3] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03.4] RL &amp; Reasoning Models</span></a>
   </div>
 </li>
       </ul>
@@ -712,7 +713,7 @@ window.Quarto = {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/10-evaluating-llms/index.html">[10] Evaluating LLMs</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/10-evaluating-llms/index.html">[02.4] Evaluating LLMs</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">📊 Evaluating LLMs (and Potential Pitfalls)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
@@ -785,7 +786,7 @@ window.Quarto = {
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/10-evaluating-llms/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/10-evaluating-llms/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>By now you have trained a model (<a href="../../02-llms/06-parallel-training/index.html">[06] Parallel Training</a>), taught it to follow instructions, and even nudged it toward <em>reasoning</em> with reinforcement learning (<a href="../../02-llms/15-rl-and-reasoning/index.html">[15] RL &amp; Reasoning</a>). This capstone ties all of that together with one deceptively simple question:</p>
+<p>By now you have trained a model (<a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a>), taught it to follow instructions, and even nudged it toward <em>reasoning</em> with reinforcement learning (<a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[03.4] RL &amp; Reasoning</a>). This capstone ties all of that together with one deceptively simple question:</p>
 <blockquote class="blockquote">
 <p><strong>How do you actually know your model got better?</strong></p>
 </blockquote>
@@ -951,7 +952,7 @@ R_A \leftarrow R_A + K\big(S_A - \hat{p}\big)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Verifiable evaluation is the same idea as <strong>RL with Verifiable Rewards (RLVR)</strong> from <a href="../../02-llms/15-rl-and-reasoning/index.html">[15] RL &amp; Reasoning</a>. There, a programmatic verifier (test suite, math checker) <em>is</em> the reward signal used to train the model. Here, that same verifier <em>is</em> the evaluation metric. Train-time reward and eval-time metric are two faces of the same function — which, foreshadowing, is precisely why <a href="#sec-pitfalls">reward hacking</a> is so dangerous.</p>
+<p>Verifiable evaluation is the same idea as <strong>RL with Verifiable Rewards (RLVR)</strong> from <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[03.4] RL &amp; Reasoning</a>. There, a programmatic verifier (test suite, math checker) <em>is</em> the reward signal used to train the model. Here, that same verifier <em>is</em> the evaluation metric. Train-time reward and eval-time metric are two faces of the same function — which, foreshadowing, is precisely why <a href="#sec-pitfalls">reward hacking</a> is so dangerous.</p>
 </div>
 </div>
 </section>
@@ -960,7 +961,7 @@ R_A \leftarrow R_A + K\big(S_A - \hat{p}\big)
 <h2 class="anchored" data-anchor-id="metrics-that-matter">📏 Metrics That Matter</h2>
 <section id="perplexity" class="level3">
 <h3 class="anchored" data-anchor-id="perplexity">Perplexity</h3>
-<p>Recall from <a href="../../02-llms/00-intro-to-llms/index.html">[00] Intro to LLMs</a> that <strong>perplexity</strong> is the exponentiated cross-entropy loss, <span class="math inline">\text{PPL} = \exp(\text{CE})</span> — “how surprised is the model by held-out text?” Lower is better. It is great for tracking <em>pretraining</em> progress on a fixed corpus, but says little about downstream usefulness, and it is <strong>not comparable across different tokenizers</strong> (more in <a href="#sec-pitfalls">Pitfalls</a>).</p>
+<p>Recall from <a href="../../02-llms/00-intro-to-llms/index.html">[02.0] Intro to LLMs</a> that <strong>perplexity</strong> is the exponentiated cross-entropy loss, <span class="math inline">\text{PPL} = \exp(\text{CE})</span> — “how surprised is the model by held-out text?” Lower is better. It is great for tracking <em>pretraining</em> progress on a fixed corpus, but says little about downstream usefulness, and it is <strong>not comparable across different tokenizers</strong> (more in <a href="#sec-pitfalls">Pitfalls</a>).</p>
 </section>
 <section id="accuracy-and-passk" class="level3">
 <h3 class="anchored" data-anchor-id="accuracy-and-passk">Accuracy and <code>pass@k</code></h3>
@@ -1114,7 +1115,7 @@ aggregate pass@5 = 0.492</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This is the deep connection to <a href="../../02-llms/15-rl-and-reasoning/index.html">[15] RL &amp; Reasoning</a>. When a metric becomes a <em>training target</em> (RLVR reward, or “optimize for the benchmark”), the model learns to maximize the <em>measure</em> rather than the <em>thing you meant</em>. A code model may pass tests by hard-coding expected outputs; a chat model rewarded for length may become needlessly verbose.</p>
+<p>This is the deep connection to <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[03.4] RL &amp; Reasoning</a>. When a metric becomes a <em>training target</em> (RLVR reward, or “optimize for the benchmark”), the model learns to maximize the <em>measure</em> rather than the <em>thing you meant</em>. A code model may pass tests by hard-coding expected outputs; a chat model rewarded for length may become needlessly verbose.</p>
 <blockquote class="blockquote">
 <p><em>“When a measure becomes a target, it ceases to be a good measure.”</em> — Goodhart’s Law</p>
 </blockquote>
@@ -1150,7 +1151,7 @@ aggregate pass@5 = 0.492</code></pre>
 </section>
 <section id="homework" class="level2">
 <h2 class="anchored" data-anchor-id="homework">🎒 Homework</h2>
-<p>Pick a small model you can run on a login node or laptop (e.g.&nbsp;<code>gpt2</code>, <code>EleutherAI/pythia-160m</code>, or the mini-LLM you built in <a href="../../02-llms/00-intro-to-llms/index.html">[00] Intro to LLMs</a>) and a small task (a slice of GSM8K, a set of factual Q&amp;A, or a format-following task).</p>
+<p>Pick a small model you can run on a login node or laptop (e.g.&nbsp;<code>gpt2</code>, <code>EleutherAI/pythia-160m</code>, or the mini-LLM you built in <a href="../../02-llms/00-intro-to-llms/index.html">[02.0] Intro to LLMs</a>) and a small task (a slice of GSM8K, a set of factual Q&amp;A, or a format-following task).</p>
 <ol type="1">
 <li><strong>Evaluate the model with two <em>different</em> metrics</strong> on the same task — for example <strong>strict exact-match vs.&nbsp;lenient extract-then-match</strong>, or <strong><code>pass@1</code> vs.&nbsp;<code>pass@5</code></strong>. You may adapt the <code>numpy</code> harness above, or use <code>lm-evaluation-harness</code>.</li>
 <li><strong>Find at least three examples where the two metrics disagree</strong> and, for each, explain <em>why</em>: is it a formatting artifact, a parsing bug, a genuinely ambiguous answer, or contamination?</li>
@@ -1701,11 +1702,14 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../02-llms/15-rl-and-reasoning/index.html" class="pagination-link" aria-label="[15] RL &amp; Reasoning Models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[15] RL &amp; Reasoning Models</span>
+      <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="pagination-link" aria-label="[02.3] Shakespeare Example (Colab)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[02.3] Shakespeare Example (Colab)</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../03-advanced-llms/index.html" class="pagination-link" aria-label="[03] Advanced / Large-Scale LLMs">
+        <span class="nav-page-text">[03] Advanced / Large-Scale LLMs</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co">---</span></span>
@@ -1726,9 +1730,9 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 <span id="cb8-16"><a href="#cb8-16" aria-label="16"></a></span>
 <span id="cb8-17"><a href="#cb8-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/10-evaluating-llms/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/10-evaluating-llms/index.qmd)</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-label="18"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-label="19"></a>By now you have trained a model (<span class="co">[</span><span class="ot">\[06\] Parallel Training</span><span class="co">](../06-parallel-training/index.qmd)</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-label="19"></a>By now you have trained a model (<span class="co">[</span><span class="ot">\[02.2\] Parallel Training</span><span class="co">](../06-parallel-training/index.qmd)</span>),</span>
 <span id="cb8-20"><a href="#cb8-20" aria-label="20"></a>taught it to follow instructions, and even nudged it toward *reasoning* with</span>
-<span id="cb8-21"><a href="#cb8-21" aria-label="21"></a>reinforcement learning (<span class="co">[</span><span class="ot">\[15\] RL &amp; Reasoning</span><span class="co">](../15-rl-and-reasoning/index.qmd)</span>).</span>
+<span id="cb8-21"><a href="#cb8-21" aria-label="21"></a>reinforcement learning (<span class="co">[</span><span class="ot">\[03.4\] RL &amp; Reasoning</span><span class="co">](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)</span>).</span>
 <span id="cb8-22"><a href="#cb8-22" aria-label="22"></a>This capstone ties all of that together with one deceptively simple question:</span>
 <span id="cb8-23"><a href="#cb8-23" aria-label="23"></a></span>
 <span id="cb8-24"><a href="#cb8-24" aria-label="24"></a><span class="at">&gt; **How do you actually know your model got better?**</span></span>
@@ -1859,7 +1863,7 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 <span id="cb8-151"><a href="#cb8-151" aria-label="149"></a></span>
 <span id="cb8-152"><a href="#cb8-152" aria-label="150"></a>::: {.callout-tip title="🔗 This is exactly RLVR"}</span>
 <span id="cb8-153"><a href="#cb8-153" aria-label="151"></a>Verifiable evaluation is the same idea as **RL with Verifiable Rewards (RLVR)**</span>
-<span id="cb8-154"><a href="#cb8-154" aria-label="152"></a>from <span class="co">[</span><span class="ot">\[15\] RL &amp; Reasoning</span><span class="co">](../15-rl-and-reasoning/index.qmd)</span>. There, a</span>
+<span id="cb8-154"><a href="#cb8-154" aria-label="152"></a>from <span class="co">[</span><span class="ot">\[03.4\] RL &amp; Reasoning</span><span class="co">](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)</span>. There, a</span>
 <span id="cb8-155"><a href="#cb8-155" aria-label="153"></a>programmatic verifier (test suite, math checker) *is* the reward signal used to</span>
 <span id="cb8-156"><a href="#cb8-156" aria-label="154"></a>train the model. Here, that same verifier *is* the evaluation metric. Train-time</span>
 <span id="cb8-157"><a href="#cb8-157" aria-label="155"></a>reward and eval-time metric are two faces of the same function --- which,</span>
@@ -1871,7 +1875,7 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 <span id="cb8-163"><a href="#cb8-163" aria-label="161"></a></span>
 <span id="cb8-164"><a href="#cb8-164" aria-label="162"></a><span class="fu">### Perplexity</span></span>
 <span id="cb8-165"><a href="#cb8-165" aria-label="163"></a></span>
-<span id="cb8-166"><a href="#cb8-166" aria-label="164"></a>Recall from <span class="co">[</span><span class="ot">\[00\] Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span> that</span>
+<span id="cb8-166"><a href="#cb8-166" aria-label="164"></a>Recall from <span class="co">[</span><span class="ot">\[02.0\] Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span> that</span>
 <span id="cb8-167"><a href="#cb8-167" aria-label="165"></a>**perplexity** is the exponentiated cross-entropy loss,</span>
 <span id="cb8-168"><a href="#cb8-168" aria-label="166"></a>$\text{PPL} = \exp(\text{CE})$ --- "how surprised is the model by held-out</span>
 <span id="cb8-169"><a href="#cb8-169" aria-label="167"></a>text?" Lower is better. It is great for tracking *pretraining* progress on a</span>
@@ -2036,7 +2040,7 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 <span id="cb8-332"><a href="#cb8-332" aria-label="326"></a>:::</span>
 <span id="cb8-333"><a href="#cb8-333" aria-label="327"></a></span>
 <span id="cb8-334"><a href="#cb8-334" aria-label="328"></a>::: {.callout-warning title="4. Gaming metrics / reward hacking"}</span>
-<span id="cb8-335"><a href="#cb8-335" aria-label="329"></a>This is the deep connection to <span class="co">[</span><span class="ot">\[15\] RL &amp; Reasoning</span><span class="co">](../15-rl-and-reasoning/index.qmd)</span>.</span>
+<span id="cb8-335"><a href="#cb8-335" aria-label="329"></a>This is the deep connection to <span class="co">[</span><span class="ot">\[03.4\] RL &amp; Reasoning</span><span class="co">](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)</span>.</span>
 <span id="cb8-336"><a href="#cb8-336" aria-label="330"></a>When a metric becomes a *training target* (RLVR reward, or "optimize for the</span>
 <span id="cb8-337"><a href="#cb8-337" aria-label="331"></a>benchmark"), the model learns to maximize the *measure* rather than the *thing</span>
 <span id="cb8-338"><a href="#cb8-338" aria-label="332"></a>you meant*. A code model may pass tests by hard-coding expected outputs; a chat</span>
@@ -2069,7 +2073,7 @@ Pitfalls).”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-boot
 <span id="cb8-365"><a href="#cb8-365" aria-label="359"></a></span>
 <span id="cb8-366"><a href="#cb8-366" aria-label="360"></a>Pick a small model you can run on a login node or laptop (e.g. <span class="in">`gpt2`</span>,</span>
 <span id="cb8-367"><a href="#cb8-367" aria-label="361"></a><span class="in">`EleutherAI/pythia-160m`</span>, or the mini-LLM you built in</span>
-<span id="cb8-368"><a href="#cb8-368" aria-label="362"></a><span class="co">[</span><span class="ot">\[00\] Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span>) and a small task</span>
+<span id="cb8-368"><a href="#cb8-368" aria-label="362"></a><span class="co">[</span><span class="ot">\[02.0\] Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span>) and a small task</span>
 <span id="cb8-369"><a href="#cb8-369" aria-label="363"></a>(a slice of GSM8K, a set of factual Q&amp;A, or a format-following task).</span>
 <span id="cb8-370"><a href="#cb8-370" aria-label="364"></a></span>
 <span id="cb8-371"><a href="#cb8-371" aria-label="365"></a><span class="ss">1. </span>**Evaluate the model with two *different* metrics** on the same task ---</span>

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/4-rl-and-reasoning/index.html</loc>
+    <lastmod>2026-07-22T16:51:02.052Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/2-fault-tolerant-training/index.html</loc>
+    <lastmod>2026-07-22T16:51:02.051Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/0-moe/index.html</loc>
+    <lastmod>2026-07-22T16:51:02.052Z</lastmod>
+  </url>
+  <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/10-evaluating-llms/index.html</loc>
-    <lastmod>2026-07-22T15:20:55.829Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/14-mid-post-training/index.html</loc>
-    <lastmod>2026-07-22T15:17:08.594Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/12-pretraining-at-scale/index.html</loc>
-    <lastmod>2026-07-22T15:17:08.593Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/advanced/index.html</loc>
-    <lastmod>2026-07-22T15:17:08.592Z</lastmod>
+    <lastmod>2026-07-22T16:51:02.053Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/06-parallel-training/index.html</loc>
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/index.html</loc>
-    <lastmod>2026-07-22T15:09:29.919Z</lastmod>
+    <lastmod>2026-07-22T16:48:09.077Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/index.html</loc>
@@ -102,7 +102,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/index.html</loc>
-    <lastmod>2026-07-22T15:04:55.442Z</lastmod>
+    <lastmod>2026-07-22T16:51:27.246Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/01-hands-on-llms/index.html</loc>
@@ -110,18 +110,18 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/08-shakespeare-example-colab/index.html</loc>
-    <lastmod>2026-07-22T16:17:10.663Z</lastmod>
+    <lastmod>2026-07-22T16:47:18.078Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/11-moe/index.html</loc>
-    <lastmod>2026-07-22T15:21:06.073Z</lastmod>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/index.html</loc>
+    <lastmod>2026-07-22T16:52:11.084Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/13-fault-tolerant-training/index.html</loc>
-    <lastmod>2026-07-22T15:20:46.490Z</lastmod>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/1-pretraining-at-scale/index.html</loc>
+    <lastmod>2026-07-22T16:51:02.053Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/02-llms/15-rl-and-reasoning/index.html</loc>
-    <lastmod>2026-07-22T15:18:51.672Z</lastmod>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp-2025/03-advanced-llms/3-mid-post-training/index.html</loc>
+    <lastmod>2026-07-22T16:52:20.962Z</lastmod>
   </url>
 </urlset>

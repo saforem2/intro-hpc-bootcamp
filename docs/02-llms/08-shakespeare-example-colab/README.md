@@ -76,7 +76,7 @@ You will need to restart your runtime (`Runtime` $\rightarrow\,$
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/08-shakespeare-example-colab/index.ipynb)
 
 > **➡️ Next steps** — Ready to scale up? See the [Advanced / Large-Scale
-> LLMs track](../advanced/index.qmd).
+> LLMs track](../../03-advanced-llms/index.qmd).
 
 ``` python
 %%bash

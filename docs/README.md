@@ -13,48 +13,48 @@ Sam Foreman
 - 🏡 [Intro to {AI, HPC} for Science/](./)
 
   - 📂 [**\[00\] Intro to AI and HPC**/](00-intro-AI-HPC/)
-    - 📄 [\[0\] Compute systems](./00-intro-AI-HPC/0-compute-systems/)
-    - 📄 [\[1\] Shared-resources](./00-intro-AI-HPC/1-shared-resources/)
-    - 📄 [\[2\] Jupyter
+    - 📄 [\[00.0\] Compute
+      systems](./00-intro-AI-HPC/0-compute-systems/)
+    - 📄 [\[00.1\]
+      Shared-resources](./00-intro-AI-HPC/1-shared-resources/)
+    - 📄 [\[00.2\] Jupyter
       Notebooks](./00-intro-AI-HPC/2-jupyter-notebooks/)
-    - 📄 [\[3\] Using Python](./00-intro-AI-HPC/3-python/)
-    - 📄 [\[4\] Working with Data](./00-intro-AI-HPC/4-data/)
-    - 📗 [\[5\] MCMC Example](./00-intro-AI-HPC/5-mcmc-example/)
-    - 📗 [\[6\] Linear
+    - 📄 [\[00.3\] Using Python](./00-intro-AI-HPC/3-python/)
+    - 📄 [\[00.4\] Working with Data](./00-intro-AI-HPC/4-data/)
+    - 📗 [\[00.5\] MCMC Example](./00-intro-AI-HPC/5-mcmc-example/)
+    - 📗 [\[00.6\] Linear
       Regression](./00-intro-AI-HPC/6-linear-regression/)
-    - 📗 [\[7\] Statistical
+    - 📗 [\[00.7\] Statistical
       Learning](./00-intro-AI-HPC/7-statistical-learning/)
-    - 📗 [\[8\] Clustering](./00-intro-AI-HPC/8-clustering/)
+    - 📗 [\[00.8\] Clustering](./00-intro-AI-HPC/8-clustering/)
   - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
-    - 📄 [\[0\] Intro](./01-neural-networks/0-intro/)
-    - 📗 [\[1\] MNIST](./01-neural-networks/1-mnist/)
-    - 📗 [\[1\] MNIST (ipynb)](./01-neural-networks/1-mnist-ipynb/)
-    - 📗 [\[2\] Advanced](./01-neural-networks/2-advanced/)
-    - 📗 [\[3\] Conv. Nets](./01-neural-networks/3-conv-nets/)
-    - 📗 [\[4\] Representation
+    - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)
+    - 📗 [\[01.1\] MNIST](./01-neural-networks/1-mnist/)
+    - 📗 [\[01.1\] MNIST (ipynb)](./01-neural-networks/1-mnist-ipynb/)
+    - 📗 [\[01.2\] Advanced](./01-neural-networks/2-advanced/)
+    - 📗 [\[01.3\] Conv. Nets](./01-neural-networks/3-conv-nets/)
+    - 📗 [\[01.4\] Representation
       Learning](./01-neural-networks/4-representation-learning/)
-    - 📄 [\[5\] Distributed
+    - 📄 [\[01.5\] Distributed
       Training](./01-neural-networks/5-distributed-training/)
   - 📂 [**\[02\] Large Language Models**](./02-llms/)
-    - 📗 [\[00\] Intro to LLMs](./02-llms/00-intro-to-llms/)
-    - 📗 [\[01\] Hands-on LLMs](./02-llms/01-hands-on-llms/)
-    - 📄 [\[02\] Prompt Engineering](./02-llms/02-prompt-engineering/)
-    - 📗 [\[06\] Parallel Training](./02-llms/06-parallel-training/)
-    - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/)
-    - 📗 [\[08\] Shakespeare Example
+    - 📗 [\[02.0\] Intro to LLMs](./02-llms/00-intro-to-llms/)
+    - 📗 [\[02.1\] Hands-on LLMs](./02-llms/01-hands-on-llms/)
+    - 📗 [\[02.2\] Parallel Training](./02-llms/06-parallel-training/)
+    - 📗 [\[02.3\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
-    - 🚀 [**Advanced / Large-Scale LLMs**](./02-llms/advanced/)
-      - 📗 [\[11\] Mixture of Experts & Expert
-        Parallelism](./02-llms/11-moe/)
-      - 📗 [\[12\] Pretraining at
-        Scale](./02-llms/12-pretraining-at-scale/)
-      - 📗 [\[13\] Fault-Tolerant
-        Training](./02-llms/13-fault-tolerant-training/)
-      - 📗 [\[14\] Mid- &
-        Post-Training](./02-llms/14-mid-post-training/)
-      - 📗 [\[15\] RL & Reasoning
-        Models](./02-llms/15-rl-and-reasoning/)
-    - 📊 [\[10\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
+    - 📊 [\[02.4\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
+  - 📂 [**\[03\] Advanced / Large-Scale LLMs**](./03-advanced-llms/)
+    - 📗 [\[03.0\] Mixture of Experts & Expert
+      Parallelism](./03-advanced-llms/0-moe/)
+    - 📗 [\[03.1\] Pretraining at
+      Scale](./03-advanced-llms/1-pretraining-at-scale/)
+    - 📗 [\[03.2\] Fault-Tolerant
+      Training](./03-advanced-llms/2-fault-tolerant-training/)
+    - 📗 [\[03.3\] Mid- &
+      Post-Training](./03-advanced-llms/3-mid-post-training/)
+    - 📗 [\[03.4\] RL & Reasoning
+      Models](./03-advanced-llms/4-rl-and-reasoning/)
 
 <details closed>
 

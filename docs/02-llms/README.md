@@ -23,20 +23,15 @@ Sam Foreman
 ## Contents
 
 - 📂 [02-llms/](index.qmd)
-  - [\[00\] Intro to LLMs](00-intro-to-llms/index.qmd)
-  - [\[01\] Hands-on LLMs](01-hands-on-llms/index.ipynb)
-  - [\[06\] Parallel Training](06-parallel-training/index.qmd)
-  - [\[07\] Shakespeare Example](07-shakespeare-example/index.qmd)
-  - [\[08\] Shakespeare Example
+  - [\[02.0\] Intro to LLMs](00-intro-to-llms/index.qmd)
+  - [\[02.1\] Hands-on LLMs](01-hands-on-llms/index.ipynb)
+  - [\[02.2\] Parallel Training](06-parallel-training/index.qmd)
+  - [\[02.3\] Shakespeare Example
     (Colab)](08-shakespeare-example-colab/index.ipynb)
-  - 🚀 **[Advanced / Large-Scale LLMs](advanced/index.qmd)**
-    - [\[11\] Mixture of Experts & Expert Parallelism](11-moe/index.qmd)
-    - [\[12\] Pretraining at Scale](12-pretraining-at-scale/index.qmd)
-    - [\[13\] Fault-Tolerant
-      Training](13-fault-tolerant-training/index.qmd)
-    - [\[14\] Mid- & Post-Training](14-mid-post-training/index.qmd)
-    - [\[15\] RL & Reasoning Models](15-rl-and-reasoning/index.qmd)
-  - [\[10\] Evaluating LLMs](10-evaluating-llms/index.qmd)
+  - [\[02.4\] Evaluating LLMs](10-evaluating-llms/index.qmd)
+
+Ready to scale up? Continue to the 🚀 **[\[03\] Advanced / Large-Scale
+LLMs](../03-advanced-llms/index.qmd)** track.
 
 ## Overview
 
