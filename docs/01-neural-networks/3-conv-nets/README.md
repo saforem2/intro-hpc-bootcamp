@@ -127,11 +127,9 @@ _ = plt.imshow(alcf_image)
 
 ### Convolutions
 
-$$
-\begin{equation}
+$$\begin{equation}
 G\left[m, n\right] = \left(f \star h\right)\left[m, n\right] = \sum_{j} \sum_{k} h\left[j, k\right] f\left[m - j, n - k\right]
-\end{equation}
-$$
+\end{equation}$$
 
 Convolutions are a restriction of - and a specialization of - dense
 linear layers. A convolution of an image produces another image, and

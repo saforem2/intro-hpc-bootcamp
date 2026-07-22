@@ -487,11 +487,9 @@ Figure 3: Shallow neural network
 
 The output of this NN can be written as
 
-$$
-\begin{equation}
+$$\begin{equation}
   \hat{u}(x) = \sigma_2(\sigma_1(\mathbf{x}\mathbf{W}_1 + \mathbf{b}_1)\mathbf{W}_2 + \mathbf{b}_2),
-\end{equation}
-$$
+\end{equation}$$
 
 where $\mathbf{x}$ is the input, $\mathbf{W}_j$ are the weights of the
 neural network, $\sigma_j$ the (nonlinear) activation functions, and

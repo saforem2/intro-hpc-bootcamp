@@ -368,11 +368,9 @@ plt.xlabel("epochs")
 plt.ylabel("accuracy")
 ```
 
-    Text(0, 0.5, 'accuracy')
+![](index_files/figure-commonmark/cell-11-output-1.svg)
 
 ![](index_files/figure-commonmark/cell-11-output-2.svg)
-
-![](index_files/figure-commonmark/cell-11-output-3.svg)
 
 You can compare your result with the state-of-the art
 [here](http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html).

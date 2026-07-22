@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.18">
+<meta name="generator" content="quarto-1.10.16">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>MNIST handwritten digits classification with CNNs – Intro to HPC Bootcamp 2025</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -71,17 +74,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9bf6f933b760cbb4c99ada293d62cb55.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-12fe1e89b9f42ad3d3ed9a3f5e317272.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ea18ae1df0924c9a27a53ddffc3a9e90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-75c142114b6e76a633d6ef55be2cde7e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -455,9 +457,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp 2025</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -625,6 +625,53 @@ window.Quarto = {
  <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../02-llms/advanced/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🚀 Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/11-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[11] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/12-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[12] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/13-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[13] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/14-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[14] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/15-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[15] RL &amp; Reasoning Models</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[10] Evaluating LLMs</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -738,41 +785,41 @@ Prasanna Balprakash  (ORNL ← ANL)</code></pre>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/01-neural-networks/2-advanced/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/2-advanced/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <p>First, we will import the required library and frameworks.</p>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:59:37.722217Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:59:37.721828Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:59:37.907186Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:59:37.906735Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:59:37.722178Z&quot;}}" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>load_ext autoreload</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
-<span id="cb2-4"><a href="#cb2-4"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="im">import</span> ambivalent</span>
-<span id="cb2-7"><a href="#cb2-7"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
-<span id="cb2-8"><a href="#cb2-8"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> plt.rcParamsDefault[<span class="st">"figure.figsize"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
+<span id="cb2-4"><a href="#cb2-4" aria-label="4"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-label="5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="im">import</span> ambivalent</span>
+<span id="cb2-7"><a href="#cb2-7" aria-label="7"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-label="8"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> plt.rcParamsDefault[<span class="st">"figure.figsize"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The autoreload extension is already loaded. To reload it, use:
   %reload_ext autoreload</code></pre>
 </div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:50:45.185644Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:50:45.185195Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:50:47.015254Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:50:47.014979Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:50:45.185621Z&quot;}}" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>matplotlib inline</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="im">import</span> torch</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="im">import</span> torchvision</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="im">import</span> numpy</span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="im">import</span> time</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="im">import</span> torch</span>
+<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a><span class="im">import</span> torchvision</span>
+<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a><span class="im">import</span> numpy</span>
+<span id="cb4-8"><a href="#cb4-8" aria-label="8"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-9"><a href="#cb4-9" aria-label="9"></a><span class="im">import</span> time</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="mnist-data-set" class="level2">
 <h2 class="anchored" data-anchor-id="mnist-data-set">MNIST data set</h2>
 <p>Again we’ll load the MNIST handwritten digits data set.</p>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:50:52.320762Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:50:52.320161Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:50:53.915021Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:50:53.914660Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:50:52.320738Z&quot;}}" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
-<span id="cb5-3"><a href="#cb5-3"></a>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a>test_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">False</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
-<span id="cb5-7"><a href="#cb5-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a>test_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">False</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|████████████████████████████████████████████████████████████████████████████████████| 9.91M/9.91M [00:00&lt;00:00, 34.5MB/s]|██████▏                                                                              | 721k/9.91M [00:00&lt;00:01, 7.14MB/s] 44%|████████████████████████████████████▉                                               | 4.36M/9.91M [00:00&lt;00:00, 22.0MB/s]|██████▏                                                                              | 721k/9.91M [00:00&lt;00:01, 7.14MB/s]
   0%|                                                                                             | 0.00/28.9k [00:00&lt;?, ?B/s]100%|████████████████████████████████████████████████████████████████████████████████████| 28.9k/28.9k [00:00&lt;00:00, 1.22MB/s]  0%|                                                                                             | 0.00/28.9k [00:00&lt;?, ?B/s]
@@ -781,9 +828,9 @@ Prasanna Balprakash  (ORNL ← ANL)</code></pre>
 </div>
 </div>
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:50:53.916079Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:50:53.915916Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:50:53.944357Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:50:53.944027Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:50:53.916062Z&quot;}}" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    training_data, [<span class="fl">0.8</span>, <span class="fl">0.2</span>], generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>    training_data, [<span class="fl">0.8</span>, <span class="fl">0.2</span>], generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This time we won’t flatten the images.</p>
 <p>The training data input is a 3rd-order tensor of size (48000, 28, 28), i.e.&nbsp;it consists of 48,000 images of size 28x28 pixels.</p>
@@ -819,37 +866,37 @@ Figure&nbsp;1: Convolutional Layer. Image credit: <a href="https://saturncloud.i
 <li>The Flatten layer flattens the 2D matrices into vectors, so we can then switch to Dense layers as in the MLP model.</li>
 </ul>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T22:00:12.699483Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T22:00:12.699312Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T22:00:12.726190Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T22:00:12.725831Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T22:00:12.699472Z&quot;}}" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">class</span> MNISTClassifier(nn.Module):</span>
-<span id="cb8-2"><a href="#cb8-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb8-3"><a href="#cb8-3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a>        <span class="va">self</span>.conv_1 <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">32</span>, kernel_size<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>        <span class="va">self</span>.conv_2 <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">32</span>, out_channels<span class="op">=</span><span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb8-7"><a href="#cb8-7"></a>        <span class="va">self</span>.drop_3 <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="fl">0.25</span>)</span>
-<span id="cb8-8"><a href="#cb8-8"></a>        <span class="va">self</span>.dense_4 <span class="op">=</span> nn.Linear(in_features<span class="op">=</span><span class="dv">9216</span>, out_features<span class="op">=</span><span class="dv">128</span>)</span>
-<span id="cb8-9"><a href="#cb8-9"></a>        <span class="va">self</span>.drop_5 <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>        <span class="va">self</span>.dense_6 <span class="op">=</span> nn.Linear(in_features<span class="op">=</span><span class="dv">128</span>, out_features<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-11"><a href="#cb8-11"></a></span>
-<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
-<span id="cb8-13"><a href="#cb8-13"></a>        x <span class="op">=</span> <span class="va">self</span>.conv_1(inputs)</span>
-<span id="cb8-14"><a href="#cb8-14"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
-<span id="cb8-15"><a href="#cb8-15"></a></span>
-<span id="cb8-16"><a href="#cb8-16"></a>        x <span class="op">=</span> <span class="va">self</span>.conv_2(x)</span>
-<span id="cb8-17"><a href="#cb8-17"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
-<span id="cb8-18"><a href="#cb8-18"></a>        x <span class="op">=</span> nn.functional.max_pool2d(x, kernel_size<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-19"><a href="#cb8-19"></a></span>
-<span id="cb8-20"><a href="#cb8-20"></a>        x <span class="op">=</span> <span class="va">self</span>.drop_3(x)</span>
-<span id="cb8-21"><a href="#cb8-21"></a>        x <span class="op">=</span> torch.flatten(x, start_dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-22"><a href="#cb8-22"></a></span>
-<span id="cb8-23"><a href="#cb8-23"></a>        x <span class="op">=</span> <span class="va">self</span>.dense_4(x)</span>
-<span id="cb8-24"><a href="#cb8-24"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
-<span id="cb8-25"><a href="#cb8-25"></a></span>
-<span id="cb8-26"><a href="#cb8-26"></a>        x <span class="op">=</span> <span class="va">self</span>.drop_5(x)</span>
-<span id="cb8-27"><a href="#cb8-27"></a></span>
-<span id="cb8-28"><a href="#cb8-28"></a>        x <span class="op">=</span> <span class="va">self</span>.dense_6(x)</span>
-<span id="cb8-29"><a href="#cb8-29"></a>        x <span class="op">=</span> nn.functional.softmax(x, dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-30"><a href="#cb8-30"></a></span>
-<span id="cb8-31"><a href="#cb8-31"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="kw">class</span> MNISTClassifier(nn.Module):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-label="4"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-label="5"></a>        <span class="va">self</span>.conv_1 <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">32</span>, kernel_size<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-label="6"></a>        <span class="va">self</span>.conv_2 <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">32</span>, out_channels<span class="op">=</span><span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-label="7"></a>        <span class="va">self</span>.drop_3 <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="fl">0.25</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-label="8"></a>        <span class="va">self</span>.dense_4 <span class="op">=</span> nn.Linear(in_features<span class="op">=</span><span class="dv">9216</span>, out_features<span class="op">=</span><span class="dv">128</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-label="9"></a>        <span class="va">self</span>.drop_5 <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-label="10"></a>        <span class="va">self</span>.dense_6 <span class="op">=</span> nn.Linear(in_features<span class="op">=</span><span class="dv">128</span>, out_features<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-label="11"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-label="12"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb8-13"><a href="#cb8-13" aria-label="13"></a>        x <span class="op">=</span> <span class="va">self</span>.conv_1(inputs)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-label="14"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-label="15"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-label="16"></a>        x <span class="op">=</span> <span class="va">self</span>.conv_2(x)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-label="17"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-label="18"></a>        x <span class="op">=</span> nn.functional.max_pool2d(x, kernel_size<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-label="19"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-label="20"></a>        x <span class="op">=</span> <span class="va">self</span>.drop_3(x)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-label="21"></a>        x <span class="op">=</span> torch.flatten(x, start_dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-label="22"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-label="23"></a>        x <span class="op">=</span> <span class="va">self</span>.dense_4(x)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-label="24"></a>        x <span class="op">=</span> nn.functional.relu(x)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-label="25"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-label="26"></a>        x <span class="op">=</span> <span class="va">self</span>.drop_5(x)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-label="27"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-label="28"></a>        x <span class="op">=</span> <span class="va">self</span>.dense_6(x)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-label="29"></a>        x <span class="op">=</span> nn.functional.softmax(x, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-label="30"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-label="31"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="convolutional-basics" class="level3">
 <h3 class="anchored" data-anchor-id="convolutional-basics">Convolutional Basics</h3>
@@ -945,73 +992,73 @@ Figure&nbsp;7
 </div>
 <p>Now we can train the network, similarly to the previous notebook.</p>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:53:57.274638Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:53:57.274147Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:53:57.327050Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:53:57.326630Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:53:57.274598Z&quot;}}" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
-<span id="cb9-2"><a href="#cb9-2"></a>    model.train()</span>
-<span id="cb9-3"><a href="#cb9-3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb9-4"><a href="#cb9-4"></a>        <span class="co"># forward pass</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>        pred <span class="op">=</span> model(X)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>        loss <span class="op">=</span> loss_fn(pred, y)</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a>        <span class="co"># backward pass calculates gradients</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a>        loss.backward()</span>
-<span id="cb9-10"><a href="#cb9-10"></a></span>
-<span id="cb9-11"><a href="#cb9-11"></a>        <span class="co"># take one step with these gradients</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>        optimizer.step()</span>
-<span id="cb9-13"><a href="#cb9-13"></a></span>
-<span id="cb9-14"><a href="#cb9-14"></a>        <span class="co"># resets the gradients</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>    model.train()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-label="4"></a>        <span class="co"># forward pass</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-label="5"></a>        pred <span class="op">=</span> model(X)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-label="6"></a>        loss <span class="op">=</span> loss_fn(pred, y)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-label="7"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-label="8"></a>        <span class="co"># backward pass calculates gradients</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-label="9"></a>        loss.backward()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-label="10"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-label="11"></a>        <span class="co"># take one step with these gradients</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-label="12"></a>        optimizer.step()</span>
+<span id="cb9-13"><a href="#cb9-13" aria-label="13"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-label="14"></a>        <span class="co"># resets the gradients</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-label="15"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:53:58.266254Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:53:58.265917Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:53:58.309684Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:53:58.309257Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:53:58.266233Z&quot;}}" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
-<span id="cb10-2"><a href="#cb10-2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader.dataset)</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb10-10"><a href="#cb10-10"></a>        <span class="co"># loop over all of the batches</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
-<span id="cb10-12"><a href="#cb10-12"></a>            pred <span class="op">=</span> model(X)</span>
-<span id="cb10-13"><a href="#cb10-13"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
-<span id="cb10-14"><a href="#cb10-14"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
-<span id="cb10-16"><a href="#cb10-16"></a></span>
-<span id="cb10-17"><a href="#cb10-17"></a>    loss <span class="op">/=</span> num_batches</span>
-<span id="cb10-18"><a href="#cb10-18"></a>    correct <span class="op">/=</span> size</span>
-<span id="cb10-19"><a href="#cb10-19"></a></span>
-<span id="cb10-20"><a href="#cb10-20"></a>    accuracy <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> correct</span>
-<span id="cb10-21"><a href="#cb10-21"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader.dataset)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-label="7"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-label="8"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-label="9"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb10-10"><a href="#cb10-10" aria-label="10"></a>        <span class="co"># loop over all of the batches</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-label="11"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
+<span id="cb10-12"><a href="#cb10-12" aria-label="12"></a>            pred <span class="op">=</span> model(X)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-label="13"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
+<span id="cb10-14"><a href="#cb10-14" aria-label="14"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-label="15"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
+<span id="cb10-16"><a href="#cb10-16" aria-label="16"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-label="17"></a>    loss <span class="op">/=</span> num_batches</span>
+<span id="cb10-18"><a href="#cb10-18" aria-label="18"></a>    correct <span class="op">/=</span> size</span>
+<span id="cb10-19"><a href="#cb10-19" aria-label="19"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-label="20"></a>    accuracy <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> correct</span>
+<span id="cb10-21"><a href="#cb10-21" aria-label="21"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:53:58.678870Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:53:58.678590Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:53:58.715319Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:53:58.714998Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:53:58.678851Z&quot;}}" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> train_network(batch_size, epochs, lr):</span>
-<span id="cb11-2"><a href="#cb11-2"></a>    cnn_model <span class="op">=</span> MNISTClassifier()</span>
-<span id="cb11-3"><a href="#cb11-3"></a>    train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    optimizer <span class="op">=</span> torch.optim.Adam(cnn_model.parameters(), lr<span class="op">=</span>lr)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>    loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb11-7"><a href="#cb11-7"></a></span>
-<span id="cb11-8"><a href="#cb11-8"></a>    history <span class="op">=</span> numpy.zeros((epochs, <span class="dv">4</span>))</span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb11-11"><a href="#cb11-11"></a>        train_one_epoch(train_dataloader, cnn_model, loss_fn, optimizer)</span>
-<span id="cb11-12"><a href="#cb11-12"></a></span>
-<span id="cb11-13"><a href="#cb11-13"></a>        <span class="co"># checking on the training &amp; val loss and accuracy once per epoch</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a>        acc_train, loss_train <span class="op">=</span> evaluate(train_dataloader, cnn_model, loss_fn)</span>
-<span id="cb11-15"><a href="#cb11-15"></a>        acc_val, loss_val <span class="op">=</span> evaluate(val_dataloader, cnn_model, loss_fn)</span>
-<span id="cb11-16"><a href="#cb11-16"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>loss_val<span class="sc">:.4f}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>acc_val<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb11-17"><a href="#cb11-17"></a>        history[j, :] <span class="op">=</span> [acc_train, loss_train, acc_val, loss_val]</span>
-<span id="cb11-18"><a href="#cb11-18"></a></span>
-<span id="cb11-19"><a href="#cb11-19"></a>    <span class="cf">return</span> history, cnn_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="kw">def</span> train_network(batch_size, epochs, lr):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>    cnn_model <span class="op">=</span> MNISTClassifier()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>    train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a>    val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-label="5"></a>    optimizer <span class="op">=</span> torch.optim.Adam(cnn_model.parameters(), lr<span class="op">=</span>lr)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-label="6"></a>    loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-label="7"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-label="8"></a>    history <span class="op">=</span> numpy.zeros((epochs, <span class="dv">4</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-label="9"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-label="10"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb11-11"><a href="#cb11-11" aria-label="11"></a>        train_one_epoch(train_dataloader, cnn_model, loss_fn, optimizer)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-label="12"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-label="13"></a>        <span class="co"># checking on the training &amp; val loss and accuracy once per epoch</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-label="14"></a>        acc_train, loss_train <span class="op">=</span> evaluate(train_dataloader, cnn_model, loss_fn)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-label="15"></a>        acc_val, loss_val <span class="op">=</span> evaluate(val_dataloader, cnn_model, loss_fn)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-label="16"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>loss_val<span class="sc">:.4f}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>acc_val<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-label="17"></a>        history[j, :] <span class="op">=</span> [acc_train, loss_train, acc_val, loss_val]</span>
+<span id="cb11-18"><a href="#cb11-18" aria-label="18"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-label="19"></a>    <span class="cf">return</span> history, cnn_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:54:03.900831Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:54:03.900520Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:56:07.365844Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:56:07.365389Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:54:03.900808Z&quot;}}" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">%%</span>time</span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>epochs <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>lr <span class="op">=</span> <span class="fl">.01</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>history, cnn_model <span class="op">=</span> train_network(batch_size, epochs, lr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="op">%%</span>time</span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a>epochs <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-label="5"></a>lr <span class="op">=</span> <span class="fl">.01</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-label="6"></a>history, cnn_model <span class="op">=</span> train_network(batch_size, epochs, lr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 0: val. loss: 1.4972, val. accuracy: 96.3750
 Epoch 1: val. loss: 1.4928, val. accuracy: 96.8667
@@ -1023,34 +1070,31 @@ Wall time: 2min 3s</code></pre>
 </div>
 <p>The model should be better than the non-convolutional model even if you’re only patient enough for three epochs.</p>
 <div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-06T21:56:07.370618Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-06T21:56:07.370529Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-06T21:56:07.570913Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-06T21:56:07.570651Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-06T21:56:07.370609Z&quot;}}" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
-<span id="cb14-2"><a href="#cb14-2"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">1</span>], label<span class="op">=</span><span class="st">"training loss"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">3</span>], label<span class="op">=</span><span class="st">"val. loss"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4"></a>plt.title(<span class="st">"loss"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5"></a>plt.xlabel(<span class="st">"epochs"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6"></a>plt.ylabel(<span class="st">"loss"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7"></a>plt.legend()</span>
-<span id="cb14-8"><a href="#cb14-8"></a></span>
-<span id="cb14-9"><a href="#cb14-9"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
-<span id="cb14-10"><a href="#cb14-10"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">"training accuracy"</span>)</span>
-<span id="cb14-11"><a href="#cb14-11"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">2</span>], label<span class="op">=</span><span class="st">"val. accuracy"</span>)</span>
-<span id="cb14-12"><a href="#cb14-12"></a>plt.title(<span class="st">"accuracy"</span>)</span>
-<span id="cb14-13"><a href="#cb14-13"></a>plt.xlabel(<span class="st">"epochs"</span>)</span>
-<span id="cb14-14"><a href="#cb14-14"></a>plt.ylabel(<span class="st">"accuracy"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>Text(0, 0.5, 'accuracy')</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">1</span>], label<span class="op">=</span><span class="st">"training loss"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">3</span>], label<span class="op">=</span><span class="st">"val. loss"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a>plt.title(<span class="st">"loss"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a>plt.xlabel(<span class="st">"epochs"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a>plt.ylabel(<span class="st">"loss"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>plt.legend()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">"training accuracy"</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a>plt.plot(<span class="bu">range</span>(epochs), history[:, <span class="dv">2</span>], label<span class="op">=</span><span class="st">"val. accuracy"</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a>plt.title(<span class="st">"accuracy"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-label="13"></a>plt.xlabel(<span class="st">"epochs"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-label="14"></a>plt.ylabel(<span class="st">"accuracy"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-11-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/cell-11-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-11-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-11-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/cell-11-output-3.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-11-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/cell-11-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1115,7 +1159,7 @@ Figure&nbsp;10: Image credit: <a href="https://ai.googleblog.com/2020/12/transfo
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam. 2025. <span>“MNIST Handwritten Digits Classification with
-CNNs.”</span> July 22, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/2-advanced/">https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/2-advanced/</a>.
+CNNs.”</span> July 22. <a href="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/2-advanced/">https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/2-advanced/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1181,13 +1225,14 @@ CNNs.”</span> July 22, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1221,16 +1266,16 @@ CNNs.”</span> July 22, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {

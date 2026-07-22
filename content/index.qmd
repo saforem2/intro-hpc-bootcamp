@@ -129,6 +129,13 @@ sidebar: sidebar
         - 📗 [\[06\] Parallel Training](./02-llms/06-parallel-training/)
         - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/)
         - 📗 [\[08\] Shakespeare Example (colab)](./02-llms/08-shakespeare-example-colab/)
+        - 🚀 [**Advanced / Large-Scale LLMs**](./02-llms/advanced/)
+            - 📗 [\[11\] Mixture of Experts & Expert Parallelism](./02-llms/11-moe/)
+            - 📗 [\[12\] Pretraining at Scale](./02-llms/12-pretraining-at-scale/)
+            - 📗 [\[13\] Fault-Tolerant Training](./02-llms/13-fault-tolerant-training/)
+            - 📗 [\[14\] Mid- & Post-Training](./02-llms/14-mid-post-training/)
+            - 📗 [\[15\] RL & Reasoning Models](./02-llms/15-rl-and-reasoning/)
+        - 📊 [\[10\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
 
     <!-- - 📂 [03-ai-for-science/](./03-ai-for-science/) -->
 
@@ -191,8 +198,7 @@ sidebar: sidebar
 1. Setup Python:
 
     ```bash
-	source <(curl -L https://bit.ly/ezpz-utils)
-	ezpz_setup_python
+	source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
 	```
 
 1. Setup [wandb](https://wandb.ai):
@@ -207,10 +213,10 @@ sidebar: sidebar
     python3 -m pip install -e "."
     ```
 
-1. Run `ezpz-test` (simple test to verify distributed functionality):
+1. Run `ezpz test` (simple test to verify distributed functionality):
 
     ```bash
-    ezpz-test  # <- (SHOULD WORK 🤞)
+    ezpz test  # <- (SHOULD WORK 🤞)
     ```
 
 1. Prepare data:
@@ -222,7 +228,7 @@ sidebar: sidebar
 1. Run distributed training:
 
     ```bash
-	  ezpz-launch -m wordplay \
+	  ezpz launch python3 -m wordplay \
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \

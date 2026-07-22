@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.18">
+<meta name="generator" content="quarto-1.10.16">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -16,6 +16,9 @@
 
 <title>Intro to NNs: MNIST – Intro to HPC Bootcamp 2025</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -76,17 +79,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9bf6f933b760cbb4c99ada293d62cb55.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-12fe1e89b9f42ad3d3ed9a3f5e317272.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ea18ae1df0924c9a27a53ddffc3a9e90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-75c142114b6e76a633d6ef55be2cde7e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -126,7 +128,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
@@ -190,10 +192,12 @@ window.Quarto = {
 <meta property="og:description" content="Introduction to Neural Networks with MNIST dataset">
 <meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
+<meta property="og:image:alt" content="">
 <meta name="twitter:title" content="Intro to NNs: MNIST – Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="Introduction to Neural Networks with MNIST dataset">
 <meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:site" content="saforem2">
+<meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Intro to NNs: MNIST">
 <meta name="citation_author" content="Sam Foreman">
@@ -463,9 +467,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp 2025</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -633,6 +635,53 @@ window.Quarto = {
  <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../02-llms/advanced/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🚀 Advanced / Large-Scale LLMs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/11-moe/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[11] Mixture of Experts &amp; Expert Parallelism</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/12-pretraining-at-scale/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[12] Pretraining at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/13-fault-tolerant-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[13] Fault-Tolerant Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/14-mid-post-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[14] Mid- &amp; Post-Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/15-rl-and-reasoning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[15] RL &amp; Reasoning Models</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[10] Evaluating LLMs</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -682,7 +731,7 @@ window.Quarto = {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Sam Foreman <a href="mailto:foremans@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9981-0876" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Sam Foreman <a href="mailto:foremans@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9981-0876" class="quarto-title-author-orcid" aria-label="ORCID profile for Sam Foreman"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -712,7 +761,7 @@ window.Quarto = {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Bethany Lusch <a href="mailto:blusch@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9521-9990" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Bethany Lusch <a href="mailto:blusch@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9521-9990" class="quarto-title-author-orcid" aria-label="ORCID profile for Bethany Lusch"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -722,7 +771,7 @@ window.Quarto = {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Taylor Childers <a href="mailto:jchilders@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-0492-613X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Taylor Childers <a href="mailto:jchilders@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-0492-613X" class="quarto-title-author-orcid" aria-label="ORCID profile for Taylor Childers"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -785,27 +834,27 @@ Figure&nbsp;1: MNIST sample
 </figure>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:21:56.996404Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:21:56.996146Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:21:57.336519Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:21:57.336246Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:21:56.996393Z&quot;}}" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>load_ext autoreload</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
-<span id="cb1-4"><a href="#cb1-4"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> os</span>
-<span id="cb1-6"><a href="#cb1-6"></a>os.environ[<span class="st">"TRUECOLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># mpl.rcParams['figure.dpi'] = 400</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="im">import</span> os</span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>os.environ[<span class="st">"TRUECOLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
+<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="co"># mpl.rcParams['figure.dpi'] = 400</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:21:57.337330Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:21:57.337218Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:01.651026Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:01.650694Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:21:57.337321Z&quot;}}" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> ambivalent</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> ezpz</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># console = ezpz.log.get_console()</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># logger = ezpz.get_logger('mnist')</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
-<span id="cb2-10"><a href="#cb2-10"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> ambivalent</span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> ezpz</span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-label="4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-5"><a href="#cb2-5" aria-label="5"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="co"># console = ezpz.log.get_console()</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-label="7"></a><span class="co"># logger = ezpz.get_logger('mnist')</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-label="8"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-label="9"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-label="10"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-label="11"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 23:22:01,582514</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">265</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'INFO'</span> on <span style="color: #008000; text-decoration-color: #008000">'RANK == 0'</span>
 </pre>
@@ -816,15 +865,15 @@ Figure&nbsp;1: MNIST sample
 </div>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:01.651520Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:01.651432Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:01.782442Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:01.782167Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:01.651511Z&quot;}}" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># %matplotlib inline</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="im">import</span> time</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="im">import</span> numpy</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="im">import</span> torch</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="im">import</span> torchvision</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="im">from</span> torch <span class="im">import</span> nn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># %matplotlib inline</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="im">import</span> time</span>
+<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-label="5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-6"><a href="#cb3-6" aria-label="6"></a><span class="im">import</span> numpy</span>
+<span id="cb3-7"><a href="#cb3-7" aria-label="7"></a><span class="im">import</span> torch</span>
+<span id="cb3-8"><a href="#cb3-8" aria-label="8"></a><span class="im">import</span> torchvision</span>
+<span id="cb3-9"><a href="#cb3-9" aria-label="9"></a><span class="im">from</span> torch <span class="im">import</span> nn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="the-mnist-dataset" class="level2">
@@ -848,51 +897,51 @@ Figure&nbsp;1: MNIST sample
 <li>outputs (labels): one integer per example</li>
 </ul>
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:01.786912Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:01.786846Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:01.849544Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:01.849238Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:01.786904Z&quot;}}" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
-<span id="cb4-3"><a href="#cb4-3"></a>)</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>test_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">False</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
-<span id="cb4-7"><a href="#cb4-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">True</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a>test_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a>    root<span class="op">=</span><span class="st">"data"</span>, train<span class="op">=</span><span class="va">False</span>, download<span class="op">=</span><span class="va">True</span>, transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:01.850714Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:01.850648Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:01.882926Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:01.882705Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:01.850706Z&quot;}}" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_size <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> <span class="bu">len</span>(training_data))  <span class="co"># 80% for training</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>val_size <span class="op">=</span> <span class="bu">len</span>(training_data) <span class="op">-</span> train_size  <span class="co"># Remaining 20% for validation</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    training_data, [train_size, val_size], generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>train_size <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> <span class="bu">len</span>(training_data))  <span class="co"># 80% for training</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>val_size <span class="op">=</span> <span class="bu">len</span>(training_data) <span class="op">-</span> train_size  <span class="co"># Remaining 20% for validation</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a>    training_data, [train_size, val_size], generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:01.883342Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:01.883254Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:01.911370Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:01.911103Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:01.883334Z&quot;}}" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="bu">print</span>(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="st">" "</span>.join(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>        [</span>
-<span id="cb6-4"><a href="#cb6-4"></a>            <span class="ss">f"MNIST data loaded:"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>            <span class="ss">f"train=</span><span class="sc">{</span><span class="bu">len</span>(training_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>            <span class="ss">f"validation=</span><span class="sc">{</span><span class="bu">len</span>(validation_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>            <span class="ss">f"test=</span><span class="sc">{</span><span class="bu">len</span>(test_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>            <span class="ss">f"input shape=</span><span class="sc">{</span>training_data[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>        ]</span>
-<span id="cb6-10"><a href="#cb6-10"></a>    )</span>
-<span id="cb6-11"><a href="#cb6-11"></a>)</span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co"># print(f'Input shape', training_data[0][0].shape)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="bu">print</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>    <span class="st">" "</span>.join(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>        [</span>
+<span id="cb6-4"><a href="#cb6-4" aria-label="4"></a>            <span class="ss">f"MNIST data loaded:"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-label="5"></a>            <span class="ss">f"train=</span><span class="sc">{</span><span class="bu">len</span>(training_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-label="6"></a>            <span class="ss">f"validation=</span><span class="sc">{</span><span class="bu">len</span>(validation_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-label="7"></a>            <span class="ss">f"test=</span><span class="sc">{</span><span class="bu">len</span>(test_data)<span class="sc">}</span><span class="ss"> examples"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-label="8"></a>            <span class="ss">f"input shape=</span><span class="sc">{</span>training_data[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-label="9"></a>        ]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-label="10"></a>    )</span>
+<span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-label="12"></a><span class="co"># print(f'Input shape', training_data[0][0].shape)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>MNIST data loaded: train=48000 examples validation=12000 examples test=10000 examples input shape=torch.Size([1, 28, 28])</code></pre>
 </div>
 </div>
 <p>Let’s take a closer look. Here are the first 10 training digits:</p>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:01.911971Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:01.911852Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:02.119740Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:02.119495Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:01.911963Z&quot;}}" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>pltsize <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># plt.figure(figsize=(10*pltsize, pltsize))</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb8-5"><a href="#cb8-5"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">10</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>    plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7"></a>    <span class="co"># x, y = training_data[i]</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>    <span class="co"># plt.imshow(x.reshape(28, 28), cmap="gray")</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>    <span class="co"># x[0] is the image, x[1] is the label</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>    plt.imshow(numpy.reshape(training_data[i][<span class="dv">0</span>], (<span class="dv">28</span>, <span class="dv">28</span>)), cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb8-11"><a href="#cb8-11"></a>    plt.title(<span class="ss">f"</span><span class="sc">{</span>training_data[i][<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>pltsize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="co"># plt.figure(figsize=(10*pltsize, pltsize))</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-label="3"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-label="4"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-label="5"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">10</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-label="6"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-label="7"></a>    <span class="co"># x, y = training_data[i]</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-label="8"></a>    <span class="co"># plt.imshow(x.reshape(28, 28), cmap="gray")</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-label="9"></a>    <span class="co"># x[0] is the image, x[1] is the label</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-label="10"></a>    plt.imshow(numpy.reshape(training_data[i][<span class="dv">0</span>], (<span class="dv">28</span>, <span class="dv">28</span>)), cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-label="11"></a>    plt.title(<span class="ss">f"</span><span class="sc">{</span>training_data[i][<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -902,8 +951,8 @@ Figure&nbsp;1: MNIST sample
 </div>
 </div>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:03.411941Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:03.411624Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:04.323060Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:04.322658Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:03.411917Z&quot;}}" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span>))</span>
-<span id="cb9-2"><a href="#cb9-2"></a>sns.heatmap(training_data[<span class="dv">30</span>][<span class="dv">0</span>].reshape((<span class="dv">28</span>, <span class="dv">28</span>)), annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">"binary"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>sns.heatmap(training_data[<span class="dv">30</span>][<span class="dv">0</span>].reshape((<span class="dv">28</span>, <span class="dv">28</span>)), annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">"binary"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -951,27 +1000,27 @@ Figure&nbsp;2: Fully connected linear net
 <li>A learning rate. As we learned last week, the learning rate controls how far we move during each step.</li>
 </ul>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:05.000790Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:05.000622Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:05.034437Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:05.034112Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:05.000778Z&quot;}}" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">class</span> LinearClassifier(nn.Module):</span>
-<span id="cb10-2"><a href="#cb10-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb10-3"><a href="#cb10-3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb10-4"><a href="#cb10-4"></a>        <span class="co"># First, we need to convert the input image to a vector by using</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>        <span class="co"># nn.Flatten(). For MNIST, it means the second dimension 28*28 becomes 784.</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb10-7"><a href="#cb10-7"></a>        <span class="co"># Here, we add a fully connected ("dense") layer that has 28 x 28 = 784 input nodes</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>        <span class="co"># (one for each pixel in the input image) and 10 output nodes (for probabilities of each class).</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>        <span class="va">self</span>.layer_1 <span class="op">=</span> nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">10</span>)</span>
-<span id="cb10-10"><a href="#cb10-10"></a></span>
-<span id="cb10-11"><a href="#cb10-11"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb10-12"><a href="#cb10-12"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb10-13"><a href="#cb10-13"></a>        x <span class="op">=</span> <span class="va">self</span>.layer_1(x)</span>
-<span id="cb10-14"><a href="#cb10-14"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">class</span> LinearClassifier(nn.Module):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-label="4"></a>        <span class="co"># First, we need to convert the input image to a vector by using</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>        <span class="co"># nn.Flatten(). For MNIST, it means the second dimension 28*28 becomes 784.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-label="7"></a>        <span class="co"># Here, we add a fully connected ("dense") layer that has 28 x 28 = 784 input nodes</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-label="8"></a>        <span class="co"># (one for each pixel in the input image) and 10 output nodes (for probabilities of each class).</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-label="9"></a>        <span class="va">self</span>.layer_1 <span class="op">=</span> nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">10</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-label="10"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-label="11"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb10-12"><a href="#cb10-12" aria-label="12"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-label="13"></a>        x <span class="op">=</span> <span class="va">self</span>.layer_1(x)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-label="14"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:05.812309Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:05.811726Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:05.852919Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:05.852522Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:05.812260Z&quot;}}" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>linear_model <span class="op">=</span> LinearClassifier()</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="bu">print</span>(linear_model)</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb11-5"><a href="#cb11-5"></a>optimizer <span class="op">=</span> torch.optim.SGD(linear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>linear_model <span class="op">=</span> LinearClassifier()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="bu">print</span>(linear_model)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-label="5"></a>optimizer <span class="op">=</span> torch.optim.SGD(linear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>LinearClassifier(
   (flatten): Flatten(start_dim=1, end_dim=-1)
@@ -1001,68 +1050,68 @@ Figure&nbsp;2: Fully connected linear net
 <li>The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.</li>
 </ul>
 <div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:08.948893Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:08.948514Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:09.000883Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:09.000550Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:08.948861Z&quot;}}" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-label="5"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:09.313032Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:09.312710Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:09.351648Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:09.351358Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:09.313007Z&quot;}}" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
-<span id="cb14-2"><a href="#cb14-2"></a>    model.train()</span>
-<span id="cb14-3"><a href="#cb14-3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb14-4"><a href="#cb14-4"></a>        <span class="co"># forward pass</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>        pred <span class="op">=</span> model(X)</span>
-<span id="cb14-6"><a href="#cb14-6"></a>        loss <span class="op">=</span> loss_fn(pred, y)</span>
-<span id="cb14-7"><a href="#cb14-7"></a>        <span class="co"># backward pass calculates gradients</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a>        loss.backward()</span>
-<span id="cb14-9"><a href="#cb14-9"></a>        <span class="co"># take one step with these gradients</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>        optimizer.step()</span>
-<span id="cb14-11"><a href="#cb14-11"></a>        <span class="co"># resets the gradients</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>    model.train()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a>        <span class="co"># forward pass</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a>        pred <span class="op">=</span> model(X)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a>        loss <span class="op">=</span> loss_fn(pred, y)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>        <span class="co"># backward pass calculates gradients</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a>        loss.backward()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a>        <span class="co"># take one step with these gradients</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a>        optimizer.step()</span>
+<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a>        <span class="co"># resets the gradients</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:09.742813Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:09.742621Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:09.782383Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:09.782007Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:09.742800Z&quot;}}" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
-<span id="cb15-2"><a href="#cb15-2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb15-5"><a href="#cb15-5"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader.dataset)</span>
-<span id="cb15-6"><a href="#cb15-6"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
-<span id="cb15-7"><a href="#cb15-7"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a></span>
-<span id="cb15-9"><a href="#cb15-9"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb15-11"><a href="#cb15-11"></a>        <span class="co"># loop over all of the batches</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
-<span id="cb15-13"><a href="#cb15-13"></a>            pred <span class="op">=</span> model(X)</span>
-<span id="cb15-14"><a href="#cb15-14"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
-<span id="cb15-15"><a href="#cb15-15"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy</span></span>
-<span id="cb15-16"><a href="#cb15-16"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
-<span id="cb15-17"><a href="#cb15-17"></a></span>
-<span id="cb15-18"><a href="#cb15-18"></a>    loss <span class="op">/=</span> num_batches</span>
-<span id="cb15-19"><a href="#cb15-19"></a>    correct <span class="op">/=</span> size</span>
-<span id="cb15-20"><a href="#cb15-20"></a></span>
-<span id="cb15-21"><a href="#cb15-21"></a>    accuracy <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> correct</span>
-<span id="cb15-22"><a href="#cb15-22"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader.dataset)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a>        <span class="co"># loop over all of the batches</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
+<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a>            pred <span class="op">=</span> model(X)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-label="14"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
+<span id="cb15-15"><a href="#cb15-15" aria-label="15"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-label="16"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
+<span id="cb15-17"><a href="#cb15-17" aria-label="17"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-label="18"></a>    loss <span class="op">/=</span> num_batches</span>
+<span id="cb15-19"><a href="#cb15-19" aria-label="19"></a>    correct <span class="op">/=</span> size</span>
+<span id="cb15-20"><a href="#cb15-20" aria-label="20"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>    accuracy <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> correct</span>
+<span id="cb15-22"><a href="#cb15-22" aria-label="22"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:10.392567Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:10.392192Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:21.766510Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:21.766252Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:10.392543Z&quot;}}" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="op">%%</span>time</span>
-<span id="cb16-2"><a href="#cb16-2"></a></span>
-<span id="cb16-3"><a href="#cb16-3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>train_acc_all <span class="op">=</span> []</span>
-<span id="cb16-5"><a href="#cb16-5"></a>val_acc_all <span class="op">=</span> []</span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb16-7"><a href="#cb16-7"></a>    train_one_epoch(train_dataloader, linear_model, loss_fn, optimizer)</span>
-<span id="cb16-8"><a href="#cb16-8"></a></span>
-<span id="cb16-9"><a href="#cb16-9"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, linear_model, loss_fn)</span>
-<span id="cb16-11"><a href="#cb16-11"></a>    train_acc_all.append(acc)</span>
-<span id="cb16-12"><a href="#cb16-12"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-13"><a href="#cb16-13"></a></span>
-<span id="cb16-14"><a href="#cb16-14"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
-<span id="cb16-15"><a href="#cb16-15"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, linear_model, loss_fn)</span>
-<span id="cb16-16"><a href="#cb16-16"></a>    val_acc_all.append(val_acc)</span>
-<span id="cb16-17"><a href="#cb16-17"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="op">%%</span>time</span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-label="4"></a>train_acc_all <span class="op">=</span> []</span>
+<span id="cb16-5"><a href="#cb16-5" aria-label="5"></a>val_acc_all <span class="op">=</span> []</span>
+<span id="cb16-6"><a href="#cb16-6" aria-label="6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb16-7"><a href="#cb16-7" aria-label="7"></a>    train_one_epoch(train_dataloader, linear_model, loss_fn, optimizer)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-label="9"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-label="10"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, linear_model, loss_fn)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-label="11"></a>    train_acc_all.append(acc)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-label="12"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-label="13"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-label="14"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-label="15"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, linear_model, loss_fn)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-label="16"></a>    val_acc_all.append(val_acc)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-label="17"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 0: training loss: 0.5018792031606039, accuracy: 87.63333333333333
 Epoch 0: val. loss: 0.49411888864446196, val. accuracy: 87.725
@@ -1084,12 +1133,12 @@ Wall time: 11.3 s</code></pre>
 </div>
 </div>
 <div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:39.984910Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:39.981617Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:40.151026Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:40.150744Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:39.984657Z&quot;}}" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>plt.figure()</span>
-<span id="cb18-2"><a href="#cb18-2"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">"Training Acc."</span>)</span>
-<span id="cb18-3"><a href="#cb18-3"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">"Validation Acc."</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a>plt.xlabel(<span class="st">"Epoch #"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a>plt.figure()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">"Training Acc."</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">"Validation Acc."</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-label="4"></a>plt.xlabel(<span class="st">"Epoch #"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-label="5"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-label="6"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1099,18 +1148,18 @@ Wall time: 11.3 s</code></pre>
 </div>
 </div>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:44.514619Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:44.514254Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:44.729066Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:44.728700Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:44.514597Z&quot;}}" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Visualize how the model is doing on the first 10 examples</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>pltsize <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span> <span class="op">*</span> pltsize, pltsize))</span>
-<span id="cb19-4"><a href="#cb19-4"></a>linear_model.<span class="bu">eval</span>()</span>
-<span id="cb19-5"><a href="#cb19-5"></a>batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_dataloader))</span>
-<span id="cb19-6"><a href="#cb19-6"></a>predictions <span class="op">=</span> linear_model(batch[<span class="dv">0</span>])</span>
-<span id="cb19-7"><a href="#cb19-7"></a></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb19-9"><a href="#cb19-9"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">10</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb19-10"><a href="#cb19-10"></a>    plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb19-11"><a href="#cb19-11"></a>    plt.imshow(batch[<span class="dv">0</span>][i, <span class="dv">0</span>, :, :], cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb19-12"><a href="#cb19-12"></a>    plt.title(<span class="st">"</span><span class="sc">%d</span><span class="st">"</span> <span class="op">%</span> predictions[i, :].argmax())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="co"># Visualize how the model is doing on the first 10 examples</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-label="2"></a>pltsize <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span> <span class="op">*</span> pltsize, pltsize))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-label="4"></a>linear_model.<span class="bu">eval</span>()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-label="5"></a>batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_dataloader))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-label="6"></a>predictions <span class="op">=</span> linear_model(batch[<span class="dv">0</span>])</span>
+<span id="cb19-7"><a href="#cb19-7" aria-label="7"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-label="8"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb19-9"><a href="#cb19-9" aria-label="9"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">10</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-label="10"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-label="11"></a>    plt.imshow(batch[<span class="dv">0</span>][i, <span class="dv">0</span>, :, :], cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-label="12"></a>    plt.title(<span class="st">"</span><span class="sc">%d</span><span class="st">"</span> <span class="op">%</span> predictions[i, :].argmax())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1125,17 +1174,17 @@ Wall time: 11.3 s</code></pre>
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Let’s see how our model generalizes to the unseen test data.</p>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:46.311809Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:46.311432Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:46.352418Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:46.351942Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:46.311787Z&quot;}}" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># For HW: cell to change batch size</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="co"># create dataloader for test data</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a></span>
-<span id="cb20-5"><a href="#cb20-5"></a>batch_size_test <span class="op">=</span> <span class="dv">256</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a>test_dataloader <span class="op">=</span> torch.utils.data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="co"># For HW: cell to change batch size</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-label="2"></a><span class="co"># create dataloader for test data</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-label="4"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-label="5"></a>batch_size_test <span class="op">=</span> <span class="dv">256</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-label="6"></a>test_dataloader <span class="op">=</span> torch.utils.data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:47.133792Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:47.133463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:47.422360Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:47.422062Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:47.133767Z&quot;}}" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>acc_test, loss_test <span class="op">=</span> evaluate(test_dataloader, linear_model, loss_fn)</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="bu">print</span>(<span class="ss">f"Test loss: </span><span class="sc">{</span>loss_test<span class="sc">}</span><span class="ss">, test accuracy: </span><span class="sc">{</span>acc_test<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a>acc_test, loss_test <span class="op">=</span> evaluate(test_dataloader, linear_model, loss_fn)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"Test loss: </span><span class="sc">{</span>loss_test<span class="sc">}</span><span class="ss">, test accuracy: </span><span class="sc">{</span>acc_test<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-label="3"></a><span class="co"># print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Test loss: 0.33246213272213937, test accuracy: 90.86999999999999</code></pre>
 </div>
@@ -1143,30 +1192,30 @@ Wall time: 11.3 s</code></pre>
 <p>We can now take a closer look at the results.</p>
 <p>Let’s define a helper function to show the failure cases of our classifier.</p>
 <div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:48.307313Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:48.307017Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:48.348882Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:48.348541Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:48.307292Z&quot;}}" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> show_failures(model, dataloader, maxtoshow<span class="op">=</span><span class="dv">10</span>):</span>
-<span id="cb23-2"><a href="#cb23-2"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dataloader))</span>
-<span id="cb23-4"><a href="#cb23-4"></a>    predictions <span class="op">=</span> model(batch[<span class="dv">0</span>])</span>
-<span id="cb23-5"><a href="#cb23-5"></a></span>
-<span id="cb23-6"><a href="#cb23-6"></a>    rounded <span class="op">=</span> predictions.argmax(<span class="dv">1</span>)</span>
-<span id="cb23-7"><a href="#cb23-7"></a>    errors <span class="op">=</span> rounded <span class="op">!=</span> batch[<span class="dv">1</span>]</span>
-<span id="cb23-8"><a href="#cb23-8"></a>    <span class="bu">print</span>(<span class="ss">f"Showing max </span><span class="sc">{</span>maxtoshow<span class="sc">}</span><span class="ss"> first failures."</span>)</span>
-<span id="cb23-9"><a href="#cb23-9"></a>    <span class="bu">print</span>(<span class="st">"The predicted class is shown first and the correct class in parentheses."</span>)</span>
-<span id="cb23-10"><a href="#cb23-10"></a>    ii <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a>    plt.figure(figsize<span class="op">=</span>(maxtoshow, <span class="dv">1</span>))</span>
-<span id="cb23-12"><a href="#cb23-12"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(batch[<span class="dv">0</span>].shape[<span class="dv">0</span>]):</span>
-<span id="cb23-13"><a href="#cb23-13"></a>        <span class="cf">if</span> ii <span class="op">&gt;=</span> maxtoshow:</span>
-<span id="cb23-14"><a href="#cb23-14"></a>            <span class="cf">break</span></span>
-<span id="cb23-15"><a href="#cb23-15"></a>        <span class="cf">if</span> errors[i]:</span>
-<span id="cb23-16"><a href="#cb23-16"></a>            plt.subplot(<span class="dv">1</span>, maxtoshow, ii <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb23-17"><a href="#cb23-17"></a>            plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb23-18"><a href="#cb23-18"></a>            plt.imshow(batch[<span class="dv">0</span>][i, <span class="dv">0</span>, :, :], cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb23-19"><a href="#cb23-19"></a>            plt.title(<span class="st">"</span><span class="sc">%d</span><span class="st"> (</span><span class="sc">%d</span><span class="st">)"</span> <span class="op">%</span> (rounded[i], batch[<span class="dv">1</span>][i]))</span>
-<span id="cb23-20"><a href="#cb23-20"></a>            ii <span class="op">=</span> ii <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="kw">def</span> show_failures(model, dataloader, maxtoshow<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-label="2"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb23-3"><a href="#cb23-3" aria-label="3"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dataloader))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-label="4"></a>    predictions <span class="op">=</span> model(batch[<span class="dv">0</span>])</span>
+<span id="cb23-5"><a href="#cb23-5" aria-label="5"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-label="6"></a>    rounded <span class="op">=</span> predictions.argmax(<span class="dv">1</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-label="7"></a>    errors <span class="op">=</span> rounded <span class="op">!=</span> batch[<span class="dv">1</span>]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-label="8"></a>    <span class="bu">print</span>(<span class="ss">f"Showing max </span><span class="sc">{</span>maxtoshow<span class="sc">}</span><span class="ss"> first failures."</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-label="9"></a>    <span class="bu">print</span>(<span class="st">"The predicted class is shown first and the correct class in parentheses."</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-label="10"></a>    ii <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-label="11"></a>    plt.figure(figsize<span class="op">=</span>(maxtoshow, <span class="dv">1</span>))</span>
+<span id="cb23-12"><a href="#cb23-12" aria-label="12"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(batch[<span class="dv">0</span>].shape[<span class="dv">0</span>]):</span>
+<span id="cb23-13"><a href="#cb23-13" aria-label="13"></a>        <span class="cf">if</span> ii <span class="op">&gt;=</span> maxtoshow:</span>
+<span id="cb23-14"><a href="#cb23-14" aria-label="14"></a>            <span class="cf">break</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-label="15"></a>        <span class="cf">if</span> errors[i]:</span>
+<span id="cb23-16"><a href="#cb23-16" aria-label="16"></a>            plt.subplot(<span class="dv">1</span>, maxtoshow, ii <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-label="17"></a>            plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-label="18"></a>            plt.imshow(batch[<span class="dv">0</span>][i, <span class="dv">0</span>, :, :], cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-label="19"></a>            plt.title(<span class="st">"</span><span class="sc">%d</span><span class="st"> (</span><span class="sc">%d</span><span class="st">)"</span> <span class="op">%</span> (rounded[i], batch[<span class="dv">1</span>][i]))</span>
+<span id="cb23-20"><a href="#cb23-20" aria-label="20"></a>            ii <span class="op">=</span> ii <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here are the first 10 images from the test data that this small model classified to a wrong class:</p>
 <div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:49.173997Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:49.173540Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:49.398162Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:49.397817Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:49.173971Z&quot;}}" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>show_failures(linear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>show_failures(linear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Showing max 10 first failures.
 The predicted class is shown first and the correct class in parentheses.</code></pre>
@@ -1268,54 +1317,54 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 <p>We can now implement a deep network in PyTorch.</p>
 <p><code>nn.Dropout()</code> performs the Dropout operation mentioned earlier:</p>
 <div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:49.932823Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:49.932452Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:49.982742Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:49.982378Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:49.932794Z&quot;}}" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># For HW: cell to change activation</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
-<span id="cb26-3"><a href="#cb26-3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb26-4"><a href="#cb26-4"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb26-5"><a href="#cb26-5"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb26-6"><a href="#cb26-6"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
-<span id="cb26-7"><a href="#cb26-7"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">50</span>),</span>
-<span id="cb26-8"><a href="#cb26-8"></a>            nn.ReLU(),</span>
-<span id="cb26-9"><a href="#cb26-9"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
-<span id="cb26-10"><a href="#cb26-10"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb26-11"><a href="#cb26-11"></a>            nn.ReLU(),</span>
-<span id="cb26-12"><a href="#cb26-12"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb26-13"><a href="#cb26-13"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb26-14"><a href="#cb26-14"></a>            nn.ReLU(),</span>
-<span id="cb26-15"><a href="#cb26-15"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb26-16"><a href="#cb26-16"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>),</span>
-<span id="cb26-17"><a href="#cb26-17"></a>        )</span>
-<span id="cb26-18"><a href="#cb26-18"></a></span>
-<span id="cb26-19"><a href="#cb26-19"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb26-20"><a href="#cb26-20"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb26-21"><a href="#cb26-21"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
-<span id="cb26-22"><a href="#cb26-22"></a></span>
-<span id="cb26-23"><a href="#cb26-23"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="co"># For HW: cell to change activation</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb26-4"><a href="#cb26-4" aria-label="4"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-label="5"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb26-6"><a href="#cb26-6" aria-label="6"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
+<span id="cb26-7"><a href="#cb26-7" aria-label="7"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">50</span>),</span>
+<span id="cb26-8"><a href="#cb26-8" aria-label="8"></a>            nn.ReLU(),</span>
+<span id="cb26-9"><a href="#cb26-9" aria-label="9"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-label="10"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-label="11"></a>            nn.ReLU(),</span>
+<span id="cb26-12"><a href="#cb26-12" aria-label="12"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-label="13"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb26-14"><a href="#cb26-14" aria-label="14"></a>            nn.ReLU(),</span>
+<span id="cb26-15"><a href="#cb26-15" aria-label="15"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-label="16"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>),</span>
+<span id="cb26-17"><a href="#cb26-17" aria-label="17"></a>        )</span>
+<span id="cb26-18"><a href="#cb26-18" aria-label="18"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-label="19"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb26-20"><a href="#cb26-20" aria-label="20"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-label="21"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-label="22"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-label="23"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:50.286484Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:50.286269Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:22:50.321601Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:22:50.321271Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:50.286470Z&quot;}}" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co">#### For HW: cell to change learning rate</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
-<span id="cb27-3"><a href="#cb27-3"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb27-4"><a href="#cb27-4"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="co">#### For HW: cell to change learning rate</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-label="2"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
+<span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb27-4"><a href="#cb27-4" aria-label="4"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:22:50.582706Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:22:50.582320Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:03.071471Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:03.070873Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:22:50.582679Z&quot;}}" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="op">%%</span>time</span>
-<span id="cb28-2"><a href="#cb28-2"></a></span>
-<span id="cb28-3"><a href="#cb28-3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a>train_acc_all <span class="op">=</span> []</span>
-<span id="cb28-5"><a href="#cb28-5"></a>val_acc_all <span class="op">=</span> []</span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb28-7"><a href="#cb28-7"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
-<span id="cb28-8"><a href="#cb28-8"></a></span>
-<span id="cb28-9"><a href="#cb28-9"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-11"><a href="#cb28-11"></a>    train_acc_all.append(acc)</span>
-<span id="cb28-12"><a href="#cb28-12"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-13"><a href="#cb28-13"></a></span>
-<span id="cb28-14"><a href="#cb28-14"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
-<span id="cb28-15"><a href="#cb28-15"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-16"><a href="#cb28-16"></a>    val_acc_all.append(val_acc)</span>
-<span id="cb28-17"><a href="#cb28-17"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="op">%%</span>time</span>
+<span id="cb28-2"><a href="#cb28-2" aria-label="2"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-label="4"></a>train_acc_all <span class="op">=</span> []</span>
+<span id="cb28-5"><a href="#cb28-5" aria-label="5"></a>val_acc_all <span class="op">=</span> []</span>
+<span id="cb28-6"><a href="#cb28-6" aria-label="6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb28-7"><a href="#cb28-7" aria-label="7"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-label="8"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-label="9"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-label="10"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-label="11"></a>    train_acc_all.append(acc)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-label="12"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-label="13"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-label="14"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-label="15"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-label="16"></a>    val_acc_all.append(val_acc)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-label="17"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 0: training loss: 0.8711661319732666, accuracy: 75.1875
 Epoch 0: val. loss: 0.8697689403878882, val. accuracy: 74.55833333333334
@@ -1337,14 +1386,14 @@ Wall time: 12.4 s</code></pre>
 </div>
 </div>
 <div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:23:03.074107Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:23:03.073684Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:03.265565Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:03.265275Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:23:03.073930Z&quot;}}" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># pltsize=1</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>plt.figure()</span>
-<span id="cb30-4"><a href="#cb30-4"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">"Training Acc."</span>)</span>
-<span id="cb30-5"><a href="#cb30-5"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">"Validation Acc."</span>)</span>
-<span id="cb30-6"><a href="#cb30-6"></a>plt.xlabel(<span class="st">"Epoch #"</span>)</span>
-<span id="cb30-7"><a href="#cb30-7"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
-<span id="cb30-8"><a href="#cb30-8"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="co"># pltsize=1</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>plt.figure()</span>
+<span id="cb30-4"><a href="#cb30-4" aria-label="4"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">"Training Acc."</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-label="5"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">"Validation Acc."</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-label="6"></a>plt.xlabel(<span class="st">"Epoch #"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-label="7"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-label="8"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1354,7 +1403,7 @@ Wall time: 12.4 s</code></pre>
 </div>
 </div>
 <div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:23:03.266016Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:23:03.265937Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:03.474560Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:03.474279Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:23:03.266008Z&quot;}}" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>show_failures(nonlinear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a>show_failures(nonlinear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Showing max 10 first failures.
 The predicted class is shown first and the correct class in parentheses.</code></pre>
@@ -1398,83 +1447,83 @@ The predicted class is shown first and the correct class in parentheses.</code><
 <h2 class="anchored" data-anchor-id="homework-solution">Homework solution</h2>
 <p>Make the following changes to the cells with the comment “#For HW”</p>
 <div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:23:03.475568Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:23:03.475456Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:03.510311Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:03.509755Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:23:03.475558Z&quot;}}" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="co">#####################To modify the batch size##########################</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>batch_size <span class="op">=</span> <span class="dv">32</span>  <span class="co"># 64, 128, 256, 512</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a></span>
-<span id="cb33-4"><a href="#cb33-4"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb33-6"><a href="#cb33-6"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb33-7"><a href="#cb33-7"></a><span class="co">##############################################################################</span></span>
-<span id="cb33-8"><a href="#cb33-8"></a></span>
-<span id="cb33-9"><a href="#cb33-9"></a></span>
-<span id="cb33-10"><a href="#cb33-10"></a><span class="co">##########################To change the learning rate##########################</span></span>
-<span id="cb33-11"><a href="#cb33-11"></a>optimizer <span class="op">=</span> torch.optim.SGD(</span>
-<span id="cb33-12"><a href="#cb33-12"></a>    nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span></span>
-<span id="cb33-13"><a href="#cb33-13"></a>)  <span class="co"># modify the value of lr</span></span>
-<span id="cb33-14"><a href="#cb33-14"></a><span class="co">##############################################################################</span></span>
-<span id="cb33-15"><a href="#cb33-15"></a></span>
-<span id="cb33-16"><a href="#cb33-16"></a></span>
-<span id="cb33-17"><a href="#cb33-17"></a><span class="co">##########################To change activation##########################</span></span>
-<span id="cb33-18"><a href="#cb33-18"></a><span class="co">###### Go to https://pytorch.org/docs/main/nn.html#non-linear-activations-weighted-sum-nonlinearity for more activations ######</span></span>
-<span id="cb33-19"><a href="#cb33-19"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
-<span id="cb33-20"><a href="#cb33-20"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb33-21"><a href="#cb33-21"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb33-22"><a href="#cb33-22"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb33-23"><a href="#cb33-23"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
-<span id="cb33-24"><a href="#cb33-24"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">50</span>),</span>
-<span id="cb33-25"><a href="#cb33-25"></a>            nn.Sigmoid(),  <span class="co"># nn.ReLU(),</span></span>
-<span id="cb33-26"><a href="#cb33-26"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
-<span id="cb33-27"><a href="#cb33-27"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb33-28"><a href="#cb33-28"></a>            nn.Tanh(),  <span class="co"># nn.ReLU(),</span></span>
-<span id="cb33-29"><a href="#cb33-29"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb33-30"><a href="#cb33-30"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb33-31"><a href="#cb33-31"></a>            nn.ReLU(),</span>
-<span id="cb33-32"><a href="#cb33-32"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb33-33"><a href="#cb33-33"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>),</span>
-<span id="cb33-34"><a href="#cb33-34"></a>        )</span>
-<span id="cb33-35"><a href="#cb33-35"></a></span>
-<span id="cb33-36"><a href="#cb33-36"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb33-37"><a href="#cb33-37"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb33-38"><a href="#cb33-38"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
-<span id="cb33-39"><a href="#cb33-39"></a></span>
-<span id="cb33-40"><a href="#cb33-40"></a>        <span class="cf">return</span> x</span>
-<span id="cb33-41"><a href="#cb33-41"></a></span>
-<span id="cb33-42"><a href="#cb33-42"></a></span>
-<span id="cb33-43"><a href="#cb33-43"></a><span class="co">##############################################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="co">#####################To modify the batch size##########################</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-label="2"></a>batch_size <span class="op">=</span> <span class="dv">32</span>  <span class="co"># 64, 128, 256, 512</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-label="3"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-label="4"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-label="5"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-label="6"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-label="7"></a><span class="co">##############################################################################</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-label="8"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-label="9"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-label="10"></a><span class="co">##########################To change the learning rate##########################</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-label="11"></a>optimizer <span class="op">=</span> torch.optim.SGD(</span>
+<span id="cb33-12"><a href="#cb33-12" aria-label="12"></a>    nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-label="13"></a>)  <span class="co"># modify the value of lr</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-label="14"></a><span class="co">##############################################################################</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-label="15"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-label="16"></a></span>
+<span id="cb33-17"><a href="#cb33-17" aria-label="17"></a><span class="co">##########################To change activation##########################</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-label="18"></a><span class="co">###### Go to https://pytorch.org/docs/main/nn.html#non-linear-activations-weighted-sum-nonlinearity for more activations ######</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-label="19"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
+<span id="cb33-20"><a href="#cb33-20" aria-label="20"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb33-21"><a href="#cb33-21" aria-label="21"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb33-22"><a href="#cb33-22" aria-label="22"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb33-23"><a href="#cb33-23" aria-label="23"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
+<span id="cb33-24"><a href="#cb33-24" aria-label="24"></a>            nn.Linear(<span class="dv">28</span> <span class="op">*</span> <span class="dv">28</span>, <span class="dv">50</span>),</span>
+<span id="cb33-25"><a href="#cb33-25" aria-label="25"></a>            nn.Sigmoid(),  <span class="co"># nn.ReLU(),</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-label="26"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
+<span id="cb33-27"><a href="#cb33-27" aria-label="27"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb33-28"><a href="#cb33-28" aria-label="28"></a>            nn.Tanh(),  <span class="co"># nn.ReLU(),</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-label="29"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb33-30"><a href="#cb33-30" aria-label="30"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb33-31"><a href="#cb33-31" aria-label="31"></a>            nn.ReLU(),</span>
+<span id="cb33-32"><a href="#cb33-32" aria-label="32"></a>            <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb33-33"><a href="#cb33-33" aria-label="33"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>),</span>
+<span id="cb33-34"><a href="#cb33-34" aria-label="34"></a>        )</span>
+<span id="cb33-35"><a href="#cb33-35" aria-label="35"></a></span>
+<span id="cb33-36"><a href="#cb33-36" aria-label="36"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb33-37"><a href="#cb33-37" aria-label="37"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb33-38"><a href="#cb33-38" aria-label="38"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
+<span id="cb33-39"><a href="#cb33-39" aria-label="39"></a></span>
+<span id="cb33-40"><a href="#cb33-40" aria-label="40"></a>        <span class="cf">return</span> x</span>
+<span id="cb33-41"><a href="#cb33-41" aria-label="41"></a></span>
+<span id="cb33-42"><a href="#cb33-42" aria-label="42"></a></span>
+<span id="cb33-43"><a href="#cb33-43" aria-label="43"></a><span class="co">##############################################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network. See below on how to incorporate it to your training.</p>
 <div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:23:03.510773Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:23:03.510679Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:03.545591Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:03.545152Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:23:03.510764Z&quot;}}" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
-<span id="cb34-2"><a href="#cb34-2"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb34-3"><a href="#cb34-3"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb34-4"><a href="#cb34-4"></a></span>
-<span id="cb34-5"><a href="#cb34-5"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-label="2"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-label="3"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-label="4"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-label="5"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-label="6"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-05T04:23:03.546182Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-05T04:23:03.546071Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-05T04:23:22.701528Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-05T04:23:22.700708Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-05T04:23:03.546173Z&quot;}}" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a><span class="op">%%</span>time</span>
-<span id="cb35-2"><a href="#cb35-2"></a></span>
-<span id="cb35-3"><a href="#cb35-3"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb35-4"><a href="#cb35-4"></a>train_acc_all <span class="op">=</span> []</span>
-<span id="cb35-5"><a href="#cb35-5"></a>val_acc_all <span class="op">=</span> []</span>
-<span id="cb35-6"><a href="#cb35-6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb35-7"><a href="#cb35-7"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
-<span id="cb35-8"><a href="#cb35-8"></a>    <span class="co">#step the scheduler</span></span>
-<span id="cb35-9"><a href="#cb35-9"></a>    scheduler.step()</span>
-<span id="cb35-10"><a href="#cb35-10"></a></span>
-<span id="cb35-11"><a href="#cb35-11"></a>    <span class="co"># print the current learning rate</span></span>
-<span id="cb35-12"><a href="#cb35-12"></a>    current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
-<span id="cb35-13"><a href="#cb35-13"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">, Learning Rate: </span><span class="sc">{</span>current_lr<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb35-14"><a href="#cb35-14"></a></span>
-<span id="cb35-15"><a href="#cb35-15"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
-<span id="cb35-16"><a href="#cb35-16"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb35-17"><a href="#cb35-17"></a>    train_acc_all.append(acc)</span>
-<span id="cb35-18"><a href="#cb35-18"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb35-19"><a href="#cb35-19"></a></span>
-<span id="cb35-20"><a href="#cb35-20"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
-<span id="cb35-21"><a href="#cb35-21"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb35-22"><a href="#cb35-22"></a>    val_acc_all.append(val_acc)</span>
-<span id="cb35-23"><a href="#cb35-23"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a><span class="op">%%</span>time</span>
+<span id="cb35-2"><a href="#cb35-2" aria-label="2"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-label="4"></a>train_acc_all <span class="op">=</span> []</span>
+<span id="cb35-5"><a href="#cb35-5" aria-label="5"></a>val_acc_all <span class="op">=</span> []</span>
+<span id="cb35-6"><a href="#cb35-6" aria-label="6"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb35-7"><a href="#cb35-7" aria-label="7"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-label="8"></a>    <span class="co">#step the scheduler</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-label="9"></a>    scheduler.step()</span>
+<span id="cb35-10"><a href="#cb35-10" aria-label="10"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-label="11"></a>    <span class="co"># print the current learning rate</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-label="12"></a>    current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
+<span id="cb35-13"><a href="#cb35-13" aria-label="13"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">, Learning Rate: </span><span class="sc">{</span>current_lr<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-label="14"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-label="15"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-label="16"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-label="17"></a>    train_acc_all.append(acc)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-label="18"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-label="19"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-label="20"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-label="21"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb35-22"><a href="#cb35-22" aria-label="22"></a>    val_acc_all.append(val_acc)</span>
+<span id="cb35-23"><a href="#cb35-23" aria-label="23"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/6, Learning Rate: 0.1
 Epoch 0: training loss: 0.35453774413218103, accuracy: 89.84791666666668
@@ -1525,8 +1574,8 @@ Wall time: 19.1 s</code></pre>
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam, Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch,
-and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17,
-2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/">https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/</a>.
+and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
+<a href="https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/">https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1592,13 +1641,14 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17,
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1632,16 +1682,16 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17,
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {

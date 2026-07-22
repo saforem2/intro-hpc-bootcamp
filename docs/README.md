@@ -43,6 +43,18 @@ Sam Foreman
     - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/)
     - 📗 [\[08\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
+    - 🚀 [**Advanced / Large-Scale LLMs**](./02-llms/advanced/)
+      - 📗 [\[11\] Mixture of Experts & Expert
+        Parallelism](./02-llms/11-moe/)
+      - 📗 [\[12\] Pretraining at
+        Scale](./02-llms/12-pretraining-at-scale/)
+      - 📗 [\[13\] Fault-Tolerant
+        Training](./02-llms/13-fault-tolerant-training/)
+      - 📗 [\[14\] Mid- &
+        Post-Training](./02-llms/14-mid-post-training/)
+      - 📗 [\[15\] RL & Reasoning
+        Models](./02-llms/15-rl-and-reasoning/)
+    - 📊 [\[10\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
 
 <details closed>
 
@@ -113,8 +125,7 @@ Sam Foreman
 4.  Setup Python:
 
     ``` bash
-    source <(curl -L https://bit.ly/ezpz-utils)
-    ezpz_setup_python
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
     ```
 
 5.  Setup [wandb](https://wandb.ai):
@@ -129,10 +140,10 @@ Sam Foreman
     python3 -m pip install -e "."
     ```
 
-7.  Run `ezpz-test` (simple test to verify distributed functionality):
+7.  Run `ezpz test` (simple test to verify distributed functionality):
 
     ``` bash
-    ezpz-test  # <- SHOULD WORK (🤞)
+    ezpz test  # <- (SHOULD WORK 🤞)
     ```
 
 8.  Prepare data:
@@ -144,7 +155,7 @@ Sam Foreman
 9.  Run distributed training:
 
     ``` bash
-      ezpz-launch -m wordplay \
+      ezpz launch python3 -m wordplay \
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \
@@ -563,5 +574,5 @@ print(' '.join([ "[#838383]Last Updated[/]:", f"[#E599F7]{now.strftime("%Y-%m-%d
 
 </details>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #838383; text-decoration-color: #838383">Last Updated</span>: <span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">2025</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">08</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">12</span> <span style="color: #838383; text-decoration-color: #838383">@</span> <span style="color: #00ccff; text-decoration-color: #00ccff; font-weight: bold">16:53:50</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #838383; text-decoration-color: #838383">Last Updated</span>: <span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">2026</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">07</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">22</span> <span style="color: #838383; text-decoration-color: #838383">@</span> <span style="color: #00ccff; text-decoration-color: #00ccff; font-weight: bold">09:22:26</span>
 </pre>

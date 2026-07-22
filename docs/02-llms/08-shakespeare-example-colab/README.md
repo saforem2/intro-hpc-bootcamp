@@ -72,6 +72,9 @@ You will need to restart your runtime (`Runtime` $\rightarrow\,$
 `Restart runtime`)  
 *after* executing the following cell:
 
+::: {.callout-tip title=“➡️ Next steps”}Ready to scale up? See the
+[Advanced / Large-Scale LLMs track](../advanced/index.qmd).:::
+
 ``` python
 %%bash
 
@@ -148,87 +151,8 @@ print(wordplay.__file__)
     /content/wordplay/src/wordplay/__init__.py
 
 ``` python
-import os
-import numpy as np
-from ezpz import setup
-from hydra.utils import instantiate
-from wordplay.configs import get_config, PROJECT_ROOT
-from wordplay.trainer import Trainer
-
-HF_DATASETS_CACHE = PROJECT_ROOT.joinpath('.cache', 'huggingface')
-HF_DATASETS_CACHE.mkdir(exist_ok=True, parents=True)
-
-os.environ['HF_DATASETS_CACHE'] = HF_DATASETS_CACHE.as_posix()
-
-BACKEND = 'DDP'
-
-rank = setup(
-    framework='pytorch',
-    backend=BACKEND,
-    seed=1234,
-)
-
-cfg = get_config(
-    [
-        'data=shakespeare',
-        'model=shakespeare',
-        'model.batch_size=8',
-        'model.block_size=1024',
-        'optimizer=shakespeare',
-        'train=shakespeare',
-        f'train.backend={BACKEND}',
-        'train.compile=false',
-        'train.dtype=bfloat16',
-        'train.max_iters=1000',
-        'train.log_interval=10',
-        'train.eval_interval=100',
-    ]
-)
-config = instantiate(cfg)
+import osimport numpy as npfrom ezpz import setup_torchfrom hydra.utils import instantiatefrom wordplay.configs import get_config, PROJECT_ROOTfrom wordplay.trainer import TrainerHF_DATASETS_CACHE = PROJECT_ROOT.joinpath('.cache', 'huggingface')HF_DATASETS_CACHE.mkdir(exist_ok=True, parents=True)os.environ['HF_DATASETS_CACHE'] = HF_DATASETS_CACHE.as_posix()BACKEND = 'DDP'rank = setup_torch(    backend=BACKEND,    seed=1234,)cfg = get_config(    [        'data=shakespeare',        'model=shakespeare',        'model.batch_size=8',        'model.block_size=1024',        'optimizer=shakespeare',        'train=shakespeare',        f'train.backend={BACKEND}',        'train.compile=false',        'train.dtype=bfloat16',        'train.max_iters=1000',        'train.log_interval=10',        'train.eval_interval=100',    ])config = instantiate(cfg)
 ```
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,409437</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">81</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting HF_DATASETS_CACHE to <span style="color: #800080; text-decoration-color: #800080">/content/wordplay/.cache/huggingface/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">datasets</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,435593</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">1159</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Using <span style="color: #0000ff; text-decoration-color: #0000ff">fw</span>=<span style="color: #008000; text-decoration-color: #008000">'ddp'</span> with torch_<span style="color: #ff00ff; text-decoration-color: #ff00ff">{</span>device,backend<span style="color: #ff00ff; text-decoration-color: #ff00ff">}</span>= <span style="color: #ff00ff; text-decoration-color: #ff00ff">{</span>cuda, nccl<span style="color: #ff00ff; text-decoration-color: #ff00ff">}</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,438150</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">1026</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Caught <span style="color: #0000ff; text-decoration-color: #0000ff">MASTER_PORT</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41765</span> from environment!
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,440989</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">1042</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Using torch.distributed.init_process_group with
-- <span style="color: #0000ff; text-decoration-color: #0000ff">master_addr</span>=<span style="color: #008000; text-decoration-color: #008000">'588b3fb1cb70'</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">master_port</span>=<span style="color: #008000; text-decoration-color: #008000">'41765'</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">world_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">rank</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">local_rank</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">timeout</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">datetime.timedelta</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">(</span><span style="color: #0000ff; text-decoration-color: #0000ff">seconds</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">)</span>
-- <span style="color: #0000ff; text-decoration-color: #0000ff">backend</span>=<span style="color: #008000; text-decoration-color: #008000">'nccl'</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,447590</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">759</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Calling torch.distributed.init_process_group_with: <span style="color: #0000ff; text-decoration-color: #0000ff">rank</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span> <span style="color: #0000ff; text-decoration-color: #0000ff">world_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span> <span style="color: #0000ff; text-decoration-color: #0000ff">backend</span>=<span style="color: #800080; text-decoration-color: #800080">nccl</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,462711</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">1377</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Using <span style="color: #0000ff; text-decoration-color: #0000ff">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda'</span> with <span style="color: #0000ff; text-decoration-color: #0000ff">backend</span>=<span style="color: #008000; text-decoration-color: #008000">'nccl'</span> + <span style="color: #008000; text-decoration-color: #008000">'nccl'</span> for distributed training.
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:07,465933</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">dist</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">1422</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span><span style="color: #ff00ff; text-decoration-color: #ff00ff">[</span><span style="color: #008000; text-decoration-color: #008000">'588b3fb1cb70'</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">][</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span> 
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:08,215788</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">317</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Loading val from <span style="color: #800080; text-decoration-color: #800080">/content/wordplay/data/shakespeare_char/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">val.bin</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:08,221368</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">317</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Loading train from <span style="color: #800080; text-decoration-color: #800080">/content/wordplay/data/shakespeare_char/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">train.bin</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:08,226696</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">442</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Tokens per iteration: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">192</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:08,231221</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">465</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Using self.<span style="color: #0000ff; text-decoration-color: #0000ff">ptdtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.bfloat16 on self.<span style="color: #0000ff; text-decoration-color: #0000ff">device_type</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda'</span>
-</pre>
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 17:07:08,234866</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">wordplay</span>/<span style="color: #000080; text-decoration-color: #000080">configs</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">471</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Initializing a new model from scratch
-</pre>
 
 ### Build `Trainer` object
 

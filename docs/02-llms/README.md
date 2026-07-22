@@ -23,15 +23,20 @@ Sam Foreman
 ## Contents
 
 - 📂 [02-llms/](index.qmd)
-  - [00-intro-to-llms](00-intro-to-llms/index.qmd)
-  - [01-hands-on-llms](01-hands-on-llms/index.ipynb)
-  - [02-prompt-engineering](02-prompt-engineering/index.qmd)
-  - [05-advanced-llms](05-advanced-llms/index.qmd)
-  - [06-parallel-training](06-parallel-training/index.qmd)
-  - [07-shakespeare-example](07-shakespeare-example/index.qmd)
-  - [08-shakespeare-example-colab](08-shakespeare-example-colab/index.ipynb)
-  - [09-rag-tutorial](09-rag-tutorial/index.qmd)
-  - [10-evaluating-llms](10-evaluating-llms/index.qmd)
+  - [\[00\] Intro to LLMs](00-intro-to-llms/index.qmd)
+  - [\[01\] Hands-on LLMs](01-hands-on-llms/index.ipynb)
+  - [\[06\] Parallel Training](06-parallel-training/index.qmd)
+  - [\[07\] Shakespeare Example](07-shakespeare-example/index.qmd)
+  - [\[08\] Shakespeare Example
+    (Colab)](08-shakespeare-example-colab/index.ipynb)
+  - 🚀 **[Advanced / Large-Scale LLMs](advanced/index.qmd)**
+    - [\[11\] Mixture of Experts & Expert Parallelism](11-moe/index.qmd)
+    - [\[12\] Pretraining at Scale](12-pretraining-at-scale/index.qmd)
+    - [\[13\] Fault-Tolerant
+      Training](13-fault-tolerant-training/index.qmd)
+    - [\[14\] Mid- & Post-Training](14-mid-post-training/index.qmd)
+    - [\[15\] RL & Reasoning Models](15-rl-and-reasoning/index.qmd)
+  - [\[10\] Evaluating LLMs](10-evaluating-llms/index.qmd)
 
 ## Overview
 
@@ -121,13 +126,13 @@ I strongly recommend reading:
 - [GPT in 60 Lines of
   NumPy](https://jaykmody.com/blog/gpt-from-scratch/)
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-huggingfacecourse" class="csl-entry">
 
-Face, Hugging. 2022. “The Hugging Face Course, 2022.”
-<https://huggingface.co/course>.
+Face, Hugging. 2022. *The Hugging Face Course, 2022*.
+<a href="https://huggingface.co/course"
+class="uri">Https://huggingface.co/course</a>.
 
 </div>
 
