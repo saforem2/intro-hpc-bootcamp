@@ -16,7 +16,7 @@ Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 - [Homework](#homework)
 - [Homework solution](#homework-solution)
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
 
 > [!NOTE]
 >

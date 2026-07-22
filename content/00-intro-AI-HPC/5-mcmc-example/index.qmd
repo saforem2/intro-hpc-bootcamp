@@ -36,14 +36,14 @@ author:
         url: https://alcf.anl.gov/about/people/huihuo-zheng
 ---
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)
 
 <!--
 <p>
-    <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intro-AI-HPC/8-clustering/index.ipynb">
+    <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/8-clustering/index.ipynb">
         <img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid">
     </a>
-    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md">
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md">
         <img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid">
     </a>
 </p>

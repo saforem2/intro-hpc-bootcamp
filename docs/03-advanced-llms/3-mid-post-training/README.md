@@ -27,8 +27,8 @@ Sam Foreman
 > Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC
 > Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/03-advanced-llms/3-mid-post-training/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/3-mid-post-training/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
 
 So far you have seen how a model is *pretrained* from scratch (labs
 [\[02.0\]](../../02-llms/00-intro-to-llms/index.qmd)–[\[02.3\]](../../02-llms/08-shakespeare-example-colab/index.ipynb))

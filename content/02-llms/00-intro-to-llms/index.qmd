@@ -15,7 +15,7 @@ Lusch, and Venkat Vishwanath (Argonne)
 Modification by Huihuo Zheng on August 1, 2025
 :::
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/00-intro-to-llms/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/00-intro-to-llms/index.qmd)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/00-intro-to-llms/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/00-intro-to-llms/index.qmd)
 
 Inspiration from the blog posts "The Illustrated Transformer" and "The
 Illustrated GPT2" by Jay Alammar, highly recommended reading.

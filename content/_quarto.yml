@@ -1,4 +1,4 @@
-title: "Intro to HPC Bootcamp 2025"
+title: "Intro to HPC Bootcamp"
 date: 2025-07-22
 lightbox: true
 title-block-categories: true
@@ -6,7 +6,7 @@ number-sections: false
 image-lazy-loading: true
 bibliography: references.bib
 google-scholar: true
-site-url: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
+site-url: "https://saforem2.github.io/intro-hpc-bootcamp/"
 citation: true
 strip-comments: true
 affiliation: "[ALCF](https://alcf.anl.gov/about/people/sam-foreman)"
@@ -284,18 +284,18 @@ project:
 website:
   google-analytics: "GTM-MRCG68M5"
   bread-crumbs: true
-  title: "Intro to HPC Bootcamp 2025"
+  title: "Intro to HPC Bootcamp"
   description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."
   image: assets/thumbnail.png
   favicon: assets/favicon-sf.svg
   page-navigation: true
-  site-url: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
-  repo-url: https://github.com/saforem2/intro-hpc-bootcamp-2025
+  site-url: "https://saforem2.github.io/intro-hpc-bootcamp/"
+  repo-url: https://github.com/saforem2/intro-hpc-bootcamp
   repo-actions: [source, edit, issue]
   # repo-subdir: content
   comments:
     giscus:
-      repo: saforem2/intro-hpc-bootcamp-2025
+      repo: saforem2/intro-hpc-bootcamp
   open-graph: true
   twitter-card:
     site: "saforem2"
@@ -306,7 +306,7 @@ website:
     align: left
     search: true
     pinned: true
-    title: "Intro to HPC Bootcamp 2025"
+    title: "Intro to HPC Bootcamp"
     # search: true
     # contents: auto
     collapse-level: 1
@@ -316,7 +316,7 @@ website:
         href: "index.qmd"
         text: "Home"
       - icon: github
-        href: "https://github.com/saforem2/intro-hpc-bootcamp-2025"
+        href: "https://github.com/saforem2/intro-hpc-bootcamp"
         text: "GitHub"
 
     id: sidebar
@@ -400,14 +400,14 @@ website:
     #   Proudly supported by
     #   [![](/images/Posit-Logos-2024_horiz-full-color.svg){fig-alt="Posit" width=65px .light-content}](https://posit.co) [![](/images/Posit-Logos-2024_horiz-full-color-white-text.svg){fig-alt="Posit" width=65px .dark-content}](https://posit.co)
     left:
-      - text: "saforem2.github.io/intro-hpc-bootcamp-2025"
-        href: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
+      - text: "saforem2.github.io/intro-hpc-bootcamp"
+        href: "https://saforem2.github.io/intro-hpc-bootcamp/"
     right:
       - icon: twitter
         href: https://twitter.com/saforem2
         aria-label: Sam Foreman Twitter
       - icon: github
-        href: https://github.com/saforem2/intro-hpc-bootcamp-2025
+        href: https://github.com/saforem2/intro-hpc-bootcamp
         aria-label: Sam Foreman GitHub
       # - icon: rss
       #   href: https://samforeman.me/index.xml

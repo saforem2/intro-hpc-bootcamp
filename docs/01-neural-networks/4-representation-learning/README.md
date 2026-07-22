@@ -7,7 +7,7 @@
 - [This notebook is not officially part of the
   course.](#this-notebook-is-not-officially-part-of-the-course)
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/4-representation-learning/index.ipynb)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/4-representation-learning/index.ipynb)
 
 ## This notebook is not officially part of the course.
 

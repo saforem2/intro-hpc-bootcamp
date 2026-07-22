@@ -1,4 +1,4 @@
-# Intro to HPC Bootcamp 2025
+# Intro to HPC Bootcamp
 Sam Foreman
 2025-07-15
 
@@ -88,7 +88,7 @@ Sam Foreman
 
     ``` bash
     mkdir $USER && cd $USER
-    git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
+    git clone https://github.com/saforem2/intro-hpc-bootcamp
     ```
 
 5.  Find all Jupyter notebooks:

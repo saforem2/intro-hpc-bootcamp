@@ -1,7 +1,7 @@
-# 🤖 Intro to HPC Bootcamp 2025
+# 🤖 Intro to HPC Bootcamp
 
-- [Intro to HPC Bootcamp 2025](https://intro-hpc-bootcamp.alcf.anl.gov/)
-  - [Intro to {AI, HPC} for Science](https://saforem2.github.io/intro-hpc-bootcamp-2025)
+- [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/)
+  - [Intro to {AI, HPC} for Science](https://saforem2.github.io/intro-hpc-bootcamp)
 
 ## 🐣 Getting Started
 
@@ -15,8 +15,8 @@ NODES=2 ; HRS=02 ; QUEUE=interactive ; salloc --nodes $NODES --qos $QUEUE --time
 ### 📦 Installing `bootcamp`
 
 ```bash
-git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
-cd intro-hpc-bootcamp-2025
+git clone https://github.com/saforem2/intro-hpc-bootcamp
+cd intro-hpc-bootcamp
 source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
 ```
 
@@ -30,8 +30,8 @@ source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
 2. Clone the repository:
 
    ```bash
-   git clone --filter=tree:0 https://github.com/saforem2/intro-hpc-bootcamp-2025
-   cd intro-hpc-bootcamp-2025 
+   git clone --filter=tree:0 https://github.com/saforem2/intro-hpc-bootcamp
+   cd intro-hpc-bootcamp 
    ```
 
 3. Create a virtual environment:

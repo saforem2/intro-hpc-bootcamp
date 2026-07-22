@@ -11,7 +11,7 @@
 <meta name="dcterms.date" content="2025-07-15">
 <meta name="description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
 
-<title>Example: Linear Regression – Intro to HPC Bootcamp 2025</title>
+<title>Example: Linear Regression – Intro to HPC Bootcamp</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -125,7 +125,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
@@ -185,14 +185,14 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Example: Linear Regression – Intro to HPC Bootcamp 2025">
+<meta property="og:title" content="Example: Linear Regression – Intro to HPC Bootcamp">
 <meta property="og:description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
-<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
-<meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta property="og:image:alt" content="">
-<meta name="twitter:title" content="Example: Linear Regression – Intro to HPC Bootcamp 2025">
+<meta name="twitter:title" content="Example: Linear Regression – Intro to HPC Bootcamp">
 <meta name="twitter:description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
-<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +203,7 @@ window.Quarto = {
 <meta name="citation_cover_date" content="2025-07-15">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-15">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -463,10 +463,10 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Intro to HPC Bootcamp 2025</a> 
+      <a href="../../">Intro to HPC Bootcamp</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
-    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -712,7 +712,7 @@ window.Quarto = {
   <li><a href="#minibatch-training" id="toc-minibatch-training" class="nav-link" data-scroll-target="#minibatch-training">Minibatch training</a></li>
   <li><a href="#learning-rate" id="toc-learning-rate" class="nav-link" data-scroll-target="#learning-rate">Learning rate</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -776,7 +776,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 11, 2025</p>
+      <p class="date-modified">July 22, 2026</p>
     </div>
   </div>
     
@@ -787,7 +787,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/6-linear-regression/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <p>In this notebook, we will talk about:</p>
 <ul>
 <li>What is AI training?</li>
@@ -906,7 +906,7 @@ Figure&nbsp;4: Linear regression in Excel
 <li><a href="https://numpy.org/doc/">Numpy</a>: a toolkit for managing arrays, vectors, matrices, etc, doing math with them, slicing them up, and many other handy things.</li>
 <li><a href="https://matplotlib.org/stable/index.html">Matplotlib</a>: a toolkit for plotting data</li>
 </ul>
-<div id="bc8acfc0" class="cell" data-execution_count="2">
+<div id="b47bddfb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>os.environ[<span class="st">"FORCE_COLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>os.environ[<span class="st">"TTY_INTERACTIVE"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
@@ -927,14 +927,6 @@ Figure&nbsp;4: Linear regression in Excel
 <span id="cb1-18"><a href="#cb1-18" aria-label="18"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-label="19"></a><span class="im">import</span> ezpz</span>
 <span id="cb1-20"><a href="#cb1-20" aria-label="20"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-05 12:51:50,140357</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">265</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'INFO'</span> on <span style="color: #008000; text-decoration-color: #008000">'RANK == 0'</span>
-</pre>
-</div>
-<div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-05 12:51:50,142475</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">266</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'CRITICAL'</span> on all others <span style="color: #008000; text-decoration-color: #008000">'RANK != 0'</span>
-</pre>
-</div>
 </div>
 <section id="dataset" class="level3">
 <h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
@@ -942,7 +934,7 @@ Figure&nbsp;4: Linear regression in Excel
 <p>This dataset contains the <em>sale price</em> and <em>above ground square feet</em> of many houses. We can use this data for our linear regression.</p>
 <p>We use Pandas to read the data file which is stored as Comma Separated Values (CSV) and print the column labels.</p>
 <p>CSV files are similar to excel sheets.</p>
-<div id="5431b5b3" class="cell" data-execution_count="3">
+<div id="c153a1b3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="bu">print</span>(data.columns)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -954,7 +946,7 @@ Figure&nbsp;4: Linear regression in Excel
 <p>Now pandas provides some helpful tools for us to inspect our data.</p>
 <p>It provides a <code>plot()</code> function that, behind the scenes, is calling into the <em>Matplotlib</em> library and calling the function <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib.pyplot.plot()</a>.</p>
 <p>In this case, we simply tell it the names of the columns we want as our <em>x</em> and <em>y</em> values and the <code>style</code> (<code>'.'</code> tells <code>matplotlib</code> to use a small dot to represent each data point).</p>
-<div id="49fdebe2" class="cell" data-execution_count="4">
+<div id="70e93341" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>data.plot(x<span class="op">=</span><span class="st">'GrLivArea'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>,style<span class="op">=</span><span class="st">'o'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, markeredgecolor<span class="op">=</span><span class="st">"#222"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -965,7 +957,7 @@ Figure&nbsp;4: Linear regression in Excel
 </div>
 </div>
 <p>or, even better yet, use <a href="https://seaborn.pydata.org/"><code>seaborn</code></a> to plot the data:</p>
-<div id="7a2cf0e5" class="cell" data-execution_count="5">
+<div id="8edfecaa" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>sns.jointplot(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    x<span class="op">=</span><span class="st">"GrLivArea"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>    y<span class="op">=</span><span class="st">"SalePrice"</span>,</span>
@@ -991,27 +983,27 @@ Figure&nbsp;4: Linear regression in Excel
 <p>Details derivation of this can be found <a href="https://en.wikipedia.org/wiki/Simple_linear_regression">here</a>.</p>
 <p>We’ll break this calculation into a few steps to help make it easier.</p>
 <p>First lets define <span class="math inline">x</span> and <span class="math inline">y</span>. <span class="math inline">x</span> will be our <em>above ground square footage</em> and <span class="math inline">y</span> will be <em>sale price</em>. In our equations we have a few different values we need, such as <span class="math inline">n</span> which is just the number of points we have:</p>
-<div id="0eefb63f" class="cell" data-execution_count="6">
+<div id="3b557591" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we need our <span class="math inline">x</span> and <span class="math inline">y</span> by selecting only the column we care about for each one. Note about data formats: <code>data</code> is a Pandas <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a> object which has rows and columns; <code>data['GrLivArea']</code> is a Pandas <a href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html">Series</a> object which only has rows; then we also convert from <em>Pandas</em> data formats (in this case a <em>Series</em>) to <em>Numpy</em> data formats using the <code>to_numpy()</code> function which is part of the Pandas <em>Series</em> object.</p>
-<div id="69aca1c2" class="cell" data-execution_count="7">
+<div id="04cfa216" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we will calculate <span class="math inline">\Sigma xy</span>, <span class="math inline">\Sigma x</span>, <span class="math inline">\Sigma y</span>, and <span class="math inline">\Sigma x^2</span>:</p>
-<div id="5f05b1d6" class="cell" data-execution_count="8">
+<div id="c5de27e6" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The denominator in the equation for <span class="math inline">m</span> and <span class="math inline">b</span> are the same so we can calculate that once:</p>
-<div id="5153fffb" class="cell" data-execution_count="9">
+<div id="9fc74982" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we can calculate our fit values:</p>
-<div id="58dd3c20" class="cell" data-execution_count="10">
+<div id="086af936" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
@@ -1026,7 +1018,7 @@ Figure&nbsp;4: Linear regression in Excel
 </div>
 <p>Now we can plot the fit results with our data to see how we did.</p>
 <p>First we define a plotting function because we’re going to do this often and we want to reuse our code:</p>
-<div id="75deb891" class="cell" data-execution_count="11">
+<div id="adea6bdc" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">def</span> plot_data(x,y,m,b,plt <span class="op">=</span> plt):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>   <span class="co"># plot our data points with 'bo' = blue circles</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>   plt.plot(x, y, <span class="st">'o'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, markeredgecolor<span class="op">=</span><span class="st">"#222"</span>)</span>
@@ -1040,7 +1032,7 @@ Figure&nbsp;4: Linear regression in Excel
 <span id="cb10-11"><a href="#cb10-11" aria-label="11"></a>   plt.plot(linear_x, linear_y, <span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'fit'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now can use this function to plot our results:</p>
-<div id="b7d688ac" class="cell" data-execution_count="12">
+<div id="139a845d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>plot_data(x,y,m,b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1059,7 +1051,7 @@ Figure&nbsp;4: Linear regression in Excel
 <p>In AI, neural networks are often referred to as a <em>model</em> because, once fully trained, they should model (AKA predict) the behavior of our system. In our example, the system is how house prices vary based on house size. We know our system is roughly driven by a linear function:</p>
 <p><span class="math display">\hat{y_i}(x_i) = m * x_i + b </span></p>
 <p>We just need to figure out <span class="math inline">m</span> and <span class="math inline">b</span>. Let’s create a function that calculates our model given <span class="math inline">x</span>, <span class="math inline">m</span>, and <span class="math inline">b</span>.</p>
-<div id="3044320b" class="cell" data-execution_count="13">
+<div id="45ab4d34" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="kw">def</span> model(x,m,b):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1082,7 +1074,7 @@ Figure&nbsp;5: Loss function for linear regression
 </figure>
 </div>
 <p>Here we crate a function that calculates this for us.</p>
-<div id="ca67ff34" class="cell" data-execution_count="14">
+<div id="cf50ffc9" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">def</span> loss(x,y,m,b):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1155,7 +1147,7 @@ Figure&nbsp;10: Local min with variable LR
 </div>
 <p>As you can see, this process is not perfect and could still land in a local minimum, but it is important to be aware of these behaviors as you utilize SGD in machine learning.</p>
 <p>So let’s continue, we’ll build functions we can use to update our fit parameters, <span class="math inline">m</span> and <span class="math inline">b</span>.</p>
-<div id="33f3c3d0" class="cell" data-execution_count="15">
+<div id="ba9fb278" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
@@ -1172,7 +1164,7 @@ Figure&nbsp;10: Local min with variable LR
 <section id="putting-it-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-it-together">Putting it together</h2>
 <p>We can now randomly select our initial slope and intercept:</p>
-<div id="69fb7c9a" class="cell" data-execution_count="16">
+<div id="4901cfa7" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"y_i = </span><span class="sc">{</span>m<span class="sc">:.2f}</span><span class="ss"> * x + </span><span class="sc">{</span>b<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
@@ -1183,7 +1175,7 @@ Figure&nbsp;10: Local min with variable LR
 </div>
 </div>
 <p>Then we can calculate our Loss function:</p>
-<div id="4362a66d" class="cell" data-execution_count="17">
+<div id="51343769" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f'first 10 loss values: </span><span class="sc">{</span>l[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -1193,7 +1185,7 @@ Figure&nbsp;10: Local min with variable LR
 </pre>
 </div>
 </div>
-<div id="4ade74f6" class="cell" data-execution_count="18">
+<div id="d60eafb6" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
@@ -1211,7 +1203,7 @@ Figure&nbsp;10: Local min with variable LR
 </div>
 </div>
 </div>
-<div id="1135e018" class="cell" data-execution_count="19">
+<div id="9b207173" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="co"># set our initial slope and intercept</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
@@ -1330,7 +1322,7 @@ Homework Answer
 </h2>
 </summary>
 <p>Let us define a train function which allow us to try different hyperparameter setups.</p>
-<div id="9d90dc9a" class="cell" data-execution_count="20">
+<div id="2cec7186" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
@@ -1360,7 +1352,7 @@ Homework Answer
 </section>
 <section id="minibatch-training" class="level2">
 <h2 class="anchored" data-anchor-id="minibatch-training">Minibatch training</h2>
-<div id="d01866e1" class="cell" data-execution_count="21">
+<div id="42d00582" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a></span>
@@ -1373,19 +1365,19 @@ Homework Answer
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81.4346</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37598.9686</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1524042838.5582</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.3461</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36351.5474</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1482178170.1293</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">82.9546</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36569.2526</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1507453099.5719</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.3044</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35437.0170</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479908856.6733</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.9217</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33983.0016</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479132254.9839</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.9909</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31821.5807</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479454003.8730</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.9744</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33121.6436</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478267991.4074</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.2814</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33707.1058</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1477923161.5331</span>
 </pre>
 </div>
 </div>
@@ -1393,26 +1385,26 @@ Homework Answer
 </section>
 <section id="learning-rate" class="level2">
 <h2 class="anchored" data-anchor-id="learning-rate">Learning rate</h2>
-<div id="82efcc22" class="cell" data-execution_count="22">
+<div id="299a0a28" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-label="4"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-label="5"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.9543</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33462.2763</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1482797783.8074</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84.0523</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36054.5299</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1495995376.2780</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.8994</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34131.8465</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1485330197.9274</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81.6276</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37146.3535</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1525578906.6779</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.4639</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38002.0392</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1489970643.3773</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.3743</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38719.5095</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1487337729.7100</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60644.7371</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28757847.8287</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13999940210285804.0000</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93699.5969</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-6361273.1875</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18133755994252952.0000</span>
 </pre>
 </div>
 </div>
@@ -1427,12 +1419,12 @@ Homework Answer
   author = {Foreman, Sam and Foreman, Sam and Zheng, Huihuo},
   title = {Example: {Linear} {Regression}},
   date = {2025-07-15},
-  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam, Sam Foreman, and Huihuo Zheng. 2025. <span>“Example:
-Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/">https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/</a>.
+Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1571,7 +1563,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp-2025\/");
+        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1919,7 +1911,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "saforem2/intro-hpc-bootcamp-2025";
+    script.dataset.repo = "saforem2/intro-hpc-bootcamp";
     script.dataset.repoId = "R_kgDOPQ7DhQ";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOPQ7Dhc4CtXSR";
@@ -1983,7 +1975,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
 <span id="cb26-34"><a href="#cb26-34" aria-label="34"></a><span class="co">        url: https://alcf.anl.gov/about/people/huihuo-zheng</span></span>
 <span id="cb26-35"><a href="#cb26-35" aria-label="35"></a><span class="co">---</span></span>
 <span id="cb26-36"><a href="#cb26-36" aria-label="36"></a></span>
-<span id="cb26-37"><a href="#cb26-37" aria-label="37"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/README.md)</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-label="37"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/6-linear-regression/README.md)</span></span>
 <span id="cb26-38"><a href="#cb26-38" aria-label="38"></a></span>
 <span id="cb26-39"><a href="#cb26-39" aria-label="39"></a>In this notebook, we will talk about:</span>
 <span id="cb26-40"><a href="#cb26-40" aria-label="40"></a></span>
@@ -2669,15 +2661,15 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
     <div class="nav-footer-left">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://saforem2.github.io/intro-hpc-bootcamp-2025/">
-<p>saforem2.github.io/intro-hpc-bootcamp-2025</p>
+    <a class="nav-link" href="https://saforem2.github.io/intro-hpc-bootcamp/">
+<p>saforem2.github.io/intro-hpc-bootcamp</p>
 </a>
   </li>  
 </ul>
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
@@ -2687,7 +2679,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
     </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp-2025" aria-current="page">
+    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp" aria-current="page">
       <i class="bi bi-github" role="img" aria-label="Sam Foreman GitHub">
 </i> 
     </a>

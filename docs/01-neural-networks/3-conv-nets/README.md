@@ -23,8 +23,8 @@ Sam Foreman, Huihuo Zheng, Corey Adams, Bethany Lusch
 
 ## Getting Started
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/01-neural-networks/3-conv-nets/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/3-conv-nets/README.md)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/3-conv-nets/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/3-conv-nets/README.md)
 
 Up until transformers, convolutions were *the* state of the art in
 computer vision.

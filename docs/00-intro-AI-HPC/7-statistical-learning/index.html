@@ -11,7 +11,7 @@
 <meta name="dcterms.date" content="2025-07-25">
 <meta name="description" content="Statistical learning is a framework for understanding and modeling complex data patterns, combining statistical methods with machine learning algorithms to build predictive models.">
 
-<title>Statistical Learning – Intro to HPC Bootcamp 2025</title>
+<title>Statistical Learning – Intro to HPC Bootcamp</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
@@ -125,9 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
 <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
@@ -185,14 +182,14 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Statistical Learning – Intro to HPC Bootcamp 2025">
+<meta property="og:title" content="Statistical Learning – Intro to HPC Bootcamp">
 <meta property="og:description" content="Statistical learning is a framework for understanding and modeling complex data patterns, combining statistical methods with machine learning algorithms to build predictive models.">
-<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
-<meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta property="og:image:alt" content="">
-<meta name="twitter:title" content="Statistical Learning – Intro to HPC Bootcamp 2025">
+<meta name="twitter:title" content="Statistical Learning – Intro to HPC Bootcamp">
 <meta name="twitter:description" content="Statistical learning is a framework for understanding and modeling complex data patterns, combining statistical methods with machine learning algorithms to build predictive models.">
-<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +200,7 @@ window.Quarto = {
 <meta name="citation_cover_date" content="2025-07-25">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-25">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -463,10 +460,10 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Intro to HPC Bootcamp 2025</a> 
+      <a href="../../">Intro to HPC Bootcamp</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
-    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -721,7 +718,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#keep-learning" id="toc-keep-learning" class="nav-link" data-scroll-target="#keep-learning">Keep learning</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -780,7 +777,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 11, 2025</p>
+      <p class="date-modified">July 22, 2026</p>
     </div>
   </div>
     
@@ -791,8 +788,8 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<div id="4e0f8677" class="cell" data-execution_count="2">
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
+<div id="48fac2ea" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
@@ -806,11 +803,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="learning-to-cluster-data">Learning to Cluster Data</h2>
 <p>If we have data with distinct groupings, the objective is to devise a method for labeling our data by its group in an automated way.</p>
 <p>We will demonstrate this, first, on a toy dataset that we <em>design</em> to have a lower inherent dimensionality, then we move to a higher dimensional dataset.</p>
-<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a></p>
 <section id="toy-dataset-2d-blobs" class="level3">
 <h3 class="anchored" data-anchor-id="toy-dataset-2d-blobs">Toy Dataset (2D Blobs)</h3>
 <p>Define 3 blobs on a 2D plane:</p>
-<div id="15421320" class="cell" data-execution_count="3">
+<div id="85537a38" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> sklearn</span>
@@ -834,16 +831,8 @@ window.Quarto = {
 <span id="cb2-21"><a href="#cb2-21" aria-label="21"></a><span class="co"># set random seed for reproducibility</span></span>
 <span id="cb2-22"><a href="#cb2-22" aria-label="22"></a>SEED <span class="op">=</span> <span class="dv">42</span></span>
 <span id="cb2-23"><a href="#cb2-23" aria-label="23"></a>DFIGSIZE <span class="op">=</span> plt.rcParamsDefault[<span class="st">'figure.figsize'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 11:08:05,329776</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">265</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'INFO'</span> on <span style="color: #008000; text-decoration-color: #008000">'RANK == 0'</span>
-</pre>
 </div>
-<div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 11:08:05,331927</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">266</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'CRITICAL'</span> on all others <span style="color: #008000; text-decoration-color: #008000">'RANK != 0'</span>
-</pre>
-</div>
-</div>
-<div id="cf95cca2" class="cell" data-execution_count="4">
+<div id="e686dc81" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>n_samples <span class="op">=</span> <span class="dv">1000</span> <span class="co"># 300 2D data points</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>n_clusters <span class="op">=</span> <span class="dv">4</span>  <span class="co"># 3 unique blobs</span></span>
@@ -878,12 +867,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="688d95f4" class="cell" data-execution_count="5">
+<div id="73e2f06a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># Normalize features</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="dcf46b5a" class="cell" data-execution_count="6">
+<div id="9e09cf70" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    figsize<span class="op">=</span>(<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
@@ -968,7 +957,7 @@ Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
-<div id="ebfba10d" class="cell" data-execution_count="7">
+<div id="019de290" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="kw">def</span> initialize_centroids(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>        n_clusters: <span class="bu">int</span>,</span>
@@ -1013,7 +1002,7 @@ Figure&nbsp;3
 </figcaption>
 </figure>
 </div>
-<div id="524def99" class="cell" data-execution_count="8">
+<div id="e23a4c12" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="kw">def</span> compute_distance(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>        centroids: np.ndarray,</span>
@@ -1049,7 +1038,7 @@ Figure&nbsp;3
 </section>
 <section id="step-2b-find-nearest-cluster-for-each-point" class="level3">
 <h3 class="anchored" data-anchor-id="step-2b-find-nearest-cluster-for-each-point">Step 2b: Find nearest cluster for each point</h3>
-<div id="9fc946f4" class="cell" data-execution_count="9">
+<div id="39ed499e" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="kw">def</span> find_closest_centroid(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>        distance: np.ndarray</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
@@ -1085,7 +1074,7 @@ Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
-<div id="ad219841" class="cell" data-execution_count="10">
+<div id="5cb2f56d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="kw">def</span> compute_centroids(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>        nearest_centroid_indices: np.ndarray,</span>
@@ -1131,7 +1120,7 @@ Figure&nbsp;5
 </figcaption>
 </figure>
 </div>
-<div id="3aeca31a" class="cell" data-execution_count="11">
+<div id="a6503af5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">from</span> __future__ <span class="im">import</span> absolute_import, annotations, division, print_function</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
@@ -1192,7 +1181,7 @@ Figure&nbsp;5
 </section>
 <section id="run-example" class="level2">
 <h2 class="anchored" data-anchor-id="run-example">Run Example</h2>
-<div id="a078e163" class="cell" data-execution_count="12">
+<div id="6e0cfca6" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> COLORS</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
@@ -1240,7 +1229,7 @@ Figure&nbsp;5
 <h2 class="anchored" data-anchor-id="k-means-on-a-breast-cancer-dataset">K-Means on a Breast Cancer Dataset</h2>
 <p>Now we use more realistic data that cannot be easily plotted on a 2D grid. This dataset has 30 features (columns) for 569 patients (rows). In addition, there is a <em>target</em> feature that indicates if the cancer was <em>malignant</em> (0) or <em>benign</em> (1). In the ideal case, our 30 features would provide easy deliniation between these two classes.</p>
 <p>Let’s extract our data into <span class="math inline">x</span> and our truth labels into <span class="math inline">y</span></p>
-<div id="303e66cc" class="cell" data-execution_count="13">
+<div id="e255a486" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a></span>
@@ -1262,11 +1251,11 @@ Figure&nbsp;5
 <span id="cb14-19"><a href="#cb14-19" aria-label="19"></a>    y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
 <span id="cb14-20"><a href="#cb14-20" aria-label="20"></a>    <span class="cf">return</span> x, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="19442d0f" class="cell" data-execution_count="14">
+<div id="e8de4c4b" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a>data <span class="op">=</span> load_cancer_data()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>x, y <span class="op">=</span> sort_cancer_data(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="018af91d" class="cell" data-execution_count="15">
+<div id="8857e217" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="bu">print</span>(data.keys())</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"data size:"</span>, <span class="bu">len</span>(data[<span class="st">"data"</span>]))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"number of features:"</span>, <span class="bu">len</span>(data[<span class="st">"feature_names"</span>]))</span>
@@ -1286,7 +1275,7 @@ number of features: 30
  'worst concave points' 'worst symmetry' 'worst fractal dimension']</code></pre>
 </div>
 </div>
-<div id="de50d29a" class="cell" data-execution_count="16">
+<div id="5ac6ce80" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="co"># wrap data in pandas DataFrame</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="co"># y = data['target'] # value: 0 = 'Malignant' 1 = 'Benign'</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>x <span class="op">=</span> data[<span class="st">"data"</span>]</span>
@@ -1300,7 +1289,7 @@ x.shape: (569, 30)
 y.shape: (569,)</code></pre>
 </div>
 </div>
-<div id="39efb3f9" class="cell" data-execution_count="17">
+<div id="45b227e5" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="co"># normalize</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1317,7 +1306,7 @@ y.shape: (569,)</code></pre>
 </div>
 </div>
 </div>
-<div id="13b63e27" class="cell" data-execution_count="18">
+<div id="662c4725" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_hists</span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-label="3"></a><span class="co"># for seed in range(10):</span></span>
@@ -1347,7 +1336,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 <p>This plot shows the normalized inertia as we vary the number <code>n_clusters</code> used in our k-means fit to the breast cancer data. This value essentially indicates the mean distance of a point to the cluster centroids. Obviously more clusters result in data points being nearer to a centroid.</p>
 <p>If our dataset easily split into 2 clusters, we would see a step function behavior going from 1 to 2, then only very minor improvements above 2. What we see here tells us our data does not easily cluster.</p>
-<div id="3ecb0be9" class="cell" data-execution_count="19">
+<div id="b5f4d8de" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_obj</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.6</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
@@ -1361,7 +1350,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 </div>
 <p>For example, if we return to our blob data with 2 clusters, it become clear.</p>
-<div id="c79b22fd" class="cell" data-execution_count="20">
+<div id="c4fd61aa" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>n_samples <span class="op">=</span> <span class="dv">300</span>  <span class="co"># 300 2D data points</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>n_clusters <span class="op">=</span> <span class="dv">2</span>  <span class="co"># unique blobs</span></span>
@@ -1372,8 +1361,8 @@ Number of samples in each cluster: [188 381]</code></pre>
 <span id="cb24-8"><a href="#cb24-8" aria-label="8"></a>)</span>
 <span id="cb24-9"><a href="#cb24-9" aria-label="9"></a>plot_kmeans_obj(x, nclusters<span class="op">=</span><span class="dv">10</span>, plot_points<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
-<pre><code>array([71.2677332 ,  2.06848282,  1.69706679,  1.2870742 ,  1.09504851,
-        0.89354269,  0.9207715 ,  0.6767132 ,  0.62271334])</code></pre>
+<pre><code>array([71.2677332 ,  2.06848282,  1.69562598,  1.29044452,  1.09143669,
+        0.91693289,  0.92663066,  0.71542907,  0.64395167])</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1387,7 +1376,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <section id="self-organizing-maps" class="level2">
 <h2 class="anchored" data-anchor-id="self-organizing-maps"><a href="https://en.wikipedia.org/wiki/Self-organizing_map">Self-organizing maps</a></h2>
 <p>Self Organizing Maps (SOM) were proposed and became widespread in the 1980s, by a Finnish professor named Teuvo Kohonen and are also called ‘Kohonen maps’.</p>
-<div id="dffe90d4" class="cell" data-execution_count="21">
+<div id="b434a304" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="co"># finding best matching unit</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="kw">def</span> find_bmu(t, net, n):</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>    <span class="co">"""</span></span>
@@ -1452,7 +1441,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <p>The idea behind a SOM is that you’re mapping high-dimensional vectors onto a smaller dimensional (typically 2D) space. Vectors that are close in the high-dimensional space also end up being mapped to nodes that are close in 2D space thus preserving the “topology” of the original data.</p>
 <section id="generating-color-data-and-normalizing" class="level3">
 <h3 class="anchored" data-anchor-id="generating-color-data-and-normalizing">Generating “Color” data and normalizing</h3>
-<div id="719fc57a" class="cell" data-execution_count="22">
+<div id="8f7afdaa" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a>raw_data <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">255</span>, (<span class="dv">10000</span>, <span class="dv">3</span>))  <span class="co"># JPEG like data</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="co"># raw_data = np.random.uniform(size=(500, 3))</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>data <span class="op">=</span> StandardScaler().fit_transform(raw_data)  <span class="co"># Normalized</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1461,31 +1450,31 @@ Number of samples in each cluster: [188 381]</code></pre>
 <section id="defining-som" class="level3">
 <h3 class="anchored" data-anchor-id="defining-som">Defining SOM</h3>
 <p>Defining network size, number of iterations and learning rate</p>
-<div id="be39e20a" class="cell" data-execution_count="23">
+<div id="c96d34de" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">50</span>, <span class="dv">50</span>])</span>
 <span id="cb28-2"><a href="#cb28-2" aria-label="2"></a>n_iterations <span class="op">=</span> <span class="dv">2500</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.075</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Establish size variables based on data</p>
-<div id="31ad9c60" class="cell" data-execution_count="24">
+<div id="38c75582" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a>m <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
 <span id="cb29-2"><a href="#cb29-2" aria-label="2"></a>n <span class="op">=</span> data.shape[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Weight matrix (i.e.&nbsp;the SOM) needs to be one n-dimensional vector for each neuron in the SOM</p>
-<div id="eebb500b" class="cell" data-execution_count="25">
+<div id="7886be2c" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a>net <span class="op">=</span> np.random.random(</span>
 <span id="cb30-2"><a href="#cb30-2" aria-label="2"></a>    (network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>)  <span class="co"># 25 neurons each with a 3D vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Initial neighbourhood radius and decay parameter</p>
-<div id="e1e0b503" class="cell" data-execution_count="26">
+<div id="72a6ea33" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-label="2"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="initial-state-of-som-color-network" class="level3">
 <h3 class="anchored" data-anchor-id="initial-state-of-som-color-network">Initial state of SOM color network</h3>
-<div id="9269287c" class="cell" data-execution_count="27">
+<div id="6bc1d1ec" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a>plt.rcParams[<span class="st">"image.cmap"</span>] <span class="op">=</span> <span class="st">"rainbow"</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
 <span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>image <span class="op">=</span> ax.matshow(net)</span>
@@ -1502,7 +1491,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="training-som" class="level3">
 <h3 class="anchored" data-anchor-id="training-som">Training SOM</h3>
-<div id="86fa35b9" class="cell" data-execution_count="28">
+<div id="77016765" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="kw">def</span> normalize(x: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
 <span id="cb33-2"><a href="#cb33-2" aria-label="2"></a>    <span class="cf">return</span> (x <span class="op">-</span> np.<span class="bu">min</span>(x)) <span class="op">/</span> (np.<span class="bu">max</span>(x) <span class="op">-</span> np.<span class="bu">min</span>(x))</span>
 <span id="cb33-3"><a href="#cb33-3" aria-label="3"></a></span>
@@ -1547,13 +1536,13 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="visualization-of-trained-colormap-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-colormap-som">Visualization of trained colormap SOM</h3>
-<div id="b061e041" class="cell" data-execution_count="29">
+<div id="c0636ec0" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a><span class="bu">len</span>(images)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>25</code></pre>
 </div>
 </div>
-<div id="4a0c02c1" class="cell" data-execution_count="30">
+<div id="d0037dda" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-label="2"></a>    figsize<span class="op">=</span>(<span class="fl">2.0</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
 <span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>    nrows<span class="op">=</span><span class="dv">5</span>,</span>
@@ -1579,7 +1568,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 </div>
 </div>
-<div id="1c7c570f" class="cell" data-execution_count="31">
+<div id="abc1f826" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-label="1"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm</span>
 <span id="cb37-2"><a href="#cb37-2" aria-label="2"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
@@ -1597,7 +1586,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="som-on-cancer-data">SOM on Cancer data</h3>
-<div id="18716855" class="cell" data-execution_count="32">
+<div id="0dff6f49" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-label="1"></a><span class="co"># Load data</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-label="2"></a>data <span class="op">=</span> datasets.load_breast_cancer()</span>
 <span id="cb38-3"><a href="#cb38-3" aria-label="3"></a><span class="co"># Get features and target</span></span>
@@ -1608,7 +1597,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <pre><code>(569, 30) (569,)</code></pre>
 </div>
 </div>
-<div id="2f475143" class="cell" data-execution_count="33">
+<div id="11cbc00a" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">10</span>])</span>
 <span id="cb40-2"><a href="#cb40-2" aria-label="2"></a>n_iterations <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-label="3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
@@ -1624,7 +1613,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <span id="cb40-13"><a href="#cb40-13" aria-label="13"></a><span class="co"># radius decay parameter</span></span>
 <span id="cb40-14"><a href="#cb40-14" aria-label="14"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1358b686" class="cell" data-execution_count="34">
+<div id="d477e7f5" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-label="1"></a><span class="co"># convert the network to something we can visualize</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-label="2"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb41-3"><a href="#cb41-3" aria-label="3"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>),</span>
@@ -1654,7 +1643,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="training-som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="training-som-on-cancer-data">Training SOM on Cancer data</h3>
-<div id="0875e7bd" class="cell" data-execution_count="35">
+<div id="522b0053" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
 <span id="cb42-2"><a href="#cb42-2" aria-label="2"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-label="3"></a>    t <span class="op">=</span> X[np.random.randint(<span class="dv">0</span>, n_points), :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
@@ -1693,7 +1682,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="visualization-of-trained-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-som">Visualization of trained SOM</h3>
-<div id="a411943e" class="cell" data-execution_count="36">
+<div id="61d5dbd5" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb43-2"><a href="#cb43-2" aria-label="2"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-label="3"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
@@ -1732,12 +1721,12 @@ Number of samples in each cluster: [188 381]</code></pre>
   author = {Foreman, Sam and Foreman, Sam and Zheng, Huihuo},
   title = {Statistical {Learning}},
   date = {2025-07-25},
-  url = {https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam, Sam Foreman, and Huihuo Zheng. 2025. <span>“Statistical
-Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/">https://saforem2.github.io/intro-hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/</a>.
+Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1876,7 +1865,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp-2025\/");
+        var filterRegex = new RegExp("https:\/\/saforem2\.github\.io\/intro-hpc-bootcamp\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -2224,7 +2213,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
-    script.dataset.repo = "saforem2/intro-hpc-bootcamp-2025";
+    script.dataset.repo = "saforem2/intro-hpc-bootcamp";
     script.dataset.repoId = "R_kgDOPQ7DhQ";
     script.dataset.category = "General";
     script.dataset.categoryId = "DIC_kwDOPQ7Dhc4CtXSR";
@@ -2287,7 +2276,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb44-33"><a href="#cb44-33" aria-label="33"></a><span class="co">        url: https://alcf.anl.gov/about/people/huihuo-zheng</span></span>
 <span id="cb44-34"><a href="#cb44-34" aria-label="34"></a><span class="co">---</span></span>
 <span id="cb44-35"><a href="#cb44-35" aria-label="35"></a></span>
-<span id="cb44-36"><a href="#cb44-36" aria-label="36"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)</span></span>
+<span id="cb44-36"><a href="#cb44-36" aria-label="36"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)</span></span>
 <span id="cb44-37"><a href="#cb44-37" aria-label="37"></a></span>
 <span id="cb44-40"><a href="#cb44-40" aria-label="38"></a><span class="in">```{python}</span></span>
 <span id="cb44-41"><a href="#cb44-41" aria-label="39"></a><span class="op">%</span>load_ext autoreload</span>
@@ -2308,7 +2297,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb44-56"><a href="#cb44-56" aria-label="54"></a>We will demonstrate this, first, on a toy dataset that we _design_ to have a</span>
 <span id="cb44-57"><a href="#cb44-57" aria-label="55"></a>lower inherent dimensionality, then we move to a higher dimensional dataset.</span>
 <span id="cb44-58"><a href="#cb44-58" aria-label="56"></a></span>
-<span id="cb44-59"><a href="#cb44-59" aria-label="57"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span></span>
+<span id="cb44-59"><a href="#cb44-59" aria-label="57"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span></span>
 <span id="cb44-60"><a href="#cb44-60" aria-label="58"></a></span>
 <span id="cb44-61"><a href="#cb44-61" aria-label="59"></a><span class="fu">### Toy Dataset (2D Blobs)</span></span>
 <span id="cb44-62"><a href="#cb44-62" aria-label="60"></a></span>
@@ -3118,15 +3107,15 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
     <div class="nav-footer-left">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://saforem2.github.io/intro-hpc-bootcamp-2025/">
-<p>saforem2.github.io/intro-hpc-bootcamp-2025</p>
+    <a class="nav-link" href="https://saforem2.github.io/intro-hpc-bootcamp/">
+<p>saforem2.github.io/intro-hpc-bootcamp</p>
 </a>
   </li>  
 </ul>
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
@@ -3136,7 +3125,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
     </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp-2025" aria-current="page">
+    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp" aria-current="page">
       <i class="bi bi-github" role="img" aria-label="Sam Foreman GitHub">
 </i> 
     </a>

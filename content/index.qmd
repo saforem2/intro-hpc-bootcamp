@@ -1,7 +1,7 @@
 ---
 # toc: true
-title: "Intro to HPC Bootcamp 2025"
-description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"
+title: "Intro to HPC Bootcamp"
+description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
 categories:
   - ai4science
   - hpc
@@ -11,15 +11,15 @@ date-modified: last-modified
 citation:
    author: Sam Foreman
    type: webpage
-   title: "Intro to HPC Bootcamp 2025"
-   url: https://saforem2.github.io/intro-hpc-bootcamp-2025
+   title: "Intro to HPC Bootcamp"
+   url: https://saforem2.github.io/intro-hpc-bootcamp
 open-graph:
-  title: "Intro to HPC Bootcamp 2025"
-  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"
+  title: "Intro to HPC Bootcamp"
+  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
   # image: "./assets/thumbnail.png"
 twitter-card:
-  title: "Intro to HPC Bootcamp 2025"
-  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"
+  title: "Intro to HPC Bootcamp"
+  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
   site: "saforem2"
   creator: "saforem2"
 sidebar: sidebar
@@ -156,7 +156,7 @@ sidebar: sidebar
 
    ```bash
    mkdir $USER && cd $USER
-   git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
+   git clone https://github.com/saforem2/intro-hpc-bootcamp
    ```
 
 1. Find all Jupyter notebooks:

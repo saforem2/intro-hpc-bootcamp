@@ -1,4 +1,4 @@
-# Intro to HPC Bootcamp 2025
+# Intro to HPC Bootcamp
 Sam Foreman
 2025-07-22
 
@@ -15,8 +15,8 @@ Sam Foreman
 Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
 *2026-07-22*
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/06-parallel-training/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/06-parallel-training/index.qmd)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/06-parallel-training/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/06-parallel-training/index.qmd)
 
 - Slides: <https://samforeman.me/talks/ai-for-science-2024/slides>
   - HTML version: <https://samforeman.me/talks/ai-for-science-2024>

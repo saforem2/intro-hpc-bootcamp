@@ -35,7 +35,7 @@ Sam Foreman
 - [Recommended reading](#recommended-reading)
 - [Homework](#homework)
 
-<a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/02-llms/01-hands-on-llms/index.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+<a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/02-llms/01-hands-on-llms/index.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 > [!NOTE]
 >

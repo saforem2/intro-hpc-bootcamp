@@ -32,8 +32,8 @@ Sam Foreman, Huihuo Zheng
   - [Visualization of trained SOM](#visualization-of-trained-som)
 - [Keep learning](#keep-learning)
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)
 
 ``` python
 %load_ext autoreload
@@ -46,9 +46,6 @@ import matplotlib as mpl
 # mpl.rcParams['figure.dpi'] = 400
 ```
 
-    The autoreload extension is already loaded. To reload it, use:
-      %reload_ext autoreload
-
 ## Learning to Cluster Data
 
 If we have data with distinct groupings, the objective is to devise a
@@ -58,7 +55,7 @@ We will demonstrate this, first, on a toy dataset that we *design* to
 have a lower inherent dimensionality, then we move to a higher
 dimensional dataset.
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)
 
 ### Toy Dataset (2D Blobs)
 
@@ -450,7 +447,7 @@ centroids, cluster_id = apply_kmeans(
 )
 ```
 
-    Iteration: 7
+    Iteration: 8
 
 ![](index_files/figure-commonmark/cell-12-output-2.svg)
 
@@ -603,8 +600,8 @@ x, y = datasets.make_blobs(
 plot_kmeans_obj(x, nclusters=10, plot_points=False)
 ```
 
-    array([71.2677332 ,  2.06848282,  1.69706679,  1.29335233,  1.09125051,
-            0.98286885,  0.79728099,  0.68083753,  0.62063444])
+    array([71.2677332 ,  2.06848282,  1.69652843,  1.2870742 ,  1.09389617,
+            0.89529963,  0.80638259,  0.67134934,  0.62794165])
 
 ![](index_files/figure-commonmark/cell-20-output-2.svg)
 

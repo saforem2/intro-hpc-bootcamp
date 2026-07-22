@@ -30,8 +30,8 @@ Sam Foreman
 > Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC
 > Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/10-evaluating-llms/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/10-evaluating-llms/index.qmd)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/10-evaluating-llms/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/10-evaluating-llms/index.qmd)
 
 By now you have trained a model ([\[02.2\] Parallel
 Training](../06-parallel-training/index.qmd)), taught it to follow

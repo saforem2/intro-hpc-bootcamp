@@ -18,7 +18,7 @@ Lusch, and Venkat Vishwanath (Argonne). Modified by Huihuo Zheng (Aug 1, 2025).
 *Reorganized draft (v2) — for comparison with the [original page](../00-intro-to-llms/index.qmd).*
 :::
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/00-intro-to-llms-v2/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/02-llms/00-intro-to-llms-v2/index.qmd)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/00-intro-to-llms-v2/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/00-intro-to-llms-v2/index.qmd)
 
 Although the term *"language model"* comes from Natural Language Processing, the
 same machinery applies to a surprisingly broad range of **scientific** problems.
