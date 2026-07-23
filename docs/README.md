@@ -30,11 +30,11 @@ Sam Foreman
   - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
     - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)
     - 📗 [\[01.1\] MNIST](./01-neural-networks/1-mnist/)
-    - 📗 [\[01.2\] Advanced](./01-neural-networks/2-advanced/)
-    - 📗 [\[01.3\] Conv. Nets](./01-neural-networks/3-conv-nets/)
-    - 📗 [\[01.4\] Representation
+    - 📗 [\[01.2\] Convolutional
+      Networks](./01-neural-networks/3-conv-nets/)
+    - 📗 [\[01.3\] Representation
       Learning](./01-neural-networks/4-representation-learning/)
-    - 📄 [\[01.5\] Distributed
+    - 📄 [\[01.4\] Distributed
       Training](./01-neural-networks/5-distributed-training/)
   - 📂 [**\[02\] Large Language Models**](./02-llms/)
     - 📗 [\[02.0\] Intro to LLMs](./02-llms/00-intro-to-llms/)

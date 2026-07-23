@@ -11,6 +11,14 @@ Sam Foreman, Huihuo Zheng, Corey Adams, Bethany Lusch
   - [Convolutions](#convolutions)
   - [Normalization](#normalization)
   - [Downsampling (And upsampling)](#downsampling-and-upsampling)
+  - [More Building Blocks: Padding, Pooling &
+    Channels](#more-building-blocks-padding-pooling--channels)
+  - [Padding](#padding)
+  - [What is the output size ?](#what-is-the-output-size-)
+  - [Max Pooling](#max-pooling)
+  - [Multiple Channels](#multiple-channels)
+  - [Visualizing learned features from
+    CNNs](#visualizing-learned-features-from-cnns)
   - [Residual Connections](#residual-connections)
 - [Building a ConvNet](#building-a-convnet)
 - [Run Training](#run-training)
@@ -20,6 +28,10 @@ Sam Foreman, Huihuo Zheng, Corey Adams, Bethany Lusch
   - [Validation Metrics](#validation-metrics)
 - [Homework 1](#homework-1)
   - [Training for Multiple Epochs](#training-for-multiple-epochs)
+- [Advanced Architectures](#advanced-architectures)
+  - [ResNet](#resnet)
+  - [U-Nets](#u-nets)
+  - [ViTs](#vits)
 
 ## Getting Started
 
@@ -257,6 +269,76 @@ _ = plt.imshow(rand_image)
 
 ![](index_files/figure-commonmark/cell-10-output-2.svg)
 
+### More Building Blocks: Padding, Pooling & Channels
+
+A few more concepts that show up in almost every ConvNet:
+
+### Padding
+
+Adds zeros along the corners of the image to preserve the dimensionality
+of the input.
+
+<div id="fig-conv-padding">
+
+![](images/Padding.png)
+
+Figure 4
+
+</div>
+
+### What is the output size ?
+
+$$(\mathrm{N} - \mathrm{F} + 2\mathrm{P}) / \mathrm{S} + 1$$
+
+- where
+  - $N$ = dimension of the input image. (ex, for an image of `28x28x1`,
+    $N=28$)
+  - $F$ = dimension of the filter ($F=3$ for a filter of `3x3`)
+  - $S$ = Stride value
+  - $P$ = Size of the zero padding used
+
+### Max Pooling
+
+Pooling reduces the dimensionality of the images, with max-pooling being
+one of the most widely used.
+
+<div id="fig-conv-max-pool-1">
+
+![](images/MaxpoolSample2.png)
+
+Figure 5
+
+</div>
+
+### Multiple Channels
+
+Usually colored images have multiple channels with RGB values. What
+happens to the filter sizes and activation map dimensions in those
+cases?
+
+<div id="fig-multiple-channels">
+
+![](images/multiple_channels.png)
+
+Figure 6
+
+</div>
+
+### Visualizing learned features from CNNs
+
+The filters from the initial hidden layers tend to learn low level
+features like edges, corners, shapes, colors etc. Filters from the
+deeper layers tend to learn high-level features detecting patterns like
+wheel, car, etc.
+
+<div id="fig-conv-nets-feature-maps">
+
+![](images/convnets-feature-maps.png)
+
+Figure 7
+
+</div>
+
 ### Residual Connections
 
 One issue, quickly encountered when making convolutional networks deeper
@@ -273,7 +355,7 @@ Recognition](https://arxiv.org/pdf/1512.03385.pdf)
 
 ![](./residual_layer.png)
 
-Figure 4: Residual Layer
+Figure 8: Residual Layer
 
 </div>
 
@@ -284,7 +366,7 @@ of these layers:
 
 ![](./resnet_comparison.png)
 
-Figure 5
+Figure 9
 
 </div>
 
@@ -1074,3 +1156,61 @@ for j in range(epochs):
             f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}"
         )
 ```
+
+## Advanced Architectures
+
+The ConvNet you built above is the foundation. Real-world models stack
+these building blocks into deeper, more specialized architectures. Here
+are three influential ones.
+
+### ResNet
+
+Deeper and deeper networks that stack convolutions end up with smaller
+and smaller gradients in early layers. ResNets use additional skip
+connections where the output layer is `f(x) + x` instead of `f(w x + b)`
+or `f(x)`. This avoids vanishing gradient problem and results in
+smoother loss functions. Refer to the [ResNet
+paper](https://arxiv.org/pdf/1512.03385.pdf) and [ResNet loss
+visualization paper](https://arxiv.org/pdf/1712.09913.pdf) for more
+information.
+
+<div id="fig-resnet">
+
+![](images/ResNet.png)
+
+Figure 10: ResNet. Image credit: [ResNet
+paper](https://arxiv.org/pdf/1512.03385.pdf)
+
+</div>
+
+### U-Nets
+
+U-NET is a convolution based neural network architecture orginally
+developed for biomedical image segmentation tasks. It has an
+encoder-decoder architecture with skip connections in between them.
+
+<div id="fig-u-nets">
+
+![](images/U-Nets.png)
+
+Figure 11: Image credit: [ResNet
+paper](https://arxiv.org/pdf/1505.04597.pdf)
+
+</div>
+
+### ViTs
+
+You’ll learn about language models today, which use “transformer”
+models. There has been some success applying transformers to images
+(“vision transformers”). To make images sequential, they are split into
+patches and flattened. Then apply linear embeddings and positional
+embeddings and feed it to a encoder-based transformer model.
+
+<div id="fig-vits">
+
+![](images/ViT.gif)
+
+Figure 12: Image credit: [Google
+Blog](https://ai.googleblog.com/2020/12/transformers-for-image-recognition-at.html)
+
+</div>

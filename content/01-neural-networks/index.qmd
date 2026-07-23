@@ -15,8 +15,7 @@ format:
 - 📂 [01-neural-networks/](./index.qmd)
   - 📄 [0-intro](./0-intro/index.qmd)
   - 📗 [1-mnist](./1-mnist/index.qmd)
-  - 📗 [2-advanced](./2-advanced/index.qmd)
-  - 📗 [3-conv-nets](./3-conv-nets/index.ipynb)
+  - 📗 [3-conv-nets (Convolutional Networks)](./3-conv-nets/index.ipynb)
   - 📗 [4-representation-learning](./4-representation-learning/index.qmd)
 
 <!--

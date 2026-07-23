@@ -511,14 +511,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Advanced</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Conv. Nets</span></a>
+ <span class="menu-text">Convolutional Networks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -673,14 +667,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="this-notebook-is-not-officially-part-of-the-course.">This notebook is not officially part of the course.</h2>
 <p>But you are welcome to look through it anyways, you can send questions on slack, and we are happy to talk about it.</p>
 <p>The previous notebook trained a classifier network which did ok. But what if we didn’t have a lot of data? In this notebook, we’ll apply that model in a new way with <em>representation learning</em>.</p>
-<div id="5ae18c3d" class="cell">
+<div id="c9a6b456" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">if</span> sys.platform <span class="op">==</span> <span class="st">"darwin"</span>:</span>
 <span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>    os.environ[<span class="st">"TORCH_DEVICE"</span>] <span class="op">=</span> <span class="st">"cpu"</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>    os.environ[<span class="st">'PYTORCH_ENABLE_MPS_FALLBACK'</span>] <span class="op">=</span> <span class="st">"1"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1cad8d52" class="cell">
+<div id="49adbb6d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> numpy</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> random</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> torch</span>
@@ -704,7 +698,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb2-21"><a href="#cb2-21" aria-label="21"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s the Convolutional Neural Network Again:</p>
-<div id="f849f719" class="cell">
+<div id="e39750c6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
@@ -806,7 +800,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb3-99"><a href="#cb3-99" aria-label="99"></a>        x <span class="op">=</span> <span class="va">self</span>.head(x)</span>
 <span id="cb3-100"><a href="#cb3-100" aria-label="100"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ebf57f64" class="cell">
+<div id="c61d5928" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>    model.to(torch.get_default_device())</span>
@@ -826,7 +820,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p>This will download the data if needed:</p>
 <p>We’re going to train this on Polaris nodes which have 4 A100s (But only using one node at a time). So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</p>
 <p>(They are all from the <a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">DDP Tutorial</a> )</p>
-<div id="8cd52878" class="cell">
+<div id="2a6be642" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="kw">def</span> setup(rank, world_size):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
@@ -837,7 +831,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb5-8"><a href="#cb5-8" aria-label="8"></a><span class="kw">def</span> cleanup():</span>
 <span id="cb5-9"><a href="#cb5-9" aria-label="9"></a>    dist.destroy_process_group()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6bf58aef" class="cell">
+<div id="ebff9fe0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> ezpz</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
@@ -893,7 +887,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb6-53"><a href="#cb6-53" aria-label="53"></a></span>
 <span id="cb6-54"><a href="#cb6-54" aria-label="54"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4e4b795b" class="cell">
+<div id="cb9d3887" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="co"># def demo_basic(rank, world_size, n_epochs):</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="co">#     console.log(f"Running basic DDP example on rank {rank}.")</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="co">#     setup(rank, world_size)</span></span>
@@ -921,7 +915,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb7-25"><a href="#cb7-25" aria-label="25"></a><span class="co">#              nprocs=world_size,</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-label="26"></a><span class="co">#              join=True)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f235c48f" class="cell">
+<div id="0d26488f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># import sys, os</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="co"># from multiprocessing import Pool</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="co"># from multiprocessing.reduction import ForkingPickler</span></span>
@@ -943,7 +937,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb8-19"><a href="#cb8-19" aria-label="19"></a><span class="co"># # the command line).</span></span>
 <span id="cb8-20"><a href="#cb8-20" aria-label="20"></a><span class="co"># ForkingPickler.reducer_override = staticmethod(reducer_override)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="81cee67e" class="cell">
+<div id="8e0624b0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a></span>
@@ -960,32 +954,32 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb9-14"><a href="#cb9-14" aria-label="14"></a>                                        ])</span>
 <span id="cb9-15"><a href="#cb9-15" aria-label="15"></a>    <span class="cf">return</span> data_transforms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f0a300b6" class="cell">
+<div id="a0dc7e1f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="aebc3111" class="cell">
+<div id="583dac8a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3541562d" class="cell">
+<div id="7637c83a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="27fe2791" class="cell">
+<div id="a2f1a482" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>console.log(<span class="bu">type</span>(X1))</span>
 <span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>console.log(<span class="bu">type</span>(X2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fd1ef4b8" class="cell">
+<div id="c35e03fb" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="op">%</span>matplotlib inline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d49cdf55" class="cell">
+<div id="441d3905" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="192184aa" class="cell">
+<div id="7483e98e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
@@ -1132,7 +1126,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb16-144"><a href="#cb16-144" aria-label="144"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
 <span id="cb16-145"><a href="#cb16-145" aria-label="145"></a>        <span class="cf">return</span> loss, loss_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c4aa38e5" class="cell">
+<div id="d1eb9960" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>    model.train()</span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>    head.train()</span>
@@ -1162,7 +1156,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb17-27"><a href="#cb17-27" aria-label="27"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb17-28"><a href="#cb17-28" aria-label="28"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="56af9755" class="cell">
+<div id="86f42821" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>    model.train()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>    head.train()</span>
@@ -1202,10 +1196,10 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb18-37"><a href="#cb18-37" aria-label="37"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
 <span id="cb18-38"><a href="#cb18-38" aria-label="38"></a>    <span class="cf">return</span> sum_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9e540296" class="cell">
+<div id="bfc650f3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="900cb692" class="cell">
+<div id="acfd497d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-label="3"></a></span>
@@ -1222,10 +1216,10 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb20-14"><a href="#cb20-14" aria-label="14"></a><span class="co">#         console.log_metrics = "; ".join(console.log_metrics.values())</span></span>
 <span id="cb20-15"><a href="#cb20-15" aria-label="15"></a><span class="co">#         console.log(f"Validate epoch {j}: ", console.log_metrics)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b05251f3" class="cell">
+<div id="893c01cf" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="co"># Now, we retrain the classification head without touching the representation. This is called fine tuning.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2a2aec83" class="cell">
+<div id="cea58882" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1251,7 +1245,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb22-23"><a href="#cb22-23" aria-label="23"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb22-24"><a href="#cb22-24" aria-label="24"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="efdbdfcf" class="cell">
+<div id="64056747" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a>    head.train()</span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a>    model.<span class="bu">eval</span>()</span>
@@ -1283,13 +1277,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb23-29"><a href="#cb23-29" aria-label="29"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb23-30"><a href="#cb23-30" aria-label="30"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b0d25410" class="cell">
+<div id="457b6127" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-label="4"></a>console.log(fine_tune_optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3fae427d" class="cell">
+<div id="b9040beb" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="co"># for j in range(5):</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="co">#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a><span class="co">#</span></span>
@@ -1817,8 +1811,8 @@ Networks.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootc
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../01-neural-networks/3-conv-nets/index.html" class="pagination-link" aria-label="Conv. Nets">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Conv. Nets</span>
+      <a href="../../01-neural-networks/3-conv-nets/index.html" class="pagination-link" aria-label="Convolutional Networks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Convolutional Networks</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

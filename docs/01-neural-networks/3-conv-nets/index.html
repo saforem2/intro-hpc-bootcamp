@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../01-neural-networks/4-representation-learning/index.html" rel="next">
-<link href="../../01-neural-networks/2-advanced/index.html" rel="prev">
+<link href="../../01-neural-networks/1-mnist/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -452,7 +452,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../01-neural-networks/index.html">[01] Neural Networks</a></li><li class="breadcrumb-item"><a href="../../01-neural-networks/3-conv-nets/index.html">Conv. Nets</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../01-neural-networks/index.html">[01] Neural Networks</a></li><li class="breadcrumb-item"><a href="../../01-neural-networks/3-conv-nets/index.html">Convolutional Networks</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -570,14 +570,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Advanced</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Conv. Nets</span></a>
+ <span class="menu-text">Convolutional Networks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -687,6 +681,12 @@ window.Quarto = {
   <li><a href="#convolutions" id="toc-convolutions" class="nav-link" data-scroll-target="#convolutions">Convolutions</a></li>
   <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
   <li><a href="#downsampling-and-upsampling" id="toc-downsampling-and-upsampling" class="nav-link" data-scroll-target="#downsampling-and-upsampling">Downsampling (And upsampling)</a></li>
+  <li><a href="#more-building-blocks-padding-pooling-channels" id="toc-more-building-blocks-padding-pooling-channels" class="nav-link" data-scroll-target="#more-building-blocks-padding-pooling-channels">More Building Blocks: Padding, Pooling &amp; Channels</a></li>
+  <li><a href="#padding" id="toc-padding" class="nav-link" data-scroll-target="#padding">Padding</a></li>
+  <li><a href="#what-is-the-output-size" id="toc-what-is-the-output-size" class="nav-link" data-scroll-target="#what-is-the-output-size">What is the output size ?</a></li>
+  <li><a href="#max-pooling" id="toc-max-pooling" class="nav-link" data-scroll-target="#max-pooling">Max Pooling</a></li>
+  <li><a href="#multiple-channels" id="toc-multiple-channels" class="nav-link" data-scroll-target="#multiple-channels">Multiple Channels</a></li>
+  <li><a href="#visualizing-learned-features-from-cnns" id="toc-visualizing-learned-features-from-cnns" class="nav-link" data-scroll-target="#visualizing-learned-features-from-cnns">Visualizing learned features from CNNs</a></li>
   <li><a href="#residual-connections" id="toc-residual-connections" class="nav-link" data-scroll-target="#residual-connections">Residual Connections</a></li>
   </ul></li>
   <li><a href="#building-a-convnet" id="toc-building-a-convnet" class="nav-link" data-scroll-target="#building-a-convnet">Building a ConvNet</a></li>
@@ -701,6 +701,12 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#training-for-multiple-epochs" id="toc-training-for-multiple-epochs" class="nav-link" data-scroll-target="#training-for-multiple-epochs">Training for Multiple Epochs</a></li>
   </ul></li>
+  <li><a href="#advanced-architectures" id="toc-advanced-architectures" class="nav-link" data-scroll-target="#advanced-architectures">Advanced Architectures</a>
+  <ul class="collapse">
+  <li><a href="#resnet" id="toc-resnet" class="nav-link" data-scroll-target="#resnet">ResNet</a></li>
+  <li><a href="#u-nets" id="toc-u-nets" class="nav-link" data-scroll-target="#u-nets">U-Nets</a></li>
+  <li><a href="#vits" id="toc-vits" class="nav-link" data-scroll-target="#vits">ViTs</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/01-neural-networks/3-conv-nets/index.ipynb" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.dev/saforem2/intro-hpc-bootcamp/blob/main/01-neural-networks/3-conv-nets/index.ipynb" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.out.ipynb" download="index.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
@@ -711,7 +717,7 @@ window.Quarto = {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../01-neural-networks/index.html">[01] Neural Networks</a></li><li class="breadcrumb-item"><a href="../../01-neural-networks/3-conv-nets/index.html">Conv. Nets</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../01-neural-networks/index.html">[01] Neural Networks</a></li><li class="breadcrumb-item"><a href="../../01-neural-networks/3-conv-nets/index.html">Convolutional Networks</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Convolutional Neural Networks</h1>
 </div>
@@ -761,7 +767,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 22, 2026</p>
+      <p class="date-modified">July 23, 2026</p>
     </div>
   </div>
     
@@ -1021,6 +1027,79 @@ Figure&nbsp;3: <a href="https://www.researchgate.net/publication/333593451_Appli
 </div>
 </div>
 </section>
+<section id="more-building-blocks-padding-pooling-channels" class="level3">
+<h3 class="anchored" data-anchor-id="more-building-blocks-padding-pooling-channels">More Building Blocks: Padding, Pooling &amp; Channels</h3>
+<p>A few more concepts that show up in almost every ConvNet:</p>
+</section>
+<section id="padding" class="level3">
+<h3 class="anchored" data-anchor-id="padding">Padding</h3>
+<p>Adds zeros along the corners of the image to preserve the dimensionality of the input.</p>
+<div id="fig-conv-padding" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conv-padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/Padding.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;4: "><img src="images/Padding.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-conv-padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="what-is-the-output-size" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-output-size">What is the output size ?</h3>
+<p><span class="math display">(\mathrm{N} - \mathrm{F} + 2\mathrm{P}) / \mathrm{S} + 1</span></p>
+<ul>
+<li>where
+<ul>
+<li><span class="math inline">N</span> = dimension of the input image. (ex, for an image of <code>28x28x1</code>, <span class="math inline">N=28</span>)</li>
+<li><span class="math inline">F</span> = dimension of the filter (<span class="math inline">F=3</span> for a filter of <code>3x3</code>)</li>
+<li><span class="math inline">S</span> = Stride value</li>
+<li><span class="math inline">P</span> = Size of the zero padding used</li>
+</ul></li>
+</ul>
+</section>
+<section id="max-pooling" class="level3">
+<h3 class="anchored" data-anchor-id="max-pooling">Max Pooling</h3>
+<p>Pooling reduces the dimensionality of the images, with max-pooling being one of the most widely used.</p>
+<div id="fig-conv-max-pool-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conv-max-pool-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/MaxpoolSample2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;5: "><img src="images/MaxpoolSample2.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-conv-max-pool-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="multiple-channels" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-channels">Multiple Channels</h3>
+<p>Usually colored images have multiple channels with RGB values. What happens to the filter sizes and activation map dimensions in those cases?</p>
+<div id="fig-multiple-channels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multiple-channels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/multiple_channels.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;6: "><img src="images/multiple_channels.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-multiple-channels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="visualizing-learned-features-from-cnns" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-learned-features-from-cnns">Visualizing learned features from CNNs</h3>
+<p>The filters from the initial hidden layers tend to learn low level features like edges, corners, shapes, colors etc. Filters from the deeper layers tend to learn high-level features detecting patterns like wheel, car, etc.</p>
+<div id="fig-conv-nets-feature-maps" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conv-nets-feature-maps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/convnets-feature-maps.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;7: "><img src="images/convnets-feature-maps.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-conv-nets-feature-maps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7
+</figcaption>
+</figure>
+</div>
+</section>
 <section id="residual-connections" class="level3">
 <h3 class="anchored" data-anchor-id="residual-connections">Residual Connections</h3>
 <p>One issue, quickly encountered when making convolutional networks deeper and deeper, is the “Vanishing Gradients” problem. As layers were stacked on top of each other, the size of updates dimished at the earlier layers of a convolutional network. The paper “Deep Residual Learning for Image Recognition” solved this by introduction “residual connections” as skip layers.</p>
@@ -1028,10 +1107,10 @@ Figure&nbsp;3: <a href="https://www.researchgate.net/publication/333593451_Appli
 <div id="fig-residual-layer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-residual-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="./residual_layer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;4: Residual Layer"><img src="./residual_layer.png" class="img-fluid figure-img"></a>
+<a href="./residual_layer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;8: Residual Layer"><img src="./residual_layer.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Residual Layer
+Figure&nbsp;8: Residual Layer
 </figcaption>
 </figure>
 </div>
@@ -1039,10 +1118,10 @@ Figure&nbsp;4: Residual Layer
 <div id="fig-resnet-performance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resnet-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="./resnet_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;5: "><img src="./resnet_comparison.png" class="img-fluid figure-img"></a>
+<a href="./resnet_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;9: "><img src="./resnet_comparison.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-resnet-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5
+Figure&nbsp;9
 </figcaption>
 </figure>
 </div>
@@ -1054,7 +1133,7 @@ Figure&nbsp;5
 <p>In this section we’ll build and apply a conv net to the mnist dataset. The layers here are loosely based off of the ConvNext architecture. Why? Because we’re getting into LLM’s soon, and this ConvNet uses LLM features. ConvNext is an update to the ResNet architecture that outperforms it.</p>
 <p><a href="https://arxiv.org/abs/2201.03545">ConvNext</a></p>
 <p>The dataset here is CIFAR-10 - slightly harder than MNIST but still relatively easy and computationally tractable.</p>
-<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:46.112645Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:46.112355Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:47.487260Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:47.486926Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:46.112626Z&quot;}}" data-execution_count="10">
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:46.112645Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:46.112355Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:47.487260Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:47.486926Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:46.112626Z&quot;}}" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="im">from</span> torchvision <span class="im">import</span> transforms</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a></span>
@@ -1107,7 +1186,7 @@ Figure&nbsp;5
 <span id="cb10-50"><a href="#cb10-50" aria-label="50"></a>    <span class="st">"truck"</span>,</span>
 <span id="cb10-51"><a href="#cb10-51" aria-label="51"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:50.354671Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:50.354520Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:50.474487Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:50.474058Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:50.354662Z&quot;}}" data-execution_count="11">
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:50.354671Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:50.354520Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:50.474487Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:50.474058Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:50.354662Z&quot;}}" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train_dataloader))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)))</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1118,12 +1197,12 @@ Figure&nbsp;5
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-12-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="index_files/figure-html/cell-12-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-12-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/cell-12-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:52.481674Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:52.481331Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:52.650593Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:52.650340Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:52.481647Z&quot;}}" data-execution_count="12">
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:52.481674Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:52.481331Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:52.650593Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:52.650340Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:52.481647Z&quot;}}" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a></span>
@@ -1146,7 +1225,7 @@ Figure&nbsp;5
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-13-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-13-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1156,7 +1235,7 @@ Figure&nbsp;5
 </div>
 </div>
 <p>This code below is important as our models get bigger: this is wrapping the pytorch data loaders to put the data onto the GPU!</p>
-<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:59.933035Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:59.932625Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:59.987154Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:59.986667Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:59.933010Z&quot;}}" data-execution_count="13">
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:29:59.933035Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:29:59.932625Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:29:59.987154Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:29:59.986667Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:29:59.933010Z&quot;}}" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>dev <span class="op">=</span> torch.device(<span class="st">"cuda"</span>) <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> torch.device(<span class="st">"cpu"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a></span>
@@ -1183,7 +1262,7 @@ Figure&nbsp;5
 <span id="cb13-24"><a href="#cb13-24" aria-label="24"></a>train_dataloader <span class="op">=</span> WrappedDataLoader(train_dataloader, preprocess)</span>
 <span id="cb13-25"><a href="#cb13-25" aria-label="25"></a>val_dataloader <span class="op">=</span> WrappedDataLoader(val_dataloader, preprocess)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:01.985074Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:01.984782Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:02.048564Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:02.048095Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:01.985055Z&quot;}}" data-execution_count="14">
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:01.985074Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:01.984782Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:02.048564Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:02.048095Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:01.985055Z&quot;}}" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
@@ -1314,7 +1393,7 @@ Figure&nbsp;5
 <span id="cb14-128"><a href="#cb14-128" aria-label="128"></a>        <span class="co"># # Average pooling of the remaining spatial dimensions (and reshape) makes this label-like:</span></span>
 <span id="cb14-129"><a href="#cb14-129" aria-label="129"></a>        <span class="co"># return nn.functional.avg_pool2d(x, kernel_size=x.shape[-2:]).reshape((-1,10))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:02.924990Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:02.924567Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:03.202894Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:03.202589Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:02.924956Z&quot;}}" data-scrolled="true" data-execution_count="15">
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:02.924990Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:02.924567Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:03.202894Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:03.202589Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:02.924956Z&quot;}}" data-scrolled="true" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="im">from</span> torchinfo <span class="im">import</span> summary</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">4</span>, <span class="dv">2</span>, kernel_size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
@@ -1395,7 +1474,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 </pre>
 </div>
 </div>
-<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:05.502795Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:05.502606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:05.537733Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:05.537409Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:05.502783Z&quot;}}" data-execution_count="16">
+<div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:05.502795Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:05.502606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:05.537733Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:05.537409Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:05.502783Z&quot;}}" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn, val_bar):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1423,7 +1502,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb16-25"><a href="#cb16-25" aria-label="25"></a>    accuracy <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> correct</span>
 <span id="cb16-26"><a href="#cb16-26" aria-label="26"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.183855Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.183423Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.237807Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.237528Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.183827Z&quot;}}" data-execution_count="17">
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.183855Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.183423Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.237807Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.237528Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.183827Z&quot;}}" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
@@ -1434,7 +1513,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb17-8"><a href="#cb17-8" aria-label="8"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb17-9"><a href="#cb17-9" aria-label="9"></a>optimizer <span class="op">=</span> torch.optim.AdamW(model.parameters(), lr<span class="op">=</span><span class="fl">2.5e-4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.476994Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.476517Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.531151Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.530784Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.476925Z&quot;}}" data-execution_count="18">
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.476994Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.476517Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.531151Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.530784Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.476925Z&quot;}}" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="kw">def</span> eval_step(x, y):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>    <span class="cf">with</span> torch.no_grad():</span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>        t0 <span class="op">=</span> time.perf_counter()</span>
@@ -1450,7 +1529,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb18-13"><a href="#cb18-13" aria-label="13"></a>        <span class="st">"dtm"</span>: t2 <span class="op">-</span> t1,</span>
 <span id="cb18-14"><a href="#cb18-14" aria-label="14"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.834572Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.834204Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.873250Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.872632Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.834546Z&quot;}}" data-execution_count="19">
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:06.834572Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:06.834204Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:06.873250Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:06.872632Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:06.834546Z&quot;}}" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="kw">def</span> train_step(x, y):</span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-label="3"></a>    <span class="co"># Forward pass</span></span>
@@ -1478,7 +1557,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb19-25"><a href="#cb19-25" aria-label="25"></a>        <span class="st">"dtz"</span>: t4 <span class="op">-</span> t3,</span>
 <span id="cb19-26"><a href="#cb19-26" aria-label="26"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:07.791928Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:07.791613Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:07.832694Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:07.832231Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:07.791905Z&quot;}}" data-execution_count="20">
+<div id="cell-43" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:07.791928Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:07.791613Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:07.832694Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:07.832231Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:07.791905Z&quot;}}" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>    dataloader, model, loss_fn, optimizer, progress_bar, history: ezpz.History <span class="op">|</span> <span class="va">None</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-label="3"></a>):</span>
@@ -1498,7 +1577,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb20-17"><a href="#cb20-17" aria-label="17"></a>    <span class="co">#     _ = history.update({"dt_batch": t1 - t0})</span></span>
 <span id="cb20-18"><a href="#cb20-18" aria-label="18"></a>    <span class="cf">return</span> batch_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:08.298274Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:08.298108Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:08.340279Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:08.339718Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:08.298264Z&quot;}}" data-execution_count="21">
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:08.298274Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:08.298108Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:08.340279Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:08.339718Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:08.298264Z&quot;}}" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch1(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a>    dataloader, model, loss_fn, optimizer, progress_bar, history: ezpz.History <span class="op">|</span> <span class="va">None</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-label="3"></a>):</span>
@@ -1540,10 +1619,10 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 <span id="cb21-39"><a href="#cb21-39" aria-label="39"></a>    }</span>
 <span id="cb21-40"><a href="#cb21-40" aria-label="40"></a>    <span class="cf">return</span> batch_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:09.985617Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:09.985309Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:10.041387Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:10.040838Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:09.985596Z&quot;}}" data-scrolled="true" data-execution_count="22">
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:09.985617Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:09.985309Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:10.041387Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:10.040838Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:09.985596Z&quot;}}" data-scrolled="true" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a>_ <span class="op">=</span> model.to(DTYPE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:10.986069Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:10.985666Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:11.204576Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:11.204311Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:10.986043Z&quot;}}" data-execution_count="23">
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:10.986069Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:10.985666Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:11.204576Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:11.204311Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:10.986043Z&quot;}}" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a>_x, _y <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(val_dataloader))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eval_step(_x.to(DTYPE), _y)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -1551,7 +1630,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 </pre>
 </div>
 </div>
-<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:11.525721Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:11.525304Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:11.740211Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:11.739847Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:11.525676Z&quot;}}" data-execution_count="24">
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:11.525721Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:11.525304Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:30:11.740211Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:30:11.739847Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:11.525676Z&quot;}}" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>_x<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>_y<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a>_pred <span class="op">=</span> model(_x.to(DTYPE))</span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>_loss <span class="op">=</span> loss_fn(_pred, _y).item()</span>
@@ -1585,7 +1664,7 @@ Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font
 </section>
 <section id="run-training" class="level2">
 <h2 class="anchored" data-anchor-id="run-training">Run Training</h2>
-<div id="cell-43" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:42.860742Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:42.860194Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:37:42.615806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:37:42.615232Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:42.860695Z&quot;}}" data-scrolled="true" data-execution_count="25">
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:30:42.860742Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:30:42.860194Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:37:42.615806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:37:42.615232Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:30:42.860695Z&quot;}}" data-scrolled="true" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a><span class="im">import</span> ezpz</span>
@@ -1670,7 +1749,7 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 </section>
 <section id="run-validation" class="level2">
 <h2 class="anchored" data-anchor-id="run-validation">Run Validation</h2>
-<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:37:42.617073Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:37:42.616911Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:15.402835Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:15.401167Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:37:42.617061Z&quot;}}" data-scrolled="true" data-execution_count="26">
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:37:42.617073Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:37:42.616911Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:15.402835Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:15.401167Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:37:42.617061Z&quot;}}" data-scrolled="true" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a>eval_history <span class="op">=</span> ezpz.History()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a>model.<span class="bu">eval</span>()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>PRINT_EVERY <span class="op">=</span> <span class="dv">50</span></span>
@@ -1754,61 +1833,61 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 <h2 class="anchored" data-anchor-id="plot-metrics">Plot Metrics</h2>
 <section id="training-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="training-metrics">Training Metrics</h3>
-<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:39:15.404038Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:39:15.403904Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:16.070614Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:16.070293Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:39:15.404027Z&quot;}}" data-scrolled="true" data-execution_count="27">
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:39:15.404038Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:39:15.403904Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:16.070614Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:16.070293Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:39:15.404027Z&quot;}}" data-scrolled="true" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a>ezpz.plot.plot_dataset((tdset <span class="op">:=</span> history.get_dataset()), save_plots<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="index_files/figure-html/cell-28-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/cell-28-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/cell-28-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/cell-28-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/cell-28-output-3.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/cell-28-output-3.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/cell-28-output-4.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/cell-28-output-4.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-5.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/cell-28-output-5.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-5.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/cell-28-output-5.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-6.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/cell-28-output-6.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-6.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="index_files/figure-html/cell-28-output-6.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-7.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/cell-28-output-7.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-7.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="index_files/figure-html/cell-28-output-7.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-8.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/cell-28-output-8.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-8.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="index_files/figure-html/cell-28-output-8.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1816,33 +1895,33 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 </section>
 <section id="validation-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="validation-metrics">Validation Metrics</h3>
-<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:39:16.071904Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:39:16.071783Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:16.612588Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:16.612304Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:39:16.071894Z&quot;}}" data-scrolled="true" data-execution_count="28">
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2025-08-04T17:39:16.071904Z&quot;,&quot;iopub.status.busy&quot;:&quot;2025-08-04T17:39:16.071783Z&quot;,&quot;iopub.status.idle&quot;:&quot;2025-08-04T17:39:16.612588Z&quot;,&quot;shell.execute_reply&quot;:&quot;2025-08-04T17:39:16.612304Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2025-08-04T17:39:16.071894Z&quot;}}" data-scrolled="true" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a>ezpz.plot.plot_dataset((edset <span class="op">:=</span> eval_history.get_dataset()), save_plots<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/cell-29-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="index_files/figure-html/cell-29-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="index_files/figure-html/cell-29-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="index_files/figure-html/cell-29-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="index_files/figure-html/cell-29-output-3.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="index_files/figure-html/cell-29-output-3.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="index_files/figure-html/cell-29-output-4.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="index_files/figure-html/cell-29-output-4.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1892,6 +1971,52 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 <span id="cb29-32"><a href="#cb29-32" aria-label="32"></a>        <span class="bu">print</span>(</span>
 <span id="cb29-33"><a href="#cb29-33" aria-label="33"></a>            <span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: validation loss: </span><span class="sc">{</span>loss_val<span class="sc">:.3f}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc_val<span class="sc">:.3f}</span><span class="ss">"</span></span>
 <span id="cb29-34"><a href="#cb29-34" aria-label="34"></a>        )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="advanced-architectures" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-architectures">Advanced Architectures</h2>
+<p>The ConvNet you built above is the foundation. Real-world models stack these building blocks into deeper, more specialized architectures. Here are three influential ones.</p>
+<section id="resnet" class="level3">
+<h3 class="anchored" data-anchor-id="resnet">ResNet</h3>
+<p>Deeper and deeper networks that stack convolutions end up with smaller and smaller gradients in early layers. ResNets use additional skip connections where the output layer is <code>f(x) + x</code> instead of <code>f(w x + b)</code> or <code>f(x)</code>. This avoids vanishing gradient problem and results in smoother loss functions. Refer to the <a href="https://arxiv.org/pdf/1512.03385.pdf">ResNet paper</a> and <a href="https://arxiv.org/pdf/1712.09913.pdf">ResNet loss visualization paper</a> for more information.</p>
+<div id="fig-resnet" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ResNet.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30" title="Figure&nbsp;10: ResNet. Image credit: ResNet paper"><img src="images/ResNet.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: ResNet. Image credit: <a href="https://arxiv.org/pdf/1512.03385.pdf">ResNet paper</a>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="u-nets" class="level3">
+<h3 class="anchored" data-anchor-id="u-nets">U-Nets</h3>
+<p>U-NET is a convolution based neural network architecture orginally developed for biomedical image segmentation tasks. It has an encoder-decoder architecture with skip connections in between them.</p>
+<div id="fig-u-nets" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-u-nets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/U-Nets.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31" title="Figure&nbsp;11: Image credit: ResNet paper"><img src="images/U-Nets.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-u-nets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Image credit: <a href="https://arxiv.org/pdf/1505.04597.pdf">ResNet paper</a>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="vits" class="level3">
+<h3 class="anchored" data-anchor-id="vits">ViTs</h3>
+<p>You’ll learn about language models today, which use “transformer” models. There has been some success applying transformers to images (“vision transformers”). To make images sequential, they are split into patches and flattened. Then apply linear embeddings and positional embeddings and feed it to a encoder-based transformer model.</p>
+<div id="fig-vits" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ViT.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-32" title="Figure&nbsp;12: Image credit: Google Blog"><img src="images/ViT.gif" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Image credit: <a href="https://ai.googleblog.com/2020/12/transformers-for-image-recognition-at.html">Google Blog</a>
+</figcaption>
+</figure>
+</div>
 
 
 </section>
@@ -2415,8 +2540,8 @@ Foreman, Sam, Sam Foreman, Huihuo Zheng, Corey Adams, and Bethany Lusch.
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../01-neural-networks/2-advanced/index.html" class="pagination-link" aria-label="Advanced">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Advanced</span>
+      <a href="../../01-neural-networks/1-mnist/index.html" class="pagination-link" aria-label="MNIST Example">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">MNIST Example</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
