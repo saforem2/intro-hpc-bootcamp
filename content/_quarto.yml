@@ -58,11 +58,8 @@ format:
     page-layout: article
     fig-width: 6.4
     fig-height: 4.8
-    # grid:
-    #   body-width: 1000px
-    #   margin-width: 200px
-    #   sidebar-width: 200px
-    #   # gutter-width: 1.5rem
+    # NB: docked-nav sidebar width is set via $grid-sidebar-width in
+    # css/common.scss (the `grid:` option here only sizes the right margin).
     fig-align: center
     fig-responsive: true
     anchor-sections: true
