@@ -30,7 +30,6 @@ Sam Foreman
   - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
     - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)
     - 📗 [\[01.1\] MNIST](./01-neural-networks/1-mnist/)
-    - 📗 [\[01.1\] MNIST (ipynb)](./01-neural-networks/1-mnist-ipynb/)
     - 📗 [\[01.2\] Advanced](./01-neural-networks/2-advanced/)
     - 📗 [\[01.3\] Conv. Nets](./01-neural-networks/3-conv-nets/)
     - 📗 [\[01.4\] Representation
