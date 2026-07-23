@@ -858,9 +858,33 @@ Keeping the communication to computation ratio small is important for effective 
 - [Introducing PyTorch Fully Sharded Data Parallel (FSDP) API | PyTorch](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/)
 
 ::: {#fig-fsdp}
-![](assets/fsdp.png)
 
-FSDP Workflow. [Source](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/)
+```{mermaid}
+flowchart TB
+    s0["`Each rank holds<br/>its **shard** of params`"]
+    ag1["`**all-gather**<br/>full params`"]
+    fwd["`Forward`"]
+    ag2["`**all-gather**<br/>full params`"]
+    bwd["`Backward`"]
+    rs["`**reduce-scatter**<br/>gradients → shards`"]
+    upd["`Optimizer step<br/>(on local shard)`"]
+    s0 --> ag1 --> fwd --> ag2 --> bwd --> rs --> upd --> s0
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class s0 red
+class ag1,ag2 blue
+class fwd,bwd yellow
+class rs blue
+class upd green
+```
+
+FSDP workflow: parameters live **sharded** across ranks; each layer is
+temporarily reconstructed via `all-gather` for compute, then gradients are
+`reduce-scatter`ed back to shards. Based on the
+[PyTorch FSDP blog](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/).
 :::
 
 ### 🕸️ Additional Parallelism Strategies

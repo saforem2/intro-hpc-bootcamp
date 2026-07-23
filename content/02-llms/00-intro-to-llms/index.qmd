@@ -182,9 +182,29 @@ the previous step is fed back into the network, giving it a "memory" of past
 inputs — ideal for short sequences in NLP and time-series prediction.
 
 ::: {#fig-rnn}
-![](images/recurrent_nn.png)
 
-An RNN unrolled over time.
+```{mermaid}
+flowchart LR
+    x1(("`x₁`")) --> h1["`h₁`"]
+    x2(("`x₂`")) --> h2["`h₂`"]
+    x3(("`x₃`")) --> h3["`h₃`"]
+    xt(("`xₜ`")) --> ht["`hₜ`"]
+    h1 -->|"`hidden state`"| h2 -->|"`hidden state`"| h3 -->|"`…`"| ht
+    h1 --> y1(("`y₁`"))
+    h2 --> y2(("`y₂`"))
+    h3 --> y3(("`y₃`"))
+    ht --> yt(("`yₜ`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class x1,x2,x3,xt red
+class h1,h2,h3,ht blue
+class y1,y2,y3,yt green
+```
+
+An RNN unrolled over time: the hidden state $h_t$ is passed from each step to
+the next, giving the network a "memory" of past inputs.
 :::
 
 But RNNs have two crippling limitations:
@@ -243,14 +263,46 @@ architecture to today's frontier reasoning and Mixture-of-Experts systems.
 :::
 
 ::: {#fig-transformer-arch}
-![](images/transformer-architecture.png){width=70%}
+
+```{mermaid}
+flowchart TB
+    subgraph ENC["`Encoder  ×N`"]
+        direction TB
+        ei("`Input<br/>embedding + PE`") --> ea["`Multi-Head<br/>Self-Attention`"]
+        ea --> ean(["`Add & Norm`"])
+        ean --> eff["`Feed-Forward`"]
+        eff --> eann(["`Add & Norm`"])
+    end
+    subgraph DEC["`Decoder  ×N`"]
+        direction TB
+        di("`Output<br/>embedding + PE`") --> da["`Masked Multi-Head<br/>Self-Attention`"]
+        da --> dan(["`Add & Norm`"])
+        dan --> dca["`Multi-Head<br/>Cross-Attention`"]
+        dca --> dcan(["`Add & Norm`"])
+        dcan --> dff["`Feed-Forward`"]
+        dff --> dann(["`Add & Norm`"])
+    end
+    eann -->|"`K, V`"| dca
+    dann --> lin["`Linear`"] --> sm["`Softmax`"] --> out(("`output<br/>probabilities`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class ENC,DEC block
+class ei,di red
+class ea,da,dca blue
+class eff,dff yellow
+class ean,eann,dan,dcan,dann purple
+class lin,sm blue
+class out green
+```
 
 The full encoder–decoder Transformer architecture (Vaswani et al., 2017): a
-stack of `N` encoder layers (left) feeding cross-attention in a stack of `N`
-decoder layers (right). Image: ["Transformer, full
-architecture"](https://commons.wikimedia.org/wiki/File:Transformer,_full_architecture.png)
-by Daniel Voigt Godoy ([dl-visuals](https://github.com/dvgodoy/dl-visuals)),
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0).
+stack of `N` encoder layers (left) whose keys and values feed cross-attention
+in a stack of `N` decoder layers (right), ending in a linear + softmax
+projection to output probabilities.
 :::
 
 ## ⚡ LLMs in Action: The Black Box First

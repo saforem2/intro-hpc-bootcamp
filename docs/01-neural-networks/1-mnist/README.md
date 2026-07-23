@@ -185,9 +185,32 @@ dimension to the input.
 
 <div id="fig-linear-svg">
 
-![](../../assets/linear-net-with-weights.svg)
+``` mermaid
+flowchart LR
+    subgraph IN["`Input pixels **x**<br/>(28×28 = 784)`"]
+        direction TB
+        x1(("`x₁`"))
+        x2(("`x₂`"))
+        xd(("`⋮`"))
+        xn(("`x₇₈₄`"))
+    end
+    subgraph OUT["`Output logits<br/>(10 classes)`"]
+        direction TB
+        y0(("`0`"))
+        y1(("`⋮`"))
+        y9(("`9`"))
+    end
+    x1 & x2 & xd & xn -->|"`W, b`"| y0 & y1 & y9
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class IN,OUT block
+class x1,x2,xd,xn red
+class y0,y1,y9 green
+```
 
-Figure 2: Fully connected linear net
+Figure 2: A fully-connected linear layer: every input pixel connects to
+every output class via $\mathbf{x}\mathbf{W} + \mathbf{b}$.
 
 </div>
 

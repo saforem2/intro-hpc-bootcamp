@@ -126,6 +126,10 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -1107,10 +1111,38 @@ Figure&nbsp;7
 <div id="fig-residual-layer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-residual-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="./residual_layer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;8: Residual Layer"><img src="./residual_layer.png" class="img-fluid figure-img"></a>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    x(("`x`")) --&gt; w1["`weight layer`"]
+    w1 --&gt; r1["`ReLU`"]
+    r1 --&gt; w2["`weight layer`"]
+    w2 --&gt; add((("`+`")))
+    x --&gt;|"`identity (skip)`"| add
+    add --&gt; r2["`ReLU`"] --&gt; out(("`f(x) + x`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class x red
+class w1,w2 blue
+class r1,r2 yellow
+class add purple
+class out green
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-layer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Residual Layer
+Figure&nbsp;8: A residual block: the input <code>x</code> is added back to the output of the weight layers via a <strong>skip connection</strong>, so the block learns <code>f(x) + x</code>.
 </figcaption>
 </figure>
 </div>
@@ -1118,7 +1150,7 @@ Figure&nbsp;8: Residual Layer
 <div id="fig-resnet-performance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resnet-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="./resnet_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;9: "><img src="./resnet_comparison.png" class="img-fluid figure-img"></a>
+<a href="./resnet_comparison.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;9: "><img src="./resnet_comparison.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-resnet-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;9
@@ -1197,7 +1229,7 @@ Figure&nbsp;9
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-12-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/cell-12-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-12-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/cell-12-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1225,7 +1257,7 @@ Figure&nbsp;9
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-13-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-13-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1838,56 +1870,56 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/cell-28-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/cell-28-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/cell-28-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/cell-28-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/cell-28-output-3.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/cell-28-output-3.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/cell-28-output-4.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/cell-28-output-4.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-5.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/cell-28-output-5.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-5.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/cell-28-output-5.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-6.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="index_files/figure-html/cell-28-output-6.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-6.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/cell-28-output-6.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-7.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="index_files/figure-html/cell-28-output-7.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-7.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="index_files/figure-html/cell-28-output-7.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-28-output-8.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="index_files/figure-html/cell-28-output-8.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-28-output-8.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="index_files/figure-html/cell-28-output-8.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1900,28 +1932,28 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="index_files/figure-html/cell-29-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="index_files/figure-html/cell-29-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="index_files/figure-html/cell-29-output-2.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-2.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="index_files/figure-html/cell-29-output-2.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="index_files/figure-html/cell-29-output-3.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-3.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="index_files/figure-html/cell-29-output-3.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-29-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="index_files/figure-html/cell-29-output-4.svg" class="img-fluid figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-29-output-4.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="index_files/figure-html/cell-29-output-4.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1982,10 +2014,46 @@ train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<s
 <div id="fig-resnet" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ResNet.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30" title="Figure&nbsp;10: ResNet. Image credit: ResNet paper"><img src="images/ResNet.png" class="img-fluid figure-img"></a>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    i(("`input`")) --&gt; b1
+    subgraph b1["`Res block 1`"]
+        c1["`conv`"] --&gt; a1((("`+`")))
+    end
+    subgraph b2["`Res block 2`"]
+        c2["`conv`"] --&gt; a2((("`+`")))
+    end
+    subgraph b3["`Res block 3`"]
+        c3["`conv`"] --&gt; a3((("`+`")))
+    end
+    b1 --&gt; b2 --&gt; b3 --&gt; o(("`output`"))
+    i -.-&gt;|"`skip`"| a1
+    b1 -.-&gt;|"`skip`"| a2
+    b2 -.-&gt;|"`skip`"| a3
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class b1,b2,b3 block
+class i red
+class c1,c2,c3 blue
+class a1,a2,a3 purple
+class o green
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: ResNet. Image credit: <a href="https://arxiv.org/pdf/1512.03385.pdf">ResNet paper</a>
+Figure&nbsp;10: ResNet stacks residual blocks; each block’s skip connection lets gradients flow directly to earlier layers.
 </figcaption>
 </figure>
 </div>
@@ -1996,10 +2064,43 @@ Figure&nbsp;10: ResNet. Image credit: <a href="https://arxiv.org/pdf/1512.03385.
 <div id="fig-u-nets" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-u-nets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/U-Nets.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31" title="Figure&nbsp;11: Image credit: ResNet paper"><img src="images/U-Nets.png" class="img-fluid figure-img"></a>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    inp(("`input`")) --&gt; e1["`Enc 1`"]
+    e1 --&gt; e2["`Enc 2`"]
+    e2 --&gt; e3["`Enc 3`"]
+    e3 --&gt; b["`bottleneck`"]
+    b --&gt; d3["`Dec 3`"]
+    d3 --&gt; d2["`Dec 2`"]
+    d2 --&gt; d1["`Dec 1`"]
+    d1 --&gt; outp(("`segmentation&lt;br/&gt;map`"))
+    e1 -.-&gt;|"`skip`"| d1
+    e2 -.-&gt;|"`skip`"| d2
+    e3 -.-&gt;|"`skip`"| d3
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class inp red
+class e1,e2,e3 blue
+class b purple
+class d3,d2,d1 yellow
+class outp green
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-u-nets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11: Image credit: <a href="https://arxiv.org/pdf/1505.04597.pdf">ResNet paper</a>
+Figure&nbsp;11: U-Net’s encoder–decoder (“U”) shape with <strong>skip connections</strong> copying encoder features across to the matching decoder stage.
 </figcaption>
 </figure>
 </div>
@@ -2010,7 +2111,7 @@ Figure&nbsp;11: Image credit: <a href="https://arxiv.org/pdf/1505.04597.pdf">Res
 <div id="fig-vits" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-vits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ViT.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-32" title="Figure&nbsp;12: Image credit: Google Blog"><img src="images/ViT.gif" class="img-fluid figure-img"></a>
+<a href="images/ViT.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-29" title="Figure&nbsp;12: Image credit: Google Blog"><img src="images/ViT.gif" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;12: Image credit: <a href="https://ai.googleblog.com/2020/12/transformers-for-image-recognition-at.html">Google Blog</a>

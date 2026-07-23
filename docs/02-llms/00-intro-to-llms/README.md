@@ -243,9 +243,29 @@ time-series prediction.
 
 <div id="fig-rnn">
 
-![](images/recurrent_nn.png)
+``` mermaid
+flowchart LR
+    x1(("`x₁`")) --> h1["`h₁`"]
+    x2(("`x₂`")) --> h2["`h₂`"]
+    x3(("`x₃`")) --> h3["`h₃`"]
+    xt(("`xₜ`")) --> ht["`hₜ`"]
+    h1 -->|"`hidden state`"| h2 -->|"`hidden state`"| h3 -->|"`…`"| ht
+    h1 --> y1(("`y₁`"))
+    h2 --> y2(("`y₂`"))
+    h3 --> y3(("`y₃`"))
+    ht --> yt(("`yₜ`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class x1,x2,x3,xt red
+class h1,h2,h3,ht blue
+class y1,y2,y3,yt green
+```
 
-Figure 6: An RNN unrolled over time.
+Figure 6: An RNN unrolled over time: the hidden state $h_t$ is passed
+from each step to the next, giving the network a “memory” of past
+inputs.
 
 </div>
 
@@ -310,15 +330,45 @@ Mixture-of-Experts systems.
 
 <div id="fig-transformer-arch">
 
-<img src="images/transformer-architecture.png" style="width:70.0%" />
+``` mermaid
+flowchart TB
+    subgraph ENC["`Encoder  ×N`"]
+        direction TB
+        ei("`Input<br/>embedding + PE`") --> ea["`Multi-Head<br/>Self-Attention`"]
+        ea --> ean(["`Add & Norm`"])
+        ean --> eff["`Feed-Forward`"]
+        eff --> eann(["`Add & Norm`"])
+    end
+    subgraph DEC["`Decoder  ×N`"]
+        direction TB
+        di("`Output<br/>embedding + PE`") --> da["`Masked Multi-Head<br/>Self-Attention`"]
+        da --> dan(["`Add & Norm`"])
+        dan --> dca["`Multi-Head<br/>Cross-Attention`"]
+        dca --> dcan(["`Add & Norm`"])
+        dcan --> dff["`Feed-Forward`"]
+        dff --> dann(["`Add & Norm`"])
+    end
+    eann -->|"`K, V`"| dca
+    dann --> lin["`Linear`"] --> sm["`Softmax`"] --> out(("`output<br/>probabilities`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class ENC,DEC block
+class ei,di red
+class ea,da,dca blue
+class eff,dff yellow
+class ean,eann,dan,dcan,dann purple
+class lin,sm blue
+class out green
+```
 
 Figure 8: The full encoder–decoder Transformer architecture (Vaswani et
-al., 2017): a stack of `N` encoder layers (left) feeding cross-attention
-in a stack of `N` decoder layers (right). Image: [“Transformer, full
-architecture”](https://commons.wikimedia.org/wiki/File:Transformer,_full_architecture.png)
-by Daniel Voigt Godoy
-([dl-visuals](https://github.com/dvgodoy/dl-visuals)), [CC BY
-4.0](https://creativecommons.org/licenses/by/4.0).
+al., 2017): a stack of `N` encoder layers (left) whose keys and values
+feed cross-attention in a stack of `N` decoder layers (right), ending in
+a linear + softmax projection to output probabilities.
 
 </div>
 
@@ -355,9 +405,6 @@ import matplotlib as mpl
 from rich import print
 ```
 
-    The autoreload extension is already loaded. To reload it, use:
-      %reload_ext autoreload
-
 Generating text is three lines with a `pipeline`:
 
 ``` python
@@ -373,45 +420,55 @@ print(
 )
 ```
 
+    Device set to use mps:0
+    Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+    Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+    Both `max_new_tokens` (=256) and `max_length`(=20) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
-    <span style="color: #008000; text-decoration-color: #008000">"I got an A+ in my final exam; I am very proud of my accomplishment in that year. I think I'm going to do well </span>
-<span style="color: #008000; text-decoration-color: #008000">and I am excited about this year.\n\nFor some reason, I think I have the most realistic view of my abilities as a </span>
-<span style="color: #008000; text-decoration-color: #008000">player. I am a very good athlete, but you can't really put your foot on the gas and not be able to perform. I was </span>
-<span style="color: #008000; text-decoration-color: #008000">just surprised how much I could learn from my older brother. He was a big inspiration to me. He was a great mentor </span>
-<span style="color: #008000; text-decoration-color: #008000">and a good coach. I really enjoy watching the game.\n\nI have been a big proponent of the philosophy that all </span>
-<span style="color: #008000; text-decoration-color: #008000">things are secondary to player development. If you know you're going to be asked to do some things, you better get </span>
-<span style="color: #008000; text-decoration-color: #008000">creative. I would love to see players learn to play the game like I did. I hope I can help them find their way to a</span>
-<span style="color: #008000; text-decoration-color: #008000">better place. I'm very proud of my play. I'm not going to lie to you, it's a different game.\n\nYou can read more </span>
-<span style="color: #008000; text-decoration-color: #008000">about that here.\n\nI'm a fan of the NFL because it's fun and competitive. I really like watching the game and I </span>
-<span style="color: #008000; text-decoration-color: #008000">appreciate the challenge it brings. It's a lot of fun to watch. I'd love to go out and"</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'I got an A+ in my final exam; I am very lucky. This is my first time doing this and I am very happy that I got</span>
-<span style="color: #008000; text-decoration-color: #008000">it."\n\nGone are the days of relying on your spouse to make sure you\'re happy, especially when the world is about </span>
-<span style="color: #008000; text-decoration-color: #008000">to change.\n\nWhat would you say to a spouse who finds themselves stressed out?'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">"I got an A+ in my final exam; I am very proud of my decision to go back to the lab – I found the best lab in </span>
-<span style="color: #008000; text-decoration-color: #008000">my entire life.\n\nI have a BA in Science, Technology, Engineering or Mathematics from the University of Toronto </span>
-<span style="color: #008000; text-decoration-color: #008000">and a Ph.D. from the University of Toronto.\n\nI have a Masters in Information Science from the University of </span>
-<span style="color: #008000; text-decoration-color: #008000">Toronto.\n\nI have a Bachelor of Science in Computer Science from the University of Toronto.\n\nI have a Doctorate </span>
-<span style="color: #008000; text-decoration-color: #008000">in the Computer Science of Computer Systems from the University of Toronto.\n\nI have a Doctorate in Data Science </span>
-<span style="color: #008000; text-decoration-color: #008000">from the University of Toronto.\n\nI have a Doctorate in Computer Science from the University of Toronto.\n\nI have</span>
-<span style="color: #008000; text-decoration-color: #008000">a Doctorate in Computer Science from the University of Toronto.\n\nI have a Master's Degree in Information Science </span>
-<span style="color: #008000; text-decoration-color: #008000">from the University of Toronto.\n\nI have a Master's Degree in Information Science from the University of </span>
-<span style="color: #008000; text-decoration-color: #008000">Toronto.\n\nI have a Doctorate in Computer Science from the University of Toronto.\n\nI have a Doctorate in </span>
-<span style="color: #008000; text-decoration-color: #008000">Computer Science from the University of Toronto.\n\nI have a Master's Degree in Information Science from the </span>
-<span style="color: #008000; text-decoration-color: #008000">University of Toronto.\n\nI have a Master's Degree in Information Science from the University of Toronto.\n\nI </span>
-<span style="color: #008000; text-decoration-color: #008000">have"</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'I got an A+ in my final exam; I am very proud of my accomplishments. I am proud of my family, friends and the </span>
-<span style="color: #008000; text-decoration-color: #008000">quality of our family."\n\nThe family of G.M.K.\'s second wife, Kathy, is not known for her self-confidence. Her </span>
-<span style="color: #008000; text-decoration-color: #008000">father, former Republican congressman Ron Paul, was raised in a conservative family and has been a Republican for </span>
-<span style="color: #008000; text-decoration-color: #008000">23 years. He is also an ex-convert and has a daughter, Jamey, who graduated from Georgetown University.\n\nThe </span>
-<span style="color: #008000; text-decoration-color: #008000">family of the slain soldier, Lt. Col. Jeffrey Lee G. Moore, who was 21, died July 1 amid a prolonged shootout in a </span>
-<span style="color: #008000; text-decoration-color: #008000">local church. The two were reported to be in a relationship.\n\nG.M.K.\'s father, the former congressman from </span>
-<span style="color: #008000; text-decoration-color: #008000">Texas, was at the base, according to his LinkedIn page, and his stepfather, Rep. Rick Perry, was in the </span>
-<span style="color: #008000; text-decoration-color: #008000">area.\n\nThe family\'s attorney, Thomas Miller, said his client was a decorated military veteran who had been </span>
-<span style="color: #008000; text-decoration-color: #008000">deployed to Iraq for four months.\n\nThe family of the shooter, Michael Brown, is also not known to have had </span>
-<span style="color: #008000; text-decoration-color: #008000">anything to do with the shooting in Ferguson, Mo.\n\nThis story was updated to include comments from U.S. Rep. Mike</span>
-<span style="color: #008000; text-decoration-color: #008000">Lee'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'I got an A+ in my final exam; I am very happy with the results. I have no regrets.\n\nP.S. The final exam was </span>
-<span style="color: #008000; text-decoration-color: #008000">a fun one. I have no regrets.'</span>
+    <span style="color: #008000; text-decoration-color: #008000">'I got an A+ in my final exam; I am very excited about my results. I am also really pleased with my work, </span>
+<span style="color: #008000; text-decoration-color: #008000">especially for the first time since I got my first B-S.\n\nI do not know if this is because of your qualifications,</span>
+<span style="color: #008000; text-decoration-color: #008000">but I have to say I am pleased with your result - it is definitely a very good result for the team. I am very happy</span>
+<span style="color: #008000; text-decoration-color: #008000">with the results of the exam.\n\nThe next day, you and your team went into the room, and at 6:45 you started to </span>
+<span style="color: #008000; text-decoration-color: #008000">walk out of the room and back out. It was very peaceful, and the team was very good. You had a lot of fun with the </span>
+<span style="color: #008000; text-decoration-color: #008000">team and the atmosphere of the room.\n\nYou are very enthusiastic about the work you have done.\n\nIt was very </span>
+<span style="color: #008000; text-decoration-color: #008000">pleasant.\n\nThe next day you left the room to go to your new home. You did not arrive until 5:00pm. You worked </span>
+<span style="color: #008000; text-decoration-color: #008000">hard and you did a great job. You worked well and were very happy. I am very happy with your results.\n\nI know </span>
+<span style="color: #008000; text-decoration-color: #008000">that you are very proud that you have qualified for the next exam.\n\nIt was a very well thought out program. You </span>
+<span style="color: #008000; text-decoration-color: #008000">have done a lot of good work. You are very happy.\n\nYou are very'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">"I got an A+ in my final exam; I am very proud of how I have come to learn and how I have kept myself fit and </span>
+<span style="color: #008000; text-decoration-color: #008000">motivated.\n\nI am proud of having been a part of the first season of the show.\n\nI am also proud of the fact that</span>
+<span style="color: #008000; text-decoration-color: #008000">I am a full-time actor and still have been able to play the role of my own.\n\nI am proud of my work ethic and </span>
+<span style="color: #008000; text-decoration-color: #008000">dedication to my craft.\n\nI am proud of the fact that I am still able to speak my own language and that I am able </span>
+<span style="color: #008000; text-decoration-color: #008000">to be present for those that need it the most.\n\nI am proud of my craft and my dedication to the craft, while </span>
+<span style="color: #008000; text-decoration-color: #008000">still being able to share that craft freely with other people.\n\nI am proud of my accomplishments and successes as</span>
+<span style="color: #008000; text-decoration-color: #008000">a business owner, and I am proud to be part of the community I am part of, as the community that I am.\n\nI am </span>
+<span style="color: #008000; text-decoration-color: #008000">proud of what I have accomplished in the past four years but still don't have the confidence to be able to build </span>
+<span style="color: #008000; text-decoration-color: #008000">upon it every step of the way.\n\nI am proud to be a part of a community that is growing and growing, but it is not</span>
+<span style="color: #008000; text-decoration-color: #008000">my place to decide whether or not I want to be part of that community.\n\nI"</span>,
+    <span style="color: #008000; text-decoration-color: #008000">"I got an A+ in my final exam; I am very excited. My first job was as a janitor. I'm pretty sure that I was </span>
+<span style="color: #008000; text-decoration-color: #008000">supposed to be an independent contractor. I worked for the state, and I worked for the government.\n\nI'm very </span>
+<span style="color: #008000; text-decoration-color: #008000">proud of my accomplishments, and I also feel the same way about the fact that many of you are working hard to get </span>
+<span style="color: #008000; text-decoration-color: #008000">the job done.\n\nYou made a living as a janitor for six years, and you did it with a full-time job as an </span>
+<span style="color: #008000; text-decoration-color: #008000">accountant. What happens when you start a new job as an accountant?\n\nWe both started jobs in the same business, </span>
+<span style="color: #008000; text-decoration-color: #008000">and we both worked hard to get our jobs.\n\nI worked a lot of overtime to earn $30 an hour. I worked long hours, </span>
+<span style="color: #008000; text-decoration-color: #008000">and I could never afford to have more than a couple of hours a day.\n\nWhat are some of the toughest jobs you've </span>
+<span style="color: #008000; text-decoration-color: #008000">had?\n\nI worked as a bartender for four years, and I could never afford a full-time job.\n\nI was hired by the </span>
+<span style="color: #008000; text-decoration-color: #008000">U.S. Postal Service to replace four employees who were underpaid.\n\nWhat are some of the most stressful jobs </span>
+<span style="color: #008000; text-decoration-color: #008000">you've had?\n\nI work full-time as a manager at a local bank and I work"</span>,
+    <span style="color: #008000; text-decoration-color: #008000">"I got an A+ in my final exam; I am very confident in my work because of it. I'm happy to say my grades are now</span>
+<span style="color: #008000; text-decoration-color: #008000">at a respectable A+ in their final year.\n\nI have a lot of questions for you. This will hopefully help you to get </span>
+<span style="color: #008000; text-decoration-color: #008000">back to your goal of winning the lottery and getting into the top 25. I would love to hear from you in the comments</span>
+<span style="color: #008000; text-decoration-color: #008000">below and I hope to hear from you soon."</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'I got an A+ in my final exam; I am very proud of it."\n\n"So do I think that I\'ve earned it?"\n\n"I\'m pretty</span>
+<span style="color: #008000; text-decoration-color: #008000">sure that you\'ve earned it."\n\n"I don\'t know how you\'ve made the decision to start on your own. I think it\'s </span>
+<span style="color: #008000; text-decoration-color: #008000">probably a bit of a gamble. I\'ll just try to do my best."\n\n"I\'m sure it\'ll be a great idea. We\'ll see if </span>
+<span style="color: #008000; text-decoration-color: #008000">that\'s something you\'re willing to do."\n\n"Thank you very much."\n\nAfter the final examination, we headed to </span>
+<span style="color: #008000; text-decoration-color: #008000">the office.\n\n"I\'ve got a couple more questions."\n\n"I\'ve got two more."\n\n"You are to write the chapter for </span>
+<span style="color: #008000; text-decoration-color: #008000">the prologue. I\'m going to start the chapters with you in the future. So if I don\'t have anything to add at the </span>
+<span style="color: #008000; text-decoration-color: #008000">end, I\'m going to finish it."\n\nWe nodded.\n\n"I\'ve got a few more questions."\n\n"I\'m going to write the </span>
+<span style="color: #008000; text-decoration-color: #008000">chapter for the prologue. I\'m going to start the chapters with you in the future. So if I don\'t have anything to </span>
+<span style="color: #008000; text-decoration-color: #008000">add at the end, I\'m going to finish it."\n\nWe nodded.\n\n"Well'</span>
 <span style="font-weight: bold">]</span>
 </pre>
 
@@ -521,34 +578,34 @@ tokenization_summary(tokenizer_1, sequence)
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Subset of tokenizer.vocab:
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġentrants: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49117</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ieth: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19235</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġavenue: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36132</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">jas: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28121</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠDesc: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">39373</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġmagnification: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">44120</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠDistribut: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46567</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠFlu: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34070</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġstore: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3650</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġdeclared: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6875</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Mer: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13102</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠKn: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6102</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠSurprise: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">47893</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġaround: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1088</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠEssence: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36152</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠSNP: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25632</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġtube: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12403</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">plan: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11578</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġvaccinations: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46419</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġallows: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3578</span>
 </pre>
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Vocab size of the tokenizer = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50257</span>
@@ -658,8 +715,8 @@ fig_pca.show()
         
 
 <div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js" integrity="sha256-oy6Be7Eh6eiQFs5M7oXuPxxm9qbJXEtTpfSI93dW16Q=" crossorigin="anonymous"></script>                <div id="d9bb45ea-dce7-4ff1-9807-63c90d1fe337" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("d9bb45ea-dce7-4ff1-9807-63c90d1fe337")) {                    Plotly.newPlot(                        "d9bb45ea-dce7-4ff1-9807-63c90d1fe337",                        [{"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eDim 1=%{x}\u003cbr\u003eDim 2=%{y}\u003cbr\u003eDim 3=%{z}\u003cbr\u003elabel=%{text}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["dil","student","dil","studied","hard","upcoming","exams","incredibly","con","efforts","committed","mastering","every","subject"],"legendgroup":"","marker":{"color":"#636efa","symbol":"circle","size":5},"mode":"markers+text","name":"","scene":"scene","showlegend":false,"text":["dil","student","dil","studied","hard","upcoming","exams","incredibly","con","efforts","committed","mastering","every","subject"],"x":{"dtype":"f4","bdata":"zj4hwRxOgMDGdQBBjqLVQC3Uc0CSlyLAxIz2QNF+4kAs+bY\u002f1TE\u002fwPw6+b\u002fo9pfAnpJ2wIUCksA="},"y":{"dtype":"f4","bdata":"47oPwYWP\u002fsDWpIXAxp03veSVp7\u002f9NDNARXCYvxwIxz8hwWa\u002foWCHQFgtHkCAyJFAQa+BQGannEA="},"z":{"dtype":"f4","bdata":"VrPqP+SBXj+y54y\u002fLggLQfI\u002fdMDM8ri\u002f9TWqwJnTk0DcXGrASuFwv7WdDsC6RCW\u002fjJTtP64hpT8="},"type":"scatter3d","textfont":{"size":8}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"scene":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"xaxis":{"title":{"text":"Dim 1"}},"yaxis":{"title":{"text":"Dim 2"}},"zaxis":{"title":{"text":"Dim 3"}}},"legend":{"tracegroupgap":0},"title":{"text":"PCA 3-D Visualization of Token Embeddings"}},                        {"responsive": true}                    ).then(function(){
-                            &#10;var gd = document.getElementById('d9bb45ea-dce7-4ff1-9807-63c90d1fe337');
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js" integrity="sha256-oy6Be7Eh6eiQFs5M7oXuPxxm9qbJXEtTpfSI93dW16Q=" crossorigin="anonymous"></script>                <div id="603d8b72-a893-46f9-b93b-33b00787135c" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("603d8b72-a893-46f9-b93b-33b00787135c")) {                    Plotly.newPlot(                        "603d8b72-a893-46f9-b93b-33b00787135c",                        [{"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eDim 1=%{x}\u003cbr\u003eDim 2=%{y}\u003cbr\u003eDim 3=%{z}\u003cbr\u003elabel=%{text}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["dil","student","dil","studied","hard","upcoming","exams","incredibly","con","efforts","committed","mastering","every","subject"],"legendgroup":"","marker":{"color":"#636efa","symbol":"circle","size":5},"mode":"markers+text","name":"","scene":"scene","showlegend":false,"text":["dil","student","dil","studied","hard","upcoming","exams","incredibly","con","efforts","committed","mastering","every","subject"],"x":{"dtype":"f4","bdata":"5j4hwU1OgMC3dQBBfKLVQC3Uc0B+lyLAtIz2QNR+4kAn+bY\u002fnTE\u002fwLU6+b\u002fR9pfAgZJ2wGkCksA="},"y":{"dtype":"f4","bdata":"z7oPwX+P\u002fsDvpIXAHqY3vSOWp78VNTNAqnCYv9AHxz9LwWa\u002fsWCHQG4tHkCUyJFASq+BQHmnnEA="},"z":{"dtype":"f4","bdata":"J7PqP2+CXj+i54y\u002fLwgLQfc\u002fdMDN8ri\u002f+jWqwJ7Tk0DDXGrAl+Fwv8udDsD2RCW\u002foJTtP6ghpT8="},"type":"scatter3d","textfont":{"size":8}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"scene":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"xaxis":{"title":{"text":"Dim 1"}},"yaxis":{"title":{"text":"Dim 2"}},"zaxis":{"title":{"text":"Dim 3"}}},"legend":{"tracegroupgap":0},"title":{"text":"PCA 3-D Visualization of Token Embeddings"}},                        {"responsive": true}                    ).then(function(){
+                            &#10;var gd = document.getElementById('603d8b72-a893-46f9-b93b-33b00787135c');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -962,7 +1019,7 @@ model_view(attention, tokens)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 
       
-        <div id="bertviz-5b7d620eaad849ba9bd5ee2b2cb3b753" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        <div id="bertviz-105bff7804584a718cd05de011a421f5" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;">
             <span style="user-select:none">
                 &#10;            </span>
             <div id='vis'></div>

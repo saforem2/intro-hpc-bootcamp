@@ -59,9 +59,41 @@ communicate with other nodes and to a large shared filesystem.
 
 <div id="fig-supercomputer-network">
 
-![](../img/network-diagram/light.svg)
+``` mermaid
+flowchart TB
+    user(("`User`")) -->|"`ssh`"| login
+    subgraph HPC["`Supercomputer`"]
+        direction TB
+        login["`Login nodes<br/>(edit code, submit jobs)`"]
+        subgraph WORKERS["`Worker / compute nodes`"]
+            direction LR
+            n1["`node 1<br/>CPU · GPU · mem`"]
+            n2["`node 2<br/>CPU · GPU · mem`"]
+            n3["`node …<br/>CPU · GPU · mem`"]
+            nN["`node N<br/>CPU · GPU · mem`"]
+        end
+        net{{"`High-speed<br/>interconnect`"}}
+        fs[("`Shared<br/>filesystem`")]
+        login -->|"`submit job`"| net
+        net --- n1 & n2 & n3 & nN
+        n1 & n2 & n3 & nN --- fs
+        login --- fs
+    end
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class HPC,WORKERS block
+class user red
+class login yellow
+class n1,n2,n3,nN blue
+class net,fs green
+```
 
-Figure 3: Network diagram of a typical supercomputer
+Figure 3: Network diagram of a typical supercomputer: users `ssh` to
+**login nodes**, which submit **jobs** over a high-speed interconnect to
+**worker nodes**; all share a common filesystem.
 
 </div>
 

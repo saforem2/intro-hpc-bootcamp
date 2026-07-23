@@ -353,9 +353,30 @@ Recognition](https://arxiv.org/pdf/1512.03385.pdf)
 
 <div id="fig-residual-layer">
 
-![](./residual_layer.png)
+``` mermaid
+flowchart TB
+    x(("`x`")) --> w1["`weight layer`"]
+    w1 --> r1["`ReLU`"]
+    r1 --> w2["`weight layer`"]
+    w2 --> add((("`+`")))
+    x -->|"`identity (skip)`"| add
+    add --> r2["`ReLU`"] --> out(("`f(x) + x`"))
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class x red
+class w1,w2 blue
+class r1,r2 yellow
+class add purple
+class out green
+```
 
-Figure 8: Residual Layer
+Figure 8: A residual block: the input `x` is added back to the output of
+the weight layers via a **skip connection**, so the block learns
+`f(x) + x`.
 
 </div>
 
@@ -1176,10 +1197,37 @@ information.
 
 <div id="fig-resnet">
 
-![](images/ResNet.png)
+``` mermaid
+flowchart LR
+    i(("`input`")) --> b1
+    subgraph b1["`Res block 1`"]
+        c1["`conv`"] --> a1((("`+`")))
+    end
+    subgraph b2["`Res block 2`"]
+        c2["`conv`"] --> a2((("`+`")))
+    end
+    subgraph b3["`Res block 3`"]
+        c3["`conv`"] --> a3((("`+`")))
+    end
+    b1 --> b2 --> b3 --> o(("`output`"))
+    i -.->|"`skip`"| a1
+    b1 -.->|"`skip`"| a2
+    b2 -.->|"`skip`"| a3
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class b1,b2,b3 block
+class i red
+class c1,c2,c3 blue
+class a1,a2,a3 purple
+class o green
+```
 
-Figure 10: ResNet. Image credit: [ResNet
-paper](https://arxiv.org/pdf/1512.03385.pdf)
+Figure 10: ResNet stacks residual blocks; each block’s skip connection
+lets gradients flow directly to earlier layers.
 
 </div>
 
@@ -1191,10 +1239,34 @@ encoder-decoder architecture with skip connections in between them.
 
 <div id="fig-u-nets">
 
-![](images/U-Nets.png)
+``` mermaid
+flowchart TB
+    inp(("`input`")) --> e1["`Enc 1`"]
+    e1 --> e2["`Enc 2`"]
+    e2 --> e3["`Enc 3`"]
+    e3 --> b["`bottleneck`"]
+    b --> d3["`Dec 3`"]
+    d3 --> d2["`Dec 2`"]
+    d2 --> d1["`Dec 1`"]
+    d1 --> outp(("`segmentation<br/>map`"))
+    e1 -.->|"`skip`"| d1
+    e2 -.->|"`skip`"| d2
+    e3 -.->|"`skip`"| d3
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class inp red
+class e1,e2,e3 blue
+class b purple
+class d3,d2,d1 yellow
+class outp green
+```
 
-Figure 11: Image credit: [ResNet
-paper](https://arxiv.org/pdf/1505.04597.pdf)
+Figure 11: U-Net’s encoder–decoder (“U”) shape with **skip connections**
+copying encoder features across to the matching decoder stage.
 
 </div>
 
