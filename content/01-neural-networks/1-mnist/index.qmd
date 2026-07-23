@@ -468,10 +468,38 @@ Our linear model isn't enough for high accuracy on this dataset. To improve the 
 
 ::: {#fig-shallow-nn}
 
-![](../images/shallow_nn.png)
+```{mermaid}
+flowchart LR
+    subgraph IN["`Input **x**`"]
+        direction TB
+        i1(("`x₁`"))
+        i2(("`x₂`"))
+        i3(("`x₃`"))
+    end
+    subgraph H["`Hidden layer<br/>σ₁(xW₁ + b₁)`"]
+        direction TB
+        h1(("` `"))
+        h2(("` `"))
+        h3(("` `"))
+        h4(("` `"))
+    end
+    subgraph OUT["`Output<br/>σ₂(·W₂ + b₂)`"]
+        direction TB
+        o1(("`û`"))
+    end
+    i1 & i2 & i3 --> h1 & h2 & h3 & h4
+    h1 & h2 & h3 & h4 --> o1
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class IN,H,OUT block
+class i1,i2,i3 red
+class h1,h2,h3,h4 blue
+class o1 green
+```
 
-
-Shallow neural network
+A shallow (single-hidden-layer) neural network.
 :::
 
 The output of this NN can be written as
@@ -485,28 +513,113 @@ $$
 where $\mathbf{x}$ is the input, $\mathbf{W}_j$ are the weights of the neural
 network, $\sigma_j$ the (nonlinear) activation functions, and $\mathbf{b}_j$
 its biases.
-The activation function introduces the nonlinearity and makes it
-possible to learn more complex tasks.
-Desirable properties in an activation
-function include being differentiable, bounded, and monotonic.
+
+A few of the most common activation functions, plotted over $x \in [-5, 5]$:
+
+```{python}
+#| label: fig-activation
+#| fig-cap: "Common activation functions used in neural networks."
+#| column: page
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-5, 5, 400)
+
+def sigmoid(x): return 1 / (1 + np.exp(-x))
+
+activations = {
+    "Identity":    x,
+    "Sigmoid":     sigmoid(x),
+    "Tanh":        np.tanh(x),
+    "ReLU":        np.maximum(0, x),
+    "Leaky ReLU":  np.where(x > 0, x, 0.1 * x),
+    "PReLU (a=.25)": np.where(x > 0, x, 0.25 * x),
+    "ELU":         np.where(x > 0, x, np.exp(x) - 1),
+    "SELU":        1.0507 * np.where(x > 0, x, 1.6733 * (np.exp(x) - 1)),
+    "Softplus":    np.log1p(np.exp(x)),
+    "GELU":        0.5 * x * (1 + np.tanh(np.sqrt(2/np.pi) * (x + 0.044715 * x**3))),
+    "SiLU / Swish": x * sigmoid(x),
+    "Mish":        x * np.tanh(np.log1p(np.exp(x))),
+}
+
+fig, axes = plt.subplots(3, 4, figsize=(11, 7), sharex=True)
+for ax, (name, y) in zip(axes.flat, activations.items()):
+    ax.plot(x, y, color="#7DCAFF", linewidth=2)
+    ax.axhline(0, color="#838383", linewidth=0.6)
+    ax.axvline(0, color="#838383", linewidth=0.6)
+    ax.set_title(name, fontsize=10)
+    ax.set_ylim(-2, 3)
+    ax.grid(alpha=0.15)
+fig.suptitle("Activation functions", fontsize=13)
+fig.tight_layout()
+plt.show()
+```
+
+The **activation function** introduces the nonlinearity that lets the network
+learn complex tasks. Desirable properties include being differentiable,
+(mostly) monotonic, and well-behaved gradients. `ReLU` and its variants
+(`Leaky ReLU`, `ELU`, `GELU`, `SiLU`) dominate modern deep networks because they
+avoid the vanishing-gradient problem that plagues the saturating `Sigmoid`/`Tanh`.
 
 
-Image source: [PragatiBaheti](https://www.v7labs.com/blog/neural-networks-activation-functions)
+Stacking several hidden layers gives a **deep** neural network — each layer
+transforms the previous layer's output, letting the model build up increasingly
+abstract representations:
 
-::: {#fig-activation}
+::: {#fig-nn-annotated .column-page}
 
-![](../images/activation.jpeg)
+```{mermaid}
+flowchart LR
+    subgraph IN["`Input`"]
+        direction TB
+        i1(("` `"))
+        i2(("` `"))
+        i3(("` `"))
+    end
+    subgraph H1["`Hidden 1`"]
+        direction TB
+        a1(("` `"))
+        a2(("` `"))
+        a3(("` `"))
+        a4(("` `"))
+    end
+    subgraph H2["`Hidden 2`"]
+        direction TB
+        b1(("` `"))
+        b2(("` `"))
+        b3(("` `"))
+        b4(("` `"))
+    end
+    subgraph H3["`Hidden 3`"]
+        direction TB
+        c1(("` `"))
+        c2(("` `"))
+        c3(("` `"))
+    end
+    subgraph OUT["`Output`"]
+        direction TB
+        o1(("` `"))
+        o2(("` `"))
+    end
+    i1 & i2 & i3 --> a1 & a2 & a3 & a4
+    a1 & a2 & a3 & a4 --> b1 & b2 & b3 & b4
+    b1 & b2 & b3 & b4 --> c1 & c2 & c3
+    c1 & c2 & c3 --> o1 & o2
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+class IN,H1,H2,H3,OUT block
+class i1,i2,i3 red
+class a1,a2,a3,a4 blue
+class b1,b2,b3,b4 yellow
+class c1,c2,c3 purple
+class o1,o2 green
+```
 
-Activation functions
-:::
-
-
-Adding more layers to obtain a deep neural network:
-
-::: {#fig-nn-annotated}
-
-![](../images/deep_nn_annotated.jpg)
-
+A deep neural network with several hidden layers.
 :::
 
 
