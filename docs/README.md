@@ -40,7 +40,9 @@ Sam Foreman
     - 📗 [\[02.1\] Parallel Training](./02-llms/06-parallel-training/)
     - 📗 [\[02.2\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
-    - 📊 [\[02.3\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
+    - 🪶 [\[02.3\] Shakespeare from Scratch
+      (ezpz)](./02-llms/09-shakespeare-ezpz/)
+    - 📊 [\[02.4\] Evaluating LLMs](./02-llms/10-evaluating-llms/)
   - 📂 [**\[03\] Advanced / Large-Scale LLMs**](./03-advanced-llms/)
     - 📗 [\[03.0\] Mixture of Experts & Expert
       Parallelism](./03-advanced-llms/0-moe/)

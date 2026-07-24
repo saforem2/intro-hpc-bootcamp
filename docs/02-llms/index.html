@@ -573,6 +573,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../02-llms/09-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shakespeare from Scratch (ezpz)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Evaluating LLMs</span></a>
   </div>
@@ -693,7 +699,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 22, 2026</p>
+      <p class="date-modified">July 24, 2026</p>
     </div>
   </div>
     
@@ -728,7 +734,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li><a href="../02-llms/00-intro-to-llms/index.html">[02.0] Intro to LLMs</a></li>
 <li><a href="../02-llms/06-parallel-training/index.html">[02.1] Parallel Training</a></li>
 <li><a href="../02-llms/08-shakespeare-example-colab/index.html">[02.2] Shakespeare Example (Colab)</a></li>
-<li><a href="../02-llms/10-evaluating-llms/index.html">[02.3] Evaluating LLMs</a></li>
+<li><a href="../02-llms/09-shakespeare-ezpz/index.html">[02.3] Shakespeare from Scratch (ezpz)</a></li>
+<li><a href="../02-llms/10-evaluating-llms/index.html">[02.4] Evaluating LLMs</a></li>
 </ul></li>
 </ul>
 <p>Ready to scale up? Continue to the 🚀 <strong><a href="../03-advanced-llms/index.html">[03] Advanced / Large-Scale LLMs</a></strong> track.</p>
@@ -1352,91 +1359,92 @@ Foreman, Sam. 2025. <span>“Introduction to Large Language Models
 <span id="cb1-22"><a href="#cb1-22" aria-label="22"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.0\] Intro to LLMs</span><span class="co">](00-intro-to-llms/index.qmd)</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-label="23"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.1\] Parallel Training</span><span class="co">](06-parallel-training/index.qmd)</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-label="24"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.2\] Shakespeare Example (Colab)</span><span class="co">](08-shakespeare-example-colab/index.ipynb)</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-label="25"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.3\] Evaluating LLMs</span><span class="co">](10-evaluating-llms/index.qmd)</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-label="26"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-label="27"></a>Ready to scale up? Continue to the 🚀 **[\[03\] Advanced / Large-Scale LLMs](../03-advanced-llms/index.qmd)** track.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-label="28"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-label="29"></a><span class="fu">## Overview</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-label="30"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-label="31"></a>Inspiration from the blog posts "The Illustrated Transformer" and "The</span>
-<span id="cb1-32"><a href="#cb1-32" aria-label="32"></a>Illustrated GPT2" by Jay Alammar, highly recommended reading.</span>
-<span id="cb1-33"><a href="#cb1-33" aria-label="33"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-label="34"></a>This tutorial covers the some fundamental concepts necessary to to study of</span>
-<span id="cb1-35"><a href="#cb1-35" aria-label="35"></a>large language models (LLMs).</span>
-<span id="cb1-36"><a href="#cb1-36" aria-label="36"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-label="37"></a><span class="fu">### Topics</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-label="38"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-label="39"></a><span class="ss">* </span>Scientific applications for language models</span>
-<span id="cb1-40"><a href="#cb1-40" aria-label="40"></a><span class="ss">* </span>General overview of Transformers</span>
-<span id="cb1-41"><a href="#cb1-41" aria-label="41"></a><span class="ss">* </span>Tokenization</span>
-<span id="cb1-42"><a href="#cb1-42" aria-label="42"></a><span class="ss">* </span>Model Architecture</span>
-<span id="cb1-43"><a href="#cb1-43" aria-label="43"></a><span class="ss">* </span>Pipeline using HuggingFace</span>
-<span id="cb1-44"><a href="#cb1-44" aria-label="44"></a><span class="ss">* </span>Model loading</span>
-<span id="cb1-45"><a href="#cb1-45" aria-label="45"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-label="46"></a><span class="fu">## Natural Language Processing (NLP)</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-label="47"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-label="48"></a>Large Language Models (LLMs) are a subset of Natural Language Processing (NLP)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-label="49"></a>techniques that focus on understanding and generating human language.</span>
-<span id="cb1-50"><a href="#cb1-50" aria-label="50"></a>NLP is a field of linguistics / artificial intelligence that enables computers</span>
-<span id="cb1-51"><a href="#cb1-51" aria-label="51"></a>to interpret, understand, and respond to human language in a way that is both</span>
-<span id="cb1-52"><a href="#cb1-52" aria-label="52"></a>meaningful and useful.</span>
-<span id="cb1-53"><a href="#cb1-53" aria-label="53"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-label="54"></a>The following is a list of common NLP tasks, with some examples:</span>
-<span id="cb1-55"><a href="#cb1-55" aria-label="55"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-label="56"></a><span class="ss">- </span>**Classifying whole sentences**: Getting the sentiment of a review,</span>
-<span id="cb1-57"><a href="#cb1-57" aria-label="57"></a>  detecting if an email is spam, determining if a sentence is gramatically</span>
-<span id="cb1-58"><a href="#cb1-58" aria-label="58"></a>  correct or whether two sentences are logically related or not.</span>
-<span id="cb1-59"><a href="#cb1-59" aria-label="59"></a><span class="ss">- </span>**Classifying each word in a sentence**: Identifying the grammatical</span>
-<span id="cb1-60"><a href="#cb1-60" aria-label="60"></a>  components of a sentence (noun, verb, adjectvie, ...), or the named entities</span>
-<span id="cb1-61"><a href="#cb1-61" aria-label="61"></a>  (person, location, organization, ...).</span>
-<span id="cb1-62"><a href="#cb1-62" aria-label="62"></a><span class="ss">- </span>**Generating Text**: Completing a prompt with auto-generated text, filling in</span>
-<span id="cb1-63"><a href="#cb1-63" aria-label="63"></a>  the blanks in a text with masked words</span>
-<span id="cb1-64"><a href="#cb1-64" aria-label="64"></a><span class="ss">- </span>**Extracting an answer from a text**: Given a question and a context,</span>
-<span id="cb1-65"><a href="#cb1-65" aria-label="65"></a>  extracting the answer to the question based on the information provided in the</span>
-<span id="cb1-66"><a href="#cb1-66" aria-label="66"></a>  context.</span>
-<span id="cb1-67"><a href="#cb1-67" aria-label="67"></a><span class="ss">- </span>**Generating a new sentence from an input text**: Translating a text into</span>
-<span id="cb1-68"><a href="#cb1-68" aria-label="68"></a>  another language, summarizing a text</span>
-<span id="cb1-69"><a href="#cb1-69" aria-label="69"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-label="70"></a><span class="fu">## Large Language Models (LLMs)</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-label="71"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-label="72"></a><span class="at">&gt; A large lanuage model (LLM) is an AI model trained on massive amounts of text</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-label="73"></a><span class="at">&gt; data that can understand and generate human-like text, recognize patterns in</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-label="74"></a><span class="at">&gt; language, and perform a wide variety of language tasks without task-specific</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-label="75"></a><span class="at">&gt; training.</span>  </span>
-<span id="cb1-76"><a href="#cb1-76" aria-label="76"></a><span class="at">&gt; They represent a significant advancement in the field of natural language</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-label="77"></a><span class="at">&gt; processing (NLP) </span><span class="co">[</span><span class="ot">@huggingfacecourse</span><span class="co">]</span><span class="at">.</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-label="78"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-label="25"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.3\] Shakespeare from Scratch (ezpz)</span><span class="co">](09-shakespeare-ezpz/index.qmd)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-label="26"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">\[02.4\] Evaluating LLMs</span><span class="co">](10-evaluating-llms/index.qmd)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-label="27"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-label="28"></a>Ready to scale up? Continue to the 🚀 **[\[03\] Advanced / Large-Scale LLMs](../03-advanced-llms/index.qmd)** track.</span>
+<span id="cb1-29"><a href="#cb1-29" aria-label="29"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-label="30"></a><span class="fu">## Overview</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-label="31"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-label="32"></a>Inspiration from the blog posts "The Illustrated Transformer" and "The</span>
+<span id="cb1-33"><a href="#cb1-33" aria-label="33"></a>Illustrated GPT2" by Jay Alammar, highly recommended reading.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-label="34"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-label="35"></a>This tutorial covers the some fundamental concepts necessary to to study of</span>
+<span id="cb1-36"><a href="#cb1-36" aria-label="36"></a>large language models (LLMs).</span>
+<span id="cb1-37"><a href="#cb1-37" aria-label="37"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-label="38"></a><span class="fu">### Topics</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-label="39"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-label="40"></a><span class="ss">* </span>Scientific applications for language models</span>
+<span id="cb1-41"><a href="#cb1-41" aria-label="41"></a><span class="ss">* </span>General overview of Transformers</span>
+<span id="cb1-42"><a href="#cb1-42" aria-label="42"></a><span class="ss">* </span>Tokenization</span>
+<span id="cb1-43"><a href="#cb1-43" aria-label="43"></a><span class="ss">* </span>Model Architecture</span>
+<span id="cb1-44"><a href="#cb1-44" aria-label="44"></a><span class="ss">* </span>Pipeline using HuggingFace</span>
+<span id="cb1-45"><a href="#cb1-45" aria-label="45"></a><span class="ss">* </span>Model loading</span>
+<span id="cb1-46"><a href="#cb1-46" aria-label="46"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-label="47"></a><span class="fu">## Natural Language Processing (NLP)</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-label="48"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-label="49"></a>Large Language Models (LLMs) are a subset of Natural Language Processing (NLP)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-label="50"></a>techniques that focus on understanding and generating human language.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-label="51"></a>NLP is a field of linguistics / artificial intelligence that enables computers</span>
+<span id="cb1-52"><a href="#cb1-52" aria-label="52"></a>to interpret, understand, and respond to human language in a way that is both</span>
+<span id="cb1-53"><a href="#cb1-53" aria-label="53"></a>meaningful and useful.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-label="54"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-label="55"></a>The following is a list of common NLP tasks, with some examples:</span>
+<span id="cb1-56"><a href="#cb1-56" aria-label="56"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-label="57"></a><span class="ss">- </span>**Classifying whole sentences**: Getting the sentiment of a review,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-label="58"></a>  detecting if an email is spam, determining if a sentence is gramatically</span>
+<span id="cb1-59"><a href="#cb1-59" aria-label="59"></a>  correct or whether two sentences are logically related or not.</span>
+<span id="cb1-60"><a href="#cb1-60" aria-label="60"></a><span class="ss">- </span>**Classifying each word in a sentence**: Identifying the grammatical</span>
+<span id="cb1-61"><a href="#cb1-61" aria-label="61"></a>  components of a sentence (noun, verb, adjectvie, ...), or the named entities</span>
+<span id="cb1-62"><a href="#cb1-62" aria-label="62"></a>  (person, location, organization, ...).</span>
+<span id="cb1-63"><a href="#cb1-63" aria-label="63"></a><span class="ss">- </span>**Generating Text**: Completing a prompt with auto-generated text, filling in</span>
+<span id="cb1-64"><a href="#cb1-64" aria-label="64"></a>  the blanks in a text with masked words</span>
+<span id="cb1-65"><a href="#cb1-65" aria-label="65"></a><span class="ss">- </span>**Extracting an answer from a text**: Given a question and a context,</span>
+<span id="cb1-66"><a href="#cb1-66" aria-label="66"></a>  extracting the answer to the question based on the information provided in the</span>
+<span id="cb1-67"><a href="#cb1-67" aria-label="67"></a>  context.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-label="68"></a><span class="ss">- </span>**Generating a new sentence from an input text**: Translating a text into</span>
+<span id="cb1-69"><a href="#cb1-69" aria-label="69"></a>  another language, summarizing a text</span>
+<span id="cb1-70"><a href="#cb1-70" aria-label="70"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-label="71"></a><span class="fu">## Large Language Models (LLMs)</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-label="72"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-label="73"></a><span class="at">&gt; A large lanuage model (LLM) is an AI model trained on massive amounts of text</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-label="74"></a><span class="at">&gt; data that can understand and generate human-like text, recognize patterns in</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-label="75"></a><span class="at">&gt; language, and perform a wide variety of language tasks without task-specific</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-label="76"></a><span class="at">&gt; training.</span>  </span>
+<span id="cb1-77"><a href="#cb1-77" aria-label="77"></a><span class="at">&gt; They represent a significant advancement in the field of natural language</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-label="78"></a><span class="at">&gt; processing (NLP) </span><span class="co">[</span><span class="ot">@huggingfacecourse</span><span class="co">]</span><span class="at">.</span></span>
 <span id="cb1-79"><a href="#cb1-79" aria-label="79"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-label="80"></a>::: {.callout-warning icon="false" title="🚧 Warning" collapse="false"}</span>
-<span id="cb1-81"><a href="#cb1-81" aria-label="81"></a>While LLMs are are able to generate (what appears to be) human-like text, they</span>
-<span id="cb1-82"><a href="#cb1-82" aria-label="82"></a>are not sentient, and do not have an understanding of the world in the way that</span>
-<span id="cb1-83"><a href="#cb1-83" aria-label="83"></a>humans do.</span>
-<span id="cb1-84"><a href="#cb1-84" aria-label="84"></a>They are trained to predict the next word in a sentence based on the context of</span>
-<span id="cb1-85"><a href="#cb1-85" aria-label="85"></a>the words that come before it, and can generate text that is coherent and</span>
-<span id="cb1-86"><a href="#cb1-86" aria-label="86"></a>relevant to the input they receive.</span>
-<span id="cb1-87"><a href="#cb1-87" aria-label="87"></a>However, they do not have a true understanding of the meaning of the words they</span>
-<span id="cb1-88"><a href="#cb1-88" aria-label="88"></a>generate, and can sometimes produce text that is nonsensical or irrelevant to</span>
-<span id="cb1-89"><a href="#cb1-89" aria-label="89"></a>the input.</span>
-<span id="cb1-90"><a href="#cb1-90" aria-label="90"></a>:::</span>
-<span id="cb1-91"><a href="#cb1-91" aria-label="91"></a></span>
-<span id="cb1-92"><a href="#cb1-92" aria-label="92"></a>Even with the advances in LLMs, many fundamental challenges remain.</span>
-<span id="cb1-93"><a href="#cb1-93" aria-label="93"></a>These include understanding ambiguity, cultural context, sarcasm and humor.</span>
-<span id="cb1-94"><a href="#cb1-94" aria-label="94"></a>LLMs address these challenges through massive training on diverse datasets, but</span>
-<span id="cb1-95"><a href="#cb1-95" aria-label="95"></a>still often fall short of human-level understanding in many complex scenarios.</span>
-<span id="cb1-96"><a href="#cb1-96" aria-label="96"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-label="80"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-label="81"></a>::: {.callout-warning icon="false" title="🚧 Warning" collapse="false"}</span>
+<span id="cb1-82"><a href="#cb1-82" aria-label="82"></a>While LLMs are are able to generate (what appears to be) human-like text, they</span>
+<span id="cb1-83"><a href="#cb1-83" aria-label="83"></a>are not sentient, and do not have an understanding of the world in the way that</span>
+<span id="cb1-84"><a href="#cb1-84" aria-label="84"></a>humans do.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-label="85"></a>They are trained to predict the next word in a sentence based on the context of</span>
+<span id="cb1-86"><a href="#cb1-86" aria-label="86"></a>the words that come before it, and can generate text that is coherent and</span>
+<span id="cb1-87"><a href="#cb1-87" aria-label="87"></a>relevant to the input they receive.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-label="88"></a>However, they do not have a true understanding of the meaning of the words they</span>
+<span id="cb1-89"><a href="#cb1-89" aria-label="89"></a>generate, and can sometimes produce text that is nonsensical or irrelevant to</span>
+<span id="cb1-90"><a href="#cb1-90" aria-label="90"></a>the input.</span>
+<span id="cb1-91"><a href="#cb1-91" aria-label="91"></a>:::</span>
+<span id="cb1-92"><a href="#cb1-92" aria-label="92"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-label="93"></a>Even with the advances in LLMs, many fundamental challenges remain.</span>
+<span id="cb1-94"><a href="#cb1-94" aria-label="94"></a>These include understanding ambiguity, cultural context, sarcasm and humor.</span>
+<span id="cb1-95"><a href="#cb1-95" aria-label="95"></a>LLMs address these challenges through massive training on diverse datasets, but</span>
+<span id="cb1-96"><a href="#cb1-96" aria-label="96"></a>still often fall short of human-level understanding in many complex scenarios.</span>
 <span id="cb1-97"><a href="#cb1-97" aria-label="97"></a></span>
-<span id="cb1-98"><a href="#cb1-98" aria-label="98"></a><span class="fu">## References</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-label="99"></a></span>
-<span id="cb1-100"><a href="#cb1-100" aria-label="100"></a>I strongly recommend reading:</span>
-<span id="cb1-101"><a href="#cb1-101" aria-label="101"></a></span>
-<span id="cb1-102"><a href="#cb1-102" aria-label="102"></a><span class="ss">- </span><span class="co">[</span><span class="ot">"The Illustrated Transformer"</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-label="103"></a>  by Jay AlammarAlammar also has a useful post dedicated more generally to</span>
-<span id="cb1-104"><a href="#cb1-104" aria-label="104"></a>  Sequence-to-Sequence modeling </span>
-<span id="cb1-105"><a href="#cb1-105" aria-label="105"></a><span class="ss">- </span><span class="co">[</span><span class="ot">LLM Course by 🤗 HuggingFace</span><span class="co">](https://huggingface.co/learn/llm-course/chapter1/1)</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-label="106"></a><span class="ss">- </span><span class="co">[</span><span class="ot">"Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)</span><span class="co">](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)</span>,</span>
-<span id="cb1-107"><a href="#cb1-107" aria-label="107"></a>  which illustrates the attention mechanism in the context of a more generic</span>
-<span id="cb1-108"><a href="#cb1-108" aria-label="108"></a>  language translation model.</span>
-<span id="cb1-109"><a href="#cb1-109" aria-label="109"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GPT in 60 Lines of NumPy</span><span class="co">](https://jaykmody.com/blog/gpt-from-scratch/)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-98"><a href="#cb1-98" aria-label="98"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-label="99"></a><span class="fu">## References</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-label="100"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-label="101"></a>I strongly recommend reading:</span>
+<span id="cb1-102"><a href="#cb1-102" aria-label="102"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-label="103"></a><span class="ss">- </span><span class="co">[</span><span class="ot">"The Illustrated Transformer"</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-label="104"></a>  by Jay AlammarAlammar also has a useful post dedicated more generally to</span>
+<span id="cb1-105"><a href="#cb1-105" aria-label="105"></a>  Sequence-to-Sequence modeling </span>
+<span id="cb1-106"><a href="#cb1-106" aria-label="106"></a><span class="ss">- </span><span class="co">[</span><span class="ot">LLM Course by 🤗 HuggingFace</span><span class="co">](https://huggingface.co/learn/llm-course/chapter1/1)</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-label="107"></a><span class="ss">- </span><span class="co">[</span><span class="ot">"Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)</span><span class="co">](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)</span>,</span>
+<span id="cb1-108"><a href="#cb1-108" aria-label="108"></a>  which illustrates the attention mechanism in the context of a more generic</span>
+<span id="cb1-109"><a href="#cb1-109" aria-label="109"></a>  language translation model.</span>
+<span id="cb1-110"><a href="#cb1-110" aria-label="110"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GPT in 60 Lines of NumPy</span><span class="co">](https://jaykmody.com/blog/gpt-from-scratch/)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
