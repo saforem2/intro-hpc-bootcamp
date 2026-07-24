@@ -13,6 +13,7 @@ license = { text = "MIT" }
 dependencies = [
     "numpy",
     "matplotlib",
+    "plotly",
     "pandas",
     "scikit-learn",
     "mpi4py",
