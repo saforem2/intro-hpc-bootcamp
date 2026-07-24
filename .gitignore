@@ -12,7 +12,11 @@
 old/
 ignore/
 .venv/
-content/01-neural-networks/3-conv-nets/data/cifar-10-python.tar.gz
+# dataset downloads (regenerated at build; never committed)
 content/01-neural-networks/1-mnist/data/MNIST/raw/
-content/01-neural-networks/3-conv-nets/data/
-content/01-neural-networks/4-representation-learning/data/
+content/01-neural-networks/1-mnist-ipynb/data/
+content/01-neural-networks/2-conv-nets/data/
+content/01-neural-networks/3-representation-learning/data/
+# large page assets (served via the built docs/ copy, not tracked at source)
+content/01-neural-networks/4-distributed-training/assets/
+backup/

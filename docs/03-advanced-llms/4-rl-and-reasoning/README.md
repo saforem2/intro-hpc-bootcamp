@@ -304,7 +304,7 @@ correctness — no step-by-step supervision required.
 >
 > The distributed machinery underneath is exactly what you already know
 > from [\[02.1\] Distributed
-> Training](../../01-neural-networks/5-distributed-training/index.qmd):
+> Training](../../01-neural-networks/4-distributed-training/index.qmd):
 > the policy is sharded with ZeRO/FSDP, generation is parallelized
 > across ranks, and rewards are gathered with the same collectives. RL
 > just adds a **generate → verify → update** loop around the training

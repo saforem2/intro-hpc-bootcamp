@@ -27,7 +27,7 @@ Sam Foreman
 ## 👋 Failures are the norm, not the exception
 
 In [\[02.1\] Distributed
-Training](../../01-neural-networks/5-distributed-training/index.qmd) you
+Training](../../01-neural-networks/4-distributed-training/index.qmd) you
 learned that a collective op only completes when **every** rank
 participates — one silent straggler and the whole job waits
 *indefinitely*. That fragility is exactly the problem at scale.
@@ -255,7 +255,7 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB
 
 The toy saved one `.pt` file from one process. But once you’re using
 FSDP or 3D parallelism (from
-[\[02.1\]](../../01-neural-networks/5-distributed-training/index.qmd)),
+[\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd)),
 model + optimizer state is **sharded across hundreds of ranks** —
 funneling it all to rank 0 to write one giant file is slow and often
 OOMs.
@@ -479,4 +479,4 @@ can survive a multi-week job on thousands of GPUs.
 
 ------------------------------------------------------------------------
 
-*Last updated: 2026-07-22*
+*Last updated: 2026-07-24*

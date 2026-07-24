@@ -38,10 +38,10 @@ Sam Foreman
 
 You already know *how* to shard a model across many GPUs from [\[02.1\]
 Distributed
-Training](../../01-neural-networks/5-distributed-training/index.qmd)
+Training](../../01-neural-networks/4-distributed-training/index.qmd)
 (DDP, ZeRO, FSDP, TP, PP, SP, and 3D parallelism) and how to *launch*
 those runs from [\[02.2\] Parallel
-Training](../../02-llms/06-parallel-training/index.qmd). This lab is
+Training](../../02-llms/1-parallel-training/index.qmd). This lab is
 about everything *around* the training loop that decides whether a
 thousand-GPU pretraining run is fast or a thousand-GPU space heater:
 
@@ -377,12 +377,12 @@ ezpz launch python3 -m ezpz.examples.hf --profile
 ## 🗣️ Theme C: Efficient Collectives
 
 Every step of data-parallel training ends with an
-[**all-reduce**](../../01-neural-networks/5-distributed-training/index.qmd#allreduce)
+[**all-reduce**](../../01-neural-networks/4-distributed-training/index.qmd#allreduce)
 of gradients; sharded strategies add
-[**all-gather**](../../01-neural-networks/5-distributed-training/index.qmd#allgather)
+[**all-gather**](../../01-neural-networks/4-distributed-training/index.qmd#allgather)
 of parameters (FSDP) and reduce-scatter of gradients. You saw these
 collectives in
-[\[02.1\]](../../01-neural-networks/5-distributed-training/index.qmd) —
+[\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd) —
 here we care about their *cost*.
 
 That cost is paid over the interconnect (NVLink within a node,
@@ -669,9 +669,9 @@ Where *proof* can be any of:
 - [OLMo](https://allenai.org/olmo) and the Dolma data report — open
   data-mixture and curation details
 - [\[02.1\] Distributed
-  Training](../../01-neural-networks/5-distributed-training/index.qmd)
+  Training](../../01-neural-networks/4-distributed-training/index.qmd)
   and [\[02.2\] Parallel
-  Training](../../02-llms/06-parallel-training/index.qmd)
+  Training](../../02-llms/1-parallel-training/index.qmd)
 
 <!-- -->
 

@@ -554,19 +554,19 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/2-conv-nets/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Convolutional Networks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/3-representation-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/4-distributed-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributed Training</span></a>
   </div>
 </li>
@@ -583,31 +583,31 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/1-parallel-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/2-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare Example (Colab)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/09-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/3-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare from Scratch (ezpz)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/4-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Evaluating LLMs</span></a>
   </div>
 </li>
@@ -734,7 +734,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 22, 2026</p>
+      <p class="date-modified">July 24, 2026</p>
     </div>
   </div>
     
@@ -762,7 +762,7 @@ window.Quarto = {
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/3-mid-post-training/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>So far you have seen how a model is <em>pretrained</em> from scratch (labs <a href="../../02-llms/00-intro-to-llms/index.html">[02.0]</a>–<a href="../../02-llms/08-shakespeare-example-colab/index.html">[02.3]</a>) and how that pretraining is <em>scaled</em> across GPUs and nodes (<a href="../../01-neural-networks/5-distributed-training/index.html">[02.1] Distributed Training</a>, <a href="../../02-llms/06-parallel-training/index.html">[02.2] Parallel Training</a>).</p>
+<p>So far you have seen how a model is <em>pretrained</em> from scratch (labs <a href="../../02-llms/0-intro-to-llms/index.html">[02.0]</a>–<a href="../../02-llms/2-shakespeare-example-colab/index.html">[02.3]</a>) and how that pretraining is <em>scaled</em> across GPUs and nodes (<a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a>, <a href="../../02-llms/1-parallel-training/index.html">[02.2] Parallel Training</a>).</p>
 <p>A pretrained <strong>base model</strong> is a very good next-token predictor. It is <em>not</em> yet a chatbot: ask it a question and it will happily continue your question rather than answer it. Turning a base model into something useful takes two more stages of training on <strong>much smaller, much higher-quality</strong> data. That is what this lab is about.</p>
 <section id="where-this-fits-in-the-llm-lifecycle" class="level2">
 <h2 class="anchored" data-anchor-id="where-this-fits-in-the-llm-lifecycle">🧬 Where this fits in the LLM lifecycle</h2>
@@ -1125,7 +1125,7 @@ Table&nbsp;1: An illustrative continued-pretraining data mix.
 <p>Frontier post-training operates on a completely different order of magnitude:</p>
 <ul>
 <li><strong>SFT data:</strong> <em>millions</em> of curated instructions, heavily filtered and often partly synthetic. Tülu 3 (<a href="https://arxiv.org/abs/2411.15124">arXiv:2411.15124</a>) and OLMo 2 (<a href="https://arxiv.org/abs/2501.00656">arXiv:2501.00656</a>) document the full open recipe — SFT → DPO → RLVR — and the data curation that dominates the final quality.</li>
-<li><strong>Full fine-tuning, multi-node.</strong> At scale, teams do <em>full</em> SFT (not just LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the parallelism strategies from <a href="../../01-neural-networks/5-distributed-training/index.html">[02.1] Distributed Training</a>.</li>
+<li><strong>Full fine-tuning, multi-node.</strong> At scale, teams do <em>full</em> SFT (not just LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the parallelism strategies from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a>.</li>
 <li><strong>Staged pipelines.</strong> The Llama 3 report (<a href="https://arxiv.org/abs/2407.21783">arXiv:2407.21783</a>) describes several rounds of SFT interleaved with preference optimization, plus dedicated mid-training phases for long-context and specific capabilities.</li>
 </ul>
 <p>The APIs below are the <em>same</em> ones you just saw — only the scale, data, and node count change.</p>
@@ -1772,10 +1772,10 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb15-17"><a href="#cb15-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/3-mid-post-training/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)</span></span>
 <span id="cb15-18"><a href="#cb15-18" aria-label="18"></a></span>
 <span id="cb15-19"><a href="#cb15-19" aria-label="19"></a>So far you have seen how a model is _pretrained_ from scratch (labs</span>
-<span id="cb15-20"><a href="#cb15-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[02.0\]</span><span class="co">](../../02-llms/00-intro-to-llms/index.qmd)</span>–<span class="co">[</span><span class="ot">\[02.3\]</span><span class="co">](../../02-llms/08-shakespeare-example-colab/index.ipynb)</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[02.0\]</span><span class="co">](../../02-llms/0-intro-to-llms/index.qmd)</span>–<span class="co">[</span><span class="ot">\[02.3\]</span><span class="co">](../../02-llms/2-shakespeare-example-colab/index.ipynb)</span>)</span>
 <span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>and how that pretraining is _scaled_ across GPUs and nodes</span>
-<span id="cb15-22"><a href="#cb15-22" aria-label="22"></a>(<span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/5-distributed-training/index.qmd)</span>,</span>
-<span id="cb15-23"><a href="#cb15-23" aria-label="23"></a><span class="co">[</span><span class="ot">\[02.2\] Parallel Training</span><span class="co">](../../02-llms/06-parallel-training/index.qmd)</span>).</span>
+<span id="cb15-22"><a href="#cb15-22" aria-label="22"></a>(<span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>,</span>
+<span id="cb15-23"><a href="#cb15-23" aria-label="23"></a><span class="co">[</span><span class="ot">\[02.2\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>).</span>
 <span id="cb15-24"><a href="#cb15-24" aria-label="24"></a></span>
 <span id="cb15-25"><a href="#cb15-25" aria-label="25"></a>A pretrained **base model** is a very good next-token predictor. It is *not* yet</span>
 <span id="cb15-26"><a href="#cb15-26" aria-label="26"></a>a chatbot: ask it a question and it will happily continue your question rather</span>
@@ -2136,7 +2136,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb15-391"><a href="#cb15-391" aria-label="381"></a><span class="ss">- </span>**Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not just</span>
 <span id="cb15-392"><a href="#cb15-392" aria-label="382"></a>  LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the</span>
 <span id="cb15-393"><a href="#cb15-393" aria-label="383"></a>  parallelism strategies from</span>
-<span id="cb15-394"><a href="#cb15-394" aria-label="384"></a>  <span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/5-distributed-training/index.qmd)</span>.</span>
+<span id="cb15-394"><a href="#cb15-394" aria-label="384"></a>  <span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
 <span id="cb15-395"><a href="#cb15-395" aria-label="385"></a><span class="ss">- </span>**Staged pipelines.** The Llama 3 report</span>
 <span id="cb15-396"><a href="#cb15-396" aria-label="386"></a>  (<span class="co">[</span><span class="ot">arXiv:2407.21783</span><span class="co">](https://arxiv.org/abs/2407.21783)</span>) describes several rounds</span>
 <span id="cb15-397"><a href="#cb15-397" aria-label="387"></a>  of SFT interleaved with preference optimization, plus dedicated mid-training</span>

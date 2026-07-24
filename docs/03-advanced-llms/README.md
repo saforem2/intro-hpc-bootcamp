@@ -22,15 +22,15 @@ Sam Foreman
 ## 👋 Welcome
 
 You already know how to make a model run on more than one GPU. In
-[\[02.1\] Distributed
-Training](../01-neural-networks/5-distributed-training/index.qmd) you
+[\[01.4\] Distributed
+Training](../01-neural-networks/4-distributed-training/index.qmd) you
 met the whole toolbox: `DDP`, collective ops (all-reduce, all-gather,
 reduce-scatter), `ZeRO`, `FSDP`, tensor / pipeline / sequence
 parallelism (TP / PP / SP), and how to combine them into **3D
-parallelism**. In [\[02.2\] Parallel
-Training](../02-llms/06-parallel-training/index.qmd) and the [\[02.3\]
-Shakespeare](../02-llms/08-shakespeare-example-colab/index.ipynb)
-example you put those ideas to work and pretrained a GPT from scratch.
+parallelism**. In [\[02.1\] Parallel
+Training](../02-llms/1-parallel-training/index.qmd) and the [\[02.2\]
+Shakespeare](../02-llms/2-shakespeare-example-colab/index.ipynb) example
+you put those ideas to work and pretrained a GPT from scratch.
 
 **This track builds directly on that foundation.** “Large-scale” is not
 just “the same training loop, but with more nodes.” Once a job spans
@@ -54,32 +54,31 @@ The five labs are meant to be read roughly in order, but each stands on
 its own:
 
 - **[\[03.0\] Mixture of Experts & Expert
-  Parallelism](../0-moe/index.qmd)** — sparse models that route each
-  token to a few experts, and the *expert parallelism* needed to shard
-  those experts across devices.
-- **[\[03.1\] Pretraining at
-  Scale](../1-pretraining-at-scale/index.qmd)** — putting 3D
-  parallelism, data sharding, and DCP checkpointing together for a real
-  multi-node pretraining run with `torchtitan`.
+  Parallelism](0-moe/index.qmd)** — sparse models that route each token
+  to a few experts, and the *expert parallelism* needed to shard those
+  experts across devices.
+- **[\[03.1\] Pretraining at Scale](1-pretraining-at-scale/index.qmd)**
+  — putting 3D parallelism, data sharding, and DCP checkpointing
+  together for a real multi-node pretraining run with `torchtitan`.
 - **[\[03.2\] Fault-Tolerant
-  Training](../2-fault-tolerant-training/index.qmd)** — surviving node
+  Training](2-fault-tolerant-training/index.qmd)** — surviving node
   failures with checkpointing, spare nodes, and auto-retry so a
   multi-day run actually finishes.
-- **[\[03.3\] Mid- & Post-Training](../3-mid-post-training/index.qmd)**
-  — continued pretraining, supervised fine-tuning (SFT), and
+- **[\[03.3\] Mid- & Post-Training](3-mid-post-training/index.qmd)** —
+  continued pretraining, supervised fine-tuning (SFT), and
   parameter-efficient methods (LoRA) that adapt a base model to a task.
-- **[\[03.4\] RL & Reasoning Models](../4-rl-and-reasoning/index.qmd)**
-  — preference optimization (DPO) and RL (PPO / GRPO) that teach models
-  to align and to *reason*.
+- **[\[03.4\] RL & Reasoning Models](4-rl-and-reasoning/index.qmd)** —
+  preference optimization (DPO) and RL (PPO / GRPO) that teach models to
+  align and to *reason*.
 
 ## 🧭 Where this fits
 
 ``` mermaid
 flowchart LR
     subgraph FOUND["`Foundations`"]
-        A("`[02.1] Distributed<br/>Training`")
-        B("`[02.2] Parallel<br/>Training`")
-        C("`[07]/[08]<br/>Shakespeare`")
+        A("`[01.4] Distributed<br/>Training`")
+        B("`[02.1] Parallel<br/>Training`")
+        C("`[02.2]<br/>Shakespeare`")
     end
     subgraph ADV["`Advanced / Large-Scale`"]
         M("`[03.0] MoE`")
@@ -153,4 +152,4 @@ environment is ready for the labs ahead.
 > all five.
 
 Ready? Start with **[\[03.0\] Mixture of Experts & Expert
-Parallelism](../0-moe/index.qmd)**.
+Parallelism](0-moe/index.qmd)**.

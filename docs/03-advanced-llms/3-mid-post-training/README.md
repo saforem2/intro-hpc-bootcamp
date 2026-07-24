@@ -31,12 +31,12 @@ Sam Foreman
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
 
 So far you have seen how a model is *pretrained* from scratch (labs
-[\[02.0\]](../../02-llms/00-intro-to-llms/index.qmd)–[\[02.3\]](../../02-llms/08-shakespeare-example-colab/index.ipynb))
+[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[02.3\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
 and how that pretraining is *scaled* across GPUs and nodes ([\[02.1\]
 Distributed
-Training](../../01-neural-networks/5-distributed-training/index.qmd),
+Training](../../01-neural-networks/4-distributed-training/index.qmd),
 [\[02.2\] Parallel
-Training](../../02-llms/06-parallel-training/index.qmd)).
+Training](../../02-llms/1-parallel-training/index.qmd)).
 
 A pretrained **base model** is a very good next-token predictor. It is
 *not* yet a chatbot: ask it a question and it will happily continue your
@@ -421,7 +421,7 @@ Table 1: An illustrative continued-pretraining data mix.
 >   just LoRA) across many nodes, sharding optimizer state with
 >   ZeRO/FSDP — exactly the parallelism strategies from [\[02.1\]
 >   Distributed
->   Training](../../01-neural-networks/5-distributed-training/index.qmd).
+>   Training](../../01-neural-networks/4-distributed-training/index.qmd).
 > - **Staged pipelines.** The Llama 3 report
 >   ([arXiv:2407.21783](https://arxiv.org/abs/2407.21783)) describes
 >   several rounds of SFT interleaved with preference optimization, plus
