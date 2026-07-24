@@ -286,3 +286,133 @@ def plot_pca(
         pca.explained_variance_ratio_[pc1]))
 
     return pca, x_pca
+
+
+# ---------------------------------------------------------------------------
+# Interactive (Plotly) variants of the chart helpers above.
+# These return plotly.graph_objects.Figure and share the house "ambivalent"
+# theme (transparent bg, #838383 text, Iosevka font, material colorway).
+# The matplotlib versions above are kept for pages/uses that prefer them.
+# ---------------------------------------------------------------------------
+
+# discrete material palette for categorical labels (cluster ids, classes, ...)
+_CATEGORICAL = [
+    "#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF",
+    "#ffeb3b", "#EC407A", "#009688", "#795548", "#607D8B",
+]
+
+
+def _apply_house_theme():
+    """Register + activate the shared ambivalent plotly template (idempotent)."""
+    try:
+        from bootcamp.plotly_theme import apply_theme
+        apply_theme()
+    except Exception:
+        pass
+
+
+def scatter_plotly(
+    x: np.ndarray,
+    y: "np.ndarray | None" = None,
+    xlabel: "str | None" = None,
+    ylabel: "str | None" = None,
+    title: "str | None" = None,
+    height: int = 420,
+):
+    """Interactive scatter of 2-D points `x`, colored by label vector `y`."""
+    import plotly.graph_objects as go
+    _apply_house_theme()
+    fig = go.Figure()
+    if y is None:
+        fig.add_scatter(x=x[:, 0], y=x[:, 1], mode="markers",
+                        marker=dict(size=6, opacity=0.6, color="#2196F3"))
+    else:
+        y = np.asarray(y)
+        for i, lab in enumerate(np.unique(y)):
+            m = y == lab
+            fig.add_scatter(
+                x=x[m, 0], y=x[m, 1], mode="markers", name=str(lab),
+                marker=dict(size=6, opacity=0.6,
+                            color=_CATEGORICAL[i % len(_CATEGORICAL)]),
+            )
+    fig.update_layout(
+        xaxis_title=xlabel, yaxis_title=ylabel, title=title, height=height,
+        showlegend=y is not None,
+    )
+    return fig
+
+
+def plot_kmeans_points_plotly(
+    x: np.ndarray,
+    centers: np.ndarray,
+    labels: "np.ndarray | None" = None,
+    title: "str | None" = None,
+    height: int = 440,
+):
+    """Interactive K-means view: points colored by cluster + star-marked centers."""
+    import plotly.graph_objects as go
+    _apply_house_theme()
+    fig = go.Figure()
+    if labels is None:
+        fig.add_scatter(x=x[:, 0], y=x[:, 1], mode="markers",
+                        marker=dict(size=6, opacity=0.5, color="#2196F3"), name="points")
+    else:
+        labels = np.asarray(labels)
+        for i, lab in enumerate(np.unique(labels)):
+            m = labels == lab
+            fig.add_scatter(x=x[m, 0], y=x[m, 1], mode="markers", name=f"cluster {lab}",
+                            marker=dict(size=6, opacity=0.5,
+                                        color=_CATEGORICAL[i % len(_CATEGORICAL)]))
+    fig.add_scatter(
+        x=centers[:, 0], y=centers[:, 1], mode="markers", name="centroids",
+        marker=dict(symbol="star", size=18, color="#111",
+                    line=dict(width=1, color="#fff")),
+    )
+    fig.update_layout(
+        xaxis_title="x0", yaxis_title="x1", title=title, height=height,
+        yaxis=dict(scaleanchor="x", scaleratio=1),
+    )
+    return fig
+
+
+def plot_kmeans_obj_plotly(
+    x: np.ndarray,
+    nclusters: int = 10,
+    height: int = 400,
+):
+    """Interactive elbow curve: within-cluster inertia vs. number of clusters k."""
+    import plotly.graph_objects as go
+    from sklearn.cluster import KMeans
+    _apply_house_theme()
+    obj = []
+    for k in range(1, nclusters):
+        model = KMeans(n_clusters=k, n_init=10)
+        model.fit(x)
+        obj.append(model.inertia_ / x.shape[0])
+    ks = list(range(1, nclusters))
+    fig = go.Figure(go.Scatter(x=ks, y=obj, mode="lines+markers",
+                               line=dict(color="#2196F3", dash="dash"),
+                               marker=dict(size=8)))
+    fig.update_layout(xaxis_title="Number of clusters (k)", yaxis_title="Inertia",
+                      height=height)
+    return np.array(obj), fig
+
+
+def plot_hists_plotly(
+    kmeans_bins,
+    ybins,
+    xlabels: "list | None" = None,
+    height: int = 420,
+):
+    """Interactive grouped bar chart comparing true labels vs. K-means assignments."""
+    import plotly.graph_objects as go
+    _apply_house_theme()
+    xlabels = ["Malignant", "Benign"] if xlabels is None else list(xlabels)
+    fig = go.Figure()
+    fig.add_bar(x=xlabels, y=list(ybins), name="True label",
+                marker_color="#2196F3", text=list(ybins), textposition="outside")
+    fig.add_bar(x=xlabels, y=list(kmeans_bins), name="K-Means",
+                marker_color="#FFA726", text=list(kmeans_bins), textposition="outside")
+    fig.update_layout(barmode="group", yaxis_title="Total Count", title="Histogram",
+                      height=height)
+    return fig

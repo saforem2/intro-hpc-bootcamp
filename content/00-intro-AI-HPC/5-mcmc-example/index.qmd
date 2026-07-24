@@ -85,20 +85,43 @@ Nin = int(inside.sum())
 pi_est = 4.0 * Nin / N
 print(f"Pi ≈ {pi_est:.4f}   (N_in / N_total = {Nin}/{N})")
 
-# --- interactive scatter: red = inside the circle, blue = outside ---
+# --- interactive scatter with a fill-in slider: drag (or hit ▶) to watch the
+#     points accumulate and the estimate of π converge as more samples land ---
 theta = np.linspace(0, 2 * np.pi, 200)
-fig = go.Figure()
-fig.add_scatter(x=0.5 * np.cos(theta), y=0.5 * np.sin(theta), mode="lines",
-                line=dict(color=COLORS["grey"], width=2), name="circle", hoverinfo="skip")
-fig.add_scatter(x=pts[inside, 0], y=pts[inside, 1], mode="markers", name="inside",
-                marker=dict(size=4, color=COLORS["red"], opacity=0.7))
-fig.add_scatter(x=pts[~inside, 0], y=pts[~inside, 1], mode="markers", name="outside",
-                marker=dict(size=4, color=COLORS["blue"], opacity=0.7))
+circle = go.Scatter(x=0.5 * np.cos(theta), y=0.5 * np.sin(theta), mode="lines",
+                    line=dict(color=COLORS["grey"], width=2), name="circle", hoverinfo="skip")
+
+# running count of points-inside, so each step's π estimate is O(1)
+cum_inside = np.cumsum(inside)
+steps = list(range(100, N + 1, 100))   # reveal 100 points per frame
+
+def frame_traces(n):
+    ins, outs = inside[:n], ~inside[:n]
+    return [
+        circle,
+        go.Scatter(x=pts[:n][ins, 0], y=pts[:n][ins, 1], mode="markers", name="inside",
+                   marker=dict(size=4, color=COLORS["red"], opacity=0.7)),
+        go.Scatter(x=pts[:n][outs, 0], y=pts[:n][outs, 1], mode="markers", name="outside",
+                   marker=dict(size=4, color=COLORS["blue"], opacity=0.7)),
+    ]
+
+frames = [go.Frame(name=str(n), data=frame_traces(n),
+                   layout=go.Layout(title=f"π ≈ {4*cum_inside[n-1]/n:.4f}   (4 × {cum_inside[n-1]}/{n})"))
+          for n in steps]
+
+fig = go.Figure(data=frame_traces(steps[0]), frames=frames)
 fig.update_layout(
-    title=f"π ≈ {pi_est:.4f}  (4 × {Nin}/{N})",
-    width=460, height=460, showlegend=True,
+    title=f"π ≈ {4*cum_inside[steps[0]-1]/steps[0]:.4f}   (4 × {cum_inside[steps[0]-1]}/{steps[0]})",
+    width=480, height=540, showlegend=True,
     xaxis=dict(range=[-0.5, 0.5], scaleanchor="y", constrain="domain"),
     yaxis=dict(range=[-0.5, 0.5]),
+    updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.08, xanchor="left",
+        buttons=[dict(label="▶ Play", method="animate",
+                      args=[None, dict(frame=dict(duration=200, redraw=True), fromcurrent=True)])])],
+    sliders=[dict(active=0, x=0.1, len=0.9, y=-0.02, currentvalue=dict(prefix="samples: "),
+        steps=[dict(method="animate", label=str(n),
+                    args=[[str(n)], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
+               for n in steps])],
 )
 fig.show()
 ```

@@ -88,7 +88,13 @@ import ambivalent
 plt.style.use(ambivalent.STYLES["ambivalent"])
 
 from matplotlib.colors import ListedColormap
-from bootcamp.plots import scatter, COLORS
+from bootcamp.plots import (scatter, COLORS, scatter_plotly,
+                            plot_kmeans_points_plotly, plot_kmeans_obj_plotly,
+                            plot_hists_plotly)
+from bootcamp.plotly_theme import apply_theme
+apply_theme()   # house style for the interactive plotly charts on this page
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 # set random seed for reproducibility
 SEED = 42
@@ -112,16 +118,8 @@ x, y = datasets.make_blobs(
     centers=n_clusters,
     random_state=42
 )
-scatter_kwargs = {
-    'xlabel': 'x0',
-    'ylabel': 'x1',
-    'cmap': cmap,
-    'plot_kwargs': {
-        'alpha': 0.8,
-        'edgecolor': '#222',
-    }
-}
-_ = scatter(x, y, **scatter_kwargs)
+scatter_plotly(x, y, xlabel="x0", ylabel="x1",
+               title="Synthetic blobs, colored by true cluster").show()
 ```
 
 ```{python}
@@ -131,31 +129,19 @@ x_sc = StandardScaler().fit_transform(x)
 ```
 
 ```{python}
-fig, (ax1, ax2) = plt.subplots(
-    figsize=(1.5 * DFIGSIZE[0], 0.8 * DFIGSIZE[1]),
-    ncols=2,
-    subplot_kw={
-        'aspect': 'equal',
-    },
-    
-)
-fig, ax1 = scatter(
-    x,
-    y,
-    fig=fig,
-    ax=ax1,
-    title='Original',
-    **scatter_kwargs
-)
-fig.subplots_adjust(wspace=0.2)
-fig, ax2 = scatter(
-    x_sc,
-    y,
-    fig=fig,
-    ax=ax2,
-    title='Normalized',
-    **scatter_kwargs
-)
+# Original (left) vs. standardized (right) — note the axis scales change,
+# but the cluster structure is unchanged.
+_cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF", "#ffeb3b"]
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Original", "Normalized"))
+for i, lab in enumerate(np.unique(y)):
+    for col, data in ((1, x), (2, x_sc)):
+        m = y == lab
+        fig.add_scatter(x=data[m, 0], y=data[m, 1], mode="markers",
+                        marker=dict(size=5, opacity=0.7, color=_cats[i % len(_cats)]),
+                        name=f"cluster {lab}", legendgroup=str(lab),
+                        showlegend=(col == 1), row=1, col=col)
+fig.update_layout(height=380, margin=dict(t=40))
+fig.show()
 ```
 
 ## K-means Clustering
@@ -364,8 +350,10 @@ def apply_kmeans(
     iterations: int = 100,
     seed: int = 123,
     cmap: Optional[str] = None,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Returns (centroids, cluster_id)."""
+) -> tuple[np.ndarray, np.ndarray, list]:
+    """Returns (centroids, cluster_id, history) where history is a list of
+    (centroids, cluster_id) snapshots — one per iteration, for animation."""
+    history = []
     # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ initialize centroids:               ┃
     # ┃   - shape: (n_clusters, x.shape[1]) ┃
@@ -393,18 +381,16 @@ def apply_kmeans(
         cluster_id = find_closest_centroid(distance)
         centroids = compute_centroids(x, cluster_id, n_clusters)
 
-        # plotting for visual comprehension
-        ipydis.clear_output("wait")
+        # record each iteration's assignment + centroids so we can animate below
+        history.append((centroids.copy(), cluster_id.copy()))
         print(f"Iteration: {i}")
-        plot_kmeans_points(x, centroids, cluster_id, cmap=cmap)
-        time.sleep(0.5)
 
         # if our points are the same as the old centroids, then we can stop
         if np.all(old_centroids == centroids):
             print(f"No change in centroids! Exiting!")
             break
 
-    return centroids, cluster_id
+    return centroids, cluster_id, history
 ```
 
 ## Run Example
@@ -431,13 +417,50 @@ x, y = datasets.make_blobs(
 
 x_sc = StandardScaler().fit_transform(x)
 
-centroids, cluster_id = apply_kmeans(
+centroids, cluster_id, history = apply_kmeans(
     x_sc,
     n_clusters_guess,
     iterations,
     SEED,
     cmap=cmap,
 )
+```
+
+Watch the algorithm converge: each frame is one iteration — points recolor as
+they're reassigned to the nearest centroid (★), and the centroids drift into
+place. Drag the slider or hit ▶:
+
+```{python}
+_cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF",
+         "#ffeb3b", "#EC407A", "#009688", "#795548", "#607D8B"]
+
+def kmeans_frame(cents, cid):
+    traces = []
+    for i in range(n_clusters_guess):
+        m = cid == i
+        traces.append(go.Scatter(x=x_sc[m, 0], y=x_sc[m, 1], mode="markers",
+                                 marker=dict(size=5, opacity=0.5, color=_cats[i % len(_cats)])))
+    traces.append(go.Scatter(x=cents[:, 0], y=cents[:, 1], mode="markers",
+                             marker=dict(symbol="star", size=16, color="#111",
+                                         line=dict(width=1, color="#fff"))))
+    return traces
+
+frames = [go.Frame(name=str(i), data=kmeans_frame(c, cid),
+                   layout=go.Layout(title=f"iteration {i}"))
+          for i, (c, cid) in enumerate(history)]
+fig = go.Figure(data=kmeans_frame(*history[0]), frames=frames)
+fig.update_layout(
+    title="iteration 0", height=460, showlegend=False,
+    yaxis=dict(scaleanchor="x", scaleratio=1),
+    updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.08, xanchor="left",
+        buttons=[dict(label="▶ Play", method="animate",
+                      args=[None, dict(frame=dict(duration=400, redraw=True), fromcurrent=True)])])],
+    sliders=[dict(active=0, x=0.1, len=0.9, y=-0.02, currentvalue=dict(prefix="iteration "),
+        steps=[dict(method="animate", label=str(i),
+                    args=[[str(i)], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
+               for i in range(len(history))])],
+)
+fig.show()
 ```
 
 
@@ -527,8 +550,7 @@ print(
 )
 k_means_bins = np.bincount(cluster_ids)
 y_bins = np.bincount(y)
-plt.rcParams["figure.figsize"] = [1.5 * DFIGSIZE[0], 0.8 * DFIGSIZE[1]]
-plot_hists(k_means_bins, y_bins, xlabels=["Malignant", "Benign"])
+plot_hists_plotly(k_means_bins, y_bins, xlabels=["Malignant", "Benign"]).show()
 ```
 
 This plot shows the normalized inertia as we vary the number `n_clusters` used
@@ -542,10 +564,8 @@ behavior going from 1 to 2, then only very minor improvements above 2.
 What we see here tells us our data does not easily cluster.
 
 ```{python}
-from bootcamp.plots import plot_kmeans_obj
-
-plt.rcParams["figure.figsize"] = [DFIGSIZE[0], 0.6 * DFIGSIZE[1]]
-_ = plot_kmeans_obj(x_sc, nclusters=10, plot_points=False)
+_, fig = plot_kmeans_obj_plotly(x_sc, nclusters=10)
+fig.show()
 ```
 
 For example, if we return to our blob data with 2 clusters, it become clear.
@@ -559,7 +579,8 @@ iterations = 25
 x, y = datasets.make_blobs(
     n_samples=n_samples, n_features=n_features, centers=n_clusters, random_state=seed
 )
-plot_kmeans_obj(x, nclusters=10, plot_points=False)
+_, fig = plot_kmeans_obj_plotly(x, nclusters=10)
+fig.show()
 ```
 
 ## [Self-organizing maps](https://en.wikipedia.org/wiki/Self-organizing_map)
@@ -694,13 +715,8 @@ def normalize(x: np.ndarray) -> np.ndarray:
     return (x - np.min(x)) / (np.max(x) - np.min(x))
 
 
-plt.rcParams["figure.figsize"] = [
-    i / 2.0 for i in plt.rcParamsDefault["figure.figsize"]
-]
 init_learning_rate = 0.1
-# net = np.random.uniform(size=net.shape)
-# net = (255 * ((net + 1.) / 2.))
-images = []
+images, snapshots = [], []          # RGB snapshots + the iteration index of each
 for iteration in range(n_iterations):
     # select a training example at random - shape of 1x3
     t = data[np.random.randint(0, m), :].reshape(np.array([n, 1]))
@@ -711,44 +727,41 @@ for iteration in range(n_iterations):
     l = decay_learning_rate(init_learning_rate, iteration, n_iterations)
     # Update SOM weights
     net = update_weights(net, bmu_idx, r, l)
-    if iteration % 50 == 0:
-        print(f"Iteration: {iteration}")
-        ipydis.clear_output("wait")
-        fig, ax = plt.subplots(figsize=(4, 4))
-        net_img = normalize(net)
-        _ = fig.suptitle(f"Iteration: {iteration}", y=1.0)
-        plt.tight_layout()
-        image = ax.matshow(net_img, cmap="rainbow")
-        if iteration % 100 == 0:
-            images.append(net_img)
-        _ = plt.show()
-        time.sleep(0.5)
+    # snapshot the map every 100 iterations, for the animation below
+    if iteration % 100 == 0:
+        images.append(normalize(net))
+        snapshots.append(iteration)
+print(f"collected {len(images)} snapshots over {n_iterations} iterations")
 ```
 
 ### Visualization of trained colormap SOM
 
-```{python}
-len(images)
-```
+Rather than a static grid of snapshots, let's animate the map organizing itself.
+Drag the slider (or hit ▶) to watch neighboring neurons settle into smoothly
+varying colors as training proceeds:
 
 ```{python}
-fig, axes = plt.subplots(
-    figsize=(2.0 * DFIGSIZE[0], 1.5 * DFIGSIZE[1]),
-    nrows=5,
-    ncols=5,
-    tight_layout=True,
+# each snapshot is a normalized (H, W, 3) RGB map; go.Image wants 0-255 uint8
+def to_rgb(img):
+    return (255 * img).astype("uint8")
+
+frames = [go.Frame(name=str(it), data=[go.Image(z=to_rgb(img))],
+                   layout=go.Layout(title=f"iteration {it}"))
+          for img, it in zip(images, snapshots)]
+fig = go.Figure(data=[go.Image(z=to_rgb(images[0]))], frames=frames)
+fig.update_layout(
+    title=f"iteration {snapshots[0]}", height=480, width=480,
+    margin=dict(l=0, r=0, t=40, b=0),
+    xaxis=dict(showticklabels=False), yaxis=dict(showticklabels=False),
+    updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.05, xanchor="left",
+        buttons=[dict(label="▶ Play", method="animate",
+                      args=[None, dict(frame=dict(duration=150, redraw=True), fromcurrent=True)])])],
+    sliders=[dict(active=0, x=0.1, len=0.9, y=0.0, currentvalue=dict(prefix="iteration "),
+        steps=[dict(method="animate", label=str(it),
+                    args=[[str(it)], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
+               for it in snapshots])],
 )
-fig.subplots_adjust(wspace=0.1)
-axes = axes.flatten()
-for idx, (img, ax) in enumerate(zip(images, axes)):
-    _ = ax.matshow(img, cmap="rainbow")
-    _ = ax.set_title(f"Iteration: {100 * idx}")
-    _ = ax.set_xticks([])
-    _ = ax.set_xticklabels([])
-    _ = ax.set_yticks([])
-    _ = ax.set_yticklabels([])
-
-_ = plt.show()
+fig.show()
 ```
 
 ```{python}
