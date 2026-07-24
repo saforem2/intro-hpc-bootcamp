@@ -126,6 +126,110 @@ fig.update_layout(
 fig.show()
 ```
 
+### Why parallelize? Sequential vs. parallel, side by side
+
+The estimate gets better with more samples — but generating millions of points
+*one at a time* is slow. The fix: split the work across **`P` workers** that
+sample **simultaneously**. Each worker handles every `P`-th point (exactly what
+the `mpi4py` code below does with `range(comm.rank, N, comm.size)`), so together
+they finish in roughly `1/P` the time.
+
+Drag the shared **wall-clock** slider (or hit ▶): both panels draw the *same*
+points and converge to the same π, but the parallel side (8 workers) races ahead
+and finishes while the sequential side is still plodding along. That time gap
+**is** the speedup.
+
+```{python}
+from plotly.subplots import make_subplots
+
+# both panels draw from the SAME points, so they converge to the same π
+N = 1024                     # total samples
+P = 8                        # parallel workers
+rng2 = np.random.default_rng(7)
+pp = rng2.uniform(-0.5, 0.5, size=(N, 2))
+ins = np.sqrt((pp ** 2).sum(axis=1)) < 0.5
+worker = np.arange(N) % P    # point i is handled by worker i % P (strided, like MPI)
+cum_ins = np.cumsum(ins)
+_cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726",
+         "#AE81FF", "#EC407A", "#009688", "#795548"]
+theta = np.linspace(0, 2 * np.pi, 120)
+cx, cy = 0.5 * np.cos(theta), 0.5 * np.sin(theta)
+
+def pi_of(n):
+    return 4 * cum_ins[n - 1] / n if n > 0 else 0.0
+
+# wall-clock = rounds each worker has completed; sequential needs N, parallel N/P
+rounds = np.linspace(N / 24, N, 24).round().astype(int)
+
+def build_frame(r):
+    seq_n = int(min(N, r))          # 1 worker: r points after r rounds
+    par_n = int(min(N, r * P))      # P workers: r*P points after r rounds
+    # left panel: inside/outside (π view)
+    li, lo = ins[:seq_n], ~ins[:seq_n]
+    traces = [
+        go.Scatter(x=cx, y=cy, mode="lines", line=dict(color="#838383", width=1.5),
+                   xaxis="x", yaxis="y", showlegend=False, hoverinfo="skip"),
+        go.Scatter(x=pp[:seq_n][li, 0], y=pp[:seq_n][li, 1], mode="markers",
+                   marker=dict(size=4, color="#EF5350", opacity=0.7),
+                   xaxis="x", yaxis="y", showlegend=False),
+        go.Scatter(x=pp[:seq_n][lo, 0], y=pp[:seq_n][lo, 1], mode="markers",
+                   marker=dict(size=4, color="#2196F3", opacity=0.7),
+                   xaxis="x", yaxis="y", showlegend=False),
+        go.Scatter(x=cx, y=cy, mode="lines", line=dict(color="#838383", width=1.5),
+                   xaxis="x2", yaxis="y2", showlegend=False, hoverinfo="skip"),
+    ]
+    # right panel: colored by worker rank (shows the work being split P ways)
+    for w in range(P):
+        m = (worker[:par_n] == w)
+        traces.append(go.Scatter(
+            x=pp[:par_n][m, 0], y=pp[:par_n][m, 1], mode="markers",
+            marker=dict(size=4, color=_cats[w], opacity=0.7),
+            xaxis="x2", yaxis="y2", showlegend=False))
+    return seq_n, par_n, traces
+
+def title_for(r):
+    seq_n = int(min(N, r)); par_n = int(min(N, r * P))
+    done = "   ✓ 8× faster" if par_n >= N else ""
+    return (f"⏱ round {int(r)} — "
+            f"sequential: {seq_n} pts (π≈{pi_of(seq_n):.3f})  |  "
+            f"parallel: {par_n} pts (π≈{pi_of(par_n):.3f}){done}")
+
+frames = []
+for r in rounds:
+    _, _, tr = build_frame(int(r))
+    frames.append(go.Frame(name=str(int(r)), data=tr,
+                           layout=go.Layout(title=title_for(int(r)))))
+
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("Sequential — 1 worker", f"Parallel — {P} workers"))
+_, _, tr0 = build_frame(int(rounds[0]))
+for t in tr0:
+    fig.add_trace(t, row=1, col=(2 if t.xaxis == "x2" else 1))
+fig.frames = frames
+for ax in ("xaxis", "xaxis2"):
+    fig.layout[ax].update(range=[-0.5, 0.5])
+for ax, xa in (("yaxis", "x"), ("yaxis2", "x2")):
+    fig.layout[ax].update(range=[-0.5, 0.5], scaleanchor=xa)
+fig.update_layout(
+    title=title_for(int(rounds[0])), height=440, margin=dict(t=70),
+    updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.12, xanchor="left",
+        buttons=[dict(label="▶ Play", method="animate",
+                      args=[None, dict(frame=dict(duration=350, redraw=True), fromcurrent=True)])])],
+    sliders=[dict(active=0, x=0.1, len=0.9, y=-0.05, currentvalue=dict(prefix="wall-clock (rounds): "),
+        steps=[dict(method="animate", label=str(int(r)),
+                    args=[[str(int(r))], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
+               for r in rounds])],
+)
+fig.show()
+```
+
+::: {.callout-note title="📏 Ideal vs. real speedup" collapse="false"}
+This animation shows **ideal linear speedup** (`P` workers → `P`× faster). Real
+runs fall a little short: the workers must combine their counts at the end (the
+`comm.Allreduce` below), and that communication adds overhead — which is exactly
+why the timing table above isn't a perfect `P`× as you add nodes.
+:::
+
 ### MPI example
 
 
