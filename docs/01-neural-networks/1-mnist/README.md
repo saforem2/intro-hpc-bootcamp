@@ -59,7 +59,13 @@ logger = ezpz.get_logger('mnist')
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
+
+import plotly.graph_objects as go
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()   # house style for interactive charts (loss/accuracy curves)
 ```
+
+    'ambivalent'
 
 ``` python
 # %matplotlib inline
@@ -134,7 +140,7 @@ logger.info(
 # logger.info(f'Input shape', training_data[0][0].shape)
 ```
 
-    [2026-07-24 08:52:45,140872][I][ipykernel_59977/3921772995:1:<module>] MNIST data loaded: train=48000 examples validation=12000 examples test=10000 examples input shape=torch.Size([1, 28, 28])
+    [2026-07-24 15:51:33][I][ipykernel_73352/3921772995:1:<module>] MNIST data loaded: train=48000 examples validation=12000 examples test=10000 examples input shape=torch.Size([1, 28, 28])
 
 Let’s take a closer look. Here are the first 10 training digits:
 
@@ -270,7 +276,7 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 ```
 
-    [2026-07-24 08:52:45,294314][I][ipykernel_59977/2844520859:2:<module>] LinearClassifier(
+    [2026-07-24 15:51:34][I][ipykernel_73352/2844520859:2:<module>] LinearClassifier(
       (flatten): Flatten(start_dim=1, end_dim=-1)
       (layer_1): Linear(in_features=784, out_features=10, bias=True)
     )
@@ -372,29 +378,58 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-24 08:52:47,028878][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.5013451065222422, accuracy: 87.66874999999999
-    [2026-07-24 08:52:47,227420][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.4935248221488709, val. accuracy: 87.6
-    [2026-07-24 08:52:48,954245][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.421256408850352, accuracy: 89.04791666666667
-    [2026-07-24 08:52:49,148130][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.4117542800117046, val. accuracy: 88.95833333333333
-    [2026-07-24 08:52:50,965357][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3874150522152583, accuracy: 89.71666666666667
-    [2026-07-24 08:52:51,198088][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.3773218404422415, val. accuracy: 89.49166666666667
-    [2026-07-24 08:52:53,019764][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.367519397854805, accuracy: 90.14583333333334
-    [2026-07-24 08:52:53,236111][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.35724003692256645, val. accuracy: 89.875
-    [2026-07-24 08:52:55,020041][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.35398357252279916, accuracy: 90.45208333333333
-    [2026-07-24 08:52:55,218616][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.3437096652515391, val. accuracy: 90.225
-    CPU times: user 9.28 s, sys: 563 ms, total: 9.84 s
-    Wall time: 9.91 s
+    [2026-07-24 15:51:35][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.5026849301656088, accuracy: 87.63333333333333
+    [2026-07-24 15:51:35][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.49532251598987176, val. accuracy: 87.63333333333333
+    [2026-07-24 15:51:37][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.4220816502571106, accuracy: 88.96458333333334
+    [2026-07-24 15:51:37][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.4130145593526516, val. accuracy: 88.775
+    [2026-07-24 15:51:39][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3880162149270376, accuracy: 89.63333333333333
+    [2026-07-24 15:51:39][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.37832085249271796, val. accuracy: 89.48333333333333
+    [2026-07-24 15:51:41][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.367987796107928, accuracy: 90.10833333333333
+    [2026-07-24 15:51:41][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.35808204368073887, val. accuracy: 89.9
+    [2026-07-24 15:51:43][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.3543626395861308, accuracy: 90.38958333333333
+    [2026-07-24 15:51:43][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.3444467248751762, val. accuracy: 90.28333333333333
+    CPU times: user 8.97 s, sys: 507 ms, total: 9.48 s
+    Wall time: 9.64 s
 
 ``` python
-plt.figure()
-plt.plot(range(epochs), train_acc_all, label='Training Acc.' )
-plt.plot(range(epochs), val_acc_all, label='Validation Acc.' )
-plt.xlabel('Epoch #')
-plt.ylabel('Loss')
-plt.legend()
+fig = go.Figure()
+fig.add_scatter(x=list(range(epochs)), y=train_acc_all, mode="lines+markers",
+                name="Training Acc.", line=dict(color=COLORS["blue"]))
+fig.add_scatter(x=list(range(epochs)), y=val_acc_all, mode="lines+markers",
+                name="Validation Acc.", line=dict(color=COLORS["orange"]))
+fig.update_layout(xaxis_title="Epoch #", yaxis_title="Accuracy", height=400)
+fig.show()
 ```
 
-![](index_files/figure-commonmark/cell-14-output-1.png)
+        <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.0.1.min"</script>
+        
+
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js" integrity="sha256-oy6Be7Eh6eiQFs5M7oXuPxxm9qbJXEtTpfSI93dW16Q=" crossorigin="anonymous"></script>                <div id="f576e3b1-f067-49dc-ba65-ac151492ea5f" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("f576e3b1-f067-49dc-ba65-ac151492ea5f")) {                    Plotly.newPlot(                        "f576e3b1-f067-49dc-ba65-ac151492ea5f",                        [{"line":{"color":"#2196F3"},"mode":"lines+markers","name":"Training Acc.","x":[0,1,2,3,4],"y":[87.63333333333333,88.96458333333334,89.63333333333333,90.10833333333333,90.38958333333333],"type":"scatter"},{"line":{"color":"#FFA726"},"mode":"lines+markers","name":"Validation Acc.","x":[0,1,2,3,4],"y":[87.63333333333333,88.775,89.48333333333333,89.9,90.28333333333333],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"xaxis":{"title":{"text":"Epoch #"}},"yaxis":{"title":{"text":"Accuracy"}},"height":400},                        {"responsive": true}                    ).then(function(){
+                            &#10;var gd = document.getElementById('f576e3b1-f067-49dc-ba65-ac151492ea5f');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+&#10;// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+&#10;// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+&#10;                        })                };            </script>        </div>
 
 ``` python
 # Visualize how the model is doing on the first 10 examples
@@ -436,7 +471,7 @@ logger.info(f"Test loss: {loss_test}, test accuracy: {acc_test}")
 # logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
-    [2026-07-24 08:52:55,533591][I][ipykernel_59977/372756021:2:<module>] Test loss: 0.3321311667561531, test accuracy: 90.86
+    [2026-07-24 15:51:43][I][ipykernel_73352/372756021:2:<module>] Test loss: 0.3327218090184033, test accuracy: 90.93
 
 We can now take a closer look at the results.
 
@@ -475,8 +510,8 @@ classified to a wrong class:
 show_failures(linear_model, test_dataloader)
 ```
 
-    [2026-07-24 08:52:55,544748][I][ipykernel_59977/2368214845:8:show_failures] Showing max 10 first failures.
-    [2026-07-24 08:52:55,545382][I][ipykernel_59977/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
+    [2026-07-24 15:51:43][I][ipykernel_73352/2368214845:8:show_failures] Showing max 10 first failures.
+    [2026-07-24 15:51:43][I][ipykernel_73352/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
 
 ![](index_files/figure-commonmark/cell-19-output-2.png)
 
@@ -753,38 +788,58 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-24 08:52:57,742110][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.6950037430127461, accuracy: 80.75833333333333
-    [2026-07-24 08:52:57,952408][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.6886971491448423, val. accuracy: 80.65
-    [2026-07-24 08:52:59,755951][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.3955140495697657, accuracy: 89.0
-    [2026-07-24 08:52:59,988018][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.3900272332607432, val. accuracy: 88.825
-    [2026-07-24 08:53:01,816307][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3064884059826533, accuracy: 91.19375
-    [2026-07-24 08:53:02,025492][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.30274571732003636, val. accuracy: 91.05
-    [2026-07-24 08:53:03,986364][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.24886448953549067, accuracy: 92.88333333333333
-    [2026-07-24 08:53:04,192434][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.2474212978590042, val. accuracy: 92.63333333333334
-    [2026-07-24 08:53:05,980319][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.2101447277466456, accuracy: 93.83749999999999
-    [2026-07-24 08:53:06,182228][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.212117029235084, val. accuracy: 93.71666666666667
-    CPU times: user 9.64 s, sys: 632 ms, total: 10.3 s
-    Wall time: 10.3 s
+    [2026-07-24 15:51:46][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.6691325143973033, accuracy: 80.76875
+    [2026-07-24 15:51:46][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.6608961110419416, val. accuracy: 80.19166666666668
+    [2026-07-24 15:51:47][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.37461654873689015, accuracy: 89.33333333333333
+    [2026-07-24 15:51:48][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.3671134393265907, val. accuracy: 89.20833333333333
+    [2026-07-24 15:51:49][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.28222567812601723, accuracy: 91.84375
+    [2026-07-24 15:51:49][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.2769689824669919, val. accuracy: 91.625
+    [2026-07-24 15:51:51][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.2318246018687884, accuracy: 93.27083333333334
+    [2026-07-24 15:51:51][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.2285473681193717, val. accuracy: 92.93333333333334
+    [2026-07-24 15:51:53][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.20617211469014485, accuracy: 93.89999999999999
+    [2026-07-24 15:51:53][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.20620062986904003, val. accuracy: 93.7
+    CPU times: user 8.87 s, sys: 562 ms, total: 9.43 s
+    Wall time: 9.32 s
 
 ``` python
-# pltsize=1
-# plt.figure(figsize=(10*pltsize, 10 * pltsize))
-plt.figure()
-plt.plot(range(epochs), train_acc_all,label = 'Training Acc.' )
-plt.plot(range(epochs), val_acc_all, label = 'Validation Acc.' )
-plt.xlabel('Epoch #')
-plt.ylabel('Loss')
-plt.legend()
+fig = go.Figure()
+fig.add_scatter(x=list(range(epochs)), y=train_acc_all, mode="lines+markers",
+                name="Training Acc.", line=dict(color=COLORS["blue"]))
+fig.add_scatter(x=list(range(epochs)), y=val_acc_all, mode="lines+markers",
+                name="Validation Acc.", line=dict(color=COLORS["orange"]))
+fig.update_layout(xaxis_title="Epoch #", yaxis_title="Accuracy", height=400)
+fig.show()
 ```
 
-![](index_files/figure-commonmark/cell-24-output-1.png)
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.1.min.js" integrity="sha256-oy6Be7Eh6eiQFs5M7oXuPxxm9qbJXEtTpfSI93dW16Q=" crossorigin="anonymous"></script>                <div id="39c37821-5d3b-40ef-98b1-473e89925836" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("39c37821-5d3b-40ef-98b1-473e89925836")) {                    Plotly.newPlot(                        "39c37821-5d3b-40ef-98b1-473e89925836",                        [{"line":{"color":"#2196F3"},"mode":"lines+markers","name":"Training Acc.","x":[0,1,2,3,4],"y":[80.76875,89.33333333333333,91.84375,93.27083333333334,93.89999999999999],"type":"scatter"},{"line":{"color":"#FFA726"},"mode":"lines+markers","name":"Validation Acc.","x":[0,1,2,3,4],"y":[80.19166666666668,89.20833333333333,91.625,92.93333333333334,93.7],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"xaxis":{"title":{"text":"Epoch #"}},"yaxis":{"title":{"text":"Accuracy"}},"height":400},                        {"responsive": true}                    ).then(function(){
+                            &#10;var gd = document.getElementById('39c37821-5d3b-40ef-98b1-473e89925836');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+&#10;// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+&#10;// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+&#10;                        })                };            </script>        </div>
 
 ``` python
 show_failures(nonlinear_model, test_dataloader)
 ```
 
-    [2026-07-24 08:53:06,240455][I][ipykernel_59977/2368214845:8:show_failures] Showing max 10 first failures.
-    [2026-07-24 08:53:06,241282][I][ipykernel_59977/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
+    [2026-07-24 15:51:53][I][ipykernel_73352/2368214845:8:show_failures] Showing max 10 first failures.
+    [2026-07-24 15:51:53][I][ipykernel_73352/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
 
 ![](index_files/figure-commonmark/cell-25-output-2.png)
 
@@ -902,23 +957,23 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-24 08:53:07,891509][I][./<timed exec>:11:<module>] Epoch 1/6, Learning Rate: 0.1
-    [2026-07-24 08:53:08,842945][I][./<timed exec>:16:<module>] Epoch 0: training loss: 0.3887119378397862, accuracy: 88.89166666666667
-    [2026-07-24 08:53:09,165147][I][./<timed exec>:21:<module>] Epoch 0: val. loss: 0.3814143586556117, val. accuracy: 88.74166666666666
-    [2026-07-24 08:53:12,717683][I][./<timed exec>:11:<module>] Epoch 2/6, Learning Rate: 0.010000000000000002
-    [2026-07-24 08:53:13,855534][I][./<timed exec>:16:<module>] Epoch 1: training loss: 0.26931736890847485, accuracy: 91.97291666666668
-    [2026-07-24 08:53:14,125009][I][./<timed exec>:21:<module>] Epoch 1: val. loss: 0.2605265693763892, val. accuracy: 92.08333333333333
-    [2026-07-24 08:53:15,658634][I][./<timed exec>:11:<module>] Epoch 3/6, Learning Rate: 0.010000000000000002
-    [2026-07-24 08:53:16,677409][I][./<timed exec>:16:<module>] Epoch 2: training loss: 0.23778050619487962, accuracy: 92.84791666666666
-    [2026-07-24 08:53:16,921847][I][./<timed exec>:21:<module>] Epoch 2: val. loss: 0.232030248016119, val. accuracy: 93.025
-    [2026-07-24 08:53:18,237662][I][./<timed exec>:11:<module>] Epoch 4/6, Learning Rate: 0.0010000000000000002
-    [2026-07-24 08:53:19,418598][I][./<timed exec>:16:<module>] Epoch 3: training loss: 0.2315428444457551, accuracy: 93.05
-    [2026-07-24 08:53:19,698995][I][./<timed exec>:21:<module>] Epoch 3: val. loss: 0.22659528712928295, val. accuracy: 93.11666666666667
-    [2026-07-24 08:53:21,283382][I][./<timed exec>:11:<module>] Epoch 5/6, Learning Rate: 0.0010000000000000002
-    [2026-07-24 08:53:22,248317][I][./<timed exec>:16:<module>] Epoch 4: training loss: 0.22928156545758246, accuracy: 93.13749999999999
-    [2026-07-24 08:53:22,474206][I][./<timed exec>:21:<module>] Epoch 4: val. loss: 0.2244338550120592, val. accuracy: 93.26666666666667
-    [2026-07-24 08:53:23,920003][I][./<timed exec>:11:<module>] Epoch 6/6, Learning Rate: 0.00010000000000000003
-    [2026-07-24 08:53:24,900391][I][./<timed exec>:16:<module>] Epoch 5: training loss: 0.2285127173103392, accuracy: 93.14375
-    [2026-07-24 08:53:25,173034][I][./<timed exec>:21:<module>] Epoch 5: val. loss: 0.22369361145297686, val. accuracy: 93.24166666666667
-    CPU times: user 15.6 s, sys: 2.32 s, total: 17.9 s
-    Wall time: 18.6 s
+    [2026-07-24 15:51:54][I][./<timed exec>:11:<module>] Epoch 1/6, Learning Rate: 0.1
+    [2026-07-24 15:51:55][I][./<timed exec>:16:<module>] Epoch 0: training loss: 0.3623248098840316, accuracy: 89.66458333333334
+    [2026-07-24 15:51:56][I][./<timed exec>:21:<module>] Epoch 0: val. loss: 0.3492660469412804, val. accuracy: 89.75
+    [2026-07-24 15:51:57][I][./<timed exec>:11:<module>] Epoch 2/6, Learning Rate: 0.010000000000000002
+    [2026-07-24 15:51:58][I][./<timed exec>:16:<module>] Epoch 1: training loss: 0.260162183880806, accuracy: 92.39166666666667
+    [2026-07-24 15:51:58][I][./<timed exec>:21:<module>] Epoch 1: val. loss: 0.2522040906598171, val. accuracy: 92.375
+    [2026-07-24 15:51:59][I][./<timed exec>:11:<module>] Epoch 3/6, Learning Rate: 0.010000000000000002
+    [2026-07-24 15:52:00][I][./<timed exec>:16:<module>] Epoch 2: training loss: 0.23061260401333372, accuracy: 93.16875
+    [2026-07-24 15:52:00][I][./<timed exec>:21:<module>] Epoch 2: val. loss: 0.22383907571434974, val. accuracy: 93.29166666666666
+    [2026-07-24 15:52:02][I][./<timed exec>:11:<module>] Epoch 4/6, Learning Rate: 0.0010000000000000002
+    [2026-07-24 15:52:03][I][./<timed exec>:16:<module>] Epoch 3: training loss: 0.2240601580279569, accuracy: 93.40833333333333
+    [2026-07-24 15:52:03][I][./<timed exec>:21:<module>] Epoch 3: val. loss: 0.21734213895102342, val. accuracy: 93.4
+    [2026-07-24 15:52:04][I][./<timed exec>:11:<module>] Epoch 5/6, Learning Rate: 0.0010000000000000002
+    [2026-07-24 15:52:05][I][./<timed exec>:16:<module>] Epoch 4: training loss: 0.22278468740607302, accuracy: 93.43333333333334
+    [2026-07-24 15:52:05][I][./<timed exec>:21:<module>] Epoch 4: val. loss: 0.21611514932910603, val. accuracy: 93.35
+    [2026-07-24 15:52:07][I][./<timed exec>:11:<module>] Epoch 6/6, Learning Rate: 0.00010000000000000003
+    [2026-07-24 15:52:08][I][./<timed exec>:16:<module>] Epoch 5: training loss: 0.22217711067696413, accuracy: 93.45208333333333
+    [2026-07-24 15:52:08][I][./<timed exec>:21:<module>] Epoch 5: val. loss: 0.21547170375287533, val. accuracy: 93.36666666666666
+    CPU times: user 13.4 s, sys: 2.02 s, total: 15.4 s
+    Wall time: 15.1 s

@@ -66,50 +66,41 @@ Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total
 
 
 ```{python}
-import ambivalent
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-plt.style.use(ambivalent.STYLES['ambivalent'])
-sns.set_context("notebook")
-plt.rcParams["figure.figsize"] = [6.4, 4.8]
-
-from IPython.display import display, clear_output
-import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
 
+import plotly.graph_objects as go
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()   # house style: Iosevka font, transparent bg, #838383 text, material colors
+
 from rich import print
 
+# --- sample N random points in the square [-0.5, 0.5] x [-0.5, 0.5] ---
+N = 2000
+rng = np.random.default_rng(1234)
+pts = rng.uniform(-0.5, 0.5, size=(N, 2))
+inside = np.sqrt((pts ** 2).sum(axis=1)) < 0.5   # True if inside the circle
+Nin = int(inside.sum())
+pi_est = 4.0 * Nin / N
+print(f"Pi ≈ {pi_est:.4f}   (N_in / N_total = {Nin}/{N})")
 
-fig, ax = plt.subplots()
-#ax = fig.add_subplot(111)
-circle = plt.Circle(( 0. , 0. ), 0.5 )
-plt.xlim(-0.5, 0.5)
-plt.ylim(-0.5, 0.5)
-ax.add_patch(circle)
-ax.set_aspect('equal')
-N = 500
-Nin = 0
-t0 = time.time()
-for i in range(1, N+1):
-    x = random.uniform(-0.5, 0.5)
-    y = random.uniform(-0.5, 0.5)
-    if (np.sqrt(x*x + y*y) < 0.5):
-        Nin += 1
-        plt.plot([x], [y], 'o', color='r', markersize=3)
-    else:
-        plt.plot([x], [y], 'o', color='b', markersize=3)
-    display(fig)
-    plt.xlabel("$\pi$ = %3.4f \n N_in / N_total = %5d/%5d" %(Nin*4.0/i, Nin, i))
-    clear_output(wait=True)
-
-res = np.array(Nin, dtype='d')
-t1 = time.time()
-print(f"Pi = {res/float(N/4.0)}")
-print("Time: %s" %(t1 - t0))
+# --- interactive scatter: red = inside the circle, blue = outside ---
+theta = np.linspace(0, 2 * np.pi, 200)
+fig = go.Figure()
+fig.add_scatter(x=0.5 * np.cos(theta), y=0.5 * np.sin(theta), mode="lines",
+                line=dict(color=COLORS["grey"], width=2), name="circle", hoverinfo="skip")
+fig.add_scatter(x=pts[inside, 0], y=pts[inside, 1], mode="markers", name="inside",
+                marker=dict(size=4, color=COLORS["red"], opacity=0.7))
+fig.add_scatter(x=pts[~inside, 0], y=pts[~inside, 1], mode="markers", name="outside",
+                marker=dict(size=4, color=COLORS["blue"], opacity=0.7))
+fig.update_layout(
+    title=f"π ≈ {pi_est:.4f}  (4 × {Nin}/{N})",
+    width=460, height=460, showlegend=True,
+    xaxis=dict(range=[-0.5, 0.5], scaleanchor="y", constrain="domain"),
+    yaxis=dict(range=[-0.5, 0.5]),
+)
+fig.show()
 ```
 
 ### MPI example

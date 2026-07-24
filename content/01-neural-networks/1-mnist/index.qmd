@@ -87,6 +87,10 @@ logger = ezpz.get_logger('mnist')
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
+
+import plotly.graph_objects as go
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()   # house style for interactive charts (loss/accuracy curves)
 ```
 
 ```{python}
@@ -401,12 +405,13 @@ for j in range(epochs):
 ```
 
 ```{python}
-plt.figure()
-plt.plot(range(epochs), train_acc_all, label='Training Acc.' )
-plt.plot(range(epochs), val_acc_all, label='Validation Acc.' )
-plt.xlabel('Epoch #')
-plt.ylabel('Loss')
-plt.legend()
+fig = go.Figure()
+fig.add_scatter(x=list(range(epochs)), y=train_acc_all, mode="lines+markers",
+                name="Training Acc.", line=dict(color=COLORS["blue"]))
+fig.add_scatter(x=list(range(epochs)), y=val_acc_all, mode="lines+markers",
+                name="Validation Acc.", line=dict(color=COLORS["orange"]))
+fig.update_layout(xaxis_title="Epoch #", yaxis_title="Accuracy", height=400)
+fig.show()
 ```
 
 ```{python}
@@ -753,14 +758,13 @@ for j in range(epochs):
 ```
 
 ```{python}
-# pltsize=1
-# plt.figure(figsize=(10*pltsize, 10 * pltsize))
-plt.figure()
-plt.plot(range(epochs), train_acc_all,label = 'Training Acc.' )
-plt.plot(range(epochs), val_acc_all, label = 'Validation Acc.' )
-plt.xlabel('Epoch #')
-plt.ylabel('Loss')
-plt.legend()
+fig = go.Figure()
+fig.add_scatter(x=list(range(epochs)), y=train_acc_all, mode="lines+markers",
+                name="Training Acc.", line=dict(color=COLORS["blue"]))
+fig.add_scatter(x=list(range(epochs)), y=val_acc_all, mode="lines+markers",
+                name="Validation Acc.", line=dict(color=COLORS["orange"]))
+fig.update_layout(xaxis_title="Epoch #", yaxis_title="Accuracy", height=400)
+fig.show()
 ```
 
 ```{python}
