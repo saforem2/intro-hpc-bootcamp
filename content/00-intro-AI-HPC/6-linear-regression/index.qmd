@@ -174,7 +174,6 @@ import matplotlib.pyplot as plt
 import IPython.display as ipydis
 import time
 
-import ezpz
 from rich import print
 ```
 

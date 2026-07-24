@@ -6,7 +6,6 @@ Contains useful plotting functions.
 from __future__ import absolute_import, division, print_function, annotations
 from typing import Any, Optional
 import logging
-import ezpz
 
 import numpy as np
 import matplotlib.pyplot as plt

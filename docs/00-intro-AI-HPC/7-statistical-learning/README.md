@@ -36,6 +36,15 @@ Sam Foreman, Huihuo Zheng
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)
 
 ``` python
+# This page uses the `bootcamp` helper package. On Colab (or any fresh
+# environment) install it + its dependencies; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+``` python
 %load_ext autoreload
 %autoreload 2
 import matplotlib_inline.backend_inline
@@ -116,7 +125,7 @@ scatter_kwargs = {
 _ = scatter(x, y, **scatter_kwargs)
 ```
 
-![](index_files/figure-commonmark/cell-4-output-1.svg)
+![](index_files/figure-commonmark/cell-5-output-1.svg)
 
 ``` python
 # Normalize features
@@ -152,7 +161,7 @@ fig, ax2 = scatter(
 )
 ```
 
-![](index_files/figure-commonmark/cell-6-output-1.svg)
+![](index_files/figure-commonmark/cell-7-output-1.svg)
 
 ## K-means Clustering
 
@@ -447,9 +456,9 @@ centroids, cluster_id = apply_kmeans(
 )
 ```
 
-    Iteration: 8
+    Iteration: 12
 
-![](index_files/figure-commonmark/cell-12-output-2.svg)
+![](index_files/figure-commonmark/cell-13-output-2.svg)
 
     No change in centroids! Exiting!
 
@@ -564,7 +573,7 @@ plot_hists(k_means_bins, y_bins, xlabels=["Malignant", "Benign"])
     seed: 42
     Number of samples in each cluster: [188 381]
 
-![](index_files/figure-commonmark/cell-18-output-2.svg)
+![](index_files/figure-commonmark/cell-19-output-2.svg)
 
 This plot shows the normalized inertia as we vary the number
 `n_clusters` used in our k-means fit to the breast cancer data. This
@@ -583,7 +592,7 @@ plt.rcParams["figure.figsize"] = [DFIGSIZE[0], 0.6 * DFIGSIZE[1]]
 _ = plot_kmeans_obj(x_sc, nclusters=10, plot_points=False)
 ```
 
-![](index_files/figure-commonmark/cell-19-output-1.svg)
+![](index_files/figure-commonmark/cell-20-output-1.svg)
 
 For example, if we return to our blob data with 2 clusters, it become
 clear.
@@ -600,10 +609,10 @@ x, y = datasets.make_blobs(
 plot_kmeans_obj(x, nclusters=10, plot_points=False)
 ```
 
-    array([71.2677332 ,  2.06848282,  1.69652843,  1.2870742 ,  1.09389617,
-            0.89529963,  0.80638259,  0.67134934,  0.62794165])
+    array([71.2677332 ,  2.06848282,  1.66344532,  1.29087519,  1.09143669,
+            1.0136986 ,  0.80095706,  0.68552636,  0.65083526])
 
-![](index_files/figure-commonmark/cell-20-output-2.svg)
+![](index_files/figure-commonmark/cell-21-output-2.svg)
 
 ## [Self-organizing maps](https://en.wikipedia.org/wiki/Self-organizing_map)
 
@@ -730,7 +739,7 @@ image = ax.matshow(net)
 _ = plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-27-output-1.svg)
+![](index_files/figure-commonmark/cell-28-output-1.svg)
 
 ### Training SOM
 
@@ -770,7 +779,7 @@ for iteration in range(n_iterations):
         time.sleep(0.5)
 ```
 
-![](index_files/figure-commonmark/cell-28-output-1.svg)
+![](index_files/figure-commonmark/cell-29-output-1.svg)
 
 ### Visualization of trained colormap SOM
 
@@ -800,7 +809,7 @@ for idx, (img, ax) in enumerate(zip(images, axes)):
 _ = plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-30-output-1.svg)
+![](index_files/figure-commonmark/cell-31-output-1.svg)
 
 ``` python
 from matplotlib import cm
@@ -811,7 +820,7 @@ _ = ax.set_title("Final SOM")
 _ = plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-31-output-1.svg)
+![](index_files/figure-commonmark/cell-32-output-1.svg)
 
 ### SOM on Cancer data
 
@@ -864,7 +873,7 @@ im = ax.matshow(normalize(net_vis))
 plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-34-output-1.svg)
+![](index_files/figure-commonmark/cell-35-output-1.svg)
 
 ### Training SOM on Cancer data
 
@@ -898,7 +907,7 @@ for iteration in range(n_iterations):
         time.sleep(0.25)
 ```
 
-![](index_files/figure-commonmark/cell-35-output-1.svg)
+![](index_files/figure-commonmark/cell-36-output-1.svg)
 
 ### Visualization of trained SOM
 
@@ -917,7 +926,7 @@ _ = plt.imshow(normalize(net_vis))
 _ = plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-36-output-1.svg)
+![](index_files/figure-commonmark/cell-37-output-1.svg)
 
 ## Keep learning
 

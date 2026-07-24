@@ -56,7 +56,6 @@ import numpy as np
 import random
 import time
 
-import ezpz
 from rich import print
 
 
@@ -88,10 +87,10 @@ print(f"Pi = {res/float(N/4.0)}")
 print("Time: %s" %(t1 - t0))
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.08</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.072</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15.912163972854614</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14.623626947402954</span>
 </pre>
 
 ![](index_files/figure-commonmark/cell-2-output-3.png)
@@ -127,10 +126,10 @@ if comm.rank==0:
     print("Time: %s" %(t1 - t0))
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1429384</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1413968</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0214569568634033</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.7608320713043213</span>
 </pre>
 
 ### Running $\pi$ example on Google Colab
@@ -150,24 +149,24 @@ if comm.rank==0:
 ```
 
     Number of processes: 1
-    Pi = 3.141976
-    Time: 1.787148
+    Pi = 3.1401168
+    Time: 1.692753
 
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 2
-    Pi = 3.1414016
-    Time: 0.915003
+    Pi = 3.1425752
+    Time: 0.932729
 
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 4
-    Pi = 3.1423832
-    Time: 0.509590
+    Pi = 3.1415568
+    Time: 0.619807
 
 ### Running $\pi$ on Polaris
 

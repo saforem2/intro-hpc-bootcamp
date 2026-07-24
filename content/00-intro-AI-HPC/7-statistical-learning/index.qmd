@@ -36,6 +36,15 @@ author:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)
 
 ```{python}
+# This page uses the `bootcamp` helper package. On Colab (or any fresh
+# environment) install it + its dependencies; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 %load_ext autoreload
 %autoreload 2
 import matplotlib_inline.backend_inline
