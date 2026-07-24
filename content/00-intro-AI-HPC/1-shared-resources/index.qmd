@@ -1,6 +1,6 @@
 ---
-title: "Shared Resources"
-description: "An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage."
+title: "Shared Resources & Job Scheduling"
+description: "How supercomputers share nodes across users with a scheduler, and a hands-on walkthrough of submitting jobs with PBS (qsub) and SLURM (salloc/srun)."
 categories:
     - hpc
     - supercomputing
@@ -25,6 +25,141 @@ run-time
 number-of-nodes
 : How many compute _nodes_ does the application need to run? 5 nodes? 100
 nodes? 1000 nodes?
+
+::: {.callout-note title="🏙️ Analogy: the scheduler as a maître d'"}
+A supercomputer is a huge restaurant and every user wants a table (nodes) for a
+certain length of time (walltime). You don't just walk in and sit down — you tell
+the **maître d'** (the scheduler) your party size and how long you'll stay, and it
+seats you when a suitable table frees up. Ask for a small table for a short time
+and you're seated quickly; ask for the whole restaurant for all night and you'll
+wait. That trade-off *is* queue time.
+:::
+
+## 🎯 Submitting a job
+
+You interact with the scheduler in one of two modes:
+
+- **Interactive** — the scheduler gives you a shell _on the compute nodes_ and you
+  type commands live. Great for developing and debugging.
+- **Batch** — you write a small script describing the job and hand it to the
+  scheduler, which runs it unattended when resources free up and writes the output
+  to a file. Great for long or many runs.
+
+The two schedulers you'll meet at ALCF/NERSC are **PBS Pro** (Polaris, Sophia at
+ALCF) and **SLURM** (Perlmutter at NERSC). The concepts are identical; only the
+command names differ.
+
+### Interactive jobs
+
+::: {.panel-tabset}
+
+#### PBS (Polaris @ ALCF)
+
+```bash
+# request 1 node for 30 minutes from the debug queue
+qsub -I -A <project> -q debug -l select=1 -l walltime=00:30:00 \
+     -l filesystems=home:eagle
+```
+
+`-I` = interactive, `-A` = the project/allocation to charge, `-q` = queue,
+`-l select=N` = number of nodes, `-l walltime=HH:MM:SS` = time limit. When the job
+starts you land on a compute node.
+
+#### SLURM (Perlmutter @ NERSC)
+
+```bash
+# request 1 GPU node for 30 minutes from the interactive queue
+salloc --nodes 1 --qos interactive --time 00:30:00 \
+       --constraint gpu --account <project>
+```
+
+`--nodes` = node count, `--qos` = queue/quality-of-service, `--time` = limit,
+`--constraint gpu` = node type, `--account` = allocation. `salloc` drops you onto
+the allocated node.
+
+:::
+
+### Batch jobs
+
+Write a job script, then submit it. The scheduler directives live in comments at
+the top (`#PBS ...` or `#SBATCH ...`).
+
+::: {.panel-tabset}
+
+#### PBS (`job.sh`)
+
+```bash
+#!/bin/bash -l
+#PBS -A <project>
+#PBS -q debug
+#PBS -l select=2
+#PBS -l walltime=00:30:00
+#PBS -l filesystems=home:eagle
+#PBS -N my_first_job
+
+cd "$PBS_O_WORKDIR"          # PBS starts you in $HOME; cd back to where you submitted
+echo "Running on $(hostname)"
+python3 my_script.py
+```
+
+```bash
+qsub job.sh          # submit -> prints a job id like 1234567.polaris
+qstat -u $USER       # check status of your jobs
+qdel 1234567         # cancel a job
+```
+
+#### SLURM (`job.sh`)
+
+```bash
+#!/bin/bash -l
+#SBATCH --account <project>
+#SBATCH --qos regular
+#SBATCH --nodes 2
+#SBATCH --time 00:30:00
+#SBATCH --constraint gpu
+#SBATCH --job-name my_first_job
+
+echo "Running on $(hostname)"
+srun python3 my_script.py    # srun launches your program across the allocated nodes
+```
+
+```bash
+sbatch job.sh        # submit -> prints "Submitted batch job 1234567"
+squeue --me          # check status of your jobs
+scancel 1234567      # cancel a job
+```
+
+:::
+
+::: {.callout-tip title="📤 Where does my output go?"}
+A batch job has no terminal, so its stdout/stderr are written to files in the
+submit directory:
+
+- **PBS** → `<job-name>.o<jobid>` (stdout) and `<job-name>.e<jobid>` (stderr)
+- **SLURM** → `slurm-<jobid>.out` (both, by default)
+
+`tail -f slurm-1234567.out` lets you watch a running job's output live.
+:::
+
+::: {.callout-note title="🧠 Check your understanding" collapse="true"}
+**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for
+10 minutes. Whose job is likely to start sooner, and why?
+
+> Your colleague's. Small, short requests are far easier for the scheduler to fit
+> into gaps between other jobs ("backfill"), so they usually start almost
+> immediately; a large, long request must wait for a big block to free up.
+
+**Q2.** What's the difference between `qsub -I` and `qsub job.sh`?
+
+> `-I` requests an **interactive** session (a live shell on the compute nodes);
+> `qsub job.sh` submits a **batch** job that runs the script unattended and writes
+> output to a file.
+
+**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you
+look for its output?
+
+> In `slurm-<jobid>.out` in the directory you ran `sbatch` from.
+:::
 
 ## Polaris Activity Webpage
 

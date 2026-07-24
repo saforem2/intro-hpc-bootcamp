@@ -514,19 +514,19 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/2-conv-nets/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Convolutional Networks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/3-representation-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/4-distributed-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributed Training</span></a>
   </div>
 </li>
@@ -543,31 +543,31 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/1-parallel-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/2-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare Example (Colab)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/09-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/3-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare from Scratch (ezpz)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/4-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Evaluating LLMs</span></a>
   </div>
 </li>
@@ -685,7 +685,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 23, 2026</p>
+      <p class="date-modified">July 24, 2026</p>
     </div>
   </div>
     
@@ -882,6 +882,33 @@ Figure&nbsp;6: Aurora
 </ul></li>
 <li>~560 Total Nodes</li>
 </ul>
+<div class="callout callout-style-simple callout-note callout-titled" title="🧠 Check your understanding">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🧠 Check your understanding
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Q1.</strong> What is a “node” in a supercomputer, and how do nodes work together?</p>
+<blockquote class="blockquote">
+<p>A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes are joined by a high-speed network so groups of them can share data quickly and act together as one much larger computer.</p>
+</blockquote>
+<p><strong>Q2.</strong> You <code>ssh</code> into a supercomputer. Are you on a login node or a compute node — and where does your training job actually run?</p>
+<blockquote class="blockquote">
+<p>You land on a <strong>login node</strong> (for editing code and submitting jobs). The heavy work runs on <strong>compute nodes</strong>, which you reach by submitting a job to the scheduler (see <a href="../../00-intro-AI-HPC/1-shared-resources/index.html">Shared Resources</a>).</p>
+</blockquote>
+<p><strong>Q3.</strong> Why do the AI-focused nodes (e.g.&nbsp;Polaris) pair a CPU with several GPUs?</p>
+<blockquote class="blockquote">
+<p>The CPU runs the OS and orchestrates work; the GPUs do the massively parallel arithmetic (matrix multiplies) that dominates AI training, which they do far faster than a CPU.</p>
+</blockquote>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="references" class="level2">
@@ -1605,10 +1632,31 @@ Foreman, Sam. 2025. <span>“What Is a Supercomputer?”</span> August 1. <a hre
 <span id="cb1-187"><a href="#cb1-187" aria-label="185"></a><span class="ss">- </span>\~560 Total Nodes</span>
 <span id="cb1-188"><a href="#cb1-188" aria-label="186"></a></span>
 <span id="cb1-189"><a href="#cb1-189" aria-label="187"></a></span>
-<span id="cb1-190"><a href="#cb1-190" aria-label="188"></a><span class="fu">## 📓 References</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-label="189"></a></span>
-<span id="cb1-192"><a href="#cb1-192" aria-label="190"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Awesome HPC</span><span class="co">](https://github.com/trevor-vincent/awesome-high-performance-computing)</span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-label="191"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ALCF User Guides</span><span class="co">](https://docs.alcf.anl.gov)</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-label="188"></a>::: {.callout-note title="🧠 Check your understanding" collapse="true"}</span>
+<span id="cb1-191"><a href="#cb1-191" aria-label="189"></a>**Q1.** What is a "node" in a supercomputer, and how do nodes work together?</span>
+<span id="cb1-192"><a href="#cb1-192" aria-label="190"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-label="191"></a><span class="at">&gt; A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-label="192"></a><span class="at">&gt; are joined by a high-speed network so groups of them can share data quickly and</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-label="193"></a><span class="at">&gt; act together as one much larger computer.</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-label="194"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-label="195"></a>**Q2.** You <span class="in">`ssh`</span> into a supercomputer. Are you on a login node or a compute node</span>
+<span id="cb1-198"><a href="#cb1-198" aria-label="196"></a>— and where does your training job actually run?</span>
+<span id="cb1-199"><a href="#cb1-199" aria-label="197"></a></span>
+<span id="cb1-200"><a href="#cb1-200" aria-label="198"></a><span class="at">&gt; You land on a **login node** (for editing code and submitting jobs). The heavy</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-label="199"></a><span class="at">&gt; work runs on **compute nodes**, which you reach by submitting a job to the</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-label="200"></a><span class="at">&gt; scheduler (see </span><span class="co">[</span><span class="ot">Shared Resources</span><span class="co">](../1-shared-resources/index.qmd)</span><span class="at">).</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-label="201"></a></span>
+<span id="cb1-204"><a href="#cb1-204" aria-label="202"></a>**Q3.** Why do the AI-focused nodes (e.g. Polaris) pair a CPU with several GPUs?</span>
+<span id="cb1-205"><a href="#cb1-205" aria-label="203"></a></span>
+<span id="cb1-206"><a href="#cb1-206" aria-label="204"></a><span class="at">&gt; The CPU runs the OS and orchestrates work; the GPUs do the massively parallel</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-label="205"></a><span class="at">&gt; arithmetic (matrix multiplies) that dominates AI training, which they do far</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-label="206"></a><span class="at">&gt; faster than a CPU.</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-label="207"></a><span class="at">:::</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-label="208"></a></span>
+<span id="cb1-211"><a href="#cb1-211" aria-label="209"></a><span class="fu">## 📓 References</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-label="210"></a></span>
+<span id="cb1-213"><a href="#cb1-213" aria-label="211"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Awesome HPC</span><span class="co">](https://github.com/trevor-vincent/awesome-high-performance-computing)</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-label="212"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ALCF User Guides</span><span class="co">](https://docs.alcf.anl.gov)</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

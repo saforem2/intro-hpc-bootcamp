@@ -185,6 +185,27 @@ Polaris Machine Specs
 - \~560 Total Nodes
 
 
+::: {.callout-note title="🧠 Check your understanding" collapse="true"}
+**Q1.** What is a "node" in a supercomputer, and how do nodes work together?
+
+> A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes
+> are joined by a high-speed network so groups of them can share data quickly and
+> act together as one much larger computer.
+
+**Q2.** You `ssh` into a supercomputer. Are you on a login node or a compute node
+— and where does your training job actually run?
+
+> You land on a **login node** (for editing code and submitting jobs). The heavy
+> work runs on **compute nodes**, which you reach by submitting a job to the
+> scheduler (see [Shared Resources](../1-shared-resources/index.qmd)).
+
+**Q3.** Why do the AI-focused nodes (e.g. Polaris) pair a CPU with several GPUs?
+
+> The CPU runs the OS and orchestrates work; the GPUs do the massively parallel
+> arithmetic (matrix multiplies) that dominates AI training, which they do far
+> faster than a CPU.
+:::
+
 ## 📓 References
 
 - [Awesome HPC](https://github.com/trevor-vincent/awesome-high-performance-computing)
