@@ -43,29 +43,8 @@ Sam Foreman
   - [3D Parallelism](#3d-parallelism)
   - [Deciding on a Parallelism
     Strategy](#deciding-on-a-parallelism-strategy)
-- [🦙 Large Language Models](#llama-large-language-models)
-  - [🔮 Emergent Abilities](#crystal_ball-emergent-abilities)
-  - [🚂 Training LLMs](#steam_locomotive-training-llms)
-  - [♻️ Life-Cycle of the LLM](#recycle-life-cycle-of-the-llm)
-  - [🎀 Life-Cycle of the LLM](#ribbon-life-cycle-of-the-llm)
-  - [⏩ Forward Pass](#fast_forward-forward-pass)
-  - [💬 Generating Text](#speech_balloon-generating-text)
-- [👋 Hands On](#wave-hands-on)
-  - [🧑‍💻 Hands On: Getting
-    Started](#technologist-hands-on-getting-started)
-  - [📦 Install {`ezpz`, `wordplay`}](#package-install-ezpz-wordplay)
-  - [ `ezpz`: Example
-    \[video\]](#b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206272616e647320676974687562203e7d7d-ezpz-example-video)
-  - [Install `wordplay`
-    🎮💬](#install-wordplay-video_gamespeech_balloon)
-  - [Prepare Data](#prepare-data)
-  - [Launch Training (DDP)](#launch-training-ddp)
-  - [Training: Example Output](#training-example-output)
-  - [ `wordplay`: Example
-    \[video\]](#b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206272616e647320676974687562203e7d7d-wordplay-example-video)
-- [❤️ Acknowledgements](#heart-acknowledgements)
-  - [🙌 Thank you!](#raised_hands-thank-you)
-  - [📓 References](#notebook-references)
+- [🦙 Scaling up to Large Language
+  Models](#llama-scaling-up-to-large-language-models)
 
 ## 🐣 Getting Started
 
@@ -1235,16 +1214,28 @@ models](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-mo
   - **NOTE**: `TP` is almost *always* used within a single node, e.g.  
     `TP <= GPUS_PER_NODE`
 
-## 🦙 Large Language Models
+## 🦙 Scaling up to Large Language Models
 
-<div id="fig-llms">
+The parallelism strategies above are exactly what make training billion-
+and trillion-parameter **Large Language Models** feasible. The rest of
+this page is a hands-on distributed-training example; for the LLM
+concepts themselves (transformers, attention, the training life-cycle,
+text generation) see:
 
-![](./assets/llms.gif)
+> [!TIP]
+>
+> ### ➡️ Learn more about LLMs
+>
+> - [**\[02\] Intro to LLMs**](../../02-llms/00-intro-to-llms/index.qmd)
+>   — transformers, tokenization, attention, and building a mini-LLM.
+> - [**\[02\] Parallel
+>   Training**](../../02-llms/06-parallel-training/index.qmd) — hands-on
+>   distributed LLM training on HPC.
+> - [**\[03\] Advanced / Large-Scale
+>   LLMs**](../../03-advanced-llms/index.qmd) — MoE, pretraining at
+>   scale, fault tolerance, and RL.
 
-Figure 22: Large Language Models have (LLM)s have taken the ~~NLP
-community~~ **world** by storm[^3].
-
-</div>
+<div class="hidden">
 
 ### 🔮 Emergent Abilities
 
@@ -1252,7 +1243,7 @@ community~~ **world** by storm[^3].
 
 ![](./assets/emergent-abilities.gif)
 
-Figure 23: See Wei et al. (2022), Yao et al. (2023)
+Figure 22: See Wei et al. (2022), Yao et al. (2023)
 
 </div>
 
@@ -1284,8 +1275,8 @@ Figure 23: See Wei et al. (2022), Yao et al. (2023)
 
 ![](./assets/gpt3-training-step-back-prop.gif)
 
-Figure 24: **Pre-training**: Virtually *all of the compute* used during
-pre-training[^4].
+Figure 23: **Pre-training**: Virtually *all of the compute* used during
+pre-training.
 
 </div>
 
@@ -1315,8 +1306,8 @@ pre-training[^4].
 
 ![](./assets/gpt3-fine-tuning.gif)
 
-Figure 25: **Fine-tuning**: Fine-tuning actually updates the model’s
-weights to make the model better at a certain task[^5].
+Figure 24: **Fine-tuning**: Fine-tuning actually updates the model’s
+weights to make the model better at a certain task.
 
 </div>
 
@@ -1330,7 +1321,7 @@ weights to make the model better at a certain task[^5].
 
 ![](./assets/hf_assisted_generation.mov)
 
-Figure 26: Language Model trained for causal language modeling[^6].
+Figure 25: Language Model trained for causal language modeling.
 
 </div>
 
@@ -1340,9 +1331,11 @@ Figure 26: Language Model trained for causal language modeling[^6].
 
 ![](./assets/hf_assisted_generation2.mov)
 
-Figure 27: Language Model trained for causal language modeling[^7].
+Figure 26: Language Model trained for causal language modeling.
 
 </div>
+
+:::
 
 ## 👋 Hands On
 
@@ -1398,7 +1391,7 @@ Figure 27: Language Model trained for causal language modeling[^7].
 
 <script src="https://asciinema.org/a/668460.js" id="asciicast-668460" async="true"></script>
 
-Figure 28: Example: using [🍋
+Figure 27: Example: using [🍋
 `ezpz test`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/examples/test.py)
 to train a small model using DDP
 
@@ -1410,7 +1403,7 @@ to train a small model using DDP
 
 ![](./assets/nanogpt.jpg)
 
-Figure 29: The simplest, fastest repository for training / finetuning
+Figure 28: The simplest, fastest repository for training / finetuning
 GPT based models. Figure from
 [karpathy/`nanoGPT`](https://github.com/karpathy/nanoGPT)
 
@@ -1758,7 +1751,7 @@ At lie my lord with the me an arms be a s
 
 <script src="https://asciinema.org/a/668462.js" id="asciicast-668462" async="true"></script>
 
-Figure 30: Training a LLM to talk like Shakespeare using
+Figure 29: Training a LLM to talk like Shakespeare using
 [saforem2/`wordplay` 🎮💬](https://github.com/saforem2/wordplay)
 
 </div>
@@ -1788,6 +1781,8 @@ Figure 30: Training a LLM to talk like Shakespeare using
 - Title slide (Tetris animation) from:
   [emilhvitfeldt/quarto-iframe-examples](https://github.com/emilhvitfeldt/quarto-iframe-examples)
 
+</div>
+
 <div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-wei2022emergentabilitieslargelanguage" class="csl-entry">
@@ -1811,18 +1806,3 @@ Deliberate Problem Solving with Large Language Models*.
 
 [^2]: [Efficient Large-Scale Language Model Training on GPU
     Clusters](https://arxiv.org/abs/2104.04473)
-
-[^3]: Source: [
-    `Hannibal046/Awesome-LLM`](https://github.com/Hannibal046/Awesome-LLM)
-
-[^4]: Figure from [The Illustrated
-    Transformer](http://jalammar.github.io/illustrated-transformer/)
-
-[^5]: Figure from [The Illustrated
-    Transformer](http://jalammar.github.io/illustrated-transformer/)
-
-[^6]: Video from: [🤗 Generation with
-    LLMs](https://huggingface.co/docs/transformers/main/en/llm_tutorial)
-
-[^7]: Video from: [🤗 Generation with
-    LLMs](https://huggingface.co/docs/transformers/main/en/llm_tutorial)

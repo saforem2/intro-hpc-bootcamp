@@ -17,7 +17,6 @@ Sam Foreman
   - 📗 [\[5\] MCMC Example](./5-mcmc-example/)
   - 📗 [\[6\] Linear Regression](./6-linear-regression/)
   - 📗 [\[7\] Statistical Learning](./7-statistical-learning/)
-  - 📗 [\[8\] Clustering](./8-clustering/)
 
 Link to original slides:
 <https://drive.google.com/file/d/1PH6HlXPhsVB1wDcEkfRSZrDQTqWBi7aH/view?usp=sharing>

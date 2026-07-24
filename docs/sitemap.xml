@@ -37,48 +37,44 @@
     <lastmod>2025-08-12T02:25:12.749Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/index.html</loc>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/index.html</loc>
     <lastmod>2026-07-22T20:34:24.408Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/index.html</loc>
-    <lastmod>2026-07-22T20:34:24.408Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/3-python/index.html</loc>
-    <lastmod>2025-08-06T19:31:03.695Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/1-shared-resources/index.html</loc>
-    <lastmod>2025-08-08T17:37:45.255Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/index.html</loc>
-    <lastmod>2025-08-12T15:46:13.179Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/index.html</loc>
-    <lastmod>2026-07-23T14:56:21.022Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/0-compute-systems/index.html</loc>
-    <lastmod>2026-07-23T15:48:04.427Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
-    <lastmod>2025-08-06T13:17:22.875Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/index.html</loc>
     <lastmod>2025-08-06T13:08:52.131Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/index.html</loc>
-    <lastmod>2026-07-22T20:34:24.408Z</lastmod>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
+    <lastmod>2025-08-06T13:17:22.875Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/8-clustering/index.html</loc>
-    <lastmod>2026-07-22T20:34:24.429Z</lastmod>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/0-compute-systems/index.html</loc>
+    <lastmod>2026-07-23T15:48:04.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/index.html</loc>
+    <lastmod>2026-07-24T03:10:34.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/index.html</loc>
+    <lastmod>2026-07-24T03:10:55.131Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/1-shared-resources/index.html</loc>
+    <lastmod>2025-08-08T17:37:45.255Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/3-python/index.html</loc>
+    <lastmod>2025-08-06T19:31:03.695Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/index.html</loc>
+    <lastmod>2026-07-24T03:59:21.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/index.html</loc>
+    <lastmod>2026-07-22T20:34:24.408Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/1-mnist/index.html</loc>
@@ -86,7 +82,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/5-distributed-training/index.html</loc>
-    <lastmod>2026-07-23T15:46:14.485Z</lastmod>
+    <lastmod>2026-07-24T03:12:35.528Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/3-conv-nets/index.html</loc>

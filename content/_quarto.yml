@@ -228,7 +228,7 @@ project:
     - "./00-intro-AI-HPC/5-mcmc-example/index.qmd"
     - "./00-intro-AI-HPC/6-linear-regression/index.qmd"
     - "./00-intro-AI-HPC/7-statistical-learning/index.qmd"
-    - "./00-intro-AI-HPC/8-clustering/index.ipynb"
+    - "!./00-intro-AI-HPC/8-clustering/index.ipynb"
 
     - "./01-neural-networks/**/**/*.qmd"
     - "./01-neural-networks/3-conv-nets/index.ipynb"
@@ -345,8 +345,6 @@ website:
             href: "00-intro-AI-HPC/6-linear-regression/index.qmd"
           - text: "Statistical Learning"
             href: "00-intro-AI-HPC/7-statistical-learning/index.qmd"
-          - text: "Clustering"
-            href: "./00-intro-AI-HPC/8-clustering/index.ipynb"
 
       - id: 01-neural-networks
         section: "[01] Neural Networks"

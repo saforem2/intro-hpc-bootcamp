@@ -26,7 +26,6 @@ Sam Foreman
       Regression](./00-intro-AI-HPC/6-linear-regression/)
     - 📗 [\[00.7\] Statistical
       Learning](./00-intro-AI-HPC/7-statistical-learning/)
-    - 📗 [\[00.8\] Clustering](./00-intro-AI-HPC/8-clustering/)
   - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
     - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)
     - 📗 [\[01.1\] MNIST](./01-neural-networks/1-mnist/)

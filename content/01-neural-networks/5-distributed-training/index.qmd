@@ -1205,15 +1205,24 @@ models](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-mo
   - **NOTE**: `TP` is almost _always_ used within a single node, e.g.  
     `TP <= GPUS_PER_NODE`
 
-## 🦙 Large Language Models
+## 🦙 Scaling up to Large Language Models
 
-::: {#fig-llms}
-![](./assets/llms.gif)
+The parallelism strategies above are exactly what make training billion- and
+trillion-parameter **Large Language Models** feasible. The rest of this page is
+a hands-on distributed-training example; for the LLM concepts themselves
+(transformers, attention, the training life-cycle, text generation) see:
 
-Large Language Models have (LLM)s have taken the ~~NLP community~~ **world** by storm[^llm-animation].  
+::: {.callout-tip title="➡️ Learn more about LLMs"}
+- [**\[02\] Intro to LLMs**](../../02-llms/00-intro-to-llms/index.qmd) — transformers, tokenization, attention, and building a mini-LLM.
+- [**\[02\] Parallel Training**](../../02-llms/06-parallel-training/index.qmd) — hands-on distributed LLM training on HPC.
+- [**\[03\] Advanced / Large-Scale LLMs**](../../03-advanced-llms/index.qmd) — MoE, pretraining at scale, fault tolerance, and RL.
 :::
 
-[^llm-animation]: Source: [{{< fa brands github >}} `Hannibal046/Awesome-LLM`](https://github.com/Hannibal046/Awesome-LLM)
+<!-- Trimmed: general LLM explainer (emergent abilities, life-cycle, forward
+     pass, text generation) moved conceptually to [02] Intro to LLMs to keep
+     this page focused on distributed training. -->
+
+::: {.hidden}
 
 ### 🔮 Emergent Abilities {background-color="#FBFBFD"}
 
@@ -1312,6 +1321,8 @@ Language Model trained for causal language modeling[^generating-text-source].
 :::
 
 [^generating-text-source]: Video from: [🤗 Generation with LLMs](https://huggingface.co/docs/transformers/main/en/llm_tutorial)
+
+::: <!-- end .hidden (trimmed LLM explainer) -->
 
 ## 👋 Hands On
 

@@ -108,7 +108,6 @@ sidebar: sidebar
         - 📗 [\[00.5\] MCMC Example](./00-intro-AI-HPC/5-mcmc-example/)
         - 📗 [\[00.6\] Linear Regression](./00-intro-AI-HPC/6-linear-regression/)
         - 📗 [\[00.7\] Statistical Learning](./00-intro-AI-HPC/7-statistical-learning/)
-        - 📗 [\[00.8\] Clustering](./00-intro-AI-HPC/8-clustering/)
 
     - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
         - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)

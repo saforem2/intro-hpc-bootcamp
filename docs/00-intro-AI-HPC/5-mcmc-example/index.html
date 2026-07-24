@@ -535,12 +535,6 @@ window.Quarto = {
  <span class="menu-text">Statistical Learning</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Clustering</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -676,7 +670,7 @@ window.Quarto = {
   <li><a href="#running-pi-example-on-google-colab" id="toc-running-pi-example-on-google-colab" class="nav-link" data-scroll-target="#running-pi-example-on-google-colab">Running <span class="math inline">\pi</span> example on Google Colab</a></li>
   <li><a href="#running-pi-on-polaris" id="toc-running-pi-on-polaris" class="nav-link" data-scroll-target="#running-pi-on-polaris">Running <span class="math inline">\pi</span> on Polaris</a></li>
   </ul></li>
-  <li><a href="#parallel-computing-in-ai" id="toc-parallel-computing-in-ai" class="nav-link" data-scroll-target="#parallel-computing-in-ai">Parallel computing in AI</a></li>
+  <li><a href="#where-this-goes-next" id="toc-where-this-goes-next" class="nav-link" data-scroll-target="#where-this-goes-next">Where this goes next</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
@@ -743,7 +737,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 22, 2026</p>
+      <p class="date-modified">July 23, 2026</p>
     </div>
   </div>
     
@@ -783,7 +777,7 @@ window.Quarto = {
 <p>The ratio between the area of the circle and the square is</p>
 <p><span class="math display">\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}</span></p>
 <p>Therefore, we can calculate <span class="math inline">\pi</span> using <span class="math inline">\pi = \frac{4N_\text{in}}{N_\text{total}}</span></p>
-<div id="04a3e2fa" class="cell" data-execution_count="1">
+<div id="04a3e2fa" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -871,7 +865,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="e8b8496a" class="cell" data-execution_count="2">
+<div id="e8b8496a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> random</span>
@@ -910,11 +904,11 @@ window.Quarto = {
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="0dca93be" class="cell" data-execution_count="3">
+<div id="0dca93be" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="op">!</span> pip install mpi4py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="64b6b391" class="cell" data-execution_count="4">
+<div id="64b6b391" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 1
@@ -922,7 +916,7 @@ Pi = 3.1421336
 Time: 1.794997</code></pre>
 </div>
 </div>
-<div id="3bc88c98" class="cell" data-execution_count="5">
+<div id="3bc88c98" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 2
@@ -930,7 +924,7 @@ Pi = 3.1411328
 Time: 0.881019</code></pre>
 </div>
 </div>
-<div id="8e675e87" class="cell" data-execution_count="6">
+<div id="8e675e87" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 4
@@ -956,42 +950,21 @@ Time: 0.479934</code></pre>
 <span id="cb10-13"><a href="#cb10-13" aria-label="13"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="parallel-computing-in-ai" class="level2">
-<h2 class="anchored" data-anchor-id="parallel-computing-in-ai">Parallel computing in AI</h2>
-<p>The parallel computing in AI is usually called distributed training.</p>
-<p>Distributed training is the process of training I models across multiple GPUs or other accelerators, with the goal of speeding up the training process and enabling the training of larger models on larger datasets.</p>
-<p>There are two ways of parallelization in distributed training.</p>
-<ul>
-<li><strong>Data parallelism</strong>:
-<ul>
-<li>Each worker (GPU) has a complete set of model</li>
-<li>different workers work on different subsets of data.</li>
-</ul></li>
-<li><strong>Model parallelism</strong>
-<ul>
-<li>The model is splitted into different parts and stored on different workers</li>
-<li>Different workers work on computation involved in different parts of the model</li>
-</ul></li>
-</ul>
-<div id="fig-parallel-computing" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-parallel-computing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="../figures/parallel_computing.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;1: PI"><img src="../figures/parallel_computing.png" class="img-fluid figure-img"></a>
+<section id="where-this-goes-next" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-goes-next">Where this goes next</h2>
+<p>The same idea of splitting work across many processes — which we just used with MPI to estimate <span class="math inline">\pi</span> — is exactly what powers <strong>distributed training</strong> of modern AI models (data parallelism, model parallelism, and more).</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="➡️ Next steps">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parallel-computing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: PI
-</figcaption>
-</figure>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>➡️ Next steps
 </div>
-<div id="fig-3dllm" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-3dllm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="../figures/3DLLM.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;2: 3D LLM"><img src="../figures/3DLLM.png" class="img-fluid figure-img"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3dllm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: 3D LLM
-</figcaption>
-</figure>
+<div class="callout-body-container callout-body">
+<p>We cover distributed and parallel training in depth in <a href="../../01-neural-networks/5-distributed-training/index.html"><strong>[01] Distributed Training</strong></a> (DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it to LLMs in <a href="../../02-llms/06-parallel-training/index.html"><strong>[02] Parallel Training</strong></a>.</p>
+</div>
 </div>
 
 
@@ -1564,198 +1537,169 @@ Approximating $\Pi$ Using Markov Chain Monte Carlo (MCMC).”</span> July
 <span id="cb11-38"><a href="#cb11-38" aria-label="38"></a></span>
 <span id="cb11-39"><a href="#cb11-39" aria-label="39"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)</span></span>
 <span id="cb11-40"><a href="#cb11-40" aria-label="40"></a></span>
-<span id="cb11-41"><a href="#cb11-41" aria-label="41"></a><span class="co">&lt;!--</span></span>
-<span id="cb11-42"><a href="#cb11-42" aria-label="42"></a><span class="co">&lt;p&gt;</span></span>
-<span id="cb11-43"><a href="#cb11-43" aria-label="43"></a><span class="co">    &lt;a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/8-clustering/index.ipynb"&gt;</span></span>
-<span id="cb11-44"><a href="#cb11-44" aria-label="44"></a><span class="co">        &lt;img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"&gt;</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-label="45"></a><span class="co">    &lt;/a&gt;</span></span>
-<span id="cb11-46"><a href="#cb11-46" aria-label="46"></a><span class="co">    &lt;a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md"&gt;</span></span>
-<span id="cb11-47"><a href="#cb11-47" aria-label="47"></a><span class="co">        &lt;img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;amp;logo=github&amp;amp;labelColor=gray.png" class="img-fluid"&gt;</span></span>
-<span id="cb11-48"><a href="#cb11-48" aria-label="48"></a><span class="co">    &lt;/a&gt;</span></span>
-<span id="cb11-49"><a href="#cb11-49" aria-label="49"></a><span class="co">&lt;/p&gt;</span></span>
-<span id="cb11-50"><a href="#cb11-50" aria-label="50"></a><span class="co">--&gt;</span></span>
-<span id="cb11-51"><a href="#cb11-51" aria-label="51"></a></span>
-<span id="cb11-52"><a href="#cb11-52" aria-label="52"></a>::: {.callout-important title="Parallel Computing" collapse="false"}</span>
-<span id="cb11-53"><a href="#cb11-53" aria-label="53"></a></span>
-<span id="cb11-54"><a href="#cb11-54" aria-label="54"></a>**Parallel computing** refers to the process of breaking down larger problems</span>
-<span id="cb11-55"><a href="#cb11-55" aria-label="55"></a>into smaller, independent, often similar parts that can be executed</span>
-<span id="cb11-56"><a href="#cb11-56" aria-label="56"></a>simultaneously by multiple processors communicating via network or shared</span>
-<span id="cb11-57"><a href="#cb11-57" aria-label="57"></a>memory, the results of which are combined upon completion as part of an</span>
-<span id="cb11-58"><a href="#cb11-58" aria-label="58"></a>overall algorithm.</span>
-<span id="cb11-59"><a href="#cb11-59" aria-label="59"></a></span>
-<span id="cb11-60"><a href="#cb11-60" aria-label="60"></a>:::</span>
-<span id="cb11-61"><a href="#cb11-61" aria-label="61"></a></span>
-<span id="cb11-62"><a href="#cb11-62" aria-label="62"></a><span class="fu">## Example: Estimate $\pi$</span></span>
-<span id="cb11-63"><a href="#cb11-63" aria-label="63"></a></span>
-<span id="cb11-64"><a href="#cb11-64" aria-label="64"></a>We can calculate the value of $\pi$ using a MPI parallelized version of the</span>
-<span id="cb11-65"><a href="#cb11-65" aria-label="65"></a>Monte Carlo method.</span>
-<span id="cb11-66"><a href="#cb11-66" aria-label="66"></a>The basic idea is to estimate $\pi$ by randomly sampling points within a square</span>
-<span id="cb11-67"><a href="#cb11-67" aria-label="67"></a>and determining how many fall inside a quarter circle inscribed within that</span>
-<span id="cb11-68"><a href="#cb11-68" aria-label="68"></a>square.</span>
-<span id="cb11-69"><a href="#cb11-69" aria-label="69"></a></span>
-<span id="cb11-70"><a href="#cb11-70" aria-label="70"></a><span class="al">![$\pi$](https://www.101computing.net/wp/wp-content/uploads/estimating-pi-monte-carlo-method.png)</span></span>
-<span id="cb11-71"><a href="#cb11-71" aria-label="71"></a></span>
-<span id="cb11-72"><a href="#cb11-72" aria-label="72"></a>The ratio between the area of the circle and the square is</span>
-<span id="cb11-73"><a href="#cb11-73" aria-label="73"></a></span>
-<span id="cb11-74"><a href="#cb11-74" aria-label="74"></a>$$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$</span>
-<span id="cb11-75"><a href="#cb11-75" aria-label="75"></a></span>
-<span id="cb11-76"><a href="#cb11-76" aria-label="76"></a>Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total}}$</span>
-<span id="cb11-77"><a href="#cb11-77" aria-label="77"></a></span>
-<span id="cb11-78"><a href="#cb11-78" aria-label="78"></a></span>
-<span id="cb11-81"><a href="#cb11-81" aria-label="79"></a><span class="in">```{python}</span></span>
-<span id="cb11-82"><a href="#cb11-82" aria-label="80"></a><span class="im">import</span> ambivalent</span>
-<span id="cb11-83"><a href="#cb11-83" aria-label="81"></a></span>
-<span id="cb11-84"><a href="#cb11-84" aria-label="82"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-85"><a href="#cb11-85" aria-label="83"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb11-86"><a href="#cb11-86" aria-label="84"></a></span>
-<span id="cb11-87"><a href="#cb11-87" aria-label="85"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
-<span id="cb11-88"><a href="#cb11-88" aria-label="86"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb11-89"><a href="#cb11-89" aria-label="87"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
-<span id="cb11-90"><a href="#cb11-90" aria-label="88"></a></span>
-<span id="cb11-91"><a href="#cb11-91" aria-label="89"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, clear_output</span>
-<span id="cb11-92"><a href="#cb11-92" aria-label="90"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-93"><a href="#cb11-93" aria-label="91"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb11-94"><a href="#cb11-94" aria-label="92"></a><span class="im">import</span> random</span>
-<span id="cb11-95"><a href="#cb11-95" aria-label="93"></a><span class="im">import</span> time</span>
-<span id="cb11-96"><a href="#cb11-96" aria-label="94"></a></span>
-<span id="cb11-97"><a href="#cb11-97" aria-label="95"></a><span class="im">import</span> ezpz</span>
-<span id="cb11-98"><a href="#cb11-98" aria-label="96"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb11-99"><a href="#cb11-99" aria-label="97"></a></span>
-<span id="cb11-100"><a href="#cb11-100" aria-label="98"></a></span>
-<span id="cb11-101"><a href="#cb11-101" aria-label="99"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb11-102"><a href="#cb11-102" aria-label="100"></a><span class="co">#ax = fig.add_subplot(111)</span></span>
-<span id="cb11-103"><a href="#cb11-103" aria-label="101"></a>circle <span class="op">=</span> plt.Circle(( <span class="fl">0.</span> , <span class="fl">0.</span> ), <span class="fl">0.5</span> )</span>
-<span id="cb11-104"><a href="#cb11-104" aria-label="102"></a>plt.xlim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-105"><a href="#cb11-105" aria-label="103"></a>plt.ylim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-106"><a href="#cb11-106" aria-label="104"></a>ax.add_patch(circle)</span>
-<span id="cb11-107"><a href="#cb11-107" aria-label="105"></a>ax.set_aspect(<span class="st">'equal'</span>)</span>
-<span id="cb11-108"><a href="#cb11-108" aria-label="106"></a>N <span class="op">=</span> <span class="dv">500</span></span>
-<span id="cb11-109"><a href="#cb11-109" aria-label="107"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-110"><a href="#cb11-110" aria-label="108"></a>t0 <span class="op">=</span> time.time()</span>
-<span id="cb11-111"><a href="#cb11-111" aria-label="109"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb11-112"><a href="#cb11-112" aria-label="110"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-113"><a href="#cb11-113" aria-label="111"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-114"><a href="#cb11-114" aria-label="112"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
-<span id="cb11-115"><a href="#cb11-115" aria-label="113"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb11-116"><a href="#cb11-116" aria-label="114"></a>        plt.plot([x], [y], <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'r'</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb11-117"><a href="#cb11-117" aria-label="115"></a>    <span class="cf">else</span>:</span>
-<span id="cb11-118"><a href="#cb11-118" aria-label="116"></a>        plt.plot([x], [y], <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'b'</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb11-119"><a href="#cb11-119" aria-label="117"></a>    display(fig)</span>
-<span id="cb11-120"><a href="#cb11-120" aria-label="118"></a>    plt.xlabel(<span class="st">"$</span><span class="er">\</span><span class="st">pi$ = </span><span class="sc">%3.4f</span><span class="st"> </span><span class="ch">\n</span><span class="st"> N_in / N_total = </span><span class="sc">%5d</span><span class="st">/</span><span class="sc">%5d</span><span class="st">"</span> <span class="op">%</span>(Nin<span class="op">*</span><span class="fl">4.0</span><span class="op">/</span>i, Nin, i))</span>
-<span id="cb11-121"><a href="#cb11-121" aria-label="119"></a>    clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-122"><a href="#cb11-122" aria-label="120"></a></span>
-<span id="cb11-123"><a href="#cb11-123" aria-label="121"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
-<span id="cb11-124"><a href="#cb11-124" aria-label="122"></a>t1 <span class="op">=</span> time.time()</span>
-<span id="cb11-125"><a href="#cb11-125" aria-label="123"></a><span class="bu">print</span>(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-126"><a href="#cb11-126" aria-label="124"></a><span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
-<span id="cb11-127"><a href="#cb11-127" aria-label="125"></a><span class="in">```</span></span>
-<span id="cb11-128"><a href="#cb11-128" aria-label="126"></a></span>
-<span id="cb11-129"><a href="#cb11-129" aria-label="127"></a><span class="fu">### MPI example</span></span>
-<span id="cb11-130"><a href="#cb11-130" aria-label="128"></a></span>
-<span id="cb11-131"><a href="#cb11-131" aria-label="129"></a></span>
-<span id="cb11-132"><a href="#cb11-132" aria-label="130"></a><span class="pp">|</span> Nodes  <span class="pp">|</span> PyTorch-2.5 <span class="pp">|</span> PyTorch-2.7 <span class="pp">|</span> PyTorch-2.8 <span class="pp">|</span></span>
-<span id="cb11-133"><a href="#cb11-133" aria-label="131"></a><span class="pp">| :----:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">|</span></span>
-<span id="cb11-134"><a href="#cb11-134" aria-label="132"></a><span class="pp">|</span> N1xR12 <span class="pp">|</span>    17.39    <span class="pp">|</span>    31.01    <span class="pp">|</span>    33.09    <span class="pp">|</span></span>
-<span id="cb11-135"><a href="#cb11-135" aria-label="133"></a><span class="pp">|</span> N2xR12 <span class="pp">|</span>    3.81     <span class="pp">|</span>    32.71    <span class="pp">|</span>    33.26    <span class="pp">|</span></span>
-<span id="cb11-136"><a href="#cb11-136" aria-label="134"></a></span>
-<span id="cb11-137"><a href="#cb11-137" aria-label="135"></a></span>
-<span id="cb11-140"><a href="#cb11-140" aria-label="136"></a><span class="in">```{python}</span></span>
-<span id="cb11-141"><a href="#cb11-141" aria-label="137"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
-<span id="cb11-142"><a href="#cb11-142" aria-label="138"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb11-143"><a href="#cb11-143" aria-label="139"></a><span class="im">import</span> random</span>
-<span id="cb11-144"><a href="#cb11-144" aria-label="140"></a><span class="im">import</span> time</span>
-<span id="cb11-145"><a href="#cb11-145" aria-label="141"></a>comm <span class="op">=</span> MPI.COMM_WORLD</span>
-<span id="cb11-146"><a href="#cb11-146" aria-label="142"></a></span>
-<span id="cb11-147"><a href="#cb11-147" aria-label="143"></a>N <span class="op">=</span> <span class="dv">5000000</span></span>
-<span id="cb11-148"><a href="#cb11-148" aria-label="144"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-149"><a href="#cb11-149" aria-label="145"></a>t0 <span class="op">=</span> time.time()</span>
-<span id="cb11-150"><a href="#cb11-150" aria-label="146"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(comm.rank, N, comm.size):</span>
-<span id="cb11-151"><a href="#cb11-151" aria-label="147"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-152"><a href="#cb11-152" aria-label="148"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb11-153"><a href="#cb11-153" aria-label="149"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
-<span id="cb11-154"><a href="#cb11-154" aria-label="150"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb11-155"><a href="#cb11-155" aria-label="151"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
-<span id="cb11-156"><a href="#cb11-156" aria-label="152"></a>res_tot <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
-<span id="cb11-157"><a href="#cb11-157" aria-label="153"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
-<span id="cb11-158"><a href="#cb11-158" aria-label="154"></a>t1 <span class="op">=</span> time.time()</span>
-<span id="cb11-159"><a href="#cb11-159" aria-label="155"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb11-160"><a href="#cb11-160" aria-label="156"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
-<span id="cb11-161"><a href="#cb11-161" aria-label="157"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
-<span id="cb11-162"><a href="#cb11-162" aria-label="158"></a><span class="in">```</span></span>
-<span id="cb11-163"><a href="#cb11-163" aria-label="159"></a></span>
-<span id="cb11-164"><a href="#cb11-164" aria-label="160"></a><span class="fu">### Running $\pi$ example on Google Colab</span></span>
-<span id="cb11-165"><a href="#cb11-165" aria-label="161"></a></span>
-<span id="cb11-166"><a href="#cb11-166" aria-label="162"></a><span class="ss">* </span>Go to https://colab.research.google.com/, sign in or sign up</span>
-<span id="cb11-167"><a href="#cb11-167" aria-label="163"></a><span class="ss">* </span>"File"-&gt; "open notebook"</span>
-<span id="cb11-168"><a href="#cb11-168" aria-label="164"></a><span class="ss">* </span>Choose <span class="in">`01_intro_AI_on_Supercomputer/00_mpi.ipynb`</span> from the list</span>
-<span id="cb11-169"><a href="#cb11-169" aria-label="165"></a>  <span class="al">![Google Colab](../figures/colab.png)</span></span>
-<span id="cb11-170"><a href="#cb11-170" aria-label="166"></a></span>
-<span id="cb11-173"><a href="#cb11-173" aria-label="167"></a><span class="in">```{python}</span></span>
-<span id="cb11-174"><a href="#cb11-174" aria-label="168"></a><span class="co">#| output: false</span></span>
-<span id="cb11-175"><a href="#cb11-175" aria-label="169"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
-<span id="cb11-176"><a href="#cb11-176" aria-label="170"></a><span class="op">!</span> pip install mpi4py</span>
-<span id="cb11-177"><a href="#cb11-177" aria-label="171"></a><span class="in">```</span></span>
-<span id="cb11-178"><a href="#cb11-178" aria-label="172"></a></span>
-<span id="cb11-181"><a href="#cb11-181" aria-label="173"></a><span class="in">```{python}</span></span>
-<span id="cb11-182"><a href="#cb11-182" aria-label="174"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span>
-<span id="cb11-183"><a href="#cb11-183" aria-label="175"></a><span class="in">```</span></span>
-<span id="cb11-184"><a href="#cb11-184" aria-label="176"></a></span>
-<span id="cb11-187"><a href="#cb11-187" aria-label="177"></a><span class="in">```{python}</span></span>
-<span id="cb11-188"><a href="#cb11-188" aria-label="178"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
-<span id="cb11-189"><a href="#cb11-189" aria-label="179"></a><span class="in">```</span></span>
-<span id="cb11-190"><a href="#cb11-190" aria-label="180"></a></span>
-<span id="cb11-193"><a href="#cb11-193" aria-label="181"></a><span class="in">```{python}</span></span>
-<span id="cb11-194"><a href="#cb11-194" aria-label="182"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
-<span id="cb11-195"><a href="#cb11-195" aria-label="183"></a><span class="in">```</span></span>
-<span id="cb11-196"><a href="#cb11-196" aria-label="184"></a></span>
-<span id="cb11-197"><a href="#cb11-197" aria-label="185"></a><span class="fu">### Running $\pi$ on Polaris</span></span>
-<span id="cb11-198"><a href="#cb11-198" aria-label="186"></a></span>
-<span id="cb11-199"><a href="#cb11-199" aria-label="187"></a><span class="in">```bash</span></span>
-<span id="cb11-200"><a href="#cb11-200" aria-label="188"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
-<span id="cb11-201"><a href="#cb11-201" aria-label="189"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb11-202"><a href="#cb11-202" aria-label="190"></a><span class="co"># choose debug queue outside of the class</span></span>
-<span id="cb11-203"><a href="#cb11-203" aria-label="191"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
-<span id="cb11-204"><a href="#cb11-204" aria-label="192"></a></span>
-<span id="cb11-205"><a href="#cb11-205" aria-label="193"></a><span class="ex">module</span> load conda/2023-10-04</span>
-<span id="cb11-206"><a href="#cb11-206" aria-label="194"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
-<span id="cb11-207"><a href="#cb11-207" aria-label="195"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
-<span id="cb11-208"><a href="#cb11-208" aria-label="196"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
-<span id="cb11-209"><a href="#cb11-209" aria-label="197"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
-<span id="cb11-210"><a href="#cb11-210" aria-label="198"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
-<span id="cb11-211"><a href="#cb11-211" aria-label="199"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
-<span id="cb11-212"><a href="#cb11-212" aria-label="200"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span>
-<span id="cb11-213"><a href="#cb11-213" aria-label="201"></a><span class="in">```</span></span>
-<span id="cb11-214"><a href="#cb11-214" aria-label="202"></a></span>
-<span id="cb11-215"><a href="#cb11-215" aria-label="203"></a><span class="fu">## Parallel computing in AI</span></span>
-<span id="cb11-216"><a href="#cb11-216" aria-label="204"></a></span>
-<span id="cb11-217"><a href="#cb11-217" aria-label="205"></a>The parallel computing in AI is usually called distributed training.</span>
-<span id="cb11-218"><a href="#cb11-218" aria-label="206"></a></span>
-<span id="cb11-219"><a href="#cb11-219" aria-label="207"></a>Distributed training is the process of training I models across multiple GPUs</span>
-<span id="cb11-220"><a href="#cb11-220" aria-label="208"></a>or other accelerators, with the goal of speeding up the training process and</span>
-<span id="cb11-221"><a href="#cb11-221" aria-label="209"></a>enabling the training of larger models on larger datasets.</span>
-<span id="cb11-222"><a href="#cb11-222" aria-label="210"></a></span>
-<span id="cb11-223"><a href="#cb11-223" aria-label="211"></a>There are two ways of parallelization in distributed training.</span>
-<span id="cb11-224"><a href="#cb11-224" aria-label="212"></a></span>
-<span id="cb11-225"><a href="#cb11-225" aria-label="213"></a><span class="ss">* </span>**Data parallelism**:</span>
-<span id="cb11-226"><a href="#cb11-226" aria-label="214"></a><span class="ss">    - </span>Each worker (GPU) has a complete set of model</span>
-<span id="cb11-227"><a href="#cb11-227" aria-label="215"></a><span class="ss">    - </span>different workers work on different subsets of data. </span>
-<span id="cb11-228"><a href="#cb11-228" aria-label="216"></a><span class="ss">* </span>**Model parallelism** </span>
-<span id="cb11-229"><a href="#cb11-229" aria-label="217"></a><span class="ss">    - </span>The model is splitted into different parts and stored on different workers</span>
-<span id="cb11-230"><a href="#cb11-230" aria-label="218"></a><span class="ss">    - </span>Different workers work on computation involved in different parts of the model</span>
-<span id="cb11-231"><a href="#cb11-231" aria-label="219"></a></span>
-<span id="cb11-232"><a href="#cb11-232" aria-label="220"></a>::: {#fig-parallel-computing}</span>
-<span id="cb11-233"><a href="#cb11-233" aria-label="221"></a></span>
-<span id="cb11-234"><a href="#cb11-234" aria-label="222"></a><span class="al">![](../figures/parallel_computing.png)</span></span>
-<span id="cb11-235"><a href="#cb11-235" aria-label="223"></a></span>
-<span id="cb11-236"><a href="#cb11-236" aria-label="224"></a>PI</span>
-<span id="cb11-237"><a href="#cb11-237" aria-label="225"></a>:::</span>
-<span id="cb11-238"><a href="#cb11-238" aria-label="226"></a></span>
-<span id="cb11-239"><a href="#cb11-239" aria-label="227"></a>:::{#fig-3dllm}</span>
-<span id="cb11-240"><a href="#cb11-240" aria-label="228"></a></span>
-<span id="cb11-241"><a href="#cb11-241" aria-label="229"></a><span class="al">![](../figures/3DLLM.png)</span></span>
-<span id="cb11-242"><a href="#cb11-242" aria-label="230"></a></span>
-<span id="cb11-243"><a href="#cb11-243" aria-label="231"></a>3D LLM</span>
-<span id="cb11-244"><a href="#cb11-244" aria-label="232"></a>:::</span>
+<span id="cb11-41"><a href="#cb11-41" aria-label="41"></a>::: {.callout-important title="Parallel Computing" collapse="false"}</span>
+<span id="cb11-42"><a href="#cb11-42" aria-label="42"></a></span>
+<span id="cb11-43"><a href="#cb11-43" aria-label="43"></a>**Parallel computing** refers to the process of breaking down larger problems</span>
+<span id="cb11-44"><a href="#cb11-44" aria-label="44"></a>into smaller, independent, often similar parts that can be executed</span>
+<span id="cb11-45"><a href="#cb11-45" aria-label="45"></a>simultaneously by multiple processors communicating via network or shared</span>
+<span id="cb11-46"><a href="#cb11-46" aria-label="46"></a>memory, the results of which are combined upon completion as part of an</span>
+<span id="cb11-47"><a href="#cb11-47" aria-label="47"></a>overall algorithm.</span>
+<span id="cb11-48"><a href="#cb11-48" aria-label="48"></a></span>
+<span id="cb11-49"><a href="#cb11-49" aria-label="49"></a>:::</span>
+<span id="cb11-50"><a href="#cb11-50" aria-label="50"></a></span>
+<span id="cb11-51"><a href="#cb11-51" aria-label="51"></a><span class="fu">## Example: Estimate $\pi$</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-label="52"></a></span>
+<span id="cb11-53"><a href="#cb11-53" aria-label="53"></a>We can calculate the value of $\pi$ using a MPI parallelized version of the</span>
+<span id="cb11-54"><a href="#cb11-54" aria-label="54"></a>Monte Carlo method.</span>
+<span id="cb11-55"><a href="#cb11-55" aria-label="55"></a>The basic idea is to estimate $\pi$ by randomly sampling points within a square</span>
+<span id="cb11-56"><a href="#cb11-56" aria-label="56"></a>and determining how many fall inside a quarter circle inscribed within that</span>
+<span id="cb11-57"><a href="#cb11-57" aria-label="57"></a>square.</span>
+<span id="cb11-58"><a href="#cb11-58" aria-label="58"></a></span>
+<span id="cb11-59"><a href="#cb11-59" aria-label="59"></a><span class="al">![$\pi$](https://www.101computing.net/wp/wp-content/uploads/estimating-pi-monte-carlo-method.png)</span></span>
+<span id="cb11-60"><a href="#cb11-60" aria-label="60"></a></span>
+<span id="cb11-61"><a href="#cb11-61" aria-label="61"></a>The ratio between the area of the circle and the square is</span>
+<span id="cb11-62"><a href="#cb11-62" aria-label="62"></a></span>
+<span id="cb11-63"><a href="#cb11-63" aria-label="63"></a>$$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$</span>
+<span id="cb11-64"><a href="#cb11-64" aria-label="64"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-label="65"></a>Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total}}$</span>
+<span id="cb11-66"><a href="#cb11-66" aria-label="66"></a></span>
+<span id="cb11-67"><a href="#cb11-67" aria-label="67"></a></span>
+<span id="cb11-70"><a href="#cb11-70" aria-label="68"></a><span class="in">```{python}</span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-label="69"></a><span class="im">import</span> ambivalent</span>
+<span id="cb11-72"><a href="#cb11-72" aria-label="70"></a></span>
+<span id="cb11-73"><a href="#cb11-73" aria-label="71"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-74"><a href="#cb11-74" aria-label="72"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb11-75"><a href="#cb11-75" aria-label="73"></a></span>
+<span id="cb11-76"><a href="#cb11-76" aria-label="74"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
+<span id="cb11-77"><a href="#cb11-77" aria-label="75"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb11-78"><a href="#cb11-78" aria-label="76"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
+<span id="cb11-79"><a href="#cb11-79" aria-label="77"></a></span>
+<span id="cb11-80"><a href="#cb11-80" aria-label="78"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, clear_output</span>
+<span id="cb11-81"><a href="#cb11-81" aria-label="79"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-82"><a href="#cb11-82" aria-label="80"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-83"><a href="#cb11-83" aria-label="81"></a><span class="im">import</span> random</span>
+<span id="cb11-84"><a href="#cb11-84" aria-label="82"></a><span class="im">import</span> time</span>
+<span id="cb11-85"><a href="#cb11-85" aria-label="83"></a></span>
+<span id="cb11-86"><a href="#cb11-86" aria-label="84"></a><span class="im">import</span> ezpz</span>
+<span id="cb11-87"><a href="#cb11-87" aria-label="85"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-label="86"></a></span>
+<span id="cb11-89"><a href="#cb11-89" aria-label="87"></a></span>
+<span id="cb11-90"><a href="#cb11-90" aria-label="88"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb11-91"><a href="#cb11-91" aria-label="89"></a><span class="co">#ax = fig.add_subplot(111)</span></span>
+<span id="cb11-92"><a href="#cb11-92" aria-label="90"></a>circle <span class="op">=</span> plt.Circle(( <span class="fl">0.</span> , <span class="fl">0.</span> ), <span class="fl">0.5</span> )</span>
+<span id="cb11-93"><a href="#cb11-93" aria-label="91"></a>plt.xlim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-94"><a href="#cb11-94" aria-label="92"></a>plt.ylim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-95"><a href="#cb11-95" aria-label="93"></a>ax.add_patch(circle)</span>
+<span id="cb11-96"><a href="#cb11-96" aria-label="94"></a>ax.set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb11-97"><a href="#cb11-97" aria-label="95"></a>N <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb11-98"><a href="#cb11-98" aria-label="96"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-label="97"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb11-100"><a href="#cb11-100" aria-label="98"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb11-101"><a href="#cb11-101" aria-label="99"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-102"><a href="#cb11-102" aria-label="100"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-103"><a href="#cb11-103" aria-label="101"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
+<span id="cb11-104"><a href="#cb11-104" aria-label="102"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-label="103"></a>        plt.plot([x], [y], <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'r'</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb11-106"><a href="#cb11-106" aria-label="104"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-107"><a href="#cb11-107" aria-label="105"></a>        plt.plot([x], [y], <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'b'</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb11-108"><a href="#cb11-108" aria-label="106"></a>    display(fig)</span>
+<span id="cb11-109"><a href="#cb11-109" aria-label="107"></a>    plt.xlabel(<span class="st">"$</span><span class="er">\</span><span class="st">pi$ = </span><span class="sc">%3.4f</span><span class="st"> </span><span class="ch">\n</span><span class="st"> N_in / N_total = </span><span class="sc">%5d</span><span class="st">/</span><span class="sc">%5d</span><span class="st">"</span> <span class="op">%</span>(Nin<span class="op">*</span><span class="fl">4.0</span><span class="op">/</span>i, Nin, i))</span>
+<span id="cb11-110"><a href="#cb11-110" aria-label="108"></a>    clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-111"><a href="#cb11-111" aria-label="109"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-label="110"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
+<span id="cb11-113"><a href="#cb11-113" aria-label="111"></a>t1 <span class="op">=</span> time.time()</span>
+<span id="cb11-114"><a href="#cb11-114" aria-label="112"></a><span class="bu">print</span>(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-115"><a href="#cb11-115" aria-label="113"></a><span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
+<span id="cb11-116"><a href="#cb11-116" aria-label="114"></a><span class="in">```</span></span>
+<span id="cb11-117"><a href="#cb11-117" aria-label="115"></a></span>
+<span id="cb11-118"><a href="#cb11-118" aria-label="116"></a><span class="fu">### MPI example</span></span>
+<span id="cb11-119"><a href="#cb11-119" aria-label="117"></a></span>
+<span id="cb11-120"><a href="#cb11-120" aria-label="118"></a></span>
+<span id="cb11-121"><a href="#cb11-121" aria-label="119"></a><span class="pp">|</span> Nodes  <span class="pp">|</span> PyTorch-2.5 <span class="pp">|</span> PyTorch-2.7 <span class="pp">|</span> PyTorch-2.8 <span class="pp">|</span></span>
+<span id="cb11-122"><a href="#cb11-122" aria-label="120"></a><span class="pp">| :----:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">|</span></span>
+<span id="cb11-123"><a href="#cb11-123" aria-label="121"></a><span class="pp">|</span> N1xR12 <span class="pp">|</span>    17.39    <span class="pp">|</span>    31.01    <span class="pp">|</span>    33.09    <span class="pp">|</span></span>
+<span id="cb11-124"><a href="#cb11-124" aria-label="122"></a><span class="pp">|</span> N2xR12 <span class="pp">|</span>    3.81     <span class="pp">|</span>    32.71    <span class="pp">|</span>    33.26    <span class="pp">|</span></span>
+<span id="cb11-125"><a href="#cb11-125" aria-label="123"></a></span>
+<span id="cb11-126"><a href="#cb11-126" aria-label="124"></a></span>
+<span id="cb11-129"><a href="#cb11-129" aria-label="125"></a><span class="in">```{python}</span></span>
+<span id="cb11-130"><a href="#cb11-130" aria-label="126"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
+<span id="cb11-131"><a href="#cb11-131" aria-label="127"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-132"><a href="#cb11-132" aria-label="128"></a><span class="im">import</span> random</span>
+<span id="cb11-133"><a href="#cb11-133" aria-label="129"></a><span class="im">import</span> time</span>
+<span id="cb11-134"><a href="#cb11-134" aria-label="130"></a>comm <span class="op">=</span> MPI.COMM_WORLD</span>
+<span id="cb11-135"><a href="#cb11-135" aria-label="131"></a></span>
+<span id="cb11-136"><a href="#cb11-136" aria-label="132"></a>N <span class="op">=</span> <span class="dv">5000000</span></span>
+<span id="cb11-137"><a href="#cb11-137" aria-label="133"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-138"><a href="#cb11-138" aria-label="134"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb11-139"><a href="#cb11-139" aria-label="135"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(comm.rank, N, comm.size):</span>
+<span id="cb11-140"><a href="#cb11-140" aria-label="136"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-141"><a href="#cb11-141" aria-label="137"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-142"><a href="#cb11-142" aria-label="138"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
+<span id="cb11-143"><a href="#cb11-143" aria-label="139"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb11-144"><a href="#cb11-144" aria-label="140"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
+<span id="cb11-145"><a href="#cb11-145" aria-label="141"></a>res_tot <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
+<span id="cb11-146"><a href="#cb11-146" aria-label="142"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
+<span id="cb11-147"><a href="#cb11-147" aria-label="143"></a>t1 <span class="op">=</span> time.time()</span>
+<span id="cb11-148"><a href="#cb11-148" aria-label="144"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb11-149"><a href="#cb11-149" aria-label="145"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
+<span id="cb11-150"><a href="#cb11-150" aria-label="146"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
+<span id="cb11-151"><a href="#cb11-151" aria-label="147"></a><span class="in">```</span></span>
+<span id="cb11-152"><a href="#cb11-152" aria-label="148"></a></span>
+<span id="cb11-153"><a href="#cb11-153" aria-label="149"></a><span class="fu">### Running $\pi$ example on Google Colab</span></span>
+<span id="cb11-154"><a href="#cb11-154" aria-label="150"></a></span>
+<span id="cb11-155"><a href="#cb11-155" aria-label="151"></a><span class="ss">* </span>Go to https://colab.research.google.com/, sign in or sign up</span>
+<span id="cb11-156"><a href="#cb11-156" aria-label="152"></a><span class="ss">* </span>"File"-&gt; "open notebook"</span>
+<span id="cb11-157"><a href="#cb11-157" aria-label="153"></a><span class="ss">* </span>Choose <span class="in">`01_intro_AI_on_Supercomputer/00_mpi.ipynb`</span> from the list</span>
+<span id="cb11-158"><a href="#cb11-158" aria-label="154"></a>  <span class="al">![Google Colab](../figures/colab.png)</span></span>
+<span id="cb11-159"><a href="#cb11-159" aria-label="155"></a></span>
+<span id="cb11-162"><a href="#cb11-162" aria-label="156"></a><span class="in">```{python}</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-label="157"></a><span class="co">#| output: false</span></span>
+<span id="cb11-164"><a href="#cb11-164" aria-label="158"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
+<span id="cb11-165"><a href="#cb11-165" aria-label="159"></a><span class="op">!</span> pip install mpi4py</span>
+<span id="cb11-166"><a href="#cb11-166" aria-label="160"></a><span class="in">```</span></span>
+<span id="cb11-167"><a href="#cb11-167" aria-label="161"></a></span>
+<span id="cb11-170"><a href="#cb11-170" aria-label="162"></a><span class="in">```{python}</span></span>
+<span id="cb11-171"><a href="#cb11-171" aria-label="163"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span>
+<span id="cb11-172"><a href="#cb11-172" aria-label="164"></a><span class="in">```</span></span>
+<span id="cb11-173"><a href="#cb11-173" aria-label="165"></a></span>
+<span id="cb11-176"><a href="#cb11-176" aria-label="166"></a><span class="in">```{python}</span></span>
+<span id="cb11-177"><a href="#cb11-177" aria-label="167"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
+<span id="cb11-178"><a href="#cb11-178" aria-label="168"></a><span class="in">```</span></span>
+<span id="cb11-179"><a href="#cb11-179" aria-label="169"></a></span>
+<span id="cb11-182"><a href="#cb11-182" aria-label="170"></a><span class="in">```{python}</span></span>
+<span id="cb11-183"><a href="#cb11-183" aria-label="171"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
+<span id="cb11-184"><a href="#cb11-184" aria-label="172"></a><span class="in">```</span></span>
+<span id="cb11-185"><a href="#cb11-185" aria-label="173"></a></span>
+<span id="cb11-186"><a href="#cb11-186" aria-label="174"></a><span class="fu">### Running $\pi$ on Polaris</span></span>
+<span id="cb11-187"><a href="#cb11-187" aria-label="175"></a></span>
+<span id="cb11-188"><a href="#cb11-188" aria-label="176"></a><span class="in">```bash</span></span>
+<span id="cb11-189"><a href="#cb11-189" aria-label="177"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
+<span id="cb11-190"><a href="#cb11-190" aria-label="178"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
+<span id="cb11-191"><a href="#cb11-191" aria-label="179"></a><span class="co"># choose debug queue outside of the class</span></span>
+<span id="cb11-192"><a href="#cb11-192" aria-label="180"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
+<span id="cb11-193"><a href="#cb11-193" aria-label="181"></a></span>
+<span id="cb11-194"><a href="#cb11-194" aria-label="182"></a><span class="ex">module</span> load conda/2023-10-04</span>
+<span id="cb11-195"><a href="#cb11-195" aria-label="183"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
+<span id="cb11-196"><a href="#cb11-196" aria-label="184"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
+<span id="cb11-197"><a href="#cb11-197" aria-label="185"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
+<span id="cb11-198"><a href="#cb11-198" aria-label="186"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
+<span id="cb11-199"><a href="#cb11-199" aria-label="187"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
+<span id="cb11-200"><a href="#cb11-200" aria-label="188"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
+<span id="cb11-201"><a href="#cb11-201" aria-label="189"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span>
+<span id="cb11-202"><a href="#cb11-202" aria-label="190"></a><span class="in">```</span></span>
+<span id="cb11-203"><a href="#cb11-203" aria-label="191"></a></span>
+<span id="cb11-204"><a href="#cb11-204" aria-label="192"></a><span class="fu">## Where this goes next</span></span>
+<span id="cb11-205"><a href="#cb11-205" aria-label="193"></a></span>
+<span id="cb11-206"><a href="#cb11-206" aria-label="194"></a>The same idea of splitting work across many processes — which we just used with</span>
+<span id="cb11-207"><a href="#cb11-207" aria-label="195"></a>MPI to estimate $\pi$ — is exactly what powers **distributed training** of</span>
+<span id="cb11-208"><a href="#cb11-208" aria-label="196"></a>modern AI models (data parallelism, model parallelism, and more).</span>
+<span id="cb11-209"><a href="#cb11-209" aria-label="197"></a></span>
+<span id="cb11-210"><a href="#cb11-210" aria-label="198"></a>::: {.callout-tip title="➡️ Next steps"}</span>
+<span id="cb11-211"><a href="#cb11-211" aria-label="199"></a>We cover distributed and parallel training in depth in</span>
+<span id="cb11-212"><a href="#cb11-212" aria-label="200"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/5-distributed-training/index.qmd)</span></span>
+<span id="cb11-213"><a href="#cb11-213" aria-label="201"></a>(DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it</span>
+<span id="cb11-214"><a href="#cb11-214" aria-label="202"></a>to LLMs in <span class="co">[</span><span class="ot">**\[02\] Parallel Training**</span><span class="co">](../../02-llms/06-parallel-training/index.qmd)</span>.</span>
+<span id="cb11-215"><a href="#cb11-215" aria-label="203"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

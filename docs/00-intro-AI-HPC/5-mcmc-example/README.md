@@ -9,7 +9,7 @@ Sam Foreman, Huihuo Zheng
   - [Running $\pi$ example on Google
     Colab](#running-pi-example-on-google-colab)
   - [Running $\pi$ on Polaris](#running-pi-on-polaris)
-- [Parallel computing in AI](#parallel-computing-in-ai)
+- [Where this goes next](#where-this-goes-next)
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)
@@ -187,37 +187,20 @@ mpirun -np 4 python mpi_pi.py   # 3.1425632   2.093632459640503  s
 mpirun -np 8 python mpi_pi.py   # 3.1411632   1.0610620975494385 s
 ```
 
-## Parallel computing in AI
+## Where this goes next
 
-The parallel computing in AI is usually called distributed training.
+The same idea of splitting work across many processes — which we just
+used with MPI to estimate $\pi$ — is exactly what powers **distributed
+training** of modern AI models (data parallelism, model parallelism, and
+more).
 
-Distributed training is the process of training I models across multiple
-GPUs or other accelerators, with the goal of speeding up the training
-process and enabling the training of larger models on larger datasets.
-
-There are two ways of parallelization in distributed training.
-
-- **Data parallelism**:
-  - Each worker (GPU) has a complete set of model
-  - different workers work on different subsets of data.
-- **Model parallelism**
-  - The model is splitted into different parts and stored on different
-    workers
-  - Different workers work on computation involved in different parts of
-    the model
-
-<div id="fig-parallel-computing">
-
-![](../figures/parallel_computing.png)
-
-Figure 1: PI
-
-</div>
-
-<div id="fig-3dllm">
-
-![](../figures/3DLLM.png)
-
-Figure 2: 3D LLM
-
-</div>
+> [!TIP]
+>
+> ### ➡️ Next steps
+>
+> We cover distributed and parallel training in depth in [**\[01\]
+> Distributed
+> Training**](../../01-neural-networks/5-distributed-training/index.qmd)
+> (DDP, FSDP, tensor/pipeline parallelism, collective communication) and
+> apply it to LLMs in [**\[02\] Parallel
+> Training**](../../02-llms/06-parallel-training/index.qmd).

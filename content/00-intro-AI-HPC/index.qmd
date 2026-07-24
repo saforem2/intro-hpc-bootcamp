@@ -26,7 +26,6 @@ format:
     - 📗 [\[5\] MCMC Example](./5-mcmc-example/)
     - 📗 [\[6\] Linear Regression](./6-linear-regression/)
     - 📗 [\[7\] Statistical Learning](./7-statistical-learning/)
-    - 📗 [\[8\] Clustering](./8-clustering/) 
 
 
 
