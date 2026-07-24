@@ -18,6 +18,8 @@ format:
     toc: true
 ---
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/4-distributed-training/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/4-distributed-training/index.qmd)
+
 ## 🐣 Getting Started
 
 ### 👀 Overview
@@ -510,6 +512,43 @@ class x3, yellow
 All-Reduce operation: each rank receives the reduction of input values across ranks.
 :::
 
+::: {.callout-tip title="▶️ Try it: all-reduce in a few lines" collapse="false"}
+You don't need a GPU cluster to *understand* an all-reduce. It's just: **sum a
+value across all workers, then give everyone the result.** In real distributed
+training this is what averages the gradients each rank computed on its own shard
+of the batch. Here we simulate 4 ranks on the CPU with NumPy:
+
+```{python}
+import numpy as np
+
+# Pretend 4 ranks each computed a gradient from their local mini-batch.
+world_size = 4
+rng = np.random.default_rng(0)
+local_grads = [rng.normal(size=3) for _ in range(world_size)]
+for r, g in enumerate(local_grads):
+    print(f"rank {r} local grad: {np.round(g, 3)}")
+
+# --- all-reduce (SUM): every rank ends up with the same summed vector ---
+summed = np.sum(local_grads, axis=0)          # the "reduce" step
+reduced = [summed.copy() for _ in range(world_size)]  # the "broadcast back" step
+
+# DDP averages, so divide by world_size to get the mean gradient
+mean_grad = reduced[0] / world_size
+print(f"\nafter all-reduce every rank holds: {np.round(reduced[0], 3)}")
+print(f"averaged gradient (what DDP applies): {np.round(mean_grad, 3)}")
+
+# sanity check: averaging the locals directly gives the same answer
+assert np.allclose(mean_grad, np.mean(local_grads, axis=0))
+print("✓ all ranks now agree on the gradient")
+```
+
+That "everyone agrees" property is exactly why DDP keeps model replicas in sync:
+after each backward pass, one all-reduce makes every GPU apply the *same*
+averaged gradient. On real hardware this is a single call —
+`dist.all_reduce(grad)` (PyTorch) or `comm.Allreduce(...)` (`mpi4py`) — run by
+NCCL/oneCCL over the fast interconnect.
+:::
+
 ### Reduce
 
 - Perform a _reduction_ on data across ranks, send to individual
@@ -856,6 +895,11 @@ Keeping the communication to computation ratio small is important for effective 
   shards (distributes) these across data-parallel workers
   - can optionally offload the sharded model params to CPU
 - [Introducing PyTorch Fully Sharded Data Parallel (FSDP) API | PyTorch](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/)
+
+![**DDP vs. FSDP.** In DDP every rank holds a *full copy* of the model, gradients,
+and optimizer states — simple, but memory scales with model size. FSDP (ZeRO-3)
+**shards** all three across ranks and reconstructs each layer's params on the fly
+with `all-gather`, trading extra communication for a large memory saving.](./assets/ddp-vs-fsdp.svg){#fig-ddp-vs-fsdp .column-body-outset}
 
 ::: {#fig-fsdp}
 

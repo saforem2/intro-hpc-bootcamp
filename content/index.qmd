@@ -1,7 +1,7 @@
 ---
 # toc: true
 title: "Intro to HPC Bootcamp"
-description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
+description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training large language models at scale."
 categories:
   - ai4science
   - hpc
@@ -15,11 +15,11 @@ citation:
    url: https://saforem2.github.io/intro-hpc-bootcamp
 open-graph:
   title: "Intro to HPC Bootcamp"
-  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
+  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."
   # image: "./assets/thumbnail.png"
 twitter-card:
   title: "Intro to HPC Bootcamp"
-  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp Project"
+  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."
   site: "saforem2"
   creator: "saforem2"
 sidebar: sidebar
@@ -95,6 +95,44 @@ sidebar: sidebar
 
 ---
 
+## 👋 Welcome
+
+This is a **hands-on introduction to doing AI on supercomputers**. It starts from
+the ground up — the shell, Python, and how HPC systems work — and builds all the
+way to **training large language models across many GPUs**. Almost every page is a
+runnable notebook: you can read it here, open it in Google Colab, or run it on an
+HPC system.
+
+::: {.callout-tip title="🎯 Who this is for" collapse="false"}
+Students and researchers who are **new to AI, HPC, or both**. You don't need prior
+machine-learning experience. Comfort with basic programming helps, but the first
+few pages ([Using Python](./00-intro-AI-HPC/3-python/),
+[Working with Data](./00-intro-AI-HPC/4-data/)) bring you up to speed.
+:::
+
+### 🚦 Start here
+
+Work through the four parts in order — each builds on the last:
+
+1. **[\[00\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute systems, the
+   scheduler, Python, and data; then your first models (MCMC, linear regression,
+   clustering). **New? [Start with Compute Systems ➡️](./00-intro-AI-HPC/0-compute-systems/)**
+2. **[\[01\] Neural Networks](01-neural-networks/)** — from a single neuron to
+   CNNs, representation learning, and distributed training.
+3. **[\[02\] Large Language Models](02-llms/)** — how LLMs work, then build and
+   train a GPT from scratch and learn to evaluate it.
+4. **[\[03\] Advanced / Large-Scale LLMs](03-advanced-llms/)** — MoE, pretraining
+   at scale, fault tolerance, post-training, and RL for reasoning.
+
+::: {.callout-note title="🖥️ Where the code runs" collapse="false"}
+The lighter notebooks run anywhere (including a laptop or **Google Colab** — look
+for the [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com)
+badge at the top of each page). The large-scale training examples are meant for an
+HPC system — the bootcamp uses **Jupyter on [NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**
+(project `m4388`), but the commands are scheduler-agnostic and work on ALCF PBS
+systems too. See [running instructions](#running-instructions) below.
+:::
+
 ## 📂 Project Contents
 
 - 🏡 [Intro to {AI, HPC} for Science/](./)
@@ -132,7 +170,9 @@ sidebar: sidebar
 
     <!-- - 📂 [03-ai-for-science/](./03-ai-for-science/) -->
 
-<details closed><summary><h2> 🏔️ Instructions for Running @ NERSC</h2></summary>
+## 🏔️ Running instructions {#running-instructions}
+
+<details closed><summary><h3> Instructions for Running @ NERSC</h3></summary>
 
 1. Start terminal
 1. Create symlink:
@@ -165,12 +205,45 @@ sidebar: sidebar
 
 </details>
 
-## 🌐 Distributed Training Example
+## 🌐 Distributed Training Example {#distributed-training-example}
+
+Ready to train a real model across multiple GPUs? The full end-to-end
+walkthrough — request an interactive job, set up the environment, and launch a
+multi-node run with [`ezpz launch`](https://github.com/saforem2/ezpz) — lives on
+the dedicated pages, complete with annotated output:
+
+- 🧠 **[\[01.4\] Distributed Training](./01-neural-networks/4-distributed-training/)** —
+  the concepts (DDP, FSDP, collective ops, 3D parallelism) *and* a complete
+  Perlmutter run you can reproduce, including a full annotated training log.
+- 🚀 **[\[02.1\] Parallel Training](./02-llms/1-parallel-training/)** — the same
+  ideas applied to pretraining a GPT with [`wordplay`](https://github.com/saforem2/wordplay).
+
+::: {.callout-tip title="TL;DR — launch a run" collapse="true"}
+On an HPC system with an interactive allocation:
+
+```bash
+# 1. set up the environment (system-agnostic)
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+uv pip install "git+https://github.com/saforem2/ezpz"
+
+# 2. verify the distributed setup
+ezpz test
+
+# 3. launch training (auto-detects SLURM srun / PBS mpiexec)
+ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
+```
+:::
+
+<!-- moved: the full step-by-step + annotated training log now lives in
+     01-neural-networks/4-distributed-training (canonical), to keep the home
+     page focused on orientation. -->
+
+<details closed><summary><h3>Full step-by-step (Perlmutter)</h3></summary>
 
 1. Login to Perlmutter:
 
     ```bash
-    ssh <user>@perlmutter.nersc.gov 
+    ssh <user>@perlmutter.nersc.gov
     [ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388
     ```
 
@@ -622,6 +695,10 @@ sidebar: sidebar
         I but stain time acfficiancel\'d cament, and all
         nom officious laptimes famits of finge, have
         ```
+
+    </details>
+
+</details>
 
 
 ```{python}

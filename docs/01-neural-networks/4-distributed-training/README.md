@@ -46,6 +46,9 @@ Sam Foreman
 - [🦙 Scaling up to Large Language
   Models](#llama-scaling-up-to-large-language-models)
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/4-distributed-training/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/4-distributed-training/index.qmd)
+
 ## 🐣 Getting Started
 
 ### 👀 Overview
@@ -561,6 +564,56 @@ input values across ranks.
 
 </div>
 
+> [!TIP]
+>
+> ### ▶️ Try it: all-reduce in a few lines
+>
+> You don’t need a GPU cluster to *understand* an all-reduce. It’s just:
+> **sum a value across all workers, then give everyone the result.** In
+> real distributed training this is what averages the gradients each
+> rank computed on its own shard of the batch. Here we simulate 4 ranks
+> on the CPU with NumPy:
+>
+> ``` python
+> import numpy as np
+>
+> # Pretend 4 ranks each computed a gradient from their local mini-batch.
+> world_size = 4
+> rng = np.random.default_rng(0)
+> local_grads = [rng.normal(size=3) for _ in range(world_size)]
+> for r, g in enumerate(local_grads):
+>     print(f"rank {r} local grad: {np.round(g, 3)}")
+>
+> # --- all-reduce (SUM): every rank ends up with the same summed vector ---
+> summed = np.sum(local_grads, axis=0)          # the "reduce" step
+> reduced = [summed.copy() for _ in range(world_size)]  # the "broadcast back" step
+>
+> # DDP averages, so divide by world_size to get the mean gradient
+> mean_grad = reduced[0] / world_size
+> print(f"\nafter all-reduce every rank holds: {np.round(reduced[0], 3)}")
+> print(f"averaged gradient (what DDP applies): {np.round(mean_grad, 3)}")
+>
+> # sanity check: averaging the locals directly gives the same answer
+> assert np.allclose(mean_grad, np.mean(local_grads, axis=0))
+> print("✓ all ranks now agree on the gradient")
+> ```
+>
+>     rank 0 local grad: [ 0.126 -0.132  0.64 ]
+>     rank 1 local grad: [ 0.105 -0.536  0.362]
+>     rank 2 local grad: [ 1.304  0.947 -0.704]
+>     rank 3 local grad: [-1.265 -0.623  0.041]
+>
+>     after all-reduce every rank holds: [ 0.269 -0.344  0.34 ]
+>     averaged gradient (what DDP applies): [ 0.067 -0.086  0.085]
+>     ✓ all ranks now agree on the gradient
+>
+> That “everyone agrees” property is exactly why DDP keeps model
+> replicas in sync: after each backward pass, one all-reduce makes every
+> GPU apply the *same* averaged gradient. On real hardware this is a
+> single call — `dist.all_reduce(grad)` (PyTorch) or
+> `comm.Allreduce(...)` (`mpi4py`) — run by NCCL/oneCCL over the fast
+> interconnect.
+
 ### Reduce
 
 - Perform a *reduction* on data across ranks, send to individual
@@ -937,6 +990,18 @@ Figure 14: [DeepSpeed](deepspeed.ai) +
 - [Introducing PyTorch Fully Sharded Data Parallel (FSDP) API \|
   PyTorch](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/)
 
+<div id="fig-ddp-vs-fsdp">
+
+<img src="./assets/ddp-vs-fsdp.svg" class="column-body-outset" />
+
+Figure 15: **DDP vs. FSDP.** In DDP every rank holds a *full copy* of
+the model, gradients, and optimizer states — simple, but memory scales
+with model size. FSDP (ZeRO-3) **shards** all three across ranks and
+reconstructs each layer’s params on the fly with `all-gather`, trading
+extra communication for a large memory saving.
+
+</div>
+
 <div id="fig-fsdp">
 
 ``` mermaid
@@ -961,7 +1026,7 @@ class rs blue
 class upd green
 ```
 
-Figure 15: FSDP workflow: parameters live **sharded** across ranks; each
+Figure 16: FSDP workflow: parameters live **sharded** across ranks; each
 layer is temporarily reconstructed via `all-gather` for compute, then
 gradients are `reduce-scatter`ed back to shards. Based on the [PyTorch
 FSDP
@@ -1045,7 +1110,7 @@ class a1, blue
 class b1, yellow
 ```
 
-Figure 16: Pipeline Parallelism
+Figure 17: Pipeline Parallelism
 
 </div>
 
@@ -1112,7 +1177,7 @@ flowchart LR
   t2("`x₂`") --> X2
 ```
 
-Figure 19
+Figure 20
 
 </div>
 
@@ -1134,7 +1199,7 @@ Figure 19
 
 ![](assets/parallelism-tp-parallel_gemm.png)
 
-Figure 20: Tensor Parallel GEMM. This information is based on (the much
+Figure 21: Tensor Parallel GEMM. This information is based on (the much
 more in-depth) [TP
 Overview](https://github.com/huggingface/transformers/issues/10321#issuecomment-783543530)
 by [@anton-l](https://github.com/anton-l)
@@ -1149,7 +1214,7 @@ by [@anton-l](https://github.com/anton-l)
 
 ![](assets/parallelism-deepspeed-3d.png)
 
-Figure 21: Figure taken from [3D parallelism: Scaling to
+Figure 22: Figure taken from [3D parallelism: Scaling to
 trillion-parameter
 models](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
 
@@ -1243,7 +1308,7 @@ text generation) see:
 
 ![](./assets/emergent-abilities.gif)
 
-Figure 22: See Wei et al. (2022), Yao et al. (2023)
+Figure 23: See Wei et al. (2022), Yao et al. (2023)
 
 </div>
 
@@ -1275,7 +1340,7 @@ Figure 22: See Wei et al. (2022), Yao et al. (2023)
 
 ![](./assets/gpt3-training-step-back-prop.gif)
 
-Figure 23: **Pre-training**: Virtually *all of the compute* used during
+Figure 24: **Pre-training**: Virtually *all of the compute* used during
 pre-training.
 
 </div>
@@ -1306,7 +1371,7 @@ pre-training.
 
 ![](./assets/gpt3-fine-tuning.gif)
 
-Figure 24: **Fine-tuning**: Fine-tuning actually updates the model’s
+Figure 25: **Fine-tuning**: Fine-tuning actually updates the model’s
 weights to make the model better at a certain task.
 
 </div>
@@ -1321,7 +1386,7 @@ weights to make the model better at a certain task.
 
 ![](./assets/hf_assisted_generation.mov)
 
-Figure 25: Language Model trained for causal language modeling.
+Figure 26: Language Model trained for causal language modeling.
 
 </div>
 
@@ -1331,7 +1396,7 @@ Figure 25: Language Model trained for causal language modeling.
 
 ![](./assets/hf_assisted_generation2.mov)
 
-Figure 26: Language Model trained for causal language modeling.
+Figure 27: Language Model trained for causal language modeling.
 
 </div>
 
@@ -1391,7 +1456,7 @@ Figure 26: Language Model trained for causal language modeling.
 
 <script src="https://asciinema.org/a/668460.js" id="asciicast-668460" async="true"></script>
 
-Figure 27: Example: using [🍋
+Figure 28: Example: using [🍋
 `ezpz test`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/examples/test.py)
 to train a small model using DDP
 
@@ -1403,7 +1468,7 @@ to train a small model using DDP
 
 ![](./assets/nanogpt.jpg)
 
-Figure 28: The simplest, fastest repository for training / finetuning
+Figure 29: The simplest, fastest repository for training / finetuning
 GPT based models. Figure from
 [karpathy/`nanoGPT`](https://github.com/karpathy/nanoGPT)
 
@@ -1751,7 +1816,7 @@ At lie my lord with the me an arms be a s
 
 <script src="https://asciinema.org/a/668462.js" id="asciicast-668462" async="true"></script>
 
-Figure 29: Training a LLM to talk like Shakespeare using
+Figure 30: Training a LLM to talk like Shakespeare using
 [saforem2/`wordplay` 🎮💬](https://github.com/saforem2/wordplay)
 
 </div>
