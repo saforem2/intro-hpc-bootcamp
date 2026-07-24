@@ -23,3 +23,6 @@ backup/
 
 # render strays moved here instead of deleting (see AskUserQuestion 2026-07-24)
 .render-strays/
+
+# playwright browser artifacts
+.playwright-mcp/
