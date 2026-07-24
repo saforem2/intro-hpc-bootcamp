@@ -717,7 +717,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/2-fault-tolerant-training/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/2-fault-tolerant-training/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <section id="failures-are-the-norm-not-the-exception" class="level2">
 <h2 class="anchored" data-anchor-id="failures-are-the-norm-not-the-exception">👋 Failures are the norm, not the exception</h2>
-<p>In <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a> you learned that a collective op only completes when <strong>every</strong> rank participates — one silent straggler and the whole job waits <em>indefinitely</em>. That fragility is exactly the problem at scale.</p>
+<p>In <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a> you learned that a collective op only completes when <strong>every</strong> rank participates — one silent straggler and the whole job waits <em>indefinitely</em>. That fragility is exactly the problem at scale.</p>
 <p>Do the arithmetic. A single GPU has a mean time between failures (MTBF) measured in years. But a job on <strong>thousands</strong> of GPUs running for <strong>weeks</strong> is a product of thousands of those probabilities — so the <em>job’s</em> MTBF collapses to <strong>hours</strong>. Meta reported <a href="https://arxiv.org/abs/2407.21783">hundreds of interruptions</a> during Llama-3 405B pretraining; roughly 78% were hardware issues, the majority GPU-related. At that scale a network link flapping, a straggler or dead node, a shared-filesystem stall, an ECC memory error, or an out-of-memory (OOM) spike is not an <em>if</em> — it <em>will</em> happen, probably several times before your run finishes.</p>
 <p>So “training at scale” is really two jobs: (1) make the model learn, and (2) make the run <strong>survive</strong> the failures that are guaranteed to interrupt it. This lab is about job #2. The contract is simple:</p>
 <blockquote class="blockquote">
@@ -932,7 +932,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 <section id="checkpointing-a-model-that-no-longer-fits-on-one-gpu" class="level3">
 <h3 class="anchored" data-anchor-id="checkpointing-a-model-that-no-longer-fits-on-one-gpu">Checkpointing a model that no longer fits on one GPU</h3>
-<p>The toy saved one <code>.pt</code> file from one process. But once you’re using FSDP or 3D parallelism (from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1]</a>), model + optimizer state is <strong>sharded across hundreds of ranks</strong> — funneling it all to rank 0 to write one giant file is slow and often OOMs.</p>
+<p>The toy saved one <code>.pt</code> file from one process. But once you’re using FSDP or 3D parallelism (from <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4]</a>), model + optimizer state is <strong>sharded across hundreds of ranks</strong> — funneling it all to rank 0 to write one giant file is slow and often OOMs.</p>
 <p>The answer is <strong>Distributed Checkpointing (DCP)</strong> — <a href="https://pytorch.org/docs/stable/distributed.checkpoint.html"><code>torch.distributed.checkpoint</code></a>. Each rank writes <strong>its own shard</strong> in parallel, and DCP can <strong>reshard on load</strong>, so a run saved on 512 GPUs can resume onto 256. <code>torchtitan</code> uses DCP by default (<code>--checkpoint.enable --checkpoint.interval N</code>, see <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html">[03.1] Pretraining at Scale</a>).</p>
 <div id="3ec7baa7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># Sketch of sharded save/load with PyTorch DCP (display-only).</span></span>
@@ -1645,7 +1645,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-18"><a href="#cb9-18" aria-label="18"></a></span>
 <span id="cb9-19"><a href="#cb9-19" aria-label="19"></a><span class="fu">## 👋 Failures are the norm, not the exception</span></span>
 <span id="cb9-20"><a href="#cb9-20" aria-label="20"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a>In <span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a>In <span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
 <span id="cb9-22"><a href="#cb9-22" aria-label="22"></a>you learned that a collective op only completes when **every** rank participates</span>
 <span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>— one silent straggler and the whole job waits *indefinitely*. That fragility is</span>
 <span id="cb9-24"><a href="#cb9-24" aria-label="24"></a>exactly the problem at scale.</span>
@@ -1841,7 +1841,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-216"><a href="#cb9-216" aria-label="214"></a><span class="fu">### Checkpointing a model that no longer fits on one GPU</span></span>
 <span id="cb9-217"><a href="#cb9-217" aria-label="215"></a></span>
 <span id="cb9-218"><a href="#cb9-218" aria-label="216"></a>The toy saved one <span class="in">`.pt`</span> file from one process. But once you're using FSDP or</span>
-<span id="cb9-219"><a href="#cb9-219" aria-label="217"></a>3D parallelism (from <span class="co">[</span><span class="ot">\[02.1\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>),</span>
+<span id="cb9-219"><a href="#cb9-219" aria-label="217"></a>3D parallelism (from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>),</span>
 <span id="cb9-220"><a href="#cb9-220" aria-label="218"></a>model + optimizer state is **sharded across hundreds of ranks** — funneling it</span>
 <span id="cb9-221"><a href="#cb9-221" aria-label="219"></a>all to rank 0 to write one giant file is slow and often OOMs.</span>
 <span id="cb9-222"><a href="#cb9-222" aria-label="220"></a></span>

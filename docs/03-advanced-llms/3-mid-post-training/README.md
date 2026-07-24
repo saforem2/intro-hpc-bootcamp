@@ -31,11 +31,11 @@ Sam Foreman
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
 
 So far you have seen how a model is *pretrained* from scratch (labs
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[02.3\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
-and how that pretraining is *scaled* across GPUs and nodes ([\[02.1\]
+[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[02.2\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
+and how that pretraining is *scaled* across GPUs and nodes ([\[01.4\]
 Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd),
-[\[02.2\] Parallel
+[\[02.1\] Parallel
 Training](../../02-llms/1-parallel-training/index.qmd)).
 
 A pretrained **base model** is a very good next-token predictor. It is
@@ -419,7 +419,7 @@ Table 1: An illustrative continued-pretraining data mix.
 >   dominates the final quality.
 > - **Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not
 >   just LoRA) across many nodes, sharding optimizer state with
->   ZeRO/FSDP — exactly the parallelism strategies from [\[02.1\]
+>   ZeRO/FSDP — exactly the parallelism strategies from [\[01.4\]
 >   Distributed
 >   Training](../../01-neural-networks/4-distributed-training/index.qmd).
 > - **Staged pipelines.** The Llama 3 report

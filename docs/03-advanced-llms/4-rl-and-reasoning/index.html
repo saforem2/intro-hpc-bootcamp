@@ -1027,7 +1027,7 @@ Figure&nbsp;1: The reasoning-model recipe: <strong>base → SFT → RLVR</strong
 </div>
 <div class="callout-body-container callout-body">
 <p>DeepSeek-R1 (<a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a>) pushes RLVR to its limit. Their <strong>R1-Zero</strong> run applies GRPO <em>directly to the base model</em> with purely verifiable rewards — no SFT warm-up — and watches reasoning behaviors (self-checking, backtracking, and steadily <strong>longer</strong> <code>&lt;think&gt;</code> traces) appear on their own as accuracy climbs. The full <strong>R1</strong> adds a small SFT “cold start” for readability, then large-scale GRPO across many nodes with a fast generation backend (e.g.&nbsp;vLLM) feeding the training ranks.</p>
-<p>The distributed machinery underneath is exactly what you already know from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a>: the policy is sharded with ZeRO/FSDP, generation is parallelized across ranks, and rewards are gathered with the same collectives. RL just adds a <strong>generate → verify → update</strong> loop around the training step. The API below is the same one you saw in §①b — only the model size, the verifier, and the node count change.</p>
+<p>The distributed machinery underneath is exactly what you already know from <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a>: the policy is sharded with ZeRO/FSDP, generation is parallelized across ranks, and rewards are gathered with the same collectives. RL just adds a <strong>generate → verify → update</strong> loop around the training step. The API below is the same one you saw in §①b — only the model size, the verifier, and the node count change.</p>
 </div>
 </div>
 </section>
@@ -2003,7 +2003,7 @@ Foreman, Sam. 2026. <span>“🧠 RL &amp; Reasoning Models.”</span> July
 <span id="cb13-281"><a href="#cb13-281" aria-label="273"></a>backend (e.g. vLLM) feeding the training ranks.</span>
 <span id="cb13-282"><a href="#cb13-282" aria-label="274"></a></span>
 <span id="cb13-283"><a href="#cb13-283" aria-label="275"></a>The distributed machinery underneath is exactly what you already know from</span>
-<span id="cb13-284"><a href="#cb13-284" aria-label="276"></a><span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>:</span>
+<span id="cb13-284"><a href="#cb13-284" aria-label="276"></a><span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>:</span>
 <span id="cb13-285"><a href="#cb13-285" aria-label="277"></a>the policy is sharded with ZeRO/FSDP, generation is parallelized across ranks, and</span>
 <span id="cb13-286"><a href="#cb13-286" aria-label="278"></a>rewards are gathered with the same collectives. RL just adds a **generate → verify</span>
 <span id="cb13-287"><a href="#cb13-287" aria-label="279"></a>→ update** loop around the training step. The API below is the same one you saw in</span>

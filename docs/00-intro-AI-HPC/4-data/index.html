@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2025-08-06">
-<meta name="description" content="An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib.">
+<meta name="description" content="A hands-on primer on NumPy arrays, pandas DataFrames, and Matplotlib — loading, manipulating, and visualizing real data.">
 
 <title>Working with Data in Python – Intro to HPC Bootcamp</title>
 <style>
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
@@ -85,6 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-67bf40df121d2054b86fbb2e82a585ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-281c9319248be2fa6fead6fcc1832952.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -121,6 +124,9 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
 <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
@@ -136,13 +142,15 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 
 <meta property="og:title" content="Working with Data in Python – Intro to HPC Bootcamp">
-<meta property="og:description" content="An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib.">
-<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/assets/thumbnail.png">
+<meta property="og:description" content="A hands-on primer on NumPy arrays, pandas DataFrames, and Matplotlib — loading, manipulating, and visualizing real data.">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
+<meta property="og:image:alt" content="">
 <meta name="twitter:title" content="Working with Data in Python – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib.">
-<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/assets/thumbnail.png">
+<meta name="twitter:description" content="A hands-on primer on NumPy arrays, pandas DataFrames, and Matplotlib — loading, manipulating, and visualizing real data.">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:site" content="saforem2">
+<meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Working with Data in Python">
 <meta name="citation_author" content="Sam Foreman">
@@ -507,19 +515,19 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/2-conv-nets/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Convolutional Networks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/3-representation-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Representation Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../01-neural-networks/5-distributed-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../01-neural-networks/4-distributed-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distributed Training</span></a>
   </div>
 </li>
@@ -536,31 +544,31 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/1-parallel-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/2-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare Example (Colab)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/09-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/3-shakespeare-ezpz/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shakespeare from Scratch (ezpz)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/10-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/4-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Evaluating LLMs</span></a>
   </div>
 </li>
@@ -617,9 +625,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#references" id="toc-references" class="nav-link active" data-scroll-target="#references">References</a></li>
+  <li><a href="#numpy-arrays-and-vectorized-math" id="toc-numpy-arrays-and-vectorized-math" class="nav-link active" data-scroll-target="#numpy-arrays-and-vectorized-math">🔢 NumPy: arrays and vectorized math</a></li>
+  <li><a href="#pandas-tables-of-real-data" id="toc-pandas-tables-of-real-data" class="nav-link" data-scroll-target="#pandas-tables-of-real-data">🐼 pandas: tables of real data</a></li>
+  <li><a href="#matplotlib-seeing-the-data" id="toc-matplotlib-seeing-the-data" class="nav-link" data-scroll-target="#matplotlib-seeing-the-data">📈 Matplotlib: seeing the data</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">🔑 Key takeaways</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/4-data/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/4-data/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/4-data/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/4-data/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -633,12 +645,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div class="quarto-title-block"><div><h1 class="title">Working with Data in Python</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">hpc</div>
+    <div class="quarto-category">python</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib.
+    A hands-on primer on NumPy arrays, pandas DataFrames, and Matplotlib — loading, manipulating, and visualizing real data.
   </div>
 </div>
 
@@ -647,12 +660,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author"><a href="https://samforeman.me">Sam Foreman</a> <a href="mailto:foremans@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+    <p class="author">Sam Foreman <a href="mailto:foremans@anl.gov" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9981-0876" class="quarto-title-author-orcid" aria-label="ORCID profile for Sam Foreman"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="https://alcf.anl.gov/about/people/sam-foreman">
-            </a><a href="https://alcf.anl.gov/about/people/sam-foreman">ALCF</a>
+            </a><a href="https://www.anl.gov/">ANL</a>
             
           </p>
       </div>
@@ -671,7 +684,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 6, 2025</p>
+      <p class="date-modified">July 24, 2026</p>
     </div>
   </div>
     
@@ -682,26 +695,450 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/4-data/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/4-data/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="🎯 What you'll learn">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🎯 What you’ll learn
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Data is the fuel of machine learning, and three libraries do almost all the heavy lifting in scientific Python:</p>
 <ul>
-<li><a href="https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb">MachineLearningStatistics/notebooks/Visualization.ipynb</a></li>
+<li><strong>NumPy</strong> — fast, vectorized numerical arrays (the foundation everything else builds on)</li>
+<li><strong>pandas</strong> — labeled, spreadsheet-like tables (<code>DataFrame</code>s) for real datasets</li>
+<li><strong>Matplotlib</strong> — plots to actually <em>see</em> your data</li>
 </ul>
+<p>This page is hands-on: run each cell and tinker. It follows directly from <a href="../../00-intro-AI-HPC/3-python/index.html"><strong>Using Python</strong></a> and sets you up for <a href="../../00-intro-AI-HPC/6-linear-regression/index.html"><strong>Linear Regression</strong></a>.</p>
+</div>
+</div>
+</div>
+<section id="numpy-arrays-and-vectorized-math" class="level2">
+<h2 class="anchored" data-anchor-id="numpy-arrays-and-vectorized-math">🔢 NumPy: arrays and vectorized math</h2>
+<p>A NumPy <strong>array</strong> looks like a list, but math on it happens <em>element-wise</em> and <em>fast</em> — no Python loop:</p>
+<div id="3279efa2" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>a <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="bu">print</span>(<span class="st">"array:      "</span>, a)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="bu">print</span>(<span class="st">"times 10:   "</span>, a <span class="op">*</span> <span class="dv">10</span>)        <span class="co"># vectorized — applies to every element</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="bu">print</span>(<span class="st">"squared:    "</span>, a <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="bu">print</span>(<span class="st">"sum / mean: "</span>, a.<span class="bu">sum</span>(), a.mean())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>array:       [1 2 3 4 5]
+times 10:    [10 20 30 40 50]
+squared:     [ 1  4  9 16 25]
+sum / mean:  15 3.0</code></pre>
+</div>
+</div>
+<p>Arrays have a <strong>shape</strong> and can be multi-dimensional (a matrix is just a 2-D array). This is exactly how images, batches, and weight matrices are stored:</p>
+<div id="4adbc930" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>M <span class="op">=</span> np.arange(<span class="dv">12</span>).reshape(<span class="dv">3</span>, <span class="dv">4</span>)   <span class="co"># 3 rows, 4 columns</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="bu">print</span>(M)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"shape:"</span>, M.shape)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a><span class="bu">print</span>(<span class="st">"column means:"</span>, M.mean(axis<span class="op">=</span><span class="dv">0</span>))   <span class="co"># average down each column</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-label="5"></a><span class="bu">print</span>(<span class="st">"row sums:    "</span>, M.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))     <span class="co"># sum across each row</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+shape: (3, 4)
+column means: [4. 5. 6. 7.]
+row sums:     [ 6 22 38]</code></pre>
+</div>
+</div>
+<p><strong>Broadcasting</strong> lets arrays of different shapes combine — here we standardize each column (subtract its mean, divide by its std) in one line:</p>
+<div id="3969b6a5" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>col_mean <span class="op">=</span> M.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>col_std <span class="op">=</span> M.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>standardized <span class="op">=</span> (M <span class="op">-</span> col_mean) <span class="op">/</span> col_std</span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="bu">print</span>(np.<span class="bu">round</span>(standardized, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-1.22 -1.22 -1.22 -1.22]
+ [ 0.    0.    0.    0.  ]
+ [ 1.22  1.22  1.22  1.22]]</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="🎲 Reproducible randomness">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🎲 Reproducible randomness
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Random data is everywhere in ML. Seed the generator so results are repeatable:</p>
+<div id="1a61f959" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>samples <span class="op">=</span> rng.normal(loc<span class="op">=</span><span class="fl">0.0</span>, scale<span class="op">=</span><span class="fl">1.0</span>, size<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="bu">print</span>(np.<span class="bu">round</span>(samples, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 0.305 -1.04   0.75   0.941 -1.951]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="pandas-tables-of-real-data" class="level2">
+<h2 class="anchored" data-anchor-id="pandas-tables-of-real-data">🐼 pandas: tables of real data</h2>
+<p>NumPy is great for pure numbers, but real datasets have <strong>named columns</strong> and mixed types. That’s <code>pandas</code>. Let’s load a real dataset — house sale prices vs. living area:</p>
+<div id="56d02052" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-label="2"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="co"># download the dataset if it isn't already here (works locally and on Colab)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-label="4"></a><span class="im">import</span> os, urllib.request</span>
+<span id="cb9-5"><a href="#cb9-5" aria-label="5"></a>url <span class="op">=</span> (<span class="st">"https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-label="6"></a>       <span class="st">"main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-label="7"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"slimmed_realestate_data.csv"</span>):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-label="8"></a>    urllib.request.urlretrieve(url, <span class="st">"slimmed_realestate_data.csv"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-label="9"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-label="10"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"slimmed_realestate_data.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-label="11"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SalePrice</th>
+<th data-quarto-table-cell-role="th">GrLivArea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>181500</td>
+<td>1262</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>200000</td>
+<td>2090</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">9</th>
+<td>118000</td>
+<td>1077</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">12</th>
+<td>144000</td>
+<td>912</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">15</th>
+<td>132000</td>
+<td>854</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>A few things you’ll do with almost every dataset — inspect its shape, summarize it, and select columns:</p>
+<div id="46433a7f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="bu">print</span>(<span class="st">"shape (rows, cols):"</span>, df.shape)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"columns:"</span>, <span class="bu">list</span>(df.columns))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape (rows, cols): (551, 2)
+columns: ['SalePrice', 'GrLivArea']</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SalePrice</th>
+<th data-quarto-table-cell-role="th">GrLivArea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">count</th>
+<td>551.000000</td>
+<td>551.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean</th>
+<td>158216.281307</td>
+<td>1407.969147</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">std</th>
+<td>59968.759480</td>
+<td>524.559473</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">min</th>
+<td>37900.000000</td>
+<td>520.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">25%</th>
+<td>124900.000000</td>
+<td>1040.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">50%</th>
+<td>144500.000000</td>
+<td>1309.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">75%</th>
+<td>176250.000000</td>
+<td>1664.500000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">max</th>
+<td>755000.000000</td>
+<td>4316.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="39777d8d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># select a single column (a pandas Series) and compute on it</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>prices <span class="op">=</span> df[<span class="st">"SalePrice"</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"cheapest:  $</span><span class="sc">{</span>prices<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"priciest:  $</span><span class="sc">{</span>prices<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"average:   $</span><span class="sc">{</span>prices<span class="sc">.</span>mean()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-label="6"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-label="7"></a><span class="co"># filter rows with a boolean condition</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-label="8"></a>big_expensive <span class="op">=</span> df[(df[<span class="st">"GrLivArea"</span>] <span class="op">&gt;</span> <span class="dv">2000</span>) <span class="op">&amp;</span> (df[<span class="st">"SalePrice"</span>] <span class="op">&gt;</span> <span class="dv">250_000</span>)]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-label="9"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">large &amp; expensive homes: </span><span class="sc">{</span><span class="bu">len</span>(big_expensive)<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cheapest:  $37,900
+priciest:  $755,000
+average:   $158,216
+
+large &amp; expensive homes: 28 of 551</code></pre>
+</div>
+</div>
+</section>
+<section id="matplotlib-seeing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="matplotlib-seeing-the-data">📈 Matplotlib: seeing the data</h2>
+<p>Numbers in a table only tell you so much — plot them. A <strong>scatter plot</strong> reveals the relationship between living area and price:</p>
+<div id="5ef81813" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a>ax.scatter(df[<span class="st">"GrLivArea"</span>], df[<span class="st">"SalePrice"</span>], s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a>ax.set_xlabel(<span class="st">"Living area (sq ft)"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a>ax.set_ylabel(<span class="st">"Sale price ($)"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>ax.set_title(<span class="st">"House price vs. living area"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/cell-9-output-1.png" width="590" height="390" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The upward trend is exactly what a <strong>linear regression</strong> model learns to fit — which is the <a href="../../00-intro-AI-HPC/6-linear-regression/index.html">next example</a>. A <strong>histogram</strong> shows the <em>distribution</em> of a single variable:</p>
+<div id="17a496e7" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>ax.hist(df[<span class="st">"SalePrice"</span>], bins<span class="op">=</span><span class="dv">30</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>ax.set_xlabel(<span class="st">"Sale price ($)"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a>ax.set_title(<span class="st">"Distribution of sale prices"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/cell-10-output-1.png" width="548" height="390" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p>Attempt each before revealing the solution.</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Exercise 1 — NumPy">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise 1 — NumPy
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Create a NumPy array of the integers 1 through 10, then print the mean of only the <strong>even</strong> numbers. (Hint: boolean indexing, <code>a[a % 2 == 0]</code>.)</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="ff4e0aa6" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>a <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="bu">print</span>(a[a <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>].mean())   <span class="co"># (2+4+6+8+10)/5 = 6.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="Exercise 2 — pandas">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise 2 — pandas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a new column <code>PricePerSqFt</code> to <code>df</code> equal to <code>SalePrice / GrLivArea</code>, then print its average.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="39bc90b8" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a>df[<span class="st">"PricePerSqFt"</span>] <span class="op">=</span> df[<span class="st">"SalePrice"</span>] <span class="op">/</span> df[<span class="st">"GrLivArea"</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"avg price/sqft: $</span><span class="sc">{</span>df[<span class="st">'PricePerSqFt'</span>]<span class="sc">.</span>mean()<span class="sc">:,.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>avg price/sqft: $116.13</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled" title="Exercise 3 — plotting">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise 3 — plotting
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Make a histogram of <code>GrLivArea</code> with 20 bins. What’s the most common range of house sizes?</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="💡 Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💡 Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="e6604622" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>ax.hist(df[<span class="st">"GrLivArea"</span>], bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-label="3"></a>ax.set_xlabel(<span class="st">"Living area (sq ft)"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-label="4"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/cell-13-output-1.png" width="565" height="370" class="figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">🔑 Key takeaways</h2>
+<ul>
+<li><strong>NumPy</strong> arrays do fast, vectorized, element-wise math (<code>a * 10</code>, <code>M.mean(axis=0)</code>).</li>
+<li><strong>Broadcasting</strong> combines arrays of different shapes without loops.</li>
+<li><strong>pandas</strong> <code>DataFrame</code>s hold labeled tables — <code>read_csv</code>, <code>.head()</code>, <code>.describe()</code>, column selection, boolean filtering.</li>
+<li><strong>Matplotlib</strong> turns arrays/columns into scatter plots and histograms.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled" title="📓 Go deeper">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>📓 Go deeper
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><a href="https://numpy.org/doc/stable/user/absolute_beginners.html">NumPy: the absolute basics for beginners</a></li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/10min.html">pandas: 10 minutes to pandas</a></li>
+<li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/index.html">Python Data Science Handbook</a></li>
+<li><a href="https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb">MachineLearningStatistics · Visualization notebook</a></li>
+</ul>
+</div>
+</div>
+</div>
+<p>➡️ <strong>Next:</strong> <a href="../../00-intro-AI-HPC/6-linear-regression/index.html">Linear Regression</a> — train your first model on exactly this dataset.</p>
 
 
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
-  author = {Foreman, Sam},
+  author = {Foreman, Sam and Foreman, Sam},
   title = {Working with {Data} in {Python}},
   date = {2025-08-06},
   url = {https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Working with Data in Python.”</span> August
-6. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/</a>.
+Foreman, Sam, and Sam Foreman. 2025. <span>“Working with Data in
+Python.”</span> August 6. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1216,22 +1653,225 @@ Foreman, Sam. 2025. <span>“Working with Data in Python.”</span> August
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "Working with Data in Python"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="an">categories:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="co">    - hpc</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="an">date:</span><span class="co"> 2025-08-06</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="an">format:</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a><span class="co">  html: default</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a><span class="co">  gfm:</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a><span class="co">    toc: true</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-label="12"></a><span class="co">---</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-label="13"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-label="14"></a><span class="fu">## References</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-label="16"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MachineLearningStatistics/notebooks/Visualization.ipynb</span><span class="co">](https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "Working with Data in Python"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "A hands-on primer on NumPy arrays, pandas DataFrames, and Matplotlib — loading, manipulating, and visualizing real data."</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-label="4"></a><span class="an">categories:</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-label="5"></a><span class="co">  - hpc</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-label="6"></a><span class="co">  - python</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-label="7"></a><span class="an">date:</span><span class="co"> 2025-08-06</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-label="8"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-label="9"></a><span class="an">format:</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-label="10"></a><span class="co">  ipynb:</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-label="11"></a><span class="co">    default-image-extension: svg</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-label="12"></a><span class="co">  html: default</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-label="13"></a><span class="co">  gfm:</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-label="14"></a><span class="co">    toc: true</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-label="15"></a><span class="an">author:</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-label="16"></a><span class="co">  - id: sf</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-label="17"></a><span class="co">    name: Sam Foreman</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-label="18"></a><span class="co">    orcid: 0000-0002-9981-0876</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-label="19"></a><span class="co">    email: foremans@anl.gov</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-label="20"></a><span class="co">    affiliation:</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-label="21"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-label="22"></a><span class="co">        city: Lemont</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-label="23"></a><span class="co">        state: IL</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-label="24"></a><span class="co">        url: https://alcf.anl.gov/about/people/sam-foreman</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-label="25"></a><span class="co">---</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-label="26"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-label="27"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/4-data/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/4-data/index.qmd)</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-label="28"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-label="29"></a>::: {.callout-tip title="🎯 What you'll learn" collapse="false"}</span>
+<span id="cb21-30"><a href="#cb21-30" aria-label="30"></a>Data is the fuel of machine learning, and three libraries do almost all the</span>
+<span id="cb21-31"><a href="#cb21-31" aria-label="31"></a>heavy lifting in scientific Python:</span>
+<span id="cb21-32"><a href="#cb21-32" aria-label="32"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-label="33"></a><span class="ss">- </span>**NumPy** — fast, vectorized numerical arrays (the foundation everything else</span>
+<span id="cb21-34"><a href="#cb21-34" aria-label="34"></a>  builds on)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-label="35"></a><span class="ss">- </span>**pandas** — labeled, spreadsheet-like tables (<span class="in">`DataFrame`</span>s) for real datasets</span>
+<span id="cb21-36"><a href="#cb21-36" aria-label="36"></a><span class="ss">- </span>**Matplotlib** — plots to actually *see* your data</span>
+<span id="cb21-37"><a href="#cb21-37" aria-label="37"></a></span>
+<span id="cb21-38"><a href="#cb21-38" aria-label="38"></a>This page is hands-on: run each cell and tinker. It follows directly from</span>
+<span id="cb21-39"><a href="#cb21-39" aria-label="39"></a><span class="co">[</span><span class="ot">**Using Python**</span><span class="co">](../3-python/index.qmd)</span> and sets you up for</span>
+<span id="cb21-40"><a href="#cb21-40" aria-label="40"></a><span class="co">[</span><span class="ot">**Linear Regression**</span><span class="co">](../6-linear-regression/index.qmd)</span>.</span>
+<span id="cb21-41"><a href="#cb21-41" aria-label="41"></a>:::</span>
+<span id="cb21-42"><a href="#cb21-42" aria-label="42"></a></span>
+<span id="cb21-43"><a href="#cb21-43" aria-label="43"></a><span class="fu">## 🔢 NumPy: arrays and vectorized math</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-label="44"></a></span>
+<span id="cb21-45"><a href="#cb21-45" aria-label="45"></a>A NumPy **array** looks like a list, but math on it happens *element-wise* and</span>
+<span id="cb21-46"><a href="#cb21-46" aria-label="46"></a>*fast* — no Python loop:</span>
+<span id="cb21-47"><a href="#cb21-47" aria-label="47"></a></span>
+<span id="cb21-50"><a href="#cb21-50" aria-label="48"></a><span class="in">```{python}</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-label="49"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-52"><a href="#cb21-52" aria-label="50"></a></span>
+<span id="cb21-53"><a href="#cb21-53" aria-label="51"></a>a <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
+<span id="cb21-54"><a href="#cb21-54" aria-label="52"></a><span class="bu">print</span>(<span class="st">"array:      "</span>, a)</span>
+<span id="cb21-55"><a href="#cb21-55" aria-label="53"></a><span class="bu">print</span>(<span class="st">"times 10:   "</span>, a <span class="op">*</span> <span class="dv">10</span>)        <span class="co"># vectorized — applies to every element</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-label="54"></a><span class="bu">print</span>(<span class="st">"squared:    "</span>, a <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb21-57"><a href="#cb21-57" aria-label="55"></a><span class="bu">print</span>(<span class="st">"sum / mean: "</span>, a.<span class="bu">sum</span>(), a.mean())</span>
+<span id="cb21-58"><a href="#cb21-58" aria-label="56"></a><span class="in">```</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-label="57"></a></span>
+<span id="cb21-60"><a href="#cb21-60" aria-label="58"></a>Arrays have a **shape** and can be multi-dimensional (a matrix is just a 2-D</span>
+<span id="cb21-61"><a href="#cb21-61" aria-label="59"></a>array). This is exactly how images, batches, and weight matrices are stored:</span>
+<span id="cb21-62"><a href="#cb21-62" aria-label="60"></a></span>
+<span id="cb21-65"><a href="#cb21-65" aria-label="61"></a><span class="in">```{python}</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-label="62"></a>M <span class="op">=</span> np.arange(<span class="dv">12</span>).reshape(<span class="dv">3</span>, <span class="dv">4</span>)   <span class="co"># 3 rows, 4 columns</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-label="63"></a><span class="bu">print</span>(M)</span>
+<span id="cb21-68"><a href="#cb21-68" aria-label="64"></a><span class="bu">print</span>(<span class="st">"shape:"</span>, M.shape)</span>
+<span id="cb21-69"><a href="#cb21-69" aria-label="65"></a><span class="bu">print</span>(<span class="st">"column means:"</span>, M.mean(axis<span class="op">=</span><span class="dv">0</span>))   <span class="co"># average down each column</span></span>
+<span id="cb21-70"><a href="#cb21-70" aria-label="66"></a><span class="bu">print</span>(<span class="st">"row sums:    "</span>, M.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))     <span class="co"># sum across each row</span></span>
+<span id="cb21-71"><a href="#cb21-71" aria-label="67"></a><span class="in">```</span></span>
+<span id="cb21-72"><a href="#cb21-72" aria-label="68"></a></span>
+<span id="cb21-73"><a href="#cb21-73" aria-label="69"></a>**Broadcasting** lets arrays of different shapes combine — here we standardize</span>
+<span id="cb21-74"><a href="#cb21-74" aria-label="70"></a>each column (subtract its mean, divide by its std) in one line:</span>
+<span id="cb21-75"><a href="#cb21-75" aria-label="71"></a></span>
+<span id="cb21-78"><a href="#cb21-78" aria-label="72"></a><span class="in">```{python}</span></span>
+<span id="cb21-79"><a href="#cb21-79" aria-label="73"></a>col_mean <span class="op">=</span> M.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-80"><a href="#cb21-80" aria-label="74"></a>col_std <span class="op">=</span> M.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-81"><a href="#cb21-81" aria-label="75"></a>standardized <span class="op">=</span> (M <span class="op">-</span> col_mean) <span class="op">/</span> col_std</span>
+<span id="cb21-82"><a href="#cb21-82" aria-label="76"></a><span class="bu">print</span>(np.<span class="bu">round</span>(standardized, <span class="dv">2</span>))</span>
+<span id="cb21-83"><a href="#cb21-83" aria-label="77"></a><span class="in">```</span></span>
+<span id="cb21-84"><a href="#cb21-84" aria-label="78"></a></span>
+<span id="cb21-85"><a href="#cb21-85" aria-label="79"></a>::: {.callout-note title="🎲 Reproducible randomness"}</span>
+<span id="cb21-86"><a href="#cb21-86" aria-label="80"></a>Random data is everywhere in ML. Seed the generator so results are repeatable:</span>
+<span id="cb21-87"><a href="#cb21-87" aria-label="81"></a></span>
+<span id="cb21-90"><a href="#cb21-90" aria-label="82"></a><span class="in">```{python}</span></span>
+<span id="cb21-91"><a href="#cb21-91" aria-label="83"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb21-92"><a href="#cb21-92" aria-label="84"></a>samples <span class="op">=</span> rng.normal(loc<span class="op">=</span><span class="fl">0.0</span>, scale<span class="op">=</span><span class="fl">1.0</span>, size<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb21-93"><a href="#cb21-93" aria-label="85"></a><span class="bu">print</span>(np.<span class="bu">round</span>(samples, <span class="dv">3</span>))</span>
+<span id="cb21-94"><a href="#cb21-94" aria-label="86"></a><span class="in">```</span></span>
+<span id="cb21-95"><a href="#cb21-95" aria-label="87"></a>:::</span>
+<span id="cb21-96"><a href="#cb21-96" aria-label="88"></a></span>
+<span id="cb21-97"><a href="#cb21-97" aria-label="89"></a><span class="fu">## 🐼 pandas: tables of real data</span></span>
+<span id="cb21-98"><a href="#cb21-98" aria-label="90"></a></span>
+<span id="cb21-99"><a href="#cb21-99" aria-label="91"></a>NumPy is great for pure numbers, but real datasets have **named columns** and</span>
+<span id="cb21-100"><a href="#cb21-100" aria-label="92"></a>mixed types. That's <span class="in">`pandas`</span>. Let's load a real dataset — house sale prices vs.</span>
+<span id="cb21-101"><a href="#cb21-101" aria-label="93"></a>living area:</span>
+<span id="cb21-102"><a href="#cb21-102" aria-label="94"></a></span>
+<span id="cb21-105"><a href="#cb21-105" aria-label="95"></a><span class="in">```{python}</span></span>
+<span id="cb21-106"><a href="#cb21-106" aria-label="96"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-107"><a href="#cb21-107" aria-label="97"></a></span>
+<span id="cb21-108"><a href="#cb21-108" aria-label="98"></a><span class="co"># download the dataset if it isn't already here (works locally and on Colab)</span></span>
+<span id="cb21-109"><a href="#cb21-109" aria-label="99"></a><span class="im">import</span> os, urllib.request</span>
+<span id="cb21-110"><a href="#cb21-110" aria-label="100"></a>url <span class="op">=</span> (<span class="st">"https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"</span></span>
+<span id="cb21-111"><a href="#cb21-111" aria-label="101"></a>       <span class="st">"main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
+<span id="cb21-112"><a href="#cb21-112" aria-label="102"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"slimmed_realestate_data.csv"</span>):</span>
+<span id="cb21-113"><a href="#cb21-113" aria-label="103"></a>    urllib.request.urlretrieve(url, <span class="st">"slimmed_realestate_data.csv"</span>)</span>
+<span id="cb21-114"><a href="#cb21-114" aria-label="104"></a></span>
+<span id="cb21-115"><a href="#cb21-115" aria-label="105"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"slimmed_realestate_data.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-116"><a href="#cb21-116" aria-label="106"></a>df.head()</span>
+<span id="cb21-117"><a href="#cb21-117" aria-label="107"></a><span class="in">```</span></span>
+<span id="cb21-118"><a href="#cb21-118" aria-label="108"></a></span>
+<span id="cb21-119"><a href="#cb21-119" aria-label="109"></a>A few things you'll do with almost every dataset — inspect its shape, summarize</span>
+<span id="cb21-120"><a href="#cb21-120" aria-label="110"></a>it, and select columns:</span>
+<span id="cb21-121"><a href="#cb21-121" aria-label="111"></a></span>
+<span id="cb21-124"><a href="#cb21-124" aria-label="112"></a><span class="in">```{python}</span></span>
+<span id="cb21-125"><a href="#cb21-125" aria-label="113"></a><span class="bu">print</span>(<span class="st">"shape (rows, cols):"</span>, df.shape)</span>
+<span id="cb21-126"><a href="#cb21-126" aria-label="114"></a><span class="bu">print</span>(<span class="st">"columns:"</span>, <span class="bu">list</span>(df.columns))</span>
+<span id="cb21-127"><a href="#cb21-127" aria-label="115"></a>df.describe()</span>
+<span id="cb21-128"><a href="#cb21-128" aria-label="116"></a><span class="in">```</span></span>
+<span id="cb21-129"><a href="#cb21-129" aria-label="117"></a></span>
+<span id="cb21-132"><a href="#cb21-132" aria-label="118"></a><span class="in">```{python}</span></span>
+<span id="cb21-133"><a href="#cb21-133" aria-label="119"></a><span class="co"># select a single column (a pandas Series) and compute on it</span></span>
+<span id="cb21-134"><a href="#cb21-134" aria-label="120"></a>prices <span class="op">=</span> df[<span class="st">"SalePrice"</span>]</span>
+<span id="cb21-135"><a href="#cb21-135" aria-label="121"></a><span class="bu">print</span>(<span class="ss">f"cheapest:  $</span><span class="sc">{</span>prices<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb21-136"><a href="#cb21-136" aria-label="122"></a><span class="bu">print</span>(<span class="ss">f"priciest:  $</span><span class="sc">{</span>prices<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb21-137"><a href="#cb21-137" aria-label="123"></a><span class="bu">print</span>(<span class="ss">f"average:   $</span><span class="sc">{</span>prices<span class="sc">.</span>mean()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb21-138"><a href="#cb21-138" aria-label="124"></a></span>
+<span id="cb21-139"><a href="#cb21-139" aria-label="125"></a><span class="co"># filter rows with a boolean condition</span></span>
+<span id="cb21-140"><a href="#cb21-140" aria-label="126"></a>big_expensive <span class="op">=</span> df[(df[<span class="st">"GrLivArea"</span>] <span class="op">&gt;</span> <span class="dv">2000</span>) <span class="op">&amp;</span> (df[<span class="st">"SalePrice"</span>] <span class="op">&gt;</span> <span class="dv">250_000</span>)]</span>
+<span id="cb21-141"><a href="#cb21-141" aria-label="127"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">large &amp; expensive homes: </span><span class="sc">{</span><span class="bu">len</span>(big_expensive)<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-142"><a href="#cb21-142" aria-label="128"></a><span class="in">```</span></span>
+<span id="cb21-143"><a href="#cb21-143" aria-label="129"></a></span>
+<span id="cb21-144"><a href="#cb21-144" aria-label="130"></a><span class="fu">## 📈 Matplotlib: seeing the data</span></span>
+<span id="cb21-145"><a href="#cb21-145" aria-label="131"></a></span>
+<span id="cb21-146"><a href="#cb21-146" aria-label="132"></a>Numbers in a table only tell you so much — plot them. A **scatter plot** reveals</span>
+<span id="cb21-147"><a href="#cb21-147" aria-label="133"></a>the relationship between living area and price:</span>
+<span id="cb21-148"><a href="#cb21-148" aria-label="134"></a></span>
+<span id="cb21-151"><a href="#cb21-151" aria-label="135"></a><span class="in">```{python}</span></span>
+<span id="cb21-152"><a href="#cb21-152" aria-label="136"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-153"><a href="#cb21-153" aria-label="137"></a></span>
+<span id="cb21-154"><a href="#cb21-154" aria-label="138"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb21-155"><a href="#cb21-155" aria-label="139"></a>ax.scatter(df[<span class="st">"GrLivArea"</span>], df[<span class="st">"SalePrice"</span>], s<span class="op">=</span><span class="dv">12</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb21-156"><a href="#cb21-156" aria-label="140"></a>ax.set_xlabel(<span class="st">"Living area (sq ft)"</span>)</span>
+<span id="cb21-157"><a href="#cb21-157" aria-label="141"></a>ax.set_ylabel(<span class="st">"Sale price ($)"</span>)</span>
+<span id="cb21-158"><a href="#cb21-158" aria-label="142"></a>ax.set_title(<span class="st">"House price vs. living area"</span>)</span>
+<span id="cb21-159"><a href="#cb21-159" aria-label="143"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb21-160"><a href="#cb21-160" aria-label="144"></a>plt.show()</span>
+<span id="cb21-161"><a href="#cb21-161" aria-label="145"></a><span class="in">```</span></span>
+<span id="cb21-162"><a href="#cb21-162" aria-label="146"></a></span>
+<span id="cb21-163"><a href="#cb21-163" aria-label="147"></a>The upward trend is exactly what a **linear regression** model learns to fit —</span>
+<span id="cb21-164"><a href="#cb21-164" aria-label="148"></a>which is the <span class="co">[</span><span class="ot">next example</span><span class="co">](../6-linear-regression/index.qmd)</span>. A **histogram**</span>
+<span id="cb21-165"><a href="#cb21-165" aria-label="149"></a>shows the *distribution* of a single variable:</span>
+<span id="cb21-166"><a href="#cb21-166" aria-label="150"></a></span>
+<span id="cb21-169"><a href="#cb21-169" aria-label="151"></a><span class="in">```{python}</span></span>
+<span id="cb21-170"><a href="#cb21-170" aria-label="152"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb21-171"><a href="#cb21-171" aria-label="153"></a>ax.hist(df[<span class="st">"SalePrice"</span>], bins<span class="op">=</span><span class="dv">30</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb21-172"><a href="#cb21-172" aria-label="154"></a>ax.set_xlabel(<span class="st">"Sale price ($)"</span>)</span>
+<span id="cb21-173"><a href="#cb21-173" aria-label="155"></a>ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb21-174"><a href="#cb21-174" aria-label="156"></a>ax.set_title(<span class="st">"Distribution of sale prices"</span>)</span>
+<span id="cb21-175"><a href="#cb21-175" aria-label="157"></a>plt.show()</span>
+<span id="cb21-176"><a href="#cb21-176" aria-label="158"></a><span class="in">```</span></span>
+<span id="cb21-177"><a href="#cb21-177" aria-label="159"></a></span>
+<span id="cb21-178"><a href="#cb21-178" aria-label="160"></a><span class="fu">## Exercises {#exercises}</span></span>
+<span id="cb21-179"><a href="#cb21-179" aria-label="161"></a></span>
+<span id="cb21-180"><a href="#cb21-180" aria-label="162"></a>Attempt each before revealing the solution.</span>
+<span id="cb21-181"><a href="#cb21-181" aria-label="163"></a></span>
+<span id="cb21-182"><a href="#cb21-182" aria-label="164"></a>::: {.callout-note title="Exercise 1 — NumPy" collapse="false"}</span>
+<span id="cb21-183"><a href="#cb21-183" aria-label="165"></a>Create a NumPy array of the integers 1 through 10, then print the mean of only</span>
+<span id="cb21-184"><a href="#cb21-184" aria-label="166"></a>the **even** numbers. (Hint: boolean indexing, <span class="in">`a[a % 2 == 0]`</span>.)</span>
+<span id="cb21-185"><a href="#cb21-185" aria-label="167"></a></span>
+<span id="cb21-186"><a href="#cb21-186" aria-label="168"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb21-189"><a href="#cb21-189" aria-label="169"></a><span class="in">```{python}</span></span>
+<span id="cb21-190"><a href="#cb21-190" aria-label="170"></a>a <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb21-191"><a href="#cb21-191" aria-label="171"></a><span class="bu">print</span>(a[a <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>].mean())   <span class="co"># (2+4+6+8+10)/5 = 6.0</span></span>
+<span id="cb21-192"><a href="#cb21-192" aria-label="172"></a><span class="in">```</span></span>
+<span id="cb21-193"><a href="#cb21-193" aria-label="173"></a>:::</span>
+<span id="cb21-194"><a href="#cb21-194" aria-label="174"></a>:::</span>
+<span id="cb21-195"><a href="#cb21-195" aria-label="175"></a></span>
+<span id="cb21-196"><a href="#cb21-196" aria-label="176"></a>::: {.callout-note title="Exercise 2 — pandas" collapse="false"}</span>
+<span id="cb21-197"><a href="#cb21-197" aria-label="177"></a>Add a new column <span class="in">`PricePerSqFt`</span> to <span class="in">`df`</span> equal to <span class="in">`SalePrice / GrLivArea`</span>, then</span>
+<span id="cb21-198"><a href="#cb21-198" aria-label="178"></a>print its average.</span>
+<span id="cb21-199"><a href="#cb21-199" aria-label="179"></a></span>
+<span id="cb21-200"><a href="#cb21-200" aria-label="180"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb21-203"><a href="#cb21-203" aria-label="181"></a><span class="in">```{python}</span></span>
+<span id="cb21-204"><a href="#cb21-204" aria-label="182"></a>df[<span class="st">"PricePerSqFt"</span>] <span class="op">=</span> df[<span class="st">"SalePrice"</span>] <span class="op">/</span> df[<span class="st">"GrLivArea"</span>]</span>
+<span id="cb21-205"><a href="#cb21-205" aria-label="183"></a><span class="bu">print</span>(<span class="ss">f"avg price/sqft: $</span><span class="sc">{</span>df[<span class="st">'PricePerSqFt'</span>]<span class="sc">.</span>mean()<span class="sc">:,.2f}</span><span class="ss">"</span>)</span>
+<span id="cb21-206"><a href="#cb21-206" aria-label="184"></a><span class="in">```</span></span>
+<span id="cb21-207"><a href="#cb21-207" aria-label="185"></a>:::</span>
+<span id="cb21-208"><a href="#cb21-208" aria-label="186"></a>:::</span>
+<span id="cb21-209"><a href="#cb21-209" aria-label="187"></a></span>
+<span id="cb21-210"><a href="#cb21-210" aria-label="188"></a>::: {.callout-note title="Exercise 3 — plotting" collapse="false"}</span>
+<span id="cb21-211"><a href="#cb21-211" aria-label="189"></a>Make a histogram of <span class="in">`GrLivArea`</span> with 20 bins. What's the most common range of</span>
+<span id="cb21-212"><a href="#cb21-212" aria-label="190"></a>house sizes?</span>
+<span id="cb21-213"><a href="#cb21-213" aria-label="191"></a></span>
+<span id="cb21-214"><a href="#cb21-214" aria-label="192"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb21-217"><a href="#cb21-217" aria-label="193"></a><span class="in">```{python}</span></span>
+<span id="cb21-218"><a href="#cb21-218" aria-label="194"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
+<span id="cb21-219"><a href="#cb21-219" aria-label="195"></a>ax.hist(df[<span class="st">"GrLivArea"</span>], bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb21-220"><a href="#cb21-220" aria-label="196"></a>ax.set_xlabel(<span class="st">"Living area (sq ft)"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb21-221"><a href="#cb21-221" aria-label="197"></a>plt.show()</span>
+<span id="cb21-222"><a href="#cb21-222" aria-label="198"></a><span class="in">```</span></span>
+<span id="cb21-223"><a href="#cb21-223" aria-label="199"></a>:::</span>
+<span id="cb21-224"><a href="#cb21-224" aria-label="200"></a>:::</span>
+<span id="cb21-225"><a href="#cb21-225" aria-label="201"></a></span>
+<span id="cb21-226"><a href="#cb21-226" aria-label="202"></a><span class="fu">## 🔑 Key takeaways</span></span>
+<span id="cb21-227"><a href="#cb21-227" aria-label="203"></a></span>
+<span id="cb21-228"><a href="#cb21-228" aria-label="204"></a><span class="ss">- </span>**NumPy** arrays do fast, vectorized, element-wise math (<span class="in">`a * 10`</span>, <span class="in">`M.mean(axis=0)`</span>).</span>
+<span id="cb21-229"><a href="#cb21-229" aria-label="205"></a><span class="ss">- </span>**Broadcasting** combines arrays of different shapes without loops.</span>
+<span id="cb21-230"><a href="#cb21-230" aria-label="206"></a><span class="ss">- </span>**pandas** <span class="in">`DataFrame`</span>s hold labeled tables — <span class="in">`read_csv`</span>, <span class="in">`.head()`</span>,</span>
+<span id="cb21-231"><a href="#cb21-231" aria-label="207"></a>  <span class="in">`.describe()`</span>, column selection, boolean filtering.</span>
+<span id="cb21-232"><a href="#cb21-232" aria-label="208"></a><span class="ss">- </span>**Matplotlib** turns arrays/columns into scatter plots and histograms.</span>
+<span id="cb21-233"><a href="#cb21-233" aria-label="209"></a></span>
+<span id="cb21-234"><a href="#cb21-234" aria-label="210"></a>::: {.callout-tip icon="false" title="📓 Go deeper" collapse="true"}</span>
+<span id="cb21-235"><a href="#cb21-235" aria-label="211"></a><span class="ss">- </span><span class="co">[</span><span class="ot">NumPy: the absolute basics for beginners</span><span class="co">](https://numpy.org/doc/stable/user/absolute_beginners.html)</span></span>
+<span id="cb21-236"><a href="#cb21-236" aria-label="212"></a><span class="ss">- </span><span class="co">[</span><span class="ot">pandas: 10 minutes to pandas</span><span class="co">](https://pandas.pydata.org/docs/user_guide/10min.html)</span></span>
+<span id="cb21-237"><a href="#cb21-237" aria-label="213"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Python Data Science Handbook</span><span class="co">](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)</span></span>
+<span id="cb21-238"><a href="#cb21-238" aria-label="214"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MachineLearningStatistics · Visualization notebook</span><span class="co">](https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb)</span></span>
+<span id="cb21-239"><a href="#cb21-239" aria-label="215"></a>:::</span>
+<span id="cb21-240"><a href="#cb21-240" aria-label="216"></a></span>
+<span id="cb21-241"><a href="#cb21-241" aria-label="217"></a>➡️ **Next:** <span class="co">[</span><span class="ot">Linear Regression</span><span class="co">](../6-linear-regression/index.qmd)</span> — train your</span>
+<span id="cb21-242"><a href="#cb21-242" aria-label="218"></a>first model on exactly this dataset.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1266,6 +1906,38 @@ Foreman, Sam. 2025. <span>“Working with Data in Python.”</span> August
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

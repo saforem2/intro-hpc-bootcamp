@@ -17,7 +17,7 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/0-moe/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd)
 
 By now you have seen how to split a model across many GPUs in
-[\[02.1\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd):
+[\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd):
 data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline
 parallelism (PP), and sequence parallelism (SP). Every one of those strategies
 keeps the model **dense** — each token flows through *every* parameter.
@@ -396,7 +396,7 @@ the right GPU with an **all-to-all** (dispatch), computed, then shuffled back
 | **PP**   | *across* layers (stages)             | point-to-point      | per-stage   |
 | **EP**   | the *experts* of the MoE FFN         | **`all-to-all`**    | non-expert params |
 
-: How expert parallelism relates to the parallelism strategies from [\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd) {.responsive .striped .hover}
+: How expert parallelism relates to the parallelism strategies from [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd) {.responsive .striped .hover}
 
 - **EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense weights; EP
   gives each rank *different* expert weights. In practice you run **EP inside a
@@ -408,7 +408,7 @@ the right GPU with an **all-to-all** (dispatch), computed, then shuffled back
 - **When EP helps.** When (a) the model is MoE, (b) the experts don't fit on one
   GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the
   all-to-all becomes the bottleneck — this is exactly the
-  *communication-vs-computation* tradeoff from [\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd).
+  *communication-vs-computation* tradeoff from [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
 ### 🛠️ Launch it with `ezpz`
 
@@ -514,7 +514,7 @@ Where **proof** can be any of:
 - Shazeer et al. *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*. [arXiv:1701.06538](https://arxiv.org/abs/1701.06538)
 - torchtitan team. *torchtitan: One-stop PyTorch native solution for production-ready LLM pre-training*. [arXiv:2410.06511](https://arxiv.org/abs/2410.06511) · {{< fa brands github >}} [pytorch/torchtitan](https://github.com/pytorch/torchtitan)
 - {{< fa brands github >}} [saforem2/ezpz](https://github.com/saforem2/ezpz)
-- ⏪ Prerequisite: [\[02.1\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd)
+- ⏪ Prerequisite: [\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd)
 
 ```{python}
 #| echo: false

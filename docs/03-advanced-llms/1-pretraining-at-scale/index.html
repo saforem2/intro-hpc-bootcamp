@@ -777,7 +777,7 @@ window.Quarto = {
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/1-pretraining-at-scale/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>You already know <em>how</em> to shard a model across many GPUs from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a> (DDP, ZeRO, FSDP, TP, PP, SP, and 3D parallelism) and how to <em>launch</em> those runs from <a href="../../02-llms/1-parallel-training/index.html">[02.2] Parallel Training</a>. This lab is about everything <em>around</em> the training loop that decides whether a thousand-GPU pretraining run is fast or a thousand-GPU space heater:</p>
+<p>You already know <em>how</em> to shard a model across many GPUs from <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a> (DDP, ZeRO, FSDP, TP, PP, SP, and 3D parallelism) and how to <em>launch</em> those runs from <a href="../../02-llms/1-parallel-training/index.html">[02.1] Parallel Training</a>. This lab is about everything <em>around</em> the training loop that decides whether a thousand-GPU pretraining run is fast or a thousand-GPU space heater:</p>
 <ul>
 <li><strong>Theme A — Getting your code onto the machine.</strong> At scale, just <em>importing your Python environment</em> can crash the filesystem.</li>
 <li><strong>Theme B — Knowing if you’re fast.</strong> Throughput (<code>tokens/sec</code>) and <strong>MFU</strong> (Model FLOPs Utilization) are the numbers that matter.</li>
@@ -1049,7 +1049,7 @@ toy MFU          : 26.3%</code></pre>
 </section>
 <section id="theme-c-efficient-collectives" class="level2">
 <h2 class="anchored" data-anchor-id="theme-c-efficient-collectives">🗣️ Theme C: Efficient Collectives</h2>
-<p>Every step of data-parallel training ends with an <a href="../../01-neural-networks/4-distributed-training/index.html#allreduce"><strong>all-reduce</strong></a> of gradients; sharded strategies add <a href="../../01-neural-networks/4-distributed-training/index.html#allgather"><strong>all-gather</strong></a> of parameters (FSDP) and reduce-scatter of gradients. You saw these collectives in <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1]</a> — here we care about their <em>cost</em>.</p>
+<p>Every step of data-parallel training ends with an <a href="../../01-neural-networks/4-distributed-training/index.html#allreduce"><strong>all-reduce</strong></a> of gradients; sharded strategies add <a href="../../01-neural-networks/4-distributed-training/index.html#allgather"><strong>all-gather</strong></a> of parameters (FSDP) and reduce-scatter of gradients. You saw these collectives in <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4]</a> — here we care about their <em>cost</em>.</p>
 <p>That cost is paid over the interconnect (NVLink within a node, InfiniBand / Slingshot between nodes), and it’s implemented by a <strong>collective communication library</strong>:</p>
 <ul>
 <li><strong><a href="https://developer.nvidia.com/nccl">NCCL</a></strong> — NVIDIA’s library; the default backend on NVIDIA GPUs.</li>
@@ -1298,7 +1298,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <li><a href="https://github.com/pytorch/torchtitan"><code>torchtitan</code></a> — PyTorch-native pretraining reference</li>
 <li>Hoffmann et al., <em>Training Compute-Optimal Large Language Models</em> (Chinchilla), <a href="https://arxiv.org/abs/2203.15556">arXiv:2203.15556</a></li>
 <li><a href="https://allenai.org/olmo">OLMo</a> and the Dolma data report — open data-mixture and curation details</li>
-<li><a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/index.html">[02.2] Parallel Training</a></li>
+<li><a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/index.html">[02.1] Parallel Training</a></li>
 </ul>
 <div id="420fd5e2" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
@@ -1852,9 +1852,9 @@ Foreman, Sam. 2026. <span>“🏗️ Pretraining at Scale.”</span> July 22. <a
 <span id="cb17-17"><a href="#cb17-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/1-pretraining-at-scale/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd)</span></span>
 <span id="cb17-18"><a href="#cb17-18" aria-label="18"></a></span>
 <span id="cb17-19"><a href="#cb17-19" aria-label="19"></a>You already know _how_ to shard a model across many GPUs from</span>
-<span id="cb17-20"><a href="#cb17-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
 <span id="cb17-21"><a href="#cb17-21" aria-label="21"></a>(DDP, ZeRO, FSDP, TP, PP, SP, and 3D parallelism) and how to _launch_ those</span>
-<span id="cb17-22"><a href="#cb17-22" aria-label="22"></a>runs from <span class="co">[</span><span class="ot">\[02.2\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>. This</span>
+<span id="cb17-22"><a href="#cb17-22" aria-label="22"></a>runs from <span class="co">[</span><span class="ot">\[02.1\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>. This</span>
 <span id="cb17-23"><a href="#cb17-23" aria-label="23"></a>lab is about everything _around_ the training loop that decides whether a</span>
 <span id="cb17-24"><a href="#cb17-24" aria-label="24"></a>thousand-GPU pretraining run is fast or a thousand-GPU space heater:</span>
 <span id="cb17-25"><a href="#cb17-25" aria-label="25"></a></span>
@@ -2179,7 +2179,7 @@ Foreman, Sam. 2026. <span>“🏗️ Pretraining at Scale.”</span> July 22. <a
 <span id="cb17-356"><a href="#cb17-356" aria-label="344"></a>of gradients; sharded strategies add</span>
 <span id="cb17-357"><a href="#cb17-357" aria-label="345"></a><span class="co">[</span><span class="ot">**all-gather**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd#allgather)</span></span>
 <span id="cb17-358"><a href="#cb17-358" aria-label="346"></a>of parameters (FSDP) and reduce-scatter of gradients. You saw these collectives</span>
-<span id="cb17-359"><a href="#cb17-359" aria-label="347"></a>in <span class="co">[</span><span class="ot">\[02.1\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> — here we</span>
+<span id="cb17-359"><a href="#cb17-359" aria-label="347"></a>in <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> — here we</span>
 <span id="cb17-360"><a href="#cb17-360" aria-label="348"></a>care about their _cost_.</span>
 <span id="cb17-361"><a href="#cb17-361" aria-label="349"></a></span>
 <span id="cb17-362"><a href="#cb17-362" aria-label="350"></a>That cost is paid over the interconnect (NVLink within a node, InfiniBand /</span>
@@ -2447,8 +2447,8 @@ Foreman, Sam. 2026. <span>“🏗️ Pretraining at Scale.”</span> July 22. <a
 <span id="cb17-628"><a href="#cb17-628" aria-label="612"></a>  <span class="co">[</span><span class="ot">arXiv:2203.15556</span><span class="co">](https://arxiv.org/abs/2203.15556)</span></span>
 <span id="cb17-629"><a href="#cb17-629" aria-label="613"></a><span class="ss">- </span><span class="co">[</span><span class="ot">OLMo</span><span class="co">](https://allenai.org/olmo)</span> and the Dolma data report — open data-mixture</span>
 <span id="cb17-630"><a href="#cb17-630" aria-label="614"></a>  and curation details</span>
-<span id="cb17-631"><a href="#cb17-631" aria-label="615"></a><span class="ss">- </span><span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb17-632"><a href="#cb17-632" aria-label="616"></a>  and <span class="co">[</span><span class="ot">\[02.2\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span></span>
+<span id="cb17-631"><a href="#cb17-631" aria-label="615"></a><span class="ss">- </span><span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb17-632"><a href="#cb17-632" aria-label="616"></a>  and <span class="co">[</span><span class="ot">\[02.1\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span></span>
 <span id="cb17-633"><a href="#cb17-633" aria-label="617"></a></span>
 <span id="cb17-636"><a href="#cb17-636" aria-label="618"></a><span class="in">```{python}</span></span>
 <span id="cb17-637"><a href="#cb17-637" aria-label="619"></a><span class="co">#| echo: false</span></span>

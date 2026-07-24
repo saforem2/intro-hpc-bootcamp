@@ -36,11 +36,11 @@ Sam Foreman
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/1-pretraining-at-scale/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd)
 
-You already know *how* to shard a model across many GPUs from [\[02.1\]
+You already know *how* to shard a model across many GPUs from [\[01.4\]
 Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd)
 (DDP, ZeRO, FSDP, TP, PP, SP, and 3D parallelism) and how to *launch*
-those runs from [\[02.2\] Parallel
+those runs from [\[02.1\] Parallel
 Training](../../02-llms/1-parallel-training/index.qmd). This lab is
 about everything *around* the training loop that decides whether a
 thousand-GPU pretraining run is fast or a thousand-GPU space heater:
@@ -382,7 +382,7 @@ of gradients; sharded strategies add
 [**all-gather**](../../01-neural-networks/4-distributed-training/index.qmd#allgather)
 of parameters (FSDP) and reduce-scatter of gradients. You saw these
 collectives in
-[\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd) —
+[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd) —
 here we care about their *cost*.
 
 That cost is paid over the interconnect (NVLink within a node,
@@ -668,9 +668,9 @@ Where *proof* can be any of:
   (Chinchilla), [arXiv:2203.15556](https://arxiv.org/abs/2203.15556)
 - [OLMo](https://allenai.org/olmo) and the Dolma data report — open
   data-mixture and curation details
-- [\[02.1\] Distributed
+- [\[01.4\] Distributed
   Training](../../01-neural-networks/4-distributed-training/index.qmd)
-  and [\[02.2\] Parallel
+  and [\[02.1\] Parallel
   Training](../../02-llms/1-parallel-training/index.qmd)
 
 <!-- -->

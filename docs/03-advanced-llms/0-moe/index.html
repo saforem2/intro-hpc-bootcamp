@@ -769,7 +769,7 @@ window.Quarto = {
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/0-moe/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>By now you have seen how to split a model across many GPUs in <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a>: data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline parallelism (PP), and sequence parallelism (SP). Every one of those strategies keeps the model <strong>dense</strong> — each token flows through <em>every</em> parameter.</p>
+<p>By now you have seen how to split a model across many GPUs in <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a>: data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline parallelism (PP), and sequence parallelism (SP). Every one of those strategies keeps the model <strong>dense</strong> — each token flows through <em>every</em> parameter.</p>
 <p><strong>Mixture of Experts (MoE)</strong> breaks that assumption. Instead of one big feed-forward network (FFN), an MoE layer holds <em>many</em> FFN “experts” and a small <strong>router</strong> that sends each token to only a <em>few</em> of them. The model can have enormous total capacity while each token only pays for a tiny slice of it. This is how <a href="https://arxiv.org/abs/2412.19437">DeepSeek-v3</a> reaches <strong>671B total parameters</strong> while activating only <strong>~37B per token</strong>.</p>
 <p>This lab follows the usual arc:</p>
 <ol type="1">
@@ -1188,7 +1188,7 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <h3 class="anchored" data-anchor-id="ep-vs.-the-parallelism-you-already-know">🧭 EP vs.&nbsp;the parallelism you already know</h3>
 <div class="table-responsive">
 <table class="table-striped table-hover caption-top table">
-<caption>How expert parallelism relates to the parallelism strategies from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1]</a></caption>
+<caption>How expert parallelism relates to the parallelism strategies from <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4]</a></caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Strategy</th>
@@ -1228,7 +1228,7 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <ul>
 <li><strong>EP vs.&nbsp;DP/FSDP.</strong> DP/FSDP replicate or shard the <em>same</em> dense weights; EP gives each rank <em>different</em> expert weights. In practice you run <strong>EP inside a data-parallel world</strong> — the attention and shared-expert params are still FSDP-sharded, only the routed experts use EP.</li>
 <li><strong>EP vs.&nbsp;TP.</strong> TP splits a <em>single</em> weight matrix and needs an <code>all-reduce</code> every layer. EP keeps each expert whole on one rank and pays <strong><code>all-to-all</code></strong> only at the MoE block. All-to-all moves <em>tokens</em>, not weights.</li>
-<li><strong>When EP helps.</strong> When (a) the model is MoE, (b) the experts don’t fit on one GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the all-to-all becomes the bottleneck — this is exactly the <em>communication-vs-computation</em> tradeoff from <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1]</a>.</li>
+<li><strong>When EP helps.</strong> When (a) the model is MoE, (b) the experts don’t fit on one GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the all-to-all becomes the bottleneck — this is exactly the <em>communication-vs-computation</em> tradeoff from <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4]</a>.</li>
 </ul>
 </section>
 <section id="launch-it-with-ezpz" class="level3">
@@ -1310,7 +1310,7 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <li>Shazeer et al.&nbsp;<em>Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer</em>. <a href="https://arxiv.org/abs/1701.06538">arXiv:1701.06538</a></li>
 <li>torchtitan team. <em>torchtitan: One-stop PyTorch native solution for production-ready LLM pre-training</em>. <a href="https://arxiv.org/abs/2410.06511">arXiv:2410.06511</a> · <i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/pytorch/torchtitan">pytorch/torchtitan</a></li>
 <li><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/saforem2/ezpz">saforem2/ezpz</a></li>
-<li>⏪ Prerequisite: <a href="../../01-neural-networks/4-distributed-training/index.html">[02.1] Distributed Training</a></li>
+<li>⏪ Prerequisite: <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a></li>
 </ul>
 <div id="8ae42a04" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
@@ -1866,7 +1866,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb12-17"><a href="#cb12-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/0-moe/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd)</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-label="18"></a></span>
 <span id="cb12-19"><a href="#cb12-19" aria-label="19"></a>By now you have seen how to split a model across many GPUs in</span>
-<span id="cb12-20"><a href="#cb12-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-label="20"></a><span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>:</span>
 <span id="cb12-21"><a href="#cb12-21" aria-label="21"></a>data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline</span>
 <span id="cb12-22"><a href="#cb12-22" aria-label="22"></a>parallelism (PP), and sequence parallelism (SP). Every one of those strategies</span>
 <span id="cb12-23"><a href="#cb12-23" aria-label="23"></a>keeps the model **dense** — each token flows through *every* parameter.</span>
@@ -2245,7 +2245,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb12-408"><a href="#cb12-408" aria-label="396"></a><span class="pp">|</span> **PP**   <span class="pp">|</span> *across* layers (stages)             <span class="pp">|</span> point-to-point      <span class="pp">|</span> per-stage   <span class="pp">|</span></span>
 <span id="cb12-409"><a href="#cb12-409" aria-label="397"></a><span class="pp">|</span> **EP**   | the *experts* of the MoE FFN         | **`all-to-all`**    <span class="pp">|</span> non-expert params <span class="pp">|</span></span>
 <span id="cb12-410"><a href="#cb12-410" aria-label="398"></a></span>
-<span id="cb12-411"><a href="#cb12-411" aria-label="399"></a>: How expert parallelism relates to the parallelism strategies from <span class="co">[</span><span class="ot">\[02.1\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> {.responsive .striped .hover}</span>
+<span id="cb12-411"><a href="#cb12-411" aria-label="399"></a>: How expert parallelism relates to the parallelism strategies from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> {.responsive .striped .hover}</span>
 <span id="cb12-412"><a href="#cb12-412" aria-label="400"></a></span>
 <span id="cb12-413"><a href="#cb12-413" aria-label="401"></a><span class="ss">- </span>**EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense weights; EP</span>
 <span id="cb12-414"><a href="#cb12-414" aria-label="402"></a>  gives each rank *different* expert weights. In practice you run **EP inside a</span>
@@ -2257,7 +2257,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb12-420"><a href="#cb12-420" aria-label="408"></a><span class="ss">- </span>**When EP helps.** When (a) the model is MoE, (b) the experts don't fit on one</span>
 <span id="cb12-421"><a href="#cb12-421" aria-label="409"></a>  GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the</span>
 <span id="cb12-422"><a href="#cb12-422" aria-label="410"></a>  all-to-all becomes the bottleneck — this is exactly the</span>
-<span id="cb12-423"><a href="#cb12-423" aria-label="411"></a>  *communication-vs-computation* tradeoff from <span class="co">[</span><span class="ot">\[02.1\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
+<span id="cb12-423"><a href="#cb12-423" aria-label="411"></a>  *communication-vs-computation* tradeoff from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
 <span id="cb12-424"><a href="#cb12-424" aria-label="412"></a></span>
 <span id="cb12-425"><a href="#cb12-425" aria-label="413"></a><span class="fu">### 🛠️ Launch it with `ezpz`</span></span>
 <span id="cb12-426"><a href="#cb12-426" aria-label="414"></a></span>
@@ -2363,7 +2363,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb12-526"><a href="#cb12-526" aria-label="514"></a><span class="ss">- </span>Shazeer et al. *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*. <span class="co">[</span><span class="ot">arXiv:1701.06538</span><span class="co">](https://arxiv.org/abs/1701.06538)</span></span>
 <span id="cb12-527"><a href="#cb12-527" aria-label="515"></a><span class="ss">- </span>torchtitan team. *torchtitan: One-stop PyTorch native solution for production-ready LLM pre-training*. <span class="co">[</span><span class="ot">arXiv:2410.06511</span><span class="co">](https://arxiv.org/abs/2410.06511)</span> · {{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">pytorch/torchtitan</span><span class="co">](https://github.com/pytorch/torchtitan)</span></span>
 <span id="cb12-528"><a href="#cb12-528" aria-label="516"></a><span class="ss">- </span>{{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">saforem2/ezpz</span><span class="co">](https://github.com/saforem2/ezpz)</span></span>
-<span id="cb12-529"><a href="#cb12-529" aria-label="517"></a><span class="ss">- </span>⏪ Prerequisite: <span class="co">[</span><span class="ot">\[02.1\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb12-529"><a href="#cb12-529" aria-label="517"></a><span class="ss">- </span>⏪ Prerequisite: <span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
 <span id="cb12-530"><a href="#cb12-530" aria-label="518"></a></span>
 <span id="cb12-533"><a href="#cb12-533" aria-label="519"></a><span class="in">```{python}</span></span>
 <span id="cb12-534"><a href="#cb12-534" aria-label="520"></a><span class="co">#| echo: false</span></span>

@@ -303,7 +303,7 @@ correctness — no step-by-step supervision required.
 > (e.g. vLLM) feeding the training ranks.
 >
 > The distributed machinery underneath is exactly what you already know
-> from [\[02.1\] Distributed
+> from [\[01.4\] Distributed
 > Training](../../01-neural-networks/4-distributed-training/index.qmd):
 > the policy is sharded with ZeRO/FSDP, generation is parallelized
 > across ranks, and rewards are gathered with the same collectives. RL

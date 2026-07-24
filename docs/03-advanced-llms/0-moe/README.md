@@ -32,7 +32,7 @@ Sam Foreman
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/0-moe/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd)
 
-By now you have seen how to split a model across many GPUs in [\[02.1\]
+By now you have seen how to split a model across many GPUs in [\[01.4\]
 Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd):
 data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline
@@ -464,7 +464,7 @@ computed, then shuffled back (combine).
 | **EP** | the *experts* of the MoE FFN | **`all-to-all`** | non-expert params |
 
 How expert parallelism relates to the parallelism strategies from
-[\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd)
+[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
 {.table-responsive .table-striped .table-hover}
 
 - **EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense
@@ -480,7 +480,7 @@ How expert parallelism relates to the parallelism strategies from
   fit on one GPU, and (c) your interconnect can absorb the all-to-all.
   On slow networks the all-to-all becomes the bottleneck — this is
   exactly the *communication-vs-computation* tradeoff from
-  [\[02.1\]](../../01-neural-networks/4-distributed-training/index.qmd).
+  [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
 ### 🛠️ Launch it with `ezpz`
 
@@ -602,7 +602,7 @@ Where **proof** can be any of:
   [arXiv:2410.06511](https://arxiv.org/abs/2410.06511) ·
   [pytorch/torchtitan](https://github.com/pytorch/torchtitan)
 -  [saforem2/ezpz](https://github.com/saforem2/ezpz)
-- ⏪ Prerequisite: [\[02.1\] Distributed
+- ⏪ Prerequisite: [\[01.4\] Distributed
   Training](../../01-neural-networks/4-distributed-training/index.qmd)
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">10:03</span>

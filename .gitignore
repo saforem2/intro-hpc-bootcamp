@@ -20,3 +20,6 @@ content/01-neural-networks/3-representation-learning/data/
 # large page assets (served via the built docs/ copy, not tracked at source)
 content/01-neural-networks/4-distributed-training/assets/
 backup/
+
+# render strays moved here instead of deleting (see AskUserQuestion 2026-07-24)
+.render-strays/
