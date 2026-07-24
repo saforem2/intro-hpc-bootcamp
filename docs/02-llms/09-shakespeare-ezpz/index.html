@@ -140,16 +140,16 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <meta property="og:title" content="🪶 Shakespeare from Scratch (with ezpz) – Intro to HPC Bootcamp">
 <meta property="og:description" content="Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
-<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/09-shakespeare-ezpz/index_files/figure-html/cell-11-output-2.png">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/09-shakespeare-ezpz/index_files/figure-html/fig-ezpz-metrics-output-1.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
-<meta property="og:image:height" content="800">
-<meta property="og:image:width" content="1064">
+<meta property="og:image:height" content="1324">
+<meta property="og:image:width" content="1858">
 <meta name="twitter:title" content="🪶 Shakespeare from Scratch (with ezpz) – Intro to HPC Bootcamp">
 <meta name="twitter:description" content="Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
-<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/09-shakespeare-ezpz/index_files/figure-html/cell-11-output-2.png">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/09-shakespeare-ezpz/index_files/figure-html/fig-ezpz-metrics-output-1.png">
 <meta name="twitter:site" content="saforem2">
-<meta name="twitter:image-height" content="800">
-<meta name="twitter:image-width" content="1064">
+<meta name="twitter:image-height" content="1324">
+<meta name="twitter:image-width" content="1858">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="🪶 Shakespeare from Scratch (with `ezpz`)">
 <meta name="citation_author" content="Sam Foreman">
@@ -745,7 +745,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The single most useful thing <code>ezpz</code> does is collapse all of PyTorch’s distributed boilerplate into <strong>one call</strong>. On a real (multi-GPU) run your script starts like this:</p>
-<div id="31c1aaa4" class="cell" data-execution_count="1">
+<div id="3bfd40fa" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> ezpz</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>rank <span class="op">=</span> ezpz.setup_torch(seed<span class="op">=</span><span class="dv">1234</span>)   <span class="co"># discovers rank/world/device/backend, inits process group</span></span>
@@ -774,7 +774,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <p>For this page we build a <strong>tiny</strong> version that actually runs here on CPU, so we import the plumbing and pick a device directly (on a cluster you’d use <code>ezpz.setup_torch()</code> above instead):</p>
-<div id="da29dac8" class="cell" data-execution_count="2">
+<div id="ee0cc4fb" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>os.environ[<span class="st">"WANDB_DISABLED"</span>] <span class="op">=</span> <span class="st">"1"</span>   <span class="co"># keep the tutorial offline</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>os.environ[<span class="st">"WANDB_MODE"</span>] <span class="op">=</span> <span class="st">"disabled"</span></span>
@@ -793,7 +793,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb4-16"><a href="#cb4-16" aria-label="16"></a>logger.info(<span class="ss">f"Using device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:25,537990][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">452727945</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Using device: mps
+<pre>[2026-07-24 10:28:07][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">452727945</span>:<span class="ansi-red-fg">16</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] Using device: mps
 </pre>
 </div>
 </div>
@@ -802,7 +802,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="the-data-tiny-shakespeare" class="level2">
 <h2 class="anchored" data-anchor-id="the-data-tiny-shakespeare">📖 The Data: tiny-Shakespeare</h2>
 <p>We train a <strong>character-level</strong> model: the vocabulary is just the set of unique characters in the text, and the model predicts the next character.</p>
-<div id="4b075a22" class="cell" data-execution_count="3">
+<div id="ea1e9b9e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a></span>
@@ -823,13 +823,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb5-18"><a href="#cb5-18" aria-label="18"></a>logger.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(text)<span class="sc">:,}</span><span class="ss"> characters, vocab size = </span><span class="sc">{</span>vocab_size<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:25,548346][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2057450174</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">18</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-cyan-fg ansi-bold">1</span>,<span class="ansi-cyan-fg ansi-bold">115</span>,<span class="ansi-cyan-fg ansi-bold">394</span> characters, vocab size = <span class="ansi-cyan-fg ansi-bold">65</span>
+<pre>[2026-07-24 10:28:07][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2057450174</span>:<span class="ansi-red-fg">18</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-cyan-fg ansi-bold">1</span>,<span class="ansi-cyan-fg ansi-bold">115</span>,<span class="ansi-cyan-fg ansi-bold">394</span> characters, vocab size = <span class="ansi-cyan-fg ansi-bold">65</span>
 </pre>
 </div>
 </div>
 </div>
 <p>Build the char↔︎int mappings and encode the whole corpus, then split 90/10:</p>
-<div id="021af4bc" class="cell" data-execution_count="4">
+<div id="9e273477" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>stoi <span class="op">=</span> {c: i <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>itos <span class="op">=</span> {i: c <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>encode <span class="op">=</span> <span class="kw">lambda</span> s: [stoi[c] <span class="cf">for</span> c <span class="kw">in</span> s]              <span class="co"># str -&gt; list[int]</span></span>
@@ -850,7 +850,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="the-model-a-small-gpt" class="level2">
 <h2 class="anchored" data-anchor-id="the-model-a-small-gpt">🧱 The Model: a small GPT</h2>
 <p>A compact decoder-only Transformer — the same architecture as the <code>wordplay</code> model, written inline. (For the <em>why</em> behind attention, see <a href="../../02-llms/00-intro-to-llms/index.html">Intro to LLMs</a>.)</p>
-<div id="c48e9bee" class="cell" data-execution_count="5">
+<div id="1247fc40" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="at">@dataclass</span></span>
@@ -931,7 +931,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="going-distributed-with-ezpz" class="level2">
 <h2 class="anchored" data-anchor-id="going-distributed-with-ezpz">⚡ Going distributed with <code>ezpz</code></h2>
 <p>On multiple GPUs, wrapping the model for <strong>Distributed Data Parallel</strong> is where <code>ezpz</code> shines — but the beauty is that the <em>training loop below doesn’t change</em>. On a cluster you’d add:</p>
-<div id="f5fc612a" class="cell" data-execution_count="6">
+<div id="4046e177" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># after `model = GPT(cfg).to(device)` on a real multi-GPU run:</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a></span>
@@ -994,7 +994,7 @@ Table&nbsp;1: Training metrics legend
 </div>
 </figure>
 </div>
-<div id="673f4958" class="cell" data-execution_count="7">
+<div id="4f7ff97a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co"># --- tiny config: runs on CPU at build time ---</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>cfg <span class="op">=</span> GPTConfig(vocab_size<span class="op">=</span>vocab_size, block_size<span class="op">=</span><span class="dv">64</span>, n_layer<span class="op">=</span><span class="dv">4</span>, n_head<span class="op">=</span><span class="dv">4</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>                n_embd<span class="op">=</span><span class="dv">128</span>, dropout<span class="op">=</span><span class="fl">0.0</span>)</span>
@@ -1013,12 +1013,12 @@ Table&nbsp;1: Training metrics legend
 <span id="cb9-16"><a href="#cb9-16" aria-label="16"></a>PEAK_FLOPS <span class="op">=</span> <span class="fl">1.0e12</span>       <span class="co"># ~1 TFLOP/s nominal (CPU); set to your GPU's bf16 peak</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:25,663010][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">957739443</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">9</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>model has <span class="ansi-cyan-fg ansi-bold">0.</span>82M parameters
+<pre>[2026-07-24 10:28:07][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">957739443</span>:<span class="ansi-red-fg">9</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] model has <span class="ansi-cyan-fg ansi-bold">0.</span>82M parameters
 </pre>
 </div>
 </div>
 </div>
-<div id="19e9f515" class="cell" data-execution_count="8">
+<div id="c0ac06cd" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a>history <span class="op">=</span> ezpz.History()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>model.train()</span>
@@ -1050,15 +1050,19 @@ Table&nbsp;1: Training metrics legend
 <span id="cb10-29"><a href="#cb10-29" aria-label="29"></a>        logger.info(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:26,226742][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2504529068</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">29</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">0</span> <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">4</span><span class="ansi-cyan-fg ansi-bold">.372406</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.556449</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">28</span><span class="ansi-cyan-fg ansi-bold">.753767</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.001840</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.903385</span>
+<pre>[2026-07-24 10:28:08][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ezpz</span>/<span class="ansi-magenta-fg">history</span>:<span class="ansi-red-fg">219</span>:<span style="font-style:italic" class="ansi-bright-green-fg">__init__</span>] Not using distributed metrics! Will only be tracked from a single rank<span class="ansi-bright-yellow-fg">...</span>
 
-[2026-07-24 09:46:26,384269][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2504529068</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">29</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">10</span> <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">3</span><span class="ansi-cyan-fg ansi-bold">.202098</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.014010</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">1142</span><span class="ansi-cyan-fg ansi-bold">.068546</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.073092</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">35</span><span class="ansi-cyan-fg ansi-bold">.881462</span>
+[2026-07-24 10:28:08][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ezpz</span>/<span class="ansi-magenta-fg">history</span>:<span class="ansi-red-fg">225</span>:<span style="font-style:italic" class="ansi-bright-green-fg">__init__</span>] Using History with <span class="ansi-bright-blue-fg">distributed_history</span>=<span style="font-style:italic" class="ansi-bright-red-fg">False</span>
 
-[2026-07-24 09:46:26,537089][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2504529068</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">29</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">20</span> <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">3</span><span class="ansi-cyan-fg ansi-bold">.051642</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.014099</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">1134</span><span class="ansi-cyan-fg ansi-bold">.849080</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.072630</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">35</span><span class="ansi-cyan-fg ansi-bold">.654641</span>
+[2026-07-24 10:28:10][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2504529068</span>:<span class="ansi-red-fg">29</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">0</span>    <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">4</span><span class="ansi-cyan-fg ansi-bold">.372406</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">1</span><span class="ansi-cyan-fg ansi-bold">.346515</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">11</span><span class="ansi-cyan-fg ansi-bold">.882523</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.000760</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.373325</span>
 
-[2026-07-24 09:46:26,688240][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2504529068</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">29</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">30</span> <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">2</span><span class="ansi-cyan-fg ansi-bold">.762733</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.013981</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">1144</span><span class="ansi-cyan-fg ansi-bold">.430736</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.073244</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">35</span><span class="ansi-cyan-fg ansi-bold">.955677</span>
+[2026-07-24 10:28:10][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2504529068</span>:<span class="ansi-red-fg">29</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">10</span>   <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">3</span><span class="ansi-cyan-fg ansi-bold">.202098</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.034815</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">459</span><span class="ansi-cyan-fg ansi-bold">.570374</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.029413</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">14</span><span class="ansi-cyan-fg ansi-bold">.438763</span>
 
-[2026-07-24 09:46:26,841012][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">2504529068</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">29</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">40</span> <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">2</span><span class="ansi-cyan-fg ansi-bold">.663434</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.013698</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">1168</span><span class="ansi-cyan-fg ansi-bold">.043069</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.074755</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">36</span><span class="ansi-cyan-fg ansi-bold">.697529</span>
+[2026-07-24 10:28:11][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2504529068</span>:<span class="ansi-red-fg">29</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">20</span>   <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">3</span><span class="ansi-cyan-fg ansi-bold">.051642</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.040265</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">397</span><span class="ansi-cyan-fg ansi-bold">.369494</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.025432</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">12</span><span class="ansi-cyan-fg ansi-bold">.484538</span>
+
+[2026-07-24 10:28:12][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2504529068</span>:<span class="ansi-red-fg">29</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">30</span>   <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">2</span><span class="ansi-cyan-fg ansi-bold">.762733</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.025660</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">623</span><span class="ansi-cyan-fg ansi-bold">.541619</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.039907</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">19</span><span class="ansi-cyan-fg ansi-bold">.590405</span>
+
+[2026-07-24 10:28:12][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2504529068</span>:<span class="ansi-red-fg">29</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] <span class="ansi-bright-blue-fg">step</span>=<span class="ansi-cyan-fg ansi-bold">40</span>   <span class="ansi-bright-blue-fg">loss</span>=<span class="ansi-cyan-fg ansi-bold">2</span><span class="ansi-cyan-fg ansi-bold">.663434</span> <span class="ansi-bright-blue-fg">dt</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.023957</span> <span class="ansi-bright-blue-fg">sps</span>=<span class="ansi-cyan-fg ansi-bold">667</span><span class="ansi-cyan-fg ansi-bold">.874880</span> <span class="ansi-bright-blue-fg">mtps</span>=<span class="ansi-cyan-fg ansi-bold">0</span><span class="ansi-cyan-fg ansi-bold">.042744</span> <span class="ansi-bright-blue-fg">mfu</span>=<span class="ansi-cyan-fg ansi-bold">20</span><span class="ansi-cyan-fg ansi-bold">.983265</span>
 </pre>
 </div>
 </div>
@@ -1067,14 +1071,14 @@ Table&nbsp;1: Training metrics legend
 <section id="generating-text" class="level2">
 <h2 class="anchored" data-anchor-id="generating-text">💬 Generating Text</h2>
 <p>The <code>generate()</code> method samples one character at a time. Let’s compare <strong>before</strong> and <strong>after</strong> training — a few dozen CPU steps won’t produce Shakespeare, but the shift from pure noise toward text-like structure is already visible (train for 1000+ steps on a GPU for the real thing):</p>
-<div id="62067141" class="cell" data-execution_count="9">
+<div id="06057b43" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>prompt <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>ctx <span class="op">=</span> torch.tensor([encode(prompt)], dtype<span class="op">=</span>torch.<span class="bu">long</span>, device<span class="op">=</span>device)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>sample <span class="op">=</span> decode(model.generate(ctx, max_new_tokens<span class="op">=</span><span class="dv">200</span>, temperature<span class="op">=</span><span class="fl">0.8</span>, top_k<span class="op">=</span><span class="dv">16</span>)[<span class="dv">0</span>].tolist())</span>
 <span id="cb11-4"><a href="#cb11-4" aria-label="4"></a>logger.info(<span class="st">"--- sample after tiny training run ---</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> sample)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:33,607530][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">204336923</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">4</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>--- sample after tiny training run ---
+<pre>[2026-07-24 10:28:28][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">204336923</span>:<span class="ansi-red-fg">4</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] --- sample after tiny training run ---
 
 
 
@@ -1091,323 +1095,56 @@ The wo and ind t sy ter toforlllllin bers ss ages mine and hal mer,r to indis le
 <section id="plots-report-for-free" class="level2">
 <h2 class="anchored" data-anchor-id="plots-report-for-free">📊 Plots &amp; Report, for free</h2>
 <p><code>ezpz.History</code> can turn the metrics you logged into plots and a report with a single call — it writes loss curves (matplotlib <strong>and</strong> terminal plots), an <code>xarray</code> dataset, and a <code>report.md</code>:</p>
-<div id="6c45243c" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>outdir <span class="op">=</span> Path(<span class="st">"outputs"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>_ <span class="op">=</span> history.finalize(outdir<span class="op">=</span>outdir)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a>logger.info(<span class="st">"wrote: "</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(p.name <span class="cf">for</span> p <span class="kw">in</span> outdir.iterdir())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d896a478" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">import</span> io</span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="im">import</span> contextlib</span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-label="5"></a>outdir <span class="op">=</span> Path(<span class="st">"outputs"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-label="6"></a><span class="co"># finalize() writes plots/report to disk but also prints terminal-plot noise and</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-label="7"></a><span class="co"># leaves an empty matplotlib figure open; hush stdout and drop the stray figure.</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-label="8"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-9"><a href="#cb12-9" aria-label="9"></a><span class="cf">with</span> contextlib.redirect_stdout(io.StringIO()):</span>
+<span id="cb12-10"><a href="#cb12-10" aria-label="10"></a>    _ <span class="op">=</span> history.finalize(outdir<span class="op">=</span>outdir)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-label="11"></a>plt.close(<span class="st">"all"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-label="12"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-label="13"></a>logger.info(<span class="st">"wrote: "</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(p.name <span class="cf">for</span> p <span class="kw">in</span> outdir.iterdir())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-24 09:46:33,618607][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ezpz</span>/<span class="ansi-blue-fg">history</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">1722</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">finalize</span>]<span class="ansi-white-fg"> </span>Saving plots to <span class="ansi-magenta-fg">/Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/</span><span class="ansi-bright-magenta-fg">mplot</span> <span class="ansi-bright-magenta-fg">(</span>matplotlib<span class="ansi-bright-magenta-fg">)</span> and <span class="ansi-magenta-fg">/Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/</span><span class="ansi-bright-magenta-fg">tplot</span> <span class="ansi-bright-magenta-fg">(</span>tplot<span class="ansi-bright-magenta-fg">)</span>
-
-                           dt vs iter                       
-
-    ┌──────────────────────────────────────────────────────┐
-
-0.56┤▌                                                     │
-
-    │▌                                                     │
-
-0.47┤▌                                                     │
-
-    │▌                                                     │
-
-    │▌                                                     │
-
-0.38┤▌                                                     │
-
-    │▌                                                     │
-
-0.28┤▚                                                     │
-
-    │▐                                                     │
-
-0.19┤▐                                                     │
-
-    │▐                                                     │
-
-    │▐                                                     │
-
-0.10┤▐                                                     │
-
-    │▐                                                     │
-
-0.01┤▝▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄│
-
-    └┬─┬─┬─┬─┬──┬──┬───┬──┬──┬───┬───┬──┬──┬──┬──┬───┬──┬──┘
-
-     1 3 5 7 8 11 14  18 20 23  27  31 33 36 39 42  45 48   
-
-dt                            iter                          
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/dt.txt
-
-                           freq vs dt                       
-
-    ┌──────────────────────────────────────────────────────┐
-
-49.0┤█████                                                 │
-
-    │█████                                                 │
-
-40.8┤█████                                                 │
-
-    │█████                                                 │
-
-    │█████                                                 │
-
-32.7┤█████                                                 │
-
-    │█████                                                 │
-
-24.5┤█████                                                 │
-
-    │█████                                                 │
-
-16.3┤█████                                                 │
-
-    │█████                                                 │
-
-    │█████                                                 │
-
- 8.2┤█████                                                 │
-
-    │█████                                                 │
-
- 0.0┤█████                                            █████│
-
-    └┬────────────┬─────────────┬────────────┬────────────┬┘
-
-   -0.01        0.14          0.28         0.43        0.58 
-
-freq                           dt                           
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/dt-hist.txt
-
-                          loss vs iter                      
-
-    ┌──────────────────────────────────────────────────────┐
-
-4.37┤▌                                                     │
-
-    │▚                                                     │
-
-4.07┤▐                                                     │
-
-    │ ▌                                                    │
-
-    │ ▐                                                    │
-
-3.76┤  ▌                                                   │
-
-    │  ▝▖▗                                                 │
-
-3.45┤   ▝▘▚                                                │
-
-    │      ▚                                               │
-
-3.15┤       ▀▀▀▀▚▄▚                                        │
-
-    │              ▀▀▖ ▗▄▄▄▖                               │
-
-    │                ▝▀▘   ▝▖                              │
-
-2.84┤                       ▝▀▀▀▀▄ ▗  ▖    ▖               │
-
-    │                             ▀▘▀▀▝▀▀▀▀▝▄▞▀▄▄▄▄▖ ▖ ▖ ▗▄│
-
-2.54┤                                              ▝▀▝▞▝▀▘ │
-
-    └┬─┬─┬─┬─┬──┬──┬───┬──┬──┬───┬───┬──┬──┬──┬──┬───┬──┬──┘
-
-     1 3 5 7 8 11 14  18 20 23  27  31 33 36 39 42  45 48   
-
-loss                          iter                          
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/loss.txt
-
-                           mfu vs iter                      
-
-    ┌──────────────────────────────────────────────────────┐
-
-39.0┤     ▗           ▗▄      ▖       ▗▀▚▖               ▗ │
-
-    │   ▗▞▀▖ ▗▄▄▚▗▀▀▀▄▘▝▖  ▄▄▀▝▄▞▀▄▄▞▀▘  ▝▖ ▞▖  ▞▖  ▄▖  ▗▘▚│
-
-32.7┤ ▗▀▘  ▚▗▘   ▘      ▝▄▞               ▝▞ ▝▀▟ ▝▀▀ ▝▀▀▘  │
-
-    │▗▘     ▀                                              │
-
-    │▐                                                     │
-
-26.3┤▐                                                     │
-
-    │▐                                                     │
-
-20.0┤▐                                                     │
-
-    │▐                                                     │
-
-13.6┤▌                                                     │
-
-    │▌                                                     │
-
-    │▌                                                     │
-
- 7.3┤▌                                                     │
-
-    │▌                                                     │
-
- 0.9┤▌                                                     │
-
-    └┬─┬─┬─┬─┬──┬──┬───┬──┬──┬───┬───┬──┬──┬──┬──┬───┬──┬──┘
-
-     1 3 5 7 8 11 14  18 20 23  27  31 33 36 39 42  45 48   
-
-mfu                           iter                          
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/mfu.txt
-
-                          mtps vs iter                      
-
-     ┌─────────────────────────────────────────────────────┐
-
-0.079┤     ▗           ▄▖     ▗       ▗▀▀▄               ▗ │
-
-     │   ▄▞▀▖ ▗▄▞▖▗▀▀▚▞ ▝▖ ▗▄▞▘▚▄▀▚▄▄▀▘   ▚ ▞▖  ▗▚  ▄▖  ▗▘▚│
-
-0.067┤ ▗▀   ▚▗▘  ▝▘      ▝▄▘               ▜ ▝▀▄▌ ▀▀ ▝▀▀▘  │
-
-     │▗▘     ▀                                             │
-
-     │▐                                                    │
-
-0.054┤▐                                                    │
-
-     │▐                                                    │
-
-0.041┤▐                                                    │
-
-     │▐                                                    │
-
-0.028┤▌                                                    │
-
-     │▌                                                    │
-
-     │▌                                                    │
-
-0.015┤▌                                                    │
-
-     │▌                                                    │
-
-0.002┤▌                                                    │
-
-     └┬─┬──┬─┬──┬───┬──┬──┬──┬────┬───┬────┬──┬───┬──┬──┬──┘
-
-      1 3  6 8 10  14 17 20 23   27  31   36 39  42 45 48   
-
-mtps                          iter                          
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/mtps.txt
-
-                            sps vs iter                     
-
-      ┌────────────────────────────────────────────────────┐
-
-1241.9┤     ▗           ▄▖     ▖       ▞▀▄               ▗ │
-
-      │   ▄▀▀▖ ▗▄▞▖▞▀▀▄▞ ▚  ▄▄▀▝▄▞▀▄▄▞▀   ▚ ▗▚  ▗▚  ▄▖  ▗▘▚│
-
-1039.7┤ ▗▀   ▚▗▘  ▝       ▚▞               ▚▌ ▀▚▌ ▀▀ ▝▀▀▘  │
-
-      │▗▘     ▀                                            │
-
-      │▐                                                   │
-
- 837.5┤▐                                                   │
-
-      │▐                                                   │
-
- 635.3┤▐                                                   │
-
-      │▐                                                   │
-
- 433.1┤▌                                                   │
-
-      │▌                                                   │
-
-      │▌                                                   │
-
- 230.9┤▌                                                   │
-
-      │▌                                                   │
-
-  28.8┤▌                                                   │
-
-      └┬─┬──┬─┬──┬───┬──┬──┬──┬───┬───┬────┬──┬───┬──┬──┬──┘
-
-       1 3  6 8 11  14 17 20 23  27  31   36 38  42 45 48   
-
-sps                            iter                         
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/sps.txt
-
-                          step vs iter                      
-
-    ┌──────────────────────────────────────────────────────┐
-
-49.0┤                                                   ▗▄▞│
-
-    │                                                ▄▀▀▘  │
-
-40.8┤                                           ▗▄▄▀▀      │
-
-    │                                        ▗▄▞▘          │
-
-    │                                    ▄▄▀▀▘             │
-
-32.7┤                                 ▄▄▀                  │
-
-    │                             ▗▞▀▀                     │
-
-24.5┤                         ▄▄▞▀▘                        │
-
-    │                      ▄▄▀                             │
-
-16.3┤                  ▗▞▀▀                                │
-
-    │              ▄▄▞▀▘                                   │
-
-    │           ▄▀▀                                        │
-
- 8.2┤      ▗▄▞▀▀                                           │
-
-    │   ▗▄▞▘                                               │
-
- 0.0┤▄▀▀▘                                                  │
-
-    └┬─┬─┬─┬─┬──┬──┬───┬──┬──┬───┬───┬──┬──┬──┬──┬───┬──┬──┘
-
-     1 3 5 7 8 11 14  18 20 23  27  31 33 36 39 42  45 48   
-
-step                          iter                          
-
-<span class="ansi-bright-green-fg ansi-bold">text saved in</span> /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/step.txt
-
-[2026-07-24 09:46:34,249156][<span class="ansi-bright-yellow-fg">W</span>][<span style="font-style:italic" class="ansi-cyan-fg">ezpz</span>/<span class="ansi-blue-fg">history</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">1757</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">finalize</span>]<span class="ansi-white-fg"> </span>h5py not found! Saving dataset as netCDF instead.
-
-[2026-07-24 09:46:34,249705][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">utils</span>/<span class="ansi-blue-fg">__init__</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">401</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">save_dataset</span>]<span class="ansi-white-fg"> </span>Saving dataset to: <span class="ansi-magenta-fg">/Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/</span><span class="ansi-bright-magenta-fg">dataset_dataset.nc</span>
-
-[2026-07-24 09:46:34,280987][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ezpz</span>/<span class="ansi-blue-fg">history</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">1768</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">finalize</span>]<span class="ansi-white-fg"> </span>Saving history report to <span class="ansi-magenta-fg">/Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/</span><span class="ansi-bright-magenta-fg">report.md</span>
-
-[2026-07-24 09:46:34,282162][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_15283</span>/<span class="ansi-blue-fg">539666593</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">4</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>wrote: assets, dataset_dataset.nc, history, plots, report.md
+<pre>[2026-07-24 10:28:29][<span class="ansi-green-fg">I</span>][<span class="ansi-bright-magenta-fg">ipykernel_31913</span>/<span class="ansi-magenta-fg">2136428624</span>:<span class="ansi-red-fg">13</span>:<span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>] wrote: <span class="ansi-cyan-fg ansi-bold">2026</span>-<span class="ansi-cyan-fg ansi-bold">07</span>-<span class="ansi-cyan-fg ansi-bold">24</span>-<span class="ansi-cyan-fg ansi-bold">102807</span>-rank0.jsonl, <span class="ansi-cyan-fg ansi-bold">20260724-152808.j</span>sonl, assets, dataset_dataset.nc, history, plots, report.md
 </pre>
 </div>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/.venv/lib/python3.13/site-packages/scipy/io/_netcdf.py:1045: RuntimeWarning:
+
+invalid value encountered in cast
+</code></pre>
+</div>
+</div>
+<p><code>finalize()</code> saves each metric as a PNG under <code>outputs/plots/mplot/pngs/</code>. Let’s show the four headline metrics — <strong>loss</strong> (is it learning?), <strong>mfu</strong> (how well are we using the hardware?), and <strong>sps</strong> / <strong>mtps</strong> (throughput):</p>
+<div id="cell-fig-ezpz-metrics" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a>pngs <span class="op">=</span> outdir <span class="op">/</span> <span class="st">"plots"</span> <span class="op">/</span> <span class="st">"mplot"</span> <span class="op">/</span> <span class="st">"pngs"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>panels <span class="op">=</span> [(k, pngs <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">.png"</span>) <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"loss"</span>, <span class="st">"mfu"</span>, <span class="st">"sps"</span>, <span class="st">"mtps"</span>)]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>panels <span class="op">=</span> [(k, p) <span class="cf">for</span> k, p <span class="kw">in</span> panels <span class="cf">if</span> p.exists()]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a><span class="cf">for</span> ax, (name, p) <span class="kw">in</span> <span class="bu">zip</span>(axes.flat, panels):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a>    ax.imshow(plt.imread(p))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.flat[<span class="bu">len</span>(panels):]:</span>
+<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a>fig.tight_layout()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="index_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/cell-11-output-2.png" width="532" height="400" class="figure-img"></a></p>
+<div id="fig-ezpz-metrics" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ezpz-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/fig-ezpz-metrics-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Training metrics from ezpz.History.finalize(): loss, MFU, and throughput (samples/sec, million-tokens/sec)."><img src="index_files/figure-html/fig-ezpz-metrics-output-1.png" width="929" height="662" class="figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ezpz-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Training metrics from <code>ezpz.History.finalize()</code>: loss, MFU, and throughput (samples/sec, million-tokens/sec).
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1429,8 +1166,8 @@ step                          iter
 <section id="scaling-up" class="level2">
 <h2 class="anchored" data-anchor-id="scaling-up">🚀 Scaling Up</h2>
 <p>To train the <strong>full ~10M-parameter model</strong> (like the <code>wordplay</code> example) across multiple GPUs, drop the loop above into a <code>train.py</code> that starts with <code>ezpz.setup_torch()</code> + DDP, bump the config to the real size, and launch with <code>ezpz launch</code> — which auto-detects PBS (<code>mpiexec</code>) / SLURM (<code>srun</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="ex">ezpz</span> launch python3 train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="ex">ezpz</span> launch python3 train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>That’s the whole point: <strong>the training code you wrote above doesn’t change</strong> — <code>ezpz</code> handles going from your laptop’s CPU to a rack of GPUs.</p>
 </section>
 <section id="homework" class="level2">
@@ -1978,392 +1715,422 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="co">---</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🪶 Shakespeare from Scratch (with `ezpz`)"</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer."</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-label="4"></a><span class="an">categories:</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-label="5"></a><span class="co">  - ai</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-label="6"></a><span class="co">  - hpc</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-label="7"></a><span class="co">  - llm</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-label="8"></a><span class="an">date:</span><span class="co"> 2026-07-24</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-label="9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-label="10"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-label="11"></a><span class="co">---</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-label="12"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-label="13"></a>::: {.callout-note title="Authors" collapse="false"}</span>
-<span id="cb14-14"><a href="#cb14-14" aria-label="14"></a>Written by <span class="co">[</span><span class="ot">Sam Foreman</span><span class="co">](https://samforeman.me)</span> for the <span class="co">[</span><span class="ot">Intro to HPC Bootcamp</span><span class="co">](https://intro-hpc-bootcamp.alcf.anl.gov/)</span>.</span>
-<span id="cb14-15"><a href="#cb14-15" aria-label="15"></a>:::</span>
-<span id="cb14-16"><a href="#cb14-16" aria-label="16"></a></span>
-<span id="cb14-17"><a href="#cb14-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/09-shakespeare-ezpz/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/09-shakespeare-ezpz/index.qmd)</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-label="18"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-label="19"></a>The <span class="co">[</span><span class="ot">Shakespeare example</span><span class="co">](../08-shakespeare-example-colab/index.ipynb)</span> trains a</span>
-<span id="cb14-20"><a href="#cb14-20" aria-label="20"></a>small GPT with the <span class="co">[</span><span class="ot">`wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span> package.</span>
-<span id="cb14-21"><a href="#cb14-21" aria-label="21"></a>Here we do the **same thing from scratch** — the model, the data pipeline, the</span>
-<span id="cb14-22"><a href="#cb14-22" aria-label="22"></a>training loop, and the text generation are all written inline — using only</span>
-<span id="cb14-23"><a href="#cb14-23" aria-label="23"></a><span class="co">[</span><span class="ot">`ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> + <span class="co">[</span><span class="ot">PyTorch</span><span class="co">](https://pytorch.org)</span>.</span>
-<span id="cb14-24"><a href="#cb14-24" aria-label="24"></a></span>
-<span id="cb14-25"><a href="#cb14-25" aria-label="25"></a>::: {.callout-tip title="🎯 What you'll learn" collapse="false"}</span>
-<span id="cb14-26"><a href="#cb14-26" aria-label="26"></a><span class="ss">- </span>How <span class="co">[</span><span class="ot">`ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> turns a plain PyTorch loop into</span>
-<span id="cb14-27"><a href="#cb14-27" aria-label="27"></a>  a **distributed, instrumented** training run with almost no boilerplate.</span>
-<span id="cb14-28"><a href="#cb14-28" aria-label="28"></a><span class="ss">- </span>The pieces of a GPT training program: **config → model → data → loop →</span>
-<span id="cb14-29"><a href="#cb14-29" aria-label="29"></a>  metrics → generation**.</span>
-<span id="cb14-30"><a href="#cb14-30" aria-label="30"></a><span class="ss">- </span>How to track metrics (<span class="in">`loss`</span>, <span class="in">`dt`</span>, <span class="in">`sps`</span>, <span class="in">`mtps`</span>, <span class="in">`mfu`</span>) with</span>
-<span id="cb14-31"><a href="#cb14-31" aria-label="31"></a>  <span class="in">`ezpz.History`</span> and launch at scale with <span class="in">`ezpz launch`</span>.</span>
-<span id="cb14-32"><a href="#cb14-32" aria-label="32"></a></span>
-<span id="cb14-33"><a href="#cb14-33" aria-label="33"></a>This page assumes you've seen the attention/transformer mechanics from</span>
-<span id="cb14-34"><a href="#cb14-34" aria-label="34"></a><span class="co">[</span><span class="ot">**\[02.0\] Intro to LLMs**</span><span class="co">](../00-intro-to-llms/index.qmd)</span> — here we focus on</span>
-<span id="cb14-35"><a href="#cb14-35" aria-label="35"></a>the *training* side.</span>
-<span id="cb14-36"><a href="#cb14-36" aria-label="36"></a>:::</span>
-<span id="cb14-37"><a href="#cb14-37" aria-label="37"></a></span>
-<span id="cb14-38"><a href="#cb14-38" aria-label="38"></a><span class="fu">## 🎯 Setup</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-label="39"></a></span>
-<span id="cb14-40"><a href="#cb14-40" aria-label="40"></a>On any ALCF / NERSC system (or a laptop), install <span class="in">`ezpz`</span> and set up the</span>
-<span id="cb14-41"><a href="#cb14-41" aria-label="41"></a>environment with the one-liner:</span>
-<span id="cb14-42"><a href="#cb14-42" aria-label="42"></a></span>
-<span id="cb14-43"><a href="#cb14-43" aria-label="43"></a><span class="in">```bash</span></span>
-<span id="cb14-44"><a href="#cb14-44" aria-label="44"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
-<span id="cb14-45"><a href="#cb14-45" aria-label="45"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span>
-<span id="cb14-46"><a href="#cb14-46" aria-label="46"></a><span class="in">```</span></span>
-<span id="cb14-47"><a href="#cb14-47" aria-label="47"></a></span>
-<span id="cb14-48"><a href="#cb14-48" aria-label="48"></a>The single most useful thing <span class="in">`ezpz`</span> does is collapse all of PyTorch's</span>
-<span id="cb14-49"><a href="#cb14-49" aria-label="49"></a>distributed boilerplate into **one call**. On a real (multi-GPU) run your script</span>
-<span id="cb14-50"><a href="#cb14-50" aria-label="50"></a>starts like this:</span>
-<span id="cb14-51"><a href="#cb14-51" aria-label="51"></a></span>
-<span id="cb14-54"><a href="#cb14-54" aria-label="52"></a><span class="in">```{python}</span></span>
-<span id="cb14-55"><a href="#cb14-55" aria-label="53"></a><span class="co">#| eval: false</span></span>
-<span id="cb14-56"><a href="#cb14-56" aria-label="54"></a><span class="im">import</span> ezpz</span>
-<span id="cb14-57"><a href="#cb14-57" aria-label="55"></a></span>
-<span id="cb14-58"><a href="#cb14-58" aria-label="56"></a>rank <span class="op">=</span> ezpz.setup_torch(seed<span class="op">=</span><span class="dv">1234</span>)   <span class="co"># discovers rank/world/device/backend, inits process group</span></span>
-<span id="cb14-59"><a href="#cb14-59" aria-label="57"></a>device <span class="op">=</span> ezpz.get_torch_device()     <span class="co"># 'cuda' | 'xpu' | 'mps' | 'cpu'</span></span>
-<span id="cb14-60"><a href="#cb14-60" aria-label="58"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="va">__name__</span>)</span>
-<span id="cb14-61"><a href="#cb14-61" aria-label="59"></a>logger.info(<span class="ss">f"rank </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> / </span><span class="sc">{</span>ezpz<span class="sc">.</span>get_world_size()<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-62"><a href="#cb14-62" aria-label="60"></a><span class="in">```</span></span>
-<span id="cb14-63"><a href="#cb14-63" aria-label="61"></a></span>
-<span id="cb14-64"><a href="#cb14-64" aria-label="62"></a>::: {.callout-note title="🔍 …versus raw PyTorch"}</span>
-<span id="cb14-65"><a href="#cb14-65" aria-label="63"></a>That one <span class="in">`setup_torch()`</span> replaces the usual dance:</span>
-<span id="cb14-66"><a href="#cb14-66" aria-label="64"></a></span>
-<span id="cb14-67"><a href="#cb14-67" aria-label="65"></a><span class="in">```python</span></span>
-<span id="cb14-68"><a href="#cb14-68" aria-label="66"></a><span class="im">import</span> os, torch.distributed <span class="im">as</span> dist</span>
-<span id="cb14-69"><a href="#cb14-69" aria-label="67"></a>dist.init_process_group(backend<span class="op">=</span><span class="st">"nccl"</span>)</span>
-<span id="cb14-70"><a href="#cb14-70" aria-label="68"></a>rank        <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"RANK"</span>])</span>
-<span id="cb14-71"><a href="#cb14-71" aria-label="69"></a>local_rank  <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"LOCAL_RANK"</span>])</span>
-<span id="cb14-72"><a href="#cb14-72" aria-label="70"></a>world_size  <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"WORLD_SIZE"</span>])</span>
-<span id="cb14-73"><a href="#cb14-73" aria-label="71"></a>torch.cuda.set_device(local_rank)</span>
-<span id="cb14-74"><a href="#cb14-74" aria-label="72"></a><span class="co"># ...and you still have to detect cuda vs xpu vs cpu yourself</span></span>
-<span id="cb14-75"><a href="#cb14-75" aria-label="73"></a><span class="in">```</span></span>
-<span id="cb14-76"><a href="#cb14-76" aria-label="74"></a>:::</span>
-<span id="cb14-77"><a href="#cb14-77" aria-label="75"></a></span>
-<span id="cb14-78"><a href="#cb14-78" aria-label="76"></a>For this page we build a **tiny** version that actually runs here on CPU, so we</span>
-<span id="cb14-79"><a href="#cb14-79" aria-label="77"></a>import the plumbing and pick a device directly (on a cluster you'd use</span>
-<span id="cb14-80"><a href="#cb14-80" aria-label="78"></a><span class="in">`ezpz.setup_torch()`</span> above instead):</span>
-<span id="cb14-81"><a href="#cb14-81" aria-label="79"></a></span>
-<span id="cb14-84"><a href="#cb14-84" aria-label="80"></a><span class="in">```{python}</span></span>
-<span id="cb14-85"><a href="#cb14-85" aria-label="81"></a><span class="im">import</span> os</span>
-<span id="cb14-86"><a href="#cb14-86" aria-label="82"></a>os.environ[<span class="st">"WANDB_DISABLED"</span>] <span class="op">=</span> <span class="st">"1"</span>   <span class="co"># keep the tutorial offline</span></span>
-<span id="cb14-87"><a href="#cb14-87" aria-label="83"></a>os.environ[<span class="st">"WANDB_MODE"</span>] <span class="op">=</span> <span class="st">"disabled"</span></span>
-<span id="cb14-88"><a href="#cb14-88" aria-label="84"></a></span>
-<span id="cb14-89"><a href="#cb14-89" aria-label="85"></a><span class="im">import</span> math</span>
-<span id="cb14-90"><a href="#cb14-90" aria-label="86"></a><span class="im">import</span> time</span>
-<span id="cb14-91"><a href="#cb14-91" aria-label="87"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb14-92"><a href="#cb14-92" aria-label="88"></a><span class="im">import</span> torch</span>
-<span id="cb14-93"><a href="#cb14-93" aria-label="89"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb14-94"><a href="#cb14-94" aria-label="90"></a><span class="im">from</span> torch.nn <span class="im">import</span> functional <span class="im">as</span> F</span>
-<span id="cb14-95"><a href="#cb14-95" aria-label="91"></a><span class="im">import</span> ezpz</span>
-<span id="cb14-96"><a href="#cb14-96" aria-label="92"></a></span>
-<span id="cb14-97"><a href="#cb14-97" aria-label="93"></a>torch.manual_seed(<span class="dv">1234</span>)</span>
-<span id="cb14-98"><a href="#cb14-98" aria-label="94"></a>device <span class="op">=</span> ezpz.get_torch_device()      <span class="co"># 'cpu' here; 'cuda'/'xpu' on a GPU node</span></span>
-<span id="cb14-99"><a href="#cb14-99" aria-label="95"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="va">__name__</span>)</span>
-<span id="cb14-100"><a href="#cb14-100" aria-label="96"></a>logger.info(<span class="ss">f"Using device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-101"><a href="#cb14-101" aria-label="97"></a><span class="in">```</span></span>
-<span id="cb14-102"><a href="#cb14-102" aria-label="98"></a></span>
-<span id="cb14-103"><a href="#cb14-103" aria-label="99"></a><span class="fu">## 📖 The Data: tiny-Shakespeare</span></span>
-<span id="cb14-104"><a href="#cb14-104" aria-label="100"></a></span>
-<span id="cb14-105"><a href="#cb14-105" aria-label="101"></a>We train a **character-level** model: the vocabulary is just the set of unique</span>
-<span id="cb14-106"><a href="#cb14-106" aria-label="102"></a>characters in the text, and the model predicts the next character.</span>
-<span id="cb14-107"><a href="#cb14-107" aria-label="103"></a></span>
-<span id="cb14-110"><a href="#cb14-110" aria-label="104"></a><span class="in">```{python}</span></span>
-<span id="cb14-111"><a href="#cb14-111" aria-label="105"></a><span class="im">import</span> urllib.request</span>
-<span id="cb14-112"><a href="#cb14-112" aria-label="106"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb14-113"><a href="#cb14-113" aria-label="107"></a></span>
-<span id="cb14-114"><a href="#cb14-114" aria-label="108"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"</span></span>
-<span id="cb14-115"><a href="#cb14-115" aria-label="109"></a>path <span class="op">=</span> Path(<span class="st">"input.txt"</span>)</span>
-<span id="cb14-116"><a href="#cb14-116" aria-label="110"></a><span class="cf">if</span> <span class="kw">not</span> path.exists():</span>
-<span id="cb14-117"><a href="#cb14-117" aria-label="111"></a>    <span class="cf">try</span>:</span>
-<span id="cb14-118"><a href="#cb14-118" aria-label="112"></a>        urllib.request.urlretrieve(url, path)</span>
-<span id="cb14-119"><a href="#cb14-119" aria-label="113"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
-<span id="cb14-120"><a href="#cb14-120" aria-label="114"></a>        <span class="co"># offline fallback so this page always renders</span></span>
-<span id="cb14-121"><a href="#cb14-121" aria-label="115"></a>        path.write_text((<span class="st">"To be, or not to be, that is the question:</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb14-122"><a href="#cb14-122" aria-label="116"></a>                         <span class="st">"Whether 'tis nobler in the mind to suffer</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb14-123"><a href="#cb14-123" aria-label="117"></a>                         <span class="st">"The slings and arrows of outrageous fortune,</span><span class="ch">\n</span><span class="st">"</span>) <span class="op">*</span> <span class="dv">200</span>)</span>
-<span id="cb14-124"><a href="#cb14-124" aria-label="118"></a></span>
-<span id="cb14-125"><a href="#cb14-125" aria-label="119"></a>text <span class="op">=</span> path.read_text()</span>
-<span id="cb14-126"><a href="#cb14-126" aria-label="120"></a>chars <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(text))</span>
-<span id="cb14-127"><a href="#cb14-127" aria-label="121"></a>vocab_size <span class="op">=</span> <span class="bu">len</span>(chars)</span>
-<span id="cb14-128"><a href="#cb14-128" aria-label="122"></a>logger.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(text)<span class="sc">:,}</span><span class="ss"> characters, vocab size = </span><span class="sc">{</span>vocab_size<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-129"><a href="#cb14-129" aria-label="123"></a><span class="in">```</span></span>
-<span id="cb14-130"><a href="#cb14-130" aria-label="124"></a></span>
-<span id="cb14-131"><a href="#cb14-131" aria-label="125"></a>Build the char↔int mappings and encode the whole corpus, then split 90/10:</span>
-<span id="cb14-132"><a href="#cb14-132" aria-label="126"></a></span>
-<span id="cb14-135"><a href="#cb14-135" aria-label="127"></a><span class="in">```{python}</span></span>
-<span id="cb14-136"><a href="#cb14-136" aria-label="128"></a>stoi <span class="op">=</span> {c: i <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
-<span id="cb14-137"><a href="#cb14-137" aria-label="129"></a>itos <span class="op">=</span> {i: c <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
-<span id="cb14-138"><a href="#cb14-138" aria-label="130"></a>encode <span class="op">=</span> <span class="kw">lambda</span> s: [stoi[c] <span class="cf">for</span> c <span class="kw">in</span> s]              <span class="co"># str -&gt; list[int]</span></span>
-<span id="cb14-139"><a href="#cb14-139" aria-label="131"></a>decode <span class="op">=</span> <span class="kw">lambda</span> ids: <span class="st">""</span>.join(itos[i] <span class="cf">for</span> i <span class="kw">in</span> ids)   <span class="co"># list[int] -&gt; str</span></span>
-<span id="cb14-140"><a href="#cb14-140" aria-label="132"></a></span>
-<span id="cb14-141"><a href="#cb14-141" aria-label="133"></a>data <span class="op">=</span> torch.tensor(encode(text), dtype<span class="op">=</span>torch.<span class="bu">long</span>)</span>
-<span id="cb14-142"><a href="#cb14-142" aria-label="134"></a>n <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.9</span> <span class="op">*</span> <span class="bu">len</span>(data))</span>
-<span id="cb14-143"><a href="#cb14-143" aria-label="135"></a>train_data, val_data <span class="op">=</span> data[:n], data[n:]</span>
-<span id="cb14-144"><a href="#cb14-144" aria-label="136"></a></span>
-<span id="cb14-145"><a href="#cb14-145" aria-label="137"></a><span class="kw">def</span> get_batch(split, batch_size, block_size):</span>
-<span id="cb14-146"><a href="#cb14-146" aria-label="138"></a>    d <span class="op">=</span> train_data <span class="cf">if</span> split <span class="op">==</span> <span class="st">"train"</span> <span class="cf">else</span> val_data</span>
-<span id="cb14-147"><a href="#cb14-147" aria-label="139"></a>    ix <span class="op">=</span> torch.randint(<span class="bu">len</span>(d) <span class="op">-</span> block_size, (batch_size,))</span>
-<span id="cb14-148"><a href="#cb14-148" aria-label="140"></a>    x <span class="op">=</span> torch.stack([d[i : i <span class="op">+</span> block_size] <span class="cf">for</span> i <span class="kw">in</span> ix])</span>
-<span id="cb14-149"><a href="#cb14-149" aria-label="141"></a>    y <span class="op">=</span> torch.stack([d[i <span class="op">+</span> <span class="dv">1</span> : i <span class="op">+</span> block_size <span class="op">+</span> <span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> ix])</span>
-<span id="cb14-150"><a href="#cb14-150" aria-label="142"></a>    <span class="cf">return</span> x.to(device), y.to(device)</span>
-<span id="cb14-151"><a href="#cb14-151" aria-label="143"></a><span class="in">```</span></span>
-<span id="cb14-152"><a href="#cb14-152" aria-label="144"></a></span>
-<span id="cb14-153"><a href="#cb14-153" aria-label="145"></a><span class="fu">## 🧱 The Model: a small GPT</span></span>
-<span id="cb14-154"><a href="#cb14-154" aria-label="146"></a></span>
-<span id="cb14-155"><a href="#cb14-155" aria-label="147"></a>A compact decoder-only Transformer — the same architecture as the <span class="in">`wordplay`</span></span>
-<span id="cb14-156"><a href="#cb14-156" aria-label="148"></a>model, written inline. (For the *why* behind attention, see</span>
-<span id="cb14-157"><a href="#cb14-157" aria-label="149"></a><span class="co">[</span><span class="ot">Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span>.)</span>
-<span id="cb14-158"><a href="#cb14-158" aria-label="150"></a></span>
-<span id="cb14-161"><a href="#cb14-161" aria-label="151"></a><span class="in">```{python}</span></span>
-<span id="cb14-162"><a href="#cb14-162" aria-label="152"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
-<span id="cb14-163"><a href="#cb14-163" aria-label="153"></a></span>
-<span id="cb14-164"><a href="#cb14-164" aria-label="154"></a><span class="at">@dataclass</span></span>
-<span id="cb14-165"><a href="#cb14-165" aria-label="155"></a><span class="kw">class</span> GPTConfig:</span>
-<span id="cb14-166"><a href="#cb14-166" aria-label="156"></a>    vocab_size: <span class="bu">int</span></span>
-<span id="cb14-167"><a href="#cb14-167" aria-label="157"></a>    block_size: <span class="bu">int</span> <span class="op">=</span> <span class="dv">256</span></span>
-<span id="cb14-168"><a href="#cb14-168" aria-label="158"></a>    n_layer: <span class="bu">int</span> <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb14-169"><a href="#cb14-169" aria-label="159"></a>    n_head: <span class="bu">int</span> <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb14-170"><a href="#cb14-170" aria-label="160"></a>    n_embd: <span class="bu">int</span> <span class="op">=</span> <span class="dv">384</span></span>
-<span id="cb14-171"><a href="#cb14-171" aria-label="161"></a>    dropout: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb14-172"><a href="#cb14-172" aria-label="162"></a></span>
-<span id="cb14-173"><a href="#cb14-173" aria-label="163"></a></span>
-<span id="cb14-174"><a href="#cb14-174" aria-label="164"></a><span class="kw">class</span> Block(nn.Module):</span>
-<span id="cb14-175"><a href="#cb14-175" aria-label="165"></a>    <span class="co">"""A single Transformer block: masked self-attention + MLP."""</span></span>
-<span id="cb14-176"><a href="#cb14-176" aria-label="166"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg: GPTConfig):</span>
-<span id="cb14-177"><a href="#cb14-177" aria-label="167"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb14-178"><a href="#cb14-178" aria-label="168"></a>        <span class="va">self</span>.ln1 <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
-<span id="cb14-179"><a href="#cb14-179" aria-label="169"></a>        <span class="va">self</span>.attn <span class="op">=</span> nn.MultiheadAttention(</span>
-<span id="cb14-180"><a href="#cb14-180" aria-label="170"></a>            cfg.n_embd, cfg.n_head, dropout<span class="op">=</span>cfg.dropout, batch_first<span class="op">=</span><span class="va">True</span></span>
-<span id="cb14-181"><a href="#cb14-181" aria-label="171"></a>        )</span>
-<span id="cb14-182"><a href="#cb14-182" aria-label="172"></a>        <span class="va">self</span>.ln2 <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
-<span id="cb14-183"><a href="#cb14-183" aria-label="173"></a>        <span class="va">self</span>.mlp <span class="op">=</span> nn.Sequential(</span>
-<span id="cb14-184"><a href="#cb14-184" aria-label="174"></a>            nn.Linear(cfg.n_embd, <span class="dv">4</span> <span class="op">*</span> cfg.n_embd),</span>
-<span id="cb14-185"><a href="#cb14-185" aria-label="175"></a>            nn.GELU(),</span>
-<span id="cb14-186"><a href="#cb14-186" aria-label="176"></a>            nn.Linear(<span class="dv">4</span> <span class="op">*</span> cfg.n_embd, cfg.n_embd),</span>
-<span id="cb14-187"><a href="#cb14-187" aria-label="177"></a>            nn.Dropout(cfg.dropout),</span>
-<span id="cb14-188"><a href="#cb14-188" aria-label="178"></a>        )</span>
-<span id="cb14-189"><a href="#cb14-189" aria-label="179"></a>        <span class="va">self</span>.register_buffer(</span>
-<span id="cb14-190"><a href="#cb14-190" aria-label="180"></a>            <span class="st">"mask"</span>, torch.triu(torch.ones(cfg.block_size, cfg.block_size), <span class="dv">1</span>).<span class="bu">bool</span>()</span>
-<span id="cb14-191"><a href="#cb14-191" aria-label="181"></a>        )</span>
-<span id="cb14-192"><a href="#cb14-192" aria-label="182"></a></span>
-<span id="cb14-193"><a href="#cb14-193" aria-label="183"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb14-194"><a href="#cb14-194" aria-label="184"></a>        T <span class="op">=</span> x.size(<span class="dv">1</span>)</span>
-<span id="cb14-195"><a href="#cb14-195" aria-label="185"></a>        h <span class="op">=</span> <span class="va">self</span>.ln1(x)</span>
-<span id="cb14-196"><a href="#cb14-196" aria-label="186"></a>        a, _ <span class="op">=</span> <span class="va">self</span>.attn(h, h, h, attn_mask<span class="op">=</span><span class="va">self</span>.mask[:T, :T], need_weights<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-197"><a href="#cb14-197" aria-label="187"></a>        x <span class="op">=</span> x <span class="op">+</span> a</span>
-<span id="cb14-198"><a href="#cb14-198" aria-label="188"></a>        x <span class="op">=</span> x <span class="op">+</span> <span class="va">self</span>.mlp(<span class="va">self</span>.ln2(x))</span>
-<span id="cb14-199"><a href="#cb14-199" aria-label="189"></a>        <span class="cf">return</span> x</span>
-<span id="cb14-200"><a href="#cb14-200" aria-label="190"></a></span>
-<span id="cb14-201"><a href="#cb14-201" aria-label="191"></a></span>
-<span id="cb14-202"><a href="#cb14-202" aria-label="192"></a><span class="kw">class</span> GPT(nn.Module):</span>
-<span id="cb14-203"><a href="#cb14-203" aria-label="193"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg: GPTConfig):</span>
-<span id="cb14-204"><a href="#cb14-204" aria-label="194"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb14-205"><a href="#cb14-205" aria-label="195"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg</span>
-<span id="cb14-206"><a href="#cb14-206" aria-label="196"></a>        <span class="va">self</span>.tok_emb <span class="op">=</span> nn.Embedding(cfg.vocab_size, cfg.n_embd)</span>
-<span id="cb14-207"><a href="#cb14-207" aria-label="197"></a>        <span class="va">self</span>.pos_emb <span class="op">=</span> nn.Embedding(cfg.block_size, cfg.n_embd)</span>
-<span id="cb14-208"><a href="#cb14-208" aria-label="198"></a>        <span class="va">self</span>.drop <span class="op">=</span> nn.Dropout(cfg.dropout)</span>
-<span id="cb14-209"><a href="#cb14-209" aria-label="199"></a>        <span class="va">self</span>.blocks <span class="op">=</span> nn.ModuleList([Block(cfg) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(cfg.n_layer)])</span>
-<span id="cb14-210"><a href="#cb14-210" aria-label="200"></a>        <span class="va">self</span>.ln_f <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
-<span id="cb14-211"><a href="#cb14-211" aria-label="201"></a>        <span class="va">self</span>.head <span class="op">=</span> nn.Linear(cfg.n_embd, cfg.vocab_size, bias<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-212"><a href="#cb14-212" aria-label="202"></a></span>
-<span id="cb14-213"><a href="#cb14-213" aria-label="203"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, idx, targets<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb14-214"><a href="#cb14-214" aria-label="204"></a>        B, T <span class="op">=</span> idx.shape</span>
-<span id="cb14-215"><a href="#cb14-215" aria-label="205"></a>        pos <span class="op">=</span> torch.arange(T, device<span class="op">=</span>idx.device)</span>
-<span id="cb14-216"><a href="#cb14-216" aria-label="206"></a>        x <span class="op">=</span> <span class="va">self</span>.drop(<span class="va">self</span>.tok_emb(idx) <span class="op">+</span> <span class="va">self</span>.pos_emb(pos))</span>
-<span id="cb14-217"><a href="#cb14-217" aria-label="207"></a>        <span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.blocks:</span>
-<span id="cb14-218"><a href="#cb14-218" aria-label="208"></a>            x <span class="op">=</span> block(x)</span>
-<span id="cb14-219"><a href="#cb14-219" aria-label="209"></a>        logits <span class="op">=</span> <span class="va">self</span>.head(<span class="va">self</span>.ln_f(x))</span>
-<span id="cb14-220"><a href="#cb14-220" aria-label="210"></a>        loss <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb14-221"><a href="#cb14-221" aria-label="211"></a>        <span class="cf">if</span> targets <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb14-222"><a href="#cb14-222" aria-label="212"></a>            loss <span class="op">=</span> F.cross_entropy(logits.view(B <span class="op">*</span> T, <span class="op">-</span><span class="dv">1</span>), targets.view(B <span class="op">*</span> T))</span>
-<span id="cb14-223"><a href="#cb14-223" aria-label="213"></a>        <span class="cf">return</span> logits, loss</span>
-<span id="cb14-224"><a href="#cb14-224" aria-label="214"></a></span>
-<span id="cb14-225"><a href="#cb14-225" aria-label="215"></a>    <span class="at">@torch.no_grad</span>()</span>
-<span id="cb14-226"><a href="#cb14-226" aria-label="216"></a>    <span class="kw">def</span> generate(<span class="va">self</span>, idx, max_new_tokens, temperature<span class="op">=</span><span class="fl">1.0</span>, top_k<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb14-227"><a href="#cb14-227" aria-label="217"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_new_tokens):</span>
-<span id="cb14-228"><a href="#cb14-228" aria-label="218"></a>            idx_cond <span class="op">=</span> idx[:, <span class="op">-</span><span class="va">self</span>.cfg.block_size :]</span>
-<span id="cb14-229"><a href="#cb14-229" aria-label="219"></a>            logits, _ <span class="op">=</span> <span class="va">self</span>(idx_cond)</span>
-<span id="cb14-230"><a href="#cb14-230" aria-label="220"></a>            logits <span class="op">=</span> logits[:, <span class="op">-</span><span class="dv">1</span>, :] <span class="op">/</span> temperature</span>
-<span id="cb14-231"><a href="#cb14-231" aria-label="221"></a>            <span class="cf">if</span> top_k <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb14-232"><a href="#cb14-232" aria-label="222"></a>                v, _ <span class="op">=</span> torch.topk(logits, top_k)</span>
-<span id="cb14-233"><a href="#cb14-233" aria-label="223"></a>                logits[logits <span class="op">&lt;</span> v[:, [<span class="op">-</span><span class="dv">1</span>]]] <span class="op">=</span> <span class="op">-</span><span class="bu">float</span>(<span class="st">"inf"</span>)</span>
-<span id="cb14-234"><a href="#cb14-234" aria-label="224"></a>            probs <span class="op">=</span> F.softmax(logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb14-235"><a href="#cb14-235" aria-label="225"></a>            idx <span class="op">=</span> torch.cat([idx, torch.multinomial(probs, <span class="dv">1</span>)], dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb14-236"><a href="#cb14-236" aria-label="226"></a>        <span class="cf">return</span> idx</span>
-<span id="cb14-237"><a href="#cb14-237" aria-label="227"></a><span class="in">```</span></span>
-<span id="cb14-238"><a href="#cb14-238" aria-label="228"></a></span>
-<span id="cb14-239"><a href="#cb14-239" aria-label="229"></a><span class="fu">## ⚡ Going distributed with `ezpz`</span></span>
-<span id="cb14-240"><a href="#cb14-240" aria-label="230"></a></span>
-<span id="cb14-241"><a href="#cb14-241" aria-label="231"></a>On multiple GPUs, wrapping the model for **Distributed Data Parallel** is where</span>
-<span id="cb14-242"><a href="#cb14-242" aria-label="232"></a><span class="in">`ezpz`</span> shines — but the beauty is that the *training loop below doesn't change*.</span>
-<span id="cb14-243"><a href="#cb14-243" aria-label="233"></a>On a cluster you'd add:</span>
-<span id="cb14-244"><a href="#cb14-244" aria-label="234"></a></span>
-<span id="cb14-247"><a href="#cb14-247" aria-label="235"></a><span class="in">```{python}</span></span>
-<span id="cb14-248"><a href="#cb14-248" aria-label="236"></a><span class="co">#| eval: false</span></span>
-<span id="cb14-249"><a href="#cb14-249" aria-label="237"></a><span class="co"># after `model = GPT(cfg).to(device)` on a real multi-GPU run:</span></span>
-<span id="cb14-250"><a href="#cb14-250" aria-label="238"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
-<span id="cb14-251"><a href="#cb14-251" aria-label="239"></a></span>
-<span id="cb14-252"><a href="#cb14-252" aria-label="240"></a><span class="cf">if</span> ezpz.get_world_size() <span class="op">&gt;</span> <span class="dv">1</span>:</span>
-<span id="cb14-253"><a href="#cb14-253" aria-label="241"></a>    model <span class="op">=</span> DDP(model, device_ids<span class="op">=</span>[ezpz.get_local_rank()])</span>
-<span id="cb14-254"><a href="#cb14-254" aria-label="242"></a><span class="in">```</span></span>
-<span id="cb14-255"><a href="#cb14-255" aria-label="243"></a></span>
-<span id="cb14-256"><a href="#cb14-256" aria-label="244"></a><span class="in">`ezpz`</span> handles the process-group setup (from <span class="in">`setup_torch()`</span>), device placement,</span>
-<span id="cb14-257"><a href="#cb14-257" aria-label="245"></a>and the correct backend (NCCL / oneCCL / gloo) for you — so the *same script*</span>
-<span id="cb14-258"><a href="#cb14-258" aria-label="246"></a>runs on 1 GPU, 8 GPUs, or 100 nodes.</span>
-<span id="cb14-259"><a href="#cb14-259" aria-label="247"></a></span>
-<span id="cb14-260"><a href="#cb14-260" aria-label="248"></a><span class="fu">## 🔁 The Training Loop + Metrics</span></span>
-<span id="cb14-261"><a href="#cb14-261" aria-label="249"></a></span>
-<span id="cb14-262"><a href="#cb14-262" aria-label="250"></a>Here's the heart of it. We use a **tiny config so this page runs on CPU** in a</span>
-<span id="cb14-263"><a href="#cb14-263" aria-label="251"></a>few seconds, and lean on <span class="in">`ezpz`</span> for three things:</span>
-<span id="cb14-264"><a href="#cb14-264" aria-label="252"></a></span>
-<span id="cb14-265"><a href="#cb14-265" aria-label="253"></a><span class="ss">- </span><span class="in">`ezpz.synchronize()`</span> — backend-agnostic device sync for **correct timing**,</span>
-<span id="cb14-266"><a href="#cb14-266" aria-label="254"></a><span class="ss">- </span><span class="in">`ezpz.History`</span> — accumulates per-step metrics and prints a compact summary,</span>
-<span id="cb14-267"><a href="#cb14-267" aria-label="255"></a><span class="ss">- </span>(later) <span class="in">`history.finalize()`</span> — writes plots + a report automatically.</span>
-<span id="cb14-268"><a href="#cb14-268" aria-label="256"></a></span>
-<span id="cb14-269"><a href="#cb14-269" aria-label="257"></a>We report the same metrics as the <span class="in">`wordplay`</span> example:</span>
-<span id="cb14-270"><a href="#cb14-270" aria-label="258"></a></span>
-<span id="cb14-271"><a href="#cb14-271" aria-label="259"></a><span class="pp">|</span> name   <span class="pp">|</span> description                     <span class="pp">|</span></span>
-<span id="cb14-272"><a href="#cb14-272" aria-label="260"></a><span class="pp">|:------:|:--------------------------------|</span></span>
-<span id="cb14-273"><a href="#cb14-273" aria-label="261"></a><span class="pp">|</span> <span class="in">`step`</span> <span class="pp">|</span> training iteration              <span class="pp">|</span></span>
-<span id="cb14-274"><a href="#cb14-274" aria-label="262"></a><span class="pp">|</span> <span class="in">`loss`</span> <span class="pp">|</span> cross-entropy loss              <span class="pp">|</span></span>
-<span id="cb14-275"><a href="#cb14-275" aria-label="263"></a><span class="pp">|</span> <span class="in">`dt`</span>   <span class="pp">|</span> time per step (s)               <span class="pp">|</span></span>
-<span id="cb14-276"><a href="#cb14-276" aria-label="264"></a><span class="pp">|</span> <span class="in">`sps`</span>  <span class="pp">|</span> samples per second              <span class="pp">|</span></span>
-<span id="cb14-277"><a href="#cb14-277" aria-label="265"></a><span class="pp">|</span> <span class="in">`mtps`</span> <span class="pp">|</span> (million) tokens per second     <span class="pp">|</span></span>
-<span id="cb14-278"><a href="#cb14-278" aria-label="266"></a><span class="pp">|</span> <span class="in">`mfu`</span>  <span class="pp">|</span> model FLOPs utilization (%)     <span class="pp">|</span></span>
-<span id="cb14-279"><a href="#cb14-279" aria-label="267"></a></span>
-<span id="cb14-280"><a href="#cb14-280" aria-label="268"></a>: Training metrics legend {#tbl-ezpz-legend .responsive}</span>
-<span id="cb14-281"><a href="#cb14-281" aria-label="269"></a></span>
-<span id="cb14-284"><a href="#cb14-284" aria-label="270"></a><span class="in">```{python}</span></span>
-<span id="cb14-285"><a href="#cb14-285" aria-label="271"></a><span class="co"># --- tiny config: runs on CPU at build time ---</span></span>
-<span id="cb14-286"><a href="#cb14-286" aria-label="272"></a>cfg <span class="op">=</span> GPTConfig(vocab_size<span class="op">=</span>vocab_size, block_size<span class="op">=</span><span class="dv">64</span>, n_layer<span class="op">=</span><span class="dv">4</span>, n_head<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb14-287"><a href="#cb14-287" aria-label="273"></a>                n_embd<span class="op">=</span><span class="dv">128</span>, dropout<span class="op">=</span><span class="fl">0.0</span>)</span>
-<span id="cb14-288"><a href="#cb14-288" aria-label="274"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb14-289"><a href="#cb14-289" aria-label="275"></a>max_iters <span class="op">=</span> <span class="dv">50</span>            <span class="co"># bump to 1000+ on a GPU for real samples</span></span>
-<span id="cb14-290"><a href="#cb14-290" aria-label="276"></a></span>
-<span id="cb14-291"><a href="#cb14-291" aria-label="277"></a>model <span class="op">=</span> GPT(cfg).to(device)</span>
-<span id="cb14-292"><a href="#cb14-292" aria-label="278"></a>n_params <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters())</span>
-<span id="cb14-293"><a href="#cb14-293" aria-label="279"></a>logger.info(<span class="ss">f"model has </span><span class="sc">{</span>n_params<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss">M parameters"</span>)</span>
-<span id="cb14-294"><a href="#cb14-294" aria-label="280"></a></span>
-<span id="cb14-295"><a href="#cb14-295" aria-label="281"></a>optimizer <span class="op">=</span> torch.optim.AdamW(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
-<span id="cb14-296"><a href="#cb14-296" aria-label="282"></a></span>
-<span id="cb14-297"><a href="#cb14-297" aria-label="283"></a><span class="co"># Rough MFU: ~6*N FLOPs per token (fwd+bwd). Peak is device-dependent; we use a</span></span>
-<span id="cb14-298"><a href="#cb14-298" aria-label="284"></a><span class="co"># nominal value so the number is illustrative (compute_mfu ships in newer ezpz).</span></span>
-<span id="cb14-299"><a href="#cb14-299" aria-label="285"></a>flops_per_token <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> n_params</span>
-<span id="cb14-300"><a href="#cb14-300" aria-label="286"></a>PEAK_FLOPS <span class="op">=</span> <span class="fl">1.0e12</span>       <span class="co"># ~1 TFLOP/s nominal (CPU); set to your GPU's bf16 peak</span></span>
-<span id="cb14-301"><a href="#cb14-301" aria-label="287"></a><span class="in">```</span></span>
-<span id="cb14-302"><a href="#cb14-302" aria-label="288"></a></span>
-<span id="cb14-305"><a href="#cb14-305" aria-label="289"></a><span class="in">```{python}</span></span>
-<span id="cb14-306"><a href="#cb14-306" aria-label="290"></a>history <span class="op">=</span> ezpz.History()</span>
-<span id="cb14-307"><a href="#cb14-307" aria-label="291"></a></span>
-<span id="cb14-308"><a href="#cb14-308" aria-label="292"></a>model.train()</span>
-<span id="cb14-309"><a href="#cb14-309" aria-label="293"></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
-<span id="cb14-310"><a href="#cb14-310" aria-label="294"></a>    x, y <span class="op">=</span> get_batch(<span class="st">"train"</span>, batch_size, cfg.block_size)</span>
-<span id="cb14-311"><a href="#cb14-311" aria-label="295"></a></span>
-<span id="cb14-312"><a href="#cb14-312" aria-label="296"></a>    ezpz.synchronize(device)</span>
-<span id="cb14-313"><a href="#cb14-313" aria-label="297"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
-<span id="cb14-314"><a href="#cb14-314" aria-label="298"></a></span>
-<span id="cb14-315"><a href="#cb14-315" aria-label="299"></a>    _, loss <span class="op">=</span> model(x, y)</span>
-<span id="cb14-316"><a href="#cb14-316" aria-label="300"></a>    optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-317"><a href="#cb14-317" aria-label="301"></a>    loss.backward()</span>
-<span id="cb14-318"><a href="#cb14-318" aria-label="302"></a>    optimizer.step()</span>
-<span id="cb14-319"><a href="#cb14-319" aria-label="303"></a></span>
-<span id="cb14-320"><a href="#cb14-320" aria-label="304"></a>    ezpz.synchronize(device)</span>
-<span id="cb14-321"><a href="#cb14-321" aria-label="305"></a>    dt <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
-<span id="cb14-322"><a href="#cb14-322" aria-label="306"></a></span>
-<span id="cb14-323"><a href="#cb14-323" aria-label="307"></a>    tokens <span class="op">=</span> batch_size <span class="op">*</span> cfg.block_size</span>
-<span id="cb14-324"><a href="#cb14-324" aria-label="308"></a>    metrics <span class="op">=</span> {</span>
-<span id="cb14-325"><a href="#cb14-325" aria-label="309"></a>        <span class="st">"step"</span>: step,</span>
-<span id="cb14-326"><a href="#cb14-326" aria-label="310"></a>        <span class="st">"loss"</span>: loss.item(),</span>
-<span id="cb14-327"><a href="#cb14-327" aria-label="311"></a>        <span class="st">"dt"</span>: dt,</span>
-<span id="cb14-328"><a href="#cb14-328" aria-label="312"></a>        <span class="st">"sps"</span>: batch_size <span class="op">/</span> dt,</span>
-<span id="cb14-329"><a href="#cb14-329" aria-label="313"></a>        <span class="st">"mtps"</span>: tokens <span class="op">/</span> dt <span class="op">/</span> <span class="fl">1e6</span>,</span>
-<span id="cb14-330"><a href="#cb14-330" aria-label="314"></a>        <span class="st">"mfu"</span>: <span class="dv">100</span> <span class="op">*</span> flops_per_token <span class="op">*</span> tokens <span class="op">/</span> dt <span class="op">/</span> PEAK_FLOPS,</span>
-<span id="cb14-331"><a href="#cb14-331" aria-label="315"></a>    }</span>
-<span id="cb14-332"><a href="#cb14-332" aria-label="316"></a>    summary <span class="op">=</span> history.update(metrics)</span>
-<span id="cb14-333"><a href="#cb14-333" aria-label="317"></a>    <span class="cf">if</span> step <span class="op">%</span> <span class="dv">10</span> <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb14-334"><a href="#cb14-334" aria-label="318"></a>        logger.info(summary)</span>
-<span id="cb14-335"><a href="#cb14-335" aria-label="319"></a><span class="in">```</span></span>
-<span id="cb14-336"><a href="#cb14-336" aria-label="320"></a></span>
-<span id="cb14-337"><a href="#cb14-337" aria-label="321"></a><span class="fu">## 💬 Generating Text</span></span>
-<span id="cb14-338"><a href="#cb14-338" aria-label="322"></a></span>
-<span id="cb14-339"><a href="#cb14-339" aria-label="323"></a>The <span class="in">`generate()`</span> method samples one character at a time. Let's compare</span>
-<span id="cb14-340"><a href="#cb14-340" aria-label="324"></a>**before** and **after** training — a few dozen CPU steps won't produce</span>
-<span id="cb14-341"><a href="#cb14-341" aria-label="325"></a>Shakespeare, but the shift from pure noise toward text-like structure is</span>
-<span id="cb14-342"><a href="#cb14-342" aria-label="326"></a>already visible (train for 1000+ steps on a GPU for the real thing):</span>
-<span id="cb14-343"><a href="#cb14-343" aria-label="327"></a></span>
-<span id="cb14-346"><a href="#cb14-346" aria-label="328"></a><span class="in">```{python}</span></span>
-<span id="cb14-347"><a href="#cb14-347" aria-label="329"></a>prompt <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb14-348"><a href="#cb14-348" aria-label="330"></a>ctx <span class="op">=</span> torch.tensor([encode(prompt)], dtype<span class="op">=</span>torch.<span class="bu">long</span>, device<span class="op">=</span>device)</span>
-<span id="cb14-349"><a href="#cb14-349" aria-label="331"></a>sample <span class="op">=</span> decode(model.generate(ctx, max_new_tokens<span class="op">=</span><span class="dv">200</span>, temperature<span class="op">=</span><span class="fl">0.8</span>, top_k<span class="op">=</span><span class="dv">16</span>)[<span class="dv">0</span>].tolist())</span>
-<span id="cb14-350"><a href="#cb14-350" aria-label="332"></a>logger.info(<span class="st">"--- sample after tiny training run ---</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> sample)</span>
-<span id="cb14-351"><a href="#cb14-351" aria-label="333"></a><span class="in">```</span></span>
-<span id="cb14-352"><a href="#cb14-352" aria-label="334"></a></span>
-<span id="cb14-353"><a href="#cb14-353" aria-label="335"></a><span class="fu">## 📊 Plots &amp; Report, for free</span></span>
-<span id="cb14-354"><a href="#cb14-354" aria-label="336"></a></span>
-<span id="cb14-355"><a href="#cb14-355" aria-label="337"></a><span class="in">`ezpz.History`</span> can turn the metrics you logged into plots and a report with a</span>
-<span id="cb14-356"><a href="#cb14-356" aria-label="338"></a>single call — it writes loss curves (matplotlib **and** terminal plots), an</span>
-<span id="cb14-357"><a href="#cb14-357" aria-label="339"></a><span class="in">`xarray`</span> dataset, and a <span class="in">`report.md`</span>:</span>
-<span id="cb14-358"><a href="#cb14-358" aria-label="340"></a></span>
-<span id="cb14-361"><a href="#cb14-361" aria-label="341"></a><span class="in">```{python}</span></span>
-<span id="cb14-362"><a href="#cb14-362" aria-label="342"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb14-363"><a href="#cb14-363" aria-label="343"></a>outdir <span class="op">=</span> Path(<span class="st">"outputs"</span>)</span>
-<span id="cb14-364"><a href="#cb14-364" aria-label="344"></a>_ <span class="op">=</span> history.finalize(outdir<span class="op">=</span>outdir)</span>
-<span id="cb14-365"><a href="#cb14-365" aria-label="345"></a>logger.info(<span class="st">"wrote: "</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(p.name <span class="cf">for</span> p <span class="kw">in</span> outdir.iterdir())))</span>
-<span id="cb14-366"><a href="#cb14-366" aria-label="346"></a><span class="in">```</span></span>
-<span id="cb14-367"><a href="#cb14-367" aria-label="347"></a></span>
-<span id="cb14-368"><a href="#cb14-368" aria-label="348"></a>::: {.callout-tip title="🔬 On a real run"}</span>
-<span id="cb14-369"><a href="#cb14-369" aria-label="349"></a>Point <span class="in">`ezpz.History(backends="wandb")`</span> at <span class="co">[</span><span class="ot">Weights &amp; Biases</span><span class="co">](https://wandb.ai)</span></span>
-<span id="cb14-370"><a href="#cb14-370" aria-label="350"></a>(or <span class="in">`"mlflow"`</span>) and every metric streams to your dashboard live — no code</span>
-<span id="cb14-371"><a href="#cb14-371" aria-label="351"></a>changes beyond that one argument.</span>
-<span id="cb14-372"><a href="#cb14-372" aria-label="352"></a>:::</span>
-<span id="cb14-373"><a href="#cb14-373" aria-label="353"></a></span>
-<span id="cb14-374"><a href="#cb14-374" aria-label="354"></a><span class="fu">## 🚀 Scaling Up</span></span>
-<span id="cb14-375"><a href="#cb14-375" aria-label="355"></a></span>
-<span id="cb14-376"><a href="#cb14-376" aria-label="356"></a>To train the **full ~10M-parameter model** (like the <span class="in">`wordplay`</span> example) across</span>
-<span id="cb14-377"><a href="#cb14-377" aria-label="357"></a>multiple GPUs, drop the loop above into a <span class="in">`train.py`</span> that starts with</span>
-<span id="cb14-378"><a href="#cb14-378" aria-label="358"></a><span class="in">`ezpz.setup_torch()`</span> + DDP, bump the config to the real size, and launch with</span>
-<span id="cb14-379"><a href="#cb14-379" aria-label="359"></a><span class="in">`ezpz launch`</span> — which auto-detects PBS (<span class="in">`mpiexec`</span>) / SLURM (<span class="in">`srun`</span>):</span>
-<span id="cb14-380"><a href="#cb14-380" aria-label="360"></a></span>
-<span id="cb14-381"><a href="#cb14-381" aria-label="361"></a><span class="in">```bash</span></span>
-<span id="cb14-382"><a href="#cb14-382" aria-label="362"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
-<span id="cb14-383"><a href="#cb14-383" aria-label="363"></a><span class="ex">ezpz</span> launch python3 train.py</span>
-<span id="cb14-384"><a href="#cb14-384" aria-label="364"></a><span class="in">```</span></span>
-<span id="cb14-385"><a href="#cb14-385" aria-label="365"></a></span>
-<span id="cb14-386"><a href="#cb14-386" aria-label="366"></a>That's the whole point: **the training code you wrote above doesn't change** —</span>
-<span id="cb14-387"><a href="#cb14-387" aria-label="367"></a><span class="in">`ezpz`</span> handles going from your laptop's CPU to a rack of GPUs.</span>
-<span id="cb14-388"><a href="#cb14-388" aria-label="368"></a></span>
-<span id="cb14-389"><a href="#cb14-389" aria-label="369"></a><span class="fu">## 🎒 Homework</span></span>
-<span id="cb14-390"><a href="#cb14-390" aria-label="370"></a></span>
-<span id="cb14-391"><a href="#cb14-391" aria-label="371"></a><span class="ss">1. </span>**Train it for real.** Bump <span class="in">`max_iters`</span> to 1000+ and the config to the full</span>
-<span id="cb14-392"><a href="#cb14-392" aria-label="372"></a>   size (<span class="in">`block_size=256, n_embd=384, n_layer=6`</span>), run on a GPU node, and paste</span>
-<span id="cb14-393"><a href="#cb14-393" aria-label="373"></a>   a generated sample. Does it start sounding like Shakespeare?</span>
-<span id="cb14-394"><a href="#cb14-394" aria-label="374"></a><span class="ss">2. </span>**Compare to `wordplay`.** Run the [wordplay</span>
-<span id="cb14-395"><a href="#cb14-395" aria-label="375"></a>   version](../08-shakespeare-example-colab/index.ipynb) with the same config.</span>
-<span id="cb14-396"><a href="#cb14-396" aria-label="376"></a>   Do the loss curves and samples match? What does <span class="in">`wordplay`</span> add on top of what</span>
-<span id="cb14-397"><a href="#cb14-397" aria-label="377"></a>   you wrote here?</span>
-<span id="cb14-398"><a href="#cb14-398" aria-label="378"></a><span class="ss">3. </span>**Scale out.** Launch across 2+ GPUs with <span class="in">`ezpz launch`</span>, add the DDP wrap, and</span>
-<span id="cb14-399"><a href="#cb14-399" aria-label="379"></a>   report the <span class="in">`sps`</span>/<span class="in">`mtps`</span> speedup vs. a single GPU.</span>
-<span id="cb14-400"><a href="#cb14-400" aria-label="380"></a></span>
-<span id="cb14-401"><a href="#cb14-401" aria-label="381"></a><span class="fu">## 📚 References</span></span>
-<span id="cb14-402"><a href="#cb14-402" aria-label="382"></a></span>
-<span id="cb14-403"><a href="#cb14-403" aria-label="383"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`saforem2/ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> · <span class="co">[</span><span class="ot">ezpz.cool</span><span class="co">](https://ezpz.cool)</span></span>
-<span id="cb14-404"><a href="#cb14-404" aria-label="384"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span> — the packaged version of this example</span>
-<span id="cb14-405"><a href="#cb14-405" aria-label="385"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Andrej Karpathy, "Let's build GPT" (nanoGPT)</span><span class="co">](https://www.youtube.com/watch?v=kCc8FmEb1nY)</span></span>
-<span id="cb14-406"><a href="#cb14-406" aria-label="386"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Vaswani et al., *Attention Is All You Need*</span><span class="co">](https://arxiv.org/abs/1706.03762)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🪶 Shakespeare from Scratch (with `ezpz`)"</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer."</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-label="4"></a><span class="an">categories:</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-label="5"></a><span class="co">  - ai</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-label="6"></a><span class="co">  - hpc</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-label="7"></a><span class="co">  - llm</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a><span class="an">date:</span><span class="co"> 2026-07-24</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-label="9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-label="10"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-label="11"></a><span class="co">---</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-label="12"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-label="13"></a>::: {.callout-note title="Authors" collapse="false"}</span>
+<span id="cb16-14"><a href="#cb16-14" aria-label="14"></a>Written by <span class="co">[</span><span class="ot">Sam Foreman</span><span class="co">](https://samforeman.me)</span> for the <span class="co">[</span><span class="ot">Intro to HPC Bootcamp</span><span class="co">](https://intro-hpc-bootcamp.alcf.anl.gov/)</span>.</span>
+<span id="cb16-15"><a href="#cb16-15" aria-label="15"></a>:::</span>
+<span id="cb16-16"><a href="#cb16-16" aria-label="16"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-label="17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/09-shakespeare-ezpz/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/09-shakespeare-ezpz/index.qmd)</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-label="18"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-label="19"></a>The <span class="co">[</span><span class="ot">Shakespeare example</span><span class="co">](../08-shakespeare-example-colab/index.ipynb)</span> trains a</span>
+<span id="cb16-20"><a href="#cb16-20" aria-label="20"></a>small GPT with the <span class="co">[</span><span class="ot">`wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span> package.</span>
+<span id="cb16-21"><a href="#cb16-21" aria-label="21"></a>Here we do the **same thing from scratch** — the model, the data pipeline, the</span>
+<span id="cb16-22"><a href="#cb16-22" aria-label="22"></a>training loop, and the text generation are all written inline — using only</span>
+<span id="cb16-23"><a href="#cb16-23" aria-label="23"></a><span class="co">[</span><span class="ot">`ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> + <span class="co">[</span><span class="ot">PyTorch</span><span class="co">](https://pytorch.org)</span>.</span>
+<span id="cb16-24"><a href="#cb16-24" aria-label="24"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-label="25"></a>::: {.callout-tip title="🎯 What you'll learn" collapse="false"}</span>
+<span id="cb16-26"><a href="#cb16-26" aria-label="26"></a><span class="ss">- </span>How <span class="co">[</span><span class="ot">`ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> turns a plain PyTorch loop into</span>
+<span id="cb16-27"><a href="#cb16-27" aria-label="27"></a>  a **distributed, instrumented** training run with almost no boilerplate.</span>
+<span id="cb16-28"><a href="#cb16-28" aria-label="28"></a><span class="ss">- </span>The pieces of a GPT training program: **config → model → data → loop →</span>
+<span id="cb16-29"><a href="#cb16-29" aria-label="29"></a>  metrics → generation**.</span>
+<span id="cb16-30"><a href="#cb16-30" aria-label="30"></a><span class="ss">- </span>How to track metrics (<span class="in">`loss`</span>, <span class="in">`dt`</span>, <span class="in">`sps`</span>, <span class="in">`mtps`</span>, <span class="in">`mfu`</span>) with</span>
+<span id="cb16-31"><a href="#cb16-31" aria-label="31"></a>  <span class="in">`ezpz.History`</span> and launch at scale with <span class="in">`ezpz launch`</span>.</span>
+<span id="cb16-32"><a href="#cb16-32" aria-label="32"></a></span>
+<span id="cb16-33"><a href="#cb16-33" aria-label="33"></a>This page assumes you've seen the attention/transformer mechanics from</span>
+<span id="cb16-34"><a href="#cb16-34" aria-label="34"></a><span class="co">[</span><span class="ot">**\[02.0\] Intro to LLMs**</span><span class="co">](../00-intro-to-llms/index.qmd)</span> — here we focus on</span>
+<span id="cb16-35"><a href="#cb16-35" aria-label="35"></a>the *training* side.</span>
+<span id="cb16-36"><a href="#cb16-36" aria-label="36"></a>:::</span>
+<span id="cb16-37"><a href="#cb16-37" aria-label="37"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-label="38"></a><span class="fu">## 🎯 Setup</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-label="39"></a></span>
+<span id="cb16-40"><a href="#cb16-40" aria-label="40"></a>On any ALCF / NERSC system (or a laptop), install <span class="in">`ezpz`</span> and set up the</span>
+<span id="cb16-41"><a href="#cb16-41" aria-label="41"></a>environment with the one-liner:</span>
+<span id="cb16-42"><a href="#cb16-42" aria-label="42"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-label="43"></a><span class="in">```bash</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-label="44"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb16-45"><a href="#cb16-45" aria-label="45"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-label="46"></a><span class="in">```</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-label="47"></a></span>
+<span id="cb16-48"><a href="#cb16-48" aria-label="48"></a>The single most useful thing <span class="in">`ezpz`</span> does is collapse all of PyTorch's</span>
+<span id="cb16-49"><a href="#cb16-49" aria-label="49"></a>distributed boilerplate into **one call**. On a real (multi-GPU) run your script</span>
+<span id="cb16-50"><a href="#cb16-50" aria-label="50"></a>starts like this:</span>
+<span id="cb16-51"><a href="#cb16-51" aria-label="51"></a></span>
+<span id="cb16-54"><a href="#cb16-54" aria-label="52"></a><span class="in">```{python}</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-label="53"></a><span class="co">#| eval: false</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-label="54"></a><span class="im">import</span> ezpz</span>
+<span id="cb16-57"><a href="#cb16-57" aria-label="55"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-label="56"></a>rank <span class="op">=</span> ezpz.setup_torch(seed<span class="op">=</span><span class="dv">1234</span>)   <span class="co"># discovers rank/world/device/backend, inits process group</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-label="57"></a>device <span class="op">=</span> ezpz.get_torch_device()     <span class="co"># 'cuda' | 'xpu' | 'mps' | 'cpu'</span></span>
+<span id="cb16-60"><a href="#cb16-60" aria-label="58"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="va">__name__</span>)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-label="59"></a>logger.info(<span class="ss">f"rank </span><span class="sc">{</span>rank<span class="sc">}</span><span class="ss"> / </span><span class="sc">{</span>ezpz<span class="sc">.</span>get_world_size()<span class="sc">}</span><span class="ss"> on </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-62"><a href="#cb16-62" aria-label="60"></a><span class="in">```</span></span>
+<span id="cb16-63"><a href="#cb16-63" aria-label="61"></a></span>
+<span id="cb16-64"><a href="#cb16-64" aria-label="62"></a>::: {.callout-note title="🔍 …versus raw PyTorch"}</span>
+<span id="cb16-65"><a href="#cb16-65" aria-label="63"></a>That one <span class="in">`setup_torch()`</span> replaces the usual dance:</span>
+<span id="cb16-66"><a href="#cb16-66" aria-label="64"></a></span>
+<span id="cb16-67"><a href="#cb16-67" aria-label="65"></a><span class="in">```python</span></span>
+<span id="cb16-68"><a href="#cb16-68" aria-label="66"></a><span class="im">import</span> os, torch.distributed <span class="im">as</span> dist</span>
+<span id="cb16-69"><a href="#cb16-69" aria-label="67"></a>dist.init_process_group(backend<span class="op">=</span><span class="st">"nccl"</span>)</span>
+<span id="cb16-70"><a href="#cb16-70" aria-label="68"></a>rank        <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"RANK"</span>])</span>
+<span id="cb16-71"><a href="#cb16-71" aria-label="69"></a>local_rank  <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"LOCAL_RANK"</span>])</span>
+<span id="cb16-72"><a href="#cb16-72" aria-label="70"></a>world_size  <span class="op">=</span> <span class="bu">int</span>(os.environ[<span class="st">"WORLD_SIZE"</span>])</span>
+<span id="cb16-73"><a href="#cb16-73" aria-label="71"></a>torch.cuda.set_device(local_rank)</span>
+<span id="cb16-74"><a href="#cb16-74" aria-label="72"></a><span class="co"># ...and you still have to detect cuda vs xpu vs cpu yourself</span></span>
+<span id="cb16-75"><a href="#cb16-75" aria-label="73"></a><span class="in">```</span></span>
+<span id="cb16-76"><a href="#cb16-76" aria-label="74"></a>:::</span>
+<span id="cb16-77"><a href="#cb16-77" aria-label="75"></a></span>
+<span id="cb16-78"><a href="#cb16-78" aria-label="76"></a>For this page we build a **tiny** version that actually runs here on CPU, so we</span>
+<span id="cb16-79"><a href="#cb16-79" aria-label="77"></a>import the plumbing and pick a device directly (on a cluster you'd use</span>
+<span id="cb16-80"><a href="#cb16-80" aria-label="78"></a><span class="in">`ezpz.setup_torch()`</span> above instead):</span>
+<span id="cb16-81"><a href="#cb16-81" aria-label="79"></a></span>
+<span id="cb16-84"><a href="#cb16-84" aria-label="80"></a><span class="in">```{python}</span></span>
+<span id="cb16-85"><a href="#cb16-85" aria-label="81"></a><span class="im">import</span> os</span>
+<span id="cb16-86"><a href="#cb16-86" aria-label="82"></a>os.environ[<span class="st">"WANDB_DISABLED"</span>] <span class="op">=</span> <span class="st">"1"</span>   <span class="co"># keep the tutorial offline</span></span>
+<span id="cb16-87"><a href="#cb16-87" aria-label="83"></a>os.environ[<span class="st">"WANDB_MODE"</span>] <span class="op">=</span> <span class="st">"disabled"</span></span>
+<span id="cb16-88"><a href="#cb16-88" aria-label="84"></a></span>
+<span id="cb16-89"><a href="#cb16-89" aria-label="85"></a><span class="im">import</span> math</span>
+<span id="cb16-90"><a href="#cb16-90" aria-label="86"></a><span class="im">import</span> time</span>
+<span id="cb16-91"><a href="#cb16-91" aria-label="87"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-92"><a href="#cb16-92" aria-label="88"></a><span class="im">import</span> torch</span>
+<span id="cb16-93"><a href="#cb16-93" aria-label="89"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb16-94"><a href="#cb16-94" aria-label="90"></a><span class="im">from</span> torch.nn <span class="im">import</span> functional <span class="im">as</span> F</span>
+<span id="cb16-95"><a href="#cb16-95" aria-label="91"></a><span class="im">import</span> ezpz</span>
+<span id="cb16-96"><a href="#cb16-96" aria-label="92"></a></span>
+<span id="cb16-97"><a href="#cb16-97" aria-label="93"></a>torch.manual_seed(<span class="dv">1234</span>)</span>
+<span id="cb16-98"><a href="#cb16-98" aria-label="94"></a>device <span class="op">=</span> ezpz.get_torch_device()      <span class="co"># 'cpu' here; 'cuda'/'xpu' on a GPU node</span></span>
+<span id="cb16-99"><a href="#cb16-99" aria-label="95"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="va">__name__</span>)</span>
+<span id="cb16-100"><a href="#cb16-100" aria-label="96"></a>logger.info(<span class="ss">f"Using device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-101"><a href="#cb16-101" aria-label="97"></a><span class="in">```</span></span>
+<span id="cb16-102"><a href="#cb16-102" aria-label="98"></a></span>
+<span id="cb16-103"><a href="#cb16-103" aria-label="99"></a><span class="fu">## 📖 The Data: tiny-Shakespeare</span></span>
+<span id="cb16-104"><a href="#cb16-104" aria-label="100"></a></span>
+<span id="cb16-105"><a href="#cb16-105" aria-label="101"></a>We train a **character-level** model: the vocabulary is just the set of unique</span>
+<span id="cb16-106"><a href="#cb16-106" aria-label="102"></a>characters in the text, and the model predicts the next character.</span>
+<span id="cb16-107"><a href="#cb16-107" aria-label="103"></a></span>
+<span id="cb16-110"><a href="#cb16-110" aria-label="104"></a><span class="in">```{python}</span></span>
+<span id="cb16-111"><a href="#cb16-111" aria-label="105"></a><span class="im">import</span> urllib.request</span>
+<span id="cb16-112"><a href="#cb16-112" aria-label="106"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb16-113"><a href="#cb16-113" aria-label="107"></a></span>
+<span id="cb16-114"><a href="#cb16-114" aria-label="108"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"</span></span>
+<span id="cb16-115"><a href="#cb16-115" aria-label="109"></a>path <span class="op">=</span> Path(<span class="st">"input.txt"</span>)</span>
+<span id="cb16-116"><a href="#cb16-116" aria-label="110"></a><span class="cf">if</span> <span class="kw">not</span> path.exists():</span>
+<span id="cb16-117"><a href="#cb16-117" aria-label="111"></a>    <span class="cf">try</span>:</span>
+<span id="cb16-118"><a href="#cb16-118" aria-label="112"></a>        urllib.request.urlretrieve(url, path)</span>
+<span id="cb16-119"><a href="#cb16-119" aria-label="113"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb16-120"><a href="#cb16-120" aria-label="114"></a>        <span class="co"># offline fallback so this page always renders</span></span>
+<span id="cb16-121"><a href="#cb16-121" aria-label="115"></a>        path.write_text((<span class="st">"To be, or not to be, that is the question:</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb16-122"><a href="#cb16-122" aria-label="116"></a>                         <span class="st">"Whether 'tis nobler in the mind to suffer</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb16-123"><a href="#cb16-123" aria-label="117"></a>                         <span class="st">"The slings and arrows of outrageous fortune,</span><span class="ch">\n</span><span class="st">"</span>) <span class="op">*</span> <span class="dv">200</span>)</span>
+<span id="cb16-124"><a href="#cb16-124" aria-label="118"></a></span>
+<span id="cb16-125"><a href="#cb16-125" aria-label="119"></a>text <span class="op">=</span> path.read_text()</span>
+<span id="cb16-126"><a href="#cb16-126" aria-label="120"></a>chars <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(text))</span>
+<span id="cb16-127"><a href="#cb16-127" aria-label="121"></a>vocab_size <span class="op">=</span> <span class="bu">len</span>(chars)</span>
+<span id="cb16-128"><a href="#cb16-128" aria-label="122"></a>logger.info(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(text)<span class="sc">:,}</span><span class="ss"> characters, vocab size = </span><span class="sc">{</span>vocab_size<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-129"><a href="#cb16-129" aria-label="123"></a><span class="in">```</span></span>
+<span id="cb16-130"><a href="#cb16-130" aria-label="124"></a></span>
+<span id="cb16-131"><a href="#cb16-131" aria-label="125"></a>Build the char↔int mappings and encode the whole corpus, then split 90/10:</span>
+<span id="cb16-132"><a href="#cb16-132" aria-label="126"></a></span>
+<span id="cb16-135"><a href="#cb16-135" aria-label="127"></a><span class="in">```{python}</span></span>
+<span id="cb16-136"><a href="#cb16-136" aria-label="128"></a>stoi <span class="op">=</span> {c: i <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
+<span id="cb16-137"><a href="#cb16-137" aria-label="129"></a>itos <span class="op">=</span> {i: c <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
+<span id="cb16-138"><a href="#cb16-138" aria-label="130"></a>encode <span class="op">=</span> <span class="kw">lambda</span> s: [stoi[c] <span class="cf">for</span> c <span class="kw">in</span> s]              <span class="co"># str -&gt; list[int]</span></span>
+<span id="cb16-139"><a href="#cb16-139" aria-label="131"></a>decode <span class="op">=</span> <span class="kw">lambda</span> ids: <span class="st">""</span>.join(itos[i] <span class="cf">for</span> i <span class="kw">in</span> ids)   <span class="co"># list[int] -&gt; str</span></span>
+<span id="cb16-140"><a href="#cb16-140" aria-label="132"></a></span>
+<span id="cb16-141"><a href="#cb16-141" aria-label="133"></a>data <span class="op">=</span> torch.tensor(encode(text), dtype<span class="op">=</span>torch.<span class="bu">long</span>)</span>
+<span id="cb16-142"><a href="#cb16-142" aria-label="134"></a>n <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.9</span> <span class="op">*</span> <span class="bu">len</span>(data))</span>
+<span id="cb16-143"><a href="#cb16-143" aria-label="135"></a>train_data, val_data <span class="op">=</span> data[:n], data[n:]</span>
+<span id="cb16-144"><a href="#cb16-144" aria-label="136"></a></span>
+<span id="cb16-145"><a href="#cb16-145" aria-label="137"></a><span class="kw">def</span> get_batch(split, batch_size, block_size):</span>
+<span id="cb16-146"><a href="#cb16-146" aria-label="138"></a>    d <span class="op">=</span> train_data <span class="cf">if</span> split <span class="op">==</span> <span class="st">"train"</span> <span class="cf">else</span> val_data</span>
+<span id="cb16-147"><a href="#cb16-147" aria-label="139"></a>    ix <span class="op">=</span> torch.randint(<span class="bu">len</span>(d) <span class="op">-</span> block_size, (batch_size,))</span>
+<span id="cb16-148"><a href="#cb16-148" aria-label="140"></a>    x <span class="op">=</span> torch.stack([d[i : i <span class="op">+</span> block_size] <span class="cf">for</span> i <span class="kw">in</span> ix])</span>
+<span id="cb16-149"><a href="#cb16-149" aria-label="141"></a>    y <span class="op">=</span> torch.stack([d[i <span class="op">+</span> <span class="dv">1</span> : i <span class="op">+</span> block_size <span class="op">+</span> <span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> ix])</span>
+<span id="cb16-150"><a href="#cb16-150" aria-label="142"></a>    <span class="cf">return</span> x.to(device), y.to(device)</span>
+<span id="cb16-151"><a href="#cb16-151" aria-label="143"></a><span class="in">```</span></span>
+<span id="cb16-152"><a href="#cb16-152" aria-label="144"></a></span>
+<span id="cb16-153"><a href="#cb16-153" aria-label="145"></a><span class="fu">## 🧱 The Model: a small GPT</span></span>
+<span id="cb16-154"><a href="#cb16-154" aria-label="146"></a></span>
+<span id="cb16-155"><a href="#cb16-155" aria-label="147"></a>A compact decoder-only Transformer — the same architecture as the <span class="in">`wordplay`</span></span>
+<span id="cb16-156"><a href="#cb16-156" aria-label="148"></a>model, written inline. (For the *why* behind attention, see</span>
+<span id="cb16-157"><a href="#cb16-157" aria-label="149"></a><span class="co">[</span><span class="ot">Intro to LLMs</span><span class="co">](../00-intro-to-llms/index.qmd)</span>.)</span>
+<span id="cb16-158"><a href="#cb16-158" aria-label="150"></a></span>
+<span id="cb16-161"><a href="#cb16-161" aria-label="151"></a><span class="in">```{python}</span></span>
+<span id="cb16-162"><a href="#cb16-162" aria-label="152"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
+<span id="cb16-163"><a href="#cb16-163" aria-label="153"></a></span>
+<span id="cb16-164"><a href="#cb16-164" aria-label="154"></a><span class="at">@dataclass</span></span>
+<span id="cb16-165"><a href="#cb16-165" aria-label="155"></a><span class="kw">class</span> GPTConfig:</span>
+<span id="cb16-166"><a href="#cb16-166" aria-label="156"></a>    vocab_size: <span class="bu">int</span></span>
+<span id="cb16-167"><a href="#cb16-167" aria-label="157"></a>    block_size: <span class="bu">int</span> <span class="op">=</span> <span class="dv">256</span></span>
+<span id="cb16-168"><a href="#cb16-168" aria-label="158"></a>    n_layer: <span class="bu">int</span> <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb16-169"><a href="#cb16-169" aria-label="159"></a>    n_head: <span class="bu">int</span> <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb16-170"><a href="#cb16-170" aria-label="160"></a>    n_embd: <span class="bu">int</span> <span class="op">=</span> <span class="dv">384</span></span>
+<span id="cb16-171"><a href="#cb16-171" aria-label="161"></a>    dropout: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb16-172"><a href="#cb16-172" aria-label="162"></a></span>
+<span id="cb16-173"><a href="#cb16-173" aria-label="163"></a></span>
+<span id="cb16-174"><a href="#cb16-174" aria-label="164"></a><span class="kw">class</span> Block(nn.Module):</span>
+<span id="cb16-175"><a href="#cb16-175" aria-label="165"></a>    <span class="co">"""A single Transformer block: masked self-attention + MLP."""</span></span>
+<span id="cb16-176"><a href="#cb16-176" aria-label="166"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg: GPTConfig):</span>
+<span id="cb16-177"><a href="#cb16-177" aria-label="167"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb16-178"><a href="#cb16-178" aria-label="168"></a>        <span class="va">self</span>.ln1 <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
+<span id="cb16-179"><a href="#cb16-179" aria-label="169"></a>        <span class="va">self</span>.attn <span class="op">=</span> nn.MultiheadAttention(</span>
+<span id="cb16-180"><a href="#cb16-180" aria-label="170"></a>            cfg.n_embd, cfg.n_head, dropout<span class="op">=</span>cfg.dropout, batch_first<span class="op">=</span><span class="va">True</span></span>
+<span id="cb16-181"><a href="#cb16-181" aria-label="171"></a>        )</span>
+<span id="cb16-182"><a href="#cb16-182" aria-label="172"></a>        <span class="va">self</span>.ln2 <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
+<span id="cb16-183"><a href="#cb16-183" aria-label="173"></a>        <span class="va">self</span>.mlp <span class="op">=</span> nn.Sequential(</span>
+<span id="cb16-184"><a href="#cb16-184" aria-label="174"></a>            nn.Linear(cfg.n_embd, <span class="dv">4</span> <span class="op">*</span> cfg.n_embd),</span>
+<span id="cb16-185"><a href="#cb16-185" aria-label="175"></a>            nn.GELU(),</span>
+<span id="cb16-186"><a href="#cb16-186" aria-label="176"></a>            nn.Linear(<span class="dv">4</span> <span class="op">*</span> cfg.n_embd, cfg.n_embd),</span>
+<span id="cb16-187"><a href="#cb16-187" aria-label="177"></a>            nn.Dropout(cfg.dropout),</span>
+<span id="cb16-188"><a href="#cb16-188" aria-label="178"></a>        )</span>
+<span id="cb16-189"><a href="#cb16-189" aria-label="179"></a>        <span class="va">self</span>.register_buffer(</span>
+<span id="cb16-190"><a href="#cb16-190" aria-label="180"></a>            <span class="st">"mask"</span>, torch.triu(torch.ones(cfg.block_size, cfg.block_size), <span class="dv">1</span>).<span class="bu">bool</span>()</span>
+<span id="cb16-191"><a href="#cb16-191" aria-label="181"></a>        )</span>
+<span id="cb16-192"><a href="#cb16-192" aria-label="182"></a></span>
+<span id="cb16-193"><a href="#cb16-193" aria-label="183"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb16-194"><a href="#cb16-194" aria-label="184"></a>        T <span class="op">=</span> x.size(<span class="dv">1</span>)</span>
+<span id="cb16-195"><a href="#cb16-195" aria-label="185"></a>        h <span class="op">=</span> <span class="va">self</span>.ln1(x)</span>
+<span id="cb16-196"><a href="#cb16-196" aria-label="186"></a>        a, _ <span class="op">=</span> <span class="va">self</span>.attn(h, h, h, attn_mask<span class="op">=</span><span class="va">self</span>.mask[:T, :T], need_weights<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-197"><a href="#cb16-197" aria-label="187"></a>        x <span class="op">=</span> x <span class="op">+</span> a</span>
+<span id="cb16-198"><a href="#cb16-198" aria-label="188"></a>        x <span class="op">=</span> x <span class="op">+</span> <span class="va">self</span>.mlp(<span class="va">self</span>.ln2(x))</span>
+<span id="cb16-199"><a href="#cb16-199" aria-label="189"></a>        <span class="cf">return</span> x</span>
+<span id="cb16-200"><a href="#cb16-200" aria-label="190"></a></span>
+<span id="cb16-201"><a href="#cb16-201" aria-label="191"></a></span>
+<span id="cb16-202"><a href="#cb16-202" aria-label="192"></a><span class="kw">class</span> GPT(nn.Module):</span>
+<span id="cb16-203"><a href="#cb16-203" aria-label="193"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg: GPTConfig):</span>
+<span id="cb16-204"><a href="#cb16-204" aria-label="194"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb16-205"><a href="#cb16-205" aria-label="195"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg</span>
+<span id="cb16-206"><a href="#cb16-206" aria-label="196"></a>        <span class="va">self</span>.tok_emb <span class="op">=</span> nn.Embedding(cfg.vocab_size, cfg.n_embd)</span>
+<span id="cb16-207"><a href="#cb16-207" aria-label="197"></a>        <span class="va">self</span>.pos_emb <span class="op">=</span> nn.Embedding(cfg.block_size, cfg.n_embd)</span>
+<span id="cb16-208"><a href="#cb16-208" aria-label="198"></a>        <span class="va">self</span>.drop <span class="op">=</span> nn.Dropout(cfg.dropout)</span>
+<span id="cb16-209"><a href="#cb16-209" aria-label="199"></a>        <span class="va">self</span>.blocks <span class="op">=</span> nn.ModuleList([Block(cfg) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(cfg.n_layer)])</span>
+<span id="cb16-210"><a href="#cb16-210" aria-label="200"></a>        <span class="va">self</span>.ln_f <span class="op">=</span> nn.LayerNorm(cfg.n_embd)</span>
+<span id="cb16-211"><a href="#cb16-211" aria-label="201"></a>        <span class="va">self</span>.head <span class="op">=</span> nn.Linear(cfg.n_embd, cfg.vocab_size, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-212"><a href="#cb16-212" aria-label="202"></a></span>
+<span id="cb16-213"><a href="#cb16-213" aria-label="203"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, idx, targets<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb16-214"><a href="#cb16-214" aria-label="204"></a>        B, T <span class="op">=</span> idx.shape</span>
+<span id="cb16-215"><a href="#cb16-215" aria-label="205"></a>        pos <span class="op">=</span> torch.arange(T, device<span class="op">=</span>idx.device)</span>
+<span id="cb16-216"><a href="#cb16-216" aria-label="206"></a>        x <span class="op">=</span> <span class="va">self</span>.drop(<span class="va">self</span>.tok_emb(idx) <span class="op">+</span> <span class="va">self</span>.pos_emb(pos))</span>
+<span id="cb16-217"><a href="#cb16-217" aria-label="207"></a>        <span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.blocks:</span>
+<span id="cb16-218"><a href="#cb16-218" aria-label="208"></a>            x <span class="op">=</span> block(x)</span>
+<span id="cb16-219"><a href="#cb16-219" aria-label="209"></a>        logits <span class="op">=</span> <span class="va">self</span>.head(<span class="va">self</span>.ln_f(x))</span>
+<span id="cb16-220"><a href="#cb16-220" aria-label="210"></a>        loss <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb16-221"><a href="#cb16-221" aria-label="211"></a>        <span class="cf">if</span> targets <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb16-222"><a href="#cb16-222" aria-label="212"></a>            loss <span class="op">=</span> F.cross_entropy(logits.view(B <span class="op">*</span> T, <span class="op">-</span><span class="dv">1</span>), targets.view(B <span class="op">*</span> T))</span>
+<span id="cb16-223"><a href="#cb16-223" aria-label="213"></a>        <span class="cf">return</span> logits, loss</span>
+<span id="cb16-224"><a href="#cb16-224" aria-label="214"></a></span>
+<span id="cb16-225"><a href="#cb16-225" aria-label="215"></a>    <span class="at">@torch.no_grad</span>()</span>
+<span id="cb16-226"><a href="#cb16-226" aria-label="216"></a>    <span class="kw">def</span> generate(<span class="va">self</span>, idx, max_new_tokens, temperature<span class="op">=</span><span class="fl">1.0</span>, top_k<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb16-227"><a href="#cb16-227" aria-label="217"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_new_tokens):</span>
+<span id="cb16-228"><a href="#cb16-228" aria-label="218"></a>            idx_cond <span class="op">=</span> idx[:, <span class="op">-</span><span class="va">self</span>.cfg.block_size :]</span>
+<span id="cb16-229"><a href="#cb16-229" aria-label="219"></a>            logits, _ <span class="op">=</span> <span class="va">self</span>(idx_cond)</span>
+<span id="cb16-230"><a href="#cb16-230" aria-label="220"></a>            logits <span class="op">=</span> logits[:, <span class="op">-</span><span class="dv">1</span>, :] <span class="op">/</span> temperature</span>
+<span id="cb16-231"><a href="#cb16-231" aria-label="221"></a>            <span class="cf">if</span> top_k <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb16-232"><a href="#cb16-232" aria-label="222"></a>                v, _ <span class="op">=</span> torch.topk(logits, top_k)</span>
+<span id="cb16-233"><a href="#cb16-233" aria-label="223"></a>                logits[logits <span class="op">&lt;</span> v[:, [<span class="op">-</span><span class="dv">1</span>]]] <span class="op">=</span> <span class="op">-</span><span class="bu">float</span>(<span class="st">"inf"</span>)</span>
+<span id="cb16-234"><a href="#cb16-234" aria-label="224"></a>            probs <span class="op">=</span> F.softmax(logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb16-235"><a href="#cb16-235" aria-label="225"></a>            idx <span class="op">=</span> torch.cat([idx, torch.multinomial(probs, <span class="dv">1</span>)], dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-236"><a href="#cb16-236" aria-label="226"></a>        <span class="cf">return</span> idx</span>
+<span id="cb16-237"><a href="#cb16-237" aria-label="227"></a><span class="in">```</span></span>
+<span id="cb16-238"><a href="#cb16-238" aria-label="228"></a></span>
+<span id="cb16-239"><a href="#cb16-239" aria-label="229"></a><span class="fu">## ⚡ Going distributed with `ezpz`</span></span>
+<span id="cb16-240"><a href="#cb16-240" aria-label="230"></a></span>
+<span id="cb16-241"><a href="#cb16-241" aria-label="231"></a>On multiple GPUs, wrapping the model for **Distributed Data Parallel** is where</span>
+<span id="cb16-242"><a href="#cb16-242" aria-label="232"></a><span class="in">`ezpz`</span> shines — but the beauty is that the *training loop below doesn't change*.</span>
+<span id="cb16-243"><a href="#cb16-243" aria-label="233"></a>On a cluster you'd add:</span>
+<span id="cb16-244"><a href="#cb16-244" aria-label="234"></a></span>
+<span id="cb16-247"><a href="#cb16-247" aria-label="235"></a><span class="in">```{python}</span></span>
+<span id="cb16-248"><a href="#cb16-248" aria-label="236"></a><span class="co">#| eval: false</span></span>
+<span id="cb16-249"><a href="#cb16-249" aria-label="237"></a><span class="co"># after `model = GPT(cfg).to(device)` on a real multi-GPU run:</span></span>
+<span id="cb16-250"><a href="#cb16-250" aria-label="238"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
+<span id="cb16-251"><a href="#cb16-251" aria-label="239"></a></span>
+<span id="cb16-252"><a href="#cb16-252" aria-label="240"></a><span class="cf">if</span> ezpz.get_world_size() <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb16-253"><a href="#cb16-253" aria-label="241"></a>    model <span class="op">=</span> DDP(model, device_ids<span class="op">=</span>[ezpz.get_local_rank()])</span>
+<span id="cb16-254"><a href="#cb16-254" aria-label="242"></a><span class="in">```</span></span>
+<span id="cb16-255"><a href="#cb16-255" aria-label="243"></a></span>
+<span id="cb16-256"><a href="#cb16-256" aria-label="244"></a><span class="in">`ezpz`</span> handles the process-group setup (from <span class="in">`setup_torch()`</span>), device placement,</span>
+<span id="cb16-257"><a href="#cb16-257" aria-label="245"></a>and the correct backend (NCCL / oneCCL / gloo) for you — so the *same script*</span>
+<span id="cb16-258"><a href="#cb16-258" aria-label="246"></a>runs on 1 GPU, 8 GPUs, or 100 nodes.</span>
+<span id="cb16-259"><a href="#cb16-259" aria-label="247"></a></span>
+<span id="cb16-260"><a href="#cb16-260" aria-label="248"></a><span class="fu">## 🔁 The Training Loop + Metrics</span></span>
+<span id="cb16-261"><a href="#cb16-261" aria-label="249"></a></span>
+<span id="cb16-262"><a href="#cb16-262" aria-label="250"></a>Here's the heart of it. We use a **tiny config so this page runs on CPU** in a</span>
+<span id="cb16-263"><a href="#cb16-263" aria-label="251"></a>few seconds, and lean on <span class="in">`ezpz`</span> for three things:</span>
+<span id="cb16-264"><a href="#cb16-264" aria-label="252"></a></span>
+<span id="cb16-265"><a href="#cb16-265" aria-label="253"></a><span class="ss">- </span><span class="in">`ezpz.synchronize()`</span> — backend-agnostic device sync for **correct timing**,</span>
+<span id="cb16-266"><a href="#cb16-266" aria-label="254"></a><span class="ss">- </span><span class="in">`ezpz.History`</span> — accumulates per-step metrics and prints a compact summary,</span>
+<span id="cb16-267"><a href="#cb16-267" aria-label="255"></a><span class="ss">- </span>(later) <span class="in">`history.finalize()`</span> — writes plots + a report automatically.</span>
+<span id="cb16-268"><a href="#cb16-268" aria-label="256"></a></span>
+<span id="cb16-269"><a href="#cb16-269" aria-label="257"></a>We report the same metrics as the <span class="in">`wordplay`</span> example:</span>
+<span id="cb16-270"><a href="#cb16-270" aria-label="258"></a></span>
+<span id="cb16-271"><a href="#cb16-271" aria-label="259"></a><span class="pp">|</span> name   <span class="pp">|</span> description                     <span class="pp">|</span></span>
+<span id="cb16-272"><a href="#cb16-272" aria-label="260"></a><span class="pp">|:------:|:--------------------------------|</span></span>
+<span id="cb16-273"><a href="#cb16-273" aria-label="261"></a><span class="pp">|</span> <span class="in">`step`</span> <span class="pp">|</span> training iteration              <span class="pp">|</span></span>
+<span id="cb16-274"><a href="#cb16-274" aria-label="262"></a><span class="pp">|</span> <span class="in">`loss`</span> <span class="pp">|</span> cross-entropy loss              <span class="pp">|</span></span>
+<span id="cb16-275"><a href="#cb16-275" aria-label="263"></a><span class="pp">|</span> <span class="in">`dt`</span>   <span class="pp">|</span> time per step (s)               <span class="pp">|</span></span>
+<span id="cb16-276"><a href="#cb16-276" aria-label="264"></a><span class="pp">|</span> <span class="in">`sps`</span>  <span class="pp">|</span> samples per second              <span class="pp">|</span></span>
+<span id="cb16-277"><a href="#cb16-277" aria-label="265"></a><span class="pp">|</span> <span class="in">`mtps`</span> <span class="pp">|</span> (million) tokens per second     <span class="pp">|</span></span>
+<span id="cb16-278"><a href="#cb16-278" aria-label="266"></a><span class="pp">|</span> <span class="in">`mfu`</span>  <span class="pp">|</span> model FLOPs utilization (%)     <span class="pp">|</span></span>
+<span id="cb16-279"><a href="#cb16-279" aria-label="267"></a></span>
+<span id="cb16-280"><a href="#cb16-280" aria-label="268"></a>: Training metrics legend {#tbl-ezpz-legend .responsive}</span>
+<span id="cb16-281"><a href="#cb16-281" aria-label="269"></a></span>
+<span id="cb16-284"><a href="#cb16-284" aria-label="270"></a><span class="in">```{python}</span></span>
+<span id="cb16-285"><a href="#cb16-285" aria-label="271"></a><span class="co"># --- tiny config: runs on CPU at build time ---</span></span>
+<span id="cb16-286"><a href="#cb16-286" aria-label="272"></a>cfg <span class="op">=</span> GPTConfig(vocab_size<span class="op">=</span>vocab_size, block_size<span class="op">=</span><span class="dv">64</span>, n_layer<span class="op">=</span><span class="dv">4</span>, n_head<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb16-287"><a href="#cb16-287" aria-label="273"></a>                n_embd<span class="op">=</span><span class="dv">128</span>, dropout<span class="op">=</span><span class="fl">0.0</span>)</span>
+<span id="cb16-288"><a href="#cb16-288" aria-label="274"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb16-289"><a href="#cb16-289" aria-label="275"></a>max_iters <span class="op">=</span> <span class="dv">50</span>            <span class="co"># bump to 1000+ on a GPU for real samples</span></span>
+<span id="cb16-290"><a href="#cb16-290" aria-label="276"></a></span>
+<span id="cb16-291"><a href="#cb16-291" aria-label="277"></a>model <span class="op">=</span> GPT(cfg).to(device)</span>
+<span id="cb16-292"><a href="#cb16-292" aria-label="278"></a>n_params <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters())</span>
+<span id="cb16-293"><a href="#cb16-293" aria-label="279"></a>logger.info(<span class="ss">f"model has </span><span class="sc">{</span>n_params<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss">M parameters"</span>)</span>
+<span id="cb16-294"><a href="#cb16-294" aria-label="280"></a></span>
+<span id="cb16-295"><a href="#cb16-295" aria-label="281"></a>optimizer <span class="op">=</span> torch.optim.AdamW(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb16-296"><a href="#cb16-296" aria-label="282"></a></span>
+<span id="cb16-297"><a href="#cb16-297" aria-label="283"></a><span class="co"># Rough MFU: ~6*N FLOPs per token (fwd+bwd). Peak is device-dependent; we use a</span></span>
+<span id="cb16-298"><a href="#cb16-298" aria-label="284"></a><span class="co"># nominal value so the number is illustrative (compute_mfu ships in newer ezpz).</span></span>
+<span id="cb16-299"><a href="#cb16-299" aria-label="285"></a>flops_per_token <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> n_params</span>
+<span id="cb16-300"><a href="#cb16-300" aria-label="286"></a>PEAK_FLOPS <span class="op">=</span> <span class="fl">1.0e12</span>       <span class="co"># ~1 TFLOP/s nominal (CPU); set to your GPU's bf16 peak</span></span>
+<span id="cb16-301"><a href="#cb16-301" aria-label="287"></a><span class="in">```</span></span>
+<span id="cb16-302"><a href="#cb16-302" aria-label="288"></a></span>
+<span id="cb16-305"><a href="#cb16-305" aria-label="289"></a><span class="in">```{python}</span></span>
+<span id="cb16-306"><a href="#cb16-306" aria-label="290"></a>history <span class="op">=</span> ezpz.History()</span>
+<span id="cb16-307"><a href="#cb16-307" aria-label="291"></a></span>
+<span id="cb16-308"><a href="#cb16-308" aria-label="292"></a>model.train()</span>
+<span id="cb16-309"><a href="#cb16-309" aria-label="293"></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb16-310"><a href="#cb16-310" aria-label="294"></a>    x, y <span class="op">=</span> get_batch(<span class="st">"train"</span>, batch_size, cfg.block_size)</span>
+<span id="cb16-311"><a href="#cb16-311" aria-label="295"></a></span>
+<span id="cb16-312"><a href="#cb16-312" aria-label="296"></a>    ezpz.synchronize(device)</span>
+<span id="cb16-313"><a href="#cb16-313" aria-label="297"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb16-314"><a href="#cb16-314" aria-label="298"></a></span>
+<span id="cb16-315"><a href="#cb16-315" aria-label="299"></a>    _, loss <span class="op">=</span> model(x, y)</span>
+<span id="cb16-316"><a href="#cb16-316" aria-label="300"></a>    optimizer.zero_grad(set_to_none<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-317"><a href="#cb16-317" aria-label="301"></a>    loss.backward()</span>
+<span id="cb16-318"><a href="#cb16-318" aria-label="302"></a>    optimizer.step()</span>
+<span id="cb16-319"><a href="#cb16-319" aria-label="303"></a></span>
+<span id="cb16-320"><a href="#cb16-320" aria-label="304"></a>    ezpz.synchronize(device)</span>
+<span id="cb16-321"><a href="#cb16-321" aria-label="305"></a>    dt <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb16-322"><a href="#cb16-322" aria-label="306"></a></span>
+<span id="cb16-323"><a href="#cb16-323" aria-label="307"></a>    tokens <span class="op">=</span> batch_size <span class="op">*</span> cfg.block_size</span>
+<span id="cb16-324"><a href="#cb16-324" aria-label="308"></a>    metrics <span class="op">=</span> {</span>
+<span id="cb16-325"><a href="#cb16-325" aria-label="309"></a>        <span class="st">"step"</span>: step,</span>
+<span id="cb16-326"><a href="#cb16-326" aria-label="310"></a>        <span class="st">"loss"</span>: loss.item(),</span>
+<span id="cb16-327"><a href="#cb16-327" aria-label="311"></a>        <span class="st">"dt"</span>: dt,</span>
+<span id="cb16-328"><a href="#cb16-328" aria-label="312"></a>        <span class="st">"sps"</span>: batch_size <span class="op">/</span> dt,</span>
+<span id="cb16-329"><a href="#cb16-329" aria-label="313"></a>        <span class="st">"mtps"</span>: tokens <span class="op">/</span> dt <span class="op">/</span> <span class="fl">1e6</span>,</span>
+<span id="cb16-330"><a href="#cb16-330" aria-label="314"></a>        <span class="st">"mfu"</span>: <span class="dv">100</span> <span class="op">*</span> flops_per_token <span class="op">*</span> tokens <span class="op">/</span> dt <span class="op">/</span> PEAK_FLOPS,</span>
+<span id="cb16-331"><a href="#cb16-331" aria-label="315"></a>    }</span>
+<span id="cb16-332"><a href="#cb16-332" aria-label="316"></a>    summary <span class="op">=</span> history.update(metrics)</span>
+<span id="cb16-333"><a href="#cb16-333" aria-label="317"></a>    <span class="cf">if</span> step <span class="op">%</span> <span class="dv">10</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb16-334"><a href="#cb16-334" aria-label="318"></a>        logger.info(summary)</span>
+<span id="cb16-335"><a href="#cb16-335" aria-label="319"></a><span class="in">```</span></span>
+<span id="cb16-336"><a href="#cb16-336" aria-label="320"></a></span>
+<span id="cb16-337"><a href="#cb16-337" aria-label="321"></a><span class="fu">## 💬 Generating Text</span></span>
+<span id="cb16-338"><a href="#cb16-338" aria-label="322"></a></span>
+<span id="cb16-339"><a href="#cb16-339" aria-label="323"></a>The <span class="in">`generate()`</span> method samples one character at a time. Let's compare</span>
+<span id="cb16-340"><a href="#cb16-340" aria-label="324"></a>**before** and **after** training — a few dozen CPU steps won't produce</span>
+<span id="cb16-341"><a href="#cb16-341" aria-label="325"></a>Shakespeare, but the shift from pure noise toward text-like structure is</span>
+<span id="cb16-342"><a href="#cb16-342" aria-label="326"></a>already visible (train for 1000+ steps on a GPU for the real thing):</span>
+<span id="cb16-343"><a href="#cb16-343" aria-label="327"></a></span>
+<span id="cb16-346"><a href="#cb16-346" aria-label="328"></a><span class="in">```{python}</span></span>
+<span id="cb16-347"><a href="#cb16-347" aria-label="329"></a>prompt <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb16-348"><a href="#cb16-348" aria-label="330"></a>ctx <span class="op">=</span> torch.tensor([encode(prompt)], dtype<span class="op">=</span>torch.<span class="bu">long</span>, device<span class="op">=</span>device)</span>
+<span id="cb16-349"><a href="#cb16-349" aria-label="331"></a>sample <span class="op">=</span> decode(model.generate(ctx, max_new_tokens<span class="op">=</span><span class="dv">200</span>, temperature<span class="op">=</span><span class="fl">0.8</span>, top_k<span class="op">=</span><span class="dv">16</span>)[<span class="dv">0</span>].tolist())</span>
+<span id="cb16-350"><a href="#cb16-350" aria-label="332"></a>logger.info(<span class="st">"--- sample after tiny training run ---</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> sample)</span>
+<span id="cb16-351"><a href="#cb16-351" aria-label="333"></a><span class="in">```</span></span>
+<span id="cb16-352"><a href="#cb16-352" aria-label="334"></a></span>
+<span id="cb16-353"><a href="#cb16-353" aria-label="335"></a><span class="fu">## 📊 Plots &amp; Report, for free</span></span>
+<span id="cb16-354"><a href="#cb16-354" aria-label="336"></a></span>
+<span id="cb16-355"><a href="#cb16-355" aria-label="337"></a><span class="in">`ezpz.History`</span> can turn the metrics you logged into plots and a report with a</span>
+<span id="cb16-356"><a href="#cb16-356" aria-label="338"></a>single call — it writes loss curves (matplotlib **and** terminal plots), an</span>
+<span id="cb16-357"><a href="#cb16-357" aria-label="339"></a><span class="in">`xarray`</span> dataset, and a <span class="in">`report.md`</span>:</span>
+<span id="cb16-358"><a href="#cb16-358" aria-label="340"></a></span>
+<span id="cb16-361"><a href="#cb16-361" aria-label="341"></a><span class="in">```{python}</span></span>
+<span id="cb16-362"><a href="#cb16-362" aria-label="342"></a><span class="im">import</span> io</span>
+<span id="cb16-363"><a href="#cb16-363" aria-label="343"></a><span class="im">import</span> contextlib</span>
+<span id="cb16-364"><a href="#cb16-364" aria-label="344"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb16-365"><a href="#cb16-365" aria-label="345"></a></span>
+<span id="cb16-366"><a href="#cb16-366" aria-label="346"></a>outdir <span class="op">=</span> Path(<span class="st">"outputs"</span>)</span>
+<span id="cb16-367"><a href="#cb16-367" aria-label="347"></a><span class="co"># finalize() writes plots/report to disk but also prints terminal-plot noise and</span></span>
+<span id="cb16-368"><a href="#cb16-368" aria-label="348"></a><span class="co"># leaves an empty matplotlib figure open; hush stdout and drop the stray figure.</span></span>
+<span id="cb16-369"><a href="#cb16-369" aria-label="349"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb16-370"><a href="#cb16-370" aria-label="350"></a><span class="cf">with</span> contextlib.redirect_stdout(io.StringIO()):</span>
+<span id="cb16-371"><a href="#cb16-371" aria-label="351"></a>    _ <span class="op">=</span> history.finalize(outdir<span class="op">=</span>outdir)</span>
+<span id="cb16-372"><a href="#cb16-372" aria-label="352"></a>plt.close(<span class="st">"all"</span>)</span>
+<span id="cb16-373"><a href="#cb16-373" aria-label="353"></a></span>
+<span id="cb16-374"><a href="#cb16-374" aria-label="354"></a>logger.info(<span class="st">"wrote: "</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="bu">sorted</span>(p.name <span class="cf">for</span> p <span class="kw">in</span> outdir.iterdir())))</span>
+<span id="cb16-375"><a href="#cb16-375" aria-label="355"></a><span class="in">```</span></span>
+<span id="cb16-376"><a href="#cb16-376" aria-label="356"></a></span>
+<span id="cb16-377"><a href="#cb16-377" aria-label="357"></a><span class="in">`finalize()`</span> saves each metric as a PNG under <span class="in">`outputs/plots/mplot/pngs/`</span>. Let's</span>
+<span id="cb16-378"><a href="#cb16-378" aria-label="358"></a>show the four headline metrics — **loss** (is it learning?), **mfu** (how well are</span>
+<span id="cb16-379"><a href="#cb16-379" aria-label="359"></a>we using the hardware?), and **sps** / **mtps** (throughput):</span>
+<span id="cb16-380"><a href="#cb16-380" aria-label="360"></a></span>
+<span id="cb16-383"><a href="#cb16-383" aria-label="361"></a><span class="in">```{python}</span></span>
+<span id="cb16-384"><a href="#cb16-384" aria-label="362"></a><span class="co">#| label: fig-ezpz-metrics</span></span>
+<span id="cb16-385"><a href="#cb16-385" aria-label="363"></a><span class="co">#| fig-cap: "Training metrics from `ezpz.History.finalize()`: loss, MFU, and throughput (samples/sec, million-tokens/sec)."</span></span>
+<span id="cb16-386"><a href="#cb16-386" aria-label="364"></a>pngs <span class="op">=</span> outdir <span class="op">/</span> <span class="st">"plots"</span> <span class="op">/</span> <span class="st">"mplot"</span> <span class="op">/</span> <span class="st">"pngs"</span></span>
+<span id="cb16-387"><a href="#cb16-387" aria-label="365"></a>panels <span class="op">=</span> [(k, pngs <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">.png"</span>) <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"loss"</span>, <span class="st">"mfu"</span>, <span class="st">"sps"</span>, <span class="st">"mtps"</span>)]</span>
+<span id="cb16-388"><a href="#cb16-388" aria-label="366"></a>panels <span class="op">=</span> [(k, p) <span class="cf">for</span> k, p <span class="kw">in</span> panels <span class="cf">if</span> p.exists()]</span>
+<span id="cb16-389"><a href="#cb16-389" aria-label="367"></a></span>
+<span id="cb16-390"><a href="#cb16-390" aria-label="368"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>))</span>
+<span id="cb16-391"><a href="#cb16-391" aria-label="369"></a><span class="cf">for</span> ax, (name, p) <span class="kw">in</span> <span class="bu">zip</span>(axes.flat, panels):</span>
+<span id="cb16-392"><a href="#cb16-392" aria-label="370"></a>    ax.imshow(plt.imread(p))</span>
+<span id="cb16-393"><a href="#cb16-393" aria-label="371"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb16-394"><a href="#cb16-394" aria-label="372"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.flat[<span class="bu">len</span>(panels):]:</span>
+<span id="cb16-395"><a href="#cb16-395" aria-label="373"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb16-396"><a href="#cb16-396" aria-label="374"></a>fig.tight_layout()</span>
+<span id="cb16-397"><a href="#cb16-397" aria-label="375"></a>plt.show()</span>
+<span id="cb16-398"><a href="#cb16-398" aria-label="376"></a><span class="in">```</span></span>
+<span id="cb16-399"><a href="#cb16-399" aria-label="377"></a></span>
+<span id="cb16-400"><a href="#cb16-400" aria-label="378"></a>::: {.callout-tip title="🔬 On a real run"}</span>
+<span id="cb16-401"><a href="#cb16-401" aria-label="379"></a>Point <span class="in">`ezpz.History(backends="wandb")`</span> at <span class="co">[</span><span class="ot">Weights &amp; Biases</span><span class="co">](https://wandb.ai)</span></span>
+<span id="cb16-402"><a href="#cb16-402" aria-label="380"></a>(or <span class="in">`"mlflow"`</span>) and every metric streams to your dashboard live — no code</span>
+<span id="cb16-403"><a href="#cb16-403" aria-label="381"></a>changes beyond that one argument.</span>
+<span id="cb16-404"><a href="#cb16-404" aria-label="382"></a>:::</span>
+<span id="cb16-405"><a href="#cb16-405" aria-label="383"></a></span>
+<span id="cb16-406"><a href="#cb16-406" aria-label="384"></a><span class="fu">## 🚀 Scaling Up</span></span>
+<span id="cb16-407"><a href="#cb16-407" aria-label="385"></a></span>
+<span id="cb16-408"><a href="#cb16-408" aria-label="386"></a>To train the **full ~10M-parameter model** (like the <span class="in">`wordplay`</span> example) across</span>
+<span id="cb16-409"><a href="#cb16-409" aria-label="387"></a>multiple GPUs, drop the loop above into a <span class="in">`train.py`</span> that starts with</span>
+<span id="cb16-410"><a href="#cb16-410" aria-label="388"></a><span class="in">`ezpz.setup_torch()`</span> + DDP, bump the config to the real size, and launch with</span>
+<span id="cb16-411"><a href="#cb16-411" aria-label="389"></a><span class="in">`ezpz launch`</span> — which auto-detects PBS (<span class="in">`mpiexec`</span>) / SLURM (<span class="in">`srun`</span>):</span>
+<span id="cb16-412"><a href="#cb16-412" aria-label="390"></a></span>
+<span id="cb16-413"><a href="#cb16-413" aria-label="391"></a><span class="in">```bash</span></span>
+<span id="cb16-414"><a href="#cb16-414" aria-label="392"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
+<span id="cb16-415"><a href="#cb16-415" aria-label="393"></a><span class="ex">ezpz</span> launch python3 train.py</span>
+<span id="cb16-416"><a href="#cb16-416" aria-label="394"></a><span class="in">```</span></span>
+<span id="cb16-417"><a href="#cb16-417" aria-label="395"></a></span>
+<span id="cb16-418"><a href="#cb16-418" aria-label="396"></a>That's the whole point: **the training code you wrote above doesn't change** —</span>
+<span id="cb16-419"><a href="#cb16-419" aria-label="397"></a><span class="in">`ezpz`</span> handles going from your laptop's CPU to a rack of GPUs.</span>
+<span id="cb16-420"><a href="#cb16-420" aria-label="398"></a></span>
+<span id="cb16-421"><a href="#cb16-421" aria-label="399"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb16-422"><a href="#cb16-422" aria-label="400"></a></span>
+<span id="cb16-423"><a href="#cb16-423" aria-label="401"></a><span class="ss">1. </span>**Train it for real.** Bump <span class="in">`max_iters`</span> to 1000+ and the config to the full</span>
+<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a>   size (<span class="in">`block_size=256, n_embd=384, n_layer=6`</span>), run on a GPU node, and paste</span>
+<span id="cb16-425"><a href="#cb16-425" aria-label="403"></a>   a generated sample. Does it start sounding like Shakespeare?</span>
+<span id="cb16-426"><a href="#cb16-426" aria-label="404"></a><span class="ss">2. </span>**Compare to `wordplay`.** Run the [wordplay</span>
+<span id="cb16-427"><a href="#cb16-427" aria-label="405"></a>   version](../08-shakespeare-example-colab/index.ipynb) with the same config.</span>
+<span id="cb16-428"><a href="#cb16-428" aria-label="406"></a>   Do the loss curves and samples match? What does <span class="in">`wordplay`</span> add on top of what</span>
+<span id="cb16-429"><a href="#cb16-429" aria-label="407"></a>   you wrote here?</span>
+<span id="cb16-430"><a href="#cb16-430" aria-label="408"></a><span class="ss">3. </span>**Scale out.** Launch across 2+ GPUs with <span class="in">`ezpz launch`</span>, add the DDP wrap, and</span>
+<span id="cb16-431"><a href="#cb16-431" aria-label="409"></a>   report the <span class="in">`sps`</span>/<span class="in">`mtps`</span> speedup vs. a single GPU.</span>
+<span id="cb16-432"><a href="#cb16-432" aria-label="410"></a></span>
+<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a><span class="fu">## 📚 References</span></span>
+<span id="cb16-434"><a href="#cb16-434" aria-label="412"></a></span>
+<span id="cb16-435"><a href="#cb16-435" aria-label="413"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`saforem2/ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> · <span class="co">[</span><span class="ot">ezpz.cool</span><span class="co">](https://ezpz.cool)</span></span>
+<span id="cb16-436"><a href="#cb16-436" aria-label="414"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span> — the packaged version of this example</span>
+<span id="cb16-437"><a href="#cb16-437" aria-label="415"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Andrej Karpathy, "Let's build GPT" (nanoGPT)</span><span class="co">](https://www.youtube.com/watch?v=kCc8FmEb1nY)</span></span>
+<span id="cb16-438"><a href="#cb16-438" aria-label="416"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Vaswani et al., *Attention Is All You Need*</span><span class="co">](https://arxiv.org/abs/1706.03762)</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

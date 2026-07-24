@@ -339,10 +339,40 @@ single call — it writes loss curves (matplotlib **and** terminal plots), an
 `xarray` dataset, and a `report.md`:
 
 ```{python}
+import io
+import contextlib
 from pathlib import Path
+
 outdir = Path("outputs")
-_ = history.finalize(outdir=outdir)
+# finalize() writes plots/report to disk but also prints terminal-plot noise and
+# leaves an empty matplotlib figure open; hush stdout and drop the stray figure.
+import matplotlib.pyplot as plt
+with contextlib.redirect_stdout(io.StringIO()):
+    _ = history.finalize(outdir=outdir)
+plt.close("all")
+
 logger.info("wrote: " + ", ".join(sorted(p.name for p in outdir.iterdir())))
+```
+
+`finalize()` saves each metric as a PNG under `outputs/plots/mplot/pngs/`. Let's
+show the four headline metrics — **loss** (is it learning?), **mfu** (how well are
+we using the hardware?), and **sps** / **mtps** (throughput):
+
+```{python}
+#| label: fig-ezpz-metrics
+#| fig-cap: "Training metrics from `ezpz.History.finalize()`: loss, MFU, and throughput (samples/sec, million-tokens/sec)."
+pngs = outdir / "plots" / "mplot" / "pngs"
+panels = [(k, pngs / f"{k}.png") for k in ("loss", "mfu", "sps", "mtps")]
+panels = [(k, p) for k, p in panels if p.exists()]
+
+fig, axes = plt.subplots(2, 2, figsize=(11, 7))
+for ax, (name, p) in zip(axes.flat, panels):
+    ax.imshow(plt.imread(p))
+    ax.axis("off")
+for ax in axes.flat[len(panels):]:
+    ax.axis("off")
+fig.tight_layout()
+plt.show()
 ```
 
 ::: {.callout-tip title="🔬 On a real run"}

@@ -111,7 +111,7 @@ logger = ezpz.get_logger(__name__)
 logger.info(f"Using device: {device}")
 ```
 
-    [2026-07-24 09:46:43,042623][I][ipykernel_16117/452727945:16:<module>] Using device: mps
+    [2026-07-24 10:28:37][I][ipykernel_33142/452727945:16:<module>] Using device: mps
 
 ## 📖 The Data: tiny-Shakespeare
 
@@ -140,7 +140,7 @@ vocab_size = len(chars)
 logger.info(f"{len(text):,} characters, vocab size = {vocab_size}")
 ```
 
-    [2026-07-24 09:46:43,052703][I][ipykernel_16117/2057450174:18:<module>] 1,115,394 characters, vocab size = 65
+    [2026-07-24 10:28:37][I][ipykernel_33142/2057450174:18:<module>] 1,115,394 characters, vocab size = 65
 
 Build the char↔int mappings and encode the whole corpus, then split
 90/10:
@@ -312,7 +312,7 @@ flops_per_token = 6 * n_params
 PEAK_FLOPS = 1.0e12       # ~1 TFLOP/s nominal (CPU); set to your GPU's bf16 peak
 ```
 
-    [2026-07-24 09:46:43,126212][I][ipykernel_16117/957739443:9:<module>] model has 0.82M parameters
+    [2026-07-24 10:28:37][I][ipykernel_33142/957739443:9:<module>] model has 0.82M parameters
 
 ``` python
 history = ezpz.History()
@@ -346,11 +346,13 @@ for step in range(max_iters):
         logger.info(summary)
 ```
 
-    [2026-07-24 09:46:43,762964][I][ipykernel_16117/2504529068:29:<module>] step=0 loss=4.372406 dt=0.630940 sps=25.358993 mtps=0.001623 mfu=0.796728
-    [2026-07-24 09:46:43,934438][I][ipykernel_16117/2504529068:29:<module>] step=10 loss=3.202098 dt=0.014498 sps=1103.616330 mtps=0.070631 mfu=34.673372
-    [2026-07-24 09:46:44,084510][I][ipykernel_16117/2504529068:29:<module>] step=20 loss=3.051642 dt=0.014171 sps=1129.043138 mtps=0.072259 mfu=35.472230
-    [2026-07-24 09:46:44,230058][I][ipykernel_16117/2504529068:29:<module>] step=30 loss=2.762733 dt=0.013157 sps=1216.040364 mtps=0.077827 mfu=38.205506
-    [2026-07-24 09:46:44,380488][I][ipykernel_16117/2504529068:29:<module>] step=40 loss=2.663434 dt=0.013475 sps=1187.391355 mtps=0.075993 mfu=37.305412
+    [2026-07-24 10:28:38][I][ezpz/history:219:__init__] Not using distributed metrics! Will only be tracked from a single rank...
+    [2026-07-24 10:28:38][I][ezpz/history:225:__init__] Using History with distributed_history=False
+    [2026-07-24 10:28:39][I][ipykernel_33142/2504529068:29:<module>] step=0    loss=4.372406 dt=1.083464 sps=14.767450 mtps=0.000945 mfu=0.463963
+    [2026-07-24 10:28:40][I][ipykernel_33142/2504529068:29:<module>] step=10   loss=3.202098 dt=0.015201 sps=1052.553676 mtps=0.067363 mfu=33.069088
+    [2026-07-24 10:28:40][I][ipykernel_33142/2504529068:29:<module>] step=20   loss=3.051642 dt=0.014531 sps=1101.078374 mtps=0.070469 mfu=34.593635
+    [2026-07-24 10:28:40][I][ipykernel_33142/2504529068:29:<module>] step=30   loss=2.762733 dt=0.020627 sps=775.685516 mtps=0.049644 mfu=24.370455
+    [2026-07-24 10:28:40][I][ipykernel_33142/2504529068:29:<module>] step=40   loss=2.663434 dt=0.016104 sps=993.513659 mtps=0.063585 mfu=31.214171
 
 ## 💬 Generating Text
 
@@ -366,7 +368,7 @@ sample = decode(model.generate(ctx, max_new_tokens=200, temperature=0.8, top_k=1
 logger.info("--- sample after tiny training run ---\n" + sample)
 ```
 
-    [2026-07-24 09:47:06,145837][I][ipykernel_16117/204336923:4:<module>] --- sample after tiny training run ---
+    [2026-07-24 10:28:55][I][ipykernel_33142/204336923:4:<module>] --- sample after tiny training run ---
 
     Winad s teat t t on, limatofurise thare pind thag f hesome greseeme luremd
     S llou t mest mind
@@ -379,166 +381,55 @@ with a single call — it writes loss curves (matplotlib **and** terminal
 plots), an `xarray` dataset, and a `report.md`:
 
 ``` python
+import io
+import contextlib
 from pathlib import Path
+
 outdir = Path("outputs")
-_ = history.finalize(outdir=outdir)
+# finalize() writes plots/report to disk but also prints terminal-plot noise and
+# leaves an empty matplotlib figure open; hush stdout and drop the stray figure.
+import matplotlib.pyplot as plt
+with contextlib.redirect_stdout(io.StringIO()):
+    _ = history.finalize(outdir=outdir)
+plt.close("all")
+
 logger.info("wrote: " + ", ".join(sorted(p.name for p in outdir.iterdir())))
 ```
 
-    [2026-07-24 09:47:06,157771][I][ezpz/history:1722:finalize] Saving plots to /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/mplot (matplotlib) and /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot (tplot)
-                               dt vs iter                       
-        ┌──────────────────────────────────────────────────────┐
-    0.63┤▌                                                     │
-        │▌                                                     │
-    0.53┤▌                                                     │
-        │▌                                                     │
-        │▌                                                     │
-    0.42┤▌                                                     │
-        │▌                                                     │
-    0.32┤▚                                                     │
-        │▐                                                     │
-    0.22┤▐                                                     │
-        │▐                                                     │
-        │▐                                                     │
-    0.12┤▐                                                     │
-        │▐                                                     │
-    0.01┤▝▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄│
-        └┬─┬─┬─┬─┬──┬──┬──┬────┬──┬──┬───┬────┬────┬────┬────┬─┘
-         1 3 5 7 8 11 14 17   21 24 27  31   35   40   44   49  
-    dt                            iter                          
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/dt.txt
-                               freq vs dt                       
-        ┌──────────────────────────────────────────────────────┐
-    49.0┤█████                                                 │
-        │█████                                                 │
-    40.8┤█████                                                 │
-        │█████                                                 │
-        │█████                                                 │
-    32.7┤█████                                                 │
-        │█████                                                 │
-    24.5┤█████                                                 │
-        │█████                                                 │
-    16.3┤█████                                                 │
-        │█████                                                 │
-        │█████                                                 │
-     8.2┤█████                                                 │
-        │█████                                                 │
-     0.0┤█████                                            █████│
-        └┬────────────┬─────────────┬────────────┬────────────┬┘
-       -0.01        0.15          0.32         0.49        0.66 
-    freq                           dt                           
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/dt-hist.txt
-                              loss vs iter                      
-        ┌──────────────────────────────────────────────────────┐
-    4.37┤▌                                                     │
-        │▚                                                     │
-    4.07┤▐                                                     │
-        │ ▌                                                    │
-        │ ▐                                                    │
-    3.76┤  ▌                                                   │
-        │  ▝▖▗                                                 │
-    3.45┤   ▝▘▚                                                │
-        │      ▚                                               │
-    3.15┤       ▀▀▀▀▚▄▚                                        │
-        │              ▀▀▖ ▗▄▄▄▖                               │
-        │                ▝▀▘   ▝▖                              │
-    2.84┤                       ▝▀▀▀▀▄ ▗  ▖    ▖               │
-        │                             ▀▘▀▀▝▀▀▀▀▝▄▞▀▄▄▄▄▖ ▖ ▖ ▗▄│
-    2.54┤                                              ▝▀▝▞▝▀▘ │
-        └┬─┬─┬─┬─┬──┬──┬──┬────┬──┬──┬───┬────┬────┬────┬────┬─┘
-         1 3 5 7 8 11 14 17   21 24 27  31   35   40   44   49  
-    loss                          iter                          
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/loss.txt
-                               mfu vs iter                      
-        ┌──────────────────────────────────────────────────────┐
-    39.2┤          ▖   ▖  ▗         ▗▄▄▞▀▄▖   ▗▚▄   ▗    ▖     │
-        │         ▞▝▄▄▀▝▀▀▘▚▄▄▄▄▄▚▄▀▘     ▝▖ ▄▌  ▀▄▞▘▚ ▖▐▝▀▚   │
-    32.8┤   ▗  ▗▄▞                         ▝▞         ▀▝▌   ▀▀▀│
-        │ ▗▀▘▚▄▘                                               │
-        │ ▐                                                    │
-    26.4┤ ▌                                                    │
-        │▗▘                                                    │
-    20.0┤▐                                                     │
-        │▐                                                     │
-    13.6┤▐                                                     │
-        │▞                                                     │
-        │▌                                                     │
-     7.2┤▌                                                     │
-        │▌                                                     │
-     0.8┤▌                                                     │
-        └┬─┬─┬─┬─┬──┬──┬──┬────┬──┬──┬───┬────┬────┬────┬────┬─┘
-         1 3 5 7 8 11 14 17   21 24 27  31   35   40   44   49  
-    mfu                           iter                          
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/mfu.txt
-                              mtps vs iter                      
-         ┌─────────────────────────────────────────────────────┐
-    0.080┤         ▗    ▖  ▖         ▄▄▄▀▚▖    ▞▄    ▖   ▖     │
-         │        ▗▘▚▄▄▀▝▀▀▝▄▄▄▄▄▞▄▞▀     ▝▖ ▗▟  ▀▄▄▀▚ ▖▐▝▀▀▖  │
-    0.067┤   ▖  ▗▄▞                        ▝▄▘        ▀▝▌   ▝▀▀│
-         │ ▗▀▝▄▄▘                                              │
-         │ ▐                                                   │
-    0.054┤ ▌                                                   │
-         │▗▘                                                   │
-    0.041┤▐                                                    │
-         │▐                                                    │
-    0.028┤▐                                                    │
-         │▞                                                    │
-         │▌                                                    │
-    0.015┤▌                                                    │
-         │▌                                                    │
-    0.002┤▌                                                    │
-         └┬─┬─┬─┬─┬──┬──┬──┬───┬──┬───┬───┬───┬────┬────┬────┬─┘
-          1 3 5 7 9 11 14 17  21 24  27  31  35   40   44   49  
-    mtps                          iter                          
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/mtps.txt
-                                sps vs iter                     
-          ┌────────────────────────────────────────────────────┐
-    1249.0┤         ▗   ▗   ▖        ▗▄▄▞▀▄    ▗▚▖   ▖   ▖     │
-          │        ▗▘▚▄▞▘▀▀▀▝▄▄▄▄▄▚▄▀▘     ▚ ▗▄▘ ▝▚▄▀▚ ▖▐▝▀▀▖  │
-    1045.0┤   ▖  ▗▄▞                        ▚▘        ▀▝▌   ▝▀▀│
-          │ ▗▀▝▄▄▘                                             │
-          │ ▐                                                  │
-     841.1┤ ▌                                                  │
-          │▗▘                                                  │
-     637.2┤▐                                                   │
-          │▐                                                   │
-     433.2┤▐                                                   │
-          │▞                                                   │
-          │▌                                                   │
-     229.3┤▌                                                   │
-          │▌                                                   │
-      25.4┤▌                                                   │
-          └┬─┬─┬──┬──┬───┬──┬───┬──┬──┬───┬───┬─────┬───┬────┬─┘
-           1 3 5  8 11  14 17  21 24 27  31  35    40  44   49  
-    sps                            iter                         
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/sps.txt
-                              step vs iter                      
-        ┌──────────────────────────────────────────────────────┐
-    49.0┤                                                   ▗▄▞│
-        │                                                ▄▀▀▘  │
-    40.8┤                                           ▗▄▄▀▀      │
-        │                                        ▗▄▞▘          │
-        │                                    ▄▄▀▀▘             │
-    32.7┤                                 ▄▄▀                  │
-        │                             ▗▞▀▀                     │
-    24.5┤                         ▄▄▞▀▘                        │
-        │                      ▄▄▀                             │
-    16.3┤                  ▗▞▀▀                                │
-        │              ▄▄▞▀▘                                   │
-        │           ▄▀▀                                        │
-     8.2┤      ▗▄▞▀▀                                           │
-        │   ▗▄▞▘                                               │
-     0.0┤▄▀▀▘                                                  │
-        └┬─┬─┬─┬─┬──┬──┬──┬────┬──┬──┬───┬────┬────┬────┬────┬─┘
-         1 3 5 7 8 11 14 17   21 24 27  31   35   40   44   49  
-    step                          iter                          
-    text saved in /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/plots/tplot/step.txt
-    [2026-07-24 09:47:06,903295][W][ezpz/history:1757:finalize] h5py not found! Saving dataset as netCDF instead.
-    [2026-07-24 09:47:06,903759][I][utils/__init__:401:save_dataset] Saving dataset to: /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/dataset_dataset.nc
-    [2026-07-24 09:47:06,931540][I][ezpz/history:1768:finalize] Saving history report to /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/content/outputs/report.md
-    [2026-07-24 09:47:06,932943][I][ipykernel_16117/539666593:4:<module>] wrote: assets, dataset_dataset.nc, history, plots, report.md
+    [2026-07-24 10:28:56][I][ipykernel_33142/2136428624:13:<module>] wrote: 2026-07-24-102807-rank0.jsonl, 2026-07-24-102837-rank0.jsonl, 20260724-152808.jsonl, 20260724-152838.jsonl, assets, dataset_dataset.nc, history, plots, report.md
 
-![](index_files/figure-commonmark/cell-11-output-2.png)
+    /Users/samforeman/projects/saforem2/intro-hpc-bootcamp-2025/.venv/lib/python3.13/site-packages/scipy/io/_netcdf.py:1045: RuntimeWarning:
+
+    invalid value encountered in cast
+
+`finalize()` saves each metric as a PNG under
+`outputs/plots/mplot/pngs/`. Let’s show the four headline metrics —
+**loss** (is it learning?), **mfu** (how well are we using the
+hardware?), and **sps** / **mtps** (throughput):
+
+``` python
+pngs = outdir / "plots" / "mplot" / "pngs"
+panels = [(k, pngs / f"{k}.png") for k in ("loss", "mfu", "sps", "mtps")]
+panels = [(k, p) for k, p in panels if p.exists()]
+
+fig, axes = plt.subplots(2, 2, figsize=(11, 7))
+for ax, (name, p) in zip(axes.flat, panels):
+    ax.imshow(plt.imread(p))
+    ax.axis("off")
+for ax in axes.flat[len(panels):]:
+    ax.axis("off")
+fig.tight_layout()
+plt.show()
+```
+
+<div id="fig-ezpz-metrics">
+
+![](index_files/figure-commonmark/fig-ezpz-metrics-output-1.png)
+
+Figure 1: Training metrics from `ezpz.History.finalize()`: loss, MFU,
+and throughput (samples/sec, million-tokens/sec).
+
+</div>
 
 > [!TIP]
 >
