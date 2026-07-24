@@ -565,15 +565,18 @@ activations = {
     "Mish":        x * np.tanh(np.log1p(np.exp(x))),
 }
 
-fig, axes = plt.subplots(3, 4, figsize=(11, 7), sharex=True)
+fig, axes = plt.subplots(3, 4, figsize=(12, 8), sharex=True, sharey=True)
 for ax, (name, y) in zip(axes.flat, activations.items()):
     ax.plot(x, y, color="#7DCAFF", linewidth=2)
-    ax.axhline(0, color="#838383", linewidth=0.6)
-    ax.axvline(0, color="#838383", linewidth=0.6)
-    ax.set_title(name, fontsize=10)
-    ax.set_ylim(-2, 3)
+    ax.axhline(0, color="#838383", linewidth=0.7, zorder=0)
+    ax.axvline(0, color="#838383", linewidth=0.7, zorder=0)
+    ax.set_title(name, fontsize=11)
+    ax.set_xlim(-5, 5)      # curves fill the full axis (no ambivalent x-margin)
+    ax.set_ylim(-3, 5)      # symmetric-ish range that contains every curve
+    ax.set_xticks([-5, 0, 5])
+    ax.set_yticks([-2, 0, 2, 4])
     ax.grid(alpha=0.15)
-fig.suptitle("Activation functions", fontsize=13)
+fig.suptitle("Activation functions", fontsize=14)
 fig.tight_layout()
 plt.show()
 ```

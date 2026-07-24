@@ -771,7 +771,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 23, 2026</p>
+      <p class="date-modified">July 24, 2026</p>
     </div>
   </div>
     
@@ -807,7 +807,7 @@ Figure&nbsp;1: MNIST sample
 </figcaption>
 </figure>
 </div>
-<div id="8e2a0462" class="cell" data-execution_count="2">
+<div id="f727c4c4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -821,7 +821,7 @@ Figure&nbsp;1: MNIST sample
 <span id="cb1-11"><a href="#cb1-11" aria-label="11"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-label="12"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="75cc6fda" class="cell" data-execution_count="3">
+<div id="71acd4b1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co"># %matplotlib inline</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> torch</span>
@@ -852,7 +852,7 @@ Figure&nbsp;1: MNIST sample
 <li>inputs: 1 x 28 x 28 pixels</li>
 <li>outputs (labels): one integer per example</li>
 </ul>
-<div id="2ff33c0d" class="cell" data-execution_count="4">
+<div id="a2572986" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    root<span class="op">=</span><span class="st">"data"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>    train<span class="op">=</span><span class="va">True</span>,</span>
@@ -867,7 +867,7 @@ Figure&nbsp;1: MNIST sample
 <span id="cb3-12"><a href="#cb3-12" aria-label="12"></a>    transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
 <span id="cb3-13"><a href="#cb3-13" aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="bd2fba6a" class="cell" data-execution_count="5">
+<div id="ee15194c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>train_size <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> <span class="bu">len</span>(training_data))  <span class="co"># 80% for training</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>val_size <span class="op">=</span> <span class="bu">len</span>(training_data) <span class="op">-</span> train_size  <span class="co"># Remaining 20% for validation</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
@@ -876,7 +876,7 @@ Figure&nbsp;1: MNIST sample
 <span id="cb4-6"><a href="#cb4-6" aria-label="6"></a>    generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8b52df4b" class="cell" data-execution_count="6">
+<div id="9a9da828" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>logger.info(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    <span class="st">" "</span>.join([</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>        <span class="ss">f"MNIST data loaded:"</span>,</span>
@@ -889,13 +889,13 @@ Figure&nbsp;1: MNIST sample
 <span id="cb5-10"><a href="#cb5-10" aria-label="10"></a><span class="co"># logger.info(f'Input shape', training_data[0][0].shape)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:00,282727][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">3921772995</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">1</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>MNIST data loaded: <span class="ansi-bright-blue-fg">train</span>=<span class="ansi-cyan-fg ansi-bold">48000</span> examples <span class="ansi-bright-blue-fg">validation</span>=<span class="ansi-cyan-fg ansi-bold">12000</span> examples <span class="ansi-bright-blue-fg">test</span>=<span class="ansi-cyan-fg ansi-bold">10000</span> examples input <span class="ansi-bright-blue-fg">shape</span>=<span class="ansi-magenta-fg ansi-bold">torch</span><span class="ansi-magenta-fg ansi-bold">.Size</span><span class="ansi-bright-magenta-fg">(</span><span class="ansi-bright-magenta-fg">[</span><span class="ansi-cyan-fg ansi-bold">1</span>, <span class="ansi-cyan-fg ansi-bold">28</span>, <span class="ansi-cyan-fg ansi-bold">28</span><span class="ansi-bright-magenta-fg">]</span><span class="ansi-bright-magenta-fg">)</span>
+<pre>[2026-07-24 08:25:10,075330][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">3921772995</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">1</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>MNIST data loaded: <span class="ansi-bright-blue-fg">train</span>=<span class="ansi-cyan-fg ansi-bold">48000</span> examples <span class="ansi-bright-blue-fg">validation</span>=<span class="ansi-cyan-fg ansi-bold">12000</span> examples <span class="ansi-bright-blue-fg">test</span>=<span class="ansi-cyan-fg ansi-bold">10000</span> examples input <span class="ansi-bright-blue-fg">shape</span>=<span class="ansi-magenta-fg ansi-bold">torch</span><span class="ansi-magenta-fg ansi-bold">.Size</span><span class="ansi-bright-magenta-fg">(</span><span class="ansi-bright-magenta-fg">[</span><span class="ansi-cyan-fg ansi-bold">1</span>, <span class="ansi-cyan-fg ansi-bold">28</span>, <span class="ansi-cyan-fg ansi-bold">28</span><span class="ansi-bright-magenta-fg">]</span><span class="ansi-bright-magenta-fg">)</span>
 </pre>
 </div>
 </div>
 </div>
 <p>Let’s take a closer look. Here are the first 10 training digits:</p>
-<div id="e0d026bc" class="cell" data-execution_count="7">
+<div id="a6a9b846" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="co"># plt.figure(figsize=(10*pltsize, pltsize))</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
@@ -990,7 +990,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <li>An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s start with stochastic gradient descent (sgd), like last week. For far more information about more advanced optimizers than basic SGD, with some cool animations, see <a href="https://ruder.io/optimizing-gradient-descent/" class="uri">https://ruder.io/optimizing-gradient-descent/</a> or <a href="https://distill.pub/2017/momentum/" class="uri">https://distill.pub/2017/momentum/</a>.</li>
 <li>A learning rate. As we learned last week, the learning rate controls how far we move during each step.</li>
 </ul>
-<div id="f11ccab1" class="cell" data-execution_count="8">
+<div id="f7745828" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="kw">class</span> LinearClassifier(nn.Module):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -1007,7 +1007,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb7-14"><a href="#cb7-14" aria-label="14"></a>        x <span class="op">=</span> <span class="va">self</span>.layer_1(x)</span>
 <span id="cb7-15"><a href="#cb7-15" aria-label="15"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="961272a1" class="cell" data-execution_count="9">
+<div id="acd764b2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>linear_model <span class="op">=</span> LinearClassifier()</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>logger.info(linear_model)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a></span>
@@ -1015,7 +1015,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb8-5"><a href="#cb8-5" aria-label="5"></a>optimizer <span class="op">=</span> torch.optim.SGD(linear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:00,485157][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">2844520859</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">2</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-magenta-fg ansi-bold">LinearClassifier</span><span class="ansi-bright-magenta-fg">(</span>
+<pre>[2026-07-24 08:25:10,242652][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">2844520859</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">2</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span><span class="ansi-magenta-fg ansi-bold">LinearClassifier</span><span class="ansi-bright-magenta-fg">(</span>
 
   <span class="ansi-bright-magenta-fg">(</span>flatten<span class="ansi-bright-magenta-fg">)</span>: <span class="ansi-magenta-fg ansi-bold">Flatten</span><span class="ansi-bright-magenta-fg">(</span><span class="ansi-bright-blue-fg">start_dim</span>=<span class="ansi-cyan-fg ansi-bold">1</span>, <span class="ansi-bright-blue-fg">end_dim</span>=<span class="ansi-cyan-fg ansi-bold">-1</span><span class="ansi-bright-magenta-fg">)</span>
 
@@ -1047,14 +1047,14 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <li>An epoch means one pass through the whole training data (looping over the batches). Using few epochs can lead to underfitting and using too many can lead to overfitting.</li>
 <li>The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.</li>
 </ul>
-<div id="0405869f" class="cell" data-execution_count="10">
+<div id="3268d689" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable </span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-label="4"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-label="5"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8704a115" class="cell" data-execution_count="11">
+<div id="36ea531b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>    model.train()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
@@ -1068,7 +1068,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb10-11"><a href="#cb10-11" aria-label="11"></a>        <span class="co"># resets the gradients </span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-label="12"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d0285c16" class="cell" data-execution_count="12">
+<div id="7e633b02" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1092,7 +1092,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb11-21"><a href="#cb11-21" aria-label="21"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb11-22"><a href="#cb11-22" aria-label="22"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8be55995" class="cell" data-execution_count="13">
+<div id="50d8b615" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -1112,34 +1112,34 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb12-17"><a href="#cb12-17" aria-label="17"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:02,438306][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.5021579806009928</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">87.58333333333333</span>
+<pre>[2026-07-24 08:25:12,283158][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.5033297247886658</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">87.53125</span>
 
-[2026-07-23 09:09:02,747735][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.49485848209959393</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">87.73333333333333</span>
+[2026-07-24 08:25:12,468436][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.49612318835359936</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">87.49166666666667</span>
 
-[2026-07-23 09:09:04,776534][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.42165741431713105</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.00416666666666</span>
+[2026-07-24 08:25:14,181439][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.422354812502861</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">88.95416666666667</span>
 
-[2026-07-23 09:09:05,020199][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.4126980653468599</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">88.90833333333333</span>
+[2026-07-24 08:25:14,368832][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.4134762597844956</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">88.80833333333334</span>
 
-[2026-07-23 09:09:07,603445][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3876605079174042</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.67916666666666</span>
+[2026-07-24 08:25:15,999697][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.38817069029808043</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.62083333333334</span>
 
-[2026-07-23 09:09:07,946089][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3780964410051386</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.39166666666667</span>
+[2026-07-24 08:25:16,187601][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.37868798286356825</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.46666666666667</span>
 
-[2026-07-23 09:09:09,726629][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.36768399659792583</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">90.10416666666666</span>
+[2026-07-24 08:25:17,862161][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3680899888277054</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">90.03958333333333</span>
 
-[2026-07-23 09:09:09,911950][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.35791759494137254</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.89166666666667</span>
+[2026-07-24 08:25:18,097196][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3584087540177589</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.925</span>
 
-[2026-07-23 09:09:11,506087][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3540967649618785</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">90.42916666666667</span>
+[2026-07-24 08:25:19,870394][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3544378355741501</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">90.34583333333333</span>
 
-[2026-07-23 09:09:11,697752][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3443200981363337</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">90.25</span>
+[2026-07-24 08:25:20,055319][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3447506064747242</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">90.24166666666666</span>
 
-CPU times: user 10.1 s, sys: 581 ms, total: 10.7 s
+CPU times: user 9.23 s, sys: 522 ms, total: 9.75 s
 
-Wall time: 11.2 s
+Wall time: 9.79 s
 </pre>
 </div>
 </div>
 </div>
-<div id="8a821c6a" class="cell" data-execution_count="14">
+<div id="02728356" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>plt.figure()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">'Training Acc.'</span> )</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">'Validation Acc.'</span> )</span>
@@ -1154,7 +1154,7 @@ Wall time: 11.2 s
 </div>
 </div>
 </div>
-<div id="060088c9" class="cell" data-execution_count="15">
+<div id="0be7bf43" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="co"># Visualize how the model is doing on the first 10 examples</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span><span class="op">*</span>pltsize, pltsize))</span>
@@ -1180,7 +1180,7 @@ Wall time: 11.2 s
 <section id="prediction" class="level2">
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Let’s see how our model generalizes to the unseen test data.</p>
-<div id="50b427f2" class="cell" data-execution_count="16">
+<div id="74b79924" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="co">#For HW: cell to change batch size</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="co">#create dataloader for test data</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
@@ -1188,20 +1188,20 @@ Wall time: 11.2 s
 <span id="cb15-5"><a href="#cb15-5" aria-label="5"></a>batch_size_test <span class="op">=</span> <span class="dv">256</span> </span>
 <span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>test_dataloader <span class="op">=</span> torch.utils.data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="416c075b" class="cell" data-execution_count="17">
+<div id="721f1a24" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>acc_test, loss_test <span class="op">=</span> evaluate(test_dataloader, linear_model, loss_fn)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>logger.info(<span class="ss">f"Test loss: </span><span class="sc">{</span>loss_test<span class="sc">}</span><span class="ss">, test accuracy: </span><span class="sc">{</span>acc_test<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="co"># logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:12,011972][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">372756021</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">2</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Test loss: <span class="ansi-cyan-fg ansi-bold">0.3323282850906253</span>, test accuracy: <span class="ansi-cyan-fg ansi-bold">90.85</span>
+<pre>[2026-07-24 08:25:20,385023][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">372756021</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">2</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Test loss: <span class="ansi-cyan-fg ansi-bold">0.33348911423236133</span>, test accuracy: <span class="ansi-cyan-fg ansi-bold">90.75</span>
 </pre>
 </div>
 </div>
 </div>
 <p>We can now take a closer look at the results.</p>
 <p>Let’s define a helper function to show the failure cases of our classifier.</p>
-<div id="2e1b4b2c" class="cell" data-execution_count="18">
+<div id="606263fa" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="kw">def</span> show_failures(model, dataloader, maxtoshow<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>    model.<span class="bu">eval</span>()</span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dataloader))</span>
@@ -1226,13 +1226,13 @@ Wall time: 11.2 s
 <span id="cb17-22"><a href="#cb17-22" aria-label="22"></a>            ii <span class="op">=</span> ii <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here are the first 10 images from the test data that this small model classified to a wrong class:</p>
-<div id="e0ce8958" class="cell" data-execution_count="19">
+<div id="9956716b" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a>show_failures(linear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:12,022709][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">8</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>Showing max <span class="ansi-cyan-fg ansi-bold">10</span> first failures.
+<pre>[2026-07-24 08:25:20,396097][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">8</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>Showing max <span class="ansi-cyan-fg ansi-bold">10</span> first failures.
 
-[2026-07-23 09:09:12,023242][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>The predicted class is shown first and the correct class in parentheses.
+[2026-07-24 08:25:20,396663][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>The predicted class is shown first and the correct class in parentheses.
 </pre>
 </div>
 </div>
@@ -1304,7 +1304,7 @@ Figure&nbsp;3: A shallow (single-hidden-layer) neural network.
 </span></p>
 <p>where <span class="math inline">\mathbf{x}</span> is the input, <span class="math inline">\mathbf{W}_j</span> are the weights of the neural network, <span class="math inline">\sigma_j</span> the (nonlinear) activation functions, and <span class="math inline">\mathbf{b}_j</span> its biases.</p>
 <p>A few of the most common activation functions, plotted over <span class="math inline">x \in [-5, 5]</span>:</p>
-<div id="cell-fig-activation" class="cell page-columns page-full" data-execution_count="20">
+<div id="cell-fig-activation" class="cell page-columns page-full" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb19-3"><a href="#cb19-3" aria-label="3"></a></span>
@@ -1327,22 +1327,25 @@ Figure&nbsp;3: A shallow (single-hidden-layer) neural network.
 <span id="cb19-20"><a href="#cb19-20" aria-label="20"></a>    <span class="st">"Mish"</span>:        x <span class="op">*</span> np.tanh(np.log1p(np.exp(x))),</span>
 <span id="cb19-21"><a href="#cb19-21" aria-label="21"></a>}</span>
 <span id="cb19-22"><a href="#cb19-22" aria-label="22"></a></span>
-<span id="cb19-23"><a href="#cb19-23" aria-label="23"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-label="23"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb19-24"><a href="#cb19-24" aria-label="24"></a><span class="cf">for</span> ax, (name, y) <span class="kw">in</span> <span class="bu">zip</span>(axes.flat, activations.items()):</span>
 <span id="cb19-25"><a href="#cb19-25" aria-label="25"></a>    ax.plot(x, y, color<span class="op">=</span><span class="st">"#7DCAFF"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb19-26"><a href="#cb19-26" aria-label="26"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-label="27"></a>    ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-label="28"></a>    ax.set_title(name, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb19-29"><a href="#cb19-29" aria-label="29"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb19-30"><a href="#cb19-30" aria-label="30"></a>    ax.grid(alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
-<span id="cb19-31"><a href="#cb19-31" aria-label="31"></a>fig.suptitle(<span class="st">"Activation functions"</span>, fontsize<span class="op">=</span><span class="dv">13</span>)</span>
-<span id="cb19-32"><a href="#cb19-32" aria-label="32"></a>fig.tight_layout()</span>
-<span id="cb19-33"><a href="#cb19-33" aria-label="33"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-26"><a href="#cb19-26" aria-label="26"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.7</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-label="27"></a>    ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.7</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-label="28"></a>    ax.set_title(name, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-label="29"></a>    ax.set_xlim(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)      <span class="co"># curves fill the full axis (no ambivalent x-margin)</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-label="30"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)      <span class="co"># symmetric-ish range that contains every curve</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-label="31"></a>    ax.set_xticks([<span class="op">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">5</span>])</span>
+<span id="cb19-32"><a href="#cb19-32" aria-label="32"></a>    ax.set_yticks([<span class="op">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>])</span>
+<span id="cb19-33"><a href="#cb19-33" aria-label="33"></a>    ax.grid(alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-label="34"></a>fig.suptitle(<span class="st">"Activation functions"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-label="35"></a>fig.tight_layout()</span>
+<span id="cb19-36"><a href="#cb19-36" aria-label="36"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-activation" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-activation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="index_files/figure-html/fig-activation-output-1.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;4: Common activation functions used in neural networks."><img src="index_files/figure-html/fig-activation-output-1.png" width="1041" height="660" class="figure-img column-page"></a>
+<a href="index_files/figure-html/fig-activation-output-1.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;4: Common activation functions used in neural networks."><img src="index_files/figure-html/fig-activation-output-1.png" width="1137" height="754" class="figure-img column-page"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-activation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Common activation functions used in neural networks.
@@ -1466,7 +1469,7 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 </dl>
 <p>We can now implement a deep network in PyTorch.</p>
 <p><code>nn.Dropout()</code> performs the Dropout operation mentioned earlier:</p>
-<div id="cf0b6e75" class="cell" data-execution_count="21">
+<div id="b69e88fe" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a><span class="co">#For HW: cell to change activation</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
 <span id="cb20-3"><a href="#cb20-3" aria-label="3"></a></span>
@@ -1492,13 +1495,13 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 <span id="cb20-23"><a href="#cb20-23" aria-label="23"></a></span>
 <span id="cb20-24"><a href="#cb20-24" aria-label="24"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3d9d7150" class="cell" data-execution_count="22">
+<div id="4668bd75" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="co">#### For HW: cell to change learning rate</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-label="3"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb21-4"><a href="#cb21-4" aria-label="4"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="834fdc67" class="cell" data-execution_count="23">
+<div id="4e10718b" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -1518,34 +1521,34 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 <span id="cb22-17"><a href="#cb22-17" aria-label="17"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:14,012435][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.8322050377527873</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">75.27708333333332</span>
+<pre>[2026-07-24 08:25:22,648400][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.7151877902348837</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">79.24583333333334</span>
 
-[2026-07-23 09:09:14,205917][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.8166604752236224</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">75.05</span>
+[2026-07-24 08:25:22,840234][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.7006036601168044</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">79.68333333333332</span>
 
-[2026-07-23 09:09:15,853276][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.4053743990659714</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">88.48333333333333</span>
+[2026-07-24 08:25:24,558181][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.39714332286516824</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.11458333333333</span>
 
-[2026-07-23 09:09:16,056087][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3965220010661064</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">88.51666666666667</span>
+[2026-07-24 08:25:24,776329][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.3869540101670204</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.08333333333334</span>
 
-[2026-07-23 09:09:17,899657][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.30094820173581444</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">91.32083333333333</span>
+[2026-07-24 08:25:26,538799][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3079346342086792</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">91.26041666666667</span>
 
-[2026-07-23 09:09:18,115839][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.2965101322278063</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">90.84166666666667</span>
+[2026-07-24 08:25:26,754262][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.300352137139503</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">90.94166666666666</span>
 
-[2026-07-23 09:09:19,876936][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.24794436011711757</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">92.70208333333333</span>
+[2026-07-24 08:25:28,468261][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2522250550190608</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">92.8625</span>
 
-[2026-07-23 09:09:20,097904][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.24711082899507056</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">92.21666666666667</span>
+[2026-07-24 08:25:28,675441][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.24745376083127996</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">92.75</span>
 
-[2026-07-23 09:09:21,892564][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2097855813105901</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.72500000000001</span>
+[2026-07-24 08:25:30,410387][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">10</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.21027148608366647</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.99583333333334</span>
 
-[2026-07-23 09:09:22,079280][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.21087378160433567</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.375</span>
+[2026-07-24 08:25:30,607038][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">15</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.20858779280109607</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.875</span>
 
-CPU times: user 9.05 s, sys: 622 ms, total: 9.68 s
+CPU times: user 9.32 s, sys: 609 ms, total: 9.93 s
 
-Wall time: 9.65 s
+Wall time: 9.85 s
 </pre>
 </div>
 </div>
 </div>
-<div id="ea1a345a" class="cell" data-execution_count="24">
+<div id="81805f4d" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="co"># pltsize=1</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a>plt.figure()</span>
@@ -1557,18 +1560,18 @@ Wall time: 9.65 s
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-24-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/cell-24-output-1.png" width="559" height="421" class="figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-24-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/cell-24-output-1.png" width="546" height="421" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="48a815d1" class="cell" data-execution_count="25">
+<div id="78475cc2" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>show_failures(nonlinear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:22,319113][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">8</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>Showing max <span class="ansi-cyan-fg ansi-bold">10</span> first failures.
+<pre>[2026-07-24 08:25:30,675310][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">8</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>Showing max <span class="ansi-cyan-fg ansi-bold">10</span> first failures.
 
-[2026-07-23 09:09:22,319744][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_2269</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>The predicted class is shown first and the correct class in parentheses.
+[2026-07-24 08:25:30,675896][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_85831</span>/<span class="ansi-blue-fg">2368214845</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">show_failures</span>]<span class="ansi-white-fg"> </span>The predicted class is shown first and the correct class in parentheses.
 </pre>
 </div>
 </div>
@@ -1610,7 +1613,7 @@ Wall time: 9.65 s
 <section id="homework-solution" class="level2">
 <h2 class="anchored" data-anchor-id="homework-solution">Homework solution</h2>
 <p>Make the following changes to the cells with the comment “#For HW”</p>
-<div id="33bd9954" class="cell" data-execution_count="26">
+<div id="6f3fe705" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="co">#####################To modify the batch size##########################</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>batch_size <span class="op">=</span> <span class="dv">32</span> <span class="co"># 64, 128, 256, 512</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a></span>
@@ -1653,7 +1656,7 @@ Wall time: 9.65 s
 <span id="cb25-40"><a href="#cb25-40" aria-label="40"></a><span class="co">##############################################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network. See below on how to incorporate it to your training.</p>
-<div id="a8b4b99b" class="cell" data-execution_count="27">
+<div id="8ff9154f" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
@@ -1661,7 +1664,7 @@ Wall time: 9.65 s
 <span id="cb26-5"><a href="#cb26-5" aria-label="5"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
 <span id="cb26-6"><a href="#cb26-6" aria-label="6"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1e8d33e9" class="cell" data-execution_count="28">
+<div id="bb5b9aab" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
@@ -1687,45 +1690,45 @@ Wall time: 9.65 s
 <span id="cb27-23"><a href="#cb27-23" aria-label="23"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2026-07-23 09:09:23,716867][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.1</span>
+<pre>[2026-07-24 08:25:32,370025][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.1</span>
 
-[2026-07-23 09:09:24,745362][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3486491817658146</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.74166666666666</span>
+[2026-07-24 08:25:33,357796][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.3732105253189802</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">89.40208333333334</span>
 
-[2026-07-23 09:09:24,995836][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.33714689497152966</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">90.03333333333333</span>
+[2026-07-24 08:25:33,572305][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">0</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.36451873286565145</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">89.25</span>
 
-[2026-07-23 09:09:26,531338][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.010000000000000002</span>
+[2026-07-24 08:25:34,916985][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.010000000000000002</span>
 
-[2026-07-23 09:09:27,610872][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.23831375013043482</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">92.94375000000001</span>
+[2026-07-24 08:25:35,971770][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.25744290425504246</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">92.42291666666667</span>
 
-[2026-07-23 09:09:27,847650][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.22937321602801483</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">92.84166666666667</span>
+[2026-07-24 08:25:36,213165][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">1</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.24826239093144734</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">92.425</span>
 
-[2026-07-23 09:09:29,372717][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.010000000000000002</span>
+[2026-07-24 08:25:38,111585][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.010000000000000002</span>
 
-[2026-07-23 09:09:30,498928][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.22069739354463916</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.43333333333334</span>
+[2026-07-24 08:25:39,379394][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2375905034157137</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">92.91875</span>
 
-[2026-07-23 09:09:30,777651][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.2141356018980344</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.30833333333334</span>
+[2026-07-24 08:25:39,594370][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">2</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.23118092918892702</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">92.925</span>
 
-[2026-07-23 09:09:32,382189][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.0010000000000000002</span>
+[2026-07-24 08:25:41,297081][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.0010000000000000002</span>
 
-[2026-07-23 09:09:33,548601][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.21445012708194555</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.53333333333333</span>
+[2026-07-24 08:25:42,457308][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.22984121138229965</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.11666666666667</span>
 
-[2026-07-23 09:09:33,919117][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.20921309336523214</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.38333333333333</span>
+[2026-07-24 08:25:42,731684][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">3</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.22429295290013154</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.20833333333334</span>
 
-[2026-07-23 09:09:35,985928][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.0010000000000000002</span>
+[2026-07-24 08:25:44,396611][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.0010000000000000002</span>
 
-[2026-07-23 09:09:36,964380][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2129993129571279</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.57083333333334</span>
+[2026-07-24 08:25:45,640343][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2281244069673121</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.14791666666666</span>
 
-[2026-07-23 09:09:37,171868][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.20781830114126204</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.44166666666666</span>
+[2026-07-24 08:25:45,949345][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">4</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.22253004964689413</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.24166666666667</span>
 
-[2026-07-23 09:09:38,336492][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">6</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.00010000000000000003</span>
+[2026-07-24 08:25:47,505918][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">11</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">6</span>/<span class="ansi-cyan-fg ansi-bold">6</span>, Learning Rate: <span class="ansi-cyan-fg ansi-bold">0.00010000000000000003</span>
 
-[2026-07-23 09:09:39,220199][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.2123652945434054</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.59375</span>
+[2026-07-24 08:25:48,659259][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">16</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>: training loss: <span class="ansi-cyan-fg ansi-bold">0.22734816178493203</span>, accuracy: <span class="ansi-cyan-fg ansi-bold">93.16875</span>
 
-[2026-07-23 09:09:39,439573][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.20719557453691959</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.475</span>
+[2026-07-24 08:25:48,972102][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">.</span>/<span class="ansi-blue-fg">&lt;timed exec&gt;</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">&lt;module&gt;</span>]<span class="ansi-white-fg"> </span>Epoch <span class="ansi-cyan-fg ansi-bold">5</span>: val. loss: <span class="ansi-cyan-fg ansi-bold">0.22179098004599412</span>, val. accuracy: <span class="ansi-cyan-fg ansi-bold">93.25</span>
 
-CPU times: user 15 s, sys: 2.2 s, total: 17.3 s
+CPU times: user 15.8 s, sys: 2.11 s, total: 17.9 s
 
-Wall time: 17 s
+Wall time: 18 s
 </pre>
 </div>
 </div>
@@ -2828,317 +2831,320 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb28-607"><a href="#cb28-607" aria-label="565"></a>    <span class="st">"Mish"</span>:        x <span class="op">*</span> np.tanh(np.log1p(np.exp(x))),</span>
 <span id="cb28-608"><a href="#cb28-608" aria-label="566"></a>}</span>
 <span id="cb28-609"><a href="#cb28-609" aria-label="567"></a></span>
-<span id="cb28-610"><a href="#cb28-610" aria-label="568"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb28-610"><a href="#cb28-610" aria-label="568"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb28-611"><a href="#cb28-611" aria-label="569"></a><span class="cf">for</span> ax, (name, y) <span class="kw">in</span> <span class="bu">zip</span>(axes.flat, activations.items()):</span>
 <span id="cb28-612"><a href="#cb28-612" aria-label="570"></a>    ax.plot(x, y, color<span class="op">=</span><span class="st">"#7DCAFF"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb28-613"><a href="#cb28-613" aria-label="571"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb28-614"><a href="#cb28-614" aria-label="572"></a>    ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb28-615"><a href="#cb28-615" aria-label="573"></a>    ax.set_title(name, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb28-616"><a href="#cb28-616" aria-label="574"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb28-617"><a href="#cb28-617" aria-label="575"></a>    ax.grid(alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
-<span id="cb28-618"><a href="#cb28-618" aria-label="576"></a>fig.suptitle(<span class="st">"Activation functions"</span>, fontsize<span class="op">=</span><span class="dv">13</span>)</span>
-<span id="cb28-619"><a href="#cb28-619" aria-label="577"></a>fig.tight_layout()</span>
-<span id="cb28-620"><a href="#cb28-620" aria-label="578"></a>plt.show()</span>
-<span id="cb28-621"><a href="#cb28-621" aria-label="579"></a><span class="in">```</span></span>
-<span id="cb28-622"><a href="#cb28-622" aria-label="580"></a></span>
-<span id="cb28-623"><a href="#cb28-623" aria-label="581"></a>The **activation function** introduces the nonlinearity that lets the network</span>
-<span id="cb28-624"><a href="#cb28-624" aria-label="582"></a>learn complex tasks. Desirable properties include being differentiable,</span>
-<span id="cb28-625"><a href="#cb28-625" aria-label="583"></a>(mostly) monotonic, and well-behaved gradients. <span class="in">`ReLU`</span> and its variants</span>
-<span id="cb28-626"><a href="#cb28-626" aria-label="584"></a>(<span class="in">`Leaky ReLU`</span>, <span class="in">`ELU`</span>, <span class="in">`GELU`</span>, <span class="in">`SiLU`</span>) dominate modern deep networks because they</span>
-<span id="cb28-627"><a href="#cb28-627" aria-label="585"></a>avoid the vanishing-gradient problem that plagues the saturating <span class="in">`Sigmoid`</span>/<span class="in">`Tanh`</span>.</span>
-<span id="cb28-628"><a href="#cb28-628" aria-label="586"></a></span>
-<span id="cb28-629"><a href="#cb28-629" aria-label="587"></a></span>
-<span id="cb28-630"><a href="#cb28-630" aria-label="588"></a>Stacking several hidden layers gives a **deep** neural network — each layer</span>
-<span id="cb28-631"><a href="#cb28-631" aria-label="589"></a>transforms the previous layer's output, letting the model build up increasingly</span>
-<span id="cb28-632"><a href="#cb28-632" aria-label="590"></a>abstract representations:</span>
-<span id="cb28-633"><a href="#cb28-633" aria-label="591"></a></span>
-<span id="cb28-634"><a href="#cb28-634" aria-label="592"></a>::: {#fig-nn-annotated .column-page}</span>
-<span id="cb28-635"><a href="#cb28-635" aria-label="593"></a></span>
-<span id="cb28-638"><a href="#cb28-638" aria-label="594"></a><span class="in">```{mermaid}</span></span>
-<span id="cb28-639"><a href="#cb28-639" aria-label="595"></a>flowchart LR</span>
-<span id="cb28-640"><a href="#cb28-640" aria-label="596"></a>    subgraph IN[<span class="ot">"</span><span class="st">`Input`</span><span class="ot">"</span>]</span>
-<span id="cb28-641"><a href="#cb28-641" aria-label="597"></a>        direction TB</span>
-<span id="cb28-642"><a href="#cb28-642" aria-label="598"></a>        i1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-643"><a href="#cb28-643" aria-label="599"></a>        i2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-644"><a href="#cb28-644" aria-label="600"></a>        i3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-645"><a href="#cb28-645" aria-label="601"></a>    end</span>
-<span id="cb28-646"><a href="#cb28-646" aria-label="602"></a>    subgraph H1[<span class="ot">"</span><span class="st">`Hidden 1`</span><span class="ot">"</span>]</span>
-<span id="cb28-647"><a href="#cb28-647" aria-label="603"></a>        direction TB</span>
-<span id="cb28-648"><a href="#cb28-648" aria-label="604"></a>        a1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-649"><a href="#cb28-649" aria-label="605"></a>        a2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-650"><a href="#cb28-650" aria-label="606"></a>        a3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-651"><a href="#cb28-651" aria-label="607"></a>        a4((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-652"><a href="#cb28-652" aria-label="608"></a>    end</span>
-<span id="cb28-653"><a href="#cb28-653" aria-label="609"></a>    subgraph H2[<span class="ot">"</span><span class="st">`Hidden 2`</span><span class="ot">"</span>]</span>
-<span id="cb28-654"><a href="#cb28-654" aria-label="610"></a>        direction TB</span>
-<span id="cb28-655"><a href="#cb28-655" aria-label="611"></a>        b1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-656"><a href="#cb28-656" aria-label="612"></a>        b2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-657"><a href="#cb28-657" aria-label="613"></a>        b3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-658"><a href="#cb28-658" aria-label="614"></a>        b4((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-659"><a href="#cb28-659" aria-label="615"></a>    end</span>
-<span id="cb28-660"><a href="#cb28-660" aria-label="616"></a>    subgraph H3[<span class="ot">"</span><span class="st">`Hidden 3`</span><span class="ot">"</span>]</span>
-<span id="cb28-661"><a href="#cb28-661" aria-label="617"></a>        direction TB</span>
-<span id="cb28-662"><a href="#cb28-662" aria-label="618"></a>        c1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-663"><a href="#cb28-663" aria-label="619"></a>        c2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-664"><a href="#cb28-664" aria-label="620"></a>        c3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-665"><a href="#cb28-665" aria-label="621"></a>    end</span>
-<span id="cb28-666"><a href="#cb28-666" aria-label="622"></a>    subgraph OUT[<span class="ot">"</span><span class="st">`Output`</span><span class="ot">"</span>]</span>
-<span id="cb28-667"><a href="#cb28-667" aria-label="623"></a>        direction TB</span>
-<span id="cb28-668"><a href="#cb28-668" aria-label="624"></a>        o1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-669"><a href="#cb28-669" aria-label="625"></a>        o2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
-<span id="cb28-670"><a href="#cb28-670" aria-label="626"></a>    end</span>
-<span id="cb28-671"><a href="#cb28-671" aria-label="627"></a>    i1 &amp; i2 &amp; i3 --&gt; a1 &amp; a2 &amp; a3 &amp; a4</span>
-<span id="cb28-672"><a href="#cb28-672" aria-label="628"></a>    a1 &amp; a2 &amp; a3 &amp; a4 --&gt; b1 &amp; b2 &amp; b3 &amp; b4</span>
-<span id="cb28-673"><a href="#cb28-673" aria-label="629"></a>    b1 &amp; b2 &amp; b3 &amp; b4 --&gt; c1 &amp; c2 &amp; c3</span>
-<span id="cb28-674"><a href="#cb28-674" aria-label="630"></a>    c1 &amp; c2 &amp; c3 --&gt; o1 &amp; o2</span>
-<span id="cb28-675"><a href="#cb28-675" aria-label="631"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
-<span id="cb28-676"><a href="#cb28-676" aria-label="632"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb28-677"><a href="#cb28-677" aria-label="633"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb28-678"><a href="#cb28-678" aria-label="634"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb28-679"><a href="#cb28-679" aria-label="635"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb28-680"><a href="#cb28-680" aria-label="636"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb28-681"><a href="#cb28-681" aria-label="637"></a>class IN,H1,H2,H3,OUT block</span>
-<span id="cb28-682"><a href="#cb28-682" aria-label="638"></a>class i1,i2,i3 red</span>
-<span id="cb28-683"><a href="#cb28-683" aria-label="639"></a>class a1,a2,a3,a4 blue</span>
-<span id="cb28-684"><a href="#cb28-684" aria-label="640"></a>class b1,b2,b3,b4 yellow</span>
-<span id="cb28-685"><a href="#cb28-685" aria-label="641"></a>class c1,c2,c3 purple</span>
-<span id="cb28-686"><a href="#cb28-686" aria-label="642"></a>class o1,o2 green</span>
-<span id="cb28-687"><a href="#cb28-687" aria-label="643"></a><span class="in">```</span></span>
-<span id="cb28-688"><a href="#cb28-688" aria-label="644"></a></span>
-<span id="cb28-689"><a href="#cb28-689" aria-label="645"></a>A deep neural network with several hidden layers.</span>
-<span id="cb28-690"><a href="#cb28-690" aria-label="646"></a>:::</span>
+<span id="cb28-613"><a href="#cb28-613" aria-label="571"></a>    ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.7</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-614"><a href="#cb28-614" aria-label="572"></a>    ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#838383"</span>, linewidth<span class="op">=</span><span class="fl">0.7</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-615"><a href="#cb28-615" aria-label="573"></a>    ax.set_title(name, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb28-616"><a href="#cb28-616" aria-label="574"></a>    ax.set_xlim(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)      <span class="co"># curves fill the full axis (no ambivalent x-margin)</span></span>
+<span id="cb28-617"><a href="#cb28-617" aria-label="575"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)      <span class="co"># symmetric-ish range that contains every curve</span></span>
+<span id="cb28-618"><a href="#cb28-618" aria-label="576"></a>    ax.set_xticks([<span class="op">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">5</span>])</span>
+<span id="cb28-619"><a href="#cb28-619" aria-label="577"></a>    ax.set_yticks([<span class="op">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>])</span>
+<span id="cb28-620"><a href="#cb28-620" aria-label="578"></a>    ax.grid(alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb28-621"><a href="#cb28-621" aria-label="579"></a>fig.suptitle(<span class="st">"Activation functions"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb28-622"><a href="#cb28-622" aria-label="580"></a>fig.tight_layout()</span>
+<span id="cb28-623"><a href="#cb28-623" aria-label="581"></a>plt.show()</span>
+<span id="cb28-624"><a href="#cb28-624" aria-label="582"></a><span class="in">```</span></span>
+<span id="cb28-625"><a href="#cb28-625" aria-label="583"></a></span>
+<span id="cb28-626"><a href="#cb28-626" aria-label="584"></a>The **activation function** introduces the nonlinearity that lets the network</span>
+<span id="cb28-627"><a href="#cb28-627" aria-label="585"></a>learn complex tasks. Desirable properties include being differentiable,</span>
+<span id="cb28-628"><a href="#cb28-628" aria-label="586"></a>(mostly) monotonic, and well-behaved gradients. <span class="in">`ReLU`</span> and its variants</span>
+<span id="cb28-629"><a href="#cb28-629" aria-label="587"></a>(<span class="in">`Leaky ReLU`</span>, <span class="in">`ELU`</span>, <span class="in">`GELU`</span>, <span class="in">`SiLU`</span>) dominate modern deep networks because they</span>
+<span id="cb28-630"><a href="#cb28-630" aria-label="588"></a>avoid the vanishing-gradient problem that plagues the saturating <span class="in">`Sigmoid`</span>/<span class="in">`Tanh`</span>.</span>
+<span id="cb28-631"><a href="#cb28-631" aria-label="589"></a></span>
+<span id="cb28-632"><a href="#cb28-632" aria-label="590"></a></span>
+<span id="cb28-633"><a href="#cb28-633" aria-label="591"></a>Stacking several hidden layers gives a **deep** neural network — each layer</span>
+<span id="cb28-634"><a href="#cb28-634" aria-label="592"></a>transforms the previous layer's output, letting the model build up increasingly</span>
+<span id="cb28-635"><a href="#cb28-635" aria-label="593"></a>abstract representations:</span>
+<span id="cb28-636"><a href="#cb28-636" aria-label="594"></a></span>
+<span id="cb28-637"><a href="#cb28-637" aria-label="595"></a>::: {#fig-nn-annotated .column-page}</span>
+<span id="cb28-638"><a href="#cb28-638" aria-label="596"></a></span>
+<span id="cb28-641"><a href="#cb28-641" aria-label="597"></a><span class="in">```{mermaid}</span></span>
+<span id="cb28-642"><a href="#cb28-642" aria-label="598"></a>flowchart LR</span>
+<span id="cb28-643"><a href="#cb28-643" aria-label="599"></a>    subgraph IN[<span class="ot">"</span><span class="st">`Input`</span><span class="ot">"</span>]</span>
+<span id="cb28-644"><a href="#cb28-644" aria-label="600"></a>        direction TB</span>
+<span id="cb28-645"><a href="#cb28-645" aria-label="601"></a>        i1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-646"><a href="#cb28-646" aria-label="602"></a>        i2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-647"><a href="#cb28-647" aria-label="603"></a>        i3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-648"><a href="#cb28-648" aria-label="604"></a>    end</span>
+<span id="cb28-649"><a href="#cb28-649" aria-label="605"></a>    subgraph H1[<span class="ot">"</span><span class="st">`Hidden 1`</span><span class="ot">"</span>]</span>
+<span id="cb28-650"><a href="#cb28-650" aria-label="606"></a>        direction TB</span>
+<span id="cb28-651"><a href="#cb28-651" aria-label="607"></a>        a1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-652"><a href="#cb28-652" aria-label="608"></a>        a2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-653"><a href="#cb28-653" aria-label="609"></a>        a3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-654"><a href="#cb28-654" aria-label="610"></a>        a4((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-655"><a href="#cb28-655" aria-label="611"></a>    end</span>
+<span id="cb28-656"><a href="#cb28-656" aria-label="612"></a>    subgraph H2[<span class="ot">"</span><span class="st">`Hidden 2`</span><span class="ot">"</span>]</span>
+<span id="cb28-657"><a href="#cb28-657" aria-label="613"></a>        direction TB</span>
+<span id="cb28-658"><a href="#cb28-658" aria-label="614"></a>        b1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-659"><a href="#cb28-659" aria-label="615"></a>        b2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-660"><a href="#cb28-660" aria-label="616"></a>        b3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-661"><a href="#cb28-661" aria-label="617"></a>        b4((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-662"><a href="#cb28-662" aria-label="618"></a>    end</span>
+<span id="cb28-663"><a href="#cb28-663" aria-label="619"></a>    subgraph H3[<span class="ot">"</span><span class="st">`Hidden 3`</span><span class="ot">"</span>]</span>
+<span id="cb28-664"><a href="#cb28-664" aria-label="620"></a>        direction TB</span>
+<span id="cb28-665"><a href="#cb28-665" aria-label="621"></a>        c1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-666"><a href="#cb28-666" aria-label="622"></a>        c2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-667"><a href="#cb28-667" aria-label="623"></a>        c3((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-668"><a href="#cb28-668" aria-label="624"></a>    end</span>
+<span id="cb28-669"><a href="#cb28-669" aria-label="625"></a>    subgraph OUT[<span class="ot">"</span><span class="st">`Output`</span><span class="ot">"</span>]</span>
+<span id="cb28-670"><a href="#cb28-670" aria-label="626"></a>        direction TB</span>
+<span id="cb28-671"><a href="#cb28-671" aria-label="627"></a>        o1((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-672"><a href="#cb28-672" aria-label="628"></a>        o2((<span class="ot">"</span><span class="st">` `</span><span class="ot">"</span>))</span>
+<span id="cb28-673"><a href="#cb28-673" aria-label="629"></a>    end</span>
+<span id="cb28-674"><a href="#cb28-674" aria-label="630"></a>    i1 &amp; i2 &amp; i3 --&gt; a1 &amp; a2 &amp; a3 &amp; a4</span>
+<span id="cb28-675"><a href="#cb28-675" aria-label="631"></a>    a1 &amp; a2 &amp; a3 &amp; a4 --&gt; b1 &amp; b2 &amp; b3 &amp; b4</span>
+<span id="cb28-676"><a href="#cb28-676" aria-label="632"></a>    b1 &amp; b2 &amp; b3 &amp; b4 --&gt; c1 &amp; c2 &amp; c3</span>
+<span id="cb28-677"><a href="#cb28-677" aria-label="633"></a>    c1 &amp; c2 &amp; c3 --&gt; o1 &amp; o2</span>
+<span id="cb28-678"><a href="#cb28-678" aria-label="634"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
+<span id="cb28-679"><a href="#cb28-679" aria-label="635"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb28-680"><a href="#cb28-680" aria-label="636"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb28-681"><a href="#cb28-681" aria-label="637"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb28-682"><a href="#cb28-682" aria-label="638"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb28-683"><a href="#cb28-683" aria-label="639"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb28-684"><a href="#cb28-684" aria-label="640"></a>class IN,H1,H2,H3,OUT block</span>
+<span id="cb28-685"><a href="#cb28-685" aria-label="641"></a>class i1,i2,i3 red</span>
+<span id="cb28-686"><a href="#cb28-686" aria-label="642"></a>class a1,a2,a3,a4 blue</span>
+<span id="cb28-687"><a href="#cb28-687" aria-label="643"></a>class b1,b2,b3,b4 yellow</span>
+<span id="cb28-688"><a href="#cb28-688" aria-label="644"></a>class c1,c2,c3 purple</span>
+<span id="cb28-689"><a href="#cb28-689" aria-label="645"></a>class o1,o2 green</span>
+<span id="cb28-690"><a href="#cb28-690" aria-label="646"></a><span class="in">```</span></span>
 <span id="cb28-691"><a href="#cb28-691" aria-label="647"></a></span>
-<span id="cb28-692"><a href="#cb28-692" aria-label="648"></a></span>
-<span id="cb28-693"><a href="#cb28-693" aria-label="649"></a><span class="fu">## Important things to know</span></span>
+<span id="cb28-692"><a href="#cb28-692" aria-label="648"></a>A deep neural network with several hidden layers.</span>
+<span id="cb28-693"><a href="#cb28-693" aria-label="649"></a>:::</span>
 <span id="cb28-694"><a href="#cb28-694" aria-label="650"></a></span>
-<span id="cb28-695"><a href="#cb28-695" aria-label="651"></a>Deep Neural networks can be overly flexible/complicated and "overfit" your</span>
-<span id="cb28-696"><a href="#cb28-696" aria-label="652"></a>data, just like fitting overly complicated polynomials:</span>
+<span id="cb28-695"><a href="#cb28-695" aria-label="651"></a></span>
+<span id="cb28-696"><a href="#cb28-696" aria-label="652"></a><span class="fu">## Important things to know</span></span>
 <span id="cb28-697"><a href="#cb28-697" aria-label="653"></a></span>
-<span id="cb28-698"><a href="#cb28-698" aria-label="654"></a></span>
-<span id="cb28-699"><a href="#cb28-699" aria-label="655"></a>::: {#fig-bias-variance}</span>
+<span id="cb28-698"><a href="#cb28-698" aria-label="654"></a>Deep Neural networks can be overly flexible/complicated and "overfit" your</span>
+<span id="cb28-699"><a href="#cb28-699" aria-label="655"></a>data, just like fitting overly complicated polynomials:</span>
 <span id="cb28-700"><a href="#cb28-700" aria-label="656"></a></span>
-<span id="cb28-701"><a href="#cb28-701" aria-label="657"></a><span class="al">![](../images/bias_vs_variance.png)</span></span>
-<span id="cb28-702"><a href="#cb28-702" aria-label="658"></a></span>
-<span id="cb28-703"><a href="#cb28-703" aria-label="659"></a>Bias-variance tradeoff</span>
-<span id="cb28-704"><a href="#cb28-704" aria-label="660"></a>:::</span>
+<span id="cb28-701"><a href="#cb28-701" aria-label="657"></a></span>
+<span id="cb28-702"><a href="#cb28-702" aria-label="658"></a>::: {#fig-bias-variance}</span>
+<span id="cb28-703"><a href="#cb28-703" aria-label="659"></a></span>
+<span id="cb28-704"><a href="#cb28-704" aria-label="660"></a><span class="al">![](../images/bias_vs_variance.png)</span></span>
 <span id="cb28-705"><a href="#cb28-705" aria-label="661"></a></span>
-<span id="cb28-706"><a href="#cb28-706" aria-label="662"></a></span>
-<span id="cb28-707"><a href="#cb28-707" aria-label="663"></a>Vizualization wrt to the accuracy and loss (Image source: <span class="co">[</span><span class="ot">Baeldung</span><span class="co">](https://www.baeldung.com/cs/ml-underfitting-overfitting)</span>):</span>
+<span id="cb28-706"><a href="#cb28-706" aria-label="662"></a>Bias-variance tradeoff</span>
+<span id="cb28-707"><a href="#cb28-707" aria-label="663"></a>:::</span>
 <span id="cb28-708"><a href="#cb28-708" aria-label="664"></a></span>
-<span id="cb28-709"><a href="#cb28-709" aria-label="665"></a>::: {#fig-acc-under-over}</span>
-<span id="cb28-710"><a href="#cb28-710" aria-label="666"></a><span class="al">![](./images/acc_under_over.webp)</span></span>
+<span id="cb28-709"><a href="#cb28-709" aria-label="665"></a></span>
+<span id="cb28-710"><a href="#cb28-710" aria-label="666"></a>Vizualization wrt to the accuracy and loss (Image source: <span class="co">[</span><span class="ot">Baeldung</span><span class="co">](https://www.baeldung.com/cs/ml-underfitting-overfitting)</span>):</span>
 <span id="cb28-711"><a href="#cb28-711" aria-label="667"></a></span>
-<span id="cb28-712"><a href="#cb28-712" aria-label="668"></a>Visualization of accuracy and loss</span>
-<span id="cb28-713"><a href="#cb28-713" aria-label="669"></a>:::</span>
+<span id="cb28-712"><a href="#cb28-712" aria-label="668"></a>::: {#fig-acc-under-over}</span>
+<span id="cb28-713"><a href="#cb28-713" aria-label="669"></a><span class="al">![](./images/acc_under_over.webp)</span></span>
 <span id="cb28-714"><a href="#cb28-714" aria-label="670"></a></span>
-<span id="cb28-715"><a href="#cb28-715" aria-label="671"></a></span>
-<span id="cb28-716"><a href="#cb28-716" aria-label="672"></a></span>
-<span id="cb28-717"><a href="#cb28-717" aria-label="673"></a>To improve the generalization of our model on previously unseen data, we employ</span>
-<span id="cb28-718"><a href="#cb28-718" aria-label="674"></a>a technique known as regularization, which constrains our optimization problem</span>
-<span id="cb28-719"><a href="#cb28-719" aria-label="675"></a>in order to discourage complex models.</span>
-<span id="cb28-720"><a href="#cb28-720" aria-label="676"></a></span>
-<span id="cb28-721"><a href="#cb28-721" aria-label="677"></a><span class="ss">  - </span>Dropout is the commonly used regularization technique.</span>
-<span id="cb28-722"><a href="#cb28-722" aria-label="678"></a>    The Dropout layer randomly sets input units to 0 with a frequency of rate</span>
-<span id="cb28-723"><a href="#cb28-723" aria-label="679"></a>    at each step during training time, which helps prevent overfitting.</span>
-<span id="cb28-724"><a href="#cb28-724" aria-label="680"></a><span class="ss">  - </span>Penalizing the loss function by adding a term such as </span>
-<span id="cb28-725"><a href="#cb28-725" aria-label="681"></a>    $\lambda ||\mathbf{W}||^2$</span>
-<span id="cb28-726"><a href="#cb28-726" aria-label="682"></a>    is alsp a commonly used regularization technique.</span>
-<span id="cb28-727"><a href="#cb28-727" aria-label="683"></a>    This helps "control" the magnitude of the weights of the network.</span>
-<span id="cb28-728"><a href="#cb28-728" aria-label="684"></a></span>
-<span id="cb28-729"><a href="#cb28-729" aria-label="685"></a>Vanishing gradients</span>
-<span id="cb28-730"><a href="#cb28-730" aria-label="686"></a>: Gradients become small as they propagate backward through the layers.</span>
-<span id="cb28-731"><a href="#cb28-731" aria-label="687"></a>: Squashing activation functions like sigmoid or tanh could cause this.</span>
-<span id="cb28-732"><a href="#cb28-732" aria-label="688"></a></span>
-<span id="cb28-733"><a href="#cb28-733" aria-label="689"></a>Exploding gradients</span>
-<span id="cb28-734"><a href="#cb28-734" aria-label="690"></a>: Gradients grow exponentially usually due to "poor" weight initialization.</span>
+<span id="cb28-715"><a href="#cb28-715" aria-label="671"></a>Visualization of accuracy and loss</span>
+<span id="cb28-716"><a href="#cb28-716" aria-label="672"></a>:::</span>
+<span id="cb28-717"><a href="#cb28-717" aria-label="673"></a></span>
+<span id="cb28-718"><a href="#cb28-718" aria-label="674"></a></span>
+<span id="cb28-719"><a href="#cb28-719" aria-label="675"></a></span>
+<span id="cb28-720"><a href="#cb28-720" aria-label="676"></a>To improve the generalization of our model on previously unseen data, we employ</span>
+<span id="cb28-721"><a href="#cb28-721" aria-label="677"></a>a technique known as regularization, which constrains our optimization problem</span>
+<span id="cb28-722"><a href="#cb28-722" aria-label="678"></a>in order to discourage complex models.</span>
+<span id="cb28-723"><a href="#cb28-723" aria-label="679"></a></span>
+<span id="cb28-724"><a href="#cb28-724" aria-label="680"></a><span class="ss">  - </span>Dropout is the commonly used regularization technique.</span>
+<span id="cb28-725"><a href="#cb28-725" aria-label="681"></a>    The Dropout layer randomly sets input units to 0 with a frequency of rate</span>
+<span id="cb28-726"><a href="#cb28-726" aria-label="682"></a>    at each step during training time, which helps prevent overfitting.</span>
+<span id="cb28-727"><a href="#cb28-727" aria-label="683"></a><span class="ss">  - </span>Penalizing the loss function by adding a term such as </span>
+<span id="cb28-728"><a href="#cb28-728" aria-label="684"></a>    $\lambda ||\mathbf{W}||^2$</span>
+<span id="cb28-729"><a href="#cb28-729" aria-label="685"></a>    is alsp a commonly used regularization technique.</span>
+<span id="cb28-730"><a href="#cb28-730" aria-label="686"></a>    This helps "control" the magnitude of the weights of the network.</span>
+<span id="cb28-731"><a href="#cb28-731" aria-label="687"></a></span>
+<span id="cb28-732"><a href="#cb28-732" aria-label="688"></a>Vanishing gradients</span>
+<span id="cb28-733"><a href="#cb28-733" aria-label="689"></a>: Gradients become small as they propagate backward through the layers.</span>
+<span id="cb28-734"><a href="#cb28-734" aria-label="690"></a>: Squashing activation functions like sigmoid or tanh could cause this.</span>
 <span id="cb28-735"><a href="#cb28-735" aria-label="691"></a></span>
-<span id="cb28-736"><a href="#cb28-736" aria-label="692"></a><span class="co">&lt;!--  &lt;img src="images/test_data_rule.png" width="800" hight="500" align="center"/&gt;</span></span>
-<span id="cb28-737"><a href="#cb28-737" aria-label="693"></a><span class="co">  --&gt;</span></span>
+<span id="cb28-736"><a href="#cb28-736" aria-label="692"></a>Exploding gradients</span>
+<span id="cb28-737"><a href="#cb28-737" aria-label="693"></a>: Gradients grow exponentially usually due to "poor" weight initialization.</span>
 <span id="cb28-738"><a href="#cb28-738" aria-label="694"></a></span>
-<span id="cb28-739"><a href="#cb28-739" aria-label="695"></a>We can now implement a deep network in PyTorch.</span>
-<span id="cb28-740"><a href="#cb28-740" aria-label="696"></a></span>
-<span id="cb28-741"><a href="#cb28-741" aria-label="697"></a><span class="in">`nn.Dropout()`</span> performs the Dropout operation mentioned earlier:</span>
-<span id="cb28-742"><a href="#cb28-742" aria-label="698"></a></span>
-<span id="cb28-745"><a href="#cb28-745" aria-label="699"></a><span class="in">```{python}</span></span>
-<span id="cb28-746"><a href="#cb28-746" aria-label="700"></a><span class="co">#For HW: cell to change activation</span></span>
-<span id="cb28-747"><a href="#cb28-747" aria-label="701"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
-<span id="cb28-748"><a href="#cb28-748" aria-label="702"></a></span>
-<span id="cb28-749"><a href="#cb28-749" aria-label="703"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb28-750"><a href="#cb28-750" aria-label="704"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb28-751"><a href="#cb28-751" aria-label="705"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb28-752"><a href="#cb28-752" aria-label="706"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
-<span id="cb28-753"><a href="#cb28-753" aria-label="707"></a>            nn.Linear(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">50</span>),</span>
-<span id="cb28-754"><a href="#cb28-754" aria-label="708"></a>            nn.ReLU(),</span>
-<span id="cb28-755"><a href="#cb28-755" aria-label="709"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
-<span id="cb28-756"><a href="#cb28-756" aria-label="710"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb28-739"><a href="#cb28-739" aria-label="695"></a><span class="co">&lt;!--  &lt;img src="images/test_data_rule.png" width="800" hight="500" align="center"/&gt;</span></span>
+<span id="cb28-740"><a href="#cb28-740" aria-label="696"></a><span class="co">  --&gt;</span></span>
+<span id="cb28-741"><a href="#cb28-741" aria-label="697"></a></span>
+<span id="cb28-742"><a href="#cb28-742" aria-label="698"></a>We can now implement a deep network in PyTorch.</span>
+<span id="cb28-743"><a href="#cb28-743" aria-label="699"></a></span>
+<span id="cb28-744"><a href="#cb28-744" aria-label="700"></a><span class="in">`nn.Dropout()`</span> performs the Dropout operation mentioned earlier:</span>
+<span id="cb28-745"><a href="#cb28-745" aria-label="701"></a></span>
+<span id="cb28-748"><a href="#cb28-748" aria-label="702"></a><span class="in">```{python}</span></span>
+<span id="cb28-749"><a href="#cb28-749" aria-label="703"></a><span class="co">#For HW: cell to change activation</span></span>
+<span id="cb28-750"><a href="#cb28-750" aria-label="704"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
+<span id="cb28-751"><a href="#cb28-751" aria-label="705"></a></span>
+<span id="cb28-752"><a href="#cb28-752" aria-label="706"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb28-753"><a href="#cb28-753" aria-label="707"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb28-754"><a href="#cb28-754" aria-label="708"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb28-755"><a href="#cb28-755" aria-label="709"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
+<span id="cb28-756"><a href="#cb28-756" aria-label="710"></a>            nn.Linear(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">50</span>),</span>
 <span id="cb28-757"><a href="#cb28-757" aria-label="711"></a>            nn.ReLU(),</span>
-<span id="cb28-758"><a href="#cb28-758" aria-label="712"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb28-758"><a href="#cb28-758" aria-label="712"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
 <span id="cb28-759"><a href="#cb28-759" aria-label="713"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
 <span id="cb28-760"><a href="#cb28-760" aria-label="714"></a>            nn.ReLU(),</span>
 <span id="cb28-761"><a href="#cb28-761" aria-label="715"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb28-762"><a href="#cb28-762" aria-label="716"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb28-763"><a href="#cb28-763" aria-label="717"></a>        )</span>
-<span id="cb28-764"><a href="#cb28-764" aria-label="718"></a></span>
-<span id="cb28-765"><a href="#cb28-765" aria-label="719"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb28-766"><a href="#cb28-766" aria-label="720"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb28-767"><a href="#cb28-767" aria-label="721"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
-<span id="cb28-768"><a href="#cb28-768" aria-label="722"></a></span>
-<span id="cb28-769"><a href="#cb28-769" aria-label="723"></a>        <span class="cf">return</span> x</span>
-<span id="cb28-770"><a href="#cb28-770" aria-label="724"></a><span class="in">```</span></span>
+<span id="cb28-762"><a href="#cb28-762" aria-label="716"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb28-763"><a href="#cb28-763" aria-label="717"></a>            nn.ReLU(),</span>
+<span id="cb28-764"><a href="#cb28-764" aria-label="718"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb28-765"><a href="#cb28-765" aria-label="719"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb28-766"><a href="#cb28-766" aria-label="720"></a>        )</span>
+<span id="cb28-767"><a href="#cb28-767" aria-label="721"></a></span>
+<span id="cb28-768"><a href="#cb28-768" aria-label="722"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb28-769"><a href="#cb28-769" aria-label="723"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb28-770"><a href="#cb28-770" aria-label="724"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
 <span id="cb28-771"><a href="#cb28-771" aria-label="725"></a></span>
-<span id="cb28-774"><a href="#cb28-774" aria-label="726"></a><span class="in">```{python}</span></span>
-<span id="cb28-775"><a href="#cb28-775" aria-label="727"></a><span class="co">#### For HW: cell to change learning rate</span></span>
-<span id="cb28-776"><a href="#cb28-776" aria-label="728"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
-<span id="cb28-777"><a href="#cb28-777" aria-label="729"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb28-778"><a href="#cb28-778" aria-label="730"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span>
-<span id="cb28-779"><a href="#cb28-779" aria-label="731"></a><span class="in">```</span></span>
-<span id="cb28-780"><a href="#cb28-780" aria-label="732"></a></span>
-<span id="cb28-783"><a href="#cb28-783" aria-label="733"></a><span class="in">```{python}</span></span>
-<span id="cb28-784"><a href="#cb28-784" aria-label="734"></a><span class="op">%%</span>time</span>
-<span id="cb28-785"><a href="#cb28-785" aria-label="735"></a></span>
-<span id="cb28-786"><a href="#cb28-786" aria-label="736"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb28-787"><a href="#cb28-787" aria-label="737"></a>train_acc_all <span class="op">=</span> []</span>
-<span id="cb28-788"><a href="#cb28-788" aria-label="738"></a>val_acc_all <span class="op">=</span> []</span>
-<span id="cb28-789"><a href="#cb28-789" aria-label="739"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb28-790"><a href="#cb28-790" aria-label="740"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
-<span id="cb28-791"><a href="#cb28-791" aria-label="741"></a></span>
-<span id="cb28-792"><a href="#cb28-792" aria-label="742"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
-<span id="cb28-793"><a href="#cb28-793" aria-label="743"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-794"><a href="#cb28-794" aria-label="744"></a>    train_acc_all.append(acc)</span>
-<span id="cb28-795"><a href="#cb28-795" aria-label="745"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-796"><a href="#cb28-796" aria-label="746"></a></span>
-<span id="cb28-797"><a href="#cb28-797" aria-label="747"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
-<span id="cb28-798"><a href="#cb28-798" aria-label="748"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-799"><a href="#cb28-799" aria-label="749"></a>    val_acc_all.append(val_acc)</span>
-<span id="cb28-800"><a href="#cb28-800" aria-label="750"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-801"><a href="#cb28-801" aria-label="751"></a><span class="in">```</span></span>
-<span id="cb28-802"><a href="#cb28-802" aria-label="752"></a></span>
-<span id="cb28-805"><a href="#cb28-805" aria-label="753"></a><span class="in">```{python}</span></span>
-<span id="cb28-806"><a href="#cb28-806" aria-label="754"></a><span class="co"># pltsize=1</span></span>
-<span id="cb28-807"><a href="#cb28-807" aria-label="755"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
-<span id="cb28-808"><a href="#cb28-808" aria-label="756"></a>plt.figure()</span>
-<span id="cb28-809"><a href="#cb28-809" aria-label="757"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all,label <span class="op">=</span> <span class="st">'Training Acc.'</span> )</span>
-<span id="cb28-810"><a href="#cb28-810" aria-label="758"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label <span class="op">=</span> <span class="st">'Validation Acc.'</span> )</span>
-<span id="cb28-811"><a href="#cb28-811" aria-label="759"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
-<span id="cb28-812"><a href="#cb28-812" aria-label="760"></a>plt.ylabel(<span class="st">'Loss'</span>)</span>
-<span id="cb28-813"><a href="#cb28-813" aria-label="761"></a>plt.legend()</span>
-<span id="cb28-814"><a href="#cb28-814" aria-label="762"></a><span class="in">```</span></span>
-<span id="cb28-815"><a href="#cb28-815" aria-label="763"></a></span>
-<span id="cb28-818"><a href="#cb28-818" aria-label="764"></a><span class="in">```{python}</span></span>
-<span id="cb28-819"><a href="#cb28-819" aria-label="765"></a>show_failures(nonlinear_model, test_dataloader)</span>
-<span id="cb28-820"><a href="#cb28-820" aria-label="766"></a><span class="in">```</span></span>
-<span id="cb28-821"><a href="#cb28-821" aria-label="767"></a></span>
-<span id="cb28-822"><a href="#cb28-822" aria-label="768"></a><span class="fu">## Recap</span></span>
-<span id="cb28-823"><a href="#cb28-823" aria-label="769"></a></span>
-<span id="cb28-824"><a href="#cb28-824" aria-label="770"></a>To train and validate a neural network model, you need:</span>
-<span id="cb28-825"><a href="#cb28-825" aria-label="771"></a></span>
-<span id="cb28-826"><a href="#cb28-826" aria-label="772"></a><span class="ss">- </span>Data split into training/validation/test sets,</span>
-<span id="cb28-827"><a href="#cb28-827" aria-label="773"></a><span class="ss">- </span>A model with parameters to learn</span>
-<span id="cb28-828"><a href="#cb28-828" aria-label="774"></a><span class="ss">- </span>An appropriate loss function</span>
-<span id="cb28-829"><a href="#cb28-829" aria-label="775"></a><span class="ss">- </span>An optimizer (with tunable parameters such as learning rate, weight decay</span>
-<span id="cb28-830"><a href="#cb28-830" aria-label="776"></a>  etc.) used to learn the parameters of the model.</span>
-<span id="cb28-831"><a href="#cb28-831" aria-label="777"></a></span>
-<span id="cb28-832"><a href="#cb28-832" aria-label="778"></a><span class="fu">## Homework</span></span>
-<span id="cb28-833"><a href="#cb28-833" aria-label="779"></a></span>
-<span id="cb28-834"><a href="#cb28-834" aria-label="780"></a><span class="ss">1. </span>Compare the quality of your model when using different:</span>
-<span id="cb28-835"><a href="#cb28-835" aria-label="781"></a><span class="ss"> - </span>batch sizes</span>
-<span id="cb28-836"><a href="#cb28-836" aria-label="782"></a><span class="ss"> - </span>learning rates</span>
-<span id="cb28-837"><a href="#cb28-837" aria-label="783"></a><span class="ss"> - </span>activation functions</span>
-<span id="cb28-838"><a href="#cb28-838" aria-label="784"></a></span>
-<span id="cb28-839"><a href="#cb28-839" aria-label="785"></a><span class="ss">3. </span>Bonus: What is a learning rate scheduler?</span>
-<span id="cb28-840"><a href="#cb28-840" aria-label="786"></a></span>
-<span id="cb28-841"><a href="#cb28-841" aria-label="787"></a>If you have time, experiment with how to improve the model.</span>
-<span id="cb28-842"><a href="#cb28-842" aria-label="788"></a></span>
-<span id="cb28-843"><a href="#cb28-843" aria-label="789"></a>Note: training and validation data can be used to compare models, but test data</span>
-<span id="cb28-844"><a href="#cb28-844" aria-label="790"></a>should be saved until the end as a final check of generalization.</span>
+<span id="cb28-772"><a href="#cb28-772" aria-label="726"></a>        <span class="cf">return</span> x</span>
+<span id="cb28-773"><a href="#cb28-773" aria-label="727"></a><span class="in">```</span></span>
+<span id="cb28-774"><a href="#cb28-774" aria-label="728"></a></span>
+<span id="cb28-777"><a href="#cb28-777" aria-label="729"></a><span class="in">```{python}</span></span>
+<span id="cb28-778"><a href="#cb28-778" aria-label="730"></a><span class="co">#### For HW: cell to change learning rate</span></span>
+<span id="cb28-779"><a href="#cb28-779" aria-label="731"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
+<span id="cb28-780"><a href="#cb28-780" aria-label="732"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb28-781"><a href="#cb28-781" aria-label="733"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb28-782"><a href="#cb28-782" aria-label="734"></a><span class="in">```</span></span>
+<span id="cb28-783"><a href="#cb28-783" aria-label="735"></a></span>
+<span id="cb28-786"><a href="#cb28-786" aria-label="736"></a><span class="in">```{python}</span></span>
+<span id="cb28-787"><a href="#cb28-787" aria-label="737"></a><span class="op">%%</span>time</span>
+<span id="cb28-788"><a href="#cb28-788" aria-label="738"></a></span>
+<span id="cb28-789"><a href="#cb28-789" aria-label="739"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb28-790"><a href="#cb28-790" aria-label="740"></a>train_acc_all <span class="op">=</span> []</span>
+<span id="cb28-791"><a href="#cb28-791" aria-label="741"></a>val_acc_all <span class="op">=</span> []</span>
+<span id="cb28-792"><a href="#cb28-792" aria-label="742"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb28-793"><a href="#cb28-793" aria-label="743"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
+<span id="cb28-794"><a href="#cb28-794" aria-label="744"></a></span>
+<span id="cb28-795"><a href="#cb28-795" aria-label="745"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
+<span id="cb28-796"><a href="#cb28-796" aria-label="746"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-797"><a href="#cb28-797" aria-label="747"></a>    train_acc_all.append(acc)</span>
+<span id="cb28-798"><a href="#cb28-798" aria-label="748"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-799"><a href="#cb28-799" aria-label="749"></a></span>
+<span id="cb28-800"><a href="#cb28-800" aria-label="750"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
+<span id="cb28-801"><a href="#cb28-801" aria-label="751"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-802"><a href="#cb28-802" aria-label="752"></a>    val_acc_all.append(val_acc)</span>
+<span id="cb28-803"><a href="#cb28-803" aria-label="753"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-804"><a href="#cb28-804" aria-label="754"></a><span class="in">```</span></span>
+<span id="cb28-805"><a href="#cb28-805" aria-label="755"></a></span>
+<span id="cb28-808"><a href="#cb28-808" aria-label="756"></a><span class="in">```{python}</span></span>
+<span id="cb28-809"><a href="#cb28-809" aria-label="757"></a><span class="co"># pltsize=1</span></span>
+<span id="cb28-810"><a href="#cb28-810" aria-label="758"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
+<span id="cb28-811"><a href="#cb28-811" aria-label="759"></a>plt.figure()</span>
+<span id="cb28-812"><a href="#cb28-812" aria-label="760"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all,label <span class="op">=</span> <span class="st">'Training Acc.'</span> )</span>
+<span id="cb28-813"><a href="#cb28-813" aria-label="761"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label <span class="op">=</span> <span class="st">'Validation Acc.'</span> )</span>
+<span id="cb28-814"><a href="#cb28-814" aria-label="762"></a>plt.xlabel(<span class="st">'Epoch #'</span>)</span>
+<span id="cb28-815"><a href="#cb28-815" aria-label="763"></a>plt.ylabel(<span class="st">'Loss'</span>)</span>
+<span id="cb28-816"><a href="#cb28-816" aria-label="764"></a>plt.legend()</span>
+<span id="cb28-817"><a href="#cb28-817" aria-label="765"></a><span class="in">```</span></span>
+<span id="cb28-818"><a href="#cb28-818" aria-label="766"></a></span>
+<span id="cb28-821"><a href="#cb28-821" aria-label="767"></a><span class="in">```{python}</span></span>
+<span id="cb28-822"><a href="#cb28-822" aria-label="768"></a>show_failures(nonlinear_model, test_dataloader)</span>
+<span id="cb28-823"><a href="#cb28-823" aria-label="769"></a><span class="in">```</span></span>
+<span id="cb28-824"><a href="#cb28-824" aria-label="770"></a></span>
+<span id="cb28-825"><a href="#cb28-825" aria-label="771"></a><span class="fu">## Recap</span></span>
+<span id="cb28-826"><a href="#cb28-826" aria-label="772"></a></span>
+<span id="cb28-827"><a href="#cb28-827" aria-label="773"></a>To train and validate a neural network model, you need:</span>
+<span id="cb28-828"><a href="#cb28-828" aria-label="774"></a></span>
+<span id="cb28-829"><a href="#cb28-829" aria-label="775"></a><span class="ss">- </span>Data split into training/validation/test sets,</span>
+<span id="cb28-830"><a href="#cb28-830" aria-label="776"></a><span class="ss">- </span>A model with parameters to learn</span>
+<span id="cb28-831"><a href="#cb28-831" aria-label="777"></a><span class="ss">- </span>An appropriate loss function</span>
+<span id="cb28-832"><a href="#cb28-832" aria-label="778"></a><span class="ss">- </span>An optimizer (with tunable parameters such as learning rate, weight decay</span>
+<span id="cb28-833"><a href="#cb28-833" aria-label="779"></a>  etc.) used to learn the parameters of the model.</span>
+<span id="cb28-834"><a href="#cb28-834" aria-label="780"></a></span>
+<span id="cb28-835"><a href="#cb28-835" aria-label="781"></a><span class="fu">## Homework</span></span>
+<span id="cb28-836"><a href="#cb28-836" aria-label="782"></a></span>
+<span id="cb28-837"><a href="#cb28-837" aria-label="783"></a><span class="ss">1. </span>Compare the quality of your model when using different:</span>
+<span id="cb28-838"><a href="#cb28-838" aria-label="784"></a><span class="ss"> - </span>batch sizes</span>
+<span id="cb28-839"><a href="#cb28-839" aria-label="785"></a><span class="ss"> - </span>learning rates</span>
+<span id="cb28-840"><a href="#cb28-840" aria-label="786"></a><span class="ss"> - </span>activation functions</span>
+<span id="cb28-841"><a href="#cb28-841" aria-label="787"></a></span>
+<span id="cb28-842"><a href="#cb28-842" aria-label="788"></a><span class="ss">3. </span>Bonus: What is a learning rate scheduler?</span>
+<span id="cb28-843"><a href="#cb28-843" aria-label="789"></a></span>
+<span id="cb28-844"><a href="#cb28-844" aria-label="790"></a>If you have time, experiment with how to improve the model.</span>
 <span id="cb28-845"><a href="#cb28-845" aria-label="791"></a></span>
-<span id="cb28-846"><a href="#cb28-846" aria-label="792"></a><span class="fu">## Homework solution</span></span>
-<span id="cb28-847"><a href="#cb28-847" aria-label="793"></a></span>
-<span id="cb28-848"><a href="#cb28-848" aria-label="794"></a>Make the following changes to the cells with the comment "#For HW"</span>
-<span id="cb28-849"><a href="#cb28-849" aria-label="795"></a></span>
-<span id="cb28-852"><a href="#cb28-852" aria-label="796"></a><span class="in">```{python}</span></span>
-<span id="cb28-853"><a href="#cb28-853" aria-label="797"></a><span class="co">#####################To modify the batch size##########################</span></span>
-<span id="cb28-854"><a href="#cb28-854" aria-label="798"></a>batch_size <span class="op">=</span> <span class="dv">32</span> <span class="co"># 64, 128, 256, 512</span></span>
-<span id="cb28-855"><a href="#cb28-855" aria-label="799"></a></span>
-<span id="cb28-856"><a href="#cb28-856" aria-label="800"></a><span class="co"># The dataloader makes our dataset iterable </span></span>
-<span id="cb28-857"><a href="#cb28-857" aria-label="801"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb28-858"><a href="#cb28-858" aria-label="802"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
-<span id="cb28-859"><a href="#cb28-859" aria-label="803"></a><span class="co">##############################################################################</span></span>
-<span id="cb28-860"><a href="#cb28-860" aria-label="804"></a></span>
-<span id="cb28-861"><a href="#cb28-861" aria-label="805"></a></span>
-<span id="cb28-862"><a href="#cb28-862" aria-label="806"></a><span class="co">##########################To change the learning rate##########################</span></span>
-<span id="cb28-863"><a href="#cb28-863" aria-label="807"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>) <span class="co">#modify the value of lr</span></span>
-<span id="cb28-864"><a href="#cb28-864" aria-label="808"></a><span class="co">##############################################################################</span></span>
-<span id="cb28-865"><a href="#cb28-865" aria-label="809"></a></span>
-<span id="cb28-866"><a href="#cb28-866" aria-label="810"></a></span>
-<span id="cb28-867"><a href="#cb28-867" aria-label="811"></a><span class="co">##########################To change activation##########################</span></span>
-<span id="cb28-868"><a href="#cb28-868" aria-label="812"></a><span class="co">###### Go to https://pytorch.org/docs/main/nn.html#non-linear-activations-weighted-sum-nonlinearity for more activations ######</span></span>
-<span id="cb28-869"><a href="#cb28-869" aria-label="813"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
-<span id="cb28-870"><a href="#cb28-870" aria-label="814"></a></span>
-<span id="cb28-871"><a href="#cb28-871" aria-label="815"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb28-872"><a href="#cb28-872" aria-label="816"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb28-873"><a href="#cb28-873" aria-label="817"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
-<span id="cb28-874"><a href="#cb28-874" aria-label="818"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
-<span id="cb28-875"><a href="#cb28-875" aria-label="819"></a>            nn.Linear(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">50</span>),</span>
-<span id="cb28-876"><a href="#cb28-876" aria-label="820"></a>            nn.Sigmoid(), <span class="co">#nn.ReLU(),</span></span>
-<span id="cb28-877"><a href="#cb28-877" aria-label="821"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
-<span id="cb28-878"><a href="#cb28-878" aria-label="822"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb28-879"><a href="#cb28-879" aria-label="823"></a>            nn.Tanh(), <span class="co">#nn.ReLU(),</span></span>
-<span id="cb28-880"><a href="#cb28-880" aria-label="824"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb28-846"><a href="#cb28-846" aria-label="792"></a>Note: training and validation data can be used to compare models, but test data</span>
+<span id="cb28-847"><a href="#cb28-847" aria-label="793"></a>should be saved until the end as a final check of generalization.</span>
+<span id="cb28-848"><a href="#cb28-848" aria-label="794"></a></span>
+<span id="cb28-849"><a href="#cb28-849" aria-label="795"></a><span class="fu">## Homework solution</span></span>
+<span id="cb28-850"><a href="#cb28-850" aria-label="796"></a></span>
+<span id="cb28-851"><a href="#cb28-851" aria-label="797"></a>Make the following changes to the cells with the comment "#For HW"</span>
+<span id="cb28-852"><a href="#cb28-852" aria-label="798"></a></span>
+<span id="cb28-855"><a href="#cb28-855" aria-label="799"></a><span class="in">```{python}</span></span>
+<span id="cb28-856"><a href="#cb28-856" aria-label="800"></a><span class="co">#####################To modify the batch size##########################</span></span>
+<span id="cb28-857"><a href="#cb28-857" aria-label="801"></a>batch_size <span class="op">=</span> <span class="dv">32</span> <span class="co"># 64, 128, 256, 512</span></span>
+<span id="cb28-858"><a href="#cb28-858" aria-label="802"></a></span>
+<span id="cb28-859"><a href="#cb28-859" aria-label="803"></a><span class="co"># The dataloader makes our dataset iterable </span></span>
+<span id="cb28-860"><a href="#cb28-860" aria-label="804"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb28-861"><a href="#cb28-861" aria-label="805"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span>
+<span id="cb28-862"><a href="#cb28-862" aria-label="806"></a><span class="co">##############################################################################</span></span>
+<span id="cb28-863"><a href="#cb28-863" aria-label="807"></a></span>
+<span id="cb28-864"><a href="#cb28-864" aria-label="808"></a></span>
+<span id="cb28-865"><a href="#cb28-865" aria-label="809"></a><span class="co">##########################To change the learning rate##########################</span></span>
+<span id="cb28-866"><a href="#cb28-866" aria-label="810"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>) <span class="co">#modify the value of lr</span></span>
+<span id="cb28-867"><a href="#cb28-867" aria-label="811"></a><span class="co">##############################################################################</span></span>
+<span id="cb28-868"><a href="#cb28-868" aria-label="812"></a></span>
+<span id="cb28-869"><a href="#cb28-869" aria-label="813"></a></span>
+<span id="cb28-870"><a href="#cb28-870" aria-label="814"></a><span class="co">##########################To change activation##########################</span></span>
+<span id="cb28-871"><a href="#cb28-871" aria-label="815"></a><span class="co">###### Go to https://pytorch.org/docs/main/nn.html#non-linear-activations-weighted-sum-nonlinearity for more activations ######</span></span>
+<span id="cb28-872"><a href="#cb28-872" aria-label="816"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
+<span id="cb28-873"><a href="#cb28-873" aria-label="817"></a></span>
+<span id="cb28-874"><a href="#cb28-874" aria-label="818"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb28-875"><a href="#cb28-875" aria-label="819"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb28-876"><a href="#cb28-876" aria-label="820"></a>        <span class="va">self</span>.flatten <span class="op">=</span> nn.Flatten()</span>
+<span id="cb28-877"><a href="#cb28-877" aria-label="821"></a>        <span class="va">self</span>.layers_stack <span class="op">=</span> nn.Sequential(</span>
+<span id="cb28-878"><a href="#cb28-878" aria-label="822"></a>            nn.Linear(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">50</span>),</span>
+<span id="cb28-879"><a href="#cb28-879" aria-label="823"></a>            nn.Sigmoid(), <span class="co">#nn.ReLU(),</span></span>
+<span id="cb28-880"><a href="#cb28-880" aria-label="824"></a>            nn.Dropout(<span class="fl">0.2</span>),</span>
 <span id="cb28-881"><a href="#cb28-881" aria-label="825"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
-<span id="cb28-882"><a href="#cb28-882" aria-label="826"></a>            nn.ReLU(),</span>
+<span id="cb28-882"><a href="#cb28-882" aria-label="826"></a>            nn.Tanh(), <span class="co">#nn.ReLU(),</span></span>
 <span id="cb28-883"><a href="#cb28-883" aria-label="827"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
-<span id="cb28-884"><a href="#cb28-884" aria-label="828"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb28-885"><a href="#cb28-885" aria-label="829"></a>        )</span>
-<span id="cb28-886"><a href="#cb28-886" aria-label="830"></a>        </span>
-<span id="cb28-887"><a href="#cb28-887" aria-label="831"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb28-888"><a href="#cb28-888" aria-label="832"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb28-889"><a href="#cb28-889" aria-label="833"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
-<span id="cb28-890"><a href="#cb28-890" aria-label="834"></a></span>
-<span id="cb28-891"><a href="#cb28-891" aria-label="835"></a>        <span class="cf">return</span> x</span>
-<span id="cb28-892"><a href="#cb28-892" aria-label="836"></a><span class="co">##############################################################################</span></span>
-<span id="cb28-893"><a href="#cb28-893" aria-label="837"></a><span class="in">```</span></span>
-<span id="cb28-894"><a href="#cb28-894" aria-label="838"></a></span>
-<span id="cb28-895"><a href="#cb28-895" aria-label="839"></a>Bonus question: A learning rate scheduler is an essential deep learning</span>
-<span id="cb28-896"><a href="#cb28-896" aria-label="840"></a>technique used to dynamically adjust the learning rate during training.</span>
-<span id="cb28-897"><a href="#cb28-897" aria-label="841"></a>This strategic can significantly impact the convergence speed and overall</span>
-<span id="cb28-898"><a href="#cb28-898" aria-label="842"></a>performance of a neural network.</span>
-<span id="cb28-899"><a href="#cb28-899" aria-label="843"></a>See below on how to incorporate it to your training.</span>
-<span id="cb28-900"><a href="#cb28-900" aria-label="844"></a></span>
-<span id="cb28-903"><a href="#cb28-903" aria-label="845"></a><span class="in">```{python}</span></span>
-<span id="cb28-904"><a href="#cb28-904" aria-label="846"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
-<span id="cb28-905"><a href="#cb28-905" aria-label="847"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb28-906"><a href="#cb28-906" aria-label="848"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb28-907"><a href="#cb28-907" aria-label="849"></a></span>
-<span id="cb28-908"><a href="#cb28-908" aria-label="850"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
-<span id="cb28-909"><a href="#cb28-909" aria-label="851"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb28-910"><a href="#cb28-910" aria-label="852"></a><span class="in">```</span></span>
-<span id="cb28-911"><a href="#cb28-911" aria-label="853"></a></span>
-<span id="cb28-914"><a href="#cb28-914" aria-label="854"></a><span class="in">```{python}</span></span>
-<span id="cb28-915"><a href="#cb28-915" aria-label="855"></a><span class="op">%%</span>time</span>
-<span id="cb28-916"><a href="#cb28-916" aria-label="856"></a></span>
-<span id="cb28-917"><a href="#cb28-917" aria-label="857"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb28-918"><a href="#cb28-918" aria-label="858"></a>train_acc_all <span class="op">=</span> []</span>
-<span id="cb28-919"><a href="#cb28-919" aria-label="859"></a>val_acc_all <span class="op">=</span> []</span>
-<span id="cb28-920"><a href="#cb28-920" aria-label="860"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
-<span id="cb28-921"><a href="#cb28-921" aria-label="861"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
-<span id="cb28-922"><a href="#cb28-922" aria-label="862"></a>    <span class="co">#step the scheduler</span></span>
-<span id="cb28-923"><a href="#cb28-923" aria-label="863"></a>    scheduler.step()</span>
-<span id="cb28-924"><a href="#cb28-924" aria-label="864"></a></span>
-<span id="cb28-925"><a href="#cb28-925" aria-label="865"></a>    <span class="co"># logger.info the current learning rate</span></span>
-<span id="cb28-926"><a href="#cb28-926" aria-label="866"></a>    current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
-<span id="cb28-927"><a href="#cb28-927" aria-label="867"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">, Learning Rate: </span><span class="sc">{</span>current_lr<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-928"><a href="#cb28-928" aria-label="868"></a></span>
-<span id="cb28-929"><a href="#cb28-929" aria-label="869"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
-<span id="cb28-930"><a href="#cb28-930" aria-label="870"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-931"><a href="#cb28-931" aria-label="871"></a>    train_acc_all.append(acc)</span>
-<span id="cb28-932"><a href="#cb28-932" aria-label="872"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-933"><a href="#cb28-933" aria-label="873"></a></span>
-<span id="cb28-934"><a href="#cb28-934" aria-label="874"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
-<span id="cb28-935"><a href="#cb28-935" aria-label="875"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
-<span id="cb28-936"><a href="#cb28-936" aria-label="876"></a>    val_acc_all.append(val_acc)</span>
-<span id="cb28-937"><a href="#cb28-937" aria-label="877"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-938"><a href="#cb28-938" aria-label="878"></a><span class="in">```</span></span>
+<span id="cb28-884"><a href="#cb28-884" aria-label="828"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">50</span>),</span>
+<span id="cb28-885"><a href="#cb28-885" aria-label="829"></a>            nn.ReLU(),</span>
+<span id="cb28-886"><a href="#cb28-886" aria-label="830"></a>           <span class="co"># nn.Dropout(0.2),</span></span>
+<span id="cb28-887"><a href="#cb28-887" aria-label="831"></a>            nn.Linear(<span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb28-888"><a href="#cb28-888" aria-label="832"></a>        )</span>
+<span id="cb28-889"><a href="#cb28-889" aria-label="833"></a>        </span>
+<span id="cb28-890"><a href="#cb28-890" aria-label="834"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb28-891"><a href="#cb28-891" aria-label="835"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb28-892"><a href="#cb28-892" aria-label="836"></a>        x <span class="op">=</span> <span class="va">self</span>.layers_stack(x)</span>
+<span id="cb28-893"><a href="#cb28-893" aria-label="837"></a></span>
+<span id="cb28-894"><a href="#cb28-894" aria-label="838"></a>        <span class="cf">return</span> x</span>
+<span id="cb28-895"><a href="#cb28-895" aria-label="839"></a><span class="co">##############################################################################</span></span>
+<span id="cb28-896"><a href="#cb28-896" aria-label="840"></a><span class="in">```</span></span>
+<span id="cb28-897"><a href="#cb28-897" aria-label="841"></a></span>
+<span id="cb28-898"><a href="#cb28-898" aria-label="842"></a>Bonus question: A learning rate scheduler is an essential deep learning</span>
+<span id="cb28-899"><a href="#cb28-899" aria-label="843"></a>technique used to dynamically adjust the learning rate during training.</span>
+<span id="cb28-900"><a href="#cb28-900" aria-label="844"></a>This strategic can significantly impact the convergence speed and overall</span>
+<span id="cb28-901"><a href="#cb28-901" aria-label="845"></a>performance of a neural network.</span>
+<span id="cb28-902"><a href="#cb28-902" aria-label="846"></a>See below on how to incorporate it to your training.</span>
+<span id="cb28-903"><a href="#cb28-903" aria-label="847"></a></span>
+<span id="cb28-906"><a href="#cb28-906" aria-label="848"></a><span class="in">```{python}</span></span>
+<span id="cb28-907"><a href="#cb28-907" aria-label="849"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
+<span id="cb28-908"><a href="#cb28-908" aria-label="850"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb28-909"><a href="#cb28-909" aria-label="851"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb28-910"><a href="#cb28-910" aria-label="852"></a></span>
+<span id="cb28-911"><a href="#cb28-911" aria-label="853"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
+<span id="cb28-912"><a href="#cb28-912" aria-label="854"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb28-913"><a href="#cb28-913" aria-label="855"></a><span class="in">```</span></span>
+<span id="cb28-914"><a href="#cb28-914" aria-label="856"></a></span>
+<span id="cb28-917"><a href="#cb28-917" aria-label="857"></a><span class="in">```{python}</span></span>
+<span id="cb28-918"><a href="#cb28-918" aria-label="858"></a><span class="op">%%</span>time</span>
+<span id="cb28-919"><a href="#cb28-919" aria-label="859"></a></span>
+<span id="cb28-920"><a href="#cb28-920" aria-label="860"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb28-921"><a href="#cb28-921" aria-label="861"></a>train_acc_all <span class="op">=</span> []</span>
+<span id="cb28-922"><a href="#cb28-922" aria-label="862"></a>val_acc_all <span class="op">=</span> []</span>
+<span id="cb28-923"><a href="#cb28-923" aria-label="863"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb28-924"><a href="#cb28-924" aria-label="864"></a>    train_one_epoch(train_dataloader, nonlinear_model, loss_fn, optimizer)</span>
+<span id="cb28-925"><a href="#cb28-925" aria-label="865"></a>    <span class="co">#step the scheduler</span></span>
+<span id="cb28-926"><a href="#cb28-926" aria-label="866"></a>    scheduler.step()</span>
+<span id="cb28-927"><a href="#cb28-927" aria-label="867"></a></span>
+<span id="cb28-928"><a href="#cb28-928" aria-label="868"></a>    <span class="co"># logger.info the current learning rate</span></span>
+<span id="cb28-929"><a href="#cb28-929" aria-label="869"></a>    current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
+<span id="cb28-930"><a href="#cb28-930" aria-label="870"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">, Learning Rate: </span><span class="sc">{</span>current_lr<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-931"><a href="#cb28-931" aria-label="871"></a></span>
+<span id="cb28-932"><a href="#cb28-932" aria-label="872"></a>    <span class="co"># checking on the training loss and accuracy once per epoch</span></span>
+<span id="cb28-933"><a href="#cb28-933" aria-label="873"></a>    acc, loss <span class="op">=</span> evaluate(train_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-934"><a href="#cb28-934" aria-label="874"></a>    train_acc_all.append(acc)</span>
+<span id="cb28-935"><a href="#cb28-935" aria-label="875"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: training loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, accuracy: </span><span class="sc">{</span>acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-936"><a href="#cb28-936" aria-label="876"></a></span>
+<span id="cb28-937"><a href="#cb28-937" aria-label="877"></a>    <span class="co"># checking on the validation loss and accuracy once per epoch</span></span>
+<span id="cb28-938"><a href="#cb28-938" aria-label="878"></a>    val_acc, val_loss <span class="op">=</span> evaluate(val_dataloader, nonlinear_model, loss_fn)</span>
+<span id="cb28-939"><a href="#cb28-939" aria-label="879"></a>    val_acc_all.append(val_acc)</span>
+<span id="cb28-940"><a href="#cb28-940" aria-label="880"></a>    logger.info(<span class="ss">f"Epoch </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">: val. loss: </span><span class="sc">{</span>val_loss<span class="sc">}</span><span class="ss">, val. accuracy: </span><span class="sc">{</span>val_acc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-941"><a href="#cb28-941" aria-label="881"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
