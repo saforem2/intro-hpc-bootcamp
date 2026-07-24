@@ -542,7 +542,6 @@ A few of the most common activation functions, plotted over $x \in [-5, 5]$:
 ```{python}
 #| label: fig-activation
 #| fig-cap: "Common activation functions used in neural networks."
-#| column: page
 import numpy as np
 import matplotlib.pyplot as plt
 

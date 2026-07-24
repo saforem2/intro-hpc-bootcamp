@@ -3769,6 +3769,14 @@ svg:not(:root) {
 img {
   vertical-align: middle;
 }
+// Ensure figure / computational-output images never overflow their column
+// (some cascade paths leave them at intrinsic width, bleeding past the caption).
+.quarto-figure img,
+.cell-output-display img,
+figure img.figure-img {
+  max-width: 100%;
+  height: auto;
+}
 .reveal .r-stretch,
 .reveal .stretch {
   max-width: 100%;

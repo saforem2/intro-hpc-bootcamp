@@ -134,7 +134,7 @@ logger.info(
 # logger.info(f'Input shape', training_data[0][0].shape)
 ```
 
-    [2026-07-23 09:11:46,436496][I][ipykernel_8544/3921772995:1:<module>] MNIST data loaded: train=48000 examples validation=12000 examples test=10000 examples input shape=torch.Size([1, 28, 28])
+    [2026-07-24 08:52:45,140872][I][ipykernel_59977/3921772995:1:<module>] MNIST data loaded: train=48000 examples validation=12000 examples test=10000 examples input shape=torch.Size([1, 28, 28])
 
 Let’s take a closer look. Here are the first 10 training digits:
 
@@ -270,7 +270,7 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 ```
 
-    [2026-07-23 09:11:46,599669][I][ipykernel_8544/2844520859:2:<module>] LinearClassifier(
+    [2026-07-24 08:52:45,294314][I][ipykernel_59977/2844520859:2:<module>] LinearClassifier(
       (flatten): Flatten(start_dim=1, end_dim=-1)
       (layer_1): Linear(in_features=784, out_features=10, bias=True)
     )
@@ -372,18 +372,18 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-23 09:11:48,444105][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.5021753667195638, accuracy: 87.54166666666666
-    [2026-07-23 09:11:48,622166][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.49439280178952727, val. accuracy: 87.575
-    [2026-07-23 09:11:50,163684][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.42166710595289864, accuracy: 88.99791666666667
-    [2026-07-23 09:11:50,356822][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.4123108922801119, val. accuracy: 88.88333333333334
-    [2026-07-23 09:11:52,061236][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3876567794481913, accuracy: 89.65625
-    [2026-07-23 09:11:52,291515][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.37775340612898484, val. accuracy: 89.5
-    [2026-07-23 09:11:54,489269][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.36766527581214903, accuracy: 90.09375
-    [2026-07-23 09:11:54,699309][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.3576002130483059, val. accuracy: 89.96666666666667
-    [2026-07-23 09:11:56,934688][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.3540666294892629, accuracy: 90.44375
-    [2026-07-23 09:11:57,152202][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.34402238910502575, val. accuracy: 90.24166666666666
-    CPU times: user 9.62 s, sys: 587 ms, total: 10.2 s
-    Wall time: 10.5 s
+    [2026-07-24 08:52:47,028878][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.5013451065222422, accuracy: 87.66874999999999
+    [2026-07-24 08:52:47,227420][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.4935248221488709, val. accuracy: 87.6
+    [2026-07-24 08:52:48,954245][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.421256408850352, accuracy: 89.04791666666667
+    [2026-07-24 08:52:49,148130][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.4117542800117046, val. accuracy: 88.95833333333333
+    [2026-07-24 08:52:50,965357][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3874150522152583, accuracy: 89.71666666666667
+    [2026-07-24 08:52:51,198088][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.3773218404422415, val. accuracy: 89.49166666666667
+    [2026-07-24 08:52:53,019764][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.367519397854805, accuracy: 90.14583333333334
+    [2026-07-24 08:52:53,236111][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.35724003692256645, val. accuracy: 89.875
+    [2026-07-24 08:52:55,020041][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.35398357252279916, accuracy: 90.45208333333333
+    [2026-07-24 08:52:55,218616][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.3437096652515391, val. accuracy: 90.225
+    CPU times: user 9.28 s, sys: 563 ms, total: 9.84 s
+    Wall time: 9.91 s
 
 ``` python
 plt.figure()
@@ -436,7 +436,7 @@ logger.info(f"Test loss: {loss_test}, test accuracy: {acc_test}")
 # logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
-    [2026-07-23 09:11:57,544530][I][ipykernel_8544/372756021:2:<module>] Test loss: 0.3318280646577477, test accuracy: 90.88000000000001
+    [2026-07-24 08:52:55,533591][I][ipykernel_59977/372756021:2:<module>] Test loss: 0.3321311667561531, test accuracy: 90.86
 
 We can now take a closer look at the results.
 
@@ -475,8 +475,8 @@ classified to a wrong class:
 show_failures(linear_model, test_dataloader)
 ```
 
-    [2026-07-23 09:11:57,557118][I][ipykernel_8544/2368214845:8:show_failures] Showing max 10 first failures.
-    [2026-07-23 09:11:57,557903][I][ipykernel_8544/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
+    [2026-07-24 08:52:55,544748][I][ipykernel_59977/2368214845:8:show_failures] Showing max 10 first failures.
+    [2026-07-24 08:52:55,545382][I][ipykernel_59977/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
 
 ![](index_files/figure-commonmark/cell-19-output-2.png)
 
@@ -558,15 +558,18 @@ activations = {
     "Mish":        x * np.tanh(np.log1p(np.exp(x))),
 }
 
-fig, axes = plt.subplots(3, 4, figsize=(11, 7), sharex=True)
+fig, axes = plt.subplots(3, 4, figsize=(12, 8), sharex=True, sharey=True)
 for ax, (name, y) in zip(axes.flat, activations.items()):
     ax.plot(x, y, color="#7DCAFF", linewidth=2)
-    ax.axhline(0, color="#838383", linewidth=0.6)
-    ax.axvline(0, color="#838383", linewidth=0.6)
-    ax.set_title(name, fontsize=10)
-    ax.set_ylim(-2, 3)
+    ax.axhline(0, color="#838383", linewidth=0.7, zorder=0)
+    ax.axvline(0, color="#838383", linewidth=0.7, zorder=0)
+    ax.set_title(name, fontsize=11)
+    ax.set_xlim(-5, 5)      # curves fill the full axis (no ambivalent x-margin)
+    ax.set_ylim(-3, 5)      # symmetric-ish range that contains every curve
+    ax.set_xticks([-5, 0, 5])
+    ax.set_yticks([-2, 0, 2, 4])
     ax.grid(alpha=0.15)
-fig.suptitle("Activation functions", fontsize=13)
+fig.suptitle("Activation functions", fontsize=14)
 fig.tight_layout()
 plt.show()
 ```
@@ -750,18 +753,18 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-23 09:12:00,695486][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.7232766718864441, accuracy: 78.77708333333334
-    [2026-07-23 09:12:00,887180][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.7121975472632874, val. accuracy: 78.525
-    [2026-07-23 09:12:03,045649][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.38257885638872785, accuracy: 89.05416666666667
-    [2026-07-23 09:12:03,328278][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.3743061526341641, val. accuracy: 89.08333333333334
-    [2026-07-23 09:12:05,163117][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.28928814506530764, accuracy: 91.675
-    [2026-07-23 09:12:05,375846][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.28289543060546224, val. accuracy: 91.34166666666667
-    [2026-07-23 09:12:07,673633][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.23921235303084057, accuracy: 93.03333333333333
-    [2026-07-23 09:12:07,905358][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.2356560970557497, val. accuracy: 92.88333333333333
-    [2026-07-23 09:12:09,613374][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.20260275808970132, accuracy: 94.1
-    [2026-07-23 09:12:09,807768][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.20290001362879226, val. accuracy: 93.875
-    CPU times: user 10.6 s, sys: 657 ms, total: 11.3 s
-    Wall time: 11.6 s
+    [2026-07-24 08:52:57,742110][I][./<timed exec>:10:<module>] Epoch 0: training loss: 0.6950037430127461, accuracy: 80.75833333333333
+    [2026-07-24 08:52:57,952408][I][./<timed exec>:15:<module>] Epoch 0: val. loss: 0.6886971491448423, val. accuracy: 80.65
+    [2026-07-24 08:52:59,755951][I][./<timed exec>:10:<module>] Epoch 1: training loss: 0.3955140495697657, accuracy: 89.0
+    [2026-07-24 08:52:59,988018][I][./<timed exec>:15:<module>] Epoch 1: val. loss: 0.3900272332607432, val. accuracy: 88.825
+    [2026-07-24 08:53:01,816307][I][./<timed exec>:10:<module>] Epoch 2: training loss: 0.3064884059826533, accuracy: 91.19375
+    [2026-07-24 08:53:02,025492][I][./<timed exec>:15:<module>] Epoch 2: val. loss: 0.30274571732003636, val. accuracy: 91.05
+    [2026-07-24 08:53:03,986364][I][./<timed exec>:10:<module>] Epoch 3: training loss: 0.24886448953549067, accuracy: 92.88333333333333
+    [2026-07-24 08:53:04,192434][I][./<timed exec>:15:<module>] Epoch 3: val. loss: 0.2474212978590042, val. accuracy: 92.63333333333334
+    [2026-07-24 08:53:05,980319][I][./<timed exec>:10:<module>] Epoch 4: training loss: 0.2101447277466456, accuracy: 93.83749999999999
+    [2026-07-24 08:53:06,182228][I][./<timed exec>:15:<module>] Epoch 4: val. loss: 0.212117029235084, val. accuracy: 93.71666666666667
+    CPU times: user 9.64 s, sys: 632 ms, total: 10.3 s
+    Wall time: 10.3 s
 
 ``` python
 # pltsize=1
@@ -780,8 +783,8 @@ plt.legend()
 show_failures(nonlinear_model, test_dataloader)
 ```
 
-    [2026-07-23 09:12:10,038198][I][ipykernel_8544/2368214845:8:show_failures] Showing max 10 first failures.
-    [2026-07-23 09:12:10,038781][I][ipykernel_8544/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
+    [2026-07-24 08:53:06,240455][I][ipykernel_59977/2368214845:8:show_failures] Showing max 10 first failures.
+    [2026-07-24 08:53:06,241282][I][ipykernel_59977/2368214845:11:show_failures] The predicted class is shown first and the correct class in parentheses.
 
 ![](index_files/figure-commonmark/cell-25-output-2.png)
 
@@ -899,23 +902,23 @@ for j in range(epochs):
     logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    [2026-07-23 09:12:11,503100][I][./<timed exec>:11:<module>] Epoch 1/6, Learning Rate: 0.1
-    [2026-07-23 09:12:12,426913][I][./<timed exec>:16:<module>] Epoch 0: training loss: 0.3537772993569573, accuracy: 89.78125
-    [2026-07-23 09:12:12,735186][I][./<timed exec>:21:<module>] Epoch 0: val. loss: 0.3430143823822339, val. accuracy: 89.7
-    [2026-07-23 09:12:14,628900][I][./<timed exec>:11:<module>] Epoch 2/6, Learning Rate: 0.010000000000000002
-    [2026-07-23 09:12:15,626983][I][./<timed exec>:16:<module>] Epoch 1: training loss: 0.24273540047431985, accuracy: 92.70625
-    [2026-07-23 09:12:15,842780][I][./<timed exec>:21:<module>] Epoch 1: val. loss: 0.2363814845184485, val. accuracy: 92.73333333333333
-    [2026-07-23 09:12:17,302440][I][./<timed exec>:11:<module>] Epoch 3/6, Learning Rate: 0.010000000000000002
-    [2026-07-23 09:12:18,312618][I][./<timed exec>:16:<module>] Epoch 2: training loss: 0.2182977637052536, accuracy: 93.51041666666666
-    [2026-07-23 09:12:18,543495][I][./<timed exec>:21:<module>] Epoch 2: val. loss: 0.21473074538012346, val. accuracy: 93.53333333333333
-    [2026-07-23 09:12:19,758846][I][./<timed exec>:11:<module>] Epoch 4/6, Learning Rate: 0.0010000000000000002
-    [2026-07-23 09:12:20,586184][I][./<timed exec>:16:<module>] Epoch 3: training loss: 0.21202309411391615, accuracy: 93.63125
-    [2026-07-23 09:12:20,794456][I][./<timed exec>:21:<module>] Epoch 3: val. loss: 0.2084656907469034, val. accuracy: 93.60833333333333
-    [2026-07-23 09:12:22,042008][I][./<timed exec>:11:<module>] Epoch 5/6, Learning Rate: 0.0010000000000000002
-    [2026-07-23 09:12:23,061759][I][./<timed exec>:16:<module>] Epoch 4: training loss: 0.21095506247133017, accuracy: 93.68125
-    [2026-07-23 09:12:23,324557][I][./<timed exec>:21:<module>] Epoch 4: val. loss: 0.2076889000783364, val. accuracy: 93.61666666666667
-    [2026-07-23 09:12:24,718408][I][./<timed exec>:11:<module>] Epoch 6/6, Learning Rate: 0.00010000000000000003
-    [2026-07-23 09:12:25,720419][I][./<timed exec>:16:<module>] Epoch 5: training loss: 0.21012212329357863, accuracy: 93.70625
-    [2026-07-23 09:12:25,991981][I][./<timed exec>:21:<module>] Epoch 5: val. loss: 0.20699219423532486, val. accuracy: 93.65
-    CPU times: user 14.2 s, sys: 2.03 s, total: 16.2 s
-    Wall time: 15.9 s
+    [2026-07-24 08:53:07,891509][I][./<timed exec>:11:<module>] Epoch 1/6, Learning Rate: 0.1
+    [2026-07-24 08:53:08,842945][I][./<timed exec>:16:<module>] Epoch 0: training loss: 0.3887119378397862, accuracy: 88.89166666666667
+    [2026-07-24 08:53:09,165147][I][./<timed exec>:21:<module>] Epoch 0: val. loss: 0.3814143586556117, val. accuracy: 88.74166666666666
+    [2026-07-24 08:53:12,717683][I][./<timed exec>:11:<module>] Epoch 2/6, Learning Rate: 0.010000000000000002
+    [2026-07-24 08:53:13,855534][I][./<timed exec>:16:<module>] Epoch 1: training loss: 0.26931736890847485, accuracy: 91.97291666666668
+    [2026-07-24 08:53:14,125009][I][./<timed exec>:21:<module>] Epoch 1: val. loss: 0.2605265693763892, val. accuracy: 92.08333333333333
+    [2026-07-24 08:53:15,658634][I][./<timed exec>:11:<module>] Epoch 3/6, Learning Rate: 0.010000000000000002
+    [2026-07-24 08:53:16,677409][I][./<timed exec>:16:<module>] Epoch 2: training loss: 0.23778050619487962, accuracy: 92.84791666666666
+    [2026-07-24 08:53:16,921847][I][./<timed exec>:21:<module>] Epoch 2: val. loss: 0.232030248016119, val. accuracy: 93.025
+    [2026-07-24 08:53:18,237662][I][./<timed exec>:11:<module>] Epoch 4/6, Learning Rate: 0.0010000000000000002
+    [2026-07-24 08:53:19,418598][I][./<timed exec>:16:<module>] Epoch 3: training loss: 0.2315428444457551, accuracy: 93.05
+    [2026-07-24 08:53:19,698995][I][./<timed exec>:21:<module>] Epoch 3: val. loss: 0.22659528712928295, val. accuracy: 93.11666666666667
+    [2026-07-24 08:53:21,283382][I][./<timed exec>:11:<module>] Epoch 5/6, Learning Rate: 0.0010000000000000002
+    [2026-07-24 08:53:22,248317][I][./<timed exec>:16:<module>] Epoch 4: training loss: 0.22928156545758246, accuracy: 93.13749999999999
+    [2026-07-24 08:53:22,474206][I][./<timed exec>:21:<module>] Epoch 4: val. loss: 0.2244338550120592, val. accuracy: 93.26666666666667
+    [2026-07-24 08:53:23,920003][I][./<timed exec>:11:<module>] Epoch 6/6, Learning Rate: 0.00010000000000000003
+    [2026-07-24 08:53:24,900391][I][./<timed exec>:16:<module>] Epoch 5: training loss: 0.2285127173103392, accuracy: 93.14375
+    [2026-07-24 08:53:25,173034][I][./<timed exec>:21:<module>] Epoch 5: val. loss: 0.22369361145297686, val. accuracy: 93.24166666666667
+    CPU times: user 15.6 s, sys: 2.32 s, total: 17.9 s
+    Wall time: 18.6 s
