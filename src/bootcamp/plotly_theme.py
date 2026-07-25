@@ -70,8 +70,13 @@ def ambivalent_template():
     )
 
 
-def apply_theme(name: str = "ambivalent", default: bool = True):
+def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = True):
     """Register the house template with Plotly and make it the default.
+
+    Also sets the renderer so Quarto **inlines the full plotly.js** into each page
+    (`...+notebook`) instead of loading it from cdn.plot.ly (`...+notebook_connected`).
+    That makes the built site self-contained: charts work offline and don't break
+    if the CDN is down/blocked. Pass embed=False to fall back to the CDN.
 
     Returns the template name so callers can pass `template=name` explicitly if
     they prefer not to rely on the global default.
@@ -82,4 +87,7 @@ def apply_theme(name: str = "ambivalent", default: bool = True):
     if default:
         # compose over plotly_white so we keep sensible defaults we didn't set
         pio.templates.default = f"plotly_white+{name}"
+    if embed:
+        # "notebook" inlines the library; "notebook_connected" would use the CDN
+        pio.renderers.default = "plotly_mimetype+notebook"
     return name

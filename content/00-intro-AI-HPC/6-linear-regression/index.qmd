@@ -175,10 +175,8 @@ import IPython.display as ipydis
 import time
 
 import plotly.graph_objects as go   # interactive charts
-import plotly.io as pio
-pio.renderers.default = "plotly_mimetype+notebook_connected"
 from bootcamp.plotly_theme import apply_theme, COLORS
-apply_theme()   # house style: Iosevka font, transparent bg, #838383 text, material colors
+apply_theme()   # house style + self-contained (inlines plotly.js, no CDN)
 
 from rich import print
 ```

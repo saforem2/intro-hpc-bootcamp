@@ -143,56 +143,67 @@ and finishes while the sequential side is still plodding along. That time gap
 from plotly.subplots import make_subplots
 
 # both panels draw from the SAME points, so they converge to the same π
-N = 1024                     # total samples
+N = 4000                     # total samples (enough to fill gradually, light enough to embed)
 P = 8                        # parallel workers
 rng2 = np.random.default_rng(7)
 pp = rng2.uniform(-0.5, 0.5, size=(N, 2))
 ins = np.sqrt((pp ** 2).sum(axis=1)) < 0.5
 worker = np.arange(N) % P    # point i is handled by worker i % P (strided, like MPI)
 cum_ins = np.cumsum(ins)
-_cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726",
-         "#AE81FF", "#EC407A", "#009688", "#795548"]
+DIM = "#666666"              # dim grey for points that miss (outside the circle)
+# 8 clearly-distinct worker colors
+_cats = ["#2196F3", "#EF5350", "#66BB6A", "#FFA726",
+         "#AB47BC", "#EC407A", "#26C6DA", "#FDD835"]
 theta = np.linspace(0, 2 * np.pi, 120)
 cx, cy = 0.5 * np.cos(theta), 0.5 * np.sin(theta)
 
 def pi_of(n):
     return 4 * cum_ins[n - 1] / n if n > 0 else 0.0
 
-# wall-clock = rounds each worker has completed; sequential needs N, parallel N/P
-rounds = np.linspace(N / 24, N, 24).round().astype(int)
+# Non-linear wall-clock schedule: spend many frames while the parallel side is
+# still filling (rounds 1 -> N/P), then more while the sequential side catches up.
+Pw = N // P
+rounds = np.unique(np.concatenate([
+    np.linspace(1, Pw, 18),      # filling phase (parallel goes empty -> full)
+    np.linspace(Pw, N, 14),      # sequential catches up; parallel already done
+]).round().astype(int))
 
 def build_frame(r):
     seq_n = int(min(N, r))          # 1 worker: r points after r rounds
     par_n = int(min(N, r * P))      # P workers: r*P points after r rounds
-    # left panel: inside/outside (π view)
-    li, lo = ins[:seq_n], ~ins[:seq_n]
     traces = [
+        # --- left panel: π view (inside red, outside dim grey) ---
         go.Scatter(x=cx, y=cy, mode="lines", line=dict(color="#838383", width=1.5),
                    xaxis="x", yaxis="y", showlegend=False, hoverinfo="skip"),
-        go.Scatter(x=pp[:seq_n][li, 0], y=pp[:seq_n][li, 1], mode="markers",
-                   marker=dict(size=4, color="#EF5350", opacity=0.7),
-                   xaxis="x", yaxis="y", showlegend=False),
-        go.Scatter(x=pp[:seq_n][lo, 0], y=pp[:seq_n][lo, 1], mode="markers",
-                   marker=dict(size=4, color="#2196F3", opacity=0.7),
-                   xaxis="x", yaxis="y", showlegend=False),
+        go.Scatter(x=pp[:seq_n][ins[:seq_n], 0], y=pp[:seq_n][ins[:seq_n], 1],
+                     mode="markers", marker=dict(size=3, color="#EF5350", opacity=0.75),
+                     xaxis="x", yaxis="y", showlegend=False),
+        go.Scatter(x=pp[:seq_n][~ins[:seq_n], 0], y=pp[:seq_n][~ins[:seq_n], 1],
+                     mode="markers", marker=dict(size=3, color=DIM, opacity=0.35),
+                     xaxis="x", yaxis="y", showlegend=False),
+        # --- right panel: inside colored by worker, outside dim grey ---
         go.Scatter(x=cx, y=cy, mode="lines", line=dict(color="#838383", width=1.5),
                    xaxis="x2", yaxis="y2", showlegend=False, hoverinfo="skip"),
+        go.Scatter(x=pp[:par_n][~ins[:par_n], 0], y=pp[:par_n][~ins[:par_n], 1],
+                     mode="markers", marker=dict(size=3, color=DIM, opacity=0.35),
+                     xaxis="x2", yaxis="y2", showlegend=False),
     ]
-    # right panel: colored by worker rank (shows the work being split P ways)
+    inside_par = ins[:par_n]
+    wk = worker[:par_n]
     for w in range(P):
-        m = (worker[:par_n] == w)
+        m = inside_par & (wk == w)
         traces.append(go.Scatter(
             x=pp[:par_n][m, 0], y=pp[:par_n][m, 1], mode="markers",
-            marker=dict(size=4, color=_cats[w], opacity=0.7),
+            marker=dict(size=3, color=_cats[w], opacity=0.8),
             xaxis="x2", yaxis="y2", showlegend=False))
     return seq_n, par_n, traces
 
 def title_for(r):
     seq_n = int(min(N, r)); par_n = int(min(N, r * P))
-    done = "   ✓ 8× faster" if par_n >= N else ""
+    done = f"   ✓ {P}× faster" if par_n >= N else ""
     return (f"⏱ round {int(r)} — "
-            f"sequential: {seq_n} pts (π≈{pi_of(seq_n):.3f})  |  "
-            f"parallel: {par_n} pts (π≈{pi_of(par_n):.3f}){done}")
+            f"sequential: {seq_n:,} pts (π≈{pi_of(seq_n):.3f})  |  "
+            f"parallel: {par_n:,} pts (π≈{pi_of(par_n):.3f}){done}")
 
 frames = []
 for r in rounds:
@@ -214,12 +225,56 @@ fig.update_layout(
     title=title_for(int(rounds[0])), height=440, margin=dict(t=70),
     updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.12, xanchor="left",
         buttons=[dict(label="▶ Play", method="animate",
-                      args=[None, dict(frame=dict(duration=350, redraw=True), fromcurrent=True)])])],
+                      args=[None, dict(frame=dict(duration=200, redraw=True), fromcurrent=True)])])],
     sliders=[dict(active=0, x=0.1, len=0.9, y=-0.05, currentvalue=dict(prefix="wall-clock (rounds): "),
         steps=[dict(method="animate", label=str(int(r)),
                     args=[[str(int(r))], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
                for r in rounds])],
 )
+fig.show()
+```
+
+### How fast does the error shrink?
+
+More samples → a better estimate, but *how much* better? Below we plot the
+**absolute error** $|\hat\pi - \pi|$ as we add samples. Monte Carlo error falls
+off like $1/\sqrt{N}$ — so on **log-log axes** it's a straight line with slope
+$-\tfrac12$. The practical catch: to get one more decimal digit (10× less error)
+you need **100× more samples** — which is exactly why you reach for parallelism.
+
+```{python}
+import math
+
+# use a bigger single run to see the trend cleanly
+Nerr = 200_000
+rng3 = np.random.default_rng(2024)
+pe = rng3.uniform(-0.5, 0.5, size=(Nerr, 2))
+inside_e = np.sqrt((pe ** 2).sum(axis=1)) < 0.5
+# running π estimate after each sample, then its error vs. true π
+ns = np.unique(np.logspace(1, math.log10(Nerr), 60).astype(int))
+run_pi = 4.0 * np.cumsum(inside_e) / np.arange(1, Nerr + 1)
+err = np.abs(run_pi[ns - 1] - math.pi)
+ref = (math.pi / 2) / np.sqrt(ns)      # ~1/sqrt(N) reference (theoretical scale)
+
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("Estimate converging to π", "Error ~ 1/√N (log-log)"))
+# left: estimate vs N with a π reference line
+fig.add_scatter(x=ns, y=run_pi[ns - 1], mode="lines+markers", name="estimate",
+                line=dict(color=COLORS["blue"]), row=1, col=1)
+fig.add_hline(y=math.pi, line=dict(color=COLORS["red"], dash="dash"), row=1, col=1)
+fig.add_annotation(x=math.log10(Nerr), y=math.pi, text="π", showarrow=False,
+                   xref="x", yref="y", xanchor="right", yshift=10,
+                   font=dict(color=COLORS["red"]), row=1, col=1)
+# right: |error| vs N on log-log, with the 1/sqrt(N) slope reference
+fig.add_scatter(x=ns, y=err, mode="markers", name="|error|",
+                marker=dict(color=COLORS["blue"], size=5), row=1, col=2)
+fig.add_scatter(x=ns, y=ref, mode="lines", name="1/√N", line=dict(color="#666666", dash="dot"),
+                row=1, col=2)
+fig.update_xaxes(title_text="samples (N)", type="log", row=1, col=1)
+fig.update_xaxes(title_text="samples (N)", type="log", row=1, col=2)
+fig.update_yaxes(title_text="π estimate", row=1, col=1)
+fig.update_yaxes(title_text="|estimate − π|", type="log", row=1, col=2)
+fig.update_layout(height=380, margin=dict(t=50), legend=dict(x=0.55, y=0.98))
 fig.show()
 ```
 
