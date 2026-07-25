@@ -70,76 +70,50 @@ In this notebook, we will talk about:
 
 ## What is AI training?
 
-**Two ways of learning English**:
+There are two very different ways to learn a skill like speaking a language:
 
-- through learning rules;
-- through hearing a lot of speakings
+- **learning the rules** — memorize grammar, then apply it (traditional programming), or
+- **learning from examples** — hear enough speech that the patterns sink in (data-driven learning).
 
-::: {#fig-data-driven}
+The second is the essence of AI: rather than being handed the rules, the model
+**infers** them from many examples. Given enough data, pattern-learning is
+remarkably powerful — it's how modern AI, from image classifiers to large
+language models, works.
 
-![](../figures/data_driven.png){width="90%"}
+## How does a large language model work?
 
-Data Driven Learning
-:::
+Large language models like GPT learn this way at massive scale: **pre-train** on
+enormous text corpora to absorb language patterns, use the **transformer**
+architecture to weigh context, and optionally **fine-tune** for specific tasks —
+so they can generate coherent, contextually relevant text from a prompt.
 
-I learned English in my middle school, and memorized a lot of grammar rules in
-my mind.
-Every time when I speak, I try to follow the grammar rules as much as I can.
-But I always break the rules.
+```{mermaid}
+flowchart LR
+    A["`Massive text<br/>corpus`"] -->|"`pre-training`"| B["`Base model<br/>(learns patterns)`"]
+    B -->|"`fine-tuning`"| C["`Task-tuned<br/>model`"]
+    P["`Your prompt`"] --> C
+    C --> R["`Generated<br/>response`"]
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+class A,P block
+class B blue
+class C green
+class R yellow
+```
 
-However, my daugher learned English differently.
-She learns speaking by hearing a lot of speaking from TV, teachers, classmates,
-and her older brother.
-The fact is that, she seldomly breaks grammar rules. This way of learning by
-observing patterns is very powerful! This is the essence of AI or data driven
-science.
-
-## How does large language model work?
-
-Large Language Models, like GPT, function by pre-training on extensive datasets
-to learn language patterns, utilizing transformer architecture for contextual
-understanding, and can be fine-tuned for specific tasks, enabling them to
-generate coherent and contextually relevant text based on provided inputs.
-
-::: {#fig-llm}
-
-![](../figures/llm2.png)
-![](../figures/chatgpt_response.png)
-
-:::
-
-
-**More complicated example**:
-
-
-::: {.flex-container}
-
-::: {.flex-item style="width:43%"}
-![Poem about Albert Einstein](../figures/chatgpt_poem.png)
-:::
-
-::: {.flex-item style="width:49.2%"}
-![Poem about Martin Luther](../figures/martin.png)
-:::
-
-:::
-
-You can do this on https://chat.openai.com
+The huge models are exciting, but the *core idea* — fit a function to data so it
+can predict on new inputs — is easiest to see in the simplest possible model.
 
 ## Simplest AI model example: linear regression
 
-This example is adopted from Bethany Lusch, ALCF.
+This example is adapted from Bethany Lusch, ALCF.
 
-Linear regression is the simplest example learning from existing data for
-future prediction.
-
-::: {#fig-excel-linear-regression}
-
-![](../figures/excel_linear_regression.jpg)
-
-Linear regression in Excel
-:::
-
+Linear regression is the simplest example of learning from existing data to make
+future predictions: we fit a straight line $y = mx + b$ through a cloud of points
+so we can predict $y$ for a new $x$. Everything else in this course — neural
+networks, LLMs — is a more elaborate version of this same idea.
 
 We're going to review the math involved in this process to help understand how
 training an AI works.
@@ -430,63 +404,75 @@ In this example, our learning rate ($\eta$) has
 been selected too large such that we bounce back and forth around the minimum,
 never reaching it.
 
-::: {#fig-parabola-largeLR}
-![](../figures/parabola_largeLR.png)
+Rather than show hand-drawn arrows, let's **actually run gradient descent** on a
+loss curve and plot the path it takes. This helper does one thing: start at a
+point, repeatedly step *downhill* by `-lr · gradient`, and record every step.
 
-Large LR
-:::
+```{python}
+def gradient_descent(grad, x0, lr, steps=12, lr_decay=1.0):
+    """Run GD on a 1-D loss; return the visited x positions.
+    lr_decay<1 shrinks the step each iteration (a simple LR schedule)."""
+    xs, x, eta = [x0], x0, lr
+    for _ in range(steps):
+        x = x - eta * grad(x)
+        eta *= lr_decay
+        xs.append(x)
+    return np.array(xs)
 
-If we select a smaller learning we can see better behavior in the next figure.
+def descent_figure(f, grad, x0, lr, xr, steps=12, lr_decay=1.0, title=""):
+    """Plot the loss curve f over range xr and overlay the GD trajectory."""
+    xg = np.linspace(*xr, 400)
+    path = gradient_descent(grad, x0, lr, steps, lr_decay)
+    fig = go.Figure()
+    fig.add_scatter(x=xg, y=f(xg), mode="lines", name="loss",
+                    line=dict(color=COLORS["grey"], width=2), hoverinfo="skip")
+    fig.add_scatter(x=path, y=f(path), mode="lines+markers", name="GD path",
+                    line=dict(color=COLORS["red"], width=1.5),
+                    marker=dict(size=7, color=COLORS["red"],
+                                line=dict(width=1, color="#fff")))
+    fig.add_scatter(x=[path[0]], y=[f(path[0])], mode="markers", name="start",
+                    marker=dict(size=12, color=COLORS["green"], symbol="star"))
+    fig.update_layout(title=title, xaxis_title="parameter", yaxis_title="loss",
+                      height=340, margin=dict(t=40), showlegend=False)
+    return fig
+```
 
-::: {#fig-parabola-smallLR}
+**On a simple bowl-shaped loss** (one minimum), the learning rate controls how we
+approach the bottom. Too large and we **overshoot and bounce** across the minimum;
+just right and we **descend smoothly**:
 
-![](../figures/parabola_smallLR.png)
+```{python}
+f = lambda x: x**2                # parabola loss
+g = lambda x: 2*x                 # its gradient
+descent_figure(f, g, x0=-9, lr=0.9,  xr=(-10, 10), title="Large LR — overshoots and bounces").show()
+descent_figure(f, g, x0=-9, lr=0.1,  xr=(-10, 10), title="Small LR — steady descent").show()
+```
 
-Small LR
-:::
+Too *small*, though, and you crawl so slowly you may never arrive in a reasonable
+number of steps. So the LR is a genuine trade-off.
 
-Though, keep in mind, too small a learning rate results is so little progress
-toward the minimum that you may never reach it!
+**On a bumpy loss with several minima**, a new hazard appears: gradient descent
+only ever goes *downhill from where it is*, so it can get **trapped in a local
+minimum** that isn't the best one. A small LR settles into whatever valley it
+starts near; too large a LR bounces chaotically:
 
-A pit fall of SGD that one must be aware of is when your loss function is
-complex, with many minima.
-The next figure shows such a case, in which we
-select a small learning rate and our starting point happens to be near a local
-minimum that is not the lowest minimum.
-As shown, we do reach a minimum, but it
-isn't the lowest minimum in our loss function.
-It could be that we randomly
-select a starting point near the minimum we care about, but we should build
-methods that are more robust against randomly getting the right answer.
+```{python}
+# a wavy loss: parabola + ripples -> several local minima
+fw  = lambda x: 0.05*x**2 + np.sin(x)
+gw  = lambda x: 0.10*x    + np.cos(x)
+descent_figure(fw, gw, x0=-7.5, lr=0.6, xr=(-10, 10), title="Small LR — stuck in a local minimum").show()
+descent_figure(fw, gw, x0=-7.5, lr=3.5, xr=(-10, 10), title="Large LR — bounces around").show()
+```
 
-::: {#fig-local-min-smallLR}
+The fix is a **learning-rate schedule**: start large to explore and escape shallow
+valleys, then shrink the step to settle into a good minimum:
 
-![](../figures/local_min_smallLR.png)
+```{python}
+descent_figure(fw, gw, x0=-7.5, lr=2.5, lr_decay=0.8, steps=20,
+               xr=(-10, 10), title="Decaying LR — explores, then settles").show()
+```
 
-Local minimal with small LR
-:::
-
-Then, if we increase our learning rate too much, we bounce around again.
-
-::: {#fig-local-min-largeLR}
-
-![](../figures/local_min_largeLR.png)
-
-Local minimal with large LR
-:::
-
-What we want to do in this situation is start with a large learning rate and
-slowly reduce its size as we progress.
-That is shown in this next figure.
-
-::: {#fig-local-min-variableLR}
-
-![](../figures/local_min_variableLR.png)
-
-Local min with variable LR
-:::
-
-As you can see, this process is not perfect and could still land in a local
+As you can see, this process isn't perfect and could still land in a local
 minimum, but it is important to be aware of these behaviors as you utilize SGD
 in machine learning.
 
