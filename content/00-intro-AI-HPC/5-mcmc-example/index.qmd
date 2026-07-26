@@ -65,28 +65,41 @@ $$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$
 Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total}}$
 
 
+First, the imports and house plot style:
+
 ```{python}
 import numpy as np
-import random
-import time
-
 import plotly.graph_objects as go
 from bootcamp.plotly_theme import apply_theme, COLORS
 apply_theme()   # house style: Iosevka font, transparent bg, #838383 text, material colors
 
 from rich import print
+```
 
-# --- sample N random points in the square [-0.5, 0.5] x [-0.5, 0.5] ---
-N = 2000
-rng = np.random.default_rng(1234)
-pts = rng.uniform(-0.5, 0.5, size=(N, 2))
-inside = np.sqrt((pts ** 2).sum(axis=1)) < 0.5   # True if inside the circle
-Nin = int(inside.sum())
-pi_est = 4.0 * Nin / N
-print(f"Pi ≈ {pi_est:.4f}   (N_in / N_total = {Nin}/{N})")
+**The simulation.** This is the whole idea — throw `N` random darts at the
+square, count how many land inside the circle, and turn that ratio into an
+estimate of π. It's just a few lines:
 
-# --- interactive scatter with a fill-in slider: drag (or hit ▶) to watch the
-#     points accumulate and the estimate of π converge as more samples land ---
+```{python}
+def estimate_pi(n, seed=1234):
+    """Estimate π by Monte Carlo: sample n points in the unit square and
+    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""
+    rng = np.random.default_rng(seed)
+    pts = rng.uniform(-0.5, 0.5, size=(n, 2))     # random points in the square
+    inside = np.sqrt((pts ** 2).sum(axis=1)) < 0.5  # which ones land in the circle
+    pi = 4.0 * inside.sum() / n                    # ratio × 4  ≈  π
+    return pi, pts, inside
+
+pi_est, pts, inside = estimate_pi(2000)
+print(f"Pi ≈ {pi_est:.4f}   (N_in / N_total = {int(inside.sum())}/{len(inside)})")
+```
+
+**Visualizing it.** Everything below is just plotting — an interactive scatter
+with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the
+estimate of π converge as more samples land.
+
+```{python}
+N = len(pts)
 theta = np.linspace(0, 2 * np.pi, 200)
 circle = go.Scatter(x=0.5 * np.cos(theta), y=0.5 * np.sin(theta), mode="lines",
                     line=dict(color=COLORS["grey"], width=2), name="circle", hoverinfo="skip")
