@@ -354,25 +354,33 @@ plt.close("all")
 logger.info("wrote: " + ", ".join(sorted(p.name for p in outdir.iterdir())))
 ```
 
-`finalize()` saves each metric as a PNG under `outputs/plots/mplot/pngs/`. Let's
-show the four headline metrics — **loss** (is it learning?), **mfu** (how well are
-we using the hardware?), and **sps** / **mtps** (throughput):
+`finalize()` also saves each metric as a PNG, a `report.md`, and an `xarray`
+dataset. The per-step numbers live in `history.data` (a dict of lists), so we can
+plot the four headline metrics ourselves — **loss** (is it learning?), **mfu** (how
+well are we using the hardware?), and **sps** / **mtps** (throughput):
 
 ```{python}
 #| label: fig-ezpz-metrics
-#| fig-cap: "Training metrics from `ezpz.History.finalize()`: loss, MFU, and throughput (samples/sec, million-tokens/sec)."
-pngs = outdir / "plots" / "mplot" / "pngs"
-panels = [(k, pngs / f"{k}.png") for k in ("loss", "mfu", "sps", "mtps")]
-panels = [(k, p) for k, p in panels if p.exists()]
+#| fig-cap: "Training metrics from ezpz.History: loss, MFU, and throughput (samples/sec, million-tokens/sec)."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
 
-fig, axes = plt.subplots(2, 2, figsize=(11, 7))
-for ax, (name, p) in zip(axes.flat, panels):
-    ax.imshow(plt.imread(p))
-    ax.axis("off")
-for ax in axes.flat[len(panels):]:
-    ax.axis("off")
-fig.tight_layout()
-plt.show()
+d = history.data                       # {"step": [...], "loss": [...], ...}
+panels = [("loss", "loss", "blue"), ("mfu", "MFU (%)", "green"),
+          ("sps", "samples/sec", "orange"), ("mtps", "M tokens/sec", "purple")]
+fig = make_subplots(rows=2, cols=2, subplot_titles=[p[1] for p in panels])
+for i, (key, _lab, color) in enumerate(panels):
+    r, c = divmod(i, 2)
+    fig.add_scatter(x=d["step"], y=d[key], mode="lines", line=dict(color=COLORS[color]),
+                    name=key, showlegend=False, row=r + 1, col=c + 1)
+fig.update_layout(height=460, margin=dict(t=40))
+fig.update_xaxes(title_text="step", row=2, col=1)
+fig.update_xaxes(title_text="step", row=2, col=2)
+fig.show()
 ```
 
 ::: {.callout-tip title="🔬 On a real run"}

@@ -703,10 +703,25 @@ samp {
   font-size: 1rem;
 }
 
-// Cap tall cell output (e.g. long training logs) so a single cell can't
-// span a huge chunk of the page; scroll within a bounded viewport instead.
-.cell-output {
-  max-height: calc(0.66 * 100vh);
+// Cap tall cell output (e.g. long training logs) at ~25 rows and scroll within
+// a bounded box, so a single noisy cell can't take over the whole page.
+// ~25 lines: 25 × line-height(1) × font-size(1rem) ≈ 25rem, + a little padding.
+$cell-output-max: 26rem;
+
+.cell-output,
+.cell-output-stdout,
+.cell-output-stderr,
+.cell-output.cell-output-display {
+  max-height: $cell-output-max;
+  overflow-y: auto;
+}
+
+// the actual text usually lives in a <pre> inside .cell-output; cap it too so
+// the scrollbar appears on the right element regardless of Quarto's wrapping
+.cell-output pre,
+.cell-output-stdout pre,
+.ansi-escaped-output > pre {
+  max-height: $cell-output-max;
   overflow-y: auto;
 }
 

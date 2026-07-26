@@ -300,8 +300,8 @@ class out green
 ```
 
 The full encoder–decoder Transformer architecture (Vaswani et al., 2017): a
-stack of `N` encoder layers (left) whose keys and values feed cross-attention
-in a stack of `N` decoder layers (right), ending in a linear + softmax
+stack of `N` encoder layers (right) whose keys and values feed cross-attention
+in a stack of `N` decoder layers (left), ending in a linear + softmax
 projection to output probabilities.
 :::
 

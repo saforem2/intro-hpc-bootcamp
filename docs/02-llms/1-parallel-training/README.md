@@ -26,32 +26,17 @@ Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
 > [!NOTE]
 >
 > This workshop runs on [NERSC
-> Perlmutter](https://docs.nersc.gov/systems/perlmutter/) (SLURM: use
-> `salloc` / Jupyter). The `ezpz launch` command below is
-> scheduler-agnostic — it auto-detects the environment (PBS → `mpiexec`,
-> SLURM → `srun`) — so the same steps work on ALCF PBS systems too.
+> Perlmutter](https://docs.nersc.gov/systems/perlmutter/) (SLURM,
+> project **`m4388`**). The `ezpz launch` command below is
+> scheduler-agnostic — it auto-detects the environment (SLURM → `srun`,
+> PBS → `mpiexec`) — so the same steps also work on ALCF PBS systems if
+> you switch the allocation command.
 
-> [!NOTE]
->
-> ### Proxies on ALCF login nodes
->
-> On ALCF PBS systems (e.g. Sophia, Polaris) the login/compute nodes
-> need proxy settings for outbound network access — run these before
-> cloning/installing:
->
-> ``` bash
-> export HTTP_PROXY="http://proxy.alcf.anl.gov:3128"
-> export HTTPS_PROXY="http://proxy.alcf.anl.gov:3128"
-> export http_proxy="http://proxy.alcf.anl.gov:3128"
-> export https_proxy="http://proxy.alcf.anl.gov:3128"
-> export ftp_proxy="http://proxy.alcf.anl.gov:3128"
-> ```
-
-1.  Submit interactive job (PBS example; on Perlmutter use `salloc`
-    instead):
+1.  Log in to Perlmutter and request an interactive GPU node:
 
     ``` bash
-    qsub -A <project> -q by-node -l select=1 -l walltime=01:00:00,filesystems=eagle:home -I
+    ssh <user>@perlmutter.nersc.gov
+    salloc --nodes 1 --qos interactive --time 01:00:00 --constraint gpu --account m4388
     ```
 
 2.  Clone [`saforem2/wordplay`](https://github.com/saforem2/wordplay):
@@ -121,8 +106,8 @@ instructions and launch a distributed data parallel training run.
 Where *proof* can be any of:
 
 - The contents printed out to your terminal during the run
-- A path to a logfile containing the output from a run on the ALCF
-  filesystems
+- A path to a logfile containing the output from a run on the NERSC
+  filesystems (e.g. under your `m4388` project space)
 - A screenshot of:
   - the text printed out from the run
   - a graph from the W&B Run
