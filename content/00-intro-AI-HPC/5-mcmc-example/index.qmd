@@ -99,13 +99,15 @@ with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the
 estimate of π converge as more samples land.
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 N = len(pts)
 theta = np.linspace(0, 2 * np.pi, 200)
 circle = go.Scatter(x=0.5 * np.cos(theta), y=0.5 * np.sin(theta), mode="lines",
                     line=dict(color=COLORS["grey"], width=2), name="circle", hoverinfo="skip")
 
 # running count of points-inside, so each step's π estimate is O(1)
-cum_inside = np.cumsum(inside)
+n_inside_so_far = np.cumsum(inside)
 steps = list(range(100, N + 1, 100))   # reveal 100 points per frame
 
 def frame_traces(n):
@@ -119,12 +121,12 @@ def frame_traces(n):
     ]
 
 frames = [go.Frame(name=str(n), data=frame_traces(n),
-                   layout=go.Layout(title=f"π ≈ {4*cum_inside[n-1]/n:.4f}   (4 × {cum_inside[n-1]}/{n})"))
+                   layout=go.Layout(title=f"π ≈ {4*n_inside_so_far[n-1]/n:.4f}   (4 × {n_inside_so_far[n-1]}/{n})"))
           for n in steps]
 
 fig = go.Figure(data=frame_traces(steps[0]), frames=frames)
 fig.update_layout(
-    title=f"π ≈ {4*cum_inside[steps[0]-1]/steps[0]:.4f}   (4 × {cum_inside[steps[0]-1]}/{steps[0]})",
+    title=f"π ≈ {4*n_inside_so_far[steps[0]-1]/steps[0]:.4f}   (4 × {n_inside_so_far[steps[0]-1]}/{steps[0]})",
     width=480, height=540, showlegend=True,
     xaxis=dict(range=[-0.5, 0.5], scaleanchor="y", constrain="domain"),
     yaxis=dict(range=[-0.5, 0.5]),
@@ -152,17 +154,34 @@ points and converge to the same π, but the parallel side (8 workers) races ahea
 and finishes while the sequential side is still plodding along. That time gap
 **is** the speedup.
 
-```{python}
-from plotly.subplots import make_subplots
+**The setup.** Both panels draw the *same* points; the only difference is how many
+get processed per unit of wall-clock time — 1 for sequential, `P` for parallel.
+The strided assignment `worker = arange(N) % P` mirrors exactly what the `mpi4py`
+code does with `range(comm.rank, N, comm.size)`.
 
-# both panels draw from the SAME points, so they converge to the same π
-N = 4000                     # total samples (enough to fill gradually, light enough to embed)
-P = 8                        # parallel workers
+```{python}
+N = 4000        # total samples (enough to fill gradually, light enough to embed)
+P = 8           # parallel workers
 rng2 = np.random.default_rng(7)
 pp = rng2.uniform(-0.5, 0.5, size=(N, 2))
-ins = np.sqrt((pp ** 2).sum(axis=1)) < 0.5
-worker = np.arange(N) % P    # point i is handled by worker i % P (strided, like MPI)
-cum_ins = np.cumsum(ins)
+ins = np.sqrt((pp ** 2).sum(axis=1)) < 0.5     # inside the circle?
+worker = np.arange(N) % P                      # point i handled by worker i % P (like MPI)
+n_inside_running = np.cumsum(ins)              # #inside among first k points
+
+def pi_of(n):
+    """π estimate after the first n points."""
+    return 4 * n_inside_running[n - 1] / n if n > 0 else 0.0
+```
+
+**The plotting.** Everything below builds the two-panel animation (folded — expand
+if you're curious). A non-linear wall-clock schedule spends more frames while the
+parallel side is filling, so the speed difference is easy to see.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+from plotly.subplots import make_subplots
+
 DIM = "#666666"              # dim grey for points that miss (outside the circle)
 # 8 clearly-distinct worker colors
 _cats = ["#2196F3", "#EF5350", "#66BB6A", "#FFA726",
@@ -170,15 +189,12 @@ _cats = ["#2196F3", "#EF5350", "#66BB6A", "#FFA726",
 theta = np.linspace(0, 2 * np.pi, 120)
 cx, cy = 0.5 * np.cos(theta), 0.5 * np.sin(theta)
 
-def pi_of(n):
-    return 4 * cum_ins[n - 1] / n if n > 0 else 0.0
-
-# Non-linear wall-clock schedule: spend many frames while the parallel side is
-# still filling (rounds 1 -> N/P), then more while the sequential side catches up.
+# wall-clock schedule: many frames while the parallel side fills (1 -> N/P),
+# then more while the sequential side catches up.
 Pw = N // P
 rounds = np.unique(np.concatenate([
-    np.linspace(1, Pw, 18),      # filling phase (parallel goes empty -> full)
-    np.linspace(Pw, N, 14),      # sequential catches up; parallel already done
+    np.linspace(1, Pw, 18),
+    np.linspace(Pw, N, 14),
 ]).round().astype(int))
 
 def build_frame(r):
@@ -256,6 +272,8 @@ $-\tfrac12$. The practical catch: to get one more decimal digit (10× less error
 you need **100× more samples** — which is exactly why you reach for parallelism.
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 import math
 
 # use a bigger single run to see the trend cleanly
