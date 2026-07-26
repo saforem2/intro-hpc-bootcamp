@@ -625,10 +625,55 @@ We intuitively know "it" refers to "animal." **Self-attention** is how a
 Transformer learns these relationships: as it processes each token, it looks at
 *other* positions for context.
 
-::: {#fig-attention-viz}
-![](images/transformer_self-attention_visualization.png){width=300}
+Rather than a static diagram, let's look at **real attention weights** from a
+pretrained BERT for this exact sentence. Each row is a token *attending*; the
+colored cells show how much it attends to each other token. Use the dropdown to
+switch layers — notice how, in several heads/layers, **"it" attends strongly back
+to "animal"**:
 
-Self-attention relates each word to others in the sentence. Image credit: [Jay Alammar](https://jalammar.github.io/illustrated-transformer/).
+```{python}
+#| label: fig-attention-viz
+#| fig-cap: "Real BERT self-attention for the sentence — each row shows what a token attends to. Switch layers with the dropdown."
+#| code-fold: true
+#| code-summary: "Show the attention-extraction + plotting code"
+import torch
+import plotly.graph_objects as go
+from transformers import AutoTokenizer, AutoModel, utils as hf_utils
+from bootcamp.plotly_theme import apply_theme
+apply_theme()
+hf_utils.logging.set_verbosity_error()
+
+sent = "The animal didn't cross the street because it was too tired"
+_tok = AutoTokenizer.from_pretrained("bert-base-uncased")
+_mdl = AutoModel.from_pretrained("bert-base-uncased",
+                                 attn_implementation="eager", output_attentions=True).eval()
+_enc = _tok(sent, return_tensors="pt")
+with torch.no_grad():
+    _att = _mdl(**_enc).attentions          # n_layers × [1, heads, seq, seq]
+_toks = _tok.convert_ids_to_tokens(_enc["input_ids"][0])
+
+# average over heads for a clean per-layer view
+per_layer = [a[0].mean(0).numpy() for a in _att]   # each [seq, seq]
+
+fig = go.Figure()
+for li, M in enumerate(per_layer):
+    fig.add_heatmap(z=M[::-1], x=_toks, y=_toks[::-1], colorscale="Blues",
+                    visible=(li == 5), showscale=True,
+                    hovertemplate="%{y} → %{x}: %{z:.2f}<extra></extra>")
+fig.update_layout(
+    height=520, width=560, title="Attention (mean over heads)",
+    xaxis=dict(title="attended-to token", tickangle=-45),
+    yaxis=dict(title="attending token"),
+    updatemenus=[dict(active=5, x=1.0, y=1.18, xanchor="right",
+        buttons=[dict(label=f"layer {i}", method="update",
+                      args=[{"visible": [j == i for j in range(len(per_layer))]}])
+                 for i in range(len(per_layer))])],
+)
+fig.show()
+```
+
+::: {.aside}
+Static-diagram credit for the original illustration: [Jay Alammar](https://jalammar.github.io/illustrated-transformer/). A richer per-head view (via `bertviz`) appears later in this section.
 :::
 
 Attention uses three learned projections of each token:

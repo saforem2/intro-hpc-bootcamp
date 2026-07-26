@@ -416,3 +416,46 @@ def plot_hists_plotly(
     fig.update_layout(barmode="group", yaxis_title="Total Count", title="Histogram",
                       height=height)
     return fig
+
+
+# ---------------------------------------------------------------------------
+# Grid / matrix diagrams for the CNN page (padding, pooling, channels, ...).
+# Flat annotated cell grids drawn with matplotlib, in the house style.
+# ---------------------------------------------------------------------------
+
+def draw_grid(ax, values, colors=None, fontsize=11, text_color="#222",
+              edgecolor="#666666", lw=1.2, origin_xy=(0, 0), cell=1.0):
+    """Draw a grid of cells with optional per-cell fill colors and text labels.
+
+    values : 2-D list/array of cell labels (use "" for blank). Its shape sets the grid.
+    colors : 2-D list of fill colors (same shape), or None for no fill.
+    origin_xy : (x, y) of the grid's top-left, in axis data coords. Rows go downward.
+    Returns (width, height) of the drawn grid in data units.
+    """
+    import numpy as np
+    from matplotlib.patches import Rectangle
+    values = np.asarray(values, dtype=object)
+    nrow, ncol = values.shape
+    x0, y0 = origin_xy
+    for r in range(nrow):
+        for c in range(ncol):
+            x = x0 + c * cell
+            y = y0 - (r + 1) * cell            # top row first
+            fc = "none" if colors is None else colors[r][c]
+            ax.add_patch(Rectangle((x, y), cell, cell, facecolor=fc,
+                                   edgecolor=edgecolor, linewidth=lw))
+            lab = values[r][c]
+            if lab != "":
+                ax.text(x + cell / 2, y + cell / 2, str(lab), ha="center",
+                        va="center", fontsize=fontsize, color=text_color)
+    return ncol * cell, nrow * cell
+
+
+def new_grid_axes(figsize=(6, 4)):
+    """A clean, equal-aspect, axis-off matplotlib figure for grid diagrams
+    (transparent bg via the house style)."""
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    return fig, ax

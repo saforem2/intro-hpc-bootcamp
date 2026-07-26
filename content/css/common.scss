@@ -703,41 +703,19 @@ samp {
   font-size: 1rem;
 }
 
-// Cap tall cell output (e.g. long training logs) at ~25 rows and scroll within
-// a bounded box, so a single noisy cell can't take over the whole page.
+// ── Text output only: cap height + accent bar ─────────────────────────────
+// We ONLY touch stdout/stderr (plain text — long logs, prints). Figure/plot
+// output (.cell-output-display: matplotlib images, plotly charts, mermaid SVGs,
+// tables) is left completely alone so charts render full-size and un-bordered.
 // ~25 lines: 25 × line-height(1) × font-size(1rem) ≈ 25rem, + a little padding.
 $cell-output-max: 26rem;
-
-.cell-output,
-.cell-output-stdout,
-.cell-output-stderr,
-.cell-output.cell-output-display {
-  max-height: $cell-output-max;
-  overflow-y: auto;
-}
-
-// the actual text usually lives in a <pre> inside .cell-output; cap it too so
-// the scrollbar appears on the right element regardless of Quarto's wrapping
-.cell-output pre,
-.cell-output-stdout pre,
-.ansi-escaped-output > pre {
-  max-height: $cell-output-max;
-  overflow-y: auto;
-}
-
-// ── Distinguish code OUTPUT from the code and from body prose ──────────────
-// Output cells get a left accent bar + a faint tint so it's clear "this is what
-// the code produced" (vs. the grey-backgrounded code block above it, and vs.
-// surrounding paragraphs).
 $cell-output-accent: #7DCAFF;                 // house blue accent
 $cell-output-tint: rgba(131, 131, 131, 0.06); // faint neutral fill
 
-// Text output (stdout / stderr) and *text-only* display output get the accent.
-// Display cells that hold a figure/plot are excluded (a border around a chart
-// or image looks wrong) via :has().
 .cell-output-stdout,
-.cell-output-stderr,
-.cell-output-display:not(:has(img)):not(:has(.plotly-graph-div)):not(:has(table)) {
+.cell-output-stderr {
+  max-height: $cell-output-max;
+  overflow-y: auto;
   border-left: 3px solid $cell-output-accent;
   background: $cell-output-tint;
   border-radius: 0 4px 4px 0;
@@ -757,6 +735,8 @@ $cell-output-tint: rgba(131, 131, 131, 0.06); // faint neutral fill
   background: transparent;
   border: none;
   margin: 0;
+  max-height: calc(#{$cell-output-max} - 0.7rem);
+  overflow-y: auto;
 }
 
 pre {
