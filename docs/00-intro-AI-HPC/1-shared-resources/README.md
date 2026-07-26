@@ -147,13 +147,19 @@ scancel 1234567      # cancel a job
 > `tail -f slurm-1234567.out` lets you watch a running job’s output
 > live.
 
-> [!NOTE]
+> [!TIP]
 >
 > ### 🧠 Check your understanding
+>
+> Test yourself — think it through, then reveal the answer.
 >
 > **Q1.** You ask for 512 nodes for 12 hours and your colleague asks for
 > 1 node for 10 minutes. Whose job is likely to start sooner, and why?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > Your colleague’s. Small, short requests are far easier for the
 > > scheduler to fit into gaps between other jobs (“backfill”), so they
 > > usually start almost immediately; a large, long request must wait
@@ -161,6 +167,10 @@ scancel 1234567      # cancel a job
 >
 > **Q2.** What’s the difference between `qsub -I` and `qsub job.sh`?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > `-I` requests an **interactive** session (a live shell on the
 > > compute nodes); `qsub job.sh` submits a **batch** job that runs the
 > > script unattended and writes output to a file.
@@ -168,6 +178,10 @@ scancel 1234567      # cancel a job
 > **Q3.** Your SLURM job finished but printed nothing to your terminal.
 > Where do you look for its output?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > In `slurm-<jobid>.out` in the directory you ran `sbatch` from.
 
 ## Polaris Activity Webpage

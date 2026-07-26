@@ -678,7 +678,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 24, 2026</p>
+      <p class="date-modified">July 26, 2026</p>
     </div>
   </div>
     
@@ -799,30 +799,70 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 <p><code>tail -f slurm-1234567.out</code> lets you watch a running job’s output live.</p>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note callout-titled" title="🧠 Check your understanding">
+<div class="callout callout-style-simple callout-tip callout-titled" title="🧠 Check your understanding">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🧠 Check your understanding
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Test yourself — think it through, then reveal the answer.</p>
+<p><strong>Q1.</strong> You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>🧠 Check your understanding
+<span class="screen-reader-only">Note</span>Show answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Q1.</strong> You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</p>
-<blockquote class="blockquote">
 <p>Your colleague’s. Small, short requests are far easier for the scheduler to fit into gaps between other jobs (“backfill”), so they usually start almost immediately; a large, long request must wait for a big block to free up.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <p><strong>Q2.</strong> What’s the difference between <code>qsub -I</code> and <code>qsub job.sh</code>?</p>
-<blockquote class="blockquote">
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p><code>-I</code> requests an <strong>interactive</strong> session (a live shell on the compute nodes); <code>qsub job.sh</code> submits a <strong>batch</strong> job that runs the script unattended and writes output to a file.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <p><strong>Q3.</strong> Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</p>
-<blockquote class="blockquote">
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>In <code>slurm-&lt;jobid&gt;.out</code> in the directory you ran <code>sbatch</code> from.</p>
-</blockquote>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1523,48 +1563,55 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-141"><a href="#cb7-141" aria-label="141"></a><span class="in">`tail -f slurm-1234567.out`</span> lets you watch a running job's output live.</span>
 <span id="cb7-142"><a href="#cb7-142" aria-label="142"></a>:::</span>
 <span id="cb7-143"><a href="#cb7-143" aria-label="143"></a></span>
-<span id="cb7-144"><a href="#cb7-144" aria-label="144"></a>::: {.callout-note title="🧠 Check your understanding" collapse="true"}</span>
-<span id="cb7-145"><a href="#cb7-145" aria-label="145"></a>**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for</span>
-<span id="cb7-146"><a href="#cb7-146" aria-label="146"></a>10 minutes. Whose job is likely to start sooner, and why?</span>
-<span id="cb7-147"><a href="#cb7-147" aria-label="147"></a></span>
-<span id="cb7-148"><a href="#cb7-148" aria-label="148"></a><span class="at">&gt; Your colleague's. Small, short requests are far easier for the scheduler to fit</span></span>
-<span id="cb7-149"><a href="#cb7-149" aria-label="149"></a><span class="at">&gt; into gaps between other jobs ("backfill"), so they usually start almost</span></span>
-<span id="cb7-150"><a href="#cb7-150" aria-label="150"></a><span class="at">&gt; immediately; a large, long request must wait for a big block to free up.</span></span>
-<span id="cb7-151"><a href="#cb7-151" aria-label="151"></a></span>
-<span id="cb7-152"><a href="#cb7-152" aria-label="152"></a>**Q2.** What's the difference between <span class="in">`qsub -I`</span> and <span class="in">`qsub job.sh`</span>?</span>
-<span id="cb7-153"><a href="#cb7-153" aria-label="153"></a></span>
-<span id="cb7-154"><a href="#cb7-154" aria-label="154"></a><span class="at">&gt; </span><span class="in">`-I`</span><span class="at"> requests an **interactive** session (a live shell on the compute nodes);</span></span>
-<span id="cb7-155"><a href="#cb7-155" aria-label="155"></a><span class="at">&gt; </span><span class="in">`qsub job.sh`</span><span class="at"> submits a **batch** job that runs the script unattended and writes</span></span>
-<span id="cb7-156"><a href="#cb7-156" aria-label="156"></a><span class="at">&gt; output to a file.</span></span>
-<span id="cb7-157"><a href="#cb7-157" aria-label="157"></a></span>
-<span id="cb7-158"><a href="#cb7-158" aria-label="158"></a>**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you</span>
-<span id="cb7-159"><a href="#cb7-159" aria-label="159"></a>look for its output?</span>
-<span id="cb7-160"><a href="#cb7-160" aria-label="160"></a></span>
-<span id="cb7-161"><a href="#cb7-161" aria-label="161"></a><span class="at">&gt; In </span><span class="in">`slurm-&lt;jobid&gt;.out`</span><span class="at"> in the directory you ran </span><span class="in">`sbatch`</span><span class="at"> from.</span></span>
-<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a><span class="at">:::</span></span>
-<span id="cb7-163"><a href="#cb7-163" aria-label="163"></a></span>
-<span id="cb7-164"><a href="#cb7-164" aria-label="164"></a><span class="fu">## Polaris Activity Webpage</span></span>
-<span id="cb7-165"><a href="#cb7-165" aria-label="165"></a></span>
-<span id="cb7-166"><a href="#cb7-166" aria-label="166"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
-<span id="cb7-167"><a href="#cb7-167" aria-label="167"></a>  The top of the page shows a graphical representation of all nodes.</span>
-<span id="cb7-168"><a href="#cb7-168" aria-label="168"></a>  Colors indicate a _job_ running on that _node_.</span>
-<span id="cb7-169"><a href="#cb7-169" aria-label="169"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
-<span id="cb7-170"><a href="#cb7-170" aria-label="170"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
-<span id="cb7-171"><a href="#cb7-171" aria-label="171"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
-<span id="cb7-172"><a href="#cb7-172" aria-label="172"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
-<span id="cb7-173"><a href="#cb7-173" aria-label="173"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
-<span id="cb7-174"><a href="#cb7-174" aria-label="174"></a></span>
-<span id="cb7-175"><a href="#cb7-175" aria-label="175"></a><span class="fu">## 📊 Live Status of Polaris</span></span>
-<span id="cb7-176"><a href="#cb7-176" aria-label="176"></a></span>
-<span id="cb7-177"><a href="#cb7-177" aria-label="177"></a></span>
-<span id="cb7-178"><a href="#cb7-178" aria-label="178"></a><span class="co">&lt;!-- ::: {.column-page #fig-polaris-status} --&gt;</span></span>
-<span id="cb7-179"><a href="#cb7-179" aria-label="179"></a><span class="co">&lt;!-- ::: {.column-body-outset #fig-polaris-status} --&gt;</span></span>
-<span id="cb7-180"><a href="#cb7-180" aria-label="180"></a>::: {.column-page #fig-polaris-status}</span>
+<span id="cb7-144"><a href="#cb7-144" aria-label="144"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
+<span id="cb7-145"><a href="#cb7-145" aria-label="145"></a>Test yourself — think it through, then reveal the answer.</span>
+<span id="cb7-146"><a href="#cb7-146" aria-label="146"></a></span>
+<span id="cb7-147"><a href="#cb7-147" aria-label="147"></a>**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</span>
+<span id="cb7-148"><a href="#cb7-148" aria-label="148"></a></span>
+<span id="cb7-149"><a href="#cb7-149" aria-label="149"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-150"><a href="#cb7-150" aria-label="150"></a>Your colleague's. Small, short requests are far easier for the scheduler to fit</span>
+<span id="cb7-151"><a href="#cb7-151" aria-label="151"></a>into gaps between other jobs ("backfill"), so they usually start almost</span>
+<span id="cb7-152"><a href="#cb7-152" aria-label="152"></a>immediately; a large, long request must wait for a big block to free up.</span>
+<span id="cb7-153"><a href="#cb7-153" aria-label="153"></a>::::</span>
+<span id="cb7-154"><a href="#cb7-154" aria-label="154"></a></span>
+<span id="cb7-155"><a href="#cb7-155" aria-label="155"></a>**Q2.** What's the difference between <span class="in">`qsub -I`</span> and <span class="in">`qsub job.sh`</span>?</span>
+<span id="cb7-156"><a href="#cb7-156" aria-label="156"></a></span>
+<span id="cb7-157"><a href="#cb7-157" aria-label="157"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-158"><a href="#cb7-158" aria-label="158"></a><span class="in">`-I`</span> requests an **interactive** session (a live shell on the compute nodes);</span>
+<span id="cb7-159"><a href="#cb7-159" aria-label="159"></a><span class="in">`qsub job.sh`</span> submits a **batch** job that runs the script unattended and writes</span>
+<span id="cb7-160"><a href="#cb7-160" aria-label="160"></a>output to a file.</span>
+<span id="cb7-161"><a href="#cb7-161" aria-label="161"></a>::::</span>
+<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a></span>
+<span id="cb7-163"><a href="#cb7-163" aria-label="163"></a>**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</span>
+<span id="cb7-164"><a href="#cb7-164" aria-label="164"></a></span>
+<span id="cb7-165"><a href="#cb7-165" aria-label="165"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-166"><a href="#cb7-166" aria-label="166"></a>In <span class="in">`slurm-&lt;jobid&gt;.out`</span> in the directory you ran <span class="in">`sbatch`</span> from.</span>
+<span id="cb7-167"><a href="#cb7-167" aria-label="167"></a>::::</span>
+<span id="cb7-168"><a href="#cb7-168" aria-label="168"></a></span>
+<span id="cb7-169"><a href="#cb7-169" aria-label="169"></a>:::</span>
+<span id="cb7-170"><a href="#cb7-170" aria-label="170"></a></span>
+<span id="cb7-171"><a href="#cb7-171" aria-label="171"></a><span class="fu">## Polaris Activity Webpage</span></span>
+<span id="cb7-172"><a href="#cb7-172" aria-label="172"></a></span>
+<span id="cb7-173"><a href="#cb7-173" aria-label="173"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
+<span id="cb7-174"><a href="#cb7-174" aria-label="174"></a>  The top of the page shows a graphical representation of all nodes.</span>
+<span id="cb7-175"><a href="#cb7-175" aria-label="175"></a>  Colors indicate a _job_ running on that _node_.</span>
+<span id="cb7-176"><a href="#cb7-176" aria-label="176"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
+<span id="cb7-177"><a href="#cb7-177" aria-label="177"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
+<span id="cb7-178"><a href="#cb7-178" aria-label="178"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
+<span id="cb7-179"><a href="#cb7-179" aria-label="179"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
+<span id="cb7-180"><a href="#cb7-180" aria-label="180"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
 <span id="cb7-181"><a href="#cb7-181" aria-label="181"></a></span>
-<span id="cb7-182"><a href="#cb7-182" aria-label="182"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://status.alcf.anl.gov/#/polaris"</span><span class="ot"> loading</span><span class="op">=</span><span class="st">"lazy"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"720"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="ot"> align</span><span class="op">=</span><span class="st">"center"</span><span class="ot"> allowfullscreen style</span><span class="op">=</span><span class="st">"border:0"</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-label="182"></a><span class="fu">## 📊 Live Status of Polaris</span></span>
 <span id="cb7-183"><a href="#cb7-183" aria-label="183"></a></span>
-<span id="cb7-184"><a href="#cb7-184" aria-label="184"></a>See: <span class="ot">&lt;https://status.alcf.anl.gov/#/polaris&gt;</span></span>
-<span id="cb7-185"><a href="#cb7-185" aria-label="185"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb7-184"><a href="#cb7-184" aria-label="184"></a></span>
+<span id="cb7-185"><a href="#cb7-185" aria-label="185"></a><span class="co">&lt;!-- ::: {.column-page #fig-polaris-status} --&gt;</span></span>
+<span id="cb7-186"><a href="#cb7-186" aria-label="186"></a><span class="co">&lt;!-- ::: {.column-body-outset #fig-polaris-status} --&gt;</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-label="187"></a>::: {.column-page #fig-polaris-status}</span>
+<span id="cb7-188"><a href="#cb7-188" aria-label="188"></a></span>
+<span id="cb7-189"><a href="#cb7-189" aria-label="189"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://status.alcf.anl.gov/#/polaris"</span><span class="ot"> loading</span><span class="op">=</span><span class="st">"lazy"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"720"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="ot"> align</span><span class="op">=</span><span class="st">"center"</span><span class="ot"> allowfullscreen style</span><span class="op">=</span><span class="st">"border:0"</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb7-190"><a href="#cb7-190" aria-label="190"></a></span>
+<span id="cb7-191"><a href="#cb7-191" aria-label="191"></a>See: <span class="ot">&lt;https://status.alcf.anl.gov/#/polaris&gt;</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-label="192"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

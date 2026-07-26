@@ -141,24 +141,31 @@ submit directory:
 `tail -f slurm-1234567.out` lets you watch a running job's output live.
 :::
 
-::: {.callout-note title="🧠 Check your understanding" collapse="true"}
-**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for
-10 minutes. Whose job is likely to start sooner, and why?
+::: {.callout-tip title="🧠 Check your understanding" collapse="false"}
+Test yourself — think it through, then reveal the answer.
 
-> Your colleague's. Small, short requests are far easier for the scheduler to fit
-> into gaps between other jobs ("backfill"), so they usually start almost
-> immediately; a large, long request must wait for a big block to free up.
+**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?
+
+:::: {.callout-note title="Show answer" collapse="true"}
+Your colleague's. Small, short requests are far easier for the scheduler to fit
+into gaps between other jobs ("backfill"), so they usually start almost
+immediately; a large, long request must wait for a big block to free up.
+::::
 
 **Q2.** What's the difference between `qsub -I` and `qsub job.sh`?
 
-> `-I` requests an **interactive** session (a live shell on the compute nodes);
-> `qsub job.sh` submits a **batch** job that runs the script unattended and writes
-> output to a file.
+:::: {.callout-note title="Show answer" collapse="true"}
+`-I` requests an **interactive** session (a live shell on the compute nodes);
+`qsub job.sh` submits a **batch** job that runs the script unattended and writes
+output to a file.
+::::
 
-**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you
-look for its output?
+**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?
 
-> In `slurm-<jobid>.out` in the directory you ran `sbatch` from.
+:::: {.callout-note title="Show answer" collapse="true"}
+In `slurm-<jobid>.out` in the directory you ran `sbatch` from.
+::::
+
 :::
 
 ## Polaris Activity Webpage

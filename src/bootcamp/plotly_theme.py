@@ -100,6 +100,33 @@ def apply_mpl_font(font: str = MPL_FONT):
     plt.rcParams["mathtext.bf"] = f"{family}:bold"
 
 
+def style_mpl(font: str = MPL_FONT):
+    """Apply the full house matplotlib look in ONE call: the `ambivalent` style
+    (transparent background, #838383 grey text, material colors) PLUS Iosevka.
+
+    Use this on any page with matplotlib figures — it does not require (and is not
+    broken by) a separate `plt.style.use(...)`. It always ends by setting the font,
+    so Iosevka wins even though `ambivalent` would otherwise reset it.
+    """
+    try:
+        import matplotlib.pyplot as plt
+    except Exception:
+        return
+    try:
+        import ambivalent
+        plt.style.use(ambivalent.STYLES["ambivalent"])
+    except Exception:
+        # ambivalent not available: hand-apply the essentials (transparent + grey)
+        plt.rcParams.update({
+            "figure.facecolor": "none", "axes.facecolor": "none",
+            "savefig.transparent": True,
+            "text.color": GREY, "axes.labelcolor": GREY, "axes.edgecolor": GREY,
+            "xtick.color": GREY, "ytick.color": GREY,
+            "axes.prop_cycle": plt.cycler(color=COLORWAY),
+        })
+    apply_mpl_font(font)   # font LAST — ambivalent resets it otherwise
+
+
 def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = True,
                 mpl_font: bool = True):
     """Register the house template with Plotly and make it the default.
@@ -126,5 +153,7 @@ def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = Tr
         # "notebook" inlines the library; "notebook_connected" would use the CDN
         pio.renderers.default = "plotly_mimetype+notebook"
     if mpl_font:
-        apply_mpl_font()
+        # full house matplotlib look (ambivalent transparent+grey) + Iosevka, so
+        # BOTH engines match with a single apply_theme() call
+        style_mpl()
     return name

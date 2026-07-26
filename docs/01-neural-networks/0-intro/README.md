@@ -52,12 +52,18 @@ We’ll start with the MNIST problem in this notebook:
 
 Next week, we’ll learn about other types of neural networks.
 
-> [!NOTE]
+> [!TIP]
 >
 > ### 🧠 Check your understanding
 >
+> Test yourself — think it through, then reveal the answer.
+>
 > **Q1.** How does machine learning differ from traditional programming?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > In traditional programming you write explicit rules. In machine
 > > learning you show the computer many examples and it **learns the
 > > patterns** (the rules) on its own from the data.
@@ -66,6 +72,10 @@ Next week, we’ll learn about other types of neural networks.
 > price). The MNIST task predicts one of ten digit labels (0–9). What
 > are these two kinds of problem called?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > Predicting a continuous number is **regression**; predicting a
 > > category label is **classification**. MNIST is a classification
 > > problem.
@@ -74,6 +84,10 @@ Next week, we’ll learn about other types of neural networks.
 > function type, loss (MSE), optimizer (SGD). Which of these must change
 > for MNIST, and why?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > The **output/function** (it must produce a class instead of a
 > > number) and the **loss** (cross-entropy instead of MSE, since we’re
 > > scoring category predictions). The overall recipe — fit a function

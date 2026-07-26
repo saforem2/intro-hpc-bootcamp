@@ -13,6 +13,7 @@ Sam Foreman
   - [Aurora](#aurora)
   - [Sophia](#sophia)
   - [Polaris](#polaris)
+  - [🔭 What’s next](#telescope-whats-next)
 - [📓 References](#notebook-references)
 
 ## Overview
@@ -122,14 +123,35 @@ Figure 4: ALCF Staff
 ### Aurora
 
 > Aurora is a supercomputer at Argonne National Laboratory, housed in
-> the Argonne Leadership Computing Facility (ALCF). It is the first
-> exascale supercomputer in the United States and is designed to deliver
-> unprecedented performance for scientific research and simulations.  
-> See [Aurora](https://www.alcf.anl.gov/aurora) for more information.
+> the Argonne Leadership Computing Facility (ALCF). It is one of the
+> first **exascale** supercomputers in the United States — capable of
+> more than a **billion billion** ($10^{18}$) calculations per second —
+> and is designed to deliver unprecedented performance for scientific
+> research and simulations. See
+> [Aurora](https://www.alcf.anl.gov/aurora) for more information.
 
-At this time (August 2025), Aurora is *open for business*! It is amongst
-the most power supercomputers in thew world, [currently sitting at \#2
-on the Top500](https://www.top500.org/lists/top500/list/2024/06/).
+Aurora is fully deployed and open for science. It reached **1.01
+exaFLOPS** (sustained, HPL) and has ranked among the top few systems on
+the [Top500](https://www.top500.org) since its debut. It is an HPE Cray
+EX system:
+
+**Aurora Machine Specs**
+
+- Sustained speed: ~1.0 exaFLOPS (HPL); ~2 exaFLOPS peak
+- **10,624** total nodes, each with:
+  - 6 Intel Data Center GPU Max (“Ponte Vecchio”) GPUs
+  - 2 Intel Xeon CPU Max (“Sapphire Rapids”) CPUs
+  - unified CPU+GPU memory
+- HPE Slingshot-11 interconnect
+
+> [!NOTE]
+>
+> ### 🔢 What does ‘exascale’ mean?
+>
+> An **exaFLOP** is $10^{18}$ floating-point operations per second. If
+> every person on Earth (~8 billion) did one calculation per second, it
+> would take them over **4 years** to do what Aurora does in **one
+> second**.
 
 Here you can see one of the many rows of Aurora *nodes* with their Red &
 Blue water cooling conduits visible.
@@ -196,13 +218,38 @@ Polaris Machine Specs
   - 1 AMD EPYC (Milan) CPUs
 - ~560 Total Nodes
 
-> [!NOTE]
+### 🔭 What’s next
+
+ALCF’s systems keep evolving toward ever-larger AI + science workloads.
+Argonne and NVIDIA have announced next-generation, AI-focused
+supercomputers (**Solstice** and **Equinox**) built on NVIDIA’s
+Blackwell-generation GPUs, aimed at training and running very large AI
+models for science alongside traditional simulation. See the [ALCF
+machine overview](https://www.alcf.anl.gov/alcf-resources) for the
+current, authoritative lineup and specs.
+
+> [!TIP]
+>
+> ### 📈 The trend
+>
+> Notice the trajectory: Sophia (~4 PF) → Polaris (~44 PF) → Aurora
+> (~1{,}000{,}000 PF = 1 EF), with the newest systems purpose-built for
+> AI. Each generation is roughly **10–20× faster** than the last — which
+> is exactly what makes training today’s largest models possible.
+
+> [!TIP]
 >
 > ### 🧠 Check your understanding
+>
+> Test yourself — think it through, then reveal the answer.
 >
 > **Q1.** What is a “node” in a supercomputer, and how do nodes work
 > together?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > A node is one physical computer (its own CPU(s), memory, often
 > > GPUs). Many nodes are joined by a high-speed network so groups of
 > > them can share data quickly and act together as one much larger
@@ -211,6 +258,10 @@ Polaris Machine Specs
 > **Q2.** You `ssh` into a supercomputer. Are you on a login node or a
 > compute node — and where does your training job actually run?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > You land on a **login node** (for editing code and submitting jobs).
 > > The heavy work runs on **compute nodes**, which you reach by
 > > submitting a job to the scheduler (see [Shared
@@ -219,6 +270,10 @@ Polaris Machine Specs
 > **Q3.** Why do the AI-focused nodes (e.g. Polaris) pair a CPU with
 > several GPUs?
 >
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
 > > The CPU runs the OS and orchestrates work; the GPUs do the massively
 > > parallel arithmetic (matrix multiplies) that dominates AI training,
 > > which they do far faster than a CPU.

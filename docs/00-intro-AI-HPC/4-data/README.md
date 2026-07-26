@@ -208,8 +208,8 @@ reveals the relationship between living area and price:
 
 ``` python
 import matplotlib.pyplot as plt
-from bootcamp.plotly_theme import apply_mpl_font
-apply_mpl_font()                # use the site's Iosevka font in matplotlib figures
+from bootcamp.plotly_theme import style_mpl
+style_mpl()                     # ambivalent look (transparent + grey) + Iosevka
 
 fig, ax = plt.subplots(figsize=(6.4, 4.2))
 ax.scatter(df["GrLivArea"], df["SalePrice"], s=12, alpha=0.5)

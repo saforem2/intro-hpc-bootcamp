@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="784.8pt" height="280.998869pt" viewBox="0 0 784.8 280.998869" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="780.48pt" height="277.17733pt" viewBox="0 0 780.48 277.17733" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-07-26T14:51:14.447367</dc:date>
+    <dc:date>2026-07-26T15:30:48.052192</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,53 +21,53 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 280.998869 
-L 784.8 280.998869 
-L 784.8 0 
+   <path d="M 0 277.17733 
+L 780.48 277.17733 
+L 780.48 0 
 L 0 0 
-L 0 280.998869 
+L 0 277.17733 
 z
 " style="fill: none; opacity: 0"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 7.2 243.230389 
-L 203.831457 243.230389 
-L 203.831457 46.598932 
-L 7.2 46.598932 
-L 7.2 243.230389 
+    <path d="M 7.2 240.239619 
+L 201.172995 240.239619 
+L 201.172995 46.266624 
+L 7.2 46.266624 
+L 7.2 240.239619 
 z
 " style="fill: none"/>
    </g>
-   <g clip-path="url(#p8481fab2c3)">
+   <g clip-path="url(#p71661036f2)">
     <image xlink:href="data:image/png;base64,
-iVBORw0KGgoAAAANSUhEUgAAARIAAAESCAYAAAAxN1ojAAAD90lEQVR4nO3WUXEiURRF0ZcpBOAkSGgJcRCkIAEHwUI7QQoo6Cjga9dMv6HWEnDrfO26H9u2bYMpfX19jRms6zpm8P39PWZwu932njCdP3sPAP5/QgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkh37ivTwejzGLdV33njCVZVn2nsALPhIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgExIgO/QT8G+cTqe9J/CCjwTIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIhATIDmMS1+t1zOByuew9gReOx+PeE3jBRwJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkQgJkH9u2bf3M+7jf72MWy7KMGTyfzzGDn5+fMYPz+bz3hOn4SIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIDs0E+8l9PpNGaxLMuYwbquYwb3+33vCbzgIwEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQEyIQGyQz/B3/J4PMYMPj8/xwyWZdl7Ai/4SIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBMSIBR/QLaXiyo1Cd5dgAAAABJRU5ErkJggg==" id="image872115b080" transform="scale(1 -1) translate(0 -197.28)" x="7.2" y="-45.950389" width="197.28" height="197.28"/>
+iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAYAAAB4sfmlAAAD7klEQVR4nO3WQW0jQRRF0crIAMwkhtAQwiCGEghhkFBoJoZiI+jZW7O5i5mqic7Zf+mtrv7LcRzHYClvb29jBfu+jxW8v7/PnjC+v79nT1jKr9kDgP+PcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcADZqZ/8XPf7faxg3/fZE5aybdvsCTzxcQCZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcACZcADZqZ/Av3W5XGZP4ImPA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8iEA8hOYxGfn5+zJ4yPj4/ZE/iD8/k8ewJPfBxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxAJhxA9nIcx9HPfqbb7TZWsG3bWMHj8Rgr+Pr6mj1hXK/X2ROW4uMAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAslM/+bkul8tYwbZtYwX7vo8V3G632RN44uMAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAMuEAslM/4W+73+9jBa+vr2MF27bNnsATHweQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQeQCQcwqt/RcCygX/4aAwAAAABJRU5ErkJggg==" id="imaged6fd97a90f" transform="scale(1 -1) translate(0 -194.4)" x="7.2" y="-45.839619" width="194.4" height="194.4"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2"/>
    <g id="patch_3">
-    <path d="M 7.2 243.230389 
-L 7.2 46.598932 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 7.2 240.239619 
+L 7.2 46.266624 
+" style="fill: none"/>
    </g>
    <g id="patch_4">
-    <path d="M 203.831457 243.230389 
-L 203.831457 46.598932 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 201.172995 240.239619 
+L 201.172995 46.266624 
+" style="fill: none"/>
    </g>
    <g id="patch_5">
-    <path d="M 7.2 243.230389 
-L 203.831457 243.230389 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 7.2 240.239619 
+L 201.172995 240.239619 
+" style="fill: none"/>
    </g>
    <g id="patch_6">
-    <path d="M 7.2 46.598932 
-L 203.831457 46.598932 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 7.2 46.266624 
+L 201.172995 46.266624 
+" style="fill: none"/>
    </g>
    <g id="text_1">
     <!-- ≈ -->
-    <g style="fill: #838383" transform="translate(224.859861 151.67466) scale(0.26 -0.26)">
+    <g style="fill: #838383" transform="translate(221.829214 150.013122) scale(0.26 -0.26)">
      <defs>
       <path id="Iosevka-2248" d="M 2061 1210 
 Q 2010 1210 1965 1219 
@@ -204,7 +204,7 @@ z
    </g>
    <g id="text_2">
     <!-- handwritten digit -->
-    <g style="fill: #838383" transform="translate(54.515728 40.598932) scale(0.12 -0.12)">
+    <g style="fill: #838383" transform="translate(53.186498 40.266624) scale(0.12 -0.12)">
      <defs>
       <path id="Iosevka-68" d="M 410 0 
 L 410 4704 
@@ -671,43 +671,43 @@ z
   </g>
   <g id="axes_2">
    <g id="patch_7">
-    <path d="M 269.50534 267.809321 
-L 515.29466 267.809321 
-L 515.29466 22.02 
-L 269.50534 22.02 
-L 269.50534 267.809321 
+    <path d="M 269.006878 264.486244 
+L 511.473122 264.486244 
+L 511.473122 22.02 
+L 269.006878 22.02 
+L 269.006878 264.486244 
 z
 " style="fill: none"/>
    </g>
-   <g clip-path="url(#p81b66b4e3e)">
+   <g clip-path="url(#pc2ab91bb08)">
     <image xlink:href="data:image/png;base64,
-iVBORw0KGgoAAAANSUhEUgAAAVYAAAFWCAYAAAAyr7WDAAAFPklEQVR4nO3WYW1qQRRG0ekLAuoEJFwJddBKQQIOqIXrBCmg4D4TO5kMXUvAyfdr53wcx3EM/qyvr6+xin3fxyq+v7/HCn5/f2dPeEv/Zg8AeDfCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChA71QcZ4/l8jlXs+z57wlvatm32BCbysQLEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiJ3qg8AYl8tl9gQm8rECxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVIHYaC7ndbmMF1+t19gQm+/z8nD2BiXysADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYh9HMdx1Ef/usfjMVaxbdtYxev1Gqu43+9jBT8/P7MnvCUfK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFiwgoQE1aAmLACxIQVICasADFhBYgJK0BMWAFip/ogY1wul7GKbdvGKvZ9H6t4PB6zJzCRjxUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgJqwAMWEFiAkrQExYAWLCChATVoCYsALEhBUgdqoPspbn8zlWcT6fxyq2bZs9gYl8rAAxYQWICStATFgBYsIKEBNWgJiwAsSEFSAmrAAxYQWICStATFgBYsIKEBNWgJiwAsSEFSAmrAAxYQWICStATFgBYsIKEBNWgJiwAsSEFSAmrAAxYQWICStATFgBYsIKEBNWgJiwAsSEFSAmrAAxYQWICStATFgBYsIKEBNWgJiwAsSEFSAmrAAxYQUYrf/msy0w97mxbwAAAABJRU5ErkJggg==" id="imagebe76d6a94a" transform="scale(1 -1) translate(0 -246.24)" x="269.50534" y="-21.569321" width="246.24" height="246.24"/>
+iVBORw0KGgoAAAANSUhEUgAAAVEAAAFRCAYAAADNdp5CAAAFCUlEQVR4nO3WQW1bQRhG0UllAGESQ3gQwiCGEghm4FB4TAzFQfC6rKrsehejcc/Zz+hbXf0vx3Ecg//O+/v7WMG+72MVHx8fYwVfX1+zJzyVX7MHAKxMRAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGA4FQe89Pj8Rgr2Pd99oSns23b7AlM4BIFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGA4FQeA3+cz+fZE5jAJQoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQHAai7her2MFn5+fsycwyevr6+wJTOASBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIRBQgEFGAQEQBAhEFCEQUIBBRgEBEAQIRBQhEFCAQUYBARAECEQUIXo7jOMoH/O1+v48VbNs2VvD9/T1Wcbvdxgoul8vsCU/FJQoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEJzKY346n89jBdu2jRXs+z5Wcb/fZ09gApcoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEBwKo9Z1+PxGCt4e3sbq9i2bfYEJnCJAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAIEIgoQiChAIKIAgYgCBCIKEIgoQCCiAIGIAgQiChCIKEAgogCBiAKMf/cbgw8tJrSLH/0AAAAASUVORK5CYII=" id="image685e46b146" transform="scale(1 -1) translate(0 -242.64)" x="269.006878" y="-21.846244" width="242.64" height="242.64"/>
    </g>
    <g id="matplotlib.axis_3"/>
    <g id="matplotlib.axis_4"/>
    <g id="patch_8">
-    <path d="M 269.50534 267.809321 
-L 269.50534 22.02 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 269.006878 264.486244 
+L 269.006878 22.02 
+" style="fill: none"/>
    </g>
    <g id="patch_9">
-    <path d="M 515.29466 267.809321 
-L 515.29466 22.02 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 511.473122 264.486244 
+L 511.473122 22.02 
+" style="fill: none"/>
    </g>
    <g id="patch_10">
-    <path d="M 269.50534 267.809321 
-L 515.29466 267.809321 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 269.006878 264.486244 
+L 511.473122 264.486244 
+" style="fill: none"/>
    </g>
    <g id="patch_11">
-    <path d="M 269.50534 22.02 
-L 515.29466 22.02 
-" style="fill: none; stroke: #838383; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+    <path d="M 269.006878 22.02 
+L 511.473122 22.02 
+" style="fill: none"/>
    </g>
    <g id="text_3">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 38.86414) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-30" d="M 1600 -51 
 Q 1427 -51 1257 -16 
@@ -778,19 +778,19 @@ z
    </g>
    <g id="text_4">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 38.86414) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_5">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(344.689502 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(343.152579 38.86414) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_6">
     <!-- .8 -->
-    <g style="fill: #ffffff" transform="translate(373.788167 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(371.83586 38.86414) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-2e" d="M 1600 -51 
 Q 1498 -51 1402 -22 
@@ -897,14 +897,14 @@ z
    </g>
    <g id="text_7">
     <!-- .8 -->
-    <g style="fill: #ffffff" transform="translate(404.511833 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(402.14414 38.86414) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-38" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_8">
     <!-- .3 -->
-    <g style="fill: #838383" transform="translate(435.235498 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 38.86414) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-33" d="M 1619 -51 
 Q 1453 -51 1293 -25 
@@ -983,37 +983,37 @@ z
    </g>
    <g id="text_9">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 38.86414) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_10">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 39.071833) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 38.86414) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_11">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 69.172421) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_12">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 69.172421) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_13">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(344.689502 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(343.152579 69.172421) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_14">
     <!-- .7 -->
-    <g style="fill: #ffffff" transform="translate(373.788167 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(371.83586 69.172421) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-37" d="M 934 0 
 L 2272 4256 
@@ -1032,7 +1032,7 @@ z
    </g>
    <g id="text_15">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 69.172421) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-31" d="M 1542 0 
 L 1542 4173 
@@ -1052,7 +1052,7 @@ z
    </g>
    <g id="text_16">
     <!-- .6 -->
-    <g style="fill: #ffffff" transform="translate(435.235498 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(432.452421 69.172421) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-36" d="M 1600 -51 
 Q 1421 -51 1241 -9 
@@ -1122,31 +1122,31 @@ z
    </g>
    <g id="text_17">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 69.172421) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_18">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 69.795498) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 69.172421) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_19">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 99.480701) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_20">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 99.480701) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_21">
     <!-- .2 -->
-    <g style="fill: #838383" transform="translate(343.064502 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(341.527579 99.480701) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-32" d="M 410 0 
 L 410 6 
@@ -1207,7 +1207,7 @@ z
    </g>
    <g id="text_22">
     <!-- .9 -->
-    <g style="fill: #ffffff" transform="translate(373.788167 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(371.83586 99.480701) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-39" d="M 1613 0 
 L 1062 0 
@@ -1277,7 +1277,7 @@ z
    </g>
    <g id="text_23">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 99.480701) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1285,7 +1285,7 @@ z
    </g>
    <g id="text_24">
     <!-- .4 -->
-    <g style="fill: #838383" transform="translate(435.235498 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 99.480701) scale(0.065 -0.065)">
      <defs>
       <path id="Iosevka-34" d="M 1882 0 
 L 1882 1242 
@@ -1312,39 +1312,39 @@ z
    </g>
    <g id="text_25">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 99.480701) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_26">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 100.519163) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 99.480701) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_27">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_28">
     <!-- .4 -->
-    <g style="fill: #838383" transform="translate(312.340837 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(311.219299 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-34" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_29">
     <!-- .9 -->
-    <g style="fill: #ffffff" transform="translate(343.064502 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(341.527579 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-39" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_30">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(372.163167 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(370.21086 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1352,7 +1352,7 @@ z
    </g>
    <g id="text_31">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1360,45 +1360,45 @@ z
    </g>
    <g id="text_32">
     <!-- .1 -->
-    <g style="fill: #838383" transform="translate(435.235498 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-31" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_33">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_34">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 131.242828) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 129.788982) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_35">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_36">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_37">
     <!-- .1 -->
-    <g style="fill: #838383" transform="translate(343.064502 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(341.527579 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-31" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_38">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(372.163167 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(370.21086 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1406,7 +1406,7 @@ z
    </g>
    <g id="text_39">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1414,45 +1414,45 @@ z
    </g>
    <g id="text_40">
     <!-- .2 -->
-    <g style="fill: #838383" transform="translate(435.235498 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-32" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_41">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_42">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 161.966493) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 160.097262) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_43">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_44">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_45">
     <!-- .1 -->
-    <g style="fill: #838383" transform="translate(343.064502 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(341.527579 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-31" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_46">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(372.163167 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(370.21086 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1460,7 +1460,7 @@ z
    </g>
    <g id="text_47">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1468,45 +1468,45 @@ z
    </g>
    <g id="text_48">
     <!-- .4 -->
-    <g style="fill: #838383" transform="translate(435.235498 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-34" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_49">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_50">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 192.690158) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 190.405543) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_51">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_52">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_53">
     <!-- .1 -->
-    <g style="fill: #838383" transform="translate(343.064502 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(341.527579 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-31" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_54">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(372.163167 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(370.21086 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1514,7 +1514,7 @@ z
    </g>
    <g id="text_55">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1522,51 +1522,51 @@ z
    </g>
    <g id="text_56">
     <!-- .4 -->
-    <g style="fill: #838383" transform="translate(435.235498 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(432.452421 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-34" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_57">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_58">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 223.413823) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 220.713823) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_59">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(283.242172 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(282.536018 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_60">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(313.965837 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(312.844299 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_61">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(344.689502 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(343.152579 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_62">
     <!-- .7 -->
-    <g style="fill: #ffffff" transform="translate(373.788167 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(371.83586 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-37" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_63">
     <!-- 1.0 -->
-    <g style="fill: #ffffff" transform="translate(402.886833 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(400.51914 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-31"/>
      <use xlink:href="#Iosevka-2e" transform="translate(49.999985 0)"/>
      <use xlink:href="#Iosevka-30" transform="translate(99.999969 0)"/>
@@ -1574,36 +1574,36 @@ z
    </g>
    <g id="text_64">
     <!-- .6 -->
-    <g style="fill: #ffffff" transform="translate(435.235498 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #ffffff" transform="translate(432.452421 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-2e"/>
      <use xlink:href="#Iosevka-36" transform="translate(49.999985 0)"/>
     </g>
    </g>
    <g id="text_65">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(467.584163 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(464.385701 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="text_66">
     <!-- 0 -->
-    <g style="fill: #838383" transform="translate(498.307828 254.137488) scale(0.065 -0.065)">
+    <g style="fill: #838383" transform="translate(494.693982 251.022104) scale(0.065 -0.065)">
      <use xlink:href="#Iosevka-30"/>
     </g>
    </g>
    <g id="patch_12">
-    <path d="M 532.038758 144.91466 
-Q 557.077569 144.91466 579.321295 144.91466 
+    <path d="M 528.023397 143.253122 
+Q 552.69236 143.253122 574.566239 143.253122 
 " style="fill: none; stroke: #26a69a; stroke-width: 2.5; stroke-linecap: round"/>
-    <path d="M 575.321295 142.91466 
-L 579.321295 144.91466 
-L 575.321295 146.91466 
+    <path d="M 569.766239 140.853122 
+L 574.566239 143.253122 
+L 569.766239 145.653122 
 z
 " style="fill: #26a69a; stroke: #26a69a; stroke-width: 2.5; stroke-linecap: round"/>
    </g>
    <g id="text_67">
     <!-- pixel intensities -->
-    <g style="fill: #838383" transform="translate(341.4 16.02) scale(0.12 -0.12)">
+    <g style="fill: #838383" transform="translate(339.24 16.02) scale(0.12 -0.12)">
      <defs>
       <path id="Iosevka-70" d="M 410 -1376 
 L 410 3328 
@@ -1786,21 +1786,21 @@ z
   </g>
   <g id="axes_3">
    <g id="patch_13">
-    <path d="M 606.530633 170.691502 
-L 689.115845 170.691502 
-Q 695.014788 170.691502 695.014788 162.95845 
-L 695.014788 80.472556 
-Q 695.014788 72.739504 689.115845 72.739504 
-L 606.530633 72.739504 
-Q 600.631689 72.739504 600.631689 80.472556 
-L 600.631689 162.95845 
-Q 600.631689 170.691502 606.530633 170.691502 
+    <path d="M 604.523494 168.597964 
+L 685.992152 168.597964 
+Q 691.811342 168.597964 691.811342 160.994511 
+L 691.811342 79.891018 
+Q 691.811342 72.287565 685.992152 72.287565 
+L 604.523494 72.287565 
+Q 598.704304 72.287565 598.704304 79.891018 
+L 598.704304 160.994511 
+Q 598.704304 168.597964 604.523494 168.597964 
 z
-" clip-path="url(#p62417b2c7b)" style="fill: #111111"/>
+" clip-path="url(#p2c8116d847)" style="fill: #111111"/>
    </g>
    <g id="text_68">
     <!-- $f$ -->
-    <g style="fill: #ffffff" transform="translate(639.323239 130.555503) scale(0.34 -0.34)">
+    <g style="fill: #ffffff" transform="translate(636.757823 129.282764) scale(0.34 -0.34)">
      <defs>
       <path id="Iosevka-66" d="M 1120 0 
 L 1120 2579 
@@ -1842,18 +1842,18 @@ z
     </g>
    </g>
    <g id="patch_14">
-    <path d="M 700.946136 121.715503 
-Q 720.575203 121.715503 737.409186 121.715503 
+    <path d="M 697.688544 120.442764 
+Q 717.02618 120.442764 733.568732 120.442764 
 " style="fill: none; stroke: #26a69a; stroke-width: 2.5; stroke-linecap: round"/>
-    <path d="M 733.409186 119.715503 
-L 737.409186 121.715503 
-L 733.409186 123.715503 
+    <path d="M 728.768732 118.042764 
+L 733.568732 120.442764 
+L 728.768732 122.842764 
 z
 " style="fill: #26a69a; stroke: #26a69a; stroke-width: 2.5; stroke-linecap: round"/>
    </g>
    <g id="text_69">
     <!-- 1 -->
-    <g style="fill: #2196f3" transform="translate(750.436854 129.515503) scale(0.3 -0.3)">
+    <g style="fill: #2196f3" transform="translate(746.3827 128.242764) scale(0.3 -0.3)">
      <defs>
       <path id="Iosevka-Semibold-31" d="M 1472 0 
 L 1472 4045 
@@ -1871,7 +1871,7 @@ z
    </g>
    <g id="text_70">
     <!-- fit function -->
-    <g style="fill: #838383" transform="translate(611.823239 197.243712) scale(0.12 -0.12)">
+    <g style="fill: #838383" transform="translate(609.257823 194.631774) scale(0.12 -0.12)">
      <defs>
       <path id="Iosevka-75" d="M 1402 -51 
 Q 1242 -51 1091 -6 
@@ -2033,7 +2033,7 @@ z
      <use xlink:href="#Iosevka-6e" transform="translate(549.999832 0)"/>
     </g>
     <!-- $f(\mathrm{image}) = \mathrm{label}$ -->
-    <g style="fill: #838383" transform="translate(604.623239 212.063712) scale(0.12 -0.12)">
+    <g style="fill: #838383" transform="translate(602.057823 209.451774) scale(0.12 -0.12)">
      <defs>
       <path id="Iosevka-28" d="M 2381 -1030 
 Q 2106 -877 1866 -669 
@@ -2223,14 +2223,14 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p8481fab2c3">
-   <rect x="7.2" y="46.598932" width="196.631457" height="196.631457"/>
+  <clipPath id="p71661036f2">
+   <rect x="7.2" y="46.266624" width="193.972995" height="193.972995"/>
   </clipPath>
-  <clipPath id="p81b66b4e3e">
-   <rect x="269.50534" y="22.02" width="245.789321" height="245.789321"/>
+  <clipPath id="pc2ab91bb08">
+   <rect x="269.006878" y="22.02" width="242.466244" height="242.466244"/>
   </clipPath>
-  <clipPath id="p62417b2c7b">
-   <rect x="580.968543" y="16.030452" width="196.631457" height="257.768416"/>
+  <clipPath id="p2c8116d847">
+   <rect x="579.307005" y="16.528914" width="193.972995" height="253.448416"/>
   </clipPath>
  </defs>
 </svg>
