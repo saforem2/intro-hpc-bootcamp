@@ -656,15 +656,62 @@ A deep neural network with several hidden layers.
 ## Important things to know
 
 Deep Neural networks can be overly flexible/complicated and "overfit" your
-data, just like fitting overly complicated polynomials:
+data, just like fitting overly complicated polynomials. Let's see this directly:
+we generate noisy samples from a smooth **true function** (a cosine), then fit
+polynomials of increasing degree and watch what happens.
 
+```{python}
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+from plotly.subplots import make_subplots
 
-::: {#fig-bias-variance}
+def true_fn(x):
+    return np.cos(1.5 * np.pi * x)
 
-![](../images/bias_vs_variance.png)
+rng = np.random.default_rng(0)
+n = 30
+x_train = np.sort(rng.uniform(0, 1, n))
+y_train = true_fn(x_train) + rng.normal(0, 0.1, n)   # noisy observations
+x_plot = np.linspace(0, 1, 200)
 
-Bias-variance tradeoff
-:::
+degrees = [1, 4, 15]
+labels = ["Underfitting (high bias)", "Balanced", "Overfitting (high variance)"]
+fig = make_subplots(rows=1, cols=3, subplot_titles=[
+    f"{lab}<br>degree {d}" for lab, d in zip(labels, degrees)])
+
+for col, deg in enumerate(degrees, start=1):
+    model = make_pipeline(PolynomialFeatures(deg), LinearRegression())
+    model.fit(x_train[:, None], y_train)
+    # 10-fold CV MSE, to quantify how badly each generalizes
+    mse = -cross_val_score(model, x_train[:, None], y_train,
+                           scoring="neg_mean_squared_error", cv=10).mean()
+    y_model = model.predict(x_plot[:, None])
+    show = (col == 1)   # one shared legend
+    fig.add_scatter(x=x_plot, y=true_fn(x_plot), mode="lines", name="true function",
+                    line=dict(color=COLORS["orange"], width=2),
+                    legendgroup="t", showlegend=show, row=1, col=col)
+    fig.add_scatter(x=x_plot, y=y_model, mode="lines", name="model",
+                    line=dict(color=COLORS["blue"], width=2),
+                    legendgroup="m", showlegend=show, row=1, col=col)
+    fig.add_scatter(x=x_train, y=y_train, mode="markers", name="samples",
+                    marker=dict(color=COLORS["blue"], size=6, opacity=0.6),
+                    legendgroup="s", showlegend=show, row=1, col=col)
+    fig.update_xaxes(title_text=f"MSE ≈ {mse:.2g}", row=1, col=col,
+                     showticklabels=False)
+    fig.update_yaxes(range=[-1.8, 1.8], showticklabels=False, row=1, col=col)
+
+fig.update_layout(height=360, margin=dict(t=60),
+                  legend=dict(orientation="h", y=-0.08))
+fig.show()
+```
+
+The **degree-1** line is too simple to follow the curve (**underfitting / high
+bias**); the **degree-15** polynomial contorts itself to hit every noisy point and
+swings wildly between them (**overfitting / high variance**); **degree 4** captures
+the real shape without chasing the noise. The cross-validated MSE (below each
+panel) is lowest for the balanced model — that's the sweet spot we want.
 
 
 Vizualization wrt to the accuracy and loss (Image source: [Baeldung](https://www.baeldung.com/cs/ml-underfitting-overfitting)):
