@@ -129,6 +129,8 @@ x_sc = StandardScaler().fit_transform(x)
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 # Original (left) vs. standardized (right) — note the axis scales change,
 # but the cluster structure is unchanged.
 _cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF", "#ffeb3b"]
@@ -204,16 +206,22 @@ def initialize_centroids(
       - seed (int): Random seed.
         
     Outputs:
-      - centroids (np.ndarray): Randomly chosen from the data
+      - centroids (np.ndarray): initial centroids spread across the data
         with shape: (num_clusters, num_features).
+
+    We use **k-means++** initialization: pick the first centroid at random, then
+    pick each next one with probability proportional to its squared distance from
+    the nearest existing centroid. This spreads the starting centroids out (one
+    per cluster, roughly), which avoids the bad local minima you get when two
+    random centroids land in the same blob.
     """
-    np.random.RandomState(seed)
-    # 1. Randomly permute data points
-    # 2. From this, pick the first `n_clusters` indices
-    # 3. Return these as our initial centroids
-    random_idx = np.random.permutation(x.shape[0])
-    centroids = x[random_idx[:n_clusters]]
-    return centroids
+    rng = np.random.default_rng(seed)
+    centroids = [x[rng.integers(len(x))]]           # first centroid: random point
+    for _ in range(1, n_clusters):
+        d2 = np.min([((x - c) ** 2).sum(axis=1) for c in centroids], axis=0)
+        probs = d2 / d2.sum()                        # farther points → more likely
+        centroids.append(x[rng.choice(len(x), p=probs)])
+    return np.array(centroids)
 ```
 
 ### Step 2a: Calculate distance to each centroid
@@ -431,6 +439,8 @@ they're reassigned to the nearest centroid (★), and the centroids drift into
 place. Drag the slider or hit ▶:
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 _cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF",
          "#ffeb3b", "#EC407A", "#009688", "#795548", "#607D8B"]
 
@@ -731,6 +741,10 @@ for iteration in range(n_iterations):
     if iteration % 100 == 0:
         images.append(normalize(net))
         snapshots.append(iteration)
+# capture the final, fully-trained map as the last frame so the animation's end
+# matches the "Final SOM" shown afterward
+images.append(normalize(net))
+snapshots.append(n_iterations)
 print(f"collected {len(images)} snapshots over {n_iterations} iterations")
 ```
 
@@ -741,6 +755,8 @@ Drag the slider (or hit ▶) to watch neighboring neurons settle into smoothly
 varying colors as training proceeds:
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 # each snapshot is a normalized (H, W, 3) RGB map; go.Image wants 0-255 uint8
 def to_rgb(img):
     return (255 * img).astype("uint8")
@@ -764,13 +780,17 @@ fig.update_layout(
 fig.show()
 ```
 
-```{python}
-from matplotlib import cm
+This is the same map as the final frame of the animation above (rendered the same
+way, so the orientation matches):
 
-fig, ax = plt.subplots(figsize=(4, 4))
-image = ax.imshow(normalize(net), cmap="rainbow")
-_ = ax.set_title("Final SOM")
-_ = plt.show()
+```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+fig = go.Figure(go.Image(z=to_rgb(normalize(net))))
+fig.update_layout(title="Final SOM", height=460, width=460,
+                  margin=dict(l=0, r=0, t=40, b=0),
+                  xaxis=dict(showticklabels=False), yaxis=dict(showticklabels=False))
+fig.show()
 ```
 
 

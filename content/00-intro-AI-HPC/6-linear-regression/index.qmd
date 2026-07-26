@@ -178,6 +178,8 @@ Let's inspect our data with an **interactive scatter plot** — hover over any
 point to see its exact square footage and sale price, and drag to zoom:
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 fig = go.Figure()
 fig.add_scatter(
     x=data["GrLivArea"], y=data["SalePrice"],
@@ -552,6 +554,8 @@ the slider (or hit ▶) to watch the fit line rotate into place on the left whil
 the loss drops on the right.
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
 line_x = np.arange(data_x.min(), data_x.max())
 calc_y = line_x * m_calc + b_calc   # the closed-form fit, for comparison
 
