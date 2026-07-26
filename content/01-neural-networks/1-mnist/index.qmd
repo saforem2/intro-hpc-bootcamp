@@ -714,13 +714,46 @@ the real shape without chasing the noise. The cross-validated MSE (below each
 panel) is lowest for the balanced model — that's the sweet spot we want.
 
 
-Vizualization wrt to the accuracy and loss (Image source: [Baeldung](https://www.baeldung.com/cs/ml-underfitting-overfitting)):
+The same story shows up when we watch **training vs. validation** metrics over
+epochs. Early on both improve together; past a point the model starts memorizing
+the training set — training keeps improving while **validation turns the wrong
+way**. The gap between the two curves *is* overfitting, and the dashed line marks
+where you'd want to **stop early**:
 
-::: {#fig-acc-under-over}
-![](./images/acc_under_over.webp)
+```{python}
+# schematic training/validation curves over epochs (illustrative shapes)
+ep = np.linspace(0, 1, 200)
+stop = 0.45   # early-stopping sweet spot (validation's best point)
 
-Visualization of accuracy and loss
-:::
+# accuracy: both rise; training saturates high, validation peaks then declines
+train_acc = 1 - 0.9 * np.exp(-4 * ep)
+val_acc = (1 - 0.9 * np.exp(-4.5 * ep)) - 0.6 * np.clip(ep - stop, 0, None) ** 2 / (1 - stop) ** 2
+# loss: both fall; training keeps dropping, validation dips then climbs back up
+train_loss = 0.1 + 0.9 * np.exp(-4 * ep)
+val_loss = 0.1 + 0.9 * np.exp(-4.5 * ep) + 0.7 * np.clip(ep - stop, 0, None) ** 2 / (1 - stop) ** 2
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Accuracy", "Loss"))
+for col, (tr, va) in enumerate([(train_acc, val_acc), (train_loss, val_loss)], start=1):
+    show = (col == 1)
+    fig.add_scatter(x=ep, y=tr, mode="lines", name="Training",
+                    line=dict(color=COLORS["blue"], width=2.5),
+                    legendgroup="tr", showlegend=show, row=1, col=col)
+    fig.add_scatter(x=ep, y=va, mode="lines", name="Validation",
+                    line=dict(color=COLORS["orange"], width=2.5),
+                    legendgroup="va", showlegend=show, row=1, col=col)
+    fig.add_vline(x=stop, line=dict(color=COLORS["red"], width=1.5, dash="dash"),
+                  row=1, col=col)
+    fig.update_xaxes(title_text="Epochs", showticklabels=False, row=1, col=col)
+    fig.update_yaxes(showticklabels=False, row=1, col=col)
+fig.add_annotation(x=stop, y=1.0, xref="x", yref="paper", text="stop here",
+                   showarrow=False, yshift=8, font=dict(color=COLORS["red"], size=11))
+fig.update_layout(height=320, margin=dict(t=50),
+                  legend=dict(orientation="h", y=-0.12))
+fig.show()
+```
+
+Past the dashed line the model keeps getting better on data it has *seen* while
+getting worse on data it *hasn't* — the definition of overfitting.
 
 
 
