@@ -70,13 +70,48 @@ def ambivalent_template():
     )
 
 
-def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = True):
+# matplotlib font family to match the Plotly "Iosevka Web" look (Iosevka is
+# installed locally; fall back gracefully if a given build lacks it).
+MPL_FONT = "Iosevka"
+MPL_FALLBACKS = ["Iosevka Term", "IBM Plex Mono", "DejaVu Sans Mono", "monospace"]
+
+
+def apply_mpl_font(font: str = MPL_FONT):
+    """Point matplotlib (incl. mathtext) at Iosevka so its figures match Plotly.
+
+    Call this AFTER any `plt.style.use(...)`, since styles reset the font family.
+    Safe to call even if matplotlib isn't installed.
+    """
+    try:
+        import matplotlib.pyplot as plt
+        import matplotlib.font_manager as fm
+    except Exception:
+        return
+    installed = {f.name for f in fm.fontManager.ttflist}
+    family = font if font in installed else next(
+        (f for f in MPL_FALLBACKS if f in installed), "monospace")
+    plt.rcParams["font.family"] = family
+    plt.rcParams["font.sans-serif"] = [family] + MPL_FALLBACKS
+    plt.rcParams["font.monospace"] = [family] + MPL_FALLBACKS
+    # mathtext ($f$, axis math) — use the same face where possible
+    plt.rcParams["mathtext.fontset"] = "custom"
+    plt.rcParams["mathtext.rm"] = family
+    plt.rcParams["mathtext.it"] = f"{family}:italic"
+    plt.rcParams["mathtext.bf"] = f"{family}:bold"
+
+
+def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = True,
+                mpl_font: bool = True):
     """Register the house template with Plotly and make it the default.
 
     Also sets the renderer so Quarto **inlines the full plotly.js** into each page
     (`...+notebook`) instead of loading it from cdn.plot.ly (`...+notebook_connected`).
     That makes the built site self-contained: charts work offline and don't break
     if the CDN is down/blocked. Pass embed=False to fall back to the CDN.
+
+    With mpl_font=True (default) it also points matplotlib at Iosevka so *both*
+    chart engines share the site's font. Call apply_theme() AFTER any
+    `plt.style.use(...)`, which would otherwise reset the matplotlib font.
 
     Returns the template name so callers can pass `template=name` explicitly if
     they prefer not to rely on the global default.
@@ -90,4 +125,6 @@ def apply_theme(name: str = "ambivalent", default: bool = True, embed: bool = Tr
     if embed:
         # "notebook" inlines the library; "notebook_connected" would use the CDN
         pio.renderers.default = "plotly_mimetype+notebook"
+    if mpl_font:
+        apply_mpl_font()
     return name

@@ -166,6 +166,8 @@ you'll see on nearly every page:
 ```{python}
 import numpy as np              # fast numerical arrays
 import matplotlib.pyplot as plt # plotting
+from bootcamp.plotly_theme import apply_mpl_font
+apply_mpl_font()                # use the site's Iosevka font in matplotlib figures
 
 # make a smooth curve and plot our relu on it
 xs = np.linspace(-5, 5, 200)

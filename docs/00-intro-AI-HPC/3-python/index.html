@@ -684,7 +684,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 24, 2026</p>
+      <p class="date-modified">July 26, 2026</p>
     </div>
   </div>
     
@@ -753,7 +753,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </tbody>
 </table>
 <p>You can run shell commands <em>from inside a notebook</em> by prefixing them with <code>!</code>. Here’s the Python version we’re running:</p>
-<div id="37291ad6" class="cell" data-execution_count="1">
+<div id="fcfe736f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="op">!</span>python3 <span class="op">--</span>version</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Python 3.14.5</code></pre>
@@ -782,7 +782,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="variables-and-types" class="level2">
 <h2 class="anchored" data-anchor-id="variables-and-types">🐍 Variables and types</h2>
 <p>A <strong>variable</strong> is a name bound to a value. Python figures out the type for you:</p>
-<div id="02e8421b" class="cell" data-execution_count="2">
+<div id="b43547bd" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>n_gpus <span class="op">=</span> <span class="dv">4</span>              <span class="co"># int</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>learning_rate <span class="op">=</span> <span class="fl">0.001</span>   <span class="co"># float</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>model_name <span class="op">=</span> <span class="st">"GPT"</span>      <span class="co"># str</span></span>
@@ -796,7 +796,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <p>Arithmetic and f-strings (string formatting) are the two things you’ll reach for constantly:</p>
-<div id="b25661bc" class="cell" data-execution_count="3">
+<div id="c04eb6f7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>tokens <span class="op">=</span> <span class="dv">1_000_000</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>seconds <span class="op">=</span> <span class="fl">42.0</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>throughput <span class="op">=</span> tokens <span class="op">/</span> seconds</span>
@@ -809,7 +809,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="data-structures-lists-and-dicts" class="level2">
 <h2 class="anchored" data-anchor-id="data-structures-lists-and-dicts">📦 Data structures: lists and dicts</h2>
 <p>A <strong>list</strong> is an ordered, mutable collection. A <strong>dictionary</strong> maps keys to values. Between them they cover most of what you’ll need:</p>
-<div id="c880ae8a" class="cell" data-execution_count="4">
+<div id="93bdf954" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="co"># a list of layer widths</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>layers <span class="op">=</span> [<span class="dv">784</span>, <span class="dv">256</span>, <span class="dv">128</span>, <span class="dv">10</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"num layers:"</span>, <span class="bu">len</span>(layers))</span>
@@ -822,7 +822,7 @@ first / last: 784 10
 after append: [784, 256, 128, 10, 1]</code></pre>
 </div>
 </div>
-<div id="8ab08c63" class="cell" data-execution_count="5">
+<div id="e6bd790d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co"># a dict of hyperparameters</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>config <span class="op">=</span> {<span class="st">"lr"</span>: <span class="fl">0.001</span>, <span class="st">"batch_size"</span>: <span class="dv">64</span>, <span class="st">"epochs"</span>: <span class="dv">10</span>}</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"learning rate:"</span>, config[<span class="st">"lr"</span>])</span>
@@ -841,7 +841,7 @@ after append: [784, 256, 128, 10, 1]</code></pre>
 <section id="loops-and-comprehensions" class="level2">
 <h2 class="anchored" data-anchor-id="loops-and-comprehensions">🔁 Loops and comprehensions</h2>
 <p>A <code>for</code> loop repeats work. A <strong>list comprehension</strong> is the Pythonic one-liner for “build a list by transforming another”:</p>
-<div id="dc2c5e60" class="cell" data-execution_count="6">
+<div id="ba63b0f5" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="co"># the long way</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>squares <span class="op">=</span> []</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>):</span>
@@ -865,7 +865,7 @@ even squares: [4, 16, 36, 64, 100]</code></pre>
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">🧰 Functions</h2>
 <p>A <strong>function</strong> packages logic behind a name so you can reuse it. Define with <code>def</code>, hand back a result with <code>return</code>:</p>
-<div id="92deae31" class="cell" data-execution_count="7">
+<div id="20deb7e3" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">def</span> relu(x):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>    <span class="co">"""Rectified linear unit: max(0, x) — the workhorse activation function."""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>    <span class="cf">return</span> x <span class="cf">if</span> x <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span>
@@ -881,7 +881,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 </div>
 <p>Functions can take <strong>default arguments</strong>, which makes them flexible:</p>
-<div id="3a2e0984" class="cell" data-execution_count="8">
+<div id="5cc7b287" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">def</span> scale(values, factor<span class="op">=</span><span class="fl">2.0</span>):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>    <span class="cf">return</span> [v <span class="op">*</span> factor <span class="cf">for</span> v <span class="kw">in</span> values]</span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a></span>
@@ -896,24 +896,26 @@ relu(+3.0) = 3.0</code></pre>
 <section id="imports-the-scientific-python-stack" class="level2">
 <h2 class="anchored" data-anchor-id="imports-the-scientific-python-stack">📚 Imports: the scientific-Python stack</h2>
 <p>Real work builds on <strong>libraries</strong>. You pull them in with <code>import</code>. The three you’ll see on nearly every page:</p>
-<div id="58ff947a" class="cell" data-execution_count="9">
+<div id="33226571" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np              <span class="co"># fast numerical arrays</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># plotting</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="co"># make a smooth curve and plot our relu on it</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-label="6"></a>ys <span class="op">=</span> np.maximum(<span class="dv">0</span>, xs)          <span class="co"># numpy's vectorized relu</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-label="7"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-label="8"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb17-9"><a href="#cb17-9" aria-label="9"></a>ax.plot(xs, ys, lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-label="10"></a>ax.set_title(<span class="st">"ReLU activation"</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-label="11"></a>ax.set_xlabel(<span class="st">"x"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"relu(x)"</span>)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-label="12"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-label="13"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_mpl_font</span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a>apply_mpl_font()                <span class="co"># use the site's Iosevka font in matplotlib figures</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-label="6"></a><span class="co"># make a smooth curve and plot our relu on it</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-label="7"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-label="8"></a>ys <span class="op">=</span> np.maximum(<span class="dv">0</span>, xs)          <span class="co"># numpy's vectorized relu</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-label="9"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-label="10"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-label="11"></a>ax.plot(xs, ys, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-label="12"></a>ax.set_title(<span class="st">"ReLU activation"</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-label="13"></a>ax.set_xlabel(<span class="st">"x"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"relu(x)"</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-label="14"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-label="15"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/cell-10-output-1.png" width="502" height="339" class="figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/cell-10-output-1.png" width="500" height="339" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -948,7 +950,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="7be8d260" class="cell" data-execution_count="10">
+<div id="46703431" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="kw">def</span> mean(values):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a></span>
@@ -988,7 +990,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="dc3589b4" class="cell" data-execution_count="11">
+<div id="98e8b007" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a>words <span class="op">=</span> [<span class="st">"hpc"</span>, <span class="st">"gpu"</span>, <span class="st">"llm"</span>]</span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a><span class="bu">print</span>([w.upper() <span class="cf">for</span> w <span class="kw">in</span> words])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1026,7 +1028,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="e15e9857" class="cell" data-execution_count="12">
+<div id="328bfbf2" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a>counts <span class="op">=</span> {<span class="st">"gpu0"</span>: <span class="dv">120</span>, <span class="st">"gpu1"</span>: <span class="dv">95</span>, <span class="st">"gpu2"</span>: <span class="dv">130</span>}</span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"total:"</span>, <span class="bu">sum</span>(counts.values()))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"busiest:"</span>, <span class="bu">max</span>(counts, key<span class="op">=</span>counts.get))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1771,85 +1773,87 @@ Foreman, Sam, and Sam Foreman. 2025. <span>“Using Python.”</span> August
 <span id="cb24-184"><a href="#cb24-184" aria-label="166"></a><span class="in">```{python}</span></span>
 <span id="cb24-185"><a href="#cb24-185" aria-label="167"></a><span class="im">import</span> numpy <span class="im">as</span> np              <span class="co"># fast numerical arrays</span></span>
 <span id="cb24-186"><a href="#cb24-186" aria-label="168"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># plotting</span></span>
-<span id="cb24-187"><a href="#cb24-187" aria-label="169"></a></span>
-<span id="cb24-188"><a href="#cb24-188" aria-label="170"></a><span class="co"># make a smooth curve and plot our relu on it</span></span>
-<span id="cb24-189"><a href="#cb24-189" aria-label="171"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb24-190"><a href="#cb24-190" aria-label="172"></a>ys <span class="op">=</span> np.maximum(<span class="dv">0</span>, xs)          <span class="co"># numpy's vectorized relu</span></span>
-<span id="cb24-191"><a href="#cb24-191" aria-label="173"></a></span>
-<span id="cb24-192"><a href="#cb24-192" aria-label="174"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
-<span id="cb24-193"><a href="#cb24-193" aria-label="175"></a>ax.plot(xs, ys, lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb24-194"><a href="#cb24-194" aria-label="176"></a>ax.set_title(<span class="st">"ReLU activation"</span>)</span>
-<span id="cb24-195"><a href="#cb24-195" aria-label="177"></a>ax.set_xlabel(<span class="st">"x"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"relu(x)"</span>)</span>
-<span id="cb24-196"><a href="#cb24-196" aria-label="178"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb24-197"><a href="#cb24-197" aria-label="179"></a>plt.show()</span>
-<span id="cb24-198"><a href="#cb24-198" aria-label="180"></a><span class="in">```</span></span>
-<span id="cb24-199"><a href="#cb24-199" aria-label="181"></a></span>
-<span id="cb24-200"><a href="#cb24-200" aria-label="182"></a>That <span class="in">`np.maximum(0, xs)`</span> applied <span class="in">`relu`</span> to all 200 points **at once** — no loop.</span>
-<span id="cb24-201"><a href="#cb24-201" aria-label="183"></a>This *vectorized* style is why NumPy is fast, and it's the subject of the next</span>
-<span id="cb24-202"><a href="#cb24-202" aria-label="184"></a>page, <span class="co">[</span><span class="ot">**Working with Data**</span><span class="co">](../4-data/index.qmd)</span>.</span>
-<span id="cb24-203"><a href="#cb24-203" aria-label="185"></a></span>
-<span id="cb24-204"><a href="#cb24-204" aria-label="186"></a><span class="fu">## Exercises {#exercises}</span></span>
+<span id="cb24-187"><a href="#cb24-187" aria-label="169"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_mpl_font</span>
+<span id="cb24-188"><a href="#cb24-188" aria-label="170"></a>apply_mpl_font()                <span class="co"># use the site's Iosevka font in matplotlib figures</span></span>
+<span id="cb24-189"><a href="#cb24-189" aria-label="171"></a></span>
+<span id="cb24-190"><a href="#cb24-190" aria-label="172"></a><span class="co"># make a smooth curve and plot our relu on it</span></span>
+<span id="cb24-191"><a href="#cb24-191" aria-label="173"></a>xs <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb24-192"><a href="#cb24-192" aria-label="174"></a>ys <span class="op">=</span> np.maximum(<span class="dv">0</span>, xs)          <span class="co"># numpy's vectorized relu</span></span>
+<span id="cb24-193"><a href="#cb24-193" aria-label="175"></a></span>
+<span id="cb24-194"><a href="#cb24-194" aria-label="176"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">3.5</span>))</span>
+<span id="cb24-195"><a href="#cb24-195" aria-label="177"></a>ax.plot(xs, ys, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb24-196"><a href="#cb24-196" aria-label="178"></a>ax.set_title(<span class="st">"ReLU activation"</span>)</span>
+<span id="cb24-197"><a href="#cb24-197" aria-label="179"></a>ax.set_xlabel(<span class="st">"x"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"relu(x)"</span>)</span>
+<span id="cb24-198"><a href="#cb24-198" aria-label="180"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb24-199"><a href="#cb24-199" aria-label="181"></a>plt.show()</span>
+<span id="cb24-200"><a href="#cb24-200" aria-label="182"></a><span class="in">```</span></span>
+<span id="cb24-201"><a href="#cb24-201" aria-label="183"></a></span>
+<span id="cb24-202"><a href="#cb24-202" aria-label="184"></a>That <span class="in">`np.maximum(0, xs)`</span> applied <span class="in">`relu`</span> to all 200 points **at once** — no loop.</span>
+<span id="cb24-203"><a href="#cb24-203" aria-label="185"></a>This *vectorized* style is why NumPy is fast, and it's the subject of the next</span>
+<span id="cb24-204"><a href="#cb24-204" aria-label="186"></a>page, <span class="co">[</span><span class="ot">**Working with Data**</span><span class="co">](../4-data/index.qmd)</span>.</span>
 <span id="cb24-205"><a href="#cb24-205" aria-label="187"></a></span>
-<span id="cb24-206"><a href="#cb24-206" aria-label="188"></a>Try these — each has a hidden solution, but give it a real attempt first.</span>
+<span id="cb24-206"><a href="#cb24-206" aria-label="188"></a><span class="fu">## Exercises {#exercises}</span></span>
 <span id="cb24-207"><a href="#cb24-207" aria-label="189"></a></span>
-<span id="cb24-208"><a href="#cb24-208" aria-label="190"></a>::: {.callout-note title="Exercise 1 — a function" collapse="false"}</span>
-<span id="cb24-209"><a href="#cb24-209" aria-label="191"></a>Write a function <span class="in">`mean(values)`</span> that returns the average of a list of numbers,</span>
-<span id="cb24-210"><a href="#cb24-210" aria-label="192"></a>then call it on <span class="in">`[10, 20, 30, 40]`</span> (you should get <span class="in">`25.0`</span>).</span>
-<span id="cb24-211"><a href="#cb24-211" aria-label="193"></a></span>
-<span id="cb24-212"><a href="#cb24-212" aria-label="194"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
-<span id="cb24-215"><a href="#cb24-215" aria-label="195"></a><span class="in">```{python}</span></span>
-<span id="cb24-216"><a href="#cb24-216" aria-label="196"></a><span class="kw">def</span> mean(values):</span>
-<span id="cb24-217"><a href="#cb24-217" aria-label="197"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
-<span id="cb24-218"><a href="#cb24-218" aria-label="198"></a></span>
-<span id="cb24-219"><a href="#cb24-219" aria-label="199"></a><span class="bu">print</span>(mean([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]))</span>
-<span id="cb24-220"><a href="#cb24-220" aria-label="200"></a><span class="in">```</span></span>
-<span id="cb24-221"><a href="#cb24-221" aria-label="201"></a>:::</span>
-<span id="cb24-222"><a href="#cb24-222" aria-label="202"></a>:::</span>
-<span id="cb24-223"><a href="#cb24-223" aria-label="203"></a></span>
-<span id="cb24-224"><a href="#cb24-224" aria-label="204"></a>::: {.callout-note title="Exercise 2 — a comprehension" collapse="false"}</span>
-<span id="cb24-225"><a href="#cb24-225" aria-label="205"></a>Given <span class="in">`words = ["hpc", "gpu", "llm"]`</span>, use a list comprehension to build a list</span>
-<span id="cb24-226"><a href="#cb24-226" aria-label="206"></a>of their **uppercased** forms: <span class="in">`["HPC", "GPU", "LLM"]`</span>. (Hint: strings have an</span>
-<span id="cb24-227"><a href="#cb24-227" aria-label="207"></a><span class="in">`.upper()`</span> method.)</span>
-<span id="cb24-228"><a href="#cb24-228" aria-label="208"></a></span>
-<span id="cb24-229"><a href="#cb24-229" aria-label="209"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
-<span id="cb24-232"><a href="#cb24-232" aria-label="210"></a><span class="in">```{python}</span></span>
-<span id="cb24-233"><a href="#cb24-233" aria-label="211"></a>words <span class="op">=</span> [<span class="st">"hpc"</span>, <span class="st">"gpu"</span>, <span class="st">"llm"</span>]</span>
-<span id="cb24-234"><a href="#cb24-234" aria-label="212"></a><span class="bu">print</span>([w.upper() <span class="cf">for</span> w <span class="kw">in</span> words])</span>
-<span id="cb24-235"><a href="#cb24-235" aria-label="213"></a><span class="in">```</span></span>
-<span id="cb24-236"><a href="#cb24-236" aria-label="214"></a>:::</span>
-<span id="cb24-237"><a href="#cb24-237" aria-label="215"></a>:::</span>
-<span id="cb24-238"><a href="#cb24-238" aria-label="216"></a></span>
-<span id="cb24-239"><a href="#cb24-239" aria-label="217"></a>::: {.callout-note title="Exercise 3 — dicts + a loop" collapse="false"}</span>
-<span id="cb24-240"><a href="#cb24-240" aria-label="218"></a>You have per-GPU token counts <span class="in">`counts = {"gpu0": 120, "gpu1": 95, "gpu2": 130}`</span>.</span>
-<span id="cb24-241"><a href="#cb24-241" aria-label="219"></a>Print the **total** across all GPUs and the **name of the busiest** GPU.</span>
-<span id="cb24-242"><a href="#cb24-242" aria-label="220"></a></span>
-<span id="cb24-243"><a href="#cb24-243" aria-label="221"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
-<span id="cb24-246"><a href="#cb24-246" aria-label="222"></a><span class="in">```{python}</span></span>
-<span id="cb24-247"><a href="#cb24-247" aria-label="223"></a>counts <span class="op">=</span> {<span class="st">"gpu0"</span>: <span class="dv">120</span>, <span class="st">"gpu1"</span>: <span class="dv">95</span>, <span class="st">"gpu2"</span>: <span class="dv">130</span>}</span>
-<span id="cb24-248"><a href="#cb24-248" aria-label="224"></a><span class="bu">print</span>(<span class="st">"total:"</span>, <span class="bu">sum</span>(counts.values()))</span>
-<span id="cb24-249"><a href="#cb24-249" aria-label="225"></a><span class="bu">print</span>(<span class="st">"busiest:"</span>, <span class="bu">max</span>(counts, key<span class="op">=</span>counts.get))</span>
-<span id="cb24-250"><a href="#cb24-250" aria-label="226"></a><span class="in">```</span></span>
-<span id="cb24-251"><a href="#cb24-251" aria-label="227"></a>:::</span>
-<span id="cb24-252"><a href="#cb24-252" aria-label="228"></a>:::</span>
-<span id="cb24-253"><a href="#cb24-253" aria-label="229"></a></span>
-<span id="cb24-254"><a href="#cb24-254" aria-label="230"></a><span class="fu">## 🔑 Key takeaways</span></span>
+<span id="cb24-208"><a href="#cb24-208" aria-label="190"></a>Try these — each has a hidden solution, but give it a real attempt first.</span>
+<span id="cb24-209"><a href="#cb24-209" aria-label="191"></a></span>
+<span id="cb24-210"><a href="#cb24-210" aria-label="192"></a>::: {.callout-note title="Exercise 1 — a function" collapse="false"}</span>
+<span id="cb24-211"><a href="#cb24-211" aria-label="193"></a>Write a function <span class="in">`mean(values)`</span> that returns the average of a list of numbers,</span>
+<span id="cb24-212"><a href="#cb24-212" aria-label="194"></a>then call it on <span class="in">`[10, 20, 30, 40]`</span> (you should get <span class="in">`25.0`</span>).</span>
+<span id="cb24-213"><a href="#cb24-213" aria-label="195"></a></span>
+<span id="cb24-214"><a href="#cb24-214" aria-label="196"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb24-217"><a href="#cb24-217" aria-label="197"></a><span class="in">```{python}</span></span>
+<span id="cb24-218"><a href="#cb24-218" aria-label="198"></a><span class="kw">def</span> mean(values):</span>
+<span id="cb24-219"><a href="#cb24-219" aria-label="199"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
+<span id="cb24-220"><a href="#cb24-220" aria-label="200"></a></span>
+<span id="cb24-221"><a href="#cb24-221" aria-label="201"></a><span class="bu">print</span>(mean([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]))</span>
+<span id="cb24-222"><a href="#cb24-222" aria-label="202"></a><span class="in">```</span></span>
+<span id="cb24-223"><a href="#cb24-223" aria-label="203"></a>:::</span>
+<span id="cb24-224"><a href="#cb24-224" aria-label="204"></a>:::</span>
+<span id="cb24-225"><a href="#cb24-225" aria-label="205"></a></span>
+<span id="cb24-226"><a href="#cb24-226" aria-label="206"></a>::: {.callout-note title="Exercise 2 — a comprehension" collapse="false"}</span>
+<span id="cb24-227"><a href="#cb24-227" aria-label="207"></a>Given <span class="in">`words = ["hpc", "gpu", "llm"]`</span>, use a list comprehension to build a list</span>
+<span id="cb24-228"><a href="#cb24-228" aria-label="208"></a>of their **uppercased** forms: <span class="in">`["HPC", "GPU", "LLM"]`</span>. (Hint: strings have an</span>
+<span id="cb24-229"><a href="#cb24-229" aria-label="209"></a><span class="in">`.upper()`</span> method.)</span>
+<span id="cb24-230"><a href="#cb24-230" aria-label="210"></a></span>
+<span id="cb24-231"><a href="#cb24-231" aria-label="211"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb24-234"><a href="#cb24-234" aria-label="212"></a><span class="in">```{python}</span></span>
+<span id="cb24-235"><a href="#cb24-235" aria-label="213"></a>words <span class="op">=</span> [<span class="st">"hpc"</span>, <span class="st">"gpu"</span>, <span class="st">"llm"</span>]</span>
+<span id="cb24-236"><a href="#cb24-236" aria-label="214"></a><span class="bu">print</span>([w.upper() <span class="cf">for</span> w <span class="kw">in</span> words])</span>
+<span id="cb24-237"><a href="#cb24-237" aria-label="215"></a><span class="in">```</span></span>
+<span id="cb24-238"><a href="#cb24-238" aria-label="216"></a>:::</span>
+<span id="cb24-239"><a href="#cb24-239" aria-label="217"></a>:::</span>
+<span id="cb24-240"><a href="#cb24-240" aria-label="218"></a></span>
+<span id="cb24-241"><a href="#cb24-241" aria-label="219"></a>::: {.callout-note title="Exercise 3 — dicts + a loop" collapse="false"}</span>
+<span id="cb24-242"><a href="#cb24-242" aria-label="220"></a>You have per-GPU token counts <span class="in">`counts = {"gpu0": 120, "gpu1": 95, "gpu2": 130}`</span>.</span>
+<span id="cb24-243"><a href="#cb24-243" aria-label="221"></a>Print the **total** across all GPUs and the **name of the busiest** GPU.</span>
+<span id="cb24-244"><a href="#cb24-244" aria-label="222"></a></span>
+<span id="cb24-245"><a href="#cb24-245" aria-label="223"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb24-248"><a href="#cb24-248" aria-label="224"></a><span class="in">```{python}</span></span>
+<span id="cb24-249"><a href="#cb24-249" aria-label="225"></a>counts <span class="op">=</span> {<span class="st">"gpu0"</span>: <span class="dv">120</span>, <span class="st">"gpu1"</span>: <span class="dv">95</span>, <span class="st">"gpu2"</span>: <span class="dv">130</span>}</span>
+<span id="cb24-250"><a href="#cb24-250" aria-label="226"></a><span class="bu">print</span>(<span class="st">"total:"</span>, <span class="bu">sum</span>(counts.values()))</span>
+<span id="cb24-251"><a href="#cb24-251" aria-label="227"></a><span class="bu">print</span>(<span class="st">"busiest:"</span>, <span class="bu">max</span>(counts, key<span class="op">=</span>counts.get))</span>
+<span id="cb24-252"><a href="#cb24-252" aria-label="228"></a><span class="in">```</span></span>
+<span id="cb24-253"><a href="#cb24-253" aria-label="229"></a>:::</span>
+<span id="cb24-254"><a href="#cb24-254" aria-label="230"></a>:::</span>
 <span id="cb24-255"><a href="#cb24-255" aria-label="231"></a></span>
-<span id="cb24-256"><a href="#cb24-256" aria-label="232"></a><span class="ss">- </span>Variables are typed automatically; f-strings (<span class="in">`f"{x:.2f}"`</span>) format output.</span>
-<span id="cb24-257"><a href="#cb24-257" aria-label="233"></a><span class="ss">- </span>**Lists** (ordered) and **dicts** (key→value) are your everyday containers.</span>
-<span id="cb24-258"><a href="#cb24-258" aria-label="234"></a><span class="ss">- </span>**Comprehensions** (<span class="in">`[f(x) for x in xs]`</span>) replace many simple loops.</span>
-<span id="cb24-259"><a href="#cb24-259" aria-label="235"></a><span class="ss">- </span>**Functions** (<span class="in">`def … return`</span>) package reusable logic.</span>
-<span id="cb24-260"><a href="#cb24-260" aria-label="236"></a><span class="ss">- </span>**`import`** brings in libraries — <span class="in">`numpy`</span> and <span class="in">`matplotlib`</span> above all.</span>
-<span id="cb24-261"><a href="#cb24-261" aria-label="237"></a></span>
-<span id="cb24-262"><a href="#cb24-262" aria-label="238"></a>::: {.callout-tip icon="false" title="📓 Go deeper: Python" collapse="true"}</span>
-<span id="cb24-263"><a href="#cb24-263" aria-label="239"></a><span class="ss">- </span><span class="co">[</span><span class="ot">The Python Tutorial</span><span class="co">](https://docs.python.org/3/tutorial/)</span></span>
-<span id="cb24-264"><a href="#cb24-264" aria-label="240"></a><span class="ss">- </span><span class="co">[</span><span class="ot">A Whirlwind Tour of Python</span><span class="co">](https://nbviewer.org/github/jakevdp/WhirlwindTourOfPython/blob/master/Index.ipynb)</span></span>
-<span id="cb24-265"><a href="#cb24-265" aria-label="241"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Python Data Science Handbook</span><span class="co">](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)</span></span>
-<span id="cb24-266"><a href="#cb24-266" aria-label="242"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Python Introduction | Google for Developers</span><span class="co">](https://developers.google.com/edu/python/introduction)</span></span>
-<span id="cb24-267"><a href="#cb24-267" aria-label="243"></a><span class="ss">- </span><span class="co">[</span><span class="ot">foundational\_hpc\_skills/intro\_to\_python · olcf</span><span class="co">](https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)</span></span>
-<span id="cb24-268"><a href="#cb24-268" aria-label="244"></a>:::</span>
-<span id="cb24-269"><a href="#cb24-269" aria-label="245"></a></span>
-<span id="cb24-270"><a href="#cb24-270" aria-label="246"></a>➡️ **Next:** <span class="co">[</span><span class="ot">Working with Data</span><span class="co">](../4-data/index.qmd)</span> — NumPy arrays, pandas, and</span>
-<span id="cb24-271"><a href="#cb24-271" aria-label="247"></a>plotting real data.</span>
+<span id="cb24-256"><a href="#cb24-256" aria-label="232"></a><span class="fu">## 🔑 Key takeaways</span></span>
+<span id="cb24-257"><a href="#cb24-257" aria-label="233"></a></span>
+<span id="cb24-258"><a href="#cb24-258" aria-label="234"></a><span class="ss">- </span>Variables are typed automatically; f-strings (<span class="in">`f"{x:.2f}"`</span>) format output.</span>
+<span id="cb24-259"><a href="#cb24-259" aria-label="235"></a><span class="ss">- </span>**Lists** (ordered) and **dicts** (key→value) are your everyday containers.</span>
+<span id="cb24-260"><a href="#cb24-260" aria-label="236"></a><span class="ss">- </span>**Comprehensions** (<span class="in">`[f(x) for x in xs]`</span>) replace many simple loops.</span>
+<span id="cb24-261"><a href="#cb24-261" aria-label="237"></a><span class="ss">- </span>**Functions** (<span class="in">`def … return`</span>) package reusable logic.</span>
+<span id="cb24-262"><a href="#cb24-262" aria-label="238"></a><span class="ss">- </span>**`import`** brings in libraries — <span class="in">`numpy`</span> and <span class="in">`matplotlib`</span> above all.</span>
+<span id="cb24-263"><a href="#cb24-263" aria-label="239"></a></span>
+<span id="cb24-264"><a href="#cb24-264" aria-label="240"></a>::: {.callout-tip icon="false" title="📓 Go deeper: Python" collapse="true"}</span>
+<span id="cb24-265"><a href="#cb24-265" aria-label="241"></a><span class="ss">- </span><span class="co">[</span><span class="ot">The Python Tutorial</span><span class="co">](https://docs.python.org/3/tutorial/)</span></span>
+<span id="cb24-266"><a href="#cb24-266" aria-label="242"></a><span class="ss">- </span><span class="co">[</span><span class="ot">A Whirlwind Tour of Python</span><span class="co">](https://nbviewer.org/github/jakevdp/WhirlwindTourOfPython/blob/master/Index.ipynb)</span></span>
+<span id="cb24-267"><a href="#cb24-267" aria-label="243"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Python Data Science Handbook</span><span class="co">](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)</span></span>
+<span id="cb24-268"><a href="#cb24-268" aria-label="244"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Python Introduction | Google for Developers</span><span class="co">](https://developers.google.com/edu/python/introduction)</span></span>
+<span id="cb24-269"><a href="#cb24-269" aria-label="245"></a><span class="ss">- </span><span class="co">[</span><span class="ot">foundational\_hpc\_skills/intro\_to\_python · olcf</span><span class="co">](https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)</span></span>
+<span id="cb24-270"><a href="#cb24-270" aria-label="246"></a>:::</span>
+<span id="cb24-271"><a href="#cb24-271" aria-label="247"></a></span>
+<span id="cb24-272"><a href="#cb24-272" aria-label="248"></a>➡️ **Next:** <span class="co">[</span><span class="ot">Working with Data</span><span class="co">](../4-data/index.qmd)</span> — NumPy arrays, pandas, and</span>
+<span id="cb24-273"><a href="#cb24-273" aria-label="249"></a>plotting real data.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
