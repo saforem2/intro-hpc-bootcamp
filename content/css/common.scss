@@ -725,6 +725,40 @@ $cell-output-max: 26rem;
   overflow-y: auto;
 }
 
+// ── Distinguish code OUTPUT from the code and from body prose ──────────────
+// Output cells get a left accent bar + a faint tint so it's clear "this is what
+// the code produced" (vs. the grey-backgrounded code block above it, and vs.
+// surrounding paragraphs).
+$cell-output-accent: #7DCAFF;                 // house blue accent
+$cell-output-tint: rgba(131, 131, 131, 0.06); // faint neutral fill
+
+// Text output (stdout / stderr) and *text-only* display output get the accent.
+// Display cells that hold a figure/plot are excluded (a border around a chart
+// or image looks wrong) via :has().
+.cell-output-stdout,
+.cell-output-stderr,
+.cell-output-display:not(:has(img)):not(:has(.plotly-graph-div)):not(:has(table)) {
+  border-left: 3px solid $cell-output-accent;
+  background: $cell-output-tint;
+  border-radius: 0 4px 4px 0;
+  padding: 0.35rem 0.6rem;
+  margin-block: 0.35rem 0.9rem;
+}
+
+// stderr reads as a warning: warm accent instead of blue
+.cell-output-stderr {
+  border-left-color: #FFA726;
+}
+
+// keep the inner <pre> transparent so the tint shows through, and remove its
+// own default padding/border (the wrapper now owns the frame)
+.cell-output-stdout pre,
+.cell-output-stderr pre {
+  background: transparent;
+  border: none;
+  margin: 0;
+}
+
 pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
