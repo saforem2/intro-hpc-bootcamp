@@ -94,9 +94,10 @@ examples of handwritten numbers, with each digit labeled 0-9.
 
 ::: {#fig-mnist-example}
 
-![MNIST Task](../images/mnist_task.png)
+![MNIST Task](../images/mnist_task_generated.svg)
 
-MNIST Data Sample
+A digit is just a grid of pixel intensities; the task is to fit a function
+$f(\text{image}) = \text{label}$.
 :::
 
 We'll start with the MNIST problem in this notebook:

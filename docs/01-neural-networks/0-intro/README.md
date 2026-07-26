@@ -38,9 +38,10 @@ thousands of examples of handwritten numbers, with each digit labeled
 
 <div id="fig-mnist-example">
 
-![MNIST Task](../images/mnist_task.png)
+![MNIST Task](../images/mnist_task_generated.svg)
 
-Figure 1: MNIST Data Sample
+Figure 1: A digit is just a grid of pixel intensities; the task is to
+fit a function $f(\text{image}) = \text{label}$.
 
 </div>
 

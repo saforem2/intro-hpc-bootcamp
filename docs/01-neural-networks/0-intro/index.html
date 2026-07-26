@@ -141,6 +141,49 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Introduction to Neural Networks – Intro to HPC Bootcamp">
 <meta property="og:description" content="A beginner’s guide to understanding neural networks, their architecture, and how they function.">
@@ -725,7 +768,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 24, 2026</p>
+      <p class="date-modified">July 26, 2026</p>
     </div>
   </div>
     
@@ -764,13 +807,13 @@ This week, we’ll work on a “classification” problem, which means that we h
 <div aria-describedby="fig-mnist-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../images/mnist_task.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="MNIST Task"><img src="../images/mnist_task.png" class="img-fluid figure-img"></a></p>
+<p><a href="../images/mnist_task_generated.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="MNIST Task"><img src="../images/mnist_task_generated.svg" class="img-fluid figure-img"></a></p>
 <figcaption>MNIST Task</figcaption>
 </figure>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mnist-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: MNIST Data Sample
+Figure&nbsp;1: A digit is just a grid of pixel intensities; the task is to fit a function <span class="math inline">f(\text{image}) = \text{label}</span>.
 </figcaption>
 </figure>
 </div>
@@ -1446,51 +1489,52 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb1-94"><a href="#cb1-94" aria-label="94"></a></span>
 <span id="cb1-95"><a href="#cb1-95" aria-label="95"></a>::: {#fig-mnist-example}</span>
 <span id="cb1-96"><a href="#cb1-96" aria-label="96"></a></span>
-<span id="cb1-97"><a href="#cb1-97" aria-label="97"></a><span class="al">![MNIST Task](../images/mnist_task.png)</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-label="97"></a><span class="al">![MNIST Task](../images/mnist_task_generated.svg)</span></span>
 <span id="cb1-98"><a href="#cb1-98" aria-label="98"></a></span>
-<span id="cb1-99"><a href="#cb1-99" aria-label="99"></a>MNIST Data Sample</span>
-<span id="cb1-100"><a href="#cb1-100" aria-label="100"></a>:::</span>
-<span id="cb1-101"><a href="#cb1-101" aria-label="101"></a></span>
-<span id="cb1-102"><a href="#cb1-102" aria-label="102"></a>We'll start with the MNIST problem in this notebook:</span>
-<span id="cb1-103"><a href="#cb1-103" aria-label="103"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-label="104"></a><span class="co">[</span><span class="ot">📓 Fitting MNIST with a multi-layer perceptron (MLP)</span><span class="co">](../1-mnist/index.qmd)</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-label="105"></a></span>
-<span id="cb1-106"><a href="#cb1-106" aria-label="106"></a>Next week, we'll learn about other types of neural networks.</span>
-<span id="cb1-107"><a href="#cb1-107" aria-label="107"></a></span>
-<span id="cb1-108"><a href="#cb1-108" aria-label="108"></a>::: {.callout-note title="🧠 Check your understanding" collapse="true"}</span>
-<span id="cb1-109"><a href="#cb1-109" aria-label="109"></a>**Q1.** How does machine learning differ from traditional programming?</span>
-<span id="cb1-110"><a href="#cb1-110" aria-label="110"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-label="111"></a><span class="at">&gt; In traditional programming you write explicit rules. In machine learning you</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-label="112"></a><span class="at">&gt; show the computer many examples and it **learns the patterns** (the rules) on its</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-label="113"></a><span class="at">&gt; own from the data.</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-label="114"></a></span>
-<span id="cb1-115"><a href="#cb1-115" aria-label="115"></a>**Q2.** Last week's house-price task predicted a continuous number (a price). The</span>
-<span id="cb1-116"><a href="#cb1-116" aria-label="116"></a>MNIST task predicts one of ten digit labels (0–9). What are these two kinds of</span>
-<span id="cb1-117"><a href="#cb1-117" aria-label="117"></a>problem called?</span>
-<span id="cb1-118"><a href="#cb1-118" aria-label="118"></a></span>
-<span id="cb1-119"><a href="#cb1-119" aria-label="119"></a><span class="at">&gt; Predicting a continuous number is **regression**; predicting a category label is</span></span>
-<span id="cb1-120"><a href="#cb1-120" aria-label="120"></a><span class="at">&gt; **classification**. MNIST is a classification problem.</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-label="121"></a></span>
-<span id="cb1-122"><a href="#cb1-122" aria-label="122"></a>**Q3.** In the house-price example the pieces were: input, output, function type,</span>
-<span id="cb1-123"><a href="#cb1-123" aria-label="123"></a>loss (MSE), optimizer (SGD). Which of these must change for MNIST, and why?</span>
-<span id="cb1-124"><a href="#cb1-124" aria-label="124"></a></span>
-<span id="cb1-125"><a href="#cb1-125" aria-label="125"></a><span class="at">&gt; The **output/function** (it must produce a class instead of a number) and the</span></span>
-<span id="cb1-126"><a href="#cb1-126" aria-label="126"></a><span class="at">&gt; **loss** (cross-entropy instead of MSE, since we're scoring category predictions).</span></span>
-<span id="cb1-127"><a href="#cb1-127" aria-label="127"></a><span class="at">&gt; The overall recipe — fit a function by minimizing a loss with an optimizer —</span></span>
-<span id="cb1-128"><a href="#cb1-128" aria-label="128"></a><span class="at">&gt; stays the same.</span></span>
-<span id="cb1-129"><a href="#cb1-129" aria-label="129"></a><span class="at">:::</span></span>
-<span id="cb1-130"><a href="#cb1-130" aria-label="130"></a></span>
-<span id="cb1-131"><a href="#cb1-131" aria-label="131"></a><span class="fu">## __References:__</span></span>
-<span id="cb1-132"><a href="#cb1-132" aria-label="132"></a></span>
-<span id="cb1-133"><a href="#cb1-133" aria-label="133"></a><span class="ss">- </span>Here are some recommendations for further reading:</span>
-<span id="cb1-134"><a href="#cb1-134" aria-label="134"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">tensorflow.org tutorials</span><span class="co">](https://www.tensorflow.org/tutorials)</span></span>
-<span id="cb1-135"><a href="#cb1-135" aria-label="135"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">keras.io tutorials</span><span class="co">](https://keras.io/examples/)</span></span>
-<span id="cb1-136"><a href="#cb1-136" aria-label="136"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">CS231n: Convolutional Neural Networks for Visual Recognition</span><span class="co">](http://cs231n.stanford.edu/)</span></span>
-<span id="cb1-137"><a href="#cb1-137" aria-label="137"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning Specialization, Andrew Ng</span><span class="co">](https://www.coursera.org/specializations/deep-learning?utm_source=deeplearningai&amp;utm_medium=institutions&amp;utm_campaign=WebsiteCoursesDLSTopButton)</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-label="138"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">PyTorch Challenge, Udacity</span><span class="co">](https://www.udacity.com/facebook-pytorch-scholarship)</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-label="139"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning with Python</span><span class="co">](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438)</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-label="140"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Keras Blog</span><span class="co">](https://blog.keras.io/)</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-label="141"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Hands-on ML book</span><span class="co">](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)</span> with <span class="co">[</span><span class="ot">notebooks</span><span class="co">](https://github.com/ageron/handson-ml2)</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-99"><a href="#cb1-99" aria-label="99"></a>A digit is just a grid of pixel intensities; the task is to fit a function</span>
+<span id="cb1-100"><a href="#cb1-100" aria-label="100"></a>$f(\text{image}) = \text{label}$.</span>
+<span id="cb1-101"><a href="#cb1-101" aria-label="101"></a>:::</span>
+<span id="cb1-102"><a href="#cb1-102" aria-label="102"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-label="103"></a>We'll start with the MNIST problem in this notebook:</span>
+<span id="cb1-104"><a href="#cb1-104" aria-label="104"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-label="105"></a><span class="co">[</span><span class="ot">📓 Fitting MNIST with a multi-layer perceptron (MLP)</span><span class="co">](../1-mnist/index.qmd)</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-label="106"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-label="107"></a>Next week, we'll learn about other types of neural networks.</span>
+<span id="cb1-108"><a href="#cb1-108" aria-label="108"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-label="109"></a>::: {.callout-note title="🧠 Check your understanding" collapse="true"}</span>
+<span id="cb1-110"><a href="#cb1-110" aria-label="110"></a>**Q1.** How does machine learning differ from traditional programming?</span>
+<span id="cb1-111"><a href="#cb1-111" aria-label="111"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-label="112"></a><span class="at">&gt; In traditional programming you write explicit rules. In machine learning you</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-label="113"></a><span class="at">&gt; show the computer many examples and it **learns the patterns** (the rules) on its</span></span>
+<span id="cb1-114"><a href="#cb1-114" aria-label="114"></a><span class="at">&gt; own from the data.</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-label="115"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-label="116"></a>**Q2.** Last week's house-price task predicted a continuous number (a price). The</span>
+<span id="cb1-117"><a href="#cb1-117" aria-label="117"></a>MNIST task predicts one of ten digit labels (0–9). What are these two kinds of</span>
+<span id="cb1-118"><a href="#cb1-118" aria-label="118"></a>problem called?</span>
+<span id="cb1-119"><a href="#cb1-119" aria-label="119"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-label="120"></a><span class="at">&gt; Predicting a continuous number is **regression**; predicting a category label is</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-label="121"></a><span class="at">&gt; **classification**. MNIST is a classification problem.</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-label="122"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-label="123"></a>**Q3.** In the house-price example the pieces were: input, output, function type,</span>
+<span id="cb1-124"><a href="#cb1-124" aria-label="124"></a>loss (MSE), optimizer (SGD). Which of these must change for MNIST, and why?</span>
+<span id="cb1-125"><a href="#cb1-125" aria-label="125"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-label="126"></a><span class="at">&gt; The **output/function** (it must produce a class instead of a number) and the</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-label="127"></a><span class="at">&gt; **loss** (cross-entropy instead of MSE, since we're scoring category predictions).</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-label="128"></a><span class="at">&gt; The overall recipe — fit a function by minimizing a loss with an optimizer —</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-label="129"></a><span class="at">&gt; stays the same.</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-label="130"></a><span class="at">:::</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-label="131"></a></span>
+<span id="cb1-132"><a href="#cb1-132" aria-label="132"></a><span class="fu">## __References:__</span></span>
+<span id="cb1-133"><a href="#cb1-133" aria-label="133"></a></span>
+<span id="cb1-134"><a href="#cb1-134" aria-label="134"></a><span class="ss">- </span>Here are some recommendations for further reading:</span>
+<span id="cb1-135"><a href="#cb1-135" aria-label="135"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">tensorflow.org tutorials</span><span class="co">](https://www.tensorflow.org/tutorials)</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-label="136"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">keras.io tutorials</span><span class="co">](https://keras.io/examples/)</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-label="137"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">CS231n: Convolutional Neural Networks for Visual Recognition</span><span class="co">](http://cs231n.stanford.edu/)</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-label="138"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning Specialization, Andrew Ng</span><span class="co">](https://www.coursera.org/specializations/deep-learning?utm_source=deeplearningai&amp;utm_medium=institutions&amp;utm_campaign=WebsiteCoursesDLSTopButton)</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-label="139"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">PyTorch Challenge, Udacity</span><span class="co">](https://www.udacity.com/facebook-pytorch-scholarship)</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-label="140"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning with Python</span><span class="co">](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438)</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-label="141"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Keras Blog</span><span class="co">](https://blog.keras.io/)</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-label="142"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Hands-on ML book</span><span class="co">](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)</span> with <span class="co">[</span><span class="ot">notebooks</span><span class="co">](https://github.com/ageron/handson-ml2)</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
