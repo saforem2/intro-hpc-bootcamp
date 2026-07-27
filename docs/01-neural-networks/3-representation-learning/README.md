@@ -155,8 +155,8 @@ print("contrastive loss:", loss_curve)
 print(f"trained in {time.time() - _t0:.0f}s on CPU  (labels used: 0)")
 ```
 
-    contrastive loss: [(0, 6.232), (50, 5.211), (100, 4.374), (150, 4.066), (200, 3.838), (250, 3.535)]
-    trained in 31s on CPU  (labels used: 0)
+    contrastive loss: [(0, 6.232), (50, 5.212), (100, 4.368), (150, 4.042), (200, 3.82), (250, 3.573)]
+    trained in 6s on CPU  (labels used: 0)
 
 The loss drops from ~6 to ~4 — the contrastive task is being solved. So
 how good are the features? Let’s measure honestly, using labels **only
@@ -188,7 +188,7 @@ for name, ftr, fte in [
     print(f"  {name:22s}  5-NN test accuracy = {acc:.3f}")
 ```
 
-      contrastive features    5-NN test accuracy = 0.491
+      contrastive features    5-NN test accuracy = 0.490
       random-init features    5-NN test accuracy = 0.518
       raw pixels              5-NN test accuracy = 0.738
 
@@ -373,7 +373,7 @@ plt.show()
 
 </details>
 
-    (replayed from a prior run on NVIDIA A100-SXM4-40GB)
+    (freshly computed on NVIDIA A100-SXM4-40GB)
 
 <div id="fig-gpu-lowlabel">
 
@@ -409,7 +409,7 @@ Markdown(df.to_markdown(index=False))
 | 250            | 30.6%        | 41.7%            |              11.1 |
 | 500            | 35.5%        | 48.2%            |              12.7 |
 | 1,000          | 38.9%        | 51.4%            |              12.5 |
-| 5,000          | 48.0%        | 55.7%            |               7.7 |
+| 5,000          | 46.1%        | 55.7%            |               9.6 |
 
 That’s the whole thesis of representation learning, made concrete:
 **when labels are scarce, learning a good representation from unlabeled
