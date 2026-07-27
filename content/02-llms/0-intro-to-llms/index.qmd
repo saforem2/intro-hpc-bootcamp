@@ -482,10 +482,11 @@ model_name = "bert-base-uncased"
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertModel.from_pretrained(model_name)
 
+# Three distinct semantic groups (animals / colors / food) so the clusters are
+# visible once we project down to 3-D.
 text = (
-    "The diligent student diligently studied hard for his upcoming exams "
-    "He was incredibly conscientious in his efforts and committed himself "
-    "to mastering every subject"
+    "The dog cat horse and rabbit ran while the red blue green and yellow "
+    "paint dried near the pizza bread cheese and apple on the table"
 )
 
 # Tokenize and get BERT embeddings
@@ -494,18 +495,20 @@ with torch.no_grad():
     outputs = model(**tokens)
     embeddings = outputs.last_hidden_state.squeeze(0).numpy()  # (num_tokens, 768)
 
-# Labels without special/subword tokens
-labels = [tokenizer.convert_ids_to_tokens(i) for i in tokens.input_ids[0].tolist()]
-filtered_labels = [
-    label
-    for label in labels
-    if not (label.startswith("[") and label.endswith("]")) and "##" not in label
-]
-
-# Drop stopwords
+# Keep content words only: drop [CLS]/[SEP], subword pieces (##), and stopwords.
+# We track the kept *indices* so each embedding stays matched to its own label
+# (slicing embeddings[:N] would mislabel every point).
+labels = tokenizer.convert_ids_to_tokens(tokens.input_ids[0].tolist())
 stop_words = set(stopwords.words("english"))
-filtered_labels = [l for l in filtered_labels if l.lower() not in stop_words]
-filtered_embeddings = embeddings[: len(filtered_labels)]
+keep = [
+    i
+    for i, label in enumerate(labels)
+    if not (label.startswith("[") and label.endswith("]"))
+    and "##" not in label
+    and label.lower() not in stop_words
+]
+filtered_labels = [labels[i] for i in keep]
+filtered_embeddings = embeddings[keep]
 
 # PCA -> 3-D
 embeddings_pca = PCA(n_components=3).fit_transform(filtered_embeddings)
@@ -528,7 +531,10 @@ fig_pca.update_traces(marker=dict(size=5), textfont=dict(size=8))
 fig_pca.show()
 ```
 
-You should see semantically related words cluster together!
+Notice how the words settle into three neighborhoods — animals
+(*dog, cat, horse, rabbit*), colors (*red, blue, green, yellow*), and food
+(*pizza, bread, cheese, apple*) — even though BERT was never told these
+categories. It learned them purely from how the words are used.
 
 ## 🧱 Inside a Transformer
 
