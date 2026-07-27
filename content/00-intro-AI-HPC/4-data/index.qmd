@@ -113,7 +113,7 @@ import pandas as pd
 # download the dataset if it isn't already here (works locally and on Colab)
 import os, urllib.request
 url = ("https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"
-       "main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv")
+       "master/old/2024-Spring/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv")
 if not os.path.exists("slimmed_realestate_data.csv"):
     urllib.request.urlretrieve(url, "slimmed_realestate_data.csv")
 

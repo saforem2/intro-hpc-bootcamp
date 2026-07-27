@@ -364,7 +364,7 @@ if comm.rank==0:
 
 ```{python}
 #| output: false
-! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
+! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/master/old/2024-Spring/01_intro_AI_on_Supercomputer/mpi_pi.py
 ! pip install mpi4py
 ```
 

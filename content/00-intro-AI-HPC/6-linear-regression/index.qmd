@@ -178,7 +178,7 @@ We use Pandas to read the data file which is stored as Comma Separated Values
 CSV files are similar to excel sheets.
 
 ```{python}
-! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
+! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/master/old/2024-Spring/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
 data = pd.read_csv('slimmed_realestate_data.csv')
 print(data.columns)
 ```

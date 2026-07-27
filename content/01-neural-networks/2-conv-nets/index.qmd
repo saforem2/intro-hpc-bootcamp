@@ -150,8 +150,8 @@ _img = next((p for p in _candidates if os.path.exists(p)), None)
 if _img is None:                                       # last resort (fresh Colab)
     _img = "ALCF-Staff.jpg"
     urllib.request.urlretrieve(
-        "https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"
-        "main/03_intro_neural_networks/ALCF-Staff.jpg", _img)
+        "https://raw.githubusercontent.com/saforem2/intro-hpc-bootcamp/"
+        "main/content/01-neural-networks/2-conv-nets/ALCF-Staff.jpg", _img)
 alcf_image = Image.open(_img)
 ```
 
