@@ -1,9 +1,7 @@
 ---
 title: "Representation Learning with Neural Networks"
 description: "Exploring how neural networks can learn representations of data, enabling tasks like classification with limited labeled data."
-# jupyter: python3
-execute:
-  enabled: false
+jupyter: python3
 
 author:
   - id: sf
@@ -12,14 +10,208 @@ author:
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/3-representation-learning/index.ipynb)
 
-## This notebook is not officially part of the course.
+::: {.callout-note title="✨ Optional / Bonus material"}
+This page is a **bonus** — it isn't required for the course, but it's a great next
+step if you enjoyed the CNN material. Read through it, run the cells, and bring
+questions to Slack; we're happy to talk it over.
 
-But you are welcome to look through it anyways, you can send questions on slack, and we are happy to talk about it.  
+**Prereqs:** the [\[01.1\] MNIST](../1-mnist/index.qmd) and
+[\[01.2\] Convolutional Networks](../2-conv-nets/index.qmd) pages. Everything here
+runs on a **laptop or Colab** (CPU, a minute or two — no GPU needed).
+:::
 
+The previous notebooks trained a classifier that did OK — *when we had lots of
+labeled data.* But labels are expensive: someone has to annotate every image. So
+here's the question that drives this page:
 
-The previous notebook trained a classifier network which did ok.  But what if we didn't have a lot of data?  In this notebook, we'll apply that model in a new way with _representation learning_.
+> **What if we have piles of *unlabeled* data but only a handful of labels?**
+
+The answer is **representation learning**: use the unlabeled data to teach the
+network a good *representation* of images (a feature space where similar things
+land near each other), *then* attach a small classifier on top. The headline
+technique here is **contrastive learning** (the idea behind
+[SimCLR](https://arxiv.org/abs/2002.05709)): show the network two randomly
+augmented views of the same image and train it to pull their representations
+together while pushing apart the representations of *different* images — all
+without a single label.
+
+This page has two parts:
+
+1. **A miniature you can actually run** (just below) — a tiny contrastive learner
+   on Fashion-MNIST that trains on a laptop in under a minute. We'll watch its
+   loss go down and *measure* how good the learned features are. The result is an
+   honest and slightly surprising one — it sets up the punchline of the whole
+   course.
+2. **The real, cluster-scale version** (further down) — the original CIFAR-10 +
+   multi-GPU SimCLR code, kept as a reference for how this is done for real on a
+   supercomputer.
+
+## 🏃 A contrastive learner you can run right now {#sec-mini}
+
+Everything in this section uses only `torch` / `numpy` / `matplotlib`, downloads
+one small dataset, and runs on CPU. Let's set the stage:
 
 ```{python}
+import os
+import time
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision
+from torchvision import transforms as T
+
+torch.manual_seed(0)
+np.random.seed(0)
+torch.set_num_threads(min(8, os.cpu_count() or 4))
+
+# Fashion-MNIST: small, downloads reliably, and (importantly) *harder* than digits.
+_tfm = T.Compose([T.ToTensor()])
+_train = torchvision.datasets.FashionMNIST(root="data", train=True, download=True, transform=_tfm)
+_test = torchvision.datasets.FashionMNIST(root="data", train=False, download=True, transform=_tfm)
+
+def take(dataset, n, seed):
+    """Grab a fixed random subset as tensors (X, y)."""
+    idx = torch.randperm(len(dataset), generator=torch.Generator().manual_seed(seed))[:n]
+    X = torch.stack([dataset[i][0] for i in idx])
+    y = torch.tensor([dataset[i][1] for i in idx])
+    return X, y
+
+# A pool of UNLABELED images for contrastive pretraining, and a labeled test set.
+X_unlabeled, _ = take(_train, 6000, seed=1)
+X_test, y_test = take(_test, 2000, seed=2)
+print(f"unlabeled pool: {tuple(X_unlabeled.shape)}   test set: {tuple(X_test.shape)}")
+```
+
+**The encoder.** A small CNN that maps a 28×28 image to a 64-dimensional
+*representation* vector. This is the thing we're trying to teach.
+
+```{python}
+class Encoder(nn.Module):
+    """Tiny CNN: image -> 64-d representation."""
+    def __init__(self, dim=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(1, 32, 3, stride=2, padding=1), nn.ReLU(),   # 28 -> 14
+            nn.Conv2d(32, 64, 3, stride=2, padding=1), nn.ReLU(),  # 14 -> 7
+            nn.AdaptiveAvgPool2d(1), nn.Flatten(),
+            nn.Linear(64, dim),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+```
+
+**The contrastive objective (NT-Xent).** For a batch of images we make two
+augmented views of each, encode them, and ask: for every view, is its
+*positive partner* (the other view of the same image) closer than all the other
+images in the batch? That's exactly a classification problem the model can be
+trained on — no labels required.
+
+```{python}
+# Two random "views" of an image: crop + flip. Same picture, different look.
+augment = T.Compose([
+    T.RandomResizedCrop(28, scale=(0.5, 1.0), antialias=True),
+    T.RandomHorizontalFlip(),
+])
+
+def nt_xent(z1, z2, temperature=0.2):
+    """Normalized temperature-scaled cross-entropy (the SimCLR loss)."""
+    z = F.normalize(torch.cat([z1, z2], dim=0), dim=1)   # (2N, d), unit vectors
+    sim = z @ z.t() / temperature                        # cosine similarities
+    sim.fill_diagonal_(-9e15)                            # a view can't match itself
+    n = z1.shape[0]
+    targets = (torch.arange(2 * n) + n) % (2 * n)        # positive partner index
+    return F.cross_entropy(sim, targets)
+```
+
+**Train it** — 300 steps on the *unlabeled* pool. Watch the loss fall: the model
+is genuinely learning to recognize "same image, different view."
+
+```{python}
+encoder = Encoder()
+projector = nn.Sequential(nn.Linear(64, 64), nn.ReLU(), nn.Linear(64, 32))
+opt = torch.optim.Adam(list(encoder.parameters()) + list(projector.parameters()), lr=1e-3)
+
+_t0 = time.time()
+loss_curve = []
+for step in range(300):
+    xb = X_unlabeled[torch.randint(0, len(X_unlabeled), (256,))]
+    z1 = projector(encoder(augment(xb)))
+    z2 = projector(encoder(augment(xb)))
+    loss = nt_xent(z1, z2)
+    opt.zero_grad(); loss.backward(); opt.step()
+    if step % 50 == 0:
+        loss_curve.append((step, round(loss.item(), 3)))
+print("contrastive loss:", loss_curve)
+print(f"trained in {time.time() - _t0:.0f}s on CPU  (labels used: 0)")
+```
+
+The loss drops from ~6 to ~4 — the contrastive task is being solved. So how good
+are the features? Let's measure honestly, using labels **only to evaluate** (never
+to train the encoder). We compare three feature spaces with a simple
+5-nearest-neighbor classifier:
+
+```{python}
+from sklearn.neighbors import KNeighborsClassifier
+
+encoder.eval()
+X_lab, y_lab = take(_train, 1000, seed=3)   # small labeled set, for evaluation only
+with torch.no_grad():
+    feat_lab = encoder(X_lab).numpy()
+    feat_test = encoder(X_test).numpy()
+
+random_encoder = Encoder().eval()           # never trained — the control
+with torch.no_grad():
+    rnd_lab, rnd_test = random_encoder(X_lab).numpy(), random_encoder(X_test).numpy()
+
+pix_lab = X_lab.reshape(len(X_lab), -1).numpy()   # raw pixels — no representation at all
+pix_test = X_test.reshape(len(X_test), -1).numpy()
+
+for name, ftr, fte in [
+    ("contrastive features", feat_lab, feat_test),
+    ("random-init features", rnd_lab, rnd_test),
+    ("raw pixels", pix_lab, pix_test),
+]:
+    acc = KNeighborsClassifier(5).fit(ftr, y_lab.numpy()).score(fte, y_test.numpy())
+    print(f"  {name:22s}  5-NN test accuracy = {acc:.3f}")
+```
+
+::: {.callout-important title="🤔 Wait — the fancy method *lost*?"}
+On this tiny, CPU-scale setup the honest result is **surprising**: our
+contrastively-trained features are barely better than a *randomly initialized*
+encoder, and **raw pixels win outright**. That is not a bug — it's the real
+lesson.
+
+Fashion-MNIST is small and low-resolution, so raw pixels are *already* fairly
+separable, and 300 steps of contrastive training on 6,000 tiny images simply
+isn't enough signal to learn features that beat them. Self-supervised methods like
+SimCLR only pull ahead when:
+
+- the data is **high-dimensional and complex** (big natural images, genomes,
+  audio), where raw inputs are *not* linearly separable;
+- you pretrain on **huge unlabeled corpora** for **many epochs** with **large
+  batches** (SimCLR used batch sizes of 4096+).
+
+Those three requirements — big data, big batches, long training — are *exactly*
+why contrastive pretraining is run on **supercomputers**. This little laptop demo
+is honest about its own limits, and in doing so it motivates the rest of the
+course: [\[01.4\] Distributed Training](../4-distributed-training/index.qmd) and
+[\[02.1\] the Perlmutter lab](../../02-llms/1-parallel-training/index.qmd) are how
+you get to the scale where methods like this actually shine.
+:::
+
+## 🖥️ The real thing: cluster-scale SimCLR (reference) {#sec-scale}
+
+The rest of this page is the **original, production-flavored implementation**:
+CIFAR-10 (color, harder), a deeper ConvNeXt-style encoder, the full distributed
+NT-Xent loss with `all_gather` across GPUs, and PyTorch DDP wiring for a 4×A100
+Polaris node. It is kept here as a **reference for how this is done at scale** —
+the cells are display-only (they expect a multi-GPU allocation and a CIFAR
+download), but they're the real code the miniature above is a scaled-down echo of.
+
+```{python}
+#| eval: false
 import os
 import sys
 if sys.platform == "darwin":
@@ -28,6 +220,7 @@ if sys.platform == "darwin":
 ```
 
 ```{python}
+#| eval: false
 import numpy
 import random
 import torch
@@ -55,6 +248,7 @@ batch_size = 128
 Here's the Convolutional Neural Network Again:
 
 ```{python}
+#| eval: false
 from torch import nn
 
 class Downsampler(nn.Module):
@@ -159,6 +353,7 @@ class Classifier(nn.Module):
 ```
 
 ```{python}
+#| eval: false
 def create_representation_model(n_features, rank, size):
     model = Classifier(32, 2, 2, n_features)
     model.to(torch.get_default_device())
@@ -185,6 +380,7 @@ We're going to train this on Polaris nodes which have 4 A100s (But only using on
 (They are all from the [DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) )
 
 ```{python}
+#| eval: false
 
 def setup(rank, world_size):
     os.environ['MASTER_ADDR'] = 'localhost'
@@ -198,6 +394,7 @@ def cleanup():
 ```
 
 ```{python}
+#| eval: false
 import ezpz
 
 def create_data_loaders(transforms, batch_size, rank, seed):
@@ -255,6 +452,7 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 ```
 
 ```{python}
+#| eval: false
 
 
 # def demo_basic(rank, world_size, n_epochs):
@@ -287,6 +485,7 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 
 
 ```{python}
+#| eval: false
 # import sys, os
 # from multiprocessing import Pool
 # from multiprocessing.reduction import ForkingPickler
@@ -312,6 +511,7 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 
 
 ```{python}
+#| eval: false
 
 
 # This method is from the pytorch implementation of SimCLR:
@@ -332,20 +532,24 @@ def get_simclr_pipeline_transform(size, s=1):
 ```
 
 ```{python}
+#| eval: false
 transforms1 = get_simclr_pipeline_transform((32,32))
 transforms2 = get_simclr_pipeline_transform((32,32))
 ```
 
 ```{python}
+#| eval: false
 train, val = create_data_loaders(v2.ToTensor(), batch_size, 0, seed = 1234)
 
 ```
 
 ```{python}
+#| eval: false
 batch, (X, Y) = next(enumerate(train))
 ```
 
 ```{python}
+#| eval: false
 X1 = transforms1(X); X2 = transforms2(X)
 
 console.log(type(X1))
@@ -353,11 +557,13 @@ console.log(type(X2))
 ```
 
 ```{python}
+#| eval: false
 from matplotlib import pyplot as plt
 %matplotlib inline
 ```
 
 ```{python}
+#| eval: false
 plt.imshow(X[0].cpu().permute((1,2,0))); plt.show()
 plt.imshow(X1[0].cpu().permute((1,2,0))); plt.show()
 plt.imshow(X2[0].cpu().permute((1,2,0))); plt.show()
@@ -365,6 +571,7 @@ plt.imshow(X2[0].cpu().permute((1,2,0))); plt.show()
 
 
 ```{python}
+#| eval: false
 def contrastive_loss(first_images, second_images, rank, world_size = 1, temperature=0.1):
         # Each image is represented with k parameters,
         # Assume the batch size is N, so the
@@ -513,6 +720,7 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
 ```
 
 ```{python}
+#| eval: false
 def train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):
     model.train()
     head.train()
@@ -544,52 +752,46 @@ def train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, s
 ```
 
 ```{python}
+#| eval: false
 def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):
-    model.train()
-    head.train()
+    # Validation must NOT update the weights: put everything in eval mode and
+    # disable gradients. (This function used to call .backward()/optimizer.step()
+    # — that would *train* on the validation set, which defeats the purpose of a
+    # held-out set. Validation only measures; it never learns.)
+    model.eval()
+    head.eval()
     n = 0.
     sum_metrics = None
-    for (batch, (X, _)) in enumerate(dataloader):
-        # forward pass
-        X1 = t1(X); X2 = t2(X)
-        pred1 = head(model(X1))
-        pred2 = head(model(X2))
-        loss, metrics = loss_fn(pred1, pred2, rank, size)
+    with torch.no_grad():
+        for (batch, (X, _)) in enumerate(dataloader):
+            # forward pass only
+            X1 = t1(X); X2 = t2(X)
+            pred1 = head(model(X1))
+            pred2 = head(model(X2))
+            loss, metrics = loss_fn(pred1, pred2, rank, size)
 
-        # console.log(metrics)
-        
-        # backward pass calculates gradients
-        loss.backward()
-        
-        # take one step with these gradients
-        optimizer.step()
-        
-        # resets the gradients 
-        optimizer.zero_grad()
+            cpu_metrics = { key : metrics[key].detach().cpu().numpy() for key in metrics.keys()}
+            if sum_metrics is None:
+                sum_metrics = cpu_metrics
+            else:
+                for key in sum_metrics.keys():
+                    sum_metrics[key] += cpu_metrics[key]
+            progress_bar.update()
+            n += 1.
 
-        # progress_bar.refresh()
-        cpu_metrics = { key : metrics[key].detach().cpu().numpy() for key in metrics.keys()}
-        if sum_metrics is None: 
-            sum_metrics = cpu_metrics
-        else:
-            for key in sum_metrics.keys():
-                sum_metrics[key] += cpu_metrics[key]
-        progress_bar.update()
-        n += 1.
-        # progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {sum_metrics['top5'].cpu():.2f}"
-        # break
-    
     for key in sum_metrics:
         sum_metrics[key] = sum_metrics[key] / n
     return sum_metrics
 ```
 
 ```{python}
+#| eval: false
 optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters()), lr=0.001)
 ```
 
 
 ```{python}
+#| eval: false
 from tqdm.notebook import tqdm
 
 
@@ -608,12 +810,14 @@ from tqdm.notebook import tqdm
 ```
 
 ```{python}
+#| eval: false
 # Now, we retrain the classification head without touching the representation. This is called fine tuning.
 ```
 
 
 
 ```{python}
+#| eval: false
 def evaluate(dataloader, model, head, loss_fn, val_bar):
     # Set the model to evaluation mode - some NN pieces behave differently during training
     # Unnecessary in this situation but added for best practices
@@ -641,6 +845,7 @@ def evaluate(dataloader, model, head, loss_fn, val_bar):
 ```
 
 ```{python}
+#| eval: false
 def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):
     head.train()
     model.eval()
@@ -674,6 +879,7 @@ def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):
 ```
 
 ```{python}
+#| eval: false
 classification_head = nn.Linear(256, 10)  # .cuda()
 classification_loss = loss_fn = nn.CrossEntropyLoss()
 fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)
@@ -681,6 +887,7 @@ console.log(fine_tune_optimizer)
 ```
 
 ```{python}
+#| eval: false
 
 # for j in range(5):
 #     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:

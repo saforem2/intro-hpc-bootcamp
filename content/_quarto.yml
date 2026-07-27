@@ -257,6 +257,9 @@ project:
     - "./03-advanced-llms/3-mid-post-training/index.qmd"
     - "./03-advanced-llms/4-rl-and-reasoning/index.qmd"
 
+    - "./03-ai-for-science/index.qmd"
+    - "./03-ai-for-science/0-genslm/index.qmd"
+
     # - "./02-llms/2-shakespeare-example-colab/index.ipynb"
     # - "./02-llms/4-evaluating-llms"
     # - "./03-ai-for-science/0-genslm/index.qmd"
@@ -390,6 +393,13 @@ website:
             href: "./03-advanced-llms/3-mid-post-training/index.qmd"
           - text: "RL & Reasoning Models"
             href: "./03-advanced-llms/4-rl-and-reasoning/index.qmd"
+
+      - id: 03-ai-for-science
+        section: "[04] AI for Science"
+        href: "03-ai-for-science/index.qmd"
+        contents:
+          - text: "GenSLM: Genome-Scale LMs"
+            href: "./03-ai-for-science/0-genslm/index.qmd"
 
   page-footer:
     # left: |

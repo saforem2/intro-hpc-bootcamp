@@ -67,6 +67,32 @@ In particular, we will introduce neural networks and how to train and improve th
 
 The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains thousands of examples of handwritten numbers, with each digit labeled 0-9.
 
+::: {.callout-tip title="🎯 Before you start" collapse="false"}
+**Prerequisites:** the [00] primers on [Python](../3-python/index.qmd) and
+[working with data](../4-data/index.qmd) — you should be comfortable reading a
+loop, a function, and a `numpy` array.
+
+**Where it runs:** everything here runs on a laptop or in
+[Colab](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/1-mnist/index.ipynb)
+in a few minutes on CPU — no GPU required (a GPU only speeds up the training loop,
+it changes nothing about the results).
+
+**What success looks like:** the simple **linear** model should reach roughly
+**~92%** test accuracy, and the deeper **nonlinear** model should climb into the
+mid-90s (**~95–97%**). If your numbers are in that ballpark, it's working.
+:::
+
+```{python}
+# This page uses the `bootcamp` helper package plus `ezpz` (logging + utilities)
+# and `ambivalent`/`seaborn` (plot styling), which come in with `ezpz`. On Colab
+# (or any fresh environment) install them; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+    import ezpz      # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/ezpz" "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
 ```{python}
 import ambivalent
 
@@ -304,8 +330,10 @@ We now need:
   and b).
   Last week, we used mean squared error (MSE), but this week let's make two
   changes that make more sense for classification:
-  - Change the output to be a length-10 vector of class probabilities (0 to 1,
-    adding to 1).
+  - Change the output to be a length-10 vector — one score per digit class.
+    Conceptually we want these to become **class probabilities** (10 numbers
+    from 0 to 1 that add to 1); we'll see below how `nn.CrossEntropyLoss`
+    handles that conversion for us.
   - Cross entropy as the loss function, which is typical for classification.
     You can read more
     [here](https://gombru.github.io/2018/05/23/cross_entropy_loss/).
@@ -317,7 +345,24 @@ We now need:
   <https://distill.pub/2017/momentum/>.
 - A learning rate.
   As we learned last week, the learning rate controls how far we move during
-  each step. 
+  each step.
+
+::: {.callout-note title="Anatomy of an `nn.Module`" collapse="false"}
+This is the first place we build a model as a **class**. Every PyTorch model
+subclasses `nn.Module` and follows the same shape (classes are introduced in the
+[Python primer](../3-python/index.qmd)):
+
+- `class LinearClassifier(nn.Module):` — our model *is a* `nn.Module`, so it
+  inherits all of PyTorch's machinery (parameter tracking, `.to(device)`, etc.).
+- `def __init__(self):` — the constructor, run once when you create the model.
+  Here you **define the layers** and save them on `self`.
+- `super().__init__()` — calls `nn.Module`'s own setup; **always** call this
+  first, or the layers you register won't be tracked.
+- `self.layer_1 = ...` — `self` is *this particular model instance*; attaching
+  layers to `self` is how PyTorch discovers the parameters to train.
+- `def forward(self, x):` — defines the **forward pass** (input → output). You
+  never call `.forward()` directly: writing `model(x)` invokes it for you.
+:::
 
 ```{python}
 class LinearClassifier(nn.Module):
@@ -344,6 +389,34 @@ logger.info(linear_model)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 ```
+
+::: {.callout-important title="Logits, not probabilities"}
+Notice our `forward` returns the raw output of `self.layer_1` — 10 unnormalized
+numbers called **logits**, *not* the 0-to-1 probabilities we described above.
+That's on purpose: `nn.CrossEntropyLoss` **expects raw logits** and applies the
+`softmax` internally (it fuses `log_softmax` + negative-log-likelihood for
+numerical stability). So the network deliberately has **no final softmax
+layer** — adding one would apply softmax twice and hurt training.
+
+If you ever want the actual probabilities (e.g. to *report* a confidence), apply
+`torch.softmax` yourself. Here's what the (still-untrained) linear model produces
+for one image:
+:::
+
+```{python}
+example = training_data[0][0].unsqueeze(0)   # shape (1, 1, 28, 28): one image
+logits = linear_model(example)
+probs = torch.softmax(logits, dim=1)         # convert logits -> probabilities
+
+logger.info(f"raw logits:    {logits.detach().numpy().round(2)}")
+logger.info(f"probabilities: {probs.detach().numpy().round(3)}")
+logger.info(f"they sum to:   {probs.sum().item():.3f}")   # == 1.0
+```
+
+Only after `softmax` do we get 10 numbers between 0 and 1 that add to 1. Before
+training they're all near `0.1` (the model has no idea yet); training will push
+the probability mass onto the correct digit. Note that we never need this to
+*train* — we only use it when we want a human-readable probability.
 
 ## Learning
 

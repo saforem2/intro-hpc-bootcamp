@@ -1,8 +1,19 @@
-# 🚀 Hands-On: Launching a Distributed Training Run
+---
+title: "🚀 Hands-On: Launching a Distributed Training Run"
+description: "A hands-on lab: launch a real multi-GPU data-parallel training run on NERSC Perlmutter (SLURM) with ezpz + wordplay."
+categories:
+  - ai
+  - hpc
+  - llm
+  - distributed-training
+date: 2026-07-22
+date-modified: last-modified
+jupyter: python3
+---
 
-[Sam Foreman](https://samforeman.me)
-[Intro to AI-driven Science on Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
-_2026-07-22_
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to AI-driven Science on Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series) / [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+:::
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/1-parallel-training/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/1-parallel-training/index.qmd)
 
@@ -85,6 +96,35 @@ also work on ALCF PBS systems if you switch the allocation command.
 
     See: [`ezpz/test_dist.py`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)
 
+    ::: {.callout-tip title="✅ What you should see — confirm it's *really* multi-GPU" collapse="false"}
+    Before launching anything expensive, make sure `ezpz` actually discovered
+    **more than one GPU**. Early in the output, `ezpz` prints a distributed-setup
+    banner with one line per rank, something like:
+
+    ```console
+    [2026-07-22 ...][INFO][ezpz.dist] - Using device='cuda' with backend='nccl'
+    [2026-07-22 ...][INFO][ezpz.dist] - ['host'][0/3]   # rank 0 of 4
+    [2026-07-22 ...][INFO][ezpz.dist] - ['host'][1/3]   # rank 1 of 4
+    [2026-07-22 ...][INFO][ezpz.dist] - ['host'][2/3]   # rank 2 of 4
+    [2026-07-22 ...][INFO][ezpz.dist] - ['host'][3/3]   # rank 3 of 4
+    ```
+
+    The number to check is **`WORLD_SIZE`** — the total number of ranks (GPUs)
+    across all nodes. Look for the `[i/N]` rank tags above (here `N+1 = 4`), or
+    print it directly:
+
+    ```bash
+    echo "WORLD_SIZE=${WORLD_SIZE}"   # set by the launcher inside the job
+    ```
+
+    - **`WORLD_SIZE` > 1** → you have data parallelism. 🎉 Every rank above is a
+      separate GPU that will process a different slice of each batch.
+    - **`WORLD_SIZE` == 1** (only a single `[0/0]` rank) → you're on a **1-GPU**
+      allocation and are *not* doing data-parallel training. Go back and request
+      more GPUs (e.g. `salloc ... --gpus-per-node 4`, or add `--nodes`) before
+      continuing.
+    :::
+
 1. Prepare Data:
 
     ```bash
@@ -105,6 +145,36 @@ also work on ALCF PBS systems if you switch the allocation command.
         train.log_interval=10 \
         train.compile=false
     ```
+
+    ::: {.callout-tip title="✅ What you should see — a healthy training run" collapse="false"}
+    `ezpz launch` first re-prints the distributed banner (again, confirm
+    `WORLD_SIZE` matches the number of GPUs you requested), then starts logging
+    one line every `log_interval` (=10) steps. The key signal of success is that
+    the **`loss` trends downward** as `iter` climbs:
+
+    ```console
+    [ezpz.dist] - Using device='cuda' with backend='nccl', WORLD_SIZE=4
+    ...
+    [wordplay] - iter=10   loss=3.1420  dt=0.182s  sps=5.49  mtps=0.36  mfu=18.7%
+    [wordplay] - iter=20   loss=2.8107  dt=0.179s  sps=5.58  mtps=0.37  mfu=19.1%
+    [wordplay] - iter=50   loss=2.4013  dt=0.178s  sps=5.61  mtps=0.37  mfu=19.3%
+    [wordplay] - iter=100  loss=2.0459  dt=0.177s  sps=5.64  mtps=0.37  mfu=19.4%
+    [wordplay] - iter=100  eval: train_loss=2.03  val_loss=2.11
+    ...
+    ```
+
+    (Exact numbers depend on the machine and batch size — don't worry about
+    matching them.) What matters:
+
+    - **`loss` is going *down*** over the first ~100 iters (from ~3–4 toward ~2 or
+      lower on tiny-Shakespeare). A flat or rising loss means something is wrong.
+    - **`dt`** (seconds/iter) is roughly constant — steady throughput.
+    - The periodic **`eval`** line (every `eval_interval`=100 iters) reports
+      `train_loss` / `val_loss`; both should be falling early on.
+
+    If instead you see a single rank, a `loss` stuck near its initial value, or
+    NCCL/`srun` errors, stop and re-check the earlier steps.
+    :::
 
 ## 🎒 Homework
 

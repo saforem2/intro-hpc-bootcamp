@@ -102,9 +102,9 @@ DFIGSIZE = plt.rcParamsDefault['figure.figsize']
 ```
 
 ```{python}
-n_samples = 1000 # 300 2D data points
+n_samples = 1000  # 1000 2D data points
 n_features = 2  # 2D data
-n_clusters = 4  # 3 unique blobs
+n_clusters = 3  # 3 unique blobs
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html
 # -- Returns --------------------------------------------------------
@@ -408,10 +408,10 @@ from bootcamp.plots import COLORS
 
 cmap = ListedColormap(list(COLORS.values()))
 
-n_samples = 500  # 300 2D data points
+n_samples = 500  # 500 2D data points
 n_features = 2  # 2D data
-n_clusters_true = 5  # unique blobs
-n_clusters_guess = 5
+n_clusters_true = 3  # unique blobs
+n_clusters_guess = 3
 SEED = 456
 iterations = 50
 
@@ -597,6 +597,23 @@ fig.show()
 
 Self Organizing Maps (SOM) were proposed and became widespread in the 1980s, by a Finnish professor named Teuvo Kohonen and are also called 'Kohonen maps'.
 
+Why reach for this instead of k-means? Where k-means gives you $k$ flat,
+independent clusters, a SOM arranges its clusters on a fixed 2D grid of neurons
+and keeps *neighboring* neurons similar -- so the result doubles as a
+low-dimensional map you can actually look at.
+
+The idea behind a SOM is that you’re mapping high-dimensional vectors onto a
+smaller dimensional (typically 2D) space.
+Vectors that are close in the high-dimensional space also end up being mapped
+to nodes that are close in 2D space thus preserving the "topology" of the
+original data.
+
+Training a SOM needs a handful of small helpers. We build them up one at a time
+here, then wire them together in the training loop below.
+
+First, the **best matching unit** (BMU): given an input vector, find the neuron
+whose weights are closest to it. This is the SOM's analogue of "find the nearest
+centroid" from k-means.
 
 ```{python}
 # finding best matching unit
@@ -623,23 +640,39 @@ def find_bmu(t, net, n):
     bmu = net[bmu_idx[0], bmu_idx[1], :].reshape(n, 1)
     # return the (bmu, bmu_idx) tuple
     return (bmu, bmu_idx)
+```
 
+As training proceeds we shrink the neighbourhood **radius**, so the map moves
+from coarse, global organization early on to fine, local tuning later:
 
+```{python}
 # Decaying radius of influence
 def decay_radius(initial_radius, i, time_constant):
     return initial_radius * np.exp(-i / time_constant)
+```
 
+...and likewise decay the **learning rate**, so early updates are large and
+later ones are gentle:
 
+```{python}
 # Decaying learning rate
 def decay_learning_rate(initial_learning_rate, i, n_iterations):
     return initial_learning_rate * np.exp(-i / n_iterations)
+```
 
+Within the current radius, a neuron's **influence** falls off with its distance
+from the BMU (a Gaussian bump), so the closest neurons move the most:
 
+```{python}
 # Influence in 2D space
 def calculate_influence(distance, radius):
     return np.exp(-distance / (2.0 * (radius**2)))
+```
 
+Finally, **update the weights**: pull the BMU and its neighbours toward the
+input vector, scaled by the learning rate and each neuron's influence:
 
+```{python}
 # Update weights
 def update_weights(net, bmu_idx, r, l):
     wlen = net.shape[2]
@@ -660,12 +693,6 @@ def update_weights(net, bmu_idx, r, l):
                 net[x, y, :] = new_w.reshape(1, wlen)
     return net
 ```
-
-The idea behind a SOM is that you’re mapping high-dimensional vectors onto a
-smaller dimensional (typically 2D) space.
-Vectors that are close in the high-dimensional space also end up being mapped
-to nodes that are close in 2D space thus preserving the "topology" of the
-original data.
 
 ### Generating "Color" data and normalizing
 
@@ -698,7 +725,7 @@ neuron in the SOM
 ```{python}
 net = np.random.random(
     (network_dimensions[0], network_dimensions[1], n)
-)  # 25 neurons each with a 3D vector
+)  # 50x50 = 2500 neurons, each with a 3D vector
 ```
 
 Initial neighbourhood radius and decay parameter

@@ -1,6 +1,6 @@
 ---
 title: "AI for Science"
-description: "A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling."
+description: "The payoff: applying everything from the previous sections — Transformers, distributed training, HPC — to real scientific problems, starting with genome-scale language models."
 categories:
   - ai
   - hpc
@@ -9,10 +9,33 @@ date: 2025-07-15
 date-modified: last-modified
 ---
 
-## Applications
+This is where it all comes together. The previous sections built up the machinery
+— [neural networks](../01-neural-networks/), [Transformers and
+LLMs](../02-llms/), and [training them at scale on
+HPC](../01-neural-networks/4-distributed-training/index.qmd) — using text as the
+running example. But the *same* models, trained on the *same* kind of
+supercomputers, are now driving discovery across the sciences.
 
-- GenSLM
-- MProt-DPO
-- Aeris
-- l2hmc-qcd
-- ...
+The core idea from [\[02.0\] Intro to LLMs](../02-llms/0-intro-to-llms/index.qmd)
+still holds: **a sequence is a sequence.** Swap English tokens for the "language"
+of a scientific domain and the Transformer comes along for the ride:
+
+- 🧬 **Genomes** — DNA/RNA as sequences of nucleotides or codons
+- 🧪 **Proteins** — amino-acid sequences and their 3-D structure
+- ⚛️ **Molecules** — [SMILES strings](https://en.wikipedia.org/wiki/Simplified_Molecular_Input_Line_Entry_System) encoding chemical structure
+- 🌊 **Physical systems** — lattice field theory, climate, and simulation data
+
+## In this section
+
+- 🧬 [**\[03.0\] GenSLM: Genome-Scale Language Models**](0-genslm/index.qmd) — the
+  flagship example: a Transformer trained on whole genomes that revealed
+  SARS-CoV-2 evolutionary dynamics (a 2022 Gordon Bell Special Prize finalist),
+  with a hands-on codon-tokenization + tiny-model demo you can run.
+
+## Where this goes next
+
+The same recipe powers a growing list of scientific foundation models at ALCF and
+beyond — protein-design pipelines (MProt-DPO), weather/climate models (Aeris),
+and sampling for lattice QCD (l2hmc-qcd), among others. GenSLM is the entry point:
+once you see how one scientific "language" maps onto the Transformer stack you've
+already built, the rest follow the same pattern.

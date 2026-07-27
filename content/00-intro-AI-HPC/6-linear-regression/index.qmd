@@ -130,6 +130,15 @@ First we will load some tools that others wrote and we can use to help us work.
 
 
 ```{python}
+# This page uses the `bootcamp` helper package. On Colab (or any fresh
+# environment) install it + its dependencies; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 import os
 os.environ["FORCE_COLOR"] = "1"
 os.environ["TTY_INTERACTIVE"] = "1"
@@ -309,6 +318,9 @@ SGD is a common method in AI for training deep neural networks on large
 datasets.
 It is an iterative method for optimizing a loss function that we get
 to define.
+The "stochastic" part is what sets it apart from plain gradient descent: **each
+step uses a random mini-batch of the data instead of the full dataset**, which is
+what makes it practical when the dataset is far too large to process all at once.
 We will use this simple linear regression to demonstrate how it
 works.
 
@@ -396,17 +408,15 @@ very important in our process and must be tuned for every problem.
 
 In our example, the selection of the learning rate essentially defines how
 close we can get to the minimum, AKA the best fit solution.
-This figure shows
-what happens when we pick a large learning rate.
-We first select a starting
-point in our loss function (typically randomly), then every update from $m$/$b$
-to $m'$/$b'$ results in a shift to somewhere else on our loss function
-(following the red arrows).
-In this example, our learning rate ($\eta$) has
-been selected too large such that we bounce back and forth around the minimum,
-never reaching it.
+We first select a starting point in our loss function (typically randomly), then
+every update from $m$/$b$ to $m'$/$b'$ shifts us to somewhere else on the loss
+curve. If the learning rate ($\eta$) is too large, each step overshoots and we
+bounce back and forth around the minimum, never reaching it; if it's too small,
+we crawl toward it agonizingly slowly. The interactive demos just below let you
+**see this trade-off in action** — watch the descent path change as we vary
+$\eta$.
 
-Rather than show hand-drawn arrows, let's **actually run gradient descent** on a
+Rather than describe this in the abstract, let's **actually run gradient descent** on a
 loss curve and plot the path it takes. This helper does one thing: start at a
 point, repeatedly step *downhill* by `-lr · gradient`, and record every step.
 
@@ -523,25 +533,32 @@ plot_data(x,y,m,b).show()
 # set our initial slope and intercept
 m = 5.
 b = 1000.
-# batch_size = 60
+# each SGD step trains on a random mini-batch of this many points, not the whole dataset
+batch_size = 60
 # set a learning rate for each parameter
 learning_rate_m = 1e-7
 learning_rate_b = 1e-1
 # use these to plot our progress over time
 loss_history = []
 # convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"
+# (we keep the full arrays around only for plotting the final fit against all the data)
 data_x = data['GrLivArea'].to_numpy()
 data_y = data['SalePrice'].to_numpy()
 # we run our loop N times, recording (m, b, loss) at each step
 loop_N = 30
 m_history, b_history = [], []
 for i in range(loop_N):
-    # update our slope and intercept based on the current values
-    m = updated_m(data_x,data_y,m,b,learning_rate_m)
-    b = updated_b(data_x,data_y,m,b,learning_rate_b)
+    # draw a fresh random mini-batch -- this sampling is the "stochastic" in SGD
+    data_batch = data.sample(batch_size)
+    batch_x = data_batch['GrLivArea'].to_numpy()
+    batch_y = data_batch['SalePrice'].to_numpy()
 
-    # calculate the loss value and keep a history
-    loss_value = np.mean(loss(data_x,data_y,m,b))
+    # update our slope and intercept based on this batch
+    m = updated_m(batch_x,batch_y,m,b,learning_rate_m)
+    b = updated_b(batch_x,batch_y,m,b,learning_rate_b)
+
+    # calculate the loss value (on this batch) and keep a history
+    loss_value = np.mean(loss(batch_x,batch_y,m,b))
     loss_history.append(loss_value)
     m_history.append(m)
     b_history.append(b)
@@ -602,24 +619,9 @@ walks the red line toward it, step by step, while the loss on the right falls.
 
 ### Mini Batch Training
 
-In AI, datasets are often very large and cannot be processed all at once as is
-done in the loop above.
-The data is instead randomly sampled in smaller
-_batches_ where each _batch_ contains `batch_size` inputs.
-
-How can you change the loop above to sample the dataset in smaller batches?
-
-Hint: Our `data` variable is a Pandas `DataFrame` object, search for "how to
-sample a DataFrame".
-
-Instead of using the entire dataset like:
-
-```python
-data_x = data['GrLivArea'].to_numpy()
-data_y = data['SalePrice'].to_numpy()
-```
-
-Use
+In AI, datasets are often very large and cannot be processed all at once.
+This is exactly why the training loop above trains on a random mini-batch of
+`batch_size` inputs at each step:
 
 ```python
 data_batch = data.sample(batch_size)
@@ -627,13 +629,19 @@ data_x = data_batch['GrLivArea'].to_numpy()
 data_y = data_batch['SalePrice'].to_numpy()
 ```
 
-You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.
+rather than the entire dataset (`data['GrLivArea'].to_numpy()`).
+
+So far we fixed `batch_size = 60` and ran a fixed `loop_N = 30`. Your task is to
+turn the loop into a reusable function and explore how the **batch size** affects
+training. Note that a smaller batch size means more (and noisier) steps per pass
+over the data, so you should scale `loop_N` with the batch size to keep the number
+of passes over the full dataset (the number of _epochs_) constant:
 
 ```python
 loop_N = 30*len(data)//batch_size
 ```
 
-Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. 
+Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512.
 
 ### Learning rate issue (Bonus)
 

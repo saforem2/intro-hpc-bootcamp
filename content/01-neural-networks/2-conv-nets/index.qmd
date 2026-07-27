@@ -48,7 +48,18 @@ accuracy. Today the benchmark is essentially solved (top-5 error ~1%), and the
 frontier has moved on to harder tasks.[^image-net-historical]
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:08.290715Z', iopub.status.busy: '2025-08-04T17:29:08.290497Z', iopub.status.idle: '2025-08-04T17:29:08.658696Z', shell.execute_reply: '2025-08-04T17:29:08.658418Z', shell.execute_reply.started: '2025-08-04T17:29:08.290697Z'}
+# This page uses the `bootcamp` helper package and `ezpz`. On Colab (or any
+# fresh environment) install them; locally this is a no-op. `ezpz` is an optional
+# extra (not a core `bootcamp` dependency), so we install it explicitly; it pulls
+# in `ambivalent`/`seaborn` transitively.
+try:
+    import bootcamp  # noqa: F401
+    import ezpz  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/ezpz" "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 %load_ext autoreload
 %autoreload 2
 import matplotlib_inline.backend_inline
@@ -60,7 +71,6 @@ import matplotlib as mpl
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:12.460325Z', iopub.status.busy: '2025-08-04T17:29:12.455426Z', iopub.status.idle: '2025-08-04T17:29:17.702887Z', shell.execute_reply: '2025-08-04T17:29:17.702553Z', shell.execute_reply.started: '2025-08-04T17:29:12.460204Z'}
 import logging
 
 import ambivalent
@@ -84,7 +94,6 @@ style_mpl()
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:17.703739Z', iopub.status.busy: '2025-08-04T17:29:17.703631Z', iopub.status.idle: '2025-08-04T17:29:17.875678Z', shell.execute_reply: '2025-08-04T17:29:17.875419Z', shell.execute_reply.started: '2025-08-04T17:29:17.703729Z'}
 #| label: fig-imagenet
 #| fig-cap: "ImageNet top-5 error over time. Deep CNNs (from AlexNet in 2012) drove error below the ~5% human level by 2015; the benchmark is now effectively solved (~1%)."
 import plotly.graph_objects as go
@@ -119,7 +128,6 @@ fig.show()
 ## Convolutional Building Blocks
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:17.876056Z', iopub.status.busy: '2025-08-04T17:29:17.875971Z', iopub.status.idle: '2025-08-04T17:29:18.061848Z', shell.execute_reply: '2025-08-04T17:29:18.061581Z', shell.execute_reply.started: '2025-08-04T17:29:17.876048Z'}
 import torch
 import torchvision
 ```
@@ -128,7 +136,6 @@ We're going to go through some examples of building blocks for convolutional net
 
 ```{python}
 #| output: false
-#| execution: {iopub.execute_input: '2025-08-04T17:29:29.983068Z', iopub.status.busy: '2025-08-04T17:29:29.980279Z', iopub.status.idle: '2025-08-04T17:29:30.065332Z', shell.execute_reply: '2025-08-04T17:29:30.064986Z', shell.execute_reply.started: '2025-08-04T17:29:29.983013Z'}
 import os, urllib.request
 from PIL import Image
 
@@ -149,7 +156,6 @@ alcf_image = Image.open(_img)
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:32.861609Z', iopub.status.busy: '2025-08-04T17:29:32.861420Z', iopub.status.idle: '2025-08-04T17:29:33.326419Z', shell.execute_reply: '2025-08-04T17:29:33.326079Z', shell.execute_reply.started: '2025-08-04T17:29:32.861597Z'}
 from matplotlib import pyplot as plt
 
 fx, fy = plt.rcParamsDefault["figure.figsize"]
@@ -178,7 +184,6 @@ See examples of convolutions [here](https://github.com/vdumoulin/conv_arithmetic
 ![image.png](./conv.png)
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:36.031090Z', iopub.status.busy: '2025-08-04T17:29:36.030593Z', iopub.status.idle: '2025-08-04T17:29:39.289060Z', shell.execute_reply: '2025-08-04T17:29:39.288566Z', shell.execute_reply.started: '2025-08-04T17:29:36.031057Z'}
 # Let's apply a convolution to the ALCF Staff photo:
 alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
 
@@ -251,18 +256,27 @@ final accuracy.
 :::
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:40.964249Z', iopub.status.busy: '2025-08-04T17:29:40.963480Z', iopub.status.idle: '2025-08-04T17:29:41.721662Z', shell.execute_reply: '2025-08-04T17:29:41.721275Z', shell.execute_reply.started: '2025-08-04T17:29:40.964207Z'}
 # Let's apply a normalization to the ALCF Staff photo:
 alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
 # Reshape the tensor to have a batch size of 1:
 alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
-alcf_rand = torch.nn.functional.normalize(alcf_tensor)
-alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
+# Standardize: subtract the per-channel mean and divide by the per-channel std,
+# so each channel ends up with mean 0 and std 1 (exactly the transform described
+# above). We reduce over the batch + spatial dims and keep the channel dim.
+mean = alcf_tensor.mean(dim=(0, 2, 3), keepdim=True)
+std = alcf_tensor.std(dim=(0, 2, 3), keepdim=True)
+alcf_norm = (alcf_tensor - mean) / std
 print(alcf_tensor.shape)
-rand_image = alcf_rand.permute((1, 2, 0)).cpu()
+print(f"per-channel mean: {alcf_norm.mean(dim=(0, 2, 3))}")  # ~[0, 0, 0]
+print(f"per-channel std:  {alcf_norm.std(dim=(0, 2, 3))}")   # ~[1, 1, 1]
+alcf_norm = alcf_norm.reshape(alcf_norm.shape[1:])
+# Standardized values are centered on 0 (and go negative), so rescale to [0, 1]
+# just for display — imshow expects floats in that range.
+disp = (alcf_norm - alcf_norm.min()) / (alcf_norm.max() - alcf_norm.min())
+norm_image = disp.permute((1, 2, 0)).cpu()
 fx, fy = plt.rcParamsDefault["figure.figsize"]
 figure = plt.figure(figsize=(1.5 * fx, 1.5 * fy))
-_ = plt.imshow(rand_image)
+_ = plt.imshow(norm_image)
 ```
 
 ### Downsampling (And upsampling)
@@ -303,7 +317,6 @@ plt.show()
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:42.434100Z', iopub.status.busy: '2025-08-04T17:29:42.433787Z', iopub.status.idle: '2025-08-04T17:29:42.783042Z', shell.execute_reply: '2025-08-04T17:29:42.782702Z', shell.execute_reply.started: '2025-08-04T17:29:42.434076Z'}
 # Let's apply a normalization to the ALCF Staff photo:
 alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
 # Reshape the tensor to have a batch size of 1:
@@ -507,7 +520,6 @@ replacement for MNIST that's still small enough to download and train on a CPU i
 seconds (unlike the heavier CIFAR-10 color images).
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:46.112645Z', iopub.status.busy: '2025-08-04T17:29:46.112355Z', iopub.status.idle: '2025-08-04T17:29:47.487260Z', shell.execute_reply: '2025-08-04T17:29:47.486926Z', shell.execute_reply.started: '2025-08-04T17:29:46.112626Z'}
 batch_size = 16
 from torchvision import transforms
 
@@ -564,14 +576,12 @@ classes = (
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:50.354671Z', iopub.status.busy: '2025-08-04T17:29:50.354520Z', iopub.status.idle: '2025-08-04T17:29:50.474487Z', shell.execute_reply: '2025-08-04T17:29:50.474058Z', shell.execute_reply.started: '2025-08-04T17:29:50.354662Z'}
 batch, (X, Y) = next(enumerate(train_dataloader))
 plt.imshow(X[0].cpu().squeeze(), cmap="gray")   # 1×28×28 grayscale
 plt.show()
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:52.481674Z', iopub.status.busy: '2025-08-04T17:29:52.481331Z', iopub.status.idle: '2025-08-04T17:29:52.650593Z', shell.execute_reply: '2025-08-04T17:29:52.650340Z', shell.execute_reply.started: '2025-08-04T17:29:52.481647Z'}
 import numpy as np
 
 
@@ -596,7 +606,6 @@ print("\n" + " ".join(f"{classes[labels[j]]:5s}" for j in range(batch_size)))
 This code below is important as our models get bigger: this is wrapping the pytorch data loaders to put the data onto the GPU!
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:29:59.933035Z', iopub.status.busy: '2025-08-04T17:29:59.932625Z', iopub.status.idle: '2025-08-04T17:29:59.987154Z', shell.execute_reply: '2025-08-04T17:29:59.986667Z', shell.execute_reply.started: '2025-08-04T17:29:59.933010Z'}
 dev = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 
@@ -625,7 +634,6 @@ val_dataloader = WrappedDataLoader(val_dataloader, preprocess)
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:01.985074Z', iopub.status.busy: '2025-08-04T17:30:01.984782Z', iopub.status.idle: '2025-08-04T17:30:02.048564Z', shell.execute_reply: '2025-08-04T17:30:02.048095Z', shell.execute_reply.started: '2025-08-04T17:30:01.985055Z'}
 from typing import Optional
 
 from torch import nn
@@ -758,7 +766,6 @@ class Classifier(nn.Module):
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:02.924990Z', iopub.status.busy: '2025-08-04T17:30:02.924567Z', iopub.status.idle: '2025-08-04T17:30:03.202894Z', shell.execute_reply: '2025-08-04T17:30:03.202589Z', shell.execute_reply.started: '2025-08-04T17:30:02.924956Z'}
 #| scrolled: true
 from torchinfo import summary
 
@@ -768,7 +775,6 @@ print(f"\n{summary(model, input_size=(batch_size, 1, 28, 28))}")
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:05.502795Z', iopub.status.busy: '2025-08-04T17:30:05.502606Z', iopub.status.idle: '2025-08-04T17:30:05.537733Z', shell.execute_reply: '2025-08-04T17:30:05.537409Z', shell.execute_reply.started: '2025-08-04T17:30:05.502783Z'}
 def evaluate(dataloader, model, loss_fn, val_bar):
     # Set the model to evaluation mode - some NN pieces behave differently during training
     # Unnecessary in this situation but added for best practices
@@ -798,7 +804,6 @@ def evaluate(dataloader, model, loss_fn, val_bar):
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:06.183855Z', iopub.status.busy: '2025-08-04T17:30:06.183423Z', iopub.status.idle: '2025-08-04T17:30:06.237807Z', shell.execute_reply: '2025-08-04T17:30:06.237528Z', shell.execute_reply.started: '2025-08-04T17:30:06.183827Z'}
 import time
 
 from torch import nn
@@ -813,7 +818,6 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=2.5e-4)
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:06.476994Z', iopub.status.busy: '2025-08-04T17:30:06.476517Z', iopub.status.idle: '2025-08-04T17:30:06.531151Z', shell.execute_reply: '2025-08-04T17:30:06.530784Z', shell.execute_reply.started: '2025-08-04T17:30:06.476925Z'}
 def eval_step(x, y):
     with torch.no_grad():
         t0 = time.perf_counter()
@@ -831,7 +835,6 @@ def eval_step(x, y):
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:06.834572Z', iopub.status.busy: '2025-08-04T17:30:06.834204Z', iopub.status.idle: '2025-08-04T17:30:06.873250Z', shell.execute_reply: '2025-08-04T17:30:06.872632Z', shell.execute_reply.started: '2025-08-04T17:30:06.834546Z'}
 def train_step(x, y):
     t0 = time.perf_counter()
     # Forward pass
@@ -861,7 +864,6 @@ def train_step(x, y):
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:07.791928Z', iopub.status.busy: '2025-08-04T17:30:07.791613Z', iopub.status.idle: '2025-08-04T17:30:07.832694Z', shell.execute_reply: '2025-08-04T17:30:07.832231Z', shell.execute_reply.started: '2025-08-04T17:30:07.791905Z'}
 def train_one_epoch(
     dataloader, model, loss_fn, optimizer, progress_bar, history: ezpz.History | None
 ):
@@ -869,7 +871,7 @@ def train_one_epoch(
     t0 = time.perf_counter()
     batch_metrics = {}
     for batch, (X, y) in enumerate(dataloader):
-        loss, metrics = train_step(x, y)
+        loss, metrics = train_step(X, y)
         progress_bar.update()
         metrics = {"bidx": batch, "loss": loss, **metrics}
         batch_metrics[batch] = metrics
@@ -883,63 +885,16 @@ def train_one_epoch(
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:08.298274Z', iopub.status.busy: '2025-08-04T17:30:08.298108Z', iopub.status.idle: '2025-08-04T17:30:08.340279Z', shell.execute_reply: '2025-08-04T17:30:08.339718Z', shell.execute_reply.started: '2025-08-04T17:30:08.298264Z'}
-def train_one_epoch1(
-    dataloader, model, loss_fn, optimizer, progress_bar, history: ezpz.History | None
-):
-    model.train()
-    t0 = time.perf_counter()
-    batch_metrics = {}
-    for batch, (X, y) in enumerate(dataloader):
-        _t0 = time.perf_counter()
-        # forward pass
-        pred = model(X)
-        _t1 = time.perf_counter()
-        loss = loss_fn(pred, y)
-        _t2 = time.perf_counter()
-        # backward pass calculates gradients
-        loss.backward()
-        _t3 = time.perf_counter()
-        # take one step with these gradients
-        optimizer.step()
-        _t4 = time.perf_counter()
-        # resets the gradients
-        optimizer.zero_grad()
-        _t5 = time.perf_counter()
-        progress_bar.update()
-        metrics = {
-            "bidx": batch,
-            "loss": loss.item(),
-            "dtf": (_t1 - _t0),
-            "dtl": (_t2 - _t1),
-            "dtb": (_t3 - _t2),
-            "dto": (_t4 - _t3),
-            "dtz": (_t5 - _t4),
-        }
-        batch_metrics[batch] = metrics
-        if history is not None:
-            summary = history.update(metrics)
-    t1 = time.perf_counter()
-    batch_metrics |= {
-        "dt_batch": t1 - t0,
-    }
-    return batch_metrics
-```
-
-```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:09.985617Z', iopub.status.busy: '2025-08-04T17:30:09.985309Z', iopub.status.idle: '2025-08-04T17:30:10.041387Z', shell.execute_reply: '2025-08-04T17:30:10.040838Z', shell.execute_reply.started: '2025-08-04T17:30:09.985596Z'}
 #| scrolled: true
 _ = model.to(DTYPE)
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:10.986069Z', iopub.status.busy: '2025-08-04T17:30:10.985666Z', iopub.status.idle: '2025-08-04T17:30:11.204576Z', shell.execute_reply: '2025-08-04T17:30:11.204311Z', shell.execute_reply.started: '2025-08-04T17:30:10.986043Z'}
 _x, _y = next(iter(val_dataloader))
 print(f"{eval_step(_x.to(DTYPE), _y)}")
 ```
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:11.525721Z', iopub.status.busy: '2025-08-04T17:30:11.525304Z', iopub.status.idle: '2025-08-04T17:30:11.740211Z', shell.execute_reply: '2025-08-04T17:30:11.739847Z', shell.execute_reply.started: '2025-08-04T17:30:11.525676Z'}
 print(f"{_x.shape=}, {_y.shape=}")
 _pred = model(_x.to(DTYPE))
 _loss = loss_fn(_pred, _y).item()
@@ -959,7 +914,6 @@ print(
 ## Run Training
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:30:42.860742Z', iopub.status.busy: '2025-08-04T17:30:42.860194Z', iopub.status.idle: '2025-08-04T17:37:42.615806Z', shell.execute_reply: '2025-08-04T17:37:42.615232Z', shell.execute_reply.started: '2025-08-04T17:30:42.860695Z'}
 #| scrolled: true
 import time
 
@@ -996,7 +950,6 @@ for i in trange(TRAIN_ITERS, desc="Training"):
 ## Run Validation
 
 ```{python}
-#| execution: {iopub.execute_input: '2025-08-04T17:37:42.617073Z', iopub.status.busy: '2025-08-04T17:37:42.616911Z', iopub.status.idle: '2025-08-04T17:39:15.402835Z', shell.execute_reply: '2025-08-04T17:39:15.401167Z', shell.execute_reply.started: '2025-08-04T17:37:42.617061Z'}
 #| scrolled: true
 eval_history = ezpz.History()
 model.eval()
@@ -1072,8 +1025,15 @@ fig.show()
 
 In this notebook, we've learned about some basic convolutional networks and trained one on Fashion-MNIST images.
 It did ... OK.
-There is significant overfitting of this model.
-There are some ways to address that, but we didn't have time to get into that in this session.
+Note that our demo run above is deliberately short — only `TRAIN_ITERS = 100`
+steps at batch size 16 (~1600 samples), which is far less than a single pass over
+the ~48k training images. With such a short run you won't see overfitting yet;
+the model is still underfitting.
+As an exercise, bump `TRAIN_ITERS` up (or train for several full epochs using the
+`train_one_epoch` loop below) and watch the training and validation curves start
+to diverge — that gap is overfitting, and there are ways to address it (data
+augmentation, weight decay, dropout) that we didn't have time to get into in this
+session.
 
 Meanwhile, your homework (part 1) for this week is to try to train the model
 again but with a different architecture.

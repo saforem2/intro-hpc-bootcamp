@@ -167,6 +167,56 @@ A few things to notice:
 - Each expert runs **once**, batched over only the tokens routed to it — that is
   the sparsity payoff.
 
+### 🔎 Peek inside the router
+
+The aggregate `counts` above hide the actual *decisions* the router made. Let's
+open it up — nothing but a softmax over the gate logits picks experts — and watch
+what changes as we make routing denser (**top-1 → top-3**):
+
+```{python}
+# The router is just a softmax over the gate's logits.
+probs = F.softmax(moe.gate(x), dim=-1)       # (n_tokens, n_experts) routing dist
+top2 = probs.topk(2, dim=-1)                  # what top-2 routing selects per token
+
+print("per-token routing decisions (chosen expert = gate weight):")
+for t in range(n_tokens):
+    picks = "  ".join(
+        f"E{e}={w:.2f}"
+        for e, w in zip(top2.indices[t].tolist(), top2.values[t].tolist())
+    )
+    print(f"  token {t:2d} -> {picks}")
+
+# Vary the routing density: dispatches (and load) grow with k, but E is unchanged.
+print("\ntop-k   dispatches   per-expert load          busiest / idlest")
+for k in (1, 2, 3):
+    idx = probs.topk(k, dim=-1).indices                    # (n_tokens, k)
+    load = torch.bincount(idx.flatten(), minlength=moe.n_experts)
+    bars = "  ".join(f"E{e}:{c}" for e, c in enumerate(load.tolist()))
+    print(f"  top-{k}    {idx.numel():5d}      {bars}      "
+          f"{load.max().item()} / {load.min().item()}")
+```
+
+- Top-$k$ is nothing fancier than "keep the $k$ largest gate weights per token" —
+  top-1 is the `argmax`, top-2 the two biggest, and so on.
+- **Total dispatches $= n_\text{tokens} \times k$**, so per-token cost scales with
+  $k$ — exactly the $k/E$ factor in $P_\text{active}$ — while the number of
+  experts $E$ never changes.
+- Even this *untrained* router is lumpy: at top-1 one expert soaks up far more
+  tokens than the idlest one. That imbalance is precisely what the **aux loss**
+  (and DeepSeek-v3's bias trick) exists to flatten.
+
+::: {.callout-tip title="✏️ Exercise: which density balances best?" collapse="true"}
+The sweep prints `busiest / idlest` load for top-1, top-2, and top-3. Which
+routing density gives the *most even* spread here — and why isn't the densest
+option "free"?
+
+Higher $k$ spreads tokens over more experts, so the busiest/idlest gap shrinks —
+but every extra expert per token is extra FLOPs and extra all-to-all traffic at
+scale (§③). More experts activate per token, so you pay more compute for that
+smoother load. The real fix for imbalance is not "route to everyone," it's the
+load-balancing loss/bias that reshapes the router itself.
+:::
+
 ### 📦 Capacity factor
 
 On real hardware an expert's buffer is a **fixed-size tensor**, so we cap how

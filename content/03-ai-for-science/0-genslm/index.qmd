@@ -1,13 +1,593 @@
 ---
-title: "Genome Scale Language Models (GenSLM)"
-description: "A comprehensive guide to Genome Scale Language Models (GenSLM), covering their architecture, training, and applications in genomics."
+title: "🧬 GenSLM: Genome-Scale Language Models"
+description: "The capstone AI-for-science example: a Transformer trained on codons instead of English words, used to model SARS-CoV-2 evolution on HPC (ALCF's Gordon Bell Special Prize work)."
 categories:
-    - ai
-    - hpc
-    - llm
-    - bio
+  - ai
+  - hpc
+  - llm
+  - bio
 date: 2025-07-23
 date-modified: last-modified
+jupyter: python3
 ---
 
-## Overview of GenSLM
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+:::
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-ai-for-science/0-genslm/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-ai-for-science/0-genslm/index.qmd)
+
+This whole course is called **"AI *for Science*"** — and this is the page where it
+all pays off. Back in
+[\[02.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) we opened with
+a claim: the Transformer isn't a *text* architecture, it's a *sequence*
+architecture, and much of science is sequences — DNA, RNA, proteins, SMILES
+strings. We even name-dropped the example we're about to build up to. Now we cash
+that check.
+
+**[GenSLM](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v2)**
+(Genome-Scale Language Models) is an Argonne-led project that trained
+GPT-style language models on **genomes** instead of English, and used them to
+model how **SARS-CoV-2** evolves — capturing the emergence of variants of concern
+*without* wet-lab experiments. It ran across ALCF and NERSC supercomputers and won
+the [2022 ACM Gordon Bell Special Prize for HPC-Based COVID-19
+Research](https://awards.acm.org/bell). It is the flagship "AI for science on HPC"
+result, and by the end of this page you'll have built a (very) small version of it
+from scratch.
+
+::: {.callout-tip title="🎯 Learning objectives" collapse="false"}
+By the end of this session you will be able to:
+
+1. Explain what a **genome-scale language model** is — the *same* Transformer from
+   [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd), fed nucleotides instead of
+   words.
+2. Describe **codon tokenization** (3 nucleotides → 1 token) and contrast it with
+   **BPE** on text.
+3. Build a runnable **codon tokenizer** and a tiny **CodonGPT** that learns
+   structure from a synthetic genome — on a CPU, in seconds.
+4. Explain **why GenSLM needed a supercomputer**: whole-genome context lengths,
+   massive sequence corpora, and billion-parameter models trained across many
+   GPUs.
+5. Connect that scale story back to the **distributed-training** machinery you
+   already learned in [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
+   and [\[02.1\]](../../02-llms/1-parallel-training/index.qmd).
+:::
+
+::: {.callout-note title="🧭 Where this fits"}
+[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) built a mini-LLM from scratch
+on tiny-Shakespeare with a character-level tokenizer. **Nothing about that model
+was English-specific.** Swap the tokenizer — characters → codons — and point it at
+genomes, and the exact same next-token objective becomes a tool for biology. This
+page is that swap, taken to its scientific conclusion.
+:::
+
+## 🧬 From English to genomes: the same Transformer
+
+A language model learns $P(t_i \mid t_1, \ldots, t_{i-1})$ — the probability of the
+next token given everything before it. In [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)
+the tokens were subwords of English. Here they're pieces of a genome. The
+architecture — embeddings, masked self-attention, feed-forward blocks, a softmax
+over a vocabulary — **does not change**. Only the alphabet does.
+
+Why is that scientifically useful? A model that predicts the next nucleotide well
+has, implicitly, learned the *grammar of the genome*: which substitutions are
+plausible, which regions are conserved, how mutations co-occur. That lets you:
+
+- **Generate** synthetic-but-plausible sequences,
+- **Embed** a genome into a vector for downstream property prediction, and
+- **Score** how "surprising" a real mutation is — the signal GenSLM used to flag
+  emerging SARS-CoV-2 variants *before* they were labeled variants of concern.
+
+### Codons: the genome's native tokens
+
+DNA is a string over a 4-letter alphabet — `A`, `C`, `G`, `T`. You *could*
+tokenize one nucleotide at a time (a "character-level" model, like tiny-Shakespeare).
+But biology already has a natural unit: the **codon**, a group of **3 consecutive
+nucleotides** that the ribosome reads to select one amino acid. There are
+$4^3 = 64$ possible codons, so a codon vocabulary is tiny and *biologically
+meaningful* — each token is a real functional unit, not an artifact of a
+compression algorithm.
+
+This is the key contrast with text. GPT-2 uses **Byte-Pair Encoding (BPE)**, which
+*learns* a subword vocabulary from data to balance vocabulary size against sequence
+length. Codon tokenization needs no learning at all: the genetic code *hands you*
+the 64 tokens.
+
+::: {#fig-codon-vs-bpe .column-page}
+
+```{mermaid}
+flowchart LR
+    subgraph TXT["`Text (GPT-2)`"]
+        direction TB
+        t0("`'I am very'`")
+        t1("`BPE (learned
+        subwords)`")
+        t2("`['I', ' am', ' very']`")
+        t0 --> t1 --> t2
+    end
+    subgraph DNA["`Genome (GenSLM)`"]
+        direction TB
+        d0("`'ATGGCAAAGCTTTGA'`")
+        d1("`codons
+        (fixed, 3 nt)`")
+        d2("`['ATG','GCA','AAG',
+        'CTT','TGA']`")
+        d0 --> d1 --> d2
+    end
+    t2 --> M["`Same Transformer
+    next-token model`"]
+    d2 --> M
+classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+class TXT,DNA block
+class t0,d0 red
+class t1,d1 yellow
+class t2,d2 blue
+class M purple
+```
+
+Two tokenizers, one architecture. BPE *learns* subwords from text; codon
+tokenization uses the fixed 64-codon genetic code. Both feed the identical
+next-token Transformer.
+:::
+
+## ① A codon tokenizer that really runs {#sec-toy}
+
+Everything above is just words until we build it. Following the **toy → real →
+scale** rhythm from the rest of this track, let's start with a codon tokenizer
+small enough to run on a laptop in a millisecond — pure Python, no downloads.
+
+```{python}
+from itertools import product
+
+# The 4 DNA bases. A codon is an ordered triple of bases -> 4^3 = 64 codons.
+BASES = "ACGT"
+CODONS = ["".join(c) for c in product(BASES, repeat=3)]   # AAA, AAC, ..., TTT
+assert len(CODONS) == 64
+
+# Two special tokens: <pad> for batching, <unk> for anything that isn't a clean
+# ACGT codon (e.g. an ambiguous base 'N', which real sequencing data is full of).
+SPECIAL = ["<pad>", "<unk>"]
+vocab = SPECIAL + CODONS
+stoi = {tok: i for i, tok in enumerate(vocab)}     # token  -> id
+itos = {i: tok for tok, i in stoi.items()}         # id     -> token
+vocab_size = len(vocab)
+
+
+def to_codons(dna: str, frame: int = 0) -> list[str]:
+    """Split DNA into non-overlapping codons, starting at reading `frame` (0/1/2)."""
+    dna = dna.upper().replace("\n", "").replace(" ", "")
+    seq = dna[frame:]
+    # drop the trailing 1-2 bases that don't fill a full codon
+    end = len(seq) - len(seq) % 3
+    return [seq[i : i + 3] for i in range(0, end, 3)]
+
+
+def encode(dna: str, frame: int = 0) -> list[int]:
+    """DNA string -> list of token ids (unknown codons -> <unk>)."""
+    return [stoi.get(cod, stoi["<unk>"]) for cod in to_codons(dna, frame)]
+
+
+def decode(ids: list[int]) -> str:
+    """token ids -> space-separated codons (GenSLM prints sequences this way)."""
+    return " ".join(itos[i] for i in ids)
+
+
+# A tiny open reading frame: start codon (ATG) ... stop codon (TGA).
+orf = "ATGGCAAAGCTTTGA"
+print("vocab size :", vocab_size)
+print("codons     :", to_codons(orf))
+print("token ids  :", encode(orf))
+print("decoded    :", decode(encode(orf)))
+
+# Real genomes contain ambiguous bases; those become <unk> (id 1):
+print("with N     :", to_codons("ATGNNNTAA"), "->", encode("ATGNNNTAA"))
+```
+
+That's the entire vocabulary of GenSLM's input space in a dozen lines: **66
+tokens** (64 codons + `<pad>` + `<unk>`). Compare that to GPT-2's ~50,000 BPE
+tokens. A small, fixed vocabulary is one reason genome models can afford very long
+context windows — more on that in @sec-scale.
+
+## ② A tiny CodonGPT that learns genome structure {#sec-real}
+
+Now the fun part: feed those tokens to the *same* from-scratch GPT architecture
+you built in [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) and watch it learn.
+We can't train on a real genome here (that's the whole point of the HPC section),
+so we use a **synthetic "genome"**: a short, biologically-flavored motif repeated
+enough that a tiny model can discover its structure in ~100 iterations on a CPU.
+
+```{python}
+import torch
+import torch.nn as nn
+from torch.nn import functional as F
+
+torch.manual_seed(1337)
+
+# A synthetic genome: a repeating motif framed by a start (ATG) and stop (TAG)
+# codon. Real DNA isn't this repetitive -- but it lets a *tiny* model learn
+# real structure (codon co-occurrence) in seconds instead of GPU-days.
+motif = "ATGAAACGCGGGTTTCCCGATTAG"
+data = torch.tensor(encode(motif * 200), dtype=torch.long)
+
+# Small enough to train on a CPU in seconds:
+block_size = 8     # context window, in *codons*
+batch_size = 16
+n_embd = 32
+n_head = 4
+n_layer = 2
+max_iters = 100
+learning_rate = 3e-3
+
+
+def get_batch():
+    ix = torch.randint(len(data) - block_size - 1, (batch_size,))
+    x = torch.stack([data[i : i + block_size] for i in ix])
+    y = torch.stack([data[i + 1 : i + block_size + 1] for i in ix])
+    return x, y
+```
+
+The model is the standard decoder block from [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)
+— masked self-attention + feed-forward, with residuals and layer-norm — just sized
+tiny:
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the from-scratch CodonGPT definition (same as [02.0], sized tiny)"
+class Head(nn.Module):
+    """One head of masked self-attention."""
+
+    def __init__(self, head_size):
+        super().__init__()
+        self.key = nn.Linear(n_embd, head_size, bias=False)
+        self.query = nn.Linear(n_embd, head_size, bias=False)
+        self.value = nn.Linear(n_embd, head_size, bias=False)
+        self.register_buffer("tril", torch.tril(torch.ones(block_size, block_size)))
+
+    def forward(self, x):
+        B, T, C = x.shape
+        k, q, v = self.key(x), self.query(x), self.value(x)
+        hs = k.shape[-1]
+        wei = (q @ k.transpose(-2, -1)) * hs**-0.5              # (B, T, T)
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))
+        wei = F.softmax(wei, dim=-1)
+        return wei @ v
+
+
+class MultiHeadAttention(nn.Module):
+    def __init__(self, num_heads, head_size):
+        super().__init__()
+        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
+        self.proj = nn.Linear(n_embd, n_embd)
+
+    def forward(self, x):
+        return self.proj(torch.cat([h(x) for h in self.heads], dim=-1))
+
+
+class Block(nn.Module):
+    """Transformer block: communication (attention) then computation (MLP)."""
+
+    def __init__(self):
+        super().__init__()
+        head_size = n_embd // n_head
+        self.sa = MultiHeadAttention(n_head, head_size)
+        self.ffwd = nn.Sequential(
+            nn.Linear(n_embd, 4 * n_embd), nn.ReLU(), nn.Linear(4 * n_embd, n_embd)
+        )
+        self.ln1 = nn.LayerNorm(n_embd)
+        self.ln2 = nn.LayerNorm(n_embd)
+
+    def forward(self, x):
+        x = x + self.sa(self.ln1(x))
+        x = x + self.ffwd(self.ln2(x))
+        return x
+
+
+class CodonGPT(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.token_embedding = nn.Embedding(vocab_size, n_embd)
+        self.position_embedding = nn.Embedding(block_size, n_embd)
+        self.blocks = nn.Sequential(*[Block() for _ in range(n_layer)])
+        self.ln_f = nn.LayerNorm(n_embd)
+        self.lm_head = nn.Linear(n_embd, vocab_size)
+
+    def forward(self, idx, targets=None):
+        B, T = idx.shape
+        x = self.token_embedding(idx) + self.position_embedding(torch.arange(T))
+        x = self.ln_f(self.blocks(x))
+        logits = self.lm_head(x)
+        loss = None
+        if targets is not None:
+            loss = F.cross_entropy(logits.view(B * T, -1), targets.view(B * T))
+        return logits, loss
+
+    @torch.no_grad()
+    def generate(self, idx, max_new_tokens):
+        for _ in range(max_new_tokens):
+            logits, _ = self(idx[:, -block_size:])
+            probs = F.softmax(logits[:, -1, :], dim=-1)
+            idx_next = torch.multinomial(probs, num_samples=1)
+            idx = torch.cat([idx, idx_next], dim=1)
+        return idx
+```
+
+Train it — 100 iterations, a few seconds on a CPU — and track the loss:
+
+```{python}
+model = CodonGPT()
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+
+history = []
+for it in range(max_iters):
+    xb, yb = get_batch()
+    _, loss = model(xb, yb)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    history.append(loss.item())
+
+n_params = sum(p.numel() for p in model.parameters())
+print(f"CodonGPT parameters : {n_params:,}")
+print(f"loss: {history[0]:.3f} (start)  ->  {history[-1]:.3f} (end)")
+```
+
+The loss should drop sharply — the model quickly learns the motif's codon
+grammar. Now **prompt it with a start codon `ATG`** and let it generate, exactly
+as you'd prompt GPT-2 with a few words:
+
+```{python}
+prompt = torch.tensor([encode("ATG")], dtype=torch.long)
+generated = model.generate(prompt, max_new_tokens=11)[0].tolist()
+print("prompt: ATG")
+print("generated:", decode(generated))
+```
+
+It reproduces the learned motif — the codon-level analogue of GPT-2 continuing a
+sentence. Let's visualize the training curve (uses the shared `bootcamp` plotting
+theme):
+
+```{python}
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+from bootcamp.plotly_theme import apply_theme, COLORS
+import plotly.graph_objects as go
+
+apply_theme()
+
+fig = go.Figure()
+fig.add_scatter(
+    y=history, mode="lines", name="train loss",
+    line=dict(color=COLORS["blue"], width=2),
+)
+fig.update_layout(
+    height=360,
+    title="CodonGPT: training loss on a synthetic genome",
+    xaxis_title="iteration",
+    yaxis_title="cross-entropy loss",
+)
+fig.show()
+```
+
+::: {.callout-important title="This is a *toy*, and that's the point"}
+Our CodonGPT has ~30k parameters and trained on a repeated 24-nucleotide motif.
+The **real** GenSLM foundation models were trained on the **PATRIC** bacterial
+gene database and full **SARS-CoV-2 genomes** — millions of real sequences — and
+scaled from ~25 million up to **billions** of parameters. Same idea, same
+next-token objective, ~six orders of magnitude more everything. Bridging that gap
+is exactly what the supercomputer is *for*. That's @sec-scale.
+:::
+
+## ③ Why this needed a supercomputer {#sec-scale}
+
+A model this small runs on your laptop. So what makes GenSLM an *HPC* result
+worthy of a Gordon Bell prize, and not just "an LLM demo"? Three things, and each
+maps onto the distributed-training machinery you already learned.
+
+**1 · Context length over whole genomes.** A single SARS-CoV-2 genome is ~30,000
+nucleotides (~10,000 codons); bacterial genomes are far longer. Attention cost
+grows **quadratically** with sequence length, so modeling long-range dependencies
+across a genome pushes memory and compute far past a single GPU. This is precisely
+the pressure that motivates **sequence/context parallelism** from
+[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
+
+**2 · Massive sequence corpora.** Training on the PATRIC gene database plus global
+SARS-CoV-2 sequences means streaming enormous datasets through the model — the
+data-loading and sharding problem you met in
+[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/index.qmd).
+
+**3 · Billion-parameter models.** The largest GenSLM foundation models don't fit
+in one GPU's memory. Training them requires sharding parameters, gradients, and
+optimizer state across many devices — **ZeRO / FSDP** and **3D parallelism** from
+[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd), the same
+tools the [\[03.1\] Pretraining at Scale](../../03-advanced-llms/1-pretraining-at-scale/index.qmd)
+lab drives with `torchtitan`.
+
+| Ingredient | Our toy CodonGPT | Real GenSLM |
+|---|---|---|
+| Vocabulary | 66 (64 codons + specials) | codon-level, same idea |
+| Data | one repeated 24-nt motif | PATRIC genes + SARS-CoV-2 genomes |
+| Parameters | ~30k | ~25M up to billions |
+| Context | 8 codons | up to whole-genome scale |
+| Hardware | 1 CPU, a few seconds | Polaris + Perlmutter, many GPUs |
+
+: From a laptop toy to a Gordon Bell result — same architecture, different scale {.responsive .striped .hover}
+
+::: {.callout-note title="🏆 The real result"}
+GenSLM was trained on the ALCF [**Polaris**](https://www.alcf.anl.gov/polaris)
+and NERSC **Perlmutter** supercomputers, and the Gordon Bell submission
+benchmarked genome-scale training across a range of AI hardware. Beyond raw
+scale, the scientific payoff was a **hierarchical** model that combines a
+diffusion model for long-range genome context with a Transformer for codon-level
+detail, used to *prospectively* model SARS-CoV-2 evolution — identifying variants
+of concern from sequence dynamics alone. See
+[Zvyagin et al. (2022)](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v2)
+for the specifics (model sizes, throughput, and scaling numbers).
+:::
+
+### Loading the *real* pretrained model (run this yourself)
+
+The released 25M-parameter model (`genslm_25M_patric`) is a standard HuggingFace-style
+Transformer — the API will feel familiar from [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd).
+It's **not** run at build time here: the weights are a large download (via a Globus
+endpoint), so this cell is display-only. On a machine with the weights, it just
+works:
+
+```{python}
+#| eval: false
+# Display-only: requires `pip install git+https://github.com/ramanathanlab/genslm`
+# and downloading weights from the project's Globus endpoint (large; not run here).
+from genslm import GenSLM
+
+model = GenSLM("genslm_25M_patric", model_cache_dir="./genslm_weights")
+model.eval()
+
+# Prompt the language model with a start codon -- exactly like prompting GPT-2,
+# but the "words" are codons:
+prompt = model.tokenizer.encode("ATG", return_tensors="pt")
+tokens = model.model.generate(
+    prompt, max_length=10, min_length=10, do_sample=True, top_k=50, top_p=0.95,
+    num_return_sequences=2,
+    pad_token_id=model.tokenizer.encode("[PAD]")[0],
+)
+for seq in model.tokenizer.batch_decode(tokens, skip_special_tokens=True):
+    print(seq)   # e.g.  ATG GTT ATT TCA TCT GAT TTA CCA ACT
+```
+
+Notice the output format: **space-separated codons**, exactly what our tiny
+`decode()` produces. The toy and the real thing speak the same language.
+
+::: {.callout-tip title="⚙️ Training it at scale with the tools from this track"}
+GenSLM ships its own HPC launcher, but the *pattern* is identical to everything
+in [\[03\]](../../03-advanced-llms/index.qmd): build a codon dataset, wrap a
+Transformer in FSDP/3D parallelism, and launch across nodes with checkpointing.
+Reusing this course's [`ezpz`](https://github.com/saforem2/ezpz) workflow, a
+genome pretraining run is the same shape as any other:
+
+```bash
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+uv pip install git+https://github.com/saforem2/ezpz
+ezpz launch -n <N> python3 train_codon_gpt.py --data genomes/ --ckpt-interval 500
+```
+
+The [\[03.2\] Fault-Tolerant Training](../../03-advanced-llms/2-fault-tolerant-training/index.qmd)
+lab explains why that `--ckpt-interval` matters for a multi-day run.
+:::
+
+## 🧪 Exercise: robust reading frames
+
+Real sequencing data is messy: it contains ambiguous bases (`N`), and you often
+don't know **which of the three reading frames** a fragment starts in. Extend the
+tokenizer from @sec-toy to be robust to both.
+
+Write a function `best_frame(dna)` that tries all three reading frames (`0`, `1`,
+`2`) and returns the frame whose codon tokenization contains the **fewest `<unk>`
+tokens** (ties → smallest frame). Report that frame and its `<unk>` fraction.
+
+::: {.callout-tip title="💡 Show a solution" collapse="true"}
+```{python}
+def frame_unk_fraction(dna: str, frame: int) -> float:
+    ids = encode(dna, frame=frame)
+    if not ids:
+        return 1.0
+    n_unk = sum(1 for i in ids if i == stoi["<unk>"])
+    return n_unk / len(ids)
+
+
+def best_frame(dna: str) -> tuple[int, float]:
+    """Return (frame, unk_fraction) for the cleanest of the 3 reading frames."""
+    scores = [(f, frame_unk_fraction(dna, f)) for f in (0, 1, 2)]
+    return min(scores, key=lambda fs: (fs[1], fs[0]))   # fewest <unk>, then lowest frame
+
+
+# A messy read: leading junk base + an ambiguous 'N' block.
+messy = "GATGNNNAAACGCGGGTTTCCC"
+frame, frac = best_frame(messy)
+print("per-frame <unk> fraction:",
+      {f: round(frame_unk_fraction(messy, f), 3) for f in (0, 1, 2)})
+print(f"best frame = {frame}  (<unk> fraction = {frac:.3f})")
+print("tokens     :", decode(encode(messy, frame=frame)))
+```
+
+The frame that best "phases" onto clean codons has the fewest `<unk>` tokens —
+a simple, useful heuristic for aligning noisy reads before feeding them to the
+model.
+:::
+
+## ✅ Key Takeaways
+
+::: {.callout-tip title="Recap" collapse="false"}
+- A **genome-scale language model** is the *same* Transformer as an LLM, trained
+  on genomes instead of text. Swap the tokenizer, keep the architecture.
+- **Codon tokenization** groups 3 nucleotides into 1 token — a fixed, biologically
+  meaningful 64-token vocabulary — versus **BPE's** learned subwords for text.
+- A tiny **CodonGPT** learns codon structure from a synthetic genome on a CPU in
+  seconds — proving the idea end-to-end.
+- **GenSLM** scaled that idea to real genomes and billion-parameter models on
+  **Polaris + Perlmutter**, using the *same* distributed-training tools from
+  [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd) /
+  [\[02.1\]](../../02-llms/1-parallel-training/index.qmd), and modeled SARS-CoV-2
+  evolution well enough to win a **Gordon Bell Special Prize**.
+- This is what "AI for science on HPC" looks like: a general architecture + a
+  scientific alphabet + a supercomputer.
+:::
+
+## 📚 References & Further Reading
+
+- Zvyagin, Brace, Hippe, Deng, et al., [*GenSLMs: Genome-scale language models
+  reveal SARS-CoV-2 evolutionary
+  dynamics*](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v2)
+  (bioRxiv, 2022) — the primary paper.
+- [`ramanathanlab/genslm`](https://github.com/ramanathanlab/genslm) — the official
+  code, pretrained models (`genslm_25M_patric`), and usage examples (MIT license).
+- ACM, [Gordon Bell Prize](https://awards.acm.org/bell) — GenSLM won the 2022
+  **Special Prize for HPC-Based COVID-19 Research**.
+- ALCF, [Polaris](https://www.alcf.anl.gov/polaris) — one of the systems GenSLM
+  trained on.
+- [\[02.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) — the
+  from-scratch Transformer this page reuses.
+- Vaswani et al., [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762)
+  (2017) — the architecture underneath it all.
+
+## 🎒 Homework
+
+Turn the toy into something a little more real. Submit **any one** of:
+
+1. **A better toy genome.** Replace the single repeated `motif` with a small
+   *mixture* of 3–4 different codon motifs (e.g. concatenate several short
+   synthetic "genes"). Retrain CodonGPT and show, from generated samples, that it
+   learned more than one motif.
+
+2. **Reading-frame report.** Use your `best_frame()` from the exercise on a batch
+   of 5–10 short DNA strings (make some messy with `N`s and leading junk bases).
+   Print a small table of `(sequence, best_frame, unk_fraction)`.
+
+3. **Codon vs. character.** Build a *character-level* tokenizer over `ACGT`
+   (vocab of ~6) and train the same-sized model on the same synthetic genome.
+   Compare final loss and generated samples to the codon model — which learns the
+   structure faster, and why might that be?
+
+4. **(Stretch) Run the real model.** On a machine where you can install
+   [`genslm`](https://github.com/ramanathanlab/genslm) and fetch the weights, load
+   `genslm_25M_patric`, generate a few sequences from an `ATG` prompt, and compare
+   its output to your toy's. Submit the sequences.
+
+*Proof* can be terminal output, a saved plot, a notebook, or a short write-up.
+The goal: internalize that a genome model is *just a language model with a
+different alphabet* — and that scaling it up is exactly the HPC story this whole
+course has been building toward.
+
+---
+
+*Last updated: {{< meta date-modified >}}*
