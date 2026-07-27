@@ -1,5 +1,8 @@
 /*-- scss:defaults --*/
 
+// Faint OKLCH tints LIGHTEN in light mode (L * 1.15). See common.scss.
+$bg-scaling-factor: 1.15;
+
 // $thunder: #222222; // ansi0
 // $silver-chalice: #b0b0b0; // ansi8
 // $purple-pizzazz: #ff0ad8; // ansi

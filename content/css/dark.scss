@@ -1,5 +1,10 @@
 /*-- scss:defaults --*/
 
+// Faint OKLCH tints must DARKEN in dark mode (L * 0.85), not lighten. This is
+// the whole point of the variable — see common.scss. (Previously every tint
+// hardcoded L * 1.15, washing out backgrounds in dark mode.)
+$bg-scaling-factor: 0.85;
+
 // $boulder: #777777;
 // $gray: #888888;
 // $rose: #ff006f;
