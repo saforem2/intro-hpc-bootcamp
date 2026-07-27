@@ -156,7 +156,7 @@ print(f"trained in {time.time() - _t0:.0f}s on CPU  (labels used: 0)")
 ```
 
     contrastive loss: [(0, 6.232), (50, 5.211), (100, 4.374), (150, 4.066), (200, 3.838), (250, 3.535)]
-    trained in 26s on CPU  (labels used: 0)
+    trained in 31s on CPU  (labels used: 0)
 
 The loss drops from ~6 to ~4 — the contrastive task is being solved. So
 how good are the features? Let’s measure honestly, using labels **only
@@ -675,58 +675,6 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 ```
 
 ``` python
-# def demo_basic(rank, world_size, n_epochs):
-#     console.log(f"Running basic DDP example on rank {rank}.")
-#     setup(rank, world_size)
-
-
-#     # create model and move it to GPU with id rank
-#     model = ToyModel().to(rank)
-#     ddp_model = DDP(model, device_ids=[rank])
-
-#     loss_fn = nn.MSELoss()
-#     optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)
-
-#     optimizer.zero_grad()
-#     outputs = ddp_model(torch.randn(20, 10))
-#     labels = torch.randn(20, 5).to(rank)
-#     loss_fn(outputs, labels).backward()
-#     optimizer.step()
-
-#     cleanup()
-
-
-# def run_demo(demo_fn, world_size):
-#     mp.spawn(demo_fn,
-#              args=(world_size,5),
-#              nprocs=world_size,
-#              join=True)
-```
-
-``` python
-# import sys, os
-# from multiprocessing import Pool
-# from multiprocessing.reduction import ForkingPickler
-# from types import FunctionType
-# import cloudpickle
-
-# assert sys.version_info >= (3, 8), 'python3.8 or greater required to use reducer_override'
-
-# def reducer_override(obj):
-#     if type(obj) is FunctionType:
-#         return (cloudpickle.loads, (cloudpickle.dumps(obj),))
-#     else:
-#         return NotImplemented
-
-# # Monkeypatch our function reducer into the pickler for multiprocessing.
-# # Without this line, the main block will not work on windows or macOS.
-# # Alterntively, moving the defintionn of foo outside of the if statement
-# # would make the main block work on windows or macOS (when run from
-# # the command line).
-# ForkingPickler.reducer_override = staticmethod(reducer_override)
-```
-
-``` python
 # This method is from the pytorch implementation of SimCLR:
 # https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py
 
@@ -990,26 +938,23 @@ def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, pro
 optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters()), lr=0.001)
 ```
 
+The contrastive **pretraining loop** — no labels, just pulling augmented
+views of the same image together. On a multi-GPU node you’d wrap
+`model`/`head` in `DDP` first; here it’s shown single-device for
+clarity:
+
 ``` python
 from tqdm.notebook import tqdm
 
-
-# for j in range(1):
-#     # with tqdm(total=len(train), position=0, leave=True, desc=f"Train Epoch {j}") as train_bar1:
-#
-#     #     train_one_epoch(train, transforms1, transforms2, model, head, contrastive_loss, optimizer, 0, 1, train_bar1)
-#
-#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:
-#         metrics = validate_one_epoch(val, transforms1, transforms2, model, head, contrastive_loss, 0, 1, val_bar)
-#         console.log_metrics = {
-#             key : f"{key}={metrics[key]:.2f}" for key in metrics.keys()
-#         }
-#         console.log_metrics = "; ".join(console.log_metrics.values())
-#         console.log(f"Validate epoch {j}: ", console.log_metrics)
-```
-
-``` python
-# Now, we retrain the classification head without touching the representation. This is called fine tuning.
+for epoch in range(N_EPOCHS):
+    with tqdm(total=len(train), desc=f"Pretrain epoch {epoch}") as bar:
+        train_one_epoch(train, transforms1, transforms2,
+                        model, head, contrastive_loss, optimizer, 0, 1, bar)
+    with tqdm(total=len(val), desc=f"Validate epoch {epoch}") as bar:
+        metrics = validate_one_epoch(val, transforms1, transforms2,
+                                     model, head, contrastive_loss, 0, 1, bar)
+        console.log(f"epoch {epoch}: "
+                    + "; ".join(f"{k}={v:.2f}" for k, v in metrics.items()))
 ```
 
 ``` python
@@ -1079,12 +1024,15 @@ fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.0
 console.log(fine_tune_optimizer)
 ```
 
+Then the **fine-tuning loop** — the representation stays frozen; only
+the small classification head learns, from a handful of labels:
+
 ``` python
-# for j in range(5):
-#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:
-#
-#         fine_tune(train, model, classification_head, classification_loss, fine_tune_optimizer, train_bar1)
-#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:
-#         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)
-#         console.log(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")
+for epoch in range(5):
+    with tqdm(total=len(train), desc=f"Fine-tune epoch {epoch}") as bar:
+        fine_tune(train, model, classification_head,
+                  classification_loss, fine_tune_optimizer, bar)
+    with tqdm(total=len(val), desc=f"Validate epoch {epoch}") as bar:
+        acc, loss = evaluate(val, model, classification_head, classification_loss, bar)
+        console.log(f"epoch {epoch}: val loss {loss:.3f}, accuracy {acc:.3f}")
 ```
