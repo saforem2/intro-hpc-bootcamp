@@ -268,22 +268,33 @@ We report the same metrics as the `wordplay` example:
 : Training metrics legend {#tbl-ezpz-legend .responsive}
 
 ```{python}
-# --- tiny config: runs on CPU at build time ---
-cfg = GPTConfig(vocab_size=vocab_size, block_size=64, n_layer=4, n_head=4,
-                n_embd=128, dropout=0.0)
-batch_size = 16
-max_iters = 50            # bump to 1000+ on a GPU for real samples
+# The config scales with the hardware: a real GPT on a GPU, a tiny fast one on a
+# CPU build. On a GPU node (this page was rendered on a Polaris A100) you get a
+# genuine ~1000-step run that produces Shakespeare-like text; a laptop build runs
+# a small version so the page still renders quickly.
+on_gpu = device in ("cuda", "xpu")
+
+if on_gpu:
+    cfg = GPTConfig(vocab_size=vocab_size, block_size=256, n_layer=6, n_head=6,
+                    n_embd=384, dropout=0.2)
+    batch_size = 64
+    max_iters = 1000
+    PEAK_FLOPS = 3.12e14      # A100 bf16 peak (~312 TFLOP/s)
+else:
+    cfg = GPTConfig(vocab_size=vocab_size, block_size=64, n_layer=4, n_head=4,
+                    n_embd=128, dropout=0.0)
+    batch_size = 16
+    max_iters = 50
+    PEAK_FLOPS = 1.0e12       # ~1 TFLOP/s nominal (CPU)
 
 model = GPT(cfg).to(device)
 n_params = sum(p.numel() for p in model.parameters())
-logger.info(f"model has {n_params/1e6:.2f}M parameters")
+logger.info(f"model has {n_params/1e6:.2f}M parameters ({max_iters} steps on {device})")
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 
-# Rough MFU: ~6*N FLOPs per token (fwd+bwd). Peak is device-dependent; we use a
-# nominal value so the number is illustrative (compute_mfu ships in newer ezpz).
+# Rough MFU: ~6*N FLOPs per token (fwd+bwd), against the device's peak above.
 flops_per_token = 6 * n_params
-PEAK_FLOPS = 1.0e12       # ~1 TFLOP/s nominal (CPU); set to your GPU's bf16 peak
 ```
 
 ```{python}
