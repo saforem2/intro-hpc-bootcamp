@@ -627,13 +627,18 @@ Transformer learns these relationships: as it processes each token, it looks at
 
 Rather than a static diagram, let's look at **real attention weights** from a
 pretrained BERT for this exact sentence. Each row is a token *attending*; the
-colored cells show how much it attends to each other token. Use the dropdown to
-switch layers — notice how, in several heads/layers, **"it" attends strongly back
-to "animal"**:
+colored cells show how much it attends to each other token.
+
+BERT has 12 layers × 12 heads, and they *specialize*: some heads track syntax,
+some track position, and a few learn **coreference** — linking a pronoun to what
+it refers to. In those heads, the **"it"** row lights up strongly on
+**"animal"** (try `layer 3 · head 10` below, where it's ~0.83). Averaged over all
+12 heads the signal washes out — specialization lives in *individual* heads, not
+the average. Use the dropdown to compare a few:
 
 ```{python}
 #| label: fig-attention-viz
-#| fig-cap: "Real BERT self-attention for the sentence — each row shows what a token attends to. Switch layers with the dropdown."
+#| fig-cap: "Real BERT self-attention — each row shows what a token attends to. Switch heads with the dropdown."
 #| code-fold: true
 #| code-summary: "Show the attention-extraction + plotting code"
 import torch
@@ -652,22 +657,43 @@ with torch.no_grad():
     _att = _mdl(**_enc).attentions          # n_layers × [1, heads, seq, seq]
 _toks = _tok.convert_ids_to_tokens(_enc["input_ids"][0])
 
-# average over heads for a clean per-layer view
-per_layer = [a[0].mean(0).numpy() for a in _att]   # each [seq, seq]
+# Curated views: a handful of heads that learned coreference (the `it` row
+# attends to `animal`), plus the head-average for contrast. (layer, head) or
+# (layer, None) for the mean over that layer's heads.
+_views = [
+    ("layer 3 · head 10", 3, 10),
+    ("layer 8 · head 10", 8, 10),
+    ("layer 10 · head 6", 10, 6),
+    ("layer 9 · head 0",  9, 0),
+    ("mean over all 12 heads (layer 9)", 9, None),
+]
+def _view(layer, head):
+    a = _att[layer][0]                      # [heads, seq, seq]
+    return (a.mean(0) if head is None else a[head]).numpy()
 
 fig = go.Figure()
-for li, M in enumerate(per_layer):
+for i, (_, L, H) in enumerate(_views):
+    M = _view(L, H)
     fig.add_heatmap(z=M[::-1], x=_toks, y=_toks[::-1], colorscale="Blues",
-                    visible=(li == 5), showscale=True,
+                    zmin=0, zmax=1, visible=(i == 0), showscale=True,
                     hovertemplate="%{y} → %{x}: %{z:.2f}<extra></extra>")
 fig.update_layout(
-    height=520, width=560, title="Attention (mean over heads)",
+    # No title — the "view:" dropdown label + the figure caption already say what
+    # this is, and a title here just collides with the menu. Extra top margin
+    # leaves clear room for the dropdown above the plot.
+    height=560, width=600, margin=dict(t=70),
     xaxis=dict(title="attended-to token", tickangle=-45),
     yaxis=dict(title="attending token"),
-    updatemenus=[dict(active=5, x=1.0, y=1.18, xanchor="right",
-        buttons=[dict(label=f"layer {i}", method="update",
-                      args=[{"visible": [j == i for j in range(len(per_layer))]}])
-                 for i in range(len(per_layer))])],
+    annotations=[dict(text="view:", showarrow=False, x=0.0, xref="paper",
+                      y=1.13, yref="paper", xanchor="left", yanchor="middle",
+                      font=dict(color="#838383"))],
+    updatemenus=[dict(
+        active=0, x=0.07, y=1.20, xanchor="left", yanchor="top",
+        bgcolor="#ffffff", bordercolor="#bdbdbd", borderwidth=1,
+        font=dict(color="#333333"),
+        buttons=[dict(label=name, method="update",
+                      args=[{"visible": [j == i for j in range(len(_views))]}])
+                 for i, (name, _, _) in enumerate(_views)])],
 )
 fig.show()
 ```
@@ -989,15 +1015,19 @@ class Head(nn.Module):
 
     def forward(self, x):
         B, T, C = x.shape
-        k = self.key(x)    # (B, T, C)
-        q = self.query(x)  # (B, T, C)
-        # attention scores ("affinities")
-        wei = q @ k.transpose(-2, -1) * C**-0.5      # (B, T, T)
+        k = self.key(x)    # (B, T, head_size)
+        q = self.query(x)  # (B, T, head_size)
+        # attention scores ("affinities"), scaled by 1/sqrt(head_size).
+        # NOTE: scale by the KEY dimension (k.shape[-1] == head_size), NOT the
+        # embedding dim C — inside a multi-head block head_size = n_embd // n_head,
+        # so using C here would make the logits too small.
+        head_size = k.shape[-1]
+        wei = q @ k.transpose(-2, -1) * head_size**-0.5              # (B, T, T)
         wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))  # causal mask
         wei = F.softmax(wei, dim=-1)
         wei = self.dropout(wei)
-        v = self.value(x)  # (B, T, C)
-        return wei @ v     # (B, T, C)
+        v = self.value(x)  # (B, T, head_size)
+        return wei @ v     # (B, T, head_size)
 
 
 class MultiHeadAttention(nn.Module):
