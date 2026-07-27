@@ -277,7 +277,7 @@ def run_experiment():
         return F.cross_entropy(sim, (torch.arange(2 * n, device=z.device) + n) % (2 * n))
 
     Xun, _ = take(tr, 50000, 1); Xun = Xun.to(dev)
-    Xte, yte = take(te, 4000, 2); Xte = Xte.to(dev)
+    Xte, yte = take(te, 4000, 2); Xte = Xte.to(dev); yte = yte.to(dev)
     enc = Encoder().to(dev)
     proj = nn.Sequential(nn.Linear(256, 256), nn.ReLU(), nn.Linear(256, 128)).to(dev)
     opt = torch.optim.Adam(list(enc.parameters()) + list(proj.parameters()), lr=1e-3)
