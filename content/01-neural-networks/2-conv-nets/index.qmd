@@ -921,7 +921,10 @@ import ezpz
 from tqdm.auto import tqdm, trange
 
 PRINT_EVERY = 50
-TRAIN_ITERS = 100  # float32 on CPU makes this quick; bump to 500+ on a GPU
+# Scale the run to the hardware: a long-enough run on a GPU to actually show
+# overfitting (train loss keeps dropping while val loss turns back up), and a
+# short quick run on a CPU build. This page was rendered on a Polaris A100.
+TRAIN_ITERS = 3000 if DEVICE in ("cuda", "xpu") else 100
 
 history = ezpz.History()
 model.train()
@@ -1023,17 +1026,19 @@ fig.show()
 
 ## Homework 1
 
-In this notebook, we've learned about some basic convolutional networks and trained one on Fashion-MNIST images.
-It did ... OK.
-Note that our demo run above is deliberately short — only `TRAIN_ITERS = 100`
-steps at batch size 16 (~1600 samples), which is far less than a single pass over
-the ~48k training images. With such a short run you won't see overfitting yet;
-the model is still underfitting.
-As an exercise, bump `TRAIN_ITERS` up (or train for several full epochs using the
-`train_one_epoch` loop below) and watch the training and validation curves start
-to diverge — that gap is overfitting, and there are ways to address it (data
-augmentation, weight decay, dropout) that we didn't have time to get into in this
-session.
+In this notebook, we've learned about some basic convolutional networks and
+trained one on Fashion-MNIST images.
+
+`TRAIN_ITERS` scales with the hardware. On a **CPU build** it's only 100 steps
+(~1600 samples) — far less than one pass over the ~48k training images, so the
+model still *underfits* and you won't see overfitting. On a **GPU** (this page was
+rendered on a Polaris A100) it runs 3000 steps, long enough that you can watch the
+**training loss keep dropping while the validation loss flattens and turns back
+up** — that growing gap *is* overfitting.
+
+As an exercise, push it further (or train for several full epochs using the
+`train_one_epoch` loop below) and see how much the curves diverge — then try the
+standard remedies: **data augmentation, weight decay, and dropout**.
 
 Meanwhile, your homework (part 1) for this week is to try to train the model
 again but with a different architecture.
