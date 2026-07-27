@@ -26,3 +26,6 @@ backup/
 
 # playwright browser artifacts
 .playwright-mcp/
+
+# Quarto freeze cache — untracked; we publish the committed docs/ output instead
+content/_freeze/
