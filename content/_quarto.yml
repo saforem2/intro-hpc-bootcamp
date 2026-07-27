@@ -367,7 +367,7 @@ website:
         contents:
           - text: "Intro to LLMs"
             href: "./02-llms/0-intro-to-llms/index.qmd"
-          - text: "Parallel Training"
+          - text: "Hands-On: Distributed Run"
             href: "./02-llms/1-parallel-training/index.qmd"
           - text: "Shakespeare Example (Colab)"
             href: "./02-llms/2-shakespeare-example-colab/index.ipynb"

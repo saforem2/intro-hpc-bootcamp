@@ -1,4 +1,4 @@
-# 🚀 Parallel Training Methods for AI
+# 🚀 Hands-On: Launching a Distributed Training Run
 
 [Sam Foreman](https://samforeman.me)
 [Intro to AI-driven Science on Supercomputers](https://www.alcf.anl.gov/alcf-ai-science-training-series)
@@ -8,6 +8,29 @@ _2026-07-22_
 
 - Slides: <https://samforeman.me/talks/ai-for-science-2024/slides>
   - HTML version: <https://samforeman.me/talks/ai-for-science-2024>
+
+This is a **hands-on lab**: you'll launch a real multi-GPU
+[data-parallel](#concepts-recap) training run on a supercomputer. It's the
+practical counterpart to the [**\[01\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd)
+lesson — read that first if the concepts below are new to you.
+
+::: {#concepts-recap .callout-note title="🧠 Concepts recap (30-second version)" collapse="true"}
+The recipe below runs **Distributed Data Parallelism (DDP)**, the most common way
+to scale training:
+
+- **Data Parallel (DP/DDP)** — every GPU holds a *full copy* of the model and
+  processes a different slice of each batch; gradients are averaged across GPUs
+  with an **all-reduce** so every replica stays in sync. This is what you launch here.
+- **Tensor Parallel (TP)** — a single layer's matrices are split *across* GPUs
+  (usually within one node). Used when a layer is too big for one GPU.
+- **Pipeline Parallel (PP)** — different *layers* live on different GPUs and
+  micro-batches flow through the stages like an assembly line.
+
+Real large-scale LLM training combines all three. For the full treatment —
+all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with
+runnable examples — see
+[**\[01\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd).
+:::
 
 ## 👋 Hands On
 
