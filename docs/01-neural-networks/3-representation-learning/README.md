@@ -5,6 +5,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 - [🏃 A contrastive learner you can run right now](#sec-mini)
+- [🚀 Now with a real GPU: the payoff](#sec-gpu)
 - [🖥️ The real thing: cluster-scale SimCLR (reference)](#sec-scale)
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/3-representation-learning/index.ipynb)
@@ -217,6 +218,63 @@ for name, ftr, fte in [
 > Training](../4-distributed-training/index.qmd) and [\[02.1\] the
 > Perlmutter lab](../../02-llms/1-parallel-training/index.qmd) are how
 > you get to the scale where methods like this actually shine.
+
+## 🚀 Now with a real GPU: the payoff
+
+So let’s actually give it the scale. We ran the *same* recipe —
+contrastive pretrain, then linear-probe with few labels — on a single
+**NVIDIA A100** (one [Polaris](https://www.alcf.anl.gov/polaris) node at
+ALCF), but with the knobs the laptop couldn’t afford: the harder
+**CIFAR-10** (color images, where raw pixels are *not* linearly
+separable), a **batch size of 1024**, **2,000 steps**, and the **full
+50,000-image** unlabeled pool. The whole thing finished in **~51
+seconds** on the GPU.
+
+This time the story flips completely — the learned representation wins
+at *every* label budget, and by a wide margin exactly where it matters
+most (few labels):
+
+<div id="fig-gpu-lowlabel">
+
+<img src="assets/gpu-lowlabel.svg" style="width:70.0%"
+data-fig-align="center" />
+
+Figure 1: Low-label accuracy on CIFAR-10, measured on an A100.
+Contrastive-pretrained features (probed with a linear head) beat
+training the same network from scratch at every label count — by **+10
+to +13 points** in the scarce-label regime.
+
+</div>
+
+| labeled images | from scratch | pretrain + probe | improvement |
+|---------------:|-------------:|-----------------:|------------:|
+|            100 |        23.8% |        **33.7%** |    **+9.9** |
+|            250 |        30.6% |        **41.7%** |   **+11.1** |
+|            500 |        35.5% |        **48.2%** |   **+12.7** |
+|          1,000 |        38.9% |        **51.4%** |   **+12.5** |
+|          5,000 |        48.0% |        **55.7%** |    **+7.7** |
+
+Contrastive pretraining vs. from-scratch, CIFAR-10, 1× A100.
+{.table-striped}
+
+That’s the whole thesis of representation learning, made concrete:
+**when labels are scarce, learning a good representation from unlabeled
+data first is worth far more than more careful supervised training** —
+*once you have the compute to learn that representation.* The laptop
+demo above and this A100 run are the same code; the only difference is
+scale. That gap between “doesn’t help” and “+13 points” is precisely the
+value a supercomputer buys you.
+
+> [!NOTE]
+>
+> ### 🔬 Reproduce it
+>
+> The exact script is in the repo
+> ([`gpu_replearn_experiment.py`](https://github.com/saforem2/intro-hpc-bootcamp)),
+> and `scripts/render-on-cluster.sh` shows how these GPU pages are
+> rendered on Polaris/Perlmutter. Numbers will wiggle run-to-run, but
+> the *ordering* — pretrain+probe \> from-scratch in the low-label
+> regime — is robust.
 
 ## 🖥️ The real thing: cluster-scale SimCLR (reference)
 
