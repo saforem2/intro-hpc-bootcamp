@@ -233,7 +233,16 @@ import matplotlib.pyplot as plt
 from bootcamp.plotly_theme import style_mpl, COLORS
 style_mpl()
 
-CACHE = Path("assets/gpu-result.json")
+# Resolve the cache path regardless of the render's working directory
+# (Quarto's execute-dir may be the project root or this page's dir).
+_here = Path.cwd()
+_candidates = [
+    Path("assets/gpu-result.json"),
+    _here / "01-neural-networks/3-representation-learning/assets/gpu-result.json",
+    _here / "content/01-neural-networks/3-representation-learning/assets/gpu-result.json",
+]
+CACHE = next((p for p in _candidates if p.exists()),
+             Path("assets/gpu-result.json"))
 
 
 def run_experiment():
