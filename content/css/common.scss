@@ -3269,6 +3269,20 @@ figure > figcaption.quarto-float-caption-bottom {
   text-align: center;
 }
 
+// Full-width (`.column-page`) figures let a wide diagram span the page, but the
+// caption shouldn't run edge-to-edge — that reads awkwardly next to the narrower
+// body text. Cap the caption at a comfortable reading measure and center it under
+// the figure. Applies to any column-page/screen-inset figure site-wide.
+.column-page,
+.column-page-inset,
+.column-screen-inset {
+  & > figure > figcaption,
+  & figure > figcaption.quarto-float-caption {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+}
+
 .code-with-filename .code-with-filename-file {
   margin-bottom: 0;
   padding-bottom: 2px;

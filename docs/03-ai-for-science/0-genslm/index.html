@@ -82,8 +82,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c7ae842bfbbcb4b93b27db5935fa8e8c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2cc9636a8b2816920993385a435f23af.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-d9c4744abc53029bf18724b8830e7fcb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-37a04e37bf9d5f4329effecb916059e9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -4773,7 +4773,7 @@ Figure&nbsp;1: Two tokenizers, one architecture. BPE <em>learns</em> subwords fr
 <section id="sec-toy" class="level2">
 <h2 class="anchored" data-anchor-id="sec-toy">① A codon tokenizer that really runs</h2>
 <p>Everything above is just words until we build it. Following the <strong>toy → real → scale</strong> rhythm from the rest of this track, let’s start with a codon tokenizer small enough to run on a laptop in a millisecond — pure Python, no downloads.</p>
-<div id="ac9a5b8d" class="cell" data-execution_count="1">
+<div id="ac9a5b8d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co"># The 4 DNA bases. A codon is an ordered triple of bases -&gt; 4^3 = 64 codons.</span></span>
@@ -4831,7 +4831,7 @@ with N     : ['ATG', 'NNN', 'TAA'] -&gt; [16, 1, 50]</code></pre>
 <section id="sec-real" class="level2">
 <h2 class="anchored" data-anchor-id="sec-real">② A tiny CodonGPT that learns genome structure</h2>
 <p>Now the fun part: feed those tokens to the <em>same</em> from-scratch GPT architecture you built in <a href="../../02-llms/0-intro-to-llms/index.html">[02.0]</a> and watch it learn. We can’t train on a real genome here (that’s the whole point of the HPC section), so we use a <strong>synthetic “genome”</strong>: a short, biologically-flavored motif repeated enough that a tiny model can discover its structure in ~100 iterations on a CPU.</p>
-<div id="b0407a37" class="cell" data-execution_count="2">
+<div id="b0407a37" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="im">from</span> torch.nn <span class="im">import</span> functional <span class="im">as</span> F</span>
@@ -4861,7 +4861,7 @@ with N     : ['ATG', 'NNN', 'TAA'] -&gt; [16, 1, 50]</code></pre>
 <span id="cb3-27"><a href="#cb3-27" aria-label="27"></a>    <span class="cf">return</span> x, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The model is the standard decoder block from <a href="../../02-llms/0-intro-to-llms/index.html">[02.0]</a> — masked self-attention + feed-forward, with residuals and layer-norm — just sized tiny:</p>
-<div id="1b8e14f5" class="cell" data-execution_count="3">
+<div id="1b8e14f5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the from-scratch CodonGPT definition (same as [02.0], sized tiny)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">class</span> Head(nn.Module):</span>
@@ -4943,7 +4943,7 @@ with N     : ['ATG', 'NNN', 'TAA'] -&gt; [16, 1, 50]</code></pre>
 </details>
 </div>
 <p>Train it — 100 iterations, a few seconds on a CPU — and track the loss:</p>
-<div id="5e2674f7" class="cell" data-execution_count="4">
+<div id="5e2674f7" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>model <span class="op">=</span> CodonGPT()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>optimizer <span class="op">=</span> torch.optim.AdamW(model.parameters(), lr<span class="op">=</span>learning_rate)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a></span>
@@ -4965,7 +4965,7 @@ loss: 4.498 (start)  -&gt;  0.018 (end)</code></pre>
 </div>
 </div>
 <p>The loss should drop sharply — the model quickly learns the motif’s codon grammar. Now <strong>prompt it with a start codon <code>ATG</code></strong> and let it generate, exactly as you’d prompt GPT-2 with a few words:</p>
-<div id="3dcdca68" class="cell" data-execution_count="5">
+<div id="3dcdca68" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>prompt <span class="op">=</span> torch.tensor([encode(<span class="st">"ATG"</span>)], dtype<span class="op">=</span>torch.<span class="bu">long</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>generated <span class="op">=</span> model.generate(prompt, max_new_tokens<span class="op">=</span><span class="dv">11</span>)[<span class="dv">0</span>].tolist()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"prompt: ATG"</span>)</span>
@@ -4976,13 +4976,13 @@ generated: ATG AAA CGC GGG TTT CTA TAG ATG AAA CGC GGG TTT</code></pre>
 </div>
 </div>
 <p>It reproduces the learned motif — the codon-level analogue of GPT-2 continuing a sentence. Let’s visualize the training curve (uses the shared <code>bootcamp</code> plotting theme):</p>
-<div id="0b86a4e7" class="cell" data-execution_count="6">
+<div id="0b86a4e7" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="cf">try</span>:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb9-4"><a href="#cb9-4" aria-label="4"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b1cafa14" class="cell" data-execution_count="7">
+<div id="b1cafa14" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
@@ -5106,7 +5106,7 @@ if (outputEl) {{
 <section id="loading-the-real-pretrained-model-run-this-yourself" class="level3">
 <h3 class="anchored" data-anchor-id="loading-the-real-pretrained-model-run-this-yourself">Loading the <em>real</em> pretrained model (run this yourself)</h3>
 <p>The released 25M-parameter model (<code>genslm_25M_patric</code>) is a standard HuggingFace-style Transformer — the API will feel familiar from <a href="../../02-llms/0-intro-to-llms/index.html">[02.0]</a>. It’s <strong>not</strong> run at build time here: the weights are a large download (via a Globus endpoint), so this cell is display-only. On a machine with the weights, it just works:</p>
-<div id="6b39e3a5" class="cell" data-execution_count="8">
+<div id="6b39e3a5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="co"># Display-only: requires `pip install git+https://github.com/ramanathanlab/genslm`</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="co"># and downloading weights from the project's Globus endpoint (large; not run here).</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="im">from</span> genslm <span class="im">import</span> GenSLM</span>
@@ -5161,7 +5161,7 @@ if (outputEl) {{
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="0ad341cb" class="cell" data-execution_count="9">
+<div id="0ad341cb" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="kw">def</span> frame_unk_fraction(dna: <span class="bu">str</span>, frame: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>    ids <span class="op">=</span> encode(dna, frame<span class="op">=</span>frame)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a>    <span class="cf">if</span> <span class="kw">not</span> ids:</span>
