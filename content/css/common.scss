@@ -739,6 +739,57 @@ $cell-output-tint: rgba(131, 131, 131, 0.06); // faint neutral fill
   overflow-y: auto;
 }
 
+// ── Rich-formatted TEXT reprs (rich / ezpz logger, dict/tensor reprs) ─────────
+// These are `execute_result`s wrapped in .cell-output-display (the SAME class as
+// figures/plots). Crucially, rich emits EACH print()/logger line as its OWN
+// <div class="cell-output-display"><pre> — so a multi-line run is many sibling
+// divs, not one. We frame the WRAPPER (not the inner <pre>) and collapse the
+// gaps between consecutive text blocks so a run reads as ONE continuous panel,
+// rounding + spacing only at the run's top and bottom edges.
+//
+// :has(> pre:not(.mermaid)) keeps this OFF figures (child <figure>/<div>),
+// plotly (child <div>), mermaid (child .mermaid), and tables (child <table>).
+$disp-text: '.cell-output.cell-output-display:has(> pre:not(.mermaid))';
+
+// NOTE: the general .cell-output.cell-output-display reset (further down this
+// file) sets `border-left`, `margin`, and `padding` with `!important`, so these
+// run rules must also use `!important` on those exact properties to win.
+#{$disp-text} {
+  max-height: $cell-output-max;
+  overflow: auto;
+  border-left: 3px solid $cell-output-accent !important;
+  background: $cell-output-tint;
+  border-radius: 0 4px 4px 0;                 // lone/edge block is fully rounded
+  padding: 0.15rem 0.6rem !important;
+  margin: 0.35rem 0 0.9rem 0 !important;      // outer spacing at run edges
+}
+// a continuation (immediately preceded by another text block): merge its TOP
+#{$disp-text} + #{$disp-text} {
+  margin-top: 0 !important;
+  border-top-right-radius: 0;
+}
+// a non-last block (immediately followed by another display cell): merge its
+// BOTTOM. NOTE: browsers reject NESTED :has() — `:has(+ ...:has(> pre))` is an
+// invalid selector and the whole rule is dropped. So the forward sibling check
+// must stay flat: just `:has(+ .cell-output-display)`, no inner :has(). Worst
+// case a text block directly followed by a figure loses its bottom rounding —
+// cosmetically harmless and rare.
+#{$disp-text}:has(+ .cell-output.cell-output-display) {
+  margin-bottom: 0 !important;
+  border-bottom-right-radius: 0;
+}
+// don't let the reset's :hover swap our accent for the 1px hover border
+#{$disp-text}:hover {
+  border-left: 3px solid $cell-output-accent !important;
+}
+// inner <pre> owns no frame — the wrapper does; keep it flush + transparent
+#{$disp-text} > pre:not(.mermaid) {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding-block: 0;
+}
+
 pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
