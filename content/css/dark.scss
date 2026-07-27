@@ -428,3 +428,31 @@ div.callout-note.callout-style-default > .callout-header {
   border-bottom-style: solid;
   border-bottom-width: 1px;
 }
+
+// ── Mermaid gantt/timeline text in dark mode ─────────────────────────────────
+// Mermaid renders gantt charts client-side and bakes hardcoded LIGHT-mode text
+// fills into the SVG's own <style> (e.g. `#mermaid-N .titleText{fill:#333}`,
+// `.grid .tick text{fill:#000}`, `.doneText0{fill:#333!important}`) — all of
+// which are invisible on a dark background. Those rules are ID-scoped, so a plain
+// class override loses on specificity. Scoping under the stable, always-present
+// `#quarto-document-content` id gives us an ID of our own so we tie/beat them,
+// and `!important` covers the done/active labels that are themselves !important.
+// (Only text fills are wrong in dark mode; bars, grid lines, section bands, and
+// the inside-bar white `.taskText` are already fine, so we leave them alone.)
+// The `svg[id^=mermaid]` step is load-bearing for the done/active labels: mermaid's
+// own `#mermaid-N .doneText0{fill:#333!important}` is specificity (1,1,0) and its
+// SVG-embedded <style> loads AFTER this file, so a bare `#quarto-document-content
+// [class*=doneText]` (also (1,1,0)) loses the tie on source order. Adding the svg
+// tag+attr pushes us to (1,2,1) so we win outright. Title/section/tick text aren't
+// !important in mermaid's rules, so they'd win anyway, but we group them here.
+#quarto-document-content svg[id^="mermaid"] {
+  .titleText,
+  .sectionTitle,
+  .taskTextOutsideRight,
+  .taskTextOutsideLeft,
+  .grid .tick text,
+  [class*="doneText"],
+  [class*="activeText"] {
+    fill: #c8ccd0 !important;
+  }
+}
