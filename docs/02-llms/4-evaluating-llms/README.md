@@ -34,11 +34,12 @@ Sam Foreman
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/4-evaluating-llms/index.qmd)
 
 By now you have trained a model ([\[02.1\] Parallel
-Training](../1-parallel-training/index.qmd)), taught it to follow
-instructions, and even nudged it toward *reasoning* with reinforcement
-learning ([\[03.4\] RL &
-Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)). This
-capstone ties all of that together with one deceptively simple question:
+Training](../1-parallel-training/index.qmd)). Coming up, you will teach
+it to follow instructions and even nudge it toward *reasoning* with
+reinforcement learning ([\[03.4\] RL &
+Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)). But
+before any of that pays off, you need to answer one deceptively simple
+question:
 
 > **How do you actually know your model got better?**
 
@@ -189,7 +190,7 @@ no subjectivity.
 > ### 🔗 This is exactly RLVR
 >
 > Verifiable evaluation is the same idea as **RL with Verifiable Rewards
-> (RLVR)** from [\[03.4\] RL &
+> (RLVR)**, which you will meet in [\[03.4\] RL &
 > Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd).
 > There, a programmatic verifier (test suite, math checker) *is* the
 > reward signal used to train the model. Here, that same verifier *is*
@@ -391,7 +392,7 @@ surface. Here are the ways evaluation lies.
 >
 > ### Gaming metrics / reward hacking
 >
-> This is the deep connection to [\[03.4\] RL &
+> This is the deep connection to the RL you will meet in [\[03.4\] RL &
 > Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd). When
 > a metric becomes a *training target* (RLVR reward, or “optimize for
 > the benchmark”), the model learns to maximize the *measure* rather

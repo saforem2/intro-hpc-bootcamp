@@ -390,6 +390,81 @@ correct rollout gets a **positive** advantage and the wrong one
 led to `40` and lowers the other. Repeat over thousands of prompts and
 correct-answer-producing reasoning is what survives.
 
+**4. See it happen.** The two reward functions above are
+`#| eval: false` (they’d be handed to `GRPOTrainer`), but they’re plain
+Python — so we can run them *now* on a sampled group and feed the result
+through the **same** `(r - mean) / std` line from the toy in §①a. This
+turns the prose above into numbers, on a laptop CPU:
+
+``` python
+import re
+import torch
+
+# The §③ verifiers — real code, just executed here instead of inside GRPOTrainer.
+def extract_answer(text):
+    m = re.search(r"<answer>(.*?)</answer>", text, re.DOTALL)
+    return m.group(1).strip() if m else None
+
+def reward_correct(completions, answer):
+    return [1.0 if extract_answer(c) == str(g) else 0.0
+            for c, g in zip(completions, answer)]
+
+def reward_format(completions):
+    pattern = r"<think>.*?</think>\s*<answer>.*?</answer>"
+    return [0.2 if re.search(pattern, c, re.DOTALL) else 0.0 for c in completions]
+
+# One prompt (gold answer "40"); a group of K=4 sampled rollouts.
+group = [
+    "<think>60 / 1.5 = 40, units km/h.</think><answer>40</answer>",  # right + formatted
+    "<think>60 * 1.5 = 90.</think><answer>90</answer>",              # wrong + formatted
+    "<think>60/1.5 = 40.</think><answer>40</answer>",                # right + formatted
+    "The average speed is 40 km/h.",                                 # right value, NO tags
+]
+gold = ["40"] * len(group)
+
+# Total reward = sum of the verifiers -> GRPO group-relative advantage.
+r = torch.tensor(reward_correct(group, gold)) + torch.tensor(reward_format(group))
+adv = (r - r.mean()) / (r.std() + 1e-8)        # identical to §①a
+
+for i, (tot, a) in enumerate(zip(r.tolist(), adv.tolist())):
+    print(f"rollout {i}:  reward = {tot:>4.1f}   advantage = {a:+.2f}")
+```
+
+    rollout 0:  reward =  1.2   advantage = +0.86
+    rollout 1:  reward =  0.2   advantage = -0.70
+    rollout 2:  reward =  1.2   advantage = +0.86
+    rollout 3:  reward =  0.0   advantage = -1.02
+
+There is the `1.2` vs `0.2` from the text — now computed — and the group
+split into **positive** and **negative** advantage. Notice rollout 3 got
+the right *value* but skipped the tags: `reward_correct` can’t parse it,
+so it scores the **worst** of the group. That is precisely why the
+format contract is rewarded — no parseable answer, no credit.
+
+> [!NOTE]
+>
+> ### Exercise — zero-variance groups
+>
+> The §①a toy noted that if every sample in a group gets the **same**
+> reward, the advantage is all zeros and nothing updates. Rebuild
+> `group` so all four rollouts are **correct *and* formatted**,
+> recompute `adv`, and confirm you get zeros — the policy already agrees
+> with the group, so there’s nothing to learn from it.
+>
+> > [!TIP]
+> >
+> > ### 💡 Solution
+> >
+> > ``` python
+> > group = ["<think>60/1.5 = 40.</think><answer>40</answer>"] * 4
+> > gold = ["40"] * len(group)
+> > r = torch.tensor(reward_correct(group, gold)) + torch.tensor(reward_format(group))
+> > adv = (r - r.mean()) / (r.std() + 1e-8)
+> > print("advantages:", [round(a, 2) for a in adv.tolist()])  # all 0.0 -> no gradient
+> > ```
+> >
+> >     advantages: [0.0, 0.0, 0.0, 0.0]
+
 <div id="fig-rlvr-loop">
 
 ``` mermaid
@@ -528,4 +603,4 @@ Where *proof* can be any of:
 
 <!-- -->
 
-    Last updated: 2026-07-22 10:04:53
+    Last updated: 2026-07-27 10:33:01

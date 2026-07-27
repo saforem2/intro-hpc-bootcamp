@@ -1,81 +1,334 @@
-# Jupyter Notebooks on Supercomputers
+# Getting on the Cluster: Setup & Jupyter
 Sam Foreman
 2025-07-15
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
-- [NERSC Instructions](#nersc-instructions)
+- [🔑 Getting an account & logging
+  in](#key-getting-an-account--logging-in)
+- [📓 Jupyter on Perlmutter (no SSH tunnel
+  needed)](#notebook-jupyter-on-perlmutter-no-ssh-tunnel-needed)
+- [🐍 Kernels & environments (the \#1
+  gotcha)](#snake-kernels--environments-the-1-gotcha)
+- [🔁 PBS ↔ SLURM cheatsheet](#pbs-slurm)
+- [🏔️ Running the labs on
+  Perlmutter](#mountain_snow-running-the-labs-on-perlmutter)
+- [🧪 ALCF Jupyter (Polaris /
+  Sophia)](#test_tube-alcf-jupyter-polaris--sophia)
 
-## NERSC Instructions
+This is the front-door setup guide for the hands-on labs. It shows you
+how to get onto a supercomputer, launch a Jupyter notebook that actually
+runs on a compute node, and — the part that trips up almost everyone the
+first time — make sure your notebook is using the **right Python
+environment**.
 
-1.  **Project Setup**:
+> [!IMPORTANT]
+>
+> ### 🧭 You do NOT need a cluster account for most of this course
+>
+> The majority of the material runs on a **laptop or [Google
+> Colab](https://colab.research.google.com)** — look for the Colab badge
+> at the top of each notebook. Sections **\[00\]–\[02.0\]** (Python,
+> data, first models, neural-network basics, intro to LLMs) need nothing
+> but a browser.
+>
+> You only need HPC access for the **large-scale labs**:
+>
+> - **[\[01.4\] Distributed
+>   Training](../../01-neural-networks/4-distributed-training/)**
+> - **[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/)**
+> - the **[\[03.x\] Advanced / Large-Scale
+>   LLM](../../03-advanced-llms/)** pages
+>
+> If you’re just getting started, skip ahead and come back to this page
+> when you reach one of those labs.
 
-    - Login to Perlmutter:
+The bootcamp’s reference machine is **[NERSC
+Perlmutter](https://docs.nersc.gov/systems/perlmutter/)** (a SLURM
+system, project `m4388`). The workflow is the same on ALCF PBS systems
+(Polaris, Sophia) — only the scheduler commands differ, and there’s a
+[translation table](#pbs-slurm) below.
 
-      ``` bash
-      ssh <your_nersc_username>@perlmutter.nersc.gov
-      mkdir -p /global/cfs/cdirs/m4388/$USER/
-      cd /global/cfs/cdirs/m4388/$USER
-      ```
+## 🔑 Getting an account & logging in
 
-2.  **Using Jupyter on Perlmutter @ NERSC**
+To use Perlmutter you need (1) a NERSC account and (2) membership in the
+course allocation. Account requests and MFA setup are handled through
+[Iris](https://iris.nersc.gov/) / the [NERSC
+docs](https://docs.nersc.gov/accounts/); your instructors will add you
+to project `m4388`.
 
-    - [jupyter.nersc.gov](https://jupyter.nersc.gov/)
+Once your account is active, log in over SSH:
 
-    <iframe src="perlmutter.pdf" width="100%" height="800px">
-      <p>Your browser does not support iframes.</p>
-    </iframe>
+``` bash
+ssh <your_nersc_username>@perlmutter.nersc.gov
+```
 
-<details closed>
+The course allocation lives on the community file system. Make yourself
+a working directory there (a symlink from `$HOME` keeps paths short):
 
-<summary>
+``` bash
+[ -d "$HOME/m4388" ] || ln -s /global/cfs/cdirs/m4388 "$HOME/m4388"
+mkdir -p "$HOME/m4388/$USER"
+cd "$HOME/m4388/$USER"
+```
 
-<h2>
+> [!TIP]
+>
+> ### 🔐 First-time login
+>
+> NERSC requires **multi-factor authentication** (an MFA token in
+> addition to your password). See the [NERSC connecting
+> docs](https://docs.nersc.gov/connect/) for setting up your
+> authenticator and (optionally) passwordless
+> [`sshproxy`](https://docs.nersc.gov/connect/mfa/#sshproxy) keys so
+> you’re not typing a token on every connection.
 
-ALCF Instructions
-</h2>
+## 📓 Jupyter on Perlmutter (no SSH tunnel needed)
 
-</summary>
+You don’t have to hand-roll an SSH tunnel to get a notebook. NERSC runs
+a hosted **JupyterHub** portal:
 
-1.  **Logging In**: <https://jupyter.alcf.anl.gov/>
+➡️ **[jupyter.nersc.gov](https://jupyter.nersc.gov/)**
 
-    Select “Login Polaris” and use your ALCF credentials and
-    Multi-Factor Authentication.
+Log in with your NERSC credentials + MFA, and the portal lets you
+**spawn** a notebook server. When you spawn, you pick *where* the server
+runs. The choices fall into two families:
 
-    > [!NOTE]
-    >
-    > ### 📝 Note
-    >
-    > Some of the images below show “ThetaGPU” being used, however,
-    > similar instructions apply to “Polaris” or “Sophia”.
+- **A login-node / shared server** — starts almost instantly, but shares
+  a node with other users. Fine for editing notebooks, light analysis,
+  and plotting.
+- **A configurable compute-node job** — spawning this **submits a batch
+  job to SLURM** for you, so your notebook gets dedicated CPU or **GPU**
+  nodes. You choose the account (`m4388`), node type, and a time limit,
+  then wait for the job to start (just like any other queued job). This
+  is what you want for the training labs.
 
-    ![Login GIF](../img/jupyter_login_01.gif)
+> [!WARNING]
+>
+> ### ⚠️ Shut down your server when you’re done
+>
+> A compute-node Jupyter server is a real scheduled job — it holds those
+> nodes (and burns allocation) until it stops. Closing the browser tab
+> does **not** free the node. Use **File → Hub Control Panel → Stop My
+> Server** when you finish.
 
-2.  **Server settings & start up**
+The exact server-option labels on the spawn page change over time, so
+rather than memorizing menu items, follow the authoritative walkthrough:
 
-    ![server options](../img/jupyter_server_options.png)
+➡️ **NERSC Jupyter docs: <https://docs.nersc.gov/services/jupyter/>**
 
-    You’ll want to set your server options to the following:
+## 🐍 Kernels & environments (the \#1 gotcha)
 
-    - job profile: ThetaGPU Compute Node
-    - Sophia Queue: by-gpu
-    - Project List: ALCFAITP
-    - Runtime: can be 5 to 60 minutes
+Here’s the failure mode that catches almost every newcomer: you open a
+notebook, run `import torch`, and get `ModuleNotFoundError` — even
+though you *know* you installed it. The culprit is almost always the
+**kernel**.
 
-    When you click “start” you are submitting a job to the batch queue
-    and waiting for the job to begin.
+A **kernel** is the specific Python interpreter (and its installed
+packages) that executes your cells. The dropdown in the top-right of a
+notebook (or the tiles in the Launcher) lets you choose it. **A conda
+environment or a `venv` is not automatically a kernel** — you have to
+register it first. Once registered, it shows up as a selectable kernel
+in Jupyter.
 
-3.  **Server shutdown & logout**
+Each Jupyter kernel is just a small JSON file (a “kernelspec”) pointing
+at one Python interpreter. Registering your environment writes that
+file:
 
-    ALCF’s guiding policy is:
+``` bash
+# 1. activate the environment you want to use
+conda activate myenv          # (or: source .venv/bin/activate)
 
-    > “We ask that all users follow good etiquette and be excellent to
-    > one another.”
+# 2. make sure it has the bridge package
+python -m pip install ipykernel
 
-    If you simply close your browser window, or logout without shutting
-    down the jupyter server, your job will continue to occupy the worker
-    node. Be considerate and shutdown your job when you finish.
+# 3. register it as a Jupyter kernel for your account
+python -m ipykernel install --user \
+    --name myenv \
+    --display-name "Python (myenv)"
+```
 
-    ![Shutdown GIF](../img/jupyter_shutdown_01.gif)
+- `--name` is the internal id (keep it short, no spaces).
+- `--display-name` is the label you’ll see in the Jupyter kernel picker.
 
-</details>
+Now reload JupyterHub and choose **“Python (myenv)”** from the Launcher
+or the kernel dropdown. To see or clean up what you’ve registered:
+
+``` bash
+jupyter kernelspec list                 # show all kernels
+jupyter kernelspec uninstall myenv      # remove one
+```
+
+> [!TIP]
+>
+> ### ✅ Sanity-check which Python you’re actually running
+>
+> Run this in a notebook cell — it tells you exactly which interpreter
+> the kernel is using and whether your package is visible:
+>
+> ``` python
+> import sys; print(sys.executable)
+> import torch; print(torch.__version__)   # should NOT raise ModuleNotFoundError
+> ```
+>
+> If `sys.executable` isn’t the environment you expected, you picked the
+> wrong kernel — switch it in the top-right dropdown.
+
+> [!NOTE]
+>
+> ### 📦 Prefer the provided modules when you can
+>
+> NERSC ships maintained software (including GPU-ready
+> PyTorch/TensorFlow) as **modules** and default kernels, so you often
+> don’t need to build anything. See [NERSC: using
+> Python](https://docs.nersc.gov/development/languages/python/) and
+> [machine learning](https://docs.nersc.gov/machinelearning/). Register
+> a custom kernel only when you need packages the defaults don’t
+> provide.
+
+## 🔁 PBS ↔ SLURM cheatsheet
+
+You’ll meet two schedulers in the wild: **PBS Pro** (ALCF: Polaris,
+Sophia) and **SLURM** (NERSC: Perlmutter). The concepts are identical —
+see [\[00.1\] Shared Resources](../1-shared-resources/) for the full
+walkthrough — only the commands differ. If you know one, this table gets
+you the other:
+
+| Task | PBS (Polaris @ ALCF) | SLURM (Perlmutter @ NERSC) |
+|----|----|----|
+| Submit a batch job | `qsub job.sh` | `sbatch job.sh` |
+| Interactive job | `qsub -I ...` | `salloc ...` |
+| Launch across nodes | `mpiexec -n <ranks> ...` | `srun -n <ranks> ...` |
+| Job status (yours) | `qstat -u $USER` | `squeue --me` |
+| Cancel a job | `qdel <jobid>` | `scancel <jobid>` |
+| Script directive prefix | `#PBS` | `#SBATCH` |
+| Number of nodes | `-l select=<N>` | `--nodes <N>` |
+| Wall-time limit | `-l walltime=HH:MM:SS` | `--time HH:MM:SS` |
+| Queue / QoS | `-q <queue>` | `--qos <qos>` |
+| Project / allocation | `-A <project>` | `--account <project>` |
+| Submit dir env var | `$PBS_O_WORKDIR` | `$SLURM_SUBMIT_DIR` |
+
+> [!NOTE]
+>
+> ### 🧠 Good news: you usually don’t touch these directly
+>
+> The bootcamp uses [`ezpz launch`](https://github.com/saforem2/ezpz),
+> which **auto-detects** the scheduler (SLURM → `srun`, PBS → `mpiexec`)
+> and builds the right launch command for you. The table is here so the
+> output makes sense and so you can drive either machine by hand when
+> you need to.
+
+## 🏔️ Running the labs on Perlmutter
+
+Here’s the concrete recipe for an HPC lab (this is exactly what
+[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) walks
+through):
+
+1.  **Log in and grab an interactive GPU node.** `salloc` submits the
+    request and drops you onto the node once it starts:
+
+    ``` bash
+    ssh <user>@perlmutter.nersc.gov
+    salloc --nodes 1 --qos interactive --time 01:00:00 --constraint gpu --account m4388
+    ```
+
+2.  **Get the code** into your project space:
+
+    ``` bash
+    cd "$HOME/m4388/$USER"
+    git clone https://github.com/saforem2/wordplay && cd wordplay
+    ```
+
+3.  **Set up Python** — this creates/activates a `.venv` and detects the
+    job:
+
+    ``` bash
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    uv pip install "git+https://github.com/saforem2/ezpz"
+    ```
+
+4.  **Verify the distributed setup** (should print one line per GPU):
+
+    ``` bash
+    ezpz test
+    ```
+
+5.  **Launch** — `ezpz launch` figures out `srun`/`mpiexec` for you:
+
+    ``` bash
+    ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
+    ```
+
+The full, annotated end-to-end run (with expected output) lives on the
+[\[01.4\] Distributed
+Training](../../01-neural-networks/4-distributed-training/) and
+[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) pages.
+
+> [!TIP]
+>
+> ### 📎 Slides
+>
+> The original NERSC Jupyter walkthrough slides are available as a
+> [supplementary download](perlmutter.pdf). This page is self-contained,
+> so the slides are optional.
+
+## 🧪 ALCF Jupyter (Polaris / Sophia)
+
+If you’re on an ALCF machine instead of NERSC, the flow is analogous — a
+hosted JupyterHub that spawns a notebook server as a PBS job:
+
+➡️ **[jupyter.alcf.anl.gov](https://jupyter.alcf.anl.gov/)** — log in
+with your ALCF credentials + MFA and select the target system
+(**Polaris** or **Sophia**), your project, a queue, and a runtime.
+
+![Logging in to the ALCF JupyterHub portal](../img/jupyter_login_01.gif)
+
+Spawning starts a job on the batch queue; when it begins, your notebook
+is running on a compute node. As on NERSC, **shut the server down when
+you finish** so you’re not holding a node.
+
+![Shutting down your ALCF Jupyter
+server](../img/jupyter_shutdown_01.gif)
+
+Everything else — registering a conda/venv as a kernel with `ipykernel`,
+the `import` sanity-check — works identically. For current queue names,
+project flags, and portal specifics, see the **[ALCF Jupyter Hub
+docs](https://docs.alcf.anl.gov/services/jupyter-hub/)**.
+
+> [!TIP]
+>
+> ### 🧠 Check your understanding
+>
+> **Q1.** You spawn a GPU Jupyter server on Perlmutter, run a few cells,
+> then close the browser tab and go to lunch. What’s wrong with that?
+>
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
+> > The server is a scheduled job holding a GPU node (and burning
+> > allocation) until it stops. Closing the tab doesn’t stop it — use
+> > **Hub Control Panel → Stop My Server**.
+>
+> **Q2.** `import torch` fails in your notebook even though
+> `pip install torch` succeeded in your terminal. Most likely cause?
+>
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
+> > The notebook’s **kernel** points at a *different* Python than the
+> > environment you installed into. Register that environment with
+> > `python -m ipykernel install --user --name <env>`, pick it from the
+> > kernel dropdown, and confirm with
+> > `import sys; print(sys.executable)`.
+>
+> **Q3.** You know how to submit a batch job with `sbatch` on
+> Perlmutter. What’s the equivalent command on Polaris?
+>
+> > [!NOTE]
+> >
+> > ### Show answer
+> >
+> > `qsub` — PBS’s batch submit command. See the
+> > [cheatsheet](#pbs-slurm) above.

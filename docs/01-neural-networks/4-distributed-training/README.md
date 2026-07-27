@@ -74,6 +74,26 @@ Sam Foreman
 4.  [Large Language Models](#large-language-models)
 5.  [Hands On](#hands-on)
 
+> [!IMPORTANT]
+>
+> ### 💻 Laptop vs. 🖥️ cluster: what can you run where?
+>
+> Most of this page is **conceptual**: the diagrams, the
+> collective-communication walk-throughs, and the small NumPy /
+> pure-Python cells below all run fine on a **laptop or in Colab** — no
+> GPU required. They *simulate* what happens across ranks so you can
+> build intuition before touching real hardware.
+>
+> The **[Hands On](#hands-on)** section at the end is different: it
+> launches an actual multi-GPU DDP job and needs a **real cluster
+> allocation** (e.g. Polaris / Aurora via PBS, or Perlmutter via SLURM).
+> You can *read* it anywhere, but you can only *run* it from inside a
+> job on the machine.
+>
+> **Rule of thumb:** if a cell is `{python}` and imports only `numpy` /
+> stdlib, you can run it right now. If it’s a `bash` block with
+> `ezpz launch` / `mpiexec` / `srun`, it belongs on the cluster.
+
 ### 🚀 Scaling: Overview
 
 - ✅ **Goal**:
@@ -847,6 +867,68 @@ Figure 12: Scatters a list of tensors to the whole group
 
 </div>
 
+> [!TIP]
+>
+> ### ▶️ Try it: the other collectives in NumPy
+>
+> The all-reduce sim above showed one collective. The four diagrams in
+> this section (`reduce`, `broadcast`, `all_gather`, `scatter`) are just
+> as easy to simulate on the CPU — we represent “ranks” as a plain
+> Python list, one array per rank, and print the buffers **before** and
+> **after** each op. This mirrors the real `torch.distributed` /
+> `mpi4py` API, minus the network:
+>
+> ``` python
+> import numpy as np
+>
+> world_size = 4
+> # each "rank" owns a single scalar for clarity
+> rank_data = [np.array(float(r + 1)) for r in range(world_size)]  # [1, 2, 3, 4]
+> print("initial (one value per rank):", [x.item() for x in rank_data])
+>
+>
+> def reduce(data, root=0, op=np.sum):
+>     """Combine values across ranks; only `root` keeps the result."""
+>     total = op(data, axis=0)
+>     return [total if r == root else np.array(0.0) for r in range(len(data))]
+>
+>
+> def broadcast(data, root=0):
+>     """Send rank `root`'s value to everyone."""
+>     return [data[root].copy() for _ in range(len(data))]
+>
+>
+> def all_gather(data):
+>     """Every rank ends up with the full list of all ranks' values."""
+>     gathered = np.stack(data)
+>     return [gathered.copy() for _ in range(len(data))]
+>
+>
+> def scatter(chunks, root=0):
+>     """Rank `root` hands out one chunk to each rank."""
+>     assert len(chunks) == world_size, "need one chunk per rank"
+>     return [np.array(chunks[r]) for r in range(world_size)]
+>
+>
+> print("reduce   (SUM -> root 0): ", [x.item() for x in reduce(rank_data)])
+> print("broadcast(from root 0):   ", [x.item() for x in broadcast(rank_data)])
+> print("all_gather:               ", [g.tolist() for g in all_gather(rank_data)])
+> print("scatter  ([10,20,30,40]): ", [x.item() for x in scatter([10, 20, 30, 40])])
+> ```
+>
+>     initial (one value per rank): [1.0, 2.0, 3.0, 4.0]
+>     reduce   (SUM -> root 0):  [10.0, 0.0, 0.0, 0.0]
+>     broadcast(from root 0):    [1.0, 1.0, 1.0, 1.0]
+>     all_gather:                [[1.0, 2.0, 3.0, 4.0], [1.0, 2.0, 3.0, 4.0], [1.0, 2.0, 3.0, 4.0], [1.0, 2.0, 3.0, 4.0]]
+>     scatter  ([10,20,30,40]):  [10, 20, 30, 40]
+>
+> Notice the pattern: **reduce** collapses to one rank, **broadcast**
+> copies one rank out to all, **all_gather** gives everyone the full
+> set, and **scatter** splits one rank’s data out to the group.
+> `all_reduce` (the previous cell) is literally `reduce` followed by
+> `broadcast` — which is why DDP can average gradients with a single
+> fused call.
+
 ## Distributed Data Parallelism (DDP)
 
 - `N` workers each processing unique batch[^1] of data:
@@ -858,6 +940,97 @@ Figure 12: Scatters a list of tensors to the whole group
     - common to scale learning rate `lr *= sqrt(N)`
 - See: [Large Batch Training of Convolutional
   Networks](https://arxiv.org/abs/1708.03888)
+
+> [!TIP]
+>
+> ### ▶️ Try it: a batch-size / LR-scaling calculator
+>
+> Adding GPUs changes more than throughput — it changes the **effective
+> batch size** your optimizer sees, which in turn changes the learning
+> rate you should use. This is pure arithmetic, so you can explore it on
+> a laptop. Tweak the four inputs and re-run:
+>
+> ``` python
+> def scaling_report(world_size, per_device_batch, base_lr, dataset_size):
+>     """Report the global quantities implied by a data-parallel setup."""
+>     global_batch = world_size * per_device_batch
+>     steps_per_epoch = dataset_size // global_batch
+>     # two common rules for growing the LR with the global batch:
+>     linear_lr = base_lr * world_size          # Goyal et al. 2017 (linear)
+>     sqrt_lr = base_lr * (world_size ** 0.5)    # LARS / sqrt rule
+>     return global_batch, steps_per_epoch, linear_lr, sqrt_lr
+>
+>
+> # --- tweak me ---
+> world_size = 16           # number of GPUs / ranks
+> per_device_batch = 32     # micro_batch_size (per GPU)
+> base_lr = 1e-3            # LR tuned for a single device
+> dataset_size = 1_000_000  # samples in one epoch
+>
+> gb, spe, lin, sq = scaling_report(world_size, per_device_batch, base_lr, dataset_size)
+> print(f"world_size        = {world_size}")
+> print(f"per-device batch  = {per_device_batch}")
+> print(f"global batch size = {gb:,}   (= world_size * per_device_batch)")
+> print(f"steps / epoch     = {spe:,}   (= dataset_size // global_batch)")
+> print(f"LR (linear rule)  = {lin:.4g}   (base_lr * world_size)")
+> print(f"LR (sqrt rule)    = {sq:.4g}   (base_lr * sqrt(world_size))")
+> ```
+>
+>     world_size        = 16
+>     per-device batch  = 32
+>     global batch size = 512   (= world_size * per_device_batch)
+>     steps / epoch     = 1,953   (= dataset_size // global_batch)
+>     LR (linear rule)  = 0.016   (base_lr * world_size)
+>     LR (sqrt rule)    = 0.004   (base_lr * sqrt(world_size))
+>
+> Both LR rules appear in the literature: **linear** scaling (multiply
+> by `world_size`) is the common default from *Accurate, Large Minibatch
+> SGD*, while the **`sqrt`** rule (referenced above) is milder and often
+> more stable for very large batches. Neither is magic — always keep a
+> short warmup and watch your validation loss.
+
+> [!NOTE]
+>
+> ### ✏️ Exercise: derive the scaled settings yourself
+>
+> You’re moving a run from **1 GPU → 8 GPUs**, keeping the per-device
+> batch fixed and using the **linear** LR rule. Fill in the two `TODO`
+> lines so both asserts pass:
+>
+> ``` python
+> world_size = 8
+> per_device_batch = 16
+> base_lr = 1e-3          # tuned for the single-device batch of 16
+>
+> # TODO 1: total batch seen per optimizer step across all ranks
+> global_batch = ...
+>
+> # TODO 2: linearly-scaled LR for the larger global batch
+> scaled_lr = ...
+>
+> assert global_batch == 128, f"expected 128, got {global_batch}"
+> assert abs(scaled_lr - 8e-3) < 1e-12, f"expected 0.008, got {scaled_lr}"
+> print(f"✓ correct! global_batch={global_batch}, scaled_lr={scaled_lr}")
+> ```
+
+> [!TIP]
+>
+> ### ✅ Solution
+>
+> ``` python
+> world_size = 8
+> per_device_batch = 16
+> base_lr = 1e-3
+>
+> global_batch = world_size * per_device_batch   # 8 * 16 = 128
+> scaled_lr = base_lr * world_size               # linear rule: 1e-3 * 8
+>
+> assert global_batch == 128
+> assert abs(scaled_lr - 8e-3) < 1e-12
+> print(f"global_batch={global_batch}, scaled_lr={scaled_lr}")
+> ```
+>
+>     global_batch=128, scaled_lr=0.008
 
 ### The Case for Scaling
 

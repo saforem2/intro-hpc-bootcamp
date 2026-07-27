@@ -281,6 +281,67 @@ Two ideas make SFT work:
 
 $$\mathcal{L}_{\text{SFT}} = -\sum_{t \in \text{completion}} \log P_\theta\!\left(y_t \mid y_{<t}\right)$$
 
+That `-100` mask is the whole trick, and it fits in a runnable cell.
+Take one rendered example laid out as
+`[ prompt tokens | completion tokens ]`, build its label mask, and watch
+how the loss changes when we *don’t* mask the prompt:
+
+``` python
+import torch
+import torch.nn.functional as F
+
+# One rendered SFT example as token IDs: [ prompt tokens | completion tokens ]
+# (tiny fake vocab so we can read off every position by hand).
+prompt_ids     = [5, 8, 2, 9]   # system + user turns, ending in "...assistant\n"
+completion_ids = [4, 7, 1]      # the assistant answer we actually want to teach
+input_ids = torch.tensor(prompt_ids + completion_ids)
+
+# Loss mask: -100 on the prompt, the real IDs on the completion.
+IGNORE = -100
+labels = torch.tensor([IGNORE] * len(prompt_ids) + completion_ids)
+print("input_ids:", input_ids.tolist())
+print("labels:   ", labels.tolist(), "  (-100 = masked, contributes no loss)")
+print("scored positions:", (labels != IGNORE).nonzero().flatten().tolist(), "(completion only)")
+
+# Toy "base model": it already parrots the PROMPT perfectly (confident + correct
+# there) but is clueless (uniform) on the COMPLETION -- just like a fresh base LM.
+vocab = 10
+logits = torch.zeros(len(input_ids), vocab)
+for i, t in enumerate(prompt_ids):
+    logits[i, t] = 10.0   # ~0 loss on prompt tokens
+
+# cross_entropy averages over the UNMASKED positions only.
+loss_sft = F.cross_entropy(logits, labels, ignore_index=IGNORE)   # completion only
+loss_all = F.cross_entropy(logits, input_ids)                     # prompt NOT masked
+print(f"\nSFT loss (prompt masked)  : {loss_sft:.3f}  <- the real training signal")
+print(f"loss if prompt NOT masked : {loss_all:.3f}  <- diluted by 'free' prompt tokens")
+```
+
+    input_ids: [5, 8, 2, 9, 4, 7, 1]
+    labels:    [-100, -100, -100, -100, 4, 7, 1]   (-100 = masked, contributes no loss)
+    scored positions: [4, 5, 6] (completion only)
+
+    SFT loss (prompt masked)  : 2.303  <- the real training signal
+    loss if prompt NOT masked : 0.987  <- diluted by 'free' prompt tokens
+
+Masking makes the loss report *only* what the model still has to learn.
+Without it, a model that merely echoes the prompt looks deceptively good
+while learning nothing about how to answer.
+
+> [!TIP]
+>
+> ### ✏️ Exercise
+>
+> What happens to `loss_sft` if you set every `completion_ids` position
+> in `logits` to be confidently correct too (like the prompt)? What does
+> that tell you about a model that has finished SFT?
+>
+> **Solution.** Add
+> `for i, t in enumerate(completion_ids): logits[len(prompt_ids)+i, t] = 10.0`
+> before computing the loss — `loss_sft` drops to ~0. A fully SFT’d
+> model assigns high probability to the target completion tokens, so the
+> (masked) loss it was trained on goes to zero.
+
 The full fine-tune uses TRL’s `SFTTrainer` plus a **LoRA** adapter from
 PEFT. Heavy libraries + GPU, so display-only:
 
@@ -542,4 +603,4 @@ Where *proof* can be any of:
 
 <!-- -->
 
-    Last updated: 2026-07-22 10:04:38
+    Last updated: 2026-07-27 10:32:49

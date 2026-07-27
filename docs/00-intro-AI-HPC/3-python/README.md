@@ -10,6 +10,7 @@ Sam Foreman
   dicts](#package-data-structures-lists-and-dicts)
 - [🔁 Loops and comprehensions](#repeat-loops-and-comprehensions)
 - [🧰 Functions](#toolbox-functions)
+- [🧱 Classes and objects](#bricks-classes-and-objects)
 - [📚 Imports: the scientific-Python
   stack](#books-imports-the-scientific-python-stack)
 - [Exercises](#exercises)
@@ -17,6 +18,15 @@ Sam Foreman
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/3-python/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/3-python/index.qmd)
+
+``` python
+# This page uses the `bootcamp` helper package. On Colab (or any fresh
+# environment) install it + its dependencies; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
 
 > [!TIP]
 >
@@ -190,6 +200,60 @@ print(scale([1, 2, 3], factor=10))
     [2.0, 4.0, 6.0]
     [10, 20, 30]
 
+## 🧱 Classes and objects
+
+A **class** bundles data and the functions that act on it into one
+reusable blueprint. This is worth a careful look: **every PyTorch model
+— every `nn.Module` — is written exactly this way.** Learn the shape
+once here and the neural-network pages will feel familiar.
+
+The pieces:
+
+- `class Name:` — defines the blueprint.
+- `__init__` — the **constructor**, run once when you create an object;
+  it sets up the object’s data.
+- `self` — refers to *this particular object*; you store data on it
+  (`self.x = …`) and read it back later.
+- **methods** — functions defined inside the class that take `self` as
+  their first argument.
+
+``` python
+class Counter:
+    """A tiny object that keeps a running total."""
+
+    def __init__(self, start=0):
+        self.total = start        # store data on the instance
+
+    def add(self, x):             # a method — note the `self`
+        self.total += x
+        return self.total
+
+# create an *instance* (an object) and call its methods
+c = Counter()
+c.add(5)
+c.add(3)
+print("total:", c.total)
+```
+
+    total: 8
+
+Each object carries its own data, so two instances don’t interfere:
+
+``` python
+a = Counter(start=100)
+b = Counter()
+a.add(1)
+print("a.total =", a.total, "| b.total =", b.total)
+```
+
+    a.total = 101 | b.total = 0
+
+A class can also **inherit** from another to extend it — you call the
+parent’s setup with `super().__init__()`. That is precisely the pattern
+you’ll see when we build neural networks: a model subclasses
+`nn.Module`, calls `super().__init__()` in its `__init__`, defines its
+layers there, and puts the computation in a `forward` method.
+
 ## 📚 Imports: the scientific-Python stack
 
 Real work builds on **libraries**. You pull them in with `import`. The
@@ -213,7 +277,7 @@ ax.grid(True, alpha=0.3)
 plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-10-output-1.png)
+![](index_files/figure-commonmark/cell-13-output-1.png)
 
 That `np.maximum(0, xs)` applied `relu` to all 200 points **at once** —
 no loop. This *vectorized* style is why NumPy is fast, and it’s the
@@ -284,6 +348,38 @@ first.
 > >     total: 345
 > >     busiest: gpu2
 
+> [!NOTE]
+>
+> ### Exercise 4 — a class
+>
+> Write a class `Accumulator` with an `__init__` that starts an internal
+> list, an `add(x)` method that appends to it, and a `mean()` method
+> that returns the average. Add `2`, `4`, `6` and print `mean()` (you
+> should get `4.0`).
+>
+> > [!TIP]
+> >
+> > ### 💡 Solution
+> >
+> > ``` python
+> > class Accumulator:
+> >     def __init__(self):
+> >         self.values = []
+> >
+> >     def add(self, x):
+> >         self.values.append(x)
+> >
+> >     def mean(self):
+> >         return sum(self.values) / len(self.values)
+> >
+> > acc = Accumulator()
+> > for v in [2, 4, 6]:
+> >     acc.add(v)
+> > print(acc.mean())
+> > ```
+> >
+> >     4.0
+
 ## 🔑 Key takeaways
 
 - Variables are typed automatically; f-strings (`f"{x:.2f}"`) format
@@ -292,6 +388,8 @@ first.
   containers.
 - **Comprehensions** (`[f(x) for x in xs]`) replace many simple loops.
 - **Functions** (`def … return`) package reusable logic.
+- **Classes** (`class` / `__init__` / `self`) bundle data with behavior
+  — the exact shape of every PyTorch `nn.Module`.
 - **`import`** brings in libraries — `numpy` and `matplotlib` above all.
 
 > [!TIP]

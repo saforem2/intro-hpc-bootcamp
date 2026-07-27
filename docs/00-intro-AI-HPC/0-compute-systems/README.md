@@ -18,6 +18,15 @@ Sam Foreman
 
 ## Overview
 
+> [!NOTE]
+>
+> ### 🧭 No account needed
+>
+> You do **not** need an HPC account to follow this page — it’s
+> conceptual. This page is reading, not hands-on: it explains what a
+> supercomputer is and how ALCF’s systems are put together. You’ll set
+> up access and run real jobs in later pages.
+
 Argonne hosts DOE supercomputers for use by research scientists in need
 of large computational resources. Supercomputers are composed of many
 computing *nodes* (1 *node* = 1 physical computer) that are connected by
@@ -234,8 +243,11 @@ current, authoritative lineup and specs.
 >
 > Notice the trajectory: Sophia (~4 PF) → Polaris (~44 PF) → Aurora
 > (~1{,}000{,}000 PF = 1 EF), with the newest systems purpose-built for
-> AI. Each generation is roughly **10–20× faster** than the last — which
-> is exactly what makes training today’s largest models possible.
+> AI. Each generation is many times faster than the last: Polaris is
+> roughly **10×** Sophia, and the jump to exascale, AI-era Aurora is
+> dramatic — **thousands of ×** over Polaris. This explosive growth in
+> compute is exactly what makes training today’s largest models
+> possible.
 
 > [!TIP]
 >

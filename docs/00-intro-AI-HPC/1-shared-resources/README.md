@@ -10,6 +10,18 @@ Sam Foreman
 - [Polaris Activity Webpage](#polaris-activity-webpage)
 - [📊 Live Status of Polaris](#bar_chart-live-status-of-polaris)
 
+> [!NOTE]
+>
+> ### 🧭 No account needed
+>
+> You do **not** need an HPC account to follow this page — it’s
+> conceptual. Here you’ll learn how schedulers share a supercomputer
+> across users and what a *job* is; the commands below are readable by
+> anyone, whether or not you have access to a cluster. You’ll only need
+> real cluster access for the large-scale, hands-on labs later in the
+> course (e.g. distributed training in \[01.4\], the LLM lab in
+> \[02.1\], and the AI-for-science examples in \[03.x\]).
+
 Supercomputers contain many computer *nodes* and not every application
 will use ALL of them. Therefore, we use programs called *schedulers*
 that allow users to schedule a *job* based on how many nodes they need
@@ -50,6 +62,17 @@ You interact with the scheduler in one of two modes:
 The two schedulers you’ll meet at ALCF/NERSC are **PBS Pro** (Polaris,
 Sophia at ALCF) and **SLURM** (Perlmutter at NERSC). The concepts are
 identical; only the command names differ.
+
+> [!NOTE]
+>
+> ### 🖥️ Which machine will we use?
+>
+> The course’s **primary hands-on machine is NERSC Perlmutter**, which
+> uses **SLURM** — so if you’re following along, reach for the SLURM
+> commands below. The same ideas map directly onto **PBS** systems like
+> ALCF’s Polaris (just swap `sbatch`↔`qsub`, `squeue`↔`qstat`, and so
+> on), so the PBS tabs are here for reference too. The full PBS↔SLURM
+> command cheat-sheet lives on the setup page.
 
 ### Interactive jobs
 

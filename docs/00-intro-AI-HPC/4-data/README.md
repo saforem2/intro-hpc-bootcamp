@@ -33,6 +33,25 @@ Sam Foreman
 > from [**Using Python**](../3-python/index.qmd) and sets you up for
 > [**Linear Regression**](../6-linear-regression/index.qmd).
 
+> [!NOTE]
+>
+> ### 🧭 No account needed
+>
+> This page runs anywhere — a laptop or [Google
+> Colab](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/4-data/index.ipynb)
+> (hit the badge above), no HPC account required. It assumes the
+> [**Python primer**](../3-python/index.qmd) (page 00.3); everything
+> else you need is installed by the setup cell below.
+
+``` python
+# This page uses the `bootcamp` helper package. On Colab (or any fresh
+# environment) install it + its dependencies; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
 ## 🔢 NumPy: arrays and vectorized math
 
 A NumPy **array** looks like a list, but math on it happens
@@ -220,7 +239,7 @@ ax.grid(True, alpha=0.3)
 plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-9-output-1.png)
+![](index_files/figure-commonmark/cell-10-output-1.png)
 
 The upward trend is exactly what a **linear regression** model learns to
 fit — which is the [next example](../6-linear-regression/index.qmd). A
@@ -235,7 +254,7 @@ ax.set_title("Distribution of sale prices")
 plt.show()
 ```
 
-![](index_files/figure-commonmark/cell-10-output-1.png)
+![](index_files/figure-commonmark/cell-11-output-1.png)
 
 ## Exercises
 
@@ -296,7 +315,7 @@ Attempt each before revealing the solution.
 > > plt.show()
 > > ```
 > >
-> > ![](index_files/figure-commonmark/cell-13-output-1.png)
+> > ![](index_files/figure-commonmark/cell-14-output-1.png)
 
 ## 🔑 Key takeaways
 

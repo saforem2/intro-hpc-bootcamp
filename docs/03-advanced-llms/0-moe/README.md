@@ -7,6 +7,7 @@ Sam Foreman
 - [🧠 What is a Mixture of
   Experts?](#brain-what-is-a-mixture-of-experts)
 - [👋 ① A toy that really runs](#wave-①-a-toy-that-really-runs)
+  - [🔎 Peek inside the router](#mag_right-peek-inside-the-router)
   - [📦 Capacity factor](#package-capacity-factor)
 - [🏗️ ② The real thing:
   DeepSeek-v3](#building_construction-②-the-real-thing-deepseek-v3)
@@ -217,6 +218,112 @@ A few things to notice:
   (loss $\to 1.0$).
 - Each expert runs **once**, batched over only the tokens routed to it —
   that is the sparsity payoff.
+
+### 🔎 Peek inside the router
+
+The aggregate `counts` above hide the actual *decisions* the router
+made. Let’s open it up — nothing but a softmax over the gate logits
+picks experts — and watch what changes as we make routing denser
+(**top-1 → top-3**):
+
+``` python
+# The router is just a softmax over the gate's logits.
+probs = F.softmax(moe.gate(x), dim=-1)       # (n_tokens, n_experts) routing dist
+top2 = probs.topk(2, dim=-1)                  # what top-2 routing selects per token
+
+print("per-token routing decisions (chosen expert = gate weight):")
+for t in range(n_tokens):
+    picks = "  ".join(
+        f"E{e}={w:.2f}"
+        for e, w in zip(top2.indices[t].tolist(), top2.values[t].tolist())
+    )
+    print(f"  token {t:2d} -> {picks}")
+
+# Vary the routing density: dispatches (and load) grow with k, but E is unchanged.
+print("\ntop-k   dispatches   per-expert load          busiest / idlest")
+for k in (1, 2, 3):
+    idx = probs.topk(k, dim=-1).indices                    # (n_tokens, k)
+    load = torch.bincount(idx.flatten(), minlength=moe.n_experts)
+    bars = "  ".join(f"E{e}:{c}" for e, c in enumerate(load.tolist()))
+    print(f"  top-{k}    {idx.numel():5d}      {bars}      "
+          f"{load.max().item()} / {load.min().item()}")
+```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">per-token routing decisions <span style="font-weight: bold">(</span>chosen expert = gate weight<span style="font-weight: bold">)</span>:
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.39</span>  <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.27</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.33</span>  <span style="color: #808000; text-decoration-color: #808000">E3</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.24</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.46</span>  <span style="color: #808000; text-decoration-color: #808000">E2</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.58</span>  <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.15</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.32</span>  <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.25</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.54</span>  <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.18</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E2</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.46</span>  <span style="color: #808000; text-decoration-color: #808000">E3</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.23</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E3</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.69</span>  <span style="color: #808000; text-decoration-color: #808000">E2</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E2</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.40</span>  <span style="color: #808000; text-decoration-color: #808000">E3</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.23</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.49</span>  <span style="color: #808000; text-decoration-color: #808000">E2</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.24</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E0</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.30</span>  <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.27</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  token <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span> -&gt; <span style="color: #808000; text-decoration-color: #808000">E3</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.32</span>  <span style="color: #808000; text-decoration-color: #808000">E1</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.30</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+top-k   dispatches   per-expert load          busiest <span style="color: #800080; text-decoration-color: #800080">/</span> idlest
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  top-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>       <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>      <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E0:5</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E1:3</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E2:2</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E3:2</span>      <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span> <span style="color: #800080; text-decoration-color: #800080">/</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  top-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>       <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24</span>      <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E0:6</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E1:8</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E2:5</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E3:5</span>      <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> <span style="color: #800080; text-decoration-color: #800080">/</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  top-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>       <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>      <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E0:7</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E1:12</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E2:10</span>  <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">E3:7</span>      <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span> <span style="color: #800080; text-decoration-color: #800080">/</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>
+</pre>
+
+- Top-$k$ is nothing fancier than “keep the $k$ largest gate weights per
+  token” — top-1 is the `argmax`, top-2 the two biggest, and so on.
+- **Total dispatches $= n_\text{tokens} \times k$**, so per-token cost
+  scales with $k$ — exactly the $k/E$ factor in $P_\text{active}$ —
+  while the number of experts $E$ never changes.
+- Even this *untrained* router is lumpy: at top-1 one expert soaks up
+  far more tokens than the idlest one. That imbalance is precisely what
+  the **aux loss** (and DeepSeek-v3’s bias trick) exists to flatten.
+
+> [!TIP]
+>
+> ### ✏️ Exercise: which density balances best?
+>
+> The sweep prints `busiest / idlest` load for top-1, top-2, and top-3.
+> Which routing density gives the *most even* spread here — and why
+> isn’t the densest option “free”?
+>
+> Higher $k$ spreads tokens over more experts, so the busiest/idlest gap
+> shrinks — but every extra expert per token is extra FLOPs and extra
+> all-to-all traffic at scale (§③). More experts activate per token, so
+> you pay more compute for that smoother load. The real fix for
+> imbalance is not “route to everyone,” it’s the load-balancing
+> loss/bias that reshapes the router itself.
 
 ### 📦 Capacity factor
 
@@ -605,5 +712,5 @@ Where **proof** can be any of:
 - ⏪ Prerequisite: [\[01.4\] Distributed
   Training](../../01-neural-networks/4-distributed-training/index.qmd)
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">10:03</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">10:32</span>
 </pre>

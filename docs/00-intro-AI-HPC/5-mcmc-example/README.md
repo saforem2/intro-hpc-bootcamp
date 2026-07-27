@@ -1,4 +1,4 @@
-# Example: Approximating $\pi$ using Markov Chain Monte Carlo (MCMC)
+# Example: Approximating $\pi$ using Monte Carlo
 Sam Foreman, Huihuo Zheng
 2025-07-15
 
@@ -42,6 +42,17 @@ $$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$
 
 Therefore, we can calculate $\pi$ using
 $\pi = \frac{4N_\text{in}}{N_\text{total}}$
+
+> [!NOTE]
+>
+> ### Monte Carlo vs. Markov Chain Monte Carlo (MCMC)
+>
+> This is **plain Monte Carlo**: every dart is drawn *independently*
+> from the same uniform distribution. **MCMC** is different — it builds
+> a *correlated chain* of samples, where each new sample is proposed
+> from the current one via a transition kernel
+> (e.g. Metropolis-Hastings). We use the simpler independent-sampling
+> approach here.
 
 First, the imports and house plot style:
 
@@ -3697,15 +3708,19 @@ if (outputEl) {{
 > This animation shows **ideal linear speedup** (`P` workers → `P`×
 > faster). Real runs fall a little short: the workers must combine their
 > counts at the end (the `comm.Allreduce` below), and that communication
-> adds overhead — which is exactly why the timing table above isn’t a
-> perfect `P`× as you add nodes.
+> adds overhead — which is exactly why the Polaris timings below aren’t
+> a perfect `P`× as you add ranks.
 
 ### MPI example
 
-| Nodes  | PyTorch-2.5 | PyTorch-2.7 | PyTorch-2.8 |
-|:------:|:-----------:|:-----------:|:-----------:|
-| N1xR12 |    17.39    |    31.01    |    33.09    |
-| N2xR12 |    3.81     |    32.71    |    33.26    |
+> [!WARNING]
+>
+> ### Where to run this
+>
+> The single-process cells above (the NumPy simulation and plots) run
+> fine on a **laptop or Colab**. The `mpi4py` multi-rank cells and the
+> timings below need **multiple cores / an HPC allocation** to show a
+> real speedup.
 
 ``` python
 from mpi4py import MPI

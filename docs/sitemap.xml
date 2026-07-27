@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-ai-for-science/0-genslm/index.html</loc>
+    <lastmod>2026-07-27T14:03:46.437Z</lastmod>
+  </url>
+  <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms/4-rl-and-reasoning/index.html</loc>
-    <lastmod>2026-07-24T18:32:04.284Z</lastmod>
+    <lastmod>2026-07-27T14:00:49.481Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms/2-fault-tolerant-training/index.html</loc>
@@ -10,11 +14,11 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms/0-moe/index.html</loc>
-    <lastmod>2026-07-24T18:32:04.284Z</lastmod>
+    <lastmod>2026-07-27T13:58:14.987Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/02-llms/4-evaluating-llms/index.html</loc>
-    <lastmod>2026-07-24T18:12:47.483Z</lastmod>
+    <lastmod>2026-07-27T13:55:40.643Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/02-llms/2-shakespeare-example-colab/index.html</loc>
@@ -30,27 +34,27 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/3-representation-learning/index.html</loc>
-    <lastmod>2026-07-24T18:07:21.721Z</lastmod>
+    <lastmod>2026-07-27T15:18:38.009Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/1-mnist/index.html</loc>
-    <lastmod>2026-07-26T18:58:46.449Z</lastmod>
+    <lastmod>2026-07-27T15:44:06.488Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/7-statistical-learning/index.html</loc>
-    <lastmod>2026-07-26T21:27:17.061Z</lastmod>
+    <lastmod>2026-07-27T14:03:06.005Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/index.html</loc>
-    <lastmod>2026-07-26T20:58:31.688Z</lastmod>
+    <lastmod>2026-07-27T13:51:41.865Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/3-python/index.html</loc>
-    <lastmod>2026-07-26T20:28:03.075Z</lastmod>
+    <lastmod>2026-07-27T13:52:37.801Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/1-shared-resources/index.html</loc>
-    <lastmod>2026-07-26T20:26:09.388Z</lastmod>
+    <lastmod>2026-07-27T13:55:10.009Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/index.html</loc>
@@ -58,35 +62,35 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/index.html</loc>
-    <lastmod>2026-07-24T19:50:45.808Z</lastmod>
+    <lastmod>2026-07-27T13:56:57.465Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/0-compute-systems/index.html</loc>
-    <lastmod>2026-07-26T20:26:44.169Z</lastmod>
+    <lastmod>2026-07-27T13:49:21.033Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
-    <lastmod>2025-08-06T13:17:22.875Z</lastmod>
+    <lastmod>2026-07-27T13:51:56.291Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/4-data/index.html</loc>
-    <lastmod>2026-07-26T20:28:03.107Z</lastmod>
+    <lastmod>2026-07-27T13:51:11.008Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/6-linear-regression/index.html</loc>
-    <lastmod>2026-07-26T21:08:27.006Z</lastmod>
+    <lastmod>2026-07-27T14:07:18.119Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/0-intro/index.html</loc>
-    <lastmod>2026-07-26T20:26:09.388Z</lastmod>
+    <lastmod>2026-07-27T15:42:22.632Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/2-conv-nets/index.html</loc>
-    <lastmod>2026-07-26T22:50:08.434Z</lastmod>
+    <lastmod>2026-07-27T15:44:13.824Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/4-distributed-training/index.html</loc>
-    <lastmod>2026-07-27T00:13:44.785Z</lastmod>
+    <lastmod>2026-07-27T13:56:20.282Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/02-llms/index.html</loc>
@@ -94,7 +98,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/02-llms/1-parallel-training/index.html</loc>
-    <lastmod>2026-07-27T00:08:25.083Z</lastmod>
+    <lastmod>2026-07-27T13:55:50.465Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/02-llms/3-shakespeare-ezpz/index.html</loc>
@@ -110,6 +114,10 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms/3-mid-post-training/index.html</loc>
-    <lastmod>2026-07-24T18:32:04.283Z</lastmod>
+    <lastmod>2026-07-27T13:58:03.259Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/03-ai-for-science/index.html</loc>
+    <lastmod>2026-07-27T13:56:03.907Z</lastmod>
   </url>
 </urlset>

@@ -607,6 +607,23 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[04] AI for Science</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GenSLM: Genome-Scale LMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -678,7 +695,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 26, 2026</p>
+      <p class="date-modified">July 27, 2026</p>
     </div>
   </div>
     
@@ -689,6 +706,19 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
+<div class="callout callout-style-simple callout-note callout-titled" title="🧭 No account needed">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🧭 No account needed
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You do <strong>not</strong> need an HPC account to follow this page — it’s conceptual. Here you’ll learn how schedulers share a supercomputer across users and what a <em>job</em> is; the commands below are readable by anyone, whether or not you have access to a cluster. You’ll only need real cluster access for the large-scale, hands-on labs later in the course (e.g.&nbsp;distributed training in [01.4], the LLM lab in [02.1], and the AI-for-science examples in [03.x]).</p>
+</div>
+</div>
 <p>Supercomputers contain many computer <em>nodes</em> and not every application will use ALL of them. Therefore, we use programs called <em>schedulers</em> that allow users to schedule a <em>job</em> based on how many nodes they need for a specified time.</p>
 <p>A <em>job</em> is defined by a user and requires these parameters to be defined:</p>
 <dl>
@@ -722,6 +752,19 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 <li><strong>Batch</strong> — you write a small script describing the job and hand it to the scheduler, which runs it unattended when resources free up and writes the output to a file. Great for long or many runs.</li>
 </ul>
 <p>The two schedulers you’ll meet at ALCF/NERSC are <strong>PBS Pro</strong> (Polaris, Sophia at ALCF) and <strong>SLURM</strong> (Perlmutter at NERSC). The concepts are identical; only the command names differ.</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="🖥️ Which machine will we use?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🖥️ Which machine will we use?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The course’s <strong>primary hands-on machine is NERSC Perlmutter</strong>, which uses <strong>SLURM</strong> — so if you’re following along, reach for the SLURM commands below. The same ideas map directly onto <strong>PBS</strong> systems like ALCF’s Polaris (just swap <code>sbatch</code>↔︎<code>qsub</code>, <code>squeue</code>↔︎<code>qstat</code>, and so on), so the PBS tabs are here for reference too. The full PBS↔︎SLURM command cheat-sheet lives on the setup page.</p>
+</div>
+</div>
 <section id="interactive-jobs" class="level3">
 <h3 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -800,7 +843,7 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🧠 Check your understanding">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -809,44 +852,10 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Test yourself — think it through, then reveal the answer.</p>
 <p><strong>Q1.</strong> You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</p>
-<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Show answer
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Your colleague’s. Small, short requests are far easier for the scheduler to fit into gaps between other jobs (“backfill”), so they usually start almost immediately; a large, long request must wait for a big block to free up.</p>
-</div>
-</div>
-</div>
-<p><strong>Q2.</strong> What’s the difference between <code>qsub -I</code> and <code>qsub job.sh</code>?</p>
-<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Show answer
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><code>-I</code> requests an <strong>interactive</strong> session (a live shell on the compute nodes); <code>qsub job.sh</code> submits a <strong>batch</strong> job that runs the script unattended and writes output to a file.</p>
-</div>
-</div>
-</div>
-<p><strong>Q3.</strong> Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -858,6 +867,40 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Your colleague’s. Small, short requests are far easier for the scheduler to fit into gaps between other jobs (“backfill”), so they usually start almost immediately; a large, long request must wait for a big block to free up.</p>
+</div>
+</div>
+</div>
+<p><strong>Q2.</strong> What’s the difference between <code>qsub -I</code> and <code>qsub job.sh</code>?</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>-I</code> requests an <strong>interactive</strong> session (a live shell on the compute nodes); <code>qsub job.sh</code> submits a <strong>batch</strong> job that runs the script unattended and writes output to a file.</p>
+</div>
+</div>
+</div>
+<p><strong>Q3.</strong> Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>In <code>slurm-&lt;jobid&gt;.out</code> in the directory you ran <code>sbatch</code> from.</p>
 </div>
@@ -1434,184 +1477,201 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-12"><a href="#cb7-12" aria-label="12"></a><span class="co">    toc: true</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-label="13"></a><span class="co">---</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-label="14"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-label="15"></a>Supercomputers contain many computer _nodes_ and not every application will use</span>
-<span id="cb7-16"><a href="#cb7-16" aria-label="16"></a>ALL of them.</span>
-<span id="cb7-17"><a href="#cb7-17" aria-label="17"></a>Therefore, we use programs called _schedulers_ that allow users to schedule a</span>
-<span id="cb7-18"><a href="#cb7-18" aria-label="18"></a>_job_ based on how many nodes they need for a specified time.</span>
-<span id="cb7-19"><a href="#cb7-19" aria-label="19"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-label="20"></a>A _job_ is defined by a user and requires these parameters to be defined:</span>
-<span id="cb7-21"><a href="#cb7-21" aria-label="21"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-label="22"></a>run-time</span>
-<span id="cb7-23"><a href="#cb7-23" aria-label="23"></a>: How long will this _job_ run? 5 minutes? 60 minutes? 6 hours?</span>
-<span id="cb7-24"><a href="#cb7-24" aria-label="24"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-label="25"></a>number-of-nodes</span>
-<span id="cb7-26"><a href="#cb7-26" aria-label="26"></a>: How many compute _nodes_ does the application need to run? 5 nodes? 100</span>
-<span id="cb7-27"><a href="#cb7-27" aria-label="27"></a>nodes? 1000 nodes?</span>
+<span id="cb7-15"><a href="#cb7-15" aria-label="15"></a>::: {.callout-note title="🧭 No account needed"}</span>
+<span id="cb7-16"><a href="#cb7-16" aria-label="16"></a>You do **not** need an HPC account to follow this page — it's conceptual. Here</span>
+<span id="cb7-17"><a href="#cb7-17" aria-label="17"></a>you'll learn how schedulers share a supercomputer across users and what a *job*</span>
+<span id="cb7-18"><a href="#cb7-18" aria-label="18"></a>is; the commands below are readable by anyone, whether or not you have access to</span>
+<span id="cb7-19"><a href="#cb7-19" aria-label="19"></a>a cluster. You'll only need real cluster access for the large-scale, hands-on</span>
+<span id="cb7-20"><a href="#cb7-20" aria-label="20"></a>labs later in the course (e.g. distributed training in <span class="co">[</span><span class="ot">01.4</span><span class="co">]</span>, the LLM lab in</span>
+<span id="cb7-21"><a href="#cb7-21" aria-label="21"></a><span class="co">[</span><span class="ot">02.1</span><span class="co">]</span>, and the AI-for-science examples in <span class="co">[</span><span class="ot">03.x</span><span class="co">]</span>).</span>
+<span id="cb7-22"><a href="#cb7-22" aria-label="22"></a>:::</span>
+<span id="cb7-23"><a href="#cb7-23" aria-label="23"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-label="24"></a>Supercomputers contain many computer _nodes_ and not every application will use</span>
+<span id="cb7-25"><a href="#cb7-25" aria-label="25"></a>ALL of them.</span>
+<span id="cb7-26"><a href="#cb7-26" aria-label="26"></a>Therefore, we use programs called _schedulers_ that allow users to schedule a</span>
+<span id="cb7-27"><a href="#cb7-27" aria-label="27"></a>_job_ based on how many nodes they need for a specified time.</span>
 <span id="cb7-28"><a href="#cb7-28" aria-label="28"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-label="29"></a>::: {.callout-note title="🏙️ Analogy: the scheduler as a maître d'"}</span>
-<span id="cb7-30"><a href="#cb7-30" aria-label="30"></a>A supercomputer is a huge restaurant and every user wants a table (nodes) for a</span>
-<span id="cb7-31"><a href="#cb7-31" aria-label="31"></a>certain length of time (walltime). You don't just walk in and sit down — you tell</span>
-<span id="cb7-32"><a href="#cb7-32" aria-label="32"></a>the **maître d'** (the scheduler) your party size and how long you'll stay, and it</span>
-<span id="cb7-33"><a href="#cb7-33" aria-label="33"></a>seats you when a suitable table frees up. Ask for a small table for a short time</span>
-<span id="cb7-34"><a href="#cb7-34" aria-label="34"></a>and you're seated quickly; ask for the whole restaurant for all night and you'll</span>
-<span id="cb7-35"><a href="#cb7-35" aria-label="35"></a>wait. That trade-off *is* queue time.</span>
-<span id="cb7-36"><a href="#cb7-36" aria-label="36"></a>:::</span>
+<span id="cb7-29"><a href="#cb7-29" aria-label="29"></a>A _job_ is defined by a user and requires these parameters to be defined:</span>
+<span id="cb7-30"><a href="#cb7-30" aria-label="30"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-label="31"></a>run-time</span>
+<span id="cb7-32"><a href="#cb7-32" aria-label="32"></a>: How long will this _job_ run? 5 minutes? 60 minutes? 6 hours?</span>
+<span id="cb7-33"><a href="#cb7-33" aria-label="33"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-label="34"></a>number-of-nodes</span>
+<span id="cb7-35"><a href="#cb7-35" aria-label="35"></a>: How many compute _nodes_ does the application need to run? 5 nodes? 100</span>
+<span id="cb7-36"><a href="#cb7-36" aria-label="36"></a>nodes? 1000 nodes?</span>
 <span id="cb7-37"><a href="#cb7-37" aria-label="37"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-label="38"></a><span class="fu">## 🎯 Submitting a job</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-label="39"></a></span>
-<span id="cb7-40"><a href="#cb7-40" aria-label="40"></a>You interact with the scheduler in one of two modes:</span>
-<span id="cb7-41"><a href="#cb7-41" aria-label="41"></a></span>
-<span id="cb7-42"><a href="#cb7-42" aria-label="42"></a><span class="ss">- </span>**Interactive** — the scheduler gives you a shell _on the compute nodes_ and you</span>
-<span id="cb7-43"><a href="#cb7-43" aria-label="43"></a>  type commands live. Great for developing and debugging.</span>
-<span id="cb7-44"><a href="#cb7-44" aria-label="44"></a><span class="ss">- </span>**Batch** — you write a small script describing the job and hand it to the</span>
-<span id="cb7-45"><a href="#cb7-45" aria-label="45"></a>  scheduler, which runs it unattended when resources free up and writes the output</span>
-<span id="cb7-46"><a href="#cb7-46" aria-label="46"></a>  to a file. Great for long or many runs.</span>
-<span id="cb7-47"><a href="#cb7-47" aria-label="47"></a></span>
-<span id="cb7-48"><a href="#cb7-48" aria-label="48"></a>The two schedulers you'll meet at ALCF/NERSC are **PBS Pro** (Polaris, Sophia at</span>
-<span id="cb7-49"><a href="#cb7-49" aria-label="49"></a>ALCF) and **SLURM** (Perlmutter at NERSC). The concepts are identical; only the</span>
-<span id="cb7-50"><a href="#cb7-50" aria-label="50"></a>command names differ.</span>
-<span id="cb7-51"><a href="#cb7-51" aria-label="51"></a></span>
-<span id="cb7-52"><a href="#cb7-52" aria-label="52"></a><span class="fu">### Interactive jobs</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-label="53"></a></span>
-<span id="cb7-54"><a href="#cb7-54" aria-label="54"></a>::: {.panel-tabset}</span>
-<span id="cb7-55"><a href="#cb7-55" aria-label="55"></a></span>
-<span id="cb7-56"><a href="#cb7-56" aria-label="56"></a><span class="fu">#### PBS (Polaris @ ALCF)</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-label="57"></a></span>
-<span id="cb7-58"><a href="#cb7-58" aria-label="58"></a><span class="in">```bash</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-label="59"></a><span class="co"># request 1 node for 30 minutes from the debug queue</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-label="60"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=00:30:00 <span class="dt">\</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-label="61"></a>     <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb7-62"><a href="#cb7-62" aria-label="62"></a><span class="in">```</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-label="63"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-label="64"></a><span class="in">`-I`</span> = interactive, <span class="in">`-A`</span> = the project/allocation to charge, <span class="in">`-q`</span> = queue,</span>
-<span id="cb7-65"><a href="#cb7-65" aria-label="65"></a><span class="in">`-l select=N`</span> = number of nodes, <span class="in">`-l walltime=HH:MM:SS`</span> = time limit. When the job</span>
-<span id="cb7-66"><a href="#cb7-66" aria-label="66"></a>starts you land on a compute node.</span>
-<span id="cb7-67"><a href="#cb7-67" aria-label="67"></a></span>
-<span id="cb7-68"><a href="#cb7-68" aria-label="68"></a><span class="fu">#### SLURM (Perlmutter @ NERSC)</span></span>
-<span id="cb7-69"><a href="#cb7-69" aria-label="69"></a></span>
-<span id="cb7-70"><a href="#cb7-70" aria-label="70"></a><span class="in">```bash</span></span>
-<span id="cb7-71"><a href="#cb7-71" aria-label="71"></a><span class="co"># request 1 GPU node for 30 minutes from the interactive queue</span></span>
-<span id="cb7-72"><a href="#cb7-72" aria-label="72"></a><span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 00:30:00 <span class="dt">\</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-label="73"></a>       <span class="at">--constraint</span> gpu <span class="at">--account</span> <span class="op">&lt;</span>project<span class="op">&gt;</span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-label="74"></a><span class="in">```</span></span>
-<span id="cb7-75"><a href="#cb7-75" aria-label="75"></a></span>
-<span id="cb7-76"><a href="#cb7-76" aria-label="76"></a><span class="in">`--nodes`</span> = node count, <span class="in">`--qos`</span> = queue/quality-of-service, <span class="in">`--time`</span> = limit,</span>
-<span id="cb7-77"><a href="#cb7-77" aria-label="77"></a><span class="in">`--constraint gpu`</span> = node type, <span class="in">`--account`</span> = allocation. <span class="in">`salloc`</span> drops you onto</span>
-<span id="cb7-78"><a href="#cb7-78" aria-label="78"></a>the allocated node.</span>
-<span id="cb7-79"><a href="#cb7-79" aria-label="79"></a></span>
-<span id="cb7-80"><a href="#cb7-80" aria-label="80"></a>:::</span>
-<span id="cb7-81"><a href="#cb7-81" aria-label="81"></a></span>
-<span id="cb7-82"><a href="#cb7-82" aria-label="82"></a><span class="fu">### Batch jobs</span></span>
-<span id="cb7-83"><a href="#cb7-83" aria-label="83"></a></span>
-<span id="cb7-84"><a href="#cb7-84" aria-label="84"></a>Write a job script, then submit it. The scheduler directives live in comments at</span>
-<span id="cb7-85"><a href="#cb7-85" aria-label="85"></a>the top (<span class="in">`#PBS ...`</span> or <span class="in">`#SBATCH ...`</span>).</span>
+<span id="cb7-38"><a href="#cb7-38" aria-label="38"></a>::: {.callout-note title="🏙️ Analogy: the scheduler as a maître d'"}</span>
+<span id="cb7-39"><a href="#cb7-39" aria-label="39"></a>A supercomputer is a huge restaurant and every user wants a table (nodes) for a</span>
+<span id="cb7-40"><a href="#cb7-40" aria-label="40"></a>certain length of time (walltime). You don't just walk in and sit down — you tell</span>
+<span id="cb7-41"><a href="#cb7-41" aria-label="41"></a>the **maître d'** (the scheduler) your party size and how long you'll stay, and it</span>
+<span id="cb7-42"><a href="#cb7-42" aria-label="42"></a>seats you when a suitable table frees up. Ask for a small table for a short time</span>
+<span id="cb7-43"><a href="#cb7-43" aria-label="43"></a>and you're seated quickly; ask for the whole restaurant for all night and you'll</span>
+<span id="cb7-44"><a href="#cb7-44" aria-label="44"></a>wait. That trade-off *is* queue time.</span>
+<span id="cb7-45"><a href="#cb7-45" aria-label="45"></a>:::</span>
+<span id="cb7-46"><a href="#cb7-46" aria-label="46"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-label="47"></a><span class="fu">## 🎯 Submitting a job</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-label="48"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-label="49"></a>You interact with the scheduler in one of two modes:</span>
+<span id="cb7-50"><a href="#cb7-50" aria-label="50"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-label="51"></a><span class="ss">- </span>**Interactive** — the scheduler gives you a shell _on the compute nodes_ and you</span>
+<span id="cb7-52"><a href="#cb7-52" aria-label="52"></a>  type commands live. Great for developing and debugging.</span>
+<span id="cb7-53"><a href="#cb7-53" aria-label="53"></a><span class="ss">- </span>**Batch** — you write a small script describing the job and hand it to the</span>
+<span id="cb7-54"><a href="#cb7-54" aria-label="54"></a>  scheduler, which runs it unattended when resources free up and writes the output</span>
+<span id="cb7-55"><a href="#cb7-55" aria-label="55"></a>  to a file. Great for long or many runs.</span>
+<span id="cb7-56"><a href="#cb7-56" aria-label="56"></a></span>
+<span id="cb7-57"><a href="#cb7-57" aria-label="57"></a>The two schedulers you'll meet at ALCF/NERSC are **PBS Pro** (Polaris, Sophia at</span>
+<span id="cb7-58"><a href="#cb7-58" aria-label="58"></a>ALCF) and **SLURM** (Perlmutter at NERSC). The concepts are identical; only the</span>
+<span id="cb7-59"><a href="#cb7-59" aria-label="59"></a>command names differ.</span>
+<span id="cb7-60"><a href="#cb7-60" aria-label="60"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-label="61"></a>::: {.callout-note title="🖥️ Which machine will we use?"}</span>
+<span id="cb7-62"><a href="#cb7-62" aria-label="62"></a>The course's **primary hands-on machine is NERSC Perlmutter**, which uses</span>
+<span id="cb7-63"><a href="#cb7-63" aria-label="63"></a>**SLURM** — so if you're following along, reach for the SLURM commands below. The</span>
+<span id="cb7-64"><a href="#cb7-64" aria-label="64"></a>same ideas map directly onto **PBS** systems like ALCF's Polaris (just swap</span>
+<span id="cb7-65"><a href="#cb7-65" aria-label="65"></a><span class="in">`sbatch`</span>↔<span class="in">`qsub`</span>, <span class="in">`squeue`</span>↔<span class="in">`qstat`</span>, and so on), so the PBS tabs are here for</span>
+<span id="cb7-66"><a href="#cb7-66" aria-label="66"></a>reference too. The full PBS↔SLURM command cheat-sheet lives on the setup page.</span>
+<span id="cb7-67"><a href="#cb7-67" aria-label="67"></a>:::</span>
+<span id="cb7-68"><a href="#cb7-68" aria-label="68"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-label="69"></a><span class="fu">### Interactive jobs</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-label="70"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-label="71"></a>::: {.panel-tabset}</span>
+<span id="cb7-72"><a href="#cb7-72" aria-label="72"></a></span>
+<span id="cb7-73"><a href="#cb7-73" aria-label="73"></a><span class="fu">#### PBS (Polaris @ ALCF)</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-label="74"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-label="75"></a><span class="in">```bash</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-label="76"></a><span class="co"># request 1 node for 30 minutes from the debug queue</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-label="77"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=00:30:00 <span class="dt">\</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-label="78"></a>     <span class="at">-l</span> filesystems=home:eagle</span>
+<span id="cb7-79"><a href="#cb7-79" aria-label="79"></a><span class="in">```</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-label="80"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-label="81"></a><span class="in">`-I`</span> = interactive, <span class="in">`-A`</span> = the project/allocation to charge, <span class="in">`-q`</span> = queue,</span>
+<span id="cb7-82"><a href="#cb7-82" aria-label="82"></a><span class="in">`-l select=N`</span> = number of nodes, <span class="in">`-l walltime=HH:MM:SS`</span> = time limit. When the job</span>
+<span id="cb7-83"><a href="#cb7-83" aria-label="83"></a>starts you land on a compute node.</span>
+<span id="cb7-84"><a href="#cb7-84" aria-label="84"></a></span>
+<span id="cb7-85"><a href="#cb7-85" aria-label="85"></a><span class="fu">#### SLURM (Perlmutter @ NERSC)</span></span>
 <span id="cb7-86"><a href="#cb7-86" aria-label="86"></a></span>
-<span id="cb7-87"><a href="#cb7-87" aria-label="87"></a>::: {.panel-tabset}</span>
-<span id="cb7-88"><a href="#cb7-88" aria-label="88"></a></span>
-<span id="cb7-89"><a href="#cb7-89" aria-label="89"></a><span class="fu">#### PBS (`job.sh`)</span></span>
-<span id="cb7-90"><a href="#cb7-90" aria-label="90"></a></span>
-<span id="cb7-91"><a href="#cb7-91" aria-label="91"></a><span class="in">```bash</span></span>
-<span id="cb7-92"><a href="#cb7-92" aria-label="92"></a><span class="co">#!/bin/bash -l</span></span>
-<span id="cb7-93"><a href="#cb7-93" aria-label="93"></a><span class="co">#PBS -A &lt;project&gt;</span></span>
-<span id="cb7-94"><a href="#cb7-94" aria-label="94"></a><span class="co">#PBS -q debug</span></span>
-<span id="cb7-95"><a href="#cb7-95" aria-label="95"></a><span class="co">#PBS -l select=2</span></span>
-<span id="cb7-96"><a href="#cb7-96" aria-label="96"></a><span class="co">#PBS -l walltime=00:30:00</span></span>
-<span id="cb7-97"><a href="#cb7-97" aria-label="97"></a><span class="co">#PBS -l filesystems=home:eagle</span></span>
-<span id="cb7-98"><a href="#cb7-98" aria-label="98"></a><span class="co">#PBS -N my_first_job</span></span>
-<span id="cb7-99"><a href="#cb7-99" aria-label="99"></a></span>
-<span id="cb7-100"><a href="#cb7-100" aria-label="100"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$PBS_O_WORKDIR</span><span class="st">"</span>          <span class="co"># PBS starts you in $HOME; cd back to where you submitted</span></span>
-<span id="cb7-101"><a href="#cb7-101" aria-label="101"></a><span class="bu">echo</span> <span class="st">"Running on </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb7-102"><a href="#cb7-102" aria-label="102"></a><span class="ex">python3</span> my_script.py</span>
-<span id="cb7-103"><a href="#cb7-103" aria-label="103"></a><span class="in">```</span></span>
-<span id="cb7-104"><a href="#cb7-104" aria-label="104"></a></span>
-<span id="cb7-105"><a href="#cb7-105" aria-label="105"></a><span class="in">```bash</span></span>
-<span id="cb7-106"><a href="#cb7-106" aria-label="106"></a><span class="ex">qsub</span> job.sh          <span class="co"># submit -&gt; prints a job id like 1234567.polaris</span></span>
-<span id="cb7-107"><a href="#cb7-107" aria-label="107"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="va">$USER</span>       <span class="co"># check status of your jobs</span></span>
-<span id="cb7-108"><a href="#cb7-108" aria-label="108"></a><span class="ex">qdel</span> 1234567         <span class="co"># cancel a job</span></span>
-<span id="cb7-109"><a href="#cb7-109" aria-label="109"></a><span class="in">```</span></span>
-<span id="cb7-110"><a href="#cb7-110" aria-label="110"></a></span>
-<span id="cb7-111"><a href="#cb7-111" aria-label="111"></a><span class="fu">#### SLURM (`job.sh`)</span></span>
-<span id="cb7-112"><a href="#cb7-112" aria-label="112"></a></span>
-<span id="cb7-113"><a href="#cb7-113" aria-label="113"></a><span class="in">```bash</span></span>
-<span id="cb7-114"><a href="#cb7-114" aria-label="114"></a><span class="co">#!/bin/bash -l</span></span>
-<span id="cb7-115"><a href="#cb7-115" aria-label="115"></a><span class="co">#SBATCH --account &lt;project&gt;</span></span>
-<span id="cb7-116"><a href="#cb7-116" aria-label="116"></a><span class="co">#SBATCH --qos regular</span></span>
-<span id="cb7-117"><a href="#cb7-117" aria-label="117"></a><span class="co">#SBATCH --nodes 2</span></span>
-<span id="cb7-118"><a href="#cb7-118" aria-label="118"></a><span class="co">#SBATCH --time 00:30:00</span></span>
-<span id="cb7-119"><a href="#cb7-119" aria-label="119"></a><span class="co">#SBATCH --constraint gpu</span></span>
-<span id="cb7-120"><a href="#cb7-120" aria-label="120"></a><span class="co">#SBATCH --job-name my_first_job</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-label="87"></a><span class="in">```bash</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-label="88"></a><span class="co"># request 1 GPU node for 30 minutes from the interactive queue</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-label="89"></a><span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 00:30:00 <span class="dt">\</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-label="90"></a>       <span class="at">--constraint</span> gpu <span class="at">--account</span> <span class="op">&lt;</span>project<span class="op">&gt;</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-label="91"></a><span class="in">```</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-label="92"></a></span>
+<span id="cb7-93"><a href="#cb7-93" aria-label="93"></a><span class="in">`--nodes`</span> = node count, <span class="in">`--qos`</span> = queue/quality-of-service, <span class="in">`--time`</span> = limit,</span>
+<span id="cb7-94"><a href="#cb7-94" aria-label="94"></a><span class="in">`--constraint gpu`</span> = node type, <span class="in">`--account`</span> = allocation. <span class="in">`salloc`</span> drops you onto</span>
+<span id="cb7-95"><a href="#cb7-95" aria-label="95"></a>the allocated node.</span>
+<span id="cb7-96"><a href="#cb7-96" aria-label="96"></a></span>
+<span id="cb7-97"><a href="#cb7-97" aria-label="97"></a>:::</span>
+<span id="cb7-98"><a href="#cb7-98" aria-label="98"></a></span>
+<span id="cb7-99"><a href="#cb7-99" aria-label="99"></a><span class="fu">### Batch jobs</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-label="100"></a></span>
+<span id="cb7-101"><a href="#cb7-101" aria-label="101"></a>Write a job script, then submit it. The scheduler directives live in comments at</span>
+<span id="cb7-102"><a href="#cb7-102" aria-label="102"></a>the top (<span class="in">`#PBS ...`</span> or <span class="in">`#SBATCH ...`</span>).</span>
+<span id="cb7-103"><a href="#cb7-103" aria-label="103"></a></span>
+<span id="cb7-104"><a href="#cb7-104" aria-label="104"></a>::: {.panel-tabset}</span>
+<span id="cb7-105"><a href="#cb7-105" aria-label="105"></a></span>
+<span id="cb7-106"><a href="#cb7-106" aria-label="106"></a><span class="fu">#### PBS (`job.sh`)</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-label="107"></a></span>
+<span id="cb7-108"><a href="#cb7-108" aria-label="108"></a><span class="in">```bash</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-label="109"></a><span class="co">#!/bin/bash -l</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-label="110"></a><span class="co">#PBS -A &lt;project&gt;</span></span>
+<span id="cb7-111"><a href="#cb7-111" aria-label="111"></a><span class="co">#PBS -q debug</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-label="112"></a><span class="co">#PBS -l select=2</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-label="113"></a><span class="co">#PBS -l walltime=00:30:00</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-label="114"></a><span class="co">#PBS -l filesystems=home:eagle</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-label="115"></a><span class="co">#PBS -N my_first_job</span></span>
+<span id="cb7-116"><a href="#cb7-116" aria-label="116"></a></span>
+<span id="cb7-117"><a href="#cb7-117" aria-label="117"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$PBS_O_WORKDIR</span><span class="st">"</span>          <span class="co"># PBS starts you in $HOME; cd back to where you submitted</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-label="118"></a><span class="bu">echo</span> <span class="st">"Running on </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-label="119"></a><span class="ex">python3</span> my_script.py</span>
+<span id="cb7-120"><a href="#cb7-120" aria-label="120"></a><span class="in">```</span></span>
 <span id="cb7-121"><a href="#cb7-121" aria-label="121"></a></span>
-<span id="cb7-122"><a href="#cb7-122" aria-label="122"></a><span class="bu">echo</span> <span class="st">"Running on </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb7-123"><a href="#cb7-123" aria-label="123"></a><span class="ex">srun</span> python3 my_script.py    <span class="co"># srun launches your program across the allocated nodes</span></span>
-<span id="cb7-124"><a href="#cb7-124" aria-label="124"></a><span class="in">```</span></span>
-<span id="cb7-125"><a href="#cb7-125" aria-label="125"></a></span>
-<span id="cb7-126"><a href="#cb7-126" aria-label="126"></a><span class="in">```bash</span></span>
-<span id="cb7-127"><a href="#cb7-127" aria-label="127"></a><span class="ex">sbatch</span> job.sh        <span class="co"># submit -&gt; prints "Submitted batch job 1234567"</span></span>
-<span id="cb7-128"><a href="#cb7-128" aria-label="128"></a><span class="ex">squeue</span> <span class="at">--me</span>          <span class="co"># check status of your jobs</span></span>
-<span id="cb7-129"><a href="#cb7-129" aria-label="129"></a><span class="ex">scancel</span> 1234567      <span class="co"># cancel a job</span></span>
-<span id="cb7-130"><a href="#cb7-130" aria-label="130"></a><span class="in">```</span></span>
-<span id="cb7-131"><a href="#cb7-131" aria-label="131"></a></span>
-<span id="cb7-132"><a href="#cb7-132" aria-label="132"></a>:::</span>
-<span id="cb7-133"><a href="#cb7-133" aria-label="133"></a></span>
-<span id="cb7-134"><a href="#cb7-134" aria-label="134"></a>::: {.callout-tip title="📤 Where does my output go?"}</span>
-<span id="cb7-135"><a href="#cb7-135" aria-label="135"></a>A batch job has no terminal, so its stdout/stderr are written to files in the</span>
-<span id="cb7-136"><a href="#cb7-136" aria-label="136"></a>submit directory:</span>
-<span id="cb7-137"><a href="#cb7-137" aria-label="137"></a></span>
-<span id="cb7-138"><a href="#cb7-138" aria-label="138"></a><span class="ss">- </span>**PBS** → <span class="in">`&lt;job-name&gt;.o&lt;jobid&gt;`</span> (stdout) and <span class="in">`&lt;job-name&gt;.e&lt;jobid&gt;`</span> (stderr)</span>
-<span id="cb7-139"><a href="#cb7-139" aria-label="139"></a><span class="ss">- </span>**SLURM** → <span class="in">`slurm-&lt;jobid&gt;.out`</span> (both, by default)</span>
-<span id="cb7-140"><a href="#cb7-140" aria-label="140"></a></span>
-<span id="cb7-141"><a href="#cb7-141" aria-label="141"></a><span class="in">`tail -f slurm-1234567.out`</span> lets you watch a running job's output live.</span>
-<span id="cb7-142"><a href="#cb7-142" aria-label="142"></a>:::</span>
-<span id="cb7-143"><a href="#cb7-143" aria-label="143"></a></span>
-<span id="cb7-144"><a href="#cb7-144" aria-label="144"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
-<span id="cb7-145"><a href="#cb7-145" aria-label="145"></a>Test yourself — think it through, then reveal the answer.</span>
-<span id="cb7-146"><a href="#cb7-146" aria-label="146"></a></span>
-<span id="cb7-147"><a href="#cb7-147" aria-label="147"></a>**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</span>
+<span id="cb7-122"><a href="#cb7-122" aria-label="122"></a><span class="in">```bash</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-label="123"></a><span class="ex">qsub</span> job.sh          <span class="co"># submit -&gt; prints a job id like 1234567.polaris</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-label="124"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="va">$USER</span>       <span class="co"># check status of your jobs</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-label="125"></a><span class="ex">qdel</span> 1234567         <span class="co"># cancel a job</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-label="126"></a><span class="in">```</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-label="127"></a></span>
+<span id="cb7-128"><a href="#cb7-128" aria-label="128"></a><span class="fu">#### SLURM (`job.sh`)</span></span>
+<span id="cb7-129"><a href="#cb7-129" aria-label="129"></a></span>
+<span id="cb7-130"><a href="#cb7-130" aria-label="130"></a><span class="in">```bash</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-label="131"></a><span class="co">#!/bin/bash -l</span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-label="132"></a><span class="co">#SBATCH --account &lt;project&gt;</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-label="133"></a><span class="co">#SBATCH --qos regular</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-label="134"></a><span class="co">#SBATCH --nodes 2</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-label="135"></a><span class="co">#SBATCH --time 00:30:00</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-label="136"></a><span class="co">#SBATCH --constraint gpu</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-label="137"></a><span class="co">#SBATCH --job-name my_first_job</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-label="138"></a></span>
+<span id="cb7-139"><a href="#cb7-139" aria-label="139"></a><span class="bu">echo</span> <span class="st">"Running on </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-label="140"></a><span class="ex">srun</span> python3 my_script.py    <span class="co"># srun launches your program across the allocated nodes</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-label="141"></a><span class="in">```</span></span>
+<span id="cb7-142"><a href="#cb7-142" aria-label="142"></a></span>
+<span id="cb7-143"><a href="#cb7-143" aria-label="143"></a><span class="in">```bash</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-label="144"></a><span class="ex">sbatch</span> job.sh        <span class="co"># submit -&gt; prints "Submitted batch job 1234567"</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-label="145"></a><span class="ex">squeue</span> <span class="at">--me</span>          <span class="co"># check status of your jobs</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-label="146"></a><span class="ex">scancel</span> 1234567      <span class="co"># cancel a job</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-label="147"></a><span class="in">```</span></span>
 <span id="cb7-148"><a href="#cb7-148" aria-label="148"></a></span>
-<span id="cb7-149"><a href="#cb7-149" aria-label="149"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb7-150"><a href="#cb7-150" aria-label="150"></a>Your colleague's. Small, short requests are far easier for the scheduler to fit</span>
-<span id="cb7-151"><a href="#cb7-151" aria-label="151"></a>into gaps between other jobs ("backfill"), so they usually start almost</span>
-<span id="cb7-152"><a href="#cb7-152" aria-label="152"></a>immediately; a large, long request must wait for a big block to free up.</span>
-<span id="cb7-153"><a href="#cb7-153" aria-label="153"></a>::::</span>
+<span id="cb7-149"><a href="#cb7-149" aria-label="149"></a>:::</span>
+<span id="cb7-150"><a href="#cb7-150" aria-label="150"></a></span>
+<span id="cb7-151"><a href="#cb7-151" aria-label="151"></a>::: {.callout-tip title="📤 Where does my output go?"}</span>
+<span id="cb7-152"><a href="#cb7-152" aria-label="152"></a>A batch job has no terminal, so its stdout/stderr are written to files in the</span>
+<span id="cb7-153"><a href="#cb7-153" aria-label="153"></a>submit directory:</span>
 <span id="cb7-154"><a href="#cb7-154" aria-label="154"></a></span>
-<span id="cb7-155"><a href="#cb7-155" aria-label="155"></a>**Q2.** What's the difference between <span class="in">`qsub -I`</span> and <span class="in">`qsub job.sh`</span>?</span>
-<span id="cb7-156"><a href="#cb7-156" aria-label="156"></a></span>
-<span id="cb7-157"><a href="#cb7-157" aria-label="157"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb7-158"><a href="#cb7-158" aria-label="158"></a><span class="in">`-I`</span> requests an **interactive** session (a live shell on the compute nodes);</span>
-<span id="cb7-159"><a href="#cb7-159" aria-label="159"></a><span class="in">`qsub job.sh`</span> submits a **batch** job that runs the script unattended and writes</span>
-<span id="cb7-160"><a href="#cb7-160" aria-label="160"></a>output to a file.</span>
-<span id="cb7-161"><a href="#cb7-161" aria-label="161"></a>::::</span>
-<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a></span>
-<span id="cb7-163"><a href="#cb7-163" aria-label="163"></a>**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</span>
-<span id="cb7-164"><a href="#cb7-164" aria-label="164"></a></span>
-<span id="cb7-165"><a href="#cb7-165" aria-label="165"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb7-166"><a href="#cb7-166" aria-label="166"></a>In <span class="in">`slurm-&lt;jobid&gt;.out`</span> in the directory you ran <span class="in">`sbatch`</span> from.</span>
-<span id="cb7-167"><a href="#cb7-167" aria-label="167"></a>::::</span>
-<span id="cb7-168"><a href="#cb7-168" aria-label="168"></a></span>
-<span id="cb7-169"><a href="#cb7-169" aria-label="169"></a>:::</span>
-<span id="cb7-170"><a href="#cb7-170" aria-label="170"></a></span>
-<span id="cb7-171"><a href="#cb7-171" aria-label="171"></a><span class="fu">## Polaris Activity Webpage</span></span>
-<span id="cb7-172"><a href="#cb7-172" aria-label="172"></a></span>
-<span id="cb7-173"><a href="#cb7-173" aria-label="173"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
-<span id="cb7-174"><a href="#cb7-174" aria-label="174"></a>  The top of the page shows a graphical representation of all nodes.</span>
-<span id="cb7-175"><a href="#cb7-175" aria-label="175"></a>  Colors indicate a _job_ running on that _node_.</span>
-<span id="cb7-176"><a href="#cb7-176" aria-label="176"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
-<span id="cb7-177"><a href="#cb7-177" aria-label="177"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
-<span id="cb7-178"><a href="#cb7-178" aria-label="178"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
-<span id="cb7-179"><a href="#cb7-179" aria-label="179"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
-<span id="cb7-180"><a href="#cb7-180" aria-label="180"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
+<span id="cb7-155"><a href="#cb7-155" aria-label="155"></a><span class="ss">- </span>**PBS** → <span class="in">`&lt;job-name&gt;.o&lt;jobid&gt;`</span> (stdout) and <span class="in">`&lt;job-name&gt;.e&lt;jobid&gt;`</span> (stderr)</span>
+<span id="cb7-156"><a href="#cb7-156" aria-label="156"></a><span class="ss">- </span>**SLURM** → <span class="in">`slurm-&lt;jobid&gt;.out`</span> (both, by default)</span>
+<span id="cb7-157"><a href="#cb7-157" aria-label="157"></a></span>
+<span id="cb7-158"><a href="#cb7-158" aria-label="158"></a><span class="in">`tail -f slurm-1234567.out`</span> lets you watch a running job's output live.</span>
+<span id="cb7-159"><a href="#cb7-159" aria-label="159"></a>:::</span>
+<span id="cb7-160"><a href="#cb7-160" aria-label="160"></a></span>
+<span id="cb7-161"><a href="#cb7-161" aria-label="161"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
+<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a>Test yourself — think it through, then reveal the answer.</span>
+<span id="cb7-163"><a href="#cb7-163" aria-label="163"></a></span>
+<span id="cb7-164"><a href="#cb7-164" aria-label="164"></a>**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</span>
+<span id="cb7-165"><a href="#cb7-165" aria-label="165"></a></span>
+<span id="cb7-166"><a href="#cb7-166" aria-label="166"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-167"><a href="#cb7-167" aria-label="167"></a>Your colleague's. Small, short requests are far easier for the scheduler to fit</span>
+<span id="cb7-168"><a href="#cb7-168" aria-label="168"></a>into gaps between other jobs ("backfill"), so they usually start almost</span>
+<span id="cb7-169"><a href="#cb7-169" aria-label="169"></a>immediately; a large, long request must wait for a big block to free up.</span>
+<span id="cb7-170"><a href="#cb7-170" aria-label="170"></a>::::</span>
+<span id="cb7-171"><a href="#cb7-171" aria-label="171"></a></span>
+<span id="cb7-172"><a href="#cb7-172" aria-label="172"></a>**Q2.** What's the difference between <span class="in">`qsub -I`</span> and <span class="in">`qsub job.sh`</span>?</span>
+<span id="cb7-173"><a href="#cb7-173" aria-label="173"></a></span>
+<span id="cb7-174"><a href="#cb7-174" aria-label="174"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-175"><a href="#cb7-175" aria-label="175"></a><span class="in">`-I`</span> requests an **interactive** session (a live shell on the compute nodes);</span>
+<span id="cb7-176"><a href="#cb7-176" aria-label="176"></a><span class="in">`qsub job.sh`</span> submits a **batch** job that runs the script unattended and writes</span>
+<span id="cb7-177"><a href="#cb7-177" aria-label="177"></a>output to a file.</span>
+<span id="cb7-178"><a href="#cb7-178" aria-label="178"></a>::::</span>
+<span id="cb7-179"><a href="#cb7-179" aria-label="179"></a></span>
+<span id="cb7-180"><a href="#cb7-180" aria-label="180"></a>**Q3.** Your SLURM job finished but printed nothing to your terminal. Where do you look for its output?</span>
 <span id="cb7-181"><a href="#cb7-181" aria-label="181"></a></span>
-<span id="cb7-182"><a href="#cb7-182" aria-label="182"></a><span class="fu">## 📊 Live Status of Polaris</span></span>
-<span id="cb7-183"><a href="#cb7-183" aria-label="183"></a></span>
-<span id="cb7-184"><a href="#cb7-184" aria-label="184"></a></span>
-<span id="cb7-185"><a href="#cb7-185" aria-label="185"></a><span class="co">&lt;!-- ::: {.column-page #fig-polaris-status} --&gt;</span></span>
-<span id="cb7-186"><a href="#cb7-186" aria-label="186"></a><span class="co">&lt;!-- ::: {.column-body-outset #fig-polaris-status} --&gt;</span></span>
-<span id="cb7-187"><a href="#cb7-187" aria-label="187"></a>::: {.column-page #fig-polaris-status}</span>
-<span id="cb7-188"><a href="#cb7-188" aria-label="188"></a></span>
-<span id="cb7-189"><a href="#cb7-189" aria-label="189"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://status.alcf.anl.gov/#/polaris"</span><span class="ot"> loading</span><span class="op">=</span><span class="st">"lazy"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"720"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="ot"> align</span><span class="op">=</span><span class="st">"center"</span><span class="ot"> allowfullscreen style</span><span class="op">=</span><span class="st">"border:0"</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
-<span id="cb7-190"><a href="#cb7-190" aria-label="190"></a></span>
-<span id="cb7-191"><a href="#cb7-191" aria-label="191"></a>See: <span class="ot">&lt;https://status.alcf.anl.gov/#/polaris&gt;</span></span>
-<span id="cb7-192"><a href="#cb7-192" aria-label="192"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb7-182"><a href="#cb7-182" aria-label="182"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb7-183"><a href="#cb7-183" aria-label="183"></a>In <span class="in">`slurm-&lt;jobid&gt;.out`</span> in the directory you ran <span class="in">`sbatch`</span> from.</span>
+<span id="cb7-184"><a href="#cb7-184" aria-label="184"></a>::::</span>
+<span id="cb7-185"><a href="#cb7-185" aria-label="185"></a></span>
+<span id="cb7-186"><a href="#cb7-186" aria-label="186"></a>:::</span>
+<span id="cb7-187"><a href="#cb7-187" aria-label="187"></a></span>
+<span id="cb7-188"><a href="#cb7-188" aria-label="188"></a><span class="fu">## Polaris Activity Webpage</span></span>
+<span id="cb7-189"><a href="#cb7-189" aria-label="189"></a></span>
+<span id="cb7-190"><a href="#cb7-190" aria-label="190"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
+<span id="cb7-191"><a href="#cb7-191" aria-label="191"></a>  The top of the page shows a graphical representation of all nodes.</span>
+<span id="cb7-192"><a href="#cb7-192" aria-label="192"></a>  Colors indicate a _job_ running on that _node_.</span>
+<span id="cb7-193"><a href="#cb7-193" aria-label="193"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
+<span id="cb7-194"><a href="#cb7-194" aria-label="194"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
+<span id="cb7-195"><a href="#cb7-195" aria-label="195"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
+<span id="cb7-196"><a href="#cb7-196" aria-label="196"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
+<span id="cb7-197"><a href="#cb7-197" aria-label="197"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
+<span id="cb7-198"><a href="#cb7-198" aria-label="198"></a></span>
+<span id="cb7-199"><a href="#cb7-199" aria-label="199"></a><span class="fu">## 📊 Live Status of Polaris</span></span>
+<span id="cb7-200"><a href="#cb7-200" aria-label="200"></a></span>
+<span id="cb7-201"><a href="#cb7-201" aria-label="201"></a></span>
+<span id="cb7-202"><a href="#cb7-202" aria-label="202"></a><span class="co">&lt;!-- ::: {.column-page #fig-polaris-status} --&gt;</span></span>
+<span id="cb7-203"><a href="#cb7-203" aria-label="203"></a><span class="co">&lt;!-- ::: {.column-body-outset #fig-polaris-status} --&gt;</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-label="204"></a>::: {.column-page #fig-polaris-status}</span>
+<span id="cb7-205"><a href="#cb7-205" aria-label="205"></a></span>
+<span id="cb7-206"><a href="#cb7-206" aria-label="206"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://status.alcf.anl.gov/#/polaris"</span><span class="ot"> loading</span><span class="op">=</span><span class="st">"lazy"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"720"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="ot"> align</span><span class="op">=</span><span class="st">"center"</span><span class="ot"> allowfullscreen style</span><span class="op">=</span><span class="st">"border:0"</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-label="207"></a></span>
+<span id="cb7-208"><a href="#cb7-208" aria-label="208"></a>See: <span class="ot">&lt;https://status.alcf.anl.gov/#/polaris&gt;</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-label="209"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

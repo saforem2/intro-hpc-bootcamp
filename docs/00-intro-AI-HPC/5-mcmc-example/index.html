@@ -9,9 +9,9 @@
 <meta name="author" content="Sam Foreman">
 <meta name="author" content="Huihuo Zheng">
 <meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="Simple example illustrating how to estimate \pi (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI">
+<meta name="description" content="Simple example illustrating how to estimate \pi (in parallel) with Monte Carlo and MPI">
 
-<title>Example: Approximating \pi using Markov Chain Monte Carlo (MCMC) – Intro to HPC Bootcamp</title>
+<title>Example: Approximating \pi using Monte Carlo – Intro to HPC Bootcamp</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -4069,18 +4069,18 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Example: Approximating \pi using Markov Chain Monte Carlo (MCMC) – Intro to HPC Bootcamp">
-<meta property="og:description" content="Simple example illustrating how to estimate \pi (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI">
+<meta property="og:title" content="Example: Approximating \pi using Monte Carlo – Intro to HPC Bootcamp">
+<meta property="og:description" content="Simple example illustrating how to estimate \pi (in parallel) with Monte Carlo and MPI">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta property="og:image:alt" content="">
-<meta name="twitter:title" content="Example: Approximating \pi using Markov Chain Monte Carlo (MCMC) – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="Simple example illustrating how to estimate \pi (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI">
+<meta name="twitter:title" content="Example: Approximating \pi using Monte Carlo – Intro to HPC Bootcamp">
+<meta name="twitter:description" content="Simple example illustrating how to estimate \pi (in parallel) with Monte Carlo and MPI">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="citation_title" content="Example: Approximating $\pi$ using Markov Chain Monte Carlo (MCMC)">
+<meta name="citation_title" content="Example: Approximating $\pi$ using Monte Carlo">
 <meta name="citation_author" content="Sam Foreman">
 <meta name="citation_author" content="Huihuo Zheng">
 <meta name="citation_publication_date" content="2025-07-15">
@@ -4544,6 +4544,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[04] AI for Science</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GenSLM: Genome-Scale LMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -4575,18 +4592,18 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/5-mcmc-example/index.html">MCMC Example</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Example: Approximating <span class="math inline">\pi</span> using Markov Chain Monte Carlo (MCMC)</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Example: Approximating <span class="math inline">\pi</span> using Monte Carlo</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">ai4science</div>
     <div class="quarto-category">hpc</div>
     <div class="quarto-category">llm</div>
-    <div class="quarto-category">mcmc</div>
+    <div class="quarto-category">monte-carlo</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Simple example illustrating how to estimate <span class="math inline">\pi</span> (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI
+    Simple example illustrating how to estimate <span class="math inline">\pi</span> (in parallel) with Monte Carlo and MPI
   </div>
 </div>
 
@@ -4629,7 +4646,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 26, 2026</p>
+      <p class="date-modified">July 27, 2026</p>
     </div>
   </div>
     
@@ -4669,8 +4686,24 @@ window.Quarto = {
 <p>The ratio between the area of the circle and the square is</p>
 <p><span class="math display">\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}</span></p>
 <p>Therefore, we can calculate <span class="math inline">\pi</span> using <span class="math inline">\pi = \frac{4N_\text{in}}{N_\text{total}}</span></p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Monte Carlo vs. Markov Chain Monte Carlo (MCMC)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Monte Carlo vs.&nbsp;Markov Chain Monte Carlo (MCMC)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>This is <strong>plain Monte Carlo</strong>: every dart is drawn <em>independently</em> from the same uniform distribution. <strong>MCMC</strong> is different — it builds a <em>correlated chain</em> of samples, where each new sample is proposed from the current one via a transition kernel (e.g.&nbsp;Metropolis-Hastings). We use the simpler independent-sampling approach here.</p>
+</div>
+</div>
+</div>
 <p>First, the imports and house plot style:</p>
-<div id="7d4df03b" class="cell" data-execution_count="1">
+<div id="7d4df03b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
@@ -4679,7 +4712,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The simulation.</strong> This is the whole idea — throw <code>N</code> random darts at the square, count how many land inside the circle, and turn that ratio into an estimate of π. It’s just a few lines:</p>
-<div id="980ae481" class="cell" data-execution_count="2">
+<div id="980ae481" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="kw">def</span> estimate_pi(n, seed<span class="op">=</span><span class="dv">1234</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>    <span class="co">"""Estimate π by Monte Carlo: sample n points in the unit square and</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co">    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""</span></span>
@@ -4697,7 +4730,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Visualizing it.</strong> Everything below is just plotting — an interactive scatter with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the estimate of π converge as more samples land.</p>
-<div id="bed45ed3" class="cell" data-execution_count="3">
+<div id="bed45ed3" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>N <span class="op">=</span> <span class="bu">len</span>(pts)</span>
@@ -4774,7 +4807,7 @@ if (outputEl) {{
 <p>The estimate gets better with more samples — but generating millions of points <em>one at a time</em> is slow. The fix: split the work across <strong><code>P</code> workers</strong> that sample <strong>simultaneously</strong>. Each worker handles every <code>P</code>-th point (exactly what the <code>mpi4py</code> code below does with <code>range(comm.rank, N, comm.size)</code>), so together they finish in roughly <code>1/P</code> the time.</p>
 <p>Drag the shared <strong>wall-clock</strong> slider (or hit ▶): both panels draw the <em>same</em> points and converge to the same π, but the parallel side (8 workers) races ahead and finishes while the sequential side is still plodding along. That time gap <strong>is</strong> the speedup.</p>
 <p><strong>The setup.</strong> Both panels draw the <em>same</em> points; the only difference is how many get processed per unit of wall-clock time — 1 for sequential, <code>P</code> for parallel. The strided assignment <code>worker = arange(N) % P</code> mirrors exactly what the <code>mpi4py</code> code does with <code>range(comm.rank, N, comm.size)</code>.</p>
-<div id="0ea2935c" class="cell" data-execution_count="4">
+<div id="0ea2935c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>rng2 <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
@@ -4788,7 +4821,7 @@ if (outputEl) {{
 <span id="cb4-11"><a href="#cb4-11" aria-label="11"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The plotting.</strong> Everything below builds the two-panel animation (folded — expand if you’re curious). A non-linear wall-clock schedule spends more frames while the parallel side is filling, so the speed difference is easy to see.</p>
-<div id="56c81a42" class="cell" data-execution_count="5">
+<div id="56c81a42" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
@@ -4907,7 +4940,7 @@ if (outputEl) {{
 <section id="how-fast-does-the-error-shrink" class="level3">
 <h3 class="anchored" data-anchor-id="how-fast-does-the-error-shrink">How fast does the error shrink?</h3>
 <p>More samples → a better estimate, but <em>how much</em> better? Below we plot the <strong>absolute error</strong> <span class="math inline">|\hat\pi - \pi|</span> as we add samples. Monte Carlo error falls off like <span class="math inline">1/\sqrt{N}</span> — so on <strong>log-log axes</strong> it’s a straight line with slope <span class="math inline">-\tfrac12</span>. The practical catch: to get one more decimal digit (10× less error) you need <strong>100× more samples</strong> — which is exactly why you reach for parallelism.</p>
-<div id="1c4c7ccd" class="cell" data-execution_count="6">
+<div id="1c4c7ccd" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> math</span>
@@ -4973,7 +5006,7 @@ if (outputEl) {{
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled" title="📏 Ideal vs. real speedup">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4982,40 +5015,32 @@ if (outputEl) {{
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>This animation shows <strong>ideal linear speedup</strong> (<code>P</code> workers → <code>P</code>× faster). Real runs fall a little short: the workers must combine their counts at the end (the <code>comm.Allreduce</code> below), and that communication adds overhead — which is exactly why the timing table above isn’t a perfect <code>P</code>× as you add nodes.</p>
+<p>This animation shows <strong>ideal linear speedup</strong> (<code>P</code> workers → <code>P</code>× faster). Real runs fall a little short: the workers must combine their counts at the end (the <code>comm.Allreduce</code> below), and that communication adds overhead — which is exactly why the Polaris timings below aren’t a perfect <code>P</code>× as you add ranks.</p>
 </div>
 </div>
 </div>
 </section>
 <section id="mpi-example" class="level3">
 <h3 class="anchored" data-anchor-id="mpi-example">MPI example</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Nodes</th>
-<th style="text-align: center;">PyTorch-2.5</th>
-<th style="text-align: center;">PyTorch-2.7</th>
-<th style="text-align: center;">PyTorch-2.8</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">N1xR12</td>
-<td style="text-align: center;">17.39</td>
-<td style="text-align: center;">31.01</td>
-<td style="text-align: center;">33.09</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">N2xR12</td>
-<td style="text-align: center;">3.81</td>
-<td style="text-align: center;">32.71</td>
-<td style="text-align: center;">33.26</td>
-</tr>
-</tbody>
-</table>
-<div id="052d1569" class="cell" data-execution_count="7">
+<div class="callout callout-style-simple callout-warning callout-titled" title="Where to run this">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Where to run this
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>The single-process cells above (the NumPy simulation and plots) run fine on a <strong>laptop or Colab</strong>. The <code>mpi4py</code> multi-rank cells and the timings below need <strong>multiple cores / an HPC allocation</strong> to show a real speedup.</p>
+</div>
+</div>
+</div>
+<div id="052d1569" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="im">import</span> random</span>
@@ -5054,11 +5079,11 @@ if (outputEl) {{
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="f22c158c" class="cell" data-execution_count="8">
+<div id="f22c158c" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="op">!</span> pip install mpi4py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1d80bbf2" class="cell" data-execution_count="9">
+<div id="1d80bbf2" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 1
@@ -5066,7 +5091,7 @@ Pi = 3.1398192
 Time: 1.986897</code></pre>
 </div>
 </div>
-<div id="7651f251" class="cell" data-execution_count="10">
+<div id="7651f251" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 2
@@ -5074,7 +5099,7 @@ Pi = 3.1407728
 Time: 1.135613</code></pre>
 </div>
 </div>
-<div id="7b81dfc2" class="cell" data-execution_count="11">
+<div id="7b81dfc2" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 4
@@ -5123,16 +5148,15 @@ Time: 0.527581</code></pre>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
   author = {Foreman, Sam and Foreman, Sam and Zheng, Huihuo},
-  title = {Example: {Approximating} \$\textbackslash Pi\$ Using {Markov}
-    {Chain} {Monte} {Carlo} {(MCMC)}},
+  title = {Example: {Approximating} \$\textbackslash Pi\$ Using {Monte}
+    {Carlo}},
   date = {2025-07-15},
   url = {https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Foreman, Sam, Sam Foreman, and Huihuo Zheng. 2025. <span>“Example:
-Approximating $\Pi$ Using Markov Chain Monte Carlo (MCMC).”</span> July
-15. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/</a>.
+Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/">https://saforem2.github.io/intro-hpc-bootcamp/00-intro-AI-HPC/5-mcmc-example/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -5648,13 +5672,13 @@ Approximating $\Pi$ Using Markov Chain Monte Carlo (MCMC).”</span> July
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="co">---</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="an">title:</span><span class="co"> 'Example: Approximating $\pi$ using Markov Chain Monte Carlo (MCMC)'</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="an">description:</span><span class="co"> 'Simple example illustrating how to estimate $\pi$ (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="an">title:</span><span class="co"> 'Example: Approximating $\pi$ using Monte Carlo'</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="an">description:</span><span class="co"> 'Simple example illustrating how to estimate $\pi$ (in parallel) with Monte Carlo and MPI'</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-label="4"></a><span class="an">categories:</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-label="5"></a><span class="co">  - ai4science</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-label="6"></a><span class="co">  - hpc</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-label="7"></a><span class="co">  - llm</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a><span class="co">  - mcmc</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-label="8"></a><span class="co">  - monte-carlo</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-label="9"></a><span class="an">toc:</span><span class="co"> true</span></span>
 <span id="cb16-10"><a href="#cb16-10" aria-label="10"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-label="11"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
@@ -5713,346 +5737,352 @@ Approximating $\Pi$ Using Markov Chain Monte Carlo (MCMC).”</span> July
 <span id="cb16-64"><a href="#cb16-64" aria-label="64"></a></span>
 <span id="cb16-65"><a href="#cb16-65" aria-label="65"></a>Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total}}$</span>
 <span id="cb16-66"><a href="#cb16-66" aria-label="66"></a></span>
-<span id="cb16-67"><a href="#cb16-67" aria-label="67"></a></span>
-<span id="cb16-68"><a href="#cb16-68" aria-label="68"></a>First, the imports and house plot style:</span>
-<span id="cb16-69"><a href="#cb16-69" aria-label="69"></a></span>
-<span id="cb16-72"><a href="#cb16-72" aria-label="70"></a><span class="in">```{python}</span></span>
-<span id="cb16-73"><a href="#cb16-73" aria-label="71"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb16-74"><a href="#cb16-74" aria-label="72"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
-<span id="cb16-75"><a href="#cb16-75" aria-label="73"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
-<span id="cb16-76"><a href="#cb16-76" aria-label="74"></a>apply_theme()   <span class="co"># house style: Iosevka font, transparent bg, #838383 text, material colors</span></span>
-<span id="cb16-77"><a href="#cb16-77" aria-label="75"></a></span>
-<span id="cb16-78"><a href="#cb16-78" aria-label="76"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb16-79"><a href="#cb16-79" aria-label="77"></a><span class="in">```</span></span>
-<span id="cb16-80"><a href="#cb16-80" aria-label="78"></a></span>
-<span id="cb16-81"><a href="#cb16-81" aria-label="79"></a>**The simulation.** This is the whole idea — throw <span class="in">`N`</span> random darts at the</span>
-<span id="cb16-82"><a href="#cb16-82" aria-label="80"></a>square, count how many land inside the circle, and turn that ratio into an</span>
-<span id="cb16-83"><a href="#cb16-83" aria-label="81"></a>estimate of π. It's just a few lines:</span>
+<span id="cb16-67"><a href="#cb16-67" aria-label="67"></a>::: {.callout-note title="Monte Carlo vs. Markov Chain Monte Carlo (MCMC)" collapse="false"}</span>
+<span id="cb16-68"><a href="#cb16-68" aria-label="68"></a>This is **plain Monte Carlo**: every dart is drawn *independently* from the same</span>
+<span id="cb16-69"><a href="#cb16-69" aria-label="69"></a>uniform distribution. **MCMC** is different — it builds a *correlated chain* of</span>
+<span id="cb16-70"><a href="#cb16-70" aria-label="70"></a>samples, where each new sample is proposed from the current one via a transition</span>
+<span id="cb16-71"><a href="#cb16-71" aria-label="71"></a>kernel (e.g. Metropolis-Hastings). We use the simpler independent-sampling</span>
+<span id="cb16-72"><a href="#cb16-72" aria-label="72"></a>approach here.</span>
+<span id="cb16-73"><a href="#cb16-73" aria-label="73"></a>:::</span>
+<span id="cb16-74"><a href="#cb16-74" aria-label="74"></a></span>
+<span id="cb16-75"><a href="#cb16-75" aria-label="75"></a>First, the imports and house plot style:</span>
+<span id="cb16-76"><a href="#cb16-76" aria-label="76"></a></span>
+<span id="cb16-79"><a href="#cb16-79" aria-label="77"></a><span class="in">```{python}</span></span>
+<span id="cb16-80"><a href="#cb16-80" aria-label="78"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-81"><a href="#cb16-81" aria-label="79"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb16-82"><a href="#cb16-82" aria-label="80"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
+<span id="cb16-83"><a href="#cb16-83" aria-label="81"></a>apply_theme()   <span class="co"># house style: Iosevka font, transparent bg, #838383 text, material colors</span></span>
 <span id="cb16-84"><a href="#cb16-84" aria-label="82"></a></span>
-<span id="cb16-87"><a href="#cb16-87" aria-label="83"></a><span class="in">```{python}</span></span>
-<span id="cb16-88"><a href="#cb16-88" aria-label="84"></a><span class="kw">def</span> estimate_pi(n, seed<span class="op">=</span><span class="dv">1234</span>):</span>
-<span id="cb16-89"><a href="#cb16-89" aria-label="85"></a>    <span class="co">"""Estimate π by Monte Carlo: sample n points in the unit square and</span></span>
-<span id="cb16-90"><a href="#cb16-90" aria-label="86"></a><span class="co">    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""</span></span>
-<span id="cb16-91"><a href="#cb16-91" aria-label="87"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
-<span id="cb16-92"><a href="#cb16-92" aria-label="88"></a>    pts <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(n, <span class="dv">2</span>))     <span class="co"># random points in the square</span></span>
-<span id="cb16-93"><a href="#cb16-93" aria-label="89"></a>    inside <span class="op">=</span> np.sqrt((pts <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span>  <span class="co"># which ones land in the circle</span></span>
-<span id="cb16-94"><a href="#cb16-94" aria-label="90"></a>    pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> inside.<span class="bu">sum</span>() <span class="op">/</span> n                    <span class="co"># ratio × 4  ≈  π</span></span>
-<span id="cb16-95"><a href="#cb16-95" aria-label="91"></a>    <span class="cf">return</span> pi, pts, inside</span>
-<span id="cb16-96"><a href="#cb16-96" aria-label="92"></a></span>
-<span id="cb16-97"><a href="#cb16-97" aria-label="93"></a>pi_est, pts, inside <span class="op">=</span> estimate_pi(<span class="dv">2000</span>)</span>
-<span id="cb16-98"><a href="#cb16-98" aria-label="94"></a><span class="bu">print</span>(<span class="ss">f"Pi ≈ </span><span class="sc">{</span>pi_est<span class="sc">:.4f}</span><span class="ss">   (N_in / N_total = </span><span class="sc">{</span><span class="bu">int</span>(inside.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(inside)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb16-99"><a href="#cb16-99" aria-label="95"></a><span class="in">```</span></span>
-<span id="cb16-100"><a href="#cb16-100" aria-label="96"></a></span>
-<span id="cb16-101"><a href="#cb16-101" aria-label="97"></a>**Visualizing it.** Everything below is just plotting — an interactive scatter</span>
-<span id="cb16-102"><a href="#cb16-102" aria-label="98"></a>with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the</span>
-<span id="cb16-103"><a href="#cb16-103" aria-label="99"></a>estimate of π converge as more samples land.</span>
-<span id="cb16-104"><a href="#cb16-104" aria-label="100"></a></span>
-<span id="cb16-107"><a href="#cb16-107" aria-label="101"></a><span class="in">```{python}</span></span>
-<span id="cb16-108"><a href="#cb16-108" aria-label="102"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb16-109"><a href="#cb16-109" aria-label="103"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb16-110"><a href="#cb16-110" aria-label="104"></a>N <span class="op">=</span> <span class="bu">len</span>(pts)</span>
-<span id="cb16-111"><a href="#cb16-111" aria-label="105"></a>theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">200</span>)</span>
-<span id="cb16-112"><a href="#cb16-112" aria-label="106"></a>circle <span class="op">=</span> go.Scatter(x<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> np.cos(theta), y<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> np.sin(theta), mode<span class="op">=</span><span class="st">"lines"</span>,</span>
-<span id="cb16-113"><a href="#cb16-113" aria-label="107"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], width<span class="op">=</span><span class="dv">2</span>), name<span class="op">=</span><span class="st">"circle"</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>)</span>
-<span id="cb16-114"><a href="#cb16-114" aria-label="108"></a></span>
-<span id="cb16-115"><a href="#cb16-115" aria-label="109"></a><span class="co"># running count of points-inside, so each step's π estimate is O(1)</span></span>
-<span id="cb16-116"><a href="#cb16-116" aria-label="110"></a>n_inside_so_far <span class="op">=</span> np.cumsum(inside)</span>
-<span id="cb16-117"><a href="#cb16-117" aria-label="111"></a>steps <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">100</span>, N <span class="op">+</span> <span class="dv">1</span>, <span class="dv">100</span>))   <span class="co"># reveal 100 points per frame</span></span>
-<span id="cb16-118"><a href="#cb16-118" aria-label="112"></a></span>
-<span id="cb16-119"><a href="#cb16-119" aria-label="113"></a><span class="kw">def</span> frame_traces(n):</span>
-<span id="cb16-120"><a href="#cb16-120" aria-label="114"></a>    ins, outs <span class="op">=</span> inside[:n], <span class="op">~</span>inside[:n]</span>
-<span id="cb16-121"><a href="#cb16-121" aria-label="115"></a>    <span class="cf">return</span> [</span>
-<span id="cb16-122"><a href="#cb16-122" aria-label="116"></a>        circle,</span>
-<span id="cb16-123"><a href="#cb16-123" aria-label="117"></a>        go.Scatter(x<span class="op">=</span>pts[:n][ins, <span class="dv">0</span>], y<span class="op">=</span>pts[:n][ins, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"inside"</span>,</span>
-<span id="cb16-124"><a href="#cb16-124" aria-label="118"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>)),</span>
-<span id="cb16-125"><a href="#cb16-125" aria-label="119"></a>        go.Scatter(x<span class="op">=</span>pts[:n][outs, <span class="dv">0</span>], y<span class="op">=</span>pts[:n][outs, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"outside"</span>,</span>
-<span id="cb16-126"><a href="#cb16-126" aria-label="120"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>)),</span>
-<span id="cb16-127"><a href="#cb16-127" aria-label="121"></a>    ]</span>
-<span id="cb16-128"><a href="#cb16-128" aria-label="122"></a></span>
-<span id="cb16-129"><a href="#cb16-129" aria-label="123"></a>frames <span class="op">=</span> [go.Frame(name<span class="op">=</span><span class="bu">str</span>(n), data<span class="op">=</span>frame_traces(n),</span>
-<span id="cb16-130"><a href="#cb16-130" aria-label="124"></a>                   layout<span class="op">=</span>go.Layout(title<span class="op">=</span><span class="ss">f"π ≈ </span><span class="sc">{</span><span class="dv">4</span><span class="op">*</span>n_inside_so_far[n<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span>n<span class="sc">:.4f}</span><span class="ss">   (4 × </span><span class="sc">{</span>n_inside_so_far[n<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">)"</span>))</span>
-<span id="cb16-131"><a href="#cb16-131" aria-label="125"></a>          <span class="cf">for</span> n <span class="kw">in</span> steps]</span>
-<span id="cb16-132"><a href="#cb16-132" aria-label="126"></a></span>
-<span id="cb16-133"><a href="#cb16-133" aria-label="127"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>frame_traces(steps[<span class="dv">0</span>]), frames<span class="op">=</span>frames)</span>
-<span id="cb16-134"><a href="#cb16-134" aria-label="128"></a>fig.update_layout(</span>
-<span id="cb16-135"><a href="#cb16-135" aria-label="129"></a>    title<span class="op">=</span><span class="ss">f"π ≈ </span><span class="sc">{</span><span class="dv">4</span><span class="op">*</span>n_inside_so_far[steps[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span>steps[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   (4 × </span><span class="sc">{</span>n_inside_so_far[steps[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>steps[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">)"</span>,</span>
-<span id="cb16-136"><a href="#cb16-136" aria-label="130"></a>    width<span class="op">=</span><span class="dv">480</span>, height<span class="op">=</span><span class="dv">540</span>, showlegend<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb16-137"><a href="#cb16-137" aria-label="131"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>], scaleanchor<span class="op">=</span><span class="st">"y"</span>, constrain<span class="op">=</span><span class="st">"domain"</span>),</span>
-<span id="cb16-138"><a href="#cb16-138" aria-label="132"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>]),</span>
-<span id="cb16-139"><a href="#cb16-139" aria-label="133"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.08</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
-<span id="cb16-140"><a href="#cb16-140" aria-label="134"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
-<span id="cb16-141"><a href="#cb16-141" aria-label="135"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">200</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
-<span id="cb16-142"><a href="#cb16-142" aria-label="136"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, y<span class="op">=-</span><span class="fl">0.02</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"samples: "</span>),</span>
-<span id="cb16-143"><a href="#cb16-143" aria-label="137"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(n),</span>
-<span id="cb16-144"><a href="#cb16-144" aria-label="138"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(n)], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
-<span id="cb16-145"><a href="#cb16-145" aria-label="139"></a>               <span class="cf">for</span> n <span class="kw">in</span> steps])],</span>
-<span id="cb16-146"><a href="#cb16-146" aria-label="140"></a>)</span>
-<span id="cb16-147"><a href="#cb16-147" aria-label="141"></a>fig.show()</span>
-<span id="cb16-148"><a href="#cb16-148" aria-label="142"></a><span class="in">```</span></span>
-<span id="cb16-149"><a href="#cb16-149" aria-label="143"></a></span>
-<span id="cb16-150"><a href="#cb16-150" aria-label="144"></a><span class="fu">### Why parallelize? Sequential vs. parallel, side by side</span></span>
-<span id="cb16-151"><a href="#cb16-151" aria-label="145"></a></span>
-<span id="cb16-152"><a href="#cb16-152" aria-label="146"></a>The estimate gets better with more samples — but generating millions of points</span>
-<span id="cb16-153"><a href="#cb16-153" aria-label="147"></a>*one at a time* is slow. The fix: split the work across **`P` workers** that</span>
-<span id="cb16-154"><a href="#cb16-154" aria-label="148"></a>sample **simultaneously**. Each worker handles every <span class="in">`P`</span>-th point (exactly what</span>
-<span id="cb16-155"><a href="#cb16-155" aria-label="149"></a>the <span class="in">`mpi4py`</span> code below does with <span class="in">`range(comm.rank, N, comm.size)`</span>), so together</span>
-<span id="cb16-156"><a href="#cb16-156" aria-label="150"></a>they finish in roughly <span class="in">`1/P`</span> the time.</span>
-<span id="cb16-157"><a href="#cb16-157" aria-label="151"></a></span>
-<span id="cb16-158"><a href="#cb16-158" aria-label="152"></a>Drag the shared **wall-clock** slider (or hit ▶): both panels draw the *same*</span>
-<span id="cb16-159"><a href="#cb16-159" aria-label="153"></a>points and converge to the same π, but the parallel side (8 workers) races ahead</span>
-<span id="cb16-160"><a href="#cb16-160" aria-label="154"></a>and finishes while the sequential side is still plodding along. That time gap</span>
-<span id="cb16-161"><a href="#cb16-161" aria-label="155"></a>**is** the speedup.</span>
-<span id="cb16-162"><a href="#cb16-162" aria-label="156"></a></span>
-<span id="cb16-163"><a href="#cb16-163" aria-label="157"></a>**The setup.** Both panels draw the *same* points; the only difference is how many</span>
-<span id="cb16-164"><a href="#cb16-164" aria-label="158"></a>get processed per unit of wall-clock time — 1 for sequential, <span class="in">`P`</span> for parallel.</span>
-<span id="cb16-165"><a href="#cb16-165" aria-label="159"></a>The strided assignment <span class="in">`worker = arange(N) % P`</span> mirrors exactly what the <span class="in">`mpi4py`</span></span>
-<span id="cb16-166"><a href="#cb16-166" aria-label="160"></a>code does with <span class="in">`range(comm.rank, N, comm.size)`</span>.</span>
-<span id="cb16-167"><a href="#cb16-167" aria-label="161"></a></span>
-<span id="cb16-170"><a href="#cb16-170" aria-label="162"></a><span class="in">```{python}</span></span>
-<span id="cb16-171"><a href="#cb16-171" aria-label="163"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
-<span id="cb16-172"><a href="#cb16-172" aria-label="164"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
-<span id="cb16-173"><a href="#cb16-173" aria-label="165"></a>rng2 <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
-<span id="cb16-174"><a href="#cb16-174" aria-label="166"></a>pp <span class="op">=</span> rng2.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(N, <span class="dv">2</span>))</span>
-<span id="cb16-175"><a href="#cb16-175" aria-label="167"></a>ins <span class="op">=</span> np.sqrt((pp <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span>     <span class="co"># inside the circle?</span></span>
-<span id="cb16-176"><a href="#cb16-176" aria-label="168"></a>worker <span class="op">=</span> np.arange(N) <span class="op">%</span> P                      <span class="co"># point i handled by worker i % P (like MPI)</span></span>
-<span id="cb16-177"><a href="#cb16-177" aria-label="169"></a>n_inside_running <span class="op">=</span> np.cumsum(ins)              <span class="co"># #inside among first k points</span></span>
-<span id="cb16-178"><a href="#cb16-178" aria-label="170"></a></span>
-<span id="cb16-179"><a href="#cb16-179" aria-label="171"></a><span class="kw">def</span> pi_of(n):</span>
-<span id="cb16-180"><a href="#cb16-180" aria-label="172"></a>    <span class="co">"""π estimate after the first n points."""</span></span>
-<span id="cb16-181"><a href="#cb16-181" aria-label="173"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb16-182"><a href="#cb16-182" aria-label="174"></a><span class="in">```</span></span>
-<span id="cb16-183"><a href="#cb16-183" aria-label="175"></a></span>
-<span id="cb16-184"><a href="#cb16-184" aria-label="176"></a>**The plotting.** Everything below builds the two-panel animation (folded — expand</span>
-<span id="cb16-185"><a href="#cb16-185" aria-label="177"></a>if you're curious). A non-linear wall-clock schedule spends more frames while the</span>
-<span id="cb16-186"><a href="#cb16-186" aria-label="178"></a>parallel side is filling, so the speed difference is easy to see.</span>
-<span id="cb16-187"><a href="#cb16-187" aria-label="179"></a></span>
-<span id="cb16-190"><a href="#cb16-190" aria-label="180"></a><span class="in">```{python}</span></span>
-<span id="cb16-191"><a href="#cb16-191" aria-label="181"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb16-192"><a href="#cb16-192" aria-label="182"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb16-193"><a href="#cb16-193" aria-label="183"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
-<span id="cb16-194"><a href="#cb16-194" aria-label="184"></a></span>
-<span id="cb16-195"><a href="#cb16-195" aria-label="185"></a>DIM <span class="op">=</span> <span class="st">"#666666"</span>              <span class="co"># dim grey for points that miss (outside the circle)</span></span>
-<span id="cb16-196"><a href="#cb16-196" aria-label="186"></a><span class="co"># 8 clearly-distinct worker colors</span></span>
-<span id="cb16-197"><a href="#cb16-197" aria-label="187"></a>_cats <span class="op">=</span> [<span class="st">"#2196F3"</span>, <span class="st">"#EF5350"</span>, <span class="st">"#66BB6A"</span>, <span class="st">"#FFA726"</span>,</span>
-<span id="cb16-198"><a href="#cb16-198" aria-label="188"></a>         <span class="st">"#AB47BC"</span>, <span class="st">"#EC407A"</span>, <span class="st">"#26C6DA"</span>, <span class="st">"#FDD835"</span>]</span>
-<span id="cb16-199"><a href="#cb16-199" aria-label="189"></a>theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">120</span>)</span>
-<span id="cb16-200"><a href="#cb16-200" aria-label="190"></a>cx, cy <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.cos(theta), <span class="fl">0.5</span> <span class="op">*</span> np.sin(theta)</span>
+<span id="cb16-85"><a href="#cb16-85" aria-label="83"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb16-86"><a href="#cb16-86" aria-label="84"></a><span class="in">```</span></span>
+<span id="cb16-87"><a href="#cb16-87" aria-label="85"></a></span>
+<span id="cb16-88"><a href="#cb16-88" aria-label="86"></a>**The simulation.** This is the whole idea — throw <span class="in">`N`</span> random darts at the</span>
+<span id="cb16-89"><a href="#cb16-89" aria-label="87"></a>square, count how many land inside the circle, and turn that ratio into an</span>
+<span id="cb16-90"><a href="#cb16-90" aria-label="88"></a>estimate of π. It's just a few lines:</span>
+<span id="cb16-91"><a href="#cb16-91" aria-label="89"></a></span>
+<span id="cb16-94"><a href="#cb16-94" aria-label="90"></a><span class="in">```{python}</span></span>
+<span id="cb16-95"><a href="#cb16-95" aria-label="91"></a><span class="kw">def</span> estimate_pi(n, seed<span class="op">=</span><span class="dv">1234</span>):</span>
+<span id="cb16-96"><a href="#cb16-96" aria-label="92"></a>    <span class="co">"""Estimate π by Monte Carlo: sample n points in the unit square and</span></span>
+<span id="cb16-97"><a href="#cb16-97" aria-label="93"></a><span class="co">    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""</span></span>
+<span id="cb16-98"><a href="#cb16-98" aria-label="94"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb16-99"><a href="#cb16-99" aria-label="95"></a>    pts <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(n, <span class="dv">2</span>))     <span class="co"># random points in the square</span></span>
+<span id="cb16-100"><a href="#cb16-100" aria-label="96"></a>    inside <span class="op">=</span> np.sqrt((pts <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span>  <span class="co"># which ones land in the circle</span></span>
+<span id="cb16-101"><a href="#cb16-101" aria-label="97"></a>    pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> inside.<span class="bu">sum</span>() <span class="op">/</span> n                    <span class="co"># ratio × 4  ≈  π</span></span>
+<span id="cb16-102"><a href="#cb16-102" aria-label="98"></a>    <span class="cf">return</span> pi, pts, inside</span>
+<span id="cb16-103"><a href="#cb16-103" aria-label="99"></a></span>
+<span id="cb16-104"><a href="#cb16-104" aria-label="100"></a>pi_est, pts, inside <span class="op">=</span> estimate_pi(<span class="dv">2000</span>)</span>
+<span id="cb16-105"><a href="#cb16-105" aria-label="101"></a><span class="bu">print</span>(<span class="ss">f"Pi ≈ </span><span class="sc">{</span>pi_est<span class="sc">:.4f}</span><span class="ss">   (N_in / N_total = </span><span class="sc">{</span><span class="bu">int</span>(inside.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(inside)<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb16-106"><a href="#cb16-106" aria-label="102"></a><span class="in">```</span></span>
+<span id="cb16-107"><a href="#cb16-107" aria-label="103"></a></span>
+<span id="cb16-108"><a href="#cb16-108" aria-label="104"></a>**Visualizing it.** Everything below is just plotting — an interactive scatter</span>
+<span id="cb16-109"><a href="#cb16-109" aria-label="105"></a>with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the</span>
+<span id="cb16-110"><a href="#cb16-110" aria-label="106"></a>estimate of π converge as more samples land.</span>
+<span id="cb16-111"><a href="#cb16-111" aria-label="107"></a></span>
+<span id="cb16-114"><a href="#cb16-114" aria-label="108"></a><span class="in">```{python}</span></span>
+<span id="cb16-115"><a href="#cb16-115" aria-label="109"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb16-116"><a href="#cb16-116" aria-label="110"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb16-117"><a href="#cb16-117" aria-label="111"></a>N <span class="op">=</span> <span class="bu">len</span>(pts)</span>
+<span id="cb16-118"><a href="#cb16-118" aria-label="112"></a>theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">200</span>)</span>
+<span id="cb16-119"><a href="#cb16-119" aria-label="113"></a>circle <span class="op">=</span> go.Scatter(x<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> np.cos(theta), y<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> np.sin(theta), mode<span class="op">=</span><span class="st">"lines"</span>,</span>
+<span id="cb16-120"><a href="#cb16-120" aria-label="114"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], width<span class="op">=</span><span class="dv">2</span>), name<span class="op">=</span><span class="st">"circle"</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>)</span>
+<span id="cb16-121"><a href="#cb16-121" aria-label="115"></a></span>
+<span id="cb16-122"><a href="#cb16-122" aria-label="116"></a><span class="co"># running count of points-inside, so each step's π estimate is O(1)</span></span>
+<span id="cb16-123"><a href="#cb16-123" aria-label="117"></a>n_inside_so_far <span class="op">=</span> np.cumsum(inside)</span>
+<span id="cb16-124"><a href="#cb16-124" aria-label="118"></a>steps <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">100</span>, N <span class="op">+</span> <span class="dv">1</span>, <span class="dv">100</span>))   <span class="co"># reveal 100 points per frame</span></span>
+<span id="cb16-125"><a href="#cb16-125" aria-label="119"></a></span>
+<span id="cb16-126"><a href="#cb16-126" aria-label="120"></a><span class="kw">def</span> frame_traces(n):</span>
+<span id="cb16-127"><a href="#cb16-127" aria-label="121"></a>    ins, outs <span class="op">=</span> inside[:n], <span class="op">~</span>inside[:n]</span>
+<span id="cb16-128"><a href="#cb16-128" aria-label="122"></a>    <span class="cf">return</span> [</span>
+<span id="cb16-129"><a href="#cb16-129" aria-label="123"></a>        circle,</span>
+<span id="cb16-130"><a href="#cb16-130" aria-label="124"></a>        go.Scatter(x<span class="op">=</span>pts[:n][ins, <span class="dv">0</span>], y<span class="op">=</span>pts[:n][ins, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"inside"</span>,</span>
+<span id="cb16-131"><a href="#cb16-131" aria-label="125"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>)),</span>
+<span id="cb16-132"><a href="#cb16-132" aria-label="126"></a>        go.Scatter(x<span class="op">=</span>pts[:n][outs, <span class="dv">0</span>], y<span class="op">=</span>pts[:n][outs, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"outside"</span>,</span>
+<span id="cb16-133"><a href="#cb16-133" aria-label="127"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>)),</span>
+<span id="cb16-134"><a href="#cb16-134" aria-label="128"></a>    ]</span>
+<span id="cb16-135"><a href="#cb16-135" aria-label="129"></a></span>
+<span id="cb16-136"><a href="#cb16-136" aria-label="130"></a>frames <span class="op">=</span> [go.Frame(name<span class="op">=</span><span class="bu">str</span>(n), data<span class="op">=</span>frame_traces(n),</span>
+<span id="cb16-137"><a href="#cb16-137" aria-label="131"></a>                   layout<span class="op">=</span>go.Layout(title<span class="op">=</span><span class="ss">f"π ≈ </span><span class="sc">{</span><span class="dv">4</span><span class="op">*</span>n_inside_so_far[n<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span>n<span class="sc">:.4f}</span><span class="ss">   (4 × </span><span class="sc">{</span>n_inside_so_far[n<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">)"</span>))</span>
+<span id="cb16-138"><a href="#cb16-138" aria-label="132"></a>          <span class="cf">for</span> n <span class="kw">in</span> steps]</span>
+<span id="cb16-139"><a href="#cb16-139" aria-label="133"></a></span>
+<span id="cb16-140"><a href="#cb16-140" aria-label="134"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>frame_traces(steps[<span class="dv">0</span>]), frames<span class="op">=</span>frames)</span>
+<span id="cb16-141"><a href="#cb16-141" aria-label="135"></a>fig.update_layout(</span>
+<span id="cb16-142"><a href="#cb16-142" aria-label="136"></a>    title<span class="op">=</span><span class="ss">f"π ≈ </span><span class="sc">{</span><span class="dv">4</span><span class="op">*</span>n_inside_so_far[steps[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span>steps[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   (4 × </span><span class="sc">{</span>n_inside_so_far[steps[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>steps[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">)"</span>,</span>
+<span id="cb16-143"><a href="#cb16-143" aria-label="137"></a>    width<span class="op">=</span><span class="dv">480</span>, height<span class="op">=</span><span class="dv">540</span>, showlegend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb16-144"><a href="#cb16-144" aria-label="138"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>], scaleanchor<span class="op">=</span><span class="st">"y"</span>, constrain<span class="op">=</span><span class="st">"domain"</span>),</span>
+<span id="cb16-145"><a href="#cb16-145" aria-label="139"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>]),</span>
+<span id="cb16-146"><a href="#cb16-146" aria-label="140"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.08</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb16-147"><a href="#cb16-147" aria-label="141"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb16-148"><a href="#cb16-148" aria-label="142"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">200</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
+<span id="cb16-149"><a href="#cb16-149" aria-label="143"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, y<span class="op">=-</span><span class="fl">0.02</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"samples: "</span>),</span>
+<span id="cb16-150"><a href="#cb16-150" aria-label="144"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(n),</span>
+<span id="cb16-151"><a href="#cb16-151" aria-label="145"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(n)], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
+<span id="cb16-152"><a href="#cb16-152" aria-label="146"></a>               <span class="cf">for</span> n <span class="kw">in</span> steps])],</span>
+<span id="cb16-153"><a href="#cb16-153" aria-label="147"></a>)</span>
+<span id="cb16-154"><a href="#cb16-154" aria-label="148"></a>fig.show()</span>
+<span id="cb16-155"><a href="#cb16-155" aria-label="149"></a><span class="in">```</span></span>
+<span id="cb16-156"><a href="#cb16-156" aria-label="150"></a></span>
+<span id="cb16-157"><a href="#cb16-157" aria-label="151"></a><span class="fu">### Why parallelize? Sequential vs. parallel, side by side</span></span>
+<span id="cb16-158"><a href="#cb16-158" aria-label="152"></a></span>
+<span id="cb16-159"><a href="#cb16-159" aria-label="153"></a>The estimate gets better with more samples — but generating millions of points</span>
+<span id="cb16-160"><a href="#cb16-160" aria-label="154"></a>*one at a time* is slow. The fix: split the work across **`P` workers** that</span>
+<span id="cb16-161"><a href="#cb16-161" aria-label="155"></a>sample **simultaneously**. Each worker handles every <span class="in">`P`</span>-th point (exactly what</span>
+<span id="cb16-162"><a href="#cb16-162" aria-label="156"></a>the <span class="in">`mpi4py`</span> code below does with <span class="in">`range(comm.rank, N, comm.size)`</span>), so together</span>
+<span id="cb16-163"><a href="#cb16-163" aria-label="157"></a>they finish in roughly <span class="in">`1/P`</span> the time.</span>
+<span id="cb16-164"><a href="#cb16-164" aria-label="158"></a></span>
+<span id="cb16-165"><a href="#cb16-165" aria-label="159"></a>Drag the shared **wall-clock** slider (or hit ▶): both panels draw the *same*</span>
+<span id="cb16-166"><a href="#cb16-166" aria-label="160"></a>points and converge to the same π, but the parallel side (8 workers) races ahead</span>
+<span id="cb16-167"><a href="#cb16-167" aria-label="161"></a>and finishes while the sequential side is still plodding along. That time gap</span>
+<span id="cb16-168"><a href="#cb16-168" aria-label="162"></a>**is** the speedup.</span>
+<span id="cb16-169"><a href="#cb16-169" aria-label="163"></a></span>
+<span id="cb16-170"><a href="#cb16-170" aria-label="164"></a>**The setup.** Both panels draw the *same* points; the only difference is how many</span>
+<span id="cb16-171"><a href="#cb16-171" aria-label="165"></a>get processed per unit of wall-clock time — 1 for sequential, <span class="in">`P`</span> for parallel.</span>
+<span id="cb16-172"><a href="#cb16-172" aria-label="166"></a>The strided assignment <span class="in">`worker = arange(N) % P`</span> mirrors exactly what the <span class="in">`mpi4py`</span></span>
+<span id="cb16-173"><a href="#cb16-173" aria-label="167"></a>code does with <span class="in">`range(comm.rank, N, comm.size)`</span>.</span>
+<span id="cb16-174"><a href="#cb16-174" aria-label="168"></a></span>
+<span id="cb16-177"><a href="#cb16-177" aria-label="169"></a><span class="in">```{python}</span></span>
+<span id="cb16-178"><a href="#cb16-178" aria-label="170"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
+<span id="cb16-179"><a href="#cb16-179" aria-label="171"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
+<span id="cb16-180"><a href="#cb16-180" aria-label="172"></a>rng2 <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
+<span id="cb16-181"><a href="#cb16-181" aria-label="173"></a>pp <span class="op">=</span> rng2.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(N, <span class="dv">2</span>))</span>
+<span id="cb16-182"><a href="#cb16-182" aria-label="174"></a>ins <span class="op">=</span> np.sqrt((pp <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span>     <span class="co"># inside the circle?</span></span>
+<span id="cb16-183"><a href="#cb16-183" aria-label="175"></a>worker <span class="op">=</span> np.arange(N) <span class="op">%</span> P                      <span class="co"># point i handled by worker i % P (like MPI)</span></span>
+<span id="cb16-184"><a href="#cb16-184" aria-label="176"></a>n_inside_running <span class="op">=</span> np.cumsum(ins)              <span class="co"># #inside among first k points</span></span>
+<span id="cb16-185"><a href="#cb16-185" aria-label="177"></a></span>
+<span id="cb16-186"><a href="#cb16-186" aria-label="178"></a><span class="kw">def</span> pi_of(n):</span>
+<span id="cb16-187"><a href="#cb16-187" aria-label="179"></a>    <span class="co">"""π estimate after the first n points."""</span></span>
+<span id="cb16-188"><a href="#cb16-188" aria-label="180"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb16-189"><a href="#cb16-189" aria-label="181"></a><span class="in">```</span></span>
+<span id="cb16-190"><a href="#cb16-190" aria-label="182"></a></span>
+<span id="cb16-191"><a href="#cb16-191" aria-label="183"></a>**The plotting.** Everything below builds the two-panel animation (folded — expand</span>
+<span id="cb16-192"><a href="#cb16-192" aria-label="184"></a>if you're curious). A non-linear wall-clock schedule spends more frames while the</span>
+<span id="cb16-193"><a href="#cb16-193" aria-label="185"></a>parallel side is filling, so the speed difference is easy to see.</span>
+<span id="cb16-194"><a href="#cb16-194" aria-label="186"></a></span>
+<span id="cb16-197"><a href="#cb16-197" aria-label="187"></a><span class="in">```{python}</span></span>
+<span id="cb16-198"><a href="#cb16-198" aria-label="188"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb16-199"><a href="#cb16-199" aria-label="189"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb16-200"><a href="#cb16-200" aria-label="190"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
 <span id="cb16-201"><a href="#cb16-201" aria-label="191"></a></span>
-<span id="cb16-202"><a href="#cb16-202" aria-label="192"></a><span class="co"># wall-clock schedule: many frames while the parallel side fills (1 -&gt; N/P),</span></span>
-<span id="cb16-203"><a href="#cb16-203" aria-label="193"></a><span class="co"># then more while the sequential side catches up.</span></span>
-<span id="cb16-204"><a href="#cb16-204" aria-label="194"></a>Pw <span class="op">=</span> N <span class="op">//</span> P</span>
-<span id="cb16-205"><a href="#cb16-205" aria-label="195"></a>rounds <span class="op">=</span> np.unique(np.concatenate([</span>
-<span id="cb16-206"><a href="#cb16-206" aria-label="196"></a>    np.linspace(<span class="dv">1</span>, Pw, <span class="dv">18</span>),</span>
-<span id="cb16-207"><a href="#cb16-207" aria-label="197"></a>    np.linspace(Pw, N, <span class="dv">14</span>),</span>
-<span id="cb16-208"><a href="#cb16-208" aria-label="198"></a>]).<span class="bu">round</span>().astype(<span class="bu">int</span>))</span>
-<span id="cb16-209"><a href="#cb16-209" aria-label="199"></a></span>
-<span id="cb16-210"><a href="#cb16-210" aria-label="200"></a><span class="kw">def</span> build_frame(r):</span>
-<span id="cb16-211"><a href="#cb16-211" aria-label="201"></a>    seq_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r))          <span class="co"># 1 worker: r points after r rounds</span></span>
-<span id="cb16-212"><a href="#cb16-212" aria-label="202"></a>    par_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r <span class="op">*</span> P))      <span class="co"># P workers: r*P points after r rounds</span></span>
-<span id="cb16-213"><a href="#cb16-213" aria-label="203"></a>    traces <span class="op">=</span> [</span>
-<span id="cb16-214"><a href="#cb16-214" aria-label="204"></a>        <span class="co"># --- left panel: π view (inside red, outside dim grey) ---</span></span>
-<span id="cb16-215"><a href="#cb16-215" aria-label="205"></a>        go.Scatter(x<span class="op">=</span>cx, y<span class="op">=</span>cy, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#838383"</span>, width<span class="op">=</span><span class="fl">1.5</span>),</span>
-<span id="cb16-216"><a href="#cb16-216" aria-label="206"></a>                   xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>),</span>
-<span id="cb16-217"><a href="#cb16-217" aria-label="207"></a>        go.Scatter(x<span class="op">=</span>pp[:seq_n][ins[:seq_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:seq_n][ins[:seq_n], <span class="dv">1</span>],</span>
-<span id="cb16-218"><a href="#cb16-218" aria-label="208"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">"#EF5350"</span>, opacity<span class="op">=</span><span class="fl">0.75</span>),</span>
-<span id="cb16-219"><a href="#cb16-219" aria-label="209"></a>                     xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb16-220"><a href="#cb16-220" aria-label="210"></a>        go.Scatter(x<span class="op">=</span>pp[:seq_n][<span class="op">~</span>ins[:seq_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:seq_n][<span class="op">~</span>ins[:seq_n], <span class="dv">1</span>],</span>
-<span id="cb16-221"><a href="#cb16-221" aria-label="211"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>DIM, opacity<span class="op">=</span><span class="fl">0.35</span>),</span>
-<span id="cb16-222"><a href="#cb16-222" aria-label="212"></a>                     xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb16-223"><a href="#cb16-223" aria-label="213"></a>        <span class="co"># --- right panel: inside colored by worker, outside dim grey ---</span></span>
-<span id="cb16-224"><a href="#cb16-224" aria-label="214"></a>        go.Scatter(x<span class="op">=</span>cx, y<span class="op">=</span>cy, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#838383"</span>, width<span class="op">=</span><span class="fl">1.5</span>),</span>
-<span id="cb16-225"><a href="#cb16-225" aria-label="215"></a>                   xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>),</span>
-<span id="cb16-226"><a href="#cb16-226" aria-label="216"></a>        go.Scatter(x<span class="op">=</span>pp[:par_n][<span class="op">~</span>ins[:par_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:par_n][<span class="op">~</span>ins[:par_n], <span class="dv">1</span>],</span>
-<span id="cb16-227"><a href="#cb16-227" aria-label="217"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>DIM, opacity<span class="op">=</span><span class="fl">0.35</span>),</span>
-<span id="cb16-228"><a href="#cb16-228" aria-label="218"></a>                     xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb16-229"><a href="#cb16-229" aria-label="219"></a>    ]</span>
-<span id="cb16-230"><a href="#cb16-230" aria-label="220"></a>    inside_par <span class="op">=</span> ins[:par_n]</span>
-<span id="cb16-231"><a href="#cb16-231" aria-label="221"></a>    wk <span class="op">=</span> worker[:par_n]</span>
-<span id="cb16-232"><a href="#cb16-232" aria-label="222"></a>    <span class="cf">for</span> w <span class="kw">in</span> <span class="bu">range</span>(P):</span>
-<span id="cb16-233"><a href="#cb16-233" aria-label="223"></a>        m <span class="op">=</span> inside_par <span class="op">&amp;</span> (wk <span class="op">==</span> w)</span>
-<span id="cb16-234"><a href="#cb16-234" aria-label="224"></a>        traces.append(go.Scatter(</span>
-<span id="cb16-235"><a href="#cb16-235" aria-label="225"></a>            x<span class="op">=</span>pp[:par_n][m, <span class="dv">0</span>], y<span class="op">=</span>pp[:par_n][m, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>,</span>
-<span id="cb16-236"><a href="#cb16-236" aria-label="226"></a>            marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>_cats[w], opacity<span class="op">=</span><span class="fl">0.8</span>),</span>
-<span id="cb16-237"><a href="#cb16-237" aria-label="227"></a>            xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb16-238"><a href="#cb16-238" aria-label="228"></a>    <span class="cf">return</span> seq_n, par_n, traces</span>
-<span id="cb16-239"><a href="#cb16-239" aria-label="229"></a></span>
-<span id="cb16-240"><a href="#cb16-240" aria-label="230"></a><span class="kw">def</span> title_for(r):</span>
-<span id="cb16-241"><a href="#cb16-241" aria-label="231"></a>    seq_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r))<span class="op">;</span> par_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r <span class="op">*</span> P))</span>
-<span id="cb16-242"><a href="#cb16-242" aria-label="232"></a>    done <span class="op">=</span> <span class="ss">f"   ✓ </span><span class="sc">{</span>P<span class="sc">}</span><span class="ss">× faster"</span> <span class="cf">if</span> par_n <span class="op">&gt;=</span> N <span class="cf">else</span> <span class="st">""</span></span>
-<span id="cb16-243"><a href="#cb16-243" aria-label="233"></a>    <span class="cf">return</span> (<span class="ss">f"⏱ round </span><span class="sc">{</span><span class="bu">int</span>(r)<span class="sc">}</span><span class="ss"> — "</span></span>
-<span id="cb16-244"><a href="#cb16-244" aria-label="234"></a>            <span class="ss">f"sequential: </span><span class="sc">{</span>seq_n<span class="sc">:,}</span><span class="ss"> pts (π≈</span><span class="sc">{</span>pi_of(seq_n)<span class="sc">:.3f}</span><span class="ss">)  |  "</span></span>
-<span id="cb16-245"><a href="#cb16-245" aria-label="235"></a>            <span class="ss">f"parallel: </span><span class="sc">{</span>par_n<span class="sc">:,}</span><span class="ss"> pts (π≈</span><span class="sc">{</span>pi_of(par_n)<span class="sc">:.3f}</span><span class="ss">)</span><span class="sc">{</span>done<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-202"><a href="#cb16-202" aria-label="192"></a>DIM <span class="op">=</span> <span class="st">"#666666"</span>              <span class="co"># dim grey for points that miss (outside the circle)</span></span>
+<span id="cb16-203"><a href="#cb16-203" aria-label="193"></a><span class="co"># 8 clearly-distinct worker colors</span></span>
+<span id="cb16-204"><a href="#cb16-204" aria-label="194"></a>_cats <span class="op">=</span> [<span class="st">"#2196F3"</span>, <span class="st">"#EF5350"</span>, <span class="st">"#66BB6A"</span>, <span class="st">"#FFA726"</span>,</span>
+<span id="cb16-205"><a href="#cb16-205" aria-label="195"></a>         <span class="st">"#AB47BC"</span>, <span class="st">"#EC407A"</span>, <span class="st">"#26C6DA"</span>, <span class="st">"#FDD835"</span>]</span>
+<span id="cb16-206"><a href="#cb16-206" aria-label="196"></a>theta <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">120</span>)</span>
+<span id="cb16-207"><a href="#cb16-207" aria-label="197"></a>cx, cy <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.cos(theta), <span class="fl">0.5</span> <span class="op">*</span> np.sin(theta)</span>
+<span id="cb16-208"><a href="#cb16-208" aria-label="198"></a></span>
+<span id="cb16-209"><a href="#cb16-209" aria-label="199"></a><span class="co"># wall-clock schedule: many frames while the parallel side fills (1 -&gt; N/P),</span></span>
+<span id="cb16-210"><a href="#cb16-210" aria-label="200"></a><span class="co"># then more while the sequential side catches up.</span></span>
+<span id="cb16-211"><a href="#cb16-211" aria-label="201"></a>Pw <span class="op">=</span> N <span class="op">//</span> P</span>
+<span id="cb16-212"><a href="#cb16-212" aria-label="202"></a>rounds <span class="op">=</span> np.unique(np.concatenate([</span>
+<span id="cb16-213"><a href="#cb16-213" aria-label="203"></a>    np.linspace(<span class="dv">1</span>, Pw, <span class="dv">18</span>),</span>
+<span id="cb16-214"><a href="#cb16-214" aria-label="204"></a>    np.linspace(Pw, N, <span class="dv">14</span>),</span>
+<span id="cb16-215"><a href="#cb16-215" aria-label="205"></a>]).<span class="bu">round</span>().astype(<span class="bu">int</span>))</span>
+<span id="cb16-216"><a href="#cb16-216" aria-label="206"></a></span>
+<span id="cb16-217"><a href="#cb16-217" aria-label="207"></a><span class="kw">def</span> build_frame(r):</span>
+<span id="cb16-218"><a href="#cb16-218" aria-label="208"></a>    seq_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r))          <span class="co"># 1 worker: r points after r rounds</span></span>
+<span id="cb16-219"><a href="#cb16-219" aria-label="209"></a>    par_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r <span class="op">*</span> P))      <span class="co"># P workers: r*P points after r rounds</span></span>
+<span id="cb16-220"><a href="#cb16-220" aria-label="210"></a>    traces <span class="op">=</span> [</span>
+<span id="cb16-221"><a href="#cb16-221" aria-label="211"></a>        <span class="co"># --- left panel: π view (inside red, outside dim grey) ---</span></span>
+<span id="cb16-222"><a href="#cb16-222" aria-label="212"></a>        go.Scatter(x<span class="op">=</span>cx, y<span class="op">=</span>cy, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#838383"</span>, width<span class="op">=</span><span class="fl">1.5</span>),</span>
+<span id="cb16-223"><a href="#cb16-223" aria-label="213"></a>                   xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>),</span>
+<span id="cb16-224"><a href="#cb16-224" aria-label="214"></a>        go.Scatter(x<span class="op">=</span>pp[:seq_n][ins[:seq_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:seq_n][ins[:seq_n], <span class="dv">1</span>],</span>
+<span id="cb16-225"><a href="#cb16-225" aria-label="215"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span><span class="st">"#EF5350"</span>, opacity<span class="op">=</span><span class="fl">0.75</span>),</span>
+<span id="cb16-226"><a href="#cb16-226" aria-label="216"></a>                     xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb16-227"><a href="#cb16-227" aria-label="217"></a>        go.Scatter(x<span class="op">=</span>pp[:seq_n][<span class="op">~</span>ins[:seq_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:seq_n][<span class="op">~</span>ins[:seq_n], <span class="dv">1</span>],</span>
+<span id="cb16-228"><a href="#cb16-228" aria-label="218"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>DIM, opacity<span class="op">=</span><span class="fl">0.35</span>),</span>
+<span id="cb16-229"><a href="#cb16-229" aria-label="219"></a>                     xaxis<span class="op">=</span><span class="st">"x"</span>, yaxis<span class="op">=</span><span class="st">"y"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb16-230"><a href="#cb16-230" aria-label="220"></a>        <span class="co"># --- right panel: inside colored by worker, outside dim grey ---</span></span>
+<span id="cb16-231"><a href="#cb16-231" aria-label="221"></a>        go.Scatter(x<span class="op">=</span>cx, y<span class="op">=</span>cy, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#838383"</span>, width<span class="op">=</span><span class="fl">1.5</span>),</span>
+<span id="cb16-232"><a href="#cb16-232" aria-label="222"></a>                   xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>, hoverinfo<span class="op">=</span><span class="st">"skip"</span>),</span>
+<span id="cb16-233"><a href="#cb16-233" aria-label="223"></a>        go.Scatter(x<span class="op">=</span>pp[:par_n][<span class="op">~</span>ins[:par_n], <span class="dv">0</span>], y<span class="op">=</span>pp[:par_n][<span class="op">~</span>ins[:par_n], <span class="dv">1</span>],</span>
+<span id="cb16-234"><a href="#cb16-234" aria-label="224"></a>                     mode<span class="op">=</span><span class="st">"markers"</span>, marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>DIM, opacity<span class="op">=</span><span class="fl">0.35</span>),</span>
+<span id="cb16-235"><a href="#cb16-235" aria-label="225"></a>                     xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb16-236"><a href="#cb16-236" aria-label="226"></a>    ]</span>
+<span id="cb16-237"><a href="#cb16-237" aria-label="227"></a>    inside_par <span class="op">=</span> ins[:par_n]</span>
+<span id="cb16-238"><a href="#cb16-238" aria-label="228"></a>    wk <span class="op">=</span> worker[:par_n]</span>
+<span id="cb16-239"><a href="#cb16-239" aria-label="229"></a>    <span class="cf">for</span> w <span class="kw">in</span> <span class="bu">range</span>(P):</span>
+<span id="cb16-240"><a href="#cb16-240" aria-label="230"></a>        m <span class="op">=</span> inside_par <span class="op">&amp;</span> (wk <span class="op">==</span> w)</span>
+<span id="cb16-241"><a href="#cb16-241" aria-label="231"></a>        traces.append(go.Scatter(</span>
+<span id="cb16-242"><a href="#cb16-242" aria-label="232"></a>            x<span class="op">=</span>pp[:par_n][m, <span class="dv">0</span>], y<span class="op">=</span>pp[:par_n][m, <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span id="cb16-243"><a href="#cb16-243" aria-label="233"></a>            marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>_cats[w], opacity<span class="op">=</span><span class="fl">0.8</span>),</span>
+<span id="cb16-244"><a href="#cb16-244" aria-label="234"></a>            xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>, showlegend<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb16-245"><a href="#cb16-245" aria-label="235"></a>    <span class="cf">return</span> seq_n, par_n, traces</span>
 <span id="cb16-246"><a href="#cb16-246" aria-label="236"></a></span>
-<span id="cb16-247"><a href="#cb16-247" aria-label="237"></a>frames <span class="op">=</span> []</span>
-<span id="cb16-248"><a href="#cb16-248" aria-label="238"></a><span class="cf">for</span> r <span class="kw">in</span> rounds:</span>
-<span id="cb16-249"><a href="#cb16-249" aria-label="239"></a>    _, _, tr <span class="op">=</span> build_frame(<span class="bu">int</span>(r))</span>
-<span id="cb16-250"><a href="#cb16-250" aria-label="240"></a>    frames.append(go.Frame(name<span class="op">=</span><span class="bu">str</span>(<span class="bu">int</span>(r)), data<span class="op">=</span>tr,</span>
-<span id="cb16-251"><a href="#cb16-251" aria-label="241"></a>                           layout<span class="op">=</span>go.Layout(title<span class="op">=</span>title_for(<span class="bu">int</span>(r)))))</span>
-<span id="cb16-252"><a href="#cb16-252" aria-label="242"></a></span>
-<span id="cb16-253"><a href="#cb16-253" aria-label="243"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb16-254"><a href="#cb16-254" aria-label="244"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Sequential — 1 worker"</span>, <span class="ss">f"Parallel — </span><span class="sc">{</span>P<span class="sc">}</span><span class="ss"> workers"</span>))</span>
-<span id="cb16-255"><a href="#cb16-255" aria-label="245"></a>_, _, tr0 <span class="op">=</span> build_frame(<span class="bu">int</span>(rounds[<span class="dv">0</span>]))</span>
-<span id="cb16-256"><a href="#cb16-256" aria-label="246"></a><span class="cf">for</span> t <span class="kw">in</span> tr0:</span>
-<span id="cb16-257"><a href="#cb16-257" aria-label="247"></a>    fig.add_trace(t, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span>(<span class="dv">2</span> <span class="cf">if</span> t.xaxis <span class="op">==</span> <span class="st">"x2"</span> <span class="cf">else</span> <span class="dv">1</span>))</span>
-<span id="cb16-258"><a href="#cb16-258" aria-label="248"></a>fig.frames <span class="op">=</span> frames</span>
-<span id="cb16-259"><a href="#cb16-259" aria-label="249"></a><span class="cf">for</span> ax <span class="kw">in</span> (<span class="st">"xaxis"</span>, <span class="st">"xaxis2"</span>):</span>
-<span id="cb16-260"><a href="#cb16-260" aria-label="250"></a>    fig.layout[ax].update(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
-<span id="cb16-261"><a href="#cb16-261" aria-label="251"></a><span class="cf">for</span> ax, xa <span class="kw">in</span> ((<span class="st">"yaxis"</span>, <span class="st">"x"</span>), (<span class="st">"yaxis2"</span>, <span class="st">"x2"</span>)):</span>
-<span id="cb16-262"><a href="#cb16-262" aria-label="252"></a>    fig.layout[ax].update(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>], scaleanchor<span class="op">=</span>xa)</span>
-<span id="cb16-263"><a href="#cb16-263" aria-label="253"></a>fig.update_layout(</span>
-<span id="cb16-264"><a href="#cb16-264" aria-label="254"></a>    title<span class="op">=</span>title_for(<span class="bu">int</span>(rounds[<span class="dv">0</span>])), height<span class="op">=</span><span class="dv">440</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">70</span>),</span>
-<span id="cb16-265"><a href="#cb16-265" aria-label="255"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.12</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
-<span id="cb16-266"><a href="#cb16-266" aria-label="256"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
-<span id="cb16-267"><a href="#cb16-267" aria-label="257"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">200</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
-<span id="cb16-268"><a href="#cb16-268" aria-label="258"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, y<span class="op">=-</span><span class="fl">0.05</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"wall-clock (rounds): "</span>),</span>
-<span id="cb16-269"><a href="#cb16-269" aria-label="259"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(<span class="bu">int</span>(r)),</span>
-<span id="cb16-270"><a href="#cb16-270" aria-label="260"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(<span class="bu">int</span>(r))], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
-<span id="cb16-271"><a href="#cb16-271" aria-label="261"></a>               <span class="cf">for</span> r <span class="kw">in</span> rounds])],</span>
-<span id="cb16-272"><a href="#cb16-272" aria-label="262"></a>)</span>
-<span id="cb16-273"><a href="#cb16-273" aria-label="263"></a>fig.show()</span>
-<span id="cb16-274"><a href="#cb16-274" aria-label="264"></a><span class="in">```</span></span>
-<span id="cb16-275"><a href="#cb16-275" aria-label="265"></a></span>
-<span id="cb16-276"><a href="#cb16-276" aria-label="266"></a><span class="fu">### How fast does the error shrink?</span></span>
-<span id="cb16-277"><a href="#cb16-277" aria-label="267"></a></span>
-<span id="cb16-278"><a href="#cb16-278" aria-label="268"></a>More samples → a better estimate, but *how much* better? Below we plot the</span>
-<span id="cb16-279"><a href="#cb16-279" aria-label="269"></a>**absolute error** $|\hat\pi - \pi|$ as we add samples. Monte Carlo error falls</span>
-<span id="cb16-280"><a href="#cb16-280" aria-label="270"></a>off like $1/\sqrt{N}$ — so on **log-log axes** it's a straight line with slope</span>
-<span id="cb16-281"><a href="#cb16-281" aria-label="271"></a>$-\tfrac12$. The practical catch: to get one more decimal digit (10× less error)</span>
-<span id="cb16-282"><a href="#cb16-282" aria-label="272"></a>you need **100× more samples** — which is exactly why you reach for parallelism.</span>
-<span id="cb16-283"><a href="#cb16-283" aria-label="273"></a></span>
-<span id="cb16-286"><a href="#cb16-286" aria-label="274"></a><span class="in">```{python}</span></span>
-<span id="cb16-287"><a href="#cb16-287" aria-label="275"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb16-288"><a href="#cb16-288" aria-label="276"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb16-289"><a href="#cb16-289" aria-label="277"></a><span class="im">import</span> math</span>
-<span id="cb16-290"><a href="#cb16-290" aria-label="278"></a></span>
-<span id="cb16-291"><a href="#cb16-291" aria-label="279"></a><span class="co"># use a bigger single run to see the trend cleanly</span></span>
-<span id="cb16-292"><a href="#cb16-292" aria-label="280"></a>Nerr <span class="op">=</span> <span class="dv">200_000</span></span>
-<span id="cb16-293"><a href="#cb16-293" aria-label="281"></a>rng3 <span class="op">=</span> np.random.default_rng(<span class="dv">2024</span>)</span>
-<span id="cb16-294"><a href="#cb16-294" aria-label="282"></a>pe <span class="op">=</span> rng3.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(Nerr, <span class="dv">2</span>))</span>
-<span id="cb16-295"><a href="#cb16-295" aria-label="283"></a>inside_e <span class="op">=</span> np.sqrt((pe <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span></span>
-<span id="cb16-296"><a href="#cb16-296" aria-label="284"></a><span class="co"># running π estimate after each sample, then its error vs. true π</span></span>
-<span id="cb16-297"><a href="#cb16-297" aria-label="285"></a>ns <span class="op">=</span> np.unique(np.logspace(<span class="dv">1</span>, math.log10(Nerr), <span class="dv">60</span>).astype(<span class="bu">int</span>))</span>
-<span id="cb16-298"><a href="#cb16-298" aria-label="286"></a>run_pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> np.cumsum(inside_e) <span class="op">/</span> np.arange(<span class="dv">1</span>, Nerr <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb16-299"><a href="#cb16-299" aria-label="287"></a>err <span class="op">=</span> np.<span class="bu">abs</span>(run_pi[ns <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> math.pi)</span>
-<span id="cb16-300"><a href="#cb16-300" aria-label="288"></a>ref <span class="op">=</span> (math.pi <span class="op">/</span> <span class="dv">2</span>) <span class="op">/</span> np.sqrt(ns)      <span class="co"># ~1/sqrt(N) reference (theoretical scale)</span></span>
-<span id="cb16-301"><a href="#cb16-301" aria-label="289"></a></span>
-<span id="cb16-302"><a href="#cb16-302" aria-label="290"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb16-303"><a href="#cb16-303" aria-label="291"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Estimate converging to π"</span>, <span class="st">"Error ~ 1/√N (log-log)"</span>))</span>
-<span id="cb16-304"><a href="#cb16-304" aria-label="292"></a><span class="co"># left: estimate vs N with a π reference line</span></span>
-<span id="cb16-305"><a href="#cb16-305" aria-label="293"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>run_pi[ns <span class="op">-</span> <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"estimate"</span>,</span>
-<span id="cb16-306"><a href="#cb16-306" aria-label="294"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-307"><a href="#cb16-307" aria-label="295"></a>fig.add_hline(y<span class="op">=</span>math.pi, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], dash<span class="op">=</span><span class="st">"dash"</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-308"><a href="#cb16-308" aria-label="296"></a>fig.add_annotation(x<span class="op">=</span>math.log10(Nerr), y<span class="op">=</span>math.pi, text<span class="op">=</span><span class="st">"π"</span>, showarrow<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb16-309"><a href="#cb16-309" aria-label="297"></a>                   xref<span class="op">=</span><span class="st">"x"</span>, yref<span class="op">=</span><span class="st">"y"</span>, xanchor<span class="op">=</span><span class="st">"right"</span>, yshift<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb16-310"><a href="#cb16-310" aria-label="298"></a>                   font<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-311"><a href="#cb16-311" aria-label="299"></a><span class="co"># right: |error| vs N on log-log, with the 1/sqrt(N) slope reference</span></span>
-<span id="cb16-312"><a href="#cb16-312" aria-label="300"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>err, mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"|error|"</span>,</span>
-<span id="cb16-313"><a href="#cb16-313" aria-label="301"></a>                marker<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], size<span class="op">=</span><span class="dv">5</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb16-314"><a href="#cb16-314" aria-label="302"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>ref, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"1/√N"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#666666"</span>, dash<span class="op">=</span><span class="st">"dot"</span>),</span>
-<span id="cb16-315"><a href="#cb16-315" aria-label="303"></a>                row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb16-316"><a href="#cb16-316" aria-label="304"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"samples (N)"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-317"><a href="#cb16-317" aria-label="305"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"samples (N)"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb16-318"><a href="#cb16-318" aria-label="306"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"π estimate"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb16-319"><a href="#cb16-319" aria-label="307"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"|estimate − π|"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb16-320"><a href="#cb16-320" aria-label="308"></a>fig.update_layout(height<span class="op">=</span><span class="dv">380</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>), legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">0.55</span>, y<span class="op">=</span><span class="fl">0.98</span>))</span>
-<span id="cb16-321"><a href="#cb16-321" aria-label="309"></a>fig.show()</span>
-<span id="cb16-322"><a href="#cb16-322" aria-label="310"></a><span class="in">```</span></span>
-<span id="cb16-323"><a href="#cb16-323" aria-label="311"></a></span>
-<span id="cb16-324"><a href="#cb16-324" aria-label="312"></a>::: {.callout-note title="📏 Ideal vs. real speedup" collapse="false"}</span>
-<span id="cb16-325"><a href="#cb16-325" aria-label="313"></a>This animation shows **ideal linear speedup** (<span class="in">`P`</span> workers → <span class="in">`P`</span>× faster). Real</span>
-<span id="cb16-326"><a href="#cb16-326" aria-label="314"></a>runs fall a little short: the workers must combine their counts at the end (the</span>
-<span id="cb16-327"><a href="#cb16-327" aria-label="315"></a><span class="in">`comm.Allreduce`</span> below), and that communication adds overhead — which is exactly</span>
-<span id="cb16-328"><a href="#cb16-328" aria-label="316"></a>why the timing table above isn't a perfect <span class="in">`P`</span>× as you add nodes.</span>
-<span id="cb16-329"><a href="#cb16-329" aria-label="317"></a>:::</span>
+<span id="cb16-247"><a href="#cb16-247" aria-label="237"></a><span class="kw">def</span> title_for(r):</span>
+<span id="cb16-248"><a href="#cb16-248" aria-label="238"></a>    seq_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r))<span class="op">;</span> par_n <span class="op">=</span> <span class="bu">int</span>(<span class="bu">min</span>(N, r <span class="op">*</span> P))</span>
+<span id="cb16-249"><a href="#cb16-249" aria-label="239"></a>    done <span class="op">=</span> <span class="ss">f"   ✓ </span><span class="sc">{</span>P<span class="sc">}</span><span class="ss">× faster"</span> <span class="cf">if</span> par_n <span class="op">&gt;=</span> N <span class="cf">else</span> <span class="st">""</span></span>
+<span id="cb16-250"><a href="#cb16-250" aria-label="240"></a>    <span class="cf">return</span> (<span class="ss">f"⏱ round </span><span class="sc">{</span><span class="bu">int</span>(r)<span class="sc">}</span><span class="ss"> — "</span></span>
+<span id="cb16-251"><a href="#cb16-251" aria-label="241"></a>            <span class="ss">f"sequential: </span><span class="sc">{</span>seq_n<span class="sc">:,}</span><span class="ss"> pts (π≈</span><span class="sc">{</span>pi_of(seq_n)<span class="sc">:.3f}</span><span class="ss">)  |  "</span></span>
+<span id="cb16-252"><a href="#cb16-252" aria-label="242"></a>            <span class="ss">f"parallel: </span><span class="sc">{</span>par_n<span class="sc">:,}</span><span class="ss"> pts (π≈</span><span class="sc">{</span>pi_of(par_n)<span class="sc">:.3f}</span><span class="ss">)</span><span class="sc">{</span>done<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-253"><a href="#cb16-253" aria-label="243"></a></span>
+<span id="cb16-254"><a href="#cb16-254" aria-label="244"></a>frames <span class="op">=</span> []</span>
+<span id="cb16-255"><a href="#cb16-255" aria-label="245"></a><span class="cf">for</span> r <span class="kw">in</span> rounds:</span>
+<span id="cb16-256"><a href="#cb16-256" aria-label="246"></a>    _, _, tr <span class="op">=</span> build_frame(<span class="bu">int</span>(r))</span>
+<span id="cb16-257"><a href="#cb16-257" aria-label="247"></a>    frames.append(go.Frame(name<span class="op">=</span><span class="bu">str</span>(<span class="bu">int</span>(r)), data<span class="op">=</span>tr,</span>
+<span id="cb16-258"><a href="#cb16-258" aria-label="248"></a>                           layout<span class="op">=</span>go.Layout(title<span class="op">=</span>title_for(<span class="bu">int</span>(r)))))</span>
+<span id="cb16-259"><a href="#cb16-259" aria-label="249"></a></span>
+<span id="cb16-260"><a href="#cb16-260" aria-label="250"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb16-261"><a href="#cb16-261" aria-label="251"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Sequential — 1 worker"</span>, <span class="ss">f"Parallel — </span><span class="sc">{</span>P<span class="sc">}</span><span class="ss"> workers"</span>))</span>
+<span id="cb16-262"><a href="#cb16-262" aria-label="252"></a>_, _, tr0 <span class="op">=</span> build_frame(<span class="bu">int</span>(rounds[<span class="dv">0</span>]))</span>
+<span id="cb16-263"><a href="#cb16-263" aria-label="253"></a><span class="cf">for</span> t <span class="kw">in</span> tr0:</span>
+<span id="cb16-264"><a href="#cb16-264" aria-label="254"></a>    fig.add_trace(t, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span>(<span class="dv">2</span> <span class="cf">if</span> t.xaxis <span class="op">==</span> <span class="st">"x2"</span> <span class="cf">else</span> <span class="dv">1</span>))</span>
+<span id="cb16-265"><a href="#cb16-265" aria-label="255"></a>fig.frames <span class="op">=</span> frames</span>
+<span id="cb16-266"><a href="#cb16-266" aria-label="256"></a><span class="cf">for</span> ax <span class="kw">in</span> (<span class="st">"xaxis"</span>, <span class="st">"xaxis2"</span>):</span>
+<span id="cb16-267"><a href="#cb16-267" aria-label="257"></a>    fig.layout[ax].update(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>])</span>
+<span id="cb16-268"><a href="#cb16-268" aria-label="258"></a><span class="cf">for</span> ax, xa <span class="kw">in</span> ((<span class="st">"yaxis"</span>, <span class="st">"x"</span>), (<span class="st">"yaxis2"</span>, <span class="st">"x2"</span>)):</span>
+<span id="cb16-269"><a href="#cb16-269" aria-label="259"></a>    fig.layout[ax].update(<span class="bu">range</span><span class="op">=</span>[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>], scaleanchor<span class="op">=</span>xa)</span>
+<span id="cb16-270"><a href="#cb16-270" aria-label="260"></a>fig.update_layout(</span>
+<span id="cb16-271"><a href="#cb16-271" aria-label="261"></a>    title<span class="op">=</span>title_for(<span class="bu">int</span>(rounds[<span class="dv">0</span>])), height<span class="op">=</span><span class="dv">440</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">70</span>),</span>
+<span id="cb16-272"><a href="#cb16-272" aria-label="262"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.12</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb16-273"><a href="#cb16-273" aria-label="263"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb16-274"><a href="#cb16-274" aria-label="264"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">200</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
+<span id="cb16-275"><a href="#cb16-275" aria-label="265"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, y<span class="op">=-</span><span class="fl">0.05</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"wall-clock (rounds): "</span>),</span>
+<span id="cb16-276"><a href="#cb16-276" aria-label="266"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(<span class="bu">int</span>(r)),</span>
+<span id="cb16-277"><a href="#cb16-277" aria-label="267"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(<span class="bu">int</span>(r))], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
+<span id="cb16-278"><a href="#cb16-278" aria-label="268"></a>               <span class="cf">for</span> r <span class="kw">in</span> rounds])],</span>
+<span id="cb16-279"><a href="#cb16-279" aria-label="269"></a>)</span>
+<span id="cb16-280"><a href="#cb16-280" aria-label="270"></a>fig.show()</span>
+<span id="cb16-281"><a href="#cb16-281" aria-label="271"></a><span class="in">```</span></span>
+<span id="cb16-282"><a href="#cb16-282" aria-label="272"></a></span>
+<span id="cb16-283"><a href="#cb16-283" aria-label="273"></a><span class="fu">### How fast does the error shrink?</span></span>
+<span id="cb16-284"><a href="#cb16-284" aria-label="274"></a></span>
+<span id="cb16-285"><a href="#cb16-285" aria-label="275"></a>More samples → a better estimate, but *how much* better? Below we plot the</span>
+<span id="cb16-286"><a href="#cb16-286" aria-label="276"></a>**absolute error** $|\hat\pi - \pi|$ as we add samples. Monte Carlo error falls</span>
+<span id="cb16-287"><a href="#cb16-287" aria-label="277"></a>off like $1/\sqrt{N}$ — so on **log-log axes** it's a straight line with slope</span>
+<span id="cb16-288"><a href="#cb16-288" aria-label="278"></a>$-\tfrac12$. The practical catch: to get one more decimal digit (10× less error)</span>
+<span id="cb16-289"><a href="#cb16-289" aria-label="279"></a>you need **100× more samples** — which is exactly why you reach for parallelism.</span>
+<span id="cb16-290"><a href="#cb16-290" aria-label="280"></a></span>
+<span id="cb16-293"><a href="#cb16-293" aria-label="281"></a><span class="in">```{python}</span></span>
+<span id="cb16-294"><a href="#cb16-294" aria-label="282"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb16-295"><a href="#cb16-295" aria-label="283"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb16-296"><a href="#cb16-296" aria-label="284"></a><span class="im">import</span> math</span>
+<span id="cb16-297"><a href="#cb16-297" aria-label="285"></a></span>
+<span id="cb16-298"><a href="#cb16-298" aria-label="286"></a><span class="co"># use a bigger single run to see the trend cleanly</span></span>
+<span id="cb16-299"><a href="#cb16-299" aria-label="287"></a>Nerr <span class="op">=</span> <span class="dv">200_000</span></span>
+<span id="cb16-300"><a href="#cb16-300" aria-label="288"></a>rng3 <span class="op">=</span> np.random.default_rng(<span class="dv">2024</span>)</span>
+<span id="cb16-301"><a href="#cb16-301" aria-label="289"></a>pe <span class="op">=</span> rng3.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, size<span class="op">=</span>(Nerr, <span class="dv">2</span>))</span>
+<span id="cb16-302"><a href="#cb16-302" aria-label="290"></a>inside_e <span class="op">=</span> np.sqrt((pe <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">&lt;</span> <span class="fl">0.5</span></span>
+<span id="cb16-303"><a href="#cb16-303" aria-label="291"></a><span class="co"># running π estimate after each sample, then its error vs. true π</span></span>
+<span id="cb16-304"><a href="#cb16-304" aria-label="292"></a>ns <span class="op">=</span> np.unique(np.logspace(<span class="dv">1</span>, math.log10(Nerr), <span class="dv">60</span>).astype(<span class="bu">int</span>))</span>
+<span id="cb16-305"><a href="#cb16-305" aria-label="293"></a>run_pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> np.cumsum(inside_e) <span class="op">/</span> np.arange(<span class="dv">1</span>, Nerr <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb16-306"><a href="#cb16-306" aria-label="294"></a>err <span class="op">=</span> np.<span class="bu">abs</span>(run_pi[ns <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> math.pi)</span>
+<span id="cb16-307"><a href="#cb16-307" aria-label="295"></a>ref <span class="op">=</span> (math.pi <span class="op">/</span> <span class="dv">2</span>) <span class="op">/</span> np.sqrt(ns)      <span class="co"># ~1/sqrt(N) reference (theoretical scale)</span></span>
+<span id="cb16-308"><a href="#cb16-308" aria-label="296"></a></span>
+<span id="cb16-309"><a href="#cb16-309" aria-label="297"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb16-310"><a href="#cb16-310" aria-label="298"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Estimate converging to π"</span>, <span class="st">"Error ~ 1/√N (log-log)"</span>))</span>
+<span id="cb16-311"><a href="#cb16-311" aria-label="299"></a><span class="co"># left: estimate vs N with a π reference line</span></span>
+<span id="cb16-312"><a href="#cb16-312" aria-label="300"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>run_pi[ns <span class="op">-</span> <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"estimate"</span>,</span>
+<span id="cb16-313"><a href="#cb16-313" aria-label="301"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-314"><a href="#cb16-314" aria-label="302"></a>fig.add_hline(y<span class="op">=</span>math.pi, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], dash<span class="op">=</span><span class="st">"dash"</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-315"><a href="#cb16-315" aria-label="303"></a>fig.add_annotation(x<span class="op">=</span>math.log10(Nerr), y<span class="op">=</span>math.pi, text<span class="op">=</span><span class="st">"π"</span>, showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-316"><a href="#cb16-316" aria-label="304"></a>                   xref<span class="op">=</span><span class="st">"x"</span>, yref<span class="op">=</span><span class="st">"y"</span>, xanchor<span class="op">=</span><span class="st">"right"</span>, yshift<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb16-317"><a href="#cb16-317" aria-label="305"></a>                   font<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-318"><a href="#cb16-318" aria-label="306"></a><span class="co"># right: |error| vs N on log-log, with the 1/sqrt(N) slope reference</span></span>
+<span id="cb16-319"><a href="#cb16-319" aria-label="307"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>err, mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"|error|"</span>,</span>
+<span id="cb16-320"><a href="#cb16-320" aria-label="308"></a>                marker<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], size<span class="op">=</span><span class="dv">5</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-321"><a href="#cb16-321" aria-label="309"></a>fig.add_scatter(x<span class="op">=</span>ns, y<span class="op">=</span>ref, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"1/√N"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"#666666"</span>, dash<span class="op">=</span><span class="st">"dot"</span>),</span>
+<span id="cb16-322"><a href="#cb16-322" aria-label="310"></a>                row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-323"><a href="#cb16-323" aria-label="311"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"samples (N)"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-324"><a href="#cb16-324" aria-label="312"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"samples (N)"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-325"><a href="#cb16-325" aria-label="313"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"π estimate"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-326"><a href="#cb16-326" aria-label="314"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"|estimate − π|"</span>, <span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-327"><a href="#cb16-327" aria-label="315"></a>fig.update_layout(height<span class="op">=</span><span class="dv">380</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>), legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">0.55</span>, y<span class="op">=</span><span class="fl">0.98</span>))</span>
+<span id="cb16-328"><a href="#cb16-328" aria-label="316"></a>fig.show()</span>
+<span id="cb16-329"><a href="#cb16-329" aria-label="317"></a><span class="in">```</span></span>
 <span id="cb16-330"><a href="#cb16-330" aria-label="318"></a></span>
-<span id="cb16-331"><a href="#cb16-331" aria-label="319"></a><span class="fu">### MPI example</span></span>
-<span id="cb16-332"><a href="#cb16-332" aria-label="320"></a></span>
-<span id="cb16-333"><a href="#cb16-333" aria-label="321"></a></span>
-<span id="cb16-334"><a href="#cb16-334" aria-label="322"></a><span class="pp">|</span> Nodes  <span class="pp">|</span> PyTorch-2.5 <span class="pp">|</span> PyTorch-2.7 <span class="pp">|</span> PyTorch-2.8 <span class="pp">|</span></span>
-<span id="cb16-335"><a href="#cb16-335" aria-label="323"></a><span class="pp">| :----:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">| :---------:</span> <span class="pp">|</span></span>
-<span id="cb16-336"><a href="#cb16-336" aria-label="324"></a><span class="pp">|</span> N1xR12 <span class="pp">|</span>    17.39    <span class="pp">|</span>    31.01    <span class="pp">|</span>    33.09    <span class="pp">|</span></span>
-<span id="cb16-337"><a href="#cb16-337" aria-label="325"></a><span class="pp">|</span> N2xR12 <span class="pp">|</span>    3.81     <span class="pp">|</span>    32.71    <span class="pp">|</span>    33.26    <span class="pp">|</span></span>
-<span id="cb16-338"><a href="#cb16-338" aria-label="326"></a></span>
+<span id="cb16-331"><a href="#cb16-331" aria-label="319"></a>::: {.callout-note title="📏 Ideal vs. real speedup" collapse="false"}</span>
+<span id="cb16-332"><a href="#cb16-332" aria-label="320"></a>This animation shows **ideal linear speedup** (<span class="in">`P`</span> workers → <span class="in">`P`</span>× faster). Real</span>
+<span id="cb16-333"><a href="#cb16-333" aria-label="321"></a>runs fall a little short: the workers must combine their counts at the end (the</span>
+<span id="cb16-334"><a href="#cb16-334" aria-label="322"></a><span class="in">`comm.Allreduce`</span> below), and that communication adds overhead — which is exactly</span>
+<span id="cb16-335"><a href="#cb16-335" aria-label="323"></a>why the Polaris timings below aren't a perfect <span class="in">`P`</span>× as you add ranks.</span>
+<span id="cb16-336"><a href="#cb16-336" aria-label="324"></a>:::</span>
+<span id="cb16-337"><a href="#cb16-337" aria-label="325"></a></span>
+<span id="cb16-338"><a href="#cb16-338" aria-label="326"></a><span class="fu">### MPI example</span></span>
 <span id="cb16-339"><a href="#cb16-339" aria-label="327"></a></span>
-<span id="cb16-342"><a href="#cb16-342" aria-label="328"></a><span class="in">```{python}</span></span>
-<span id="cb16-343"><a href="#cb16-343" aria-label="329"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
-<span id="cb16-344"><a href="#cb16-344" aria-label="330"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb16-345"><a href="#cb16-345" aria-label="331"></a><span class="im">import</span> random</span>
-<span id="cb16-346"><a href="#cb16-346" aria-label="332"></a><span class="im">import</span> time</span>
-<span id="cb16-347"><a href="#cb16-347" aria-label="333"></a>comm <span class="op">=</span> MPI.COMM_WORLD</span>
-<span id="cb16-348"><a href="#cb16-348" aria-label="334"></a></span>
-<span id="cb16-349"><a href="#cb16-349" aria-label="335"></a>N <span class="op">=</span> <span class="dv">5000000</span></span>
-<span id="cb16-350"><a href="#cb16-350" aria-label="336"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb16-351"><a href="#cb16-351" aria-label="337"></a>t0 <span class="op">=</span> time.time()</span>
-<span id="cb16-352"><a href="#cb16-352" aria-label="338"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(comm.rank, N, comm.size):</span>
-<span id="cb16-353"><a href="#cb16-353" aria-label="339"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb16-354"><a href="#cb16-354" aria-label="340"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb16-355"><a href="#cb16-355" aria-label="341"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
-<span id="cb16-356"><a href="#cb16-356" aria-label="342"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb16-357"><a href="#cb16-357" aria-label="343"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
-<span id="cb16-358"><a href="#cb16-358" aria-label="344"></a>res_tot <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
-<span id="cb16-359"><a href="#cb16-359" aria-label="345"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
-<span id="cb16-360"><a href="#cb16-360" aria-label="346"></a>t1 <span class="op">=</span> time.time()</span>
-<span id="cb16-361"><a href="#cb16-361" aria-label="347"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb16-362"><a href="#cb16-362" aria-label="348"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
-<span id="cb16-363"><a href="#cb16-363" aria-label="349"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
-<span id="cb16-364"><a href="#cb16-364" aria-label="350"></a><span class="in">```</span></span>
-<span id="cb16-365"><a href="#cb16-365" aria-label="351"></a></span>
-<span id="cb16-366"><a href="#cb16-366" aria-label="352"></a><span class="fu">### Running $\pi$ example on Google Colab</span></span>
-<span id="cb16-367"><a href="#cb16-367" aria-label="353"></a></span>
-<span id="cb16-368"><a href="#cb16-368" aria-label="354"></a><span class="ss">* </span>Go to https://colab.research.google.com/, sign in or sign up</span>
-<span id="cb16-369"><a href="#cb16-369" aria-label="355"></a><span class="ss">* </span>"File"-&gt; "open notebook"</span>
-<span id="cb16-370"><a href="#cb16-370" aria-label="356"></a><span class="ss">* </span>Choose <span class="in">`01_intro_AI_on_Supercomputer/00_mpi.ipynb`</span> from the list</span>
-<span id="cb16-371"><a href="#cb16-371" aria-label="357"></a>  <span class="al">![Google Colab](../figures/colab.png)</span></span>
-<span id="cb16-372"><a href="#cb16-372" aria-label="358"></a></span>
-<span id="cb16-375"><a href="#cb16-375" aria-label="359"></a><span class="in">```{python}</span></span>
-<span id="cb16-376"><a href="#cb16-376" aria-label="360"></a><span class="co">#| output: false</span></span>
-<span id="cb16-377"><a href="#cb16-377" aria-label="361"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
-<span id="cb16-378"><a href="#cb16-378" aria-label="362"></a><span class="op">!</span> pip install mpi4py</span>
-<span id="cb16-379"><a href="#cb16-379" aria-label="363"></a><span class="in">```</span></span>
-<span id="cb16-380"><a href="#cb16-380" aria-label="364"></a></span>
-<span id="cb16-383"><a href="#cb16-383" aria-label="365"></a><span class="in">```{python}</span></span>
-<span id="cb16-384"><a href="#cb16-384" aria-label="366"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span>
-<span id="cb16-385"><a href="#cb16-385" aria-label="367"></a><span class="in">```</span></span>
-<span id="cb16-386"><a href="#cb16-386" aria-label="368"></a></span>
-<span id="cb16-389"><a href="#cb16-389" aria-label="369"></a><span class="in">```{python}</span></span>
-<span id="cb16-390"><a href="#cb16-390" aria-label="370"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
-<span id="cb16-391"><a href="#cb16-391" aria-label="371"></a><span class="in">```</span></span>
-<span id="cb16-392"><a href="#cb16-392" aria-label="372"></a></span>
-<span id="cb16-395"><a href="#cb16-395" aria-label="373"></a><span class="in">```{python}</span></span>
-<span id="cb16-396"><a href="#cb16-396" aria-label="374"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
-<span id="cb16-397"><a href="#cb16-397" aria-label="375"></a><span class="in">```</span></span>
-<span id="cb16-398"><a href="#cb16-398" aria-label="376"></a></span>
-<span id="cb16-399"><a href="#cb16-399" aria-label="377"></a><span class="fu">### Running $\pi$ on Polaris</span></span>
-<span id="cb16-400"><a href="#cb16-400" aria-label="378"></a></span>
-<span id="cb16-401"><a href="#cb16-401" aria-label="379"></a><span class="in">```bash</span></span>
-<span id="cb16-402"><a href="#cb16-402" aria-label="380"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
-<span id="cb16-403"><a href="#cb16-403" aria-label="381"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb16-404"><a href="#cb16-404" aria-label="382"></a><span class="co"># choose debug queue outside of the class</span></span>
-<span id="cb16-405"><a href="#cb16-405" aria-label="383"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
+<span id="cb16-340"><a href="#cb16-340" aria-label="328"></a>::: {.callout-warning title="Where to run this" collapse="false"}</span>
+<span id="cb16-341"><a href="#cb16-341" aria-label="329"></a>The single-process cells above (the NumPy simulation and plots) run fine on a</span>
+<span id="cb16-342"><a href="#cb16-342" aria-label="330"></a>**laptop or Colab**. The <span class="in">`mpi4py`</span> multi-rank cells and the timings below need</span>
+<span id="cb16-343"><a href="#cb16-343" aria-label="331"></a>**multiple cores / an HPC allocation** to show a real speedup.</span>
+<span id="cb16-344"><a href="#cb16-344" aria-label="332"></a>:::</span>
+<span id="cb16-345"><a href="#cb16-345" aria-label="333"></a></span>
+<span id="cb16-348"><a href="#cb16-348" aria-label="334"></a><span class="in">```{python}</span></span>
+<span id="cb16-349"><a href="#cb16-349" aria-label="335"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
+<span id="cb16-350"><a href="#cb16-350" aria-label="336"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-351"><a href="#cb16-351" aria-label="337"></a><span class="im">import</span> random</span>
+<span id="cb16-352"><a href="#cb16-352" aria-label="338"></a><span class="im">import</span> time</span>
+<span id="cb16-353"><a href="#cb16-353" aria-label="339"></a>comm <span class="op">=</span> MPI.COMM_WORLD</span>
+<span id="cb16-354"><a href="#cb16-354" aria-label="340"></a></span>
+<span id="cb16-355"><a href="#cb16-355" aria-label="341"></a>N <span class="op">=</span> <span class="dv">5000000</span></span>
+<span id="cb16-356"><a href="#cb16-356" aria-label="342"></a>Nin <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb16-357"><a href="#cb16-357" aria-label="343"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb16-358"><a href="#cb16-358" aria-label="344"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(comm.rank, N, comm.size):</span>
+<span id="cb16-359"><a href="#cb16-359" aria-label="345"></a>    x <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb16-360"><a href="#cb16-360" aria-label="346"></a>    y <span class="op">=</span> random.uniform(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb16-361"><a href="#cb16-361" aria-label="347"></a>    <span class="cf">if</span> (np.sqrt(x<span class="op">*</span>x <span class="op">+</span> y<span class="op">*</span>y) <span class="op">&lt;</span> <span class="fl">0.5</span>):</span>
+<span id="cb16-362"><a href="#cb16-362" aria-label="348"></a>        Nin <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb16-363"><a href="#cb16-363" aria-label="349"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
+<span id="cb16-364"><a href="#cb16-364" aria-label="350"></a>res_tot <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
+<span id="cb16-365"><a href="#cb16-365" aria-label="351"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
+<span id="cb16-366"><a href="#cb16-366" aria-label="352"></a>t1 <span class="op">=</span> time.time()</span>
+<span id="cb16-367"><a href="#cb16-367" aria-label="353"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb16-368"><a href="#cb16-368" aria-label="354"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
+<span id="cb16-369"><a href="#cb16-369" aria-label="355"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
+<span id="cb16-370"><a href="#cb16-370" aria-label="356"></a><span class="in">```</span></span>
+<span id="cb16-371"><a href="#cb16-371" aria-label="357"></a></span>
+<span id="cb16-372"><a href="#cb16-372" aria-label="358"></a><span class="fu">### Running $\pi$ example on Google Colab</span></span>
+<span id="cb16-373"><a href="#cb16-373" aria-label="359"></a></span>
+<span id="cb16-374"><a href="#cb16-374" aria-label="360"></a><span class="ss">* </span>Go to https://colab.research.google.com/, sign in or sign up</span>
+<span id="cb16-375"><a href="#cb16-375" aria-label="361"></a><span class="ss">* </span>"File"-&gt; "open notebook"</span>
+<span id="cb16-376"><a href="#cb16-376" aria-label="362"></a><span class="ss">* </span>Choose <span class="in">`01_intro_AI_on_Supercomputer/00_mpi.ipynb`</span> from the list</span>
+<span id="cb16-377"><a href="#cb16-377" aria-label="363"></a>  <span class="al">![Google Colab](../figures/colab.png)</span></span>
+<span id="cb16-378"><a href="#cb16-378" aria-label="364"></a></span>
+<span id="cb16-381"><a href="#cb16-381" aria-label="365"></a><span class="in">```{python}</span></span>
+<span id="cb16-382"><a href="#cb16-382" aria-label="366"></a><span class="co">#| output: false</span></span>
+<span id="cb16-383"><a href="#cb16-383" aria-label="367"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
+<span id="cb16-384"><a href="#cb16-384" aria-label="368"></a><span class="op">!</span> pip install mpi4py</span>
+<span id="cb16-385"><a href="#cb16-385" aria-label="369"></a><span class="in">```</span></span>
+<span id="cb16-386"><a href="#cb16-386" aria-label="370"></a></span>
+<span id="cb16-389"><a href="#cb16-389" aria-label="371"></a><span class="in">```{python}</span></span>
+<span id="cb16-390"><a href="#cb16-390" aria-label="372"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span>
+<span id="cb16-391"><a href="#cb16-391" aria-label="373"></a><span class="in">```</span></span>
+<span id="cb16-392"><a href="#cb16-392" aria-label="374"></a></span>
+<span id="cb16-395"><a href="#cb16-395" aria-label="375"></a><span class="in">```{python}</span></span>
+<span id="cb16-396"><a href="#cb16-396" aria-label="376"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
+<span id="cb16-397"><a href="#cb16-397" aria-label="377"></a><span class="in">```</span></span>
+<span id="cb16-398"><a href="#cb16-398" aria-label="378"></a></span>
+<span id="cb16-401"><a href="#cb16-401" aria-label="379"></a><span class="in">```{python}</span></span>
+<span id="cb16-402"><a href="#cb16-402" aria-label="380"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span>
+<span id="cb16-403"><a href="#cb16-403" aria-label="381"></a><span class="in">```</span></span>
+<span id="cb16-404"><a href="#cb16-404" aria-label="382"></a></span>
+<span id="cb16-405"><a href="#cb16-405" aria-label="383"></a><span class="fu">### Running $\pi$ on Polaris</span></span>
 <span id="cb16-406"><a href="#cb16-406" aria-label="384"></a></span>
-<span id="cb16-407"><a href="#cb16-407" aria-label="385"></a><span class="ex">module</span> load conda/2023-10-04</span>
-<span id="cb16-408"><a href="#cb16-408" aria-label="386"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
-<span id="cb16-409"><a href="#cb16-409" aria-label="387"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
-<span id="cb16-410"><a href="#cb16-410" aria-label="388"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
-<span id="cb16-411"><a href="#cb16-411" aria-label="389"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
-<span id="cb16-412"><a href="#cb16-412" aria-label="390"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
-<span id="cb16-413"><a href="#cb16-413" aria-label="391"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
-<span id="cb16-414"><a href="#cb16-414" aria-label="392"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span>
-<span id="cb16-415"><a href="#cb16-415" aria-label="393"></a><span class="in">```</span></span>
-<span id="cb16-416"><a href="#cb16-416" aria-label="394"></a></span>
-<span id="cb16-417"><a href="#cb16-417" aria-label="395"></a><span class="fu">## Where this goes next</span></span>
-<span id="cb16-418"><a href="#cb16-418" aria-label="396"></a></span>
-<span id="cb16-419"><a href="#cb16-419" aria-label="397"></a>The same idea of splitting work across many processes — which we just used with</span>
-<span id="cb16-420"><a href="#cb16-420" aria-label="398"></a>MPI to estimate $\pi$ — is exactly what powers **distributed training** of</span>
-<span id="cb16-421"><a href="#cb16-421" aria-label="399"></a>modern AI models (data parallelism, model parallelism, and more).</span>
+<span id="cb16-407"><a href="#cb16-407" aria-label="385"></a><span class="in">```bash</span></span>
+<span id="cb16-408"><a href="#cb16-408" aria-label="386"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
+<span id="cb16-409"><a href="#cb16-409" aria-label="387"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
+<span id="cb16-410"><a href="#cb16-410" aria-label="388"></a><span class="co"># choose debug queue outside of the class</span></span>
+<span id="cb16-411"><a href="#cb16-411" aria-label="389"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
+<span id="cb16-412"><a href="#cb16-412" aria-label="390"></a></span>
+<span id="cb16-413"><a href="#cb16-413" aria-label="391"></a><span class="ex">module</span> load conda/2023-10-04</span>
+<span id="cb16-414"><a href="#cb16-414" aria-label="392"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
+<span id="cb16-415"><a href="#cb16-415" aria-label="393"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
+<span id="cb16-416"><a href="#cb16-416" aria-label="394"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
+<span id="cb16-417"><a href="#cb16-417" aria-label="395"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
+<span id="cb16-418"><a href="#cb16-418" aria-label="396"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
+<span id="cb16-419"><a href="#cb16-419" aria-label="397"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
+<span id="cb16-420"><a href="#cb16-420" aria-label="398"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span>
+<span id="cb16-421"><a href="#cb16-421" aria-label="399"></a><span class="in">```</span></span>
 <span id="cb16-422"><a href="#cb16-422" aria-label="400"></a></span>
-<span id="cb16-423"><a href="#cb16-423" aria-label="401"></a>::: {.callout-tip title="➡️ Next steps"}</span>
-<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a>We cover distributed and parallel training in depth in</span>
-<span id="cb16-425"><a href="#cb16-425" aria-label="403"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb16-426"><a href="#cb16-426" aria-label="404"></a>(DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it</span>
-<span id="cb16-427"><a href="#cb16-427" aria-label="405"></a>to LLMs in <span class="co">[</span><span class="ot">**\[02\] Parallel Training**</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>.</span>
-<span id="cb16-428"><a href="#cb16-428" aria-label="406"></a>:::</span>
+<span id="cb16-423"><a href="#cb16-423" aria-label="401"></a><span class="fu">## Where this goes next</span></span>
+<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a></span>
+<span id="cb16-425"><a href="#cb16-425" aria-label="403"></a>The same idea of splitting work across many processes — which we just used with</span>
+<span id="cb16-426"><a href="#cb16-426" aria-label="404"></a>MPI to estimate $\pi$ — is exactly what powers **distributed training** of</span>
+<span id="cb16-427"><a href="#cb16-427" aria-label="405"></a>modern AI models (data parallelism, model parallelism, and more).</span>
+<span id="cb16-428"><a href="#cb16-428" aria-label="406"></a></span>
+<span id="cb16-429"><a href="#cb16-429" aria-label="407"></a>::: {.callout-tip title="➡️ Next steps"}</span>
+<span id="cb16-430"><a href="#cb16-430" aria-label="408"></a>We cover distributed and parallel training in depth in</span>
+<span id="cb16-431"><a href="#cb16-431" aria-label="409"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb16-432"><a href="#cb16-432" aria-label="410"></a>(DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it</span>
+<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a>to LLMs in <span class="co">[</span><span class="ot">**\[02\] Parallel Training**</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>.</span>
+<span id="cb16-434"><a href="#cb16-434" aria-label="412"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

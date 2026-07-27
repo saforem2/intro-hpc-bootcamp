@@ -4,11 +4,22 @@ Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
+- [From a line to a neuron](#from-a-line-to-a-neuron)
 - [**References:**](#references)
 
 This tutorial covers the basics of neural networks (aka “deep
 learning”), which is a technique within machine learning that tends to
 outperform other techniques when dealing with a large amount of data.
+
+> [!NOTE]
+>
+> ### 📋 Before you start
+>
+> This section assumes the \[00\]
+> [Python](../../00-intro-AI-HPC/3-python/index.qmd) and
+> [data](../../00-intro-AI-HPC/4-data/index.qmd) primers, and every cell
+> here runs on a plain laptop or
+> [Colab](https://colab.research.google.com/) — no GPU needed.
 
 - 🎯 **Goals**:
   - Introduce deep learning fundamentals through hands-on activities
@@ -32,6 +43,123 @@ outperform other techniques when dealing with a large amount of data.
   we have a category label for each data point, and we fit a function
   that can categorize inputs.
 
+## From a line to a neuron
+
+A neural network is built out of **neurons**, and a single neuron is a
+small extension of the linear regression you just saw. Last week’s model
+computed $w \cdot x + b$; a neuron does the same weighted sum and then
+passes it through a nonlinear **activation function** $\sigma$:
+
+$$ y = \sigma(w \cdot x + b) $$
+
+That one nonlinearity is what lets stacks of neurons fit curves and
+categories instead of just straight lines. Let’s build one with nothing
+but `numpy` and poke at it:
+
+``` python
+# On Colab (or any fresh environment) install the `bootcamp` helper for the
+# house plot style; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+
+from bootcamp.plotly_theme import style_mpl, COLORS
+style_mpl()   # ambivalent look (transparent bg + grey text) + Iosevka font
+```
+
+``` python
+import numpy as np
+
+# Three activation functions we'll meet again and again
+def relu(z):     return np.maximum(0.0, z)
+def sigmoid(z):  return 1.0 / (1.0 + np.exp(-z))
+def tanh(z):     return np.tanh(z)
+
+def neuron(x, w, b, activation):
+    """A single neuron: weighted sum of inputs, then a nonlinearity."""
+    z = np.dot(w, x) + b          # the same w·x + b as linear regression
+    return activation(z)
+
+x = np.array([1.0, 2.0, 3.0])     # a 3-feature input
+w = np.array([0.2, -0.6, 0.1])    # one weight per feature
+b = 0.3                           # bias
+
+for name, act in [("relu", relu), ("sigmoid", sigmoid), ("tanh", tanh)]:
+    print(f"{name:>8}: y = {neuron(x, w, b, act):.4f}")
+```
+
+        relu: y = 0.0000
+     sigmoid: y = 0.4013
+        tanh: y = -0.3799
+
+The **same** weighted sum feeds every activation, but each one squashes
+it differently. Change a weight and the output moves:
+
+``` python
+w_big = np.array([2.0, -0.6, 0.1])   # bump the first weight up
+print(f"original w -> sigmoid = {neuron(x, w,     b, sigmoid):.4f}")
+print(f"larger w   -> sigmoid = {neuron(x, w_big, b, sigmoid):.4f}")
+```
+
+    original w -> sigmoid = 0.4013
+    larger w   -> sigmoid = 0.8022
+
+Here is what those three activations actually look like — this is the
+“shape” each neuron can bend the data into:
+
+``` python
+import matplotlib.pyplot as plt
+
+z = np.linspace(-5, 5, 200)
+fig, ax = plt.subplots(figsize=(6.4, 4.0))
+ax.plot(z, relu(z),    label="ReLU",    color=COLORS["blue"],  lw=2)
+ax.plot(z, sigmoid(z), label="sigmoid", color=COLORS["red"],   lw=2)
+ax.plot(z, tanh(z),    label="tanh",    color=COLORS["green"], lw=2)
+ax.axhline(0, color=COLORS["grey"], lw=0.8, alpha=0.5)
+ax.axvline(0, color=COLORS["grey"], lw=0.8, alpha=0.5)
+ax.set_xlabel("z = w·x + b")
+ax.set_ylabel("σ(z)")
+ax.legend()
+plt.show()
+```
+
+<div id="fig-activations">
+
+![](index_files/figure-commonmark/fig-activations-output-1.png)
+
+Figure 1: Three common activation functions.
+
+</div>
+
+> [!NOTE]
+>
+> ### Exercise — feel the activation
+>
+> Using the `neuron` function above, keep `x`, `w`, and `b` the same but
+> compare `relu` and `sigmoid`. For this input the pre-activation sum
+> $z = w \cdot x + b$ is **negative** — predict what each activation
+> returns *before* running it, then check.
+>
+> > [!TIP]
+> >
+> > ### 💡 Solution
+> >
+> > ``` python
+> > z = np.dot(w, x) + b
+> > print(f"z = {z:.4f}  (negative)")
+> > print(f"relu(z)    = {neuron(x, w, b, relu):.4f}")     # clipped to exactly 0
+> > print(f"sigmoid(z) = {neuron(x, w, b, sigmoid):.4f}")  # squashed toward 0, but > 0
+> > ```
+> >
+> >     z = -0.4000  (negative)
+> >     relu(z)    = 0.0000
+> >     sigmoid(z) = 0.4013
+> >
+> > ReLU zeroes out any negative input, so it returns exactly `0.0`.
+> > Sigmoid maps every input into `(0, 1)`, so a negative `z` gives a
+> > small positive number (below `0.5`) rather than zero.
+
 The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains
 thousands of examples of handwritten numbers, with each digit labeled
 0-9.
@@ -40,7 +168,7 @@ thousands of examples of handwritten numbers, with each digit labeled
 
 ![MNIST Task](../images/mnist_task_generated.svg)
 
-Figure 1: A digit is just a grid of pixel intensities; the task is to
+Figure 2: A digit is just a grid of pixel intensities; the task is to
 fit a function $f(\text{image}) = \text{label}$.
 
 </div>
