@@ -82,8 +82,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-02d4b7cd247e52e4078572798779ccc6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-f7e609a21dbed691a89460a9f5b0e3a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c7ae842bfbbcb4b93b27db5935fa8e8c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2cc9636a8b2816920993385a435f23af.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -394,7 +394,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/1-parallel-training/index.html">Parallel Training</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/1-parallel-training/index.html">Hands-On: Distributed Run</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -542,7 +542,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../02-llms/1-parallel-training/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Parallel Training</span></a>
+ <span class="menu-text">Hands-On: Distributed Run</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -616,7 +616,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#parallel-training-methods-for-ai" id="toc-parallel-training-methods-for-ai" class="nav-link active" data-scroll-target="#parallel-training-methods-for-ai">🚀 Parallel Training Methods for AI</a>
+  <li><a href="#hands-on-launching-a-distributed-training-run" id="toc-hands-on-launching-a-distributed-training-run" class="nav-link active" data-scroll-target="#hands-on-launching-a-distributed-training-run">🚀 Hands-On: Launching a Distributed Training Run</a>
   <ul class="collapse">
   <li><a href="#hands-on" id="toc-hands-on" class="nav-link" data-scroll-target="#hands-on">👋 Hands On</a></li>
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">🎒 Homework</a></li>
@@ -631,7 +631,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/1-parallel-training/index.html">Parallel Training</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../02-llms/index.html">[02] Large Language Models</a></li><li class="breadcrumb-item"><a href="../../02-llms/1-parallel-training/index.html">Hands-On: Distributed Run</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Intro to HPC Bootcamp</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
@@ -677,8 +677,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
-<section id="parallel-training-methods-for-ai" class="level1">
-<h1>🚀 Parallel Training Methods for AI</h1>
+<section id="hands-on-launching-a-distributed-training-run" class="level1">
+<h1>🚀 Hands-On: Launching a Distributed Training Run</h1>
 <p><a href="https://samforeman.me">Sam Foreman</a> <a href="https://www.alcf.anl.gov/alcf-ai-science-training-series">Intro to AI-driven Science on Supercomputers</a> <em>2026-07-22</em></p>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/1-parallel-training/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/1-parallel-training/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <ul>
@@ -687,6 +687,29 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li>HTML version: <a href="https://samforeman.me/talks/ai-for-science-2024" class="uri">https://samforeman.me/talks/ai-for-science-2024</a></li>
 </ul></li>
 </ul>
+<p>This is a <strong>hands-on lab</strong>: you’ll launch a real multi-GPU <a href="#concepts-recap">data-parallel</a> training run on a supercomputer. It’s the practical counterpart to the <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[01] Distributed Training</strong></a> lesson — read that first if the concepts below are new to you.</p>
+<div id="concepts-recap" class="callout callout-style-simple callout-note callout-titled" title="🧠 Concepts recap (30-second version)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🧠 Concepts recap (30-second version)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The recipe below runs <strong>Distributed Data Parallelism (DDP)</strong>, the most common way to scale training:</p>
+<ul>
+<li><strong>Data Parallel (DP/DDP)</strong> — every GPU holds a <em>full copy</em> of the model and processes a different slice of each batch; gradients are averaged across GPUs with an <strong>all-reduce</strong> so every replica stays in sync. This is what you launch here.</li>
+<li><strong>Tensor Parallel (TP)</strong> — a single layer’s matrices are split <em>across</em> GPUs (usually within one node). Used when a layer is too big for one GPU.</li>
+<li><strong>Pipeline Parallel (PP)</strong> — different <em>layers</em> live on different GPUs and micro-batches flow through the stages like an assembly line.</li>
+</ul>
+<p>Real large-scale LLM training combines all three. For the full treatment — all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with runnable examples — see <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[01] Distributed Training</strong></a>.</p>
+</div>
+</div>
+</div>
 <section id="hands-on" class="level2">
 <h2 class="anchored" data-anchor-id="hands-on">👋 Hands On</h2>
 <div class="callout callout-style-simple callout-note">
@@ -1279,7 +1302,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 22. <a href="
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="fu"># 🚀 Parallel Training Methods for AI</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="fu"># 🚀 Hands-On: Launching a Distributed Training Run</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="co">[</span><span class="ot">Sam Foreman</span><span class="co">](https://samforeman.me)</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-label="4"></a><span class="co">[</span><span class="ot">Intro to AI-driven Science on Supercomputers</span><span class="co">](https://www.alcf.anl.gov/alcf-ai-science-training-series)</span></span>
@@ -1290,99 +1313,122 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 22. <a href="
 <span id="cb9-9"><a href="#cb9-9" aria-label="9"></a><span class="ss">- </span>Slides: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024/slides&gt;</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-label="10"></a><span class="ss">  - </span>HTML version: <span class="ot">&lt;https://samforeman.me/talks/ai-for-science-2024&gt;</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-label="11"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-label="12"></a><span class="fu">## 👋 Hands On</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-label="13"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-label="14"></a>::: {.callout-note}</span>
-<span id="cb9-15"><a href="#cb9-15" aria-label="15"></a>This workshop runs on <span class="co">[</span><span class="ot">NERSC Perlmutter</span><span class="co">](https://docs.nersc.gov/systems/perlmutter/)</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-label="16"></a>(SLURM, project **`m4388`**). The <span class="in">`ezpz launch`</span> command below is scheduler-agnostic —</span>
-<span id="cb9-17"><a href="#cb9-17" aria-label="17"></a>it auto-detects the environment (SLURM → <span class="in">`srun`</span>, PBS → <span class="in">`mpiexec`</span>) — so the same steps</span>
-<span id="cb9-18"><a href="#cb9-18" aria-label="18"></a>also work on ALCF PBS systems if you switch the allocation command.</span>
-<span id="cb9-19"><a href="#cb9-19" aria-label="19"></a>:::</span>
+<span id="cb9-12"><a href="#cb9-12" aria-label="12"></a>This is a **hands-on lab**: you'll launch a real multi-GPU</span>
+<span id="cb9-13"><a href="#cb9-13" aria-label="13"></a><span class="co">[</span><span class="ot">data-parallel</span><span class="co">](#concepts-recap)</span> training run on a supercomputer. It's the</span>
+<span id="cb9-14"><a href="#cb9-14" aria-label="14"></a>practical counterpart to the <span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-label="15"></a>lesson — read that first if the concepts below are new to you.</span>
+<span id="cb9-16"><a href="#cb9-16" aria-label="16"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-label="17"></a>::: {#concepts-recap .callout-note title="🧠 Concepts recap (30-second version)" collapse="true"}</span>
+<span id="cb9-18"><a href="#cb9-18" aria-label="18"></a>The recipe below runs **Distributed Data Parallelism (DDP)**, the most common way</span>
+<span id="cb9-19"><a href="#cb9-19" aria-label="19"></a>to scale training:</span>
 <span id="cb9-20"><a href="#cb9-20" aria-label="20"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a><span class="ss">1. </span>Log in to Perlmutter and request an interactive GPU node:</span>
-<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a></span>
-<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>    <span class="in">```bash</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a>    <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
-<span id="cb9-25"><a href="#cb9-25" aria-label="25"></a>    <span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="at">--constraint</span> gpu <span class="at">--account</span> m4388</span>
-<span id="cb9-26"><a href="#cb9-26" aria-label="26"></a>    <span class="in">```</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-label="27"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a><span class="ss">1. </span>Clone <span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
-<span id="cb9-29"><a href="#cb9-29" aria-label="29"></a></span>
-<span id="cb9-30"><a href="#cb9-30" aria-label="30"></a>    <span class="in">```bash</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-label="31"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
-<span id="cb9-32"><a href="#cb9-32" aria-label="32"></a>    <span class="bu">cd</span> wordplay</span>
-<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a>    <span class="in">```</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a><span class="ss">- </span>**Data Parallel (DP/DDP)** — every GPU holds a *full copy* of the model and</span>
+<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a>  processes a different slice of each batch; gradients are averaged across GPUs</span>
+<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>  with an **all-reduce** so every replica stays in sync. This is what you launch here.</span>
+<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a><span class="ss">- </span>**Tensor Parallel (TP)** — a single layer's matrices are split *across* GPUs</span>
+<span id="cb9-25"><a href="#cb9-25" aria-label="25"></a>  (usually within one node). Used when a layer is too big for one GPU.</span>
+<span id="cb9-26"><a href="#cb9-26" aria-label="26"></a><span class="ss">- </span>**Pipeline Parallel (PP)** — different *layers* live on different GPUs and</span>
+<span id="cb9-27"><a href="#cb9-27" aria-label="27"></a>  micro-batches flow through the stages like an assembly line.</span>
+<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-label="29"></a>Real large-scale LLM training combines all three. For the full treatment —</span>
+<span id="cb9-30"><a href="#cb9-30" aria-label="30"></a>all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with</span>
+<span id="cb9-31"><a href="#cb9-31" aria-label="31"></a>runnable examples — see</span>
+<span id="cb9-32"><a href="#cb9-32" aria-label="32"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
+<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a>:::</span>
 <span id="cb9-34"><a href="#cb9-34" aria-label="34"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-label="35"></a><span class="ss">1. </span>Setup python (creates / activates a <span class="in">`.venv`</span> and detects the job):</span>
+<span id="cb9-35"><a href="#cb9-35" aria-label="35"></a><span class="fu">## 👋 Hands On</span></span>
 <span id="cb9-36"><a href="#cb9-36" aria-label="36"></a></span>
-<span id="cb9-37"><a href="#cb9-37" aria-label="37"></a>    <span class="in">```bash</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-label="38"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
-<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a>    <span class="in">```</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-label="40"></a></span>
-<span id="cb9-41"><a href="#cb9-41" aria-label="41"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
-<span id="cb9-42"><a href="#cb9-42" aria-label="42"></a></span>
-<span id="cb9-43"><a href="#cb9-43" aria-label="43"></a>    <span class="in">```bash</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-label="44"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
-<span id="cb9-45"><a href="#cb9-45" aria-label="45"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> .</span>
-<span id="cb9-46"><a href="#cb9-46" aria-label="46"></a>    <span class="in">```</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-label="47"></a></span>
-<span id="cb9-48"><a href="#cb9-48" aria-label="48"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
-<span id="cb9-49"><a href="#cb9-49" aria-label="49"></a></span>
-<span id="cb9-50"><a href="#cb9-50" aria-label="50"></a>    <span class="in">```bash</span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a>    <span class="co"># to setup:</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-label="52"></a>    <span class="ex">wandb</span> login</span>
-<span id="cb9-53"><a href="#cb9-53" aria-label="53"></a>    <span class="co"># to disable:</span></span>
-<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
-<span id="cb9-55"><a href="#cb9-55" aria-label="55"></a>    <span class="in">```</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-label="56"></a></span>
-<span id="cb9-57"><a href="#cb9-57" aria-label="57"></a><span class="ss">1. </span>Test Distributed Setup:</span>
-<span id="cb9-58"><a href="#cb9-58" aria-label="58"></a></span>
-<span id="cb9-59"><a href="#cb9-59" aria-label="59"></a>    <span class="in">```bash</span></span>
-<span id="cb9-60"><a href="#cb9-60" aria-label="60"></a>    <span class="ex">ezpz</span> test</span>
-<span id="cb9-61"><a href="#cb9-61" aria-label="61"></a>    <span class="in">```</span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-label="62"></a></span>
-<span id="cb9-63"><a href="#cb9-63" aria-label="63"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
-<span id="cb9-64"><a href="#cb9-64" aria-label="64"></a></span>
-<span id="cb9-65"><a href="#cb9-65" aria-label="65"></a><span class="ss">1. </span>Prepare Data:</span>
-<span id="cb9-66"><a href="#cb9-66" aria-label="66"></a></span>
-<span id="cb9-67"><a href="#cb9-67" aria-label="67"></a>    <span class="in">```bash</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-label="68"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
+<span id="cb9-37"><a href="#cb9-37" aria-label="37"></a>::: {.callout-note}</span>
+<span id="cb9-38"><a href="#cb9-38" aria-label="38"></a>This workshop runs on <span class="co">[</span><span class="ot">NERSC Perlmutter</span><span class="co">](https://docs.nersc.gov/systems/perlmutter/)</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a>(SLURM, project **`m4388`**). The <span class="in">`ezpz launch`</span> command below is scheduler-agnostic —</span>
+<span id="cb9-40"><a href="#cb9-40" aria-label="40"></a>it auto-detects the environment (SLURM → <span class="in">`srun`</span>, PBS → <span class="in">`mpiexec`</span>) — so the same steps</span>
+<span id="cb9-41"><a href="#cb9-41" aria-label="41"></a>also work on ALCF PBS systems if you switch the allocation command.</span>
+<span id="cb9-42"><a href="#cb9-42" aria-label="42"></a>:::</span>
+<span id="cb9-43"><a href="#cb9-43" aria-label="43"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-label="44"></a><span class="ss">1. </span>Log in to Perlmutter and request an interactive GPU node:</span>
+<span id="cb9-45"><a href="#cb9-45" aria-label="45"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-label="46"></a>    <span class="in">```bash</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-label="47"></a>    <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb9-48"><a href="#cb9-48" aria-label="48"></a>    <span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="at">--constraint</span> gpu <span class="at">--account</span> m4388</span>
+<span id="cb9-49"><a href="#cb9-49" aria-label="49"></a>    <span class="in">```</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-label="50"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a><span class="ss">1. </span>Clone <span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
+<span id="cb9-52"><a href="#cb9-52" aria-label="52"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-label="53"></a>    <span class="in">```bash</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb9-55"><a href="#cb9-55" aria-label="55"></a>    <span class="bu">cd</span> wordplay</span>
+<span id="cb9-56"><a href="#cb9-56" aria-label="56"></a>    <span class="in">```</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-label="57"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-label="58"></a><span class="ss">1. </span>Setup python (creates / activates a <span class="in">`.venv`</span> and detects the job):</span>
+<span id="cb9-59"><a href="#cb9-59" aria-label="59"></a></span>
+<span id="cb9-60"><a href="#cb9-60" aria-label="60"></a>    <span class="in">```bash</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-label="61"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb9-62"><a href="#cb9-62" aria-label="62"></a>    <span class="in">```</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-label="63"></a></span>
+<span id="cb9-64"><a href="#cb9-64" aria-label="64"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
+<span id="cb9-65"><a href="#cb9-65" aria-label="65"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-label="66"></a>    <span class="in">```bash</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-label="67"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
+<span id="cb9-68"><a href="#cb9-68" aria-label="68"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> .</span>
 <span id="cb9-69"><a href="#cb9-69" aria-label="69"></a>    <span class="in">```</span></span>
 <span id="cb9-70"><a href="#cb9-70" aria-label="70"></a></span>
-<span id="cb9-71"><a href="#cb9-71" aria-label="71"></a><span class="ss">1. </span>Launch Training:</span>
+<span id="cb9-71"><a href="#cb9-71" aria-label="71"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
 <span id="cb9-72"><a href="#cb9-72" aria-label="72"></a></span>
 <span id="cb9-73"><a href="#cb9-73" aria-label="73"></a>    <span class="in">```bash</span></span>
-<span id="cb9-74"><a href="#cb9-74" aria-label="74"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb9-75"><a href="#cb9-75" aria-label="75"></a>        train.backend=DDP <span class="dt">\</span></span>
-<span id="cb9-76"><a href="#cb9-76" aria-label="76"></a>        train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb9-77"><a href="#cb9-77" aria-label="77"></a>        data=shakespeare <span class="dt">\</span></span>
-<span id="cb9-78"><a href="#cb9-78" aria-label="78"></a>        train.dtype=bf16 <span class="dt">\</span></span>
-<span id="cb9-79"><a href="#cb9-79" aria-label="79"></a>        model.batch_size=64 <span class="dt">\</span></span>
-<span id="cb9-80"><a href="#cb9-80" aria-label="80"></a>        model.block_size=1024 <span class="dt">\</span></span>
-<span id="cb9-81"><a href="#cb9-81" aria-label="81"></a>        train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb9-82"><a href="#cb9-82" aria-label="82"></a>        train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb9-83"><a href="#cb9-83" aria-label="83"></a>        train.compile=false</span>
+<span id="cb9-74"><a href="#cb9-74" aria-label="74"></a>    <span class="co"># to setup:</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-label="75"></a>    <span class="ex">wandb</span> login</span>
+<span id="cb9-76"><a href="#cb9-76" aria-label="76"></a>    <span class="co"># to disable:</span></span>
+<span id="cb9-77"><a href="#cb9-77" aria-label="77"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
+<span id="cb9-78"><a href="#cb9-78" aria-label="78"></a>    <span class="in">```</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-label="79"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-label="80"></a><span class="ss">1. </span>Test Distributed Setup:</span>
+<span id="cb9-81"><a href="#cb9-81" aria-label="81"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-label="82"></a>    <span class="in">```bash</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-label="83"></a>    <span class="ex">ezpz</span> test</span>
 <span id="cb9-84"><a href="#cb9-84" aria-label="84"></a>    <span class="in">```</span></span>
 <span id="cb9-85"><a href="#cb9-85" aria-label="85"></a></span>
-<span id="cb9-86"><a href="#cb9-86" aria-label="86"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-label="86"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
 <span id="cb9-87"><a href="#cb9-87" aria-label="87"></a></span>
-<span id="cb9-88"><a href="#cb9-88" aria-label="88"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
+<span id="cb9-88"><a href="#cb9-88" aria-label="88"></a><span class="ss">1. </span>Prepare Data:</span>
 <span id="cb9-89"><a href="#cb9-89" aria-label="89"></a></span>
-<span id="cb9-90"><a href="#cb9-90" aria-label="90"></a>Where _proof_ can be any of:</span>
-<span id="cb9-91"><a href="#cb9-91" aria-label="91"></a></span>
-<span id="cb9-92"><a href="#cb9-92" aria-label="92"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
-<span id="cb9-93"><a href="#cb9-93" aria-label="93"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the NERSC filesystems</span>
-<span id="cb9-94"><a href="#cb9-94" aria-label="94"></a>  (e.g. under your <span class="in">`m4388`</span> project space)</span>
-<span id="cb9-95"><a href="#cb9-95" aria-label="95"></a><span class="ss">- </span>A screenshot of:</span>
-<span id="cb9-96"><a href="#cb9-96" aria-label="96"></a><span class="ss">  - </span>the text printed out from the run</span>
-<span id="cb9-97"><a href="#cb9-97" aria-label="97"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
-<span id="cb9-98"><a href="#cb9-98" aria-label="98"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
-<span id="cb9-99"><a href="#cb9-99" aria-label="99"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
-<span id="cb9-100"><a href="#cb9-100" aria-label="100"></a><span class="ss">- </span>etc.</span>
-<span id="cb9-101"><a href="#cb9-101" aria-label="101"></a></span>
-<span id="cb9-102"><a href="#cb9-102" aria-label="102"></a></span>
-<span id="cb9-103"><a href="#cb9-103" aria-label="103"></a></span>
-<span id="cb9-104"><a href="#cb9-104" aria-label="104"></a><span class="co">&lt;!--[^gpu]: If you do not have access to Perlmutter, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb9-90"><a href="#cb9-90" aria-label="90"></a>    <span class="in">```bash</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-label="91"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
+<span id="cb9-92"><a href="#cb9-92" aria-label="92"></a>    <span class="in">```</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-label="93"></a></span>
+<span id="cb9-94"><a href="#cb9-94" aria-label="94"></a><span class="ss">1. </span>Launch Training:</span>
+<span id="cb9-95"><a href="#cb9-95" aria-label="95"></a></span>
+<span id="cb9-96"><a href="#cb9-96" aria-label="96"></a>    <span class="in">```bash</span></span>
+<span id="cb9-97"><a href="#cb9-97" aria-label="97"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-label="98"></a>        train.backend=DDP <span class="dt">\</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-label="99"></a>        train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb9-100"><a href="#cb9-100" aria-label="100"></a>        data=shakespeare <span class="dt">\</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-label="101"></a>        train.dtype=bf16 <span class="dt">\</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-label="102"></a>        model.batch_size=64 <span class="dt">\</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-label="103"></a>        model.block_size=1024 <span class="dt">\</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-label="104"></a>        train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-label="105"></a>        train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-label="106"></a>        train.compile=false</span>
+<span id="cb9-107"><a href="#cb9-107" aria-label="107"></a>    <span class="in">```</span></span>
+<span id="cb9-108"><a href="#cb9-108" aria-label="108"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-label="109"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-label="110"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-label="111"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
+<span id="cb9-112"><a href="#cb9-112" aria-label="112"></a></span>
+<span id="cb9-113"><a href="#cb9-113" aria-label="113"></a>Where _proof_ can be any of:</span>
+<span id="cb9-114"><a href="#cb9-114" aria-label="114"></a></span>
+<span id="cb9-115"><a href="#cb9-115" aria-label="115"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
+<span id="cb9-116"><a href="#cb9-116" aria-label="116"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the NERSC filesystems</span>
+<span id="cb9-117"><a href="#cb9-117" aria-label="117"></a>  (e.g. under your <span class="in">`m4388`</span> project space)</span>
+<span id="cb9-118"><a href="#cb9-118" aria-label="118"></a><span class="ss">- </span>A screenshot of:</span>
+<span id="cb9-119"><a href="#cb9-119" aria-label="119"></a><span class="ss">  - </span>the text printed out from the run</span>
+<span id="cb9-120"><a href="#cb9-120" aria-label="120"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
+<span id="cb9-121"><a href="#cb9-121" aria-label="121"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
+<span id="cb9-122"><a href="#cb9-122" aria-label="122"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
+<span id="cb9-123"><a href="#cb9-123" aria-label="123"></a><span class="ss">- </span>etc.</span>
+<span id="cb9-124"><a href="#cb9-124" aria-label="124"></a></span>
+<span id="cb9-125"><a href="#cb9-125" aria-label="125"></a></span>
+<span id="cb9-126"><a href="#cb9-126" aria-label="126"></a></span>
+<span id="cb9-127"><a href="#cb9-127" aria-label="127"></a><span class="co">&lt;!--[^gpu]: If you do not have access to Perlmutter, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

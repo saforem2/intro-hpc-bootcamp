@@ -1404,6 +1404,18 @@ Figure 27: Language Model trained for causal language modeling.
 
 ## 👋 Hands On
 
+> [!TIP]
+>
+> ### 🚀 Prefer a self-contained, copy-paste lab?
+>
+> The walkthrough below runs on **ALCF (Polaris, PBS)**. If you’re on
+> **NERSC Perlmutter** — or you just want a clean, standalone recipe
+> without the surrounding lesson — jump to the dedicated hands-on lab:
+>
+> ➡️ [**\[02\] Hands-On: Launching a Distributed
+> Run**](../../02-llms/1-parallel-training/index.qmd) (SLURM / `salloc`,
+> project `m4388`). It runs the *same* `wordplay` DDP example.
+
 [ai-science-training-series /
 06_parallel_training](https://github.com/argonne-lcf/ai-science-training-series/tree/main/06_parallel_training#hands-on)
 
