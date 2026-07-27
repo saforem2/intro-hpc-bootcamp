@@ -73,7 +73,6 @@ import matplotlib as mpl
 ```{python}
 import logging
 
-import ambivalent
 import ezpz
 import numpy as np
 import matplotlib.pyplot as plt
@@ -82,12 +81,15 @@ from rich import print
 
 sns.set_context("notebook")
 # sns.set(rc={"figure.dpi": 400, "savefig.dpi": 400})
-plt.style.use(ambivalent.STYLES["ambivalent"])
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
 plt.rcParams["figure.facecolor"] = "none"
 
 # house look (transparent + grey + Iosevka) for every figure on this page,
-# plus the grid-diagram helpers used for the padding/pooling/channel figures
+# plus the grid-diagram helpers used for the padding/pooling/channel figures.
+# `style_mpl()` applies the `ambivalent` style through a guarded wrapper — don't
+# `import ambivalent` / `plt.style.use(...)` directly, because ambivalent copies
+# a style file into matplotlib's config dir at import time and hard-fails with a
+# PermissionError wherever that file is read-only (e.g. shared HPC installs).
 from bootcamp.plotly_theme import style_mpl, COLORS
 from bootcamp.plots import draw_grid, new_grid_axes
 style_mpl()
