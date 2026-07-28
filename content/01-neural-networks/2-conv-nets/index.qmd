@@ -82,6 +82,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from rich import print
 
+# One ezpz logger for the whole page: training/validation progress goes through
+# this (clean `[timestamp][I] ...` lines) instead of bare print(); the pedagogical
+# `print(tensor.shape)`-style calls stay as print() since a plain value reads
+# better than a timestamped log line when you're inspecting a shape.
+logger = ezpz.get_logger(__name__)
+
 sns.set_context("notebook")
 # sns.set(rc={"figure.dpi": 400, "savefig.dpi": 400})
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
@@ -881,7 +887,7 @@ def train_one_epoch(
         metrics = {"bidx": batch, "loss": loss, **metrics}
         batch_metrics[batch] = metrics
         if history is not None:
-            print(history.update(metrics))
+            logger.info(history.update(metrics))
     t1 = time.perf_counter()
     batch_metrics |= {"dt_batch": t1 - t0}
     # if history is not None:
@@ -952,7 +958,7 @@ for i in trange(TRAIN_ITERS, desc="Training"):
         },
     ).replace("/", ".")
     if i % PRINT_EVERY == 0:
-        print(summary)
+        logger.info(summary)
 ```
 
 ## Run Validation
@@ -980,7 +986,7 @@ with torch.no_grad():
         }
         summary = eval_history.update(metrics)
         if bidx % PRINT_EVERY == 0:
-            print(summary)
+            logger.info(summary)
 ```
 
 ## Plot Metrics
@@ -1090,13 +1096,13 @@ for j in range(epochs):
             desc=f"Validate (train) Epoch {j}",
         ) as train_eval:
             acc, loss = evaluate(train_dataloader, model, loss_fn, train_eval)
-            print(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
+            logger.info(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
 
     with tqdm(
         total=len(val_dataloader), position=0, leave=True, desc=f"Validate Epoch {j}"
     ) as val_bar:
         acc_val, loss_val = evaluate(val_dataloader, model, loss_fn, val_bar)
-        print(
+        logger.info(
             f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}"
         )
 ```

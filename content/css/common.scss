@@ -11,8 +11,12 @@ $bg-scaling-factor: 1.15 !default;
 // Page grid: widen the docked nav sidebar so section titles wrap less.
 // (This is the real lever for the docked left nav — Quarto's `grid:` YAML
 // option only sizes the right margin/TOC column.)
+// $grid-body-width sizes the whole body-content track: we widen it so code
+// blocks, figures, and tables fill wide screens instead of leaving a big dead
+// gutter on the right. Running PROSE is separately capped at a readable measure
+// (~800px) in the scss:rules section below — see `.quarto-bootcamp-prose-measure`.
 $grid-sidebar-width: 300px;
-$grid-body-width: 900px;
+$grid-body-width: 1180px;
 $grid-margin-width: 250px;
 
 $right-arrow: "\2192"; // Unicode character for right arrow
@@ -357,6 +361,26 @@ b {
 }
 
 /*-- scss:rules --*/
+
+// --- Readable prose measure inside a wide body track --------------------------
+// $grid-body-width is widened (see scss:defaults) so code blocks, figures, and
+// tables fill wide screens. But long RUNNING TEXT at that width is hard to read
+// (>100 chars/line), so cap the measure of prose-level elements at ~800px while
+// leaving code/output/figures/tables free to use the full width. Scoped to the
+// main article column; left-aligned (not centered) so it lines up with headings.
+#quarto-document-content {
+  > section > p,
+  > section > ul,
+  > section > ol,
+  > section > dl,
+  > section > blockquote,
+  > p,
+  > ul,
+  > ol,
+  > blockquote {
+    max-width: 46rem; // ~800px at the 16px root; readable line length
+  }
+}
 
 // WebKit/Blink (Chrome, Safari, Edge) ignore `scrollbar-color`/`scrollbar-width`,
 // so without this they show default OS scrollbars. Match the thin themed accent
