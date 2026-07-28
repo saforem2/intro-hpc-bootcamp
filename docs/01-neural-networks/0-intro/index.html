@@ -87,8 +87,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -840,7 +840,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 <p>A neural network is built out of <strong>neurons</strong>, and a single neuron is a small extension of the linear regression you just saw. Last week’s model computed <span class="math inline">w \cdot x + b</span>; a neuron does the same weighted sum and then passes it through a nonlinear <strong>activation function</strong> <span class="math inline">\sigma</span>:</p>
 <p><span class="math display"> y = \sigma(w \cdot x + b) </span></p>
 <p>That one nonlinearity is what lets stacks of neurons fit curves and categories instead of just straight lines. Let’s build one with nothing but <code>numpy</code> and poke at it:</p>
-<div id="c22a1935" class="cell" data-execution_count="1">
+<div id="c22a1935" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># On Colab (or any fresh environment) install the `bootcamp` helper for the</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># house plot style; locally this is a no-op.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">try</span>:</span>
@@ -851,7 +851,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 <span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl, COLORS</span>
 <span id="cb1-9"><a href="#cb1-9" aria-label="9"></a>style_mpl()   <span class="co"># ambivalent look (transparent bg + grey text) + Iosevka font</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="70bb765c" class="cell" data-execution_count="2">
+<div id="70bb765c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co"># Three activation functions we'll meet again and again</span></span>
@@ -877,7 +877,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 </div>
 </div>
 <p>The <strong>same</strong> weighted sum feeds every activation, but each one squashes it differently. Change a weight and the output moves:</p>
-<div id="6089360e" class="cell" data-execution_count="3">
+<div id="6089360e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>w_big <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])   <span class="co"># bump the first weight up</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"original w -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w,     b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"larger w   -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w_big, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -887,7 +887,7 @@ larger w   -&gt; sigmoid = 0.8022</code></pre>
 </div>
 </div>
 <p>Here is what those three activations actually look like — this is the “shape” each neuron can bend the data into:</p>
-<div id="cell-fig-activations" class="cell" data-execution_count="4">
+<div id="cell-fig-activations" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
@@ -939,7 +939,7 @@ Figure&nbsp;1: Three common activation functions.
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="5db43f4e" class="cell" data-execution_count="5">
+<div id="5db43f4e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"z = </span><span class="sc">{</span>z<span class="sc">:.4f}</span><span class="ss">  (negative)"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"relu(z)    = </span><span class="sc">{</span>neuron(x, w, b, relu)<span class="sc">:.4f}</span><span class="ss">"</span>)     <span class="co"># clipped to exactly 0</span></span>

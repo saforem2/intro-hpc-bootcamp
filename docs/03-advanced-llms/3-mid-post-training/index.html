@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -874,7 +874,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 </ol>
 <p>What makes tokens “high quality”? Roughly: dense in information, low in boilerplate/spam, deduplicated, and <em>relevant to what you want the model to be good at</em>. A page of careful proofs or clean, well-documented code teaches the model far more per token than a scraped forum thread.</p>
 <p>The data-loading + chunking shape runs on CPU with the <code>gpt2</code> tokenizer:</p>
-<div id="d7f0dcaf" class="cell" data-execution_count="1">
+<div id="d7f0dcaf" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> torch</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a></span>
@@ -908,7 +908,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 </div>
 </div>
 <p>That <code>(n_blocks, block_size)</code> tensor is exactly the shape a <code>DataCollator</code> feeds a <code>Trainer</code>. The actual training step loads a <strong>base model</strong> and runs a standard optimizer loop — heavy, so it is display-only here:</p>
-<div id="ab732714" class="cell" data-execution_count="2">
+<div id="ab732714" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    AutoModelForCausalLM,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>    AutoTokenizer,</span>
@@ -960,7 +960,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 <h3 class="anchored" data-anchor-id="b-supervised-fine-tuning-sft-with-a-chat-template">(b) Supervised fine-tuning (SFT) with a chat template</h3>
 <p>SFT teaches the base model to follow instructions. The data is a list of <strong>(prompt, completion)</strong> pairs — most commonly expressed as a <code>messages</code> list of <code>{"role", "content"}</code> turns. Before training, every conversation is rendered into a single string with <strong>special tokens</strong> that mark turn boundaries. That rendering is the job of <code>tokenizer.apply_chat_template</code>.</p>
 <p><code>gpt2</code> ships without a chat template, so we attach a minimal <a href="https://huggingface.co/docs/transformers/main/en/chat_templating">ChatML</a>-style one to see the mechanics. Real chat models (Qwen, OLMo 2, Llama-3-Instruct) ship their template inside <code>tokenizer_config.json</code>:</p>
-<div id="90816a79" class="cell" data-execution_count="3">
+<div id="90816a79" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>tok <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">"gpt2"</span>)</span>
@@ -999,7 +999,7 @@ What is continued pretraining in one sentence?&lt;|im_end|&gt;
 \mathcal{L}_{\text{SFT}} = -\sum_{t \in \text{completion}} \log P_\theta\!\left(y_t \mid y_{&lt;t}\right)
 </span></p>
 <p>That <code>-100</code> mask is the whole trick, and it fits in a runnable cell. Take one rendered example laid out as <code>[ prompt tokens | completion tokens ]</code>, build its label mask, and watch how the loss changes when we <em>don’t</em> mask the prompt:</p>
-<div id="c12bf787" class="cell" data-execution_count="4">
+<div id="c12bf787" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
@@ -1056,7 +1056,7 @@ loss if prompt NOT masked : 0.987  &lt;- diluted by 'free' prompt tokens</code><
 </div>
 </div>
 <p>The full fine-tune uses TRL’s <code>SFTTrainer</code> plus a <strong>LoRA</strong> adapter from PEFT. Heavy libraries + GPU, so display-only:</p>
-<div id="b7b375ac" class="cell" data-execution_count="5">
+<div id="b7b375ac" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="im">from</span> trl <span class="im">import</span> SFTTrainer, SFTConfig</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="im">from</span> peft <span class="im">import</span> LoraConfig</span>
@@ -1293,7 +1293,7 @@ Table&nbsp;1: An illustrative continued-pretraining data mix.
 <li><a href="https://huggingface.co/docs/transformers/main/en/chat_templating">Chat templating in 🤗 Transformers</a></li>
 <li>Next: <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[03.4] RL &amp; Reasoning</a> — DPO / GRPO / PPO alignment.</li>
 </ul>
-<div id="1119c338" class="cell" data-execution_count="6">
+<div id="1119c338" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>Last updated: 2026-07-27 10:32:41</code></pre>
 </div>

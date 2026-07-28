@@ -101,8 +101,8 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/iconify-3.0.0/iconify-icon.min.js"></script>
@@ -1481,7 +1481,7 @@ Figure&nbsp;8: All-Reduce operation: each rank receives the reduction of input v
 <div id="callout-4" class="callout-4-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>You don’t need a GPU cluster to <em>understand</em> an all-reduce. It’s just: <strong>sum a value across all workers, then give everyone the result.</strong> In real distributed training this is what averages the gradients each rank computed on its own shard of the batch. Here we simulate 4 ranks on the CPU with NumPy:</p>
-<div id="89342901" class="cell" data-execution_count="1">
+<div id="89342901" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co"># Pretend 4 ranks each computed a gradient from their local mini-batch.</span></span>
@@ -1811,7 +1811,7 @@ Figure&nbsp;12: Scatters a list of tensors to the whole group
 <div id="callout-5" class="callout-5-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>The all-reduce sim above showed one collective. The four diagrams in this section (<code>reduce</code>, <code>broadcast</code>, <code>all_gather</code>, <code>scatter</code>) are just as easy to simulate on the CPU — we represent “ranks” as a plain Python list, one array per rank, and print the buffers <strong>before</strong> and <strong>after</strong> each op. This mirrors the real <code>torch.distributed</code> / <code>mpi4py</code> API, minus the network:</p>
-<div id="a85647de" class="cell" data-execution_count="2">
+<div id="a85647de" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>world_size <span class="op">=</span> <span class="dv">4</span></span>
@@ -1891,7 +1891,7 @@ scatter  ([10,20,30,40]):  [10, 20, 30, 40]</code></pre>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Adding GPUs changes more than throughput — it changes the <strong>effective batch size</strong> your optimizer sees, which in turn changes the learning rate you should use. This is pure arithmetic, so you can explore it on a laptop. Tweak the four inputs and re-run:</p>
-<div id="6c4d9361" class="cell" data-execution_count="3">
+<div id="6c4d9361" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="kw">def</span> scaling_report(world_size, per_device_batch, base_lr, dataset_size):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    <span class="co">"""Report the global quantities implied by a data-parallel setup."""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>    global_batch <span class="op">=</span> world_size <span class="op">*</span> per_device_batch</span>
@@ -1941,7 +1941,7 @@ LR (sqrt rule)    = 0.004   (base_lr * sqrt(world_size))</code></pre>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>You’re moving a run from <strong>1 GPU → 8 GPUs</strong>, keeping the per-device batch fixed and using the <strong>linear</strong> LR rule. Fill in the two <code>TODO</code> lines so both asserts pass:</p>
-<div id="e767afec" class="cell" data-execution_count="4">
+<div id="e767afec" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>world_size <span class="op">=</span> <span class="dv">8</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>per_device_batch <span class="op">=</span> <span class="dv">16</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>base_lr <span class="op">=</span> <span class="fl">1e-3</span>          <span class="co"># tuned for the single-device batch of 16</span></span>
@@ -1971,7 +1971,7 @@ LR (sqrt rule)    = 0.004   (base_lr * sqrt(world_size))</code></pre>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="109734a6" class="cell" data-execution_count="5">
+<div id="109734a6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>world_size <span class="op">=</span> <span class="dv">8</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>per_device_batch <span class="op">=</span> <span class="dv">16</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>base_lr <span class="op">=</span> <span class="fl">1e-3</span></span>

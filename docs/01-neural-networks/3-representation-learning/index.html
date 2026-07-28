@@ -82,8 +82,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -141,14 +141,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta property="og:description" content="Exploring how neural networks can learn representations of data, enabling tasks like classification with limited labeled data.">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/3-representation-learning/index_files/figure-html/fig-gpu-lowlabel-output-2.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
-<meta property="og:image:height" content="740">
-<meta property="og:image:width" content="1107">
+<meta property="og:image:height" content="744">
+<meta property="og:image:width" content="1106">
 <meta name="twitter:title" content="Representation Learning with Neural Networks – Intro to HPC Bootcamp">
 <meta name="twitter:description" content="Exploring how neural networks can learn representations of data, enabling tasks like classification with limited labeled data.">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/3-representation-learning/index_files/figure-html/fig-gpu-lowlabel-output-2.png">
 <meta name="twitter:site" content="saforem2">
-<meta name="twitter:image-height" content="740">
-<meta name="twitter:image-width" content="1107">
+<meta name="twitter:image-height" content="744">
+<meta name="twitter:image-width" content="1106">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Representation Learning with Neural Networks">
 <meta name="citation_publication_date" content="2025-07-22">
@@ -716,7 +716,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="sec-mini" class="level2">
 <h2 class="anchored" data-anchor-id="sec-mini">🏃 A contrastive learner you can run right now</h2>
 <p>Everything in this section uses only <code>torch</code> / <code>numpy</code> / <code>matplotlib</code>, downloads one small dataset, and runs on CPU. Let’s set the stage:</p>
-<div id="465555e1" class="cell" data-execution_count="1">
+<div id="14ec66e4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -751,7 +751,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <p><strong>The encoder.</strong> A small CNN that maps a 28×28 image to a 64-dimensional <em>representation</em> vector. This is the thing we’re trying to teach.</p>
-<div id="15c46b34" class="cell" data-execution_count="2">
+<div id="af303a2b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="kw">class</span> Encoder(nn.Module):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    <span class="co">"""Tiny CNN: image -&gt; 64-d representation."""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dim<span class="op">=</span><span class="dv">64</span>):</span>
@@ -767,7 +767,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb3-13"><a href="#cb3-13" aria-label="13"></a>        <span class="cf">return</span> <span class="va">self</span>.net(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The contrastive objective (NT-Xent).</strong> For a batch of images we make two augmented views of each, encode them, and ask: for every view, is its <em>positive partner</em> (the other view of the same image) closer than all the other images in the batch? That’s exactly a classification problem the model can be trained on — no labels required.</p>
-<div id="0aaca4f2" class="cell" data-execution_count="3">
+<div id="02ad5d51" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># Two random "views" of an image: crop + flip. Same picture, different look.</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>augment <span class="op">=</span> T.Compose([</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>    T.RandomResizedCrop(<span class="dv">28</span>, scale<span class="op">=</span>(<span class="fl">0.5</span>, <span class="fl">1.0</span>), antialias<span class="op">=</span><span class="va">True</span>),</span>
@@ -784,7 +784,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb4-14"><a href="#cb4-14" aria-label="14"></a>    <span class="cf">return</span> F.cross_entropy(sim, targets)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Train it</strong> — 300 steps on the <em>unlabeled</em> pool. Watch the loss fall: the model is genuinely learning to recognize “same image, different view.”</p>
-<div id="a60aa098" class="cell" data-execution_count="4">
+<div id="6a194e1c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>encoder <span class="op">=</span> Encoder()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>projector <span class="op">=</span> nn.Sequential(nn.Linear(<span class="dv">64</span>, <span class="dv">64</span>), nn.ReLU(), nn.Linear(<span class="dv">64</span>, <span class="dv">32</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>opt <span class="op">=</span> torch.optim.Adam(<span class="bu">list</span>(encoder.parameters()) <span class="op">+</span> <span class="bu">list</span>(projector.parameters()), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
@@ -802,12 +802,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb5-15"><a href="#cb5-15" aria-label="15"></a><span class="bu">print</span>(<span class="st">"contrastive loss:"</span>, loss_curve)</span>
 <span id="cb5-16"><a href="#cb5-16" aria-label="16"></a><span class="bu">print</span>(<span class="ss">f"trained in </span><span class="sc">{</span>time<span class="sc">.</span>time() <span class="op">-</span> _t0<span class="sc">:.0f}</span><span class="ss">s on CPU  (labels used: 0)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>contrastive loss: [(0, 6.232), (50, 5.212), (100, 4.368), (150, 4.042), (200, 3.82), (250, 3.573)]
-trained in 6s on CPU  (labels used: 0)</code></pre>
+<pre><code>contrastive loss: [(0, 6.232), (50, 5.211), (100, 4.374), (150, 4.066), (200, 3.838), (250, 3.535)]
+trained in 25s on CPU  (labels used: 0)</code></pre>
 </div>
 </div>
 <p>The loss drops from ~6 to ~4 — the contrastive task is being solved. So how good are the features? Let’s measure honestly, using labels <strong>only to evaluate</strong> (never to train the encoder). We compare three feature spaces with a simple 5-nearest-neighbor classifier:</p>
-<div id="2c68c4b9" class="cell" data-execution_count="5">
+<div id="66e66e46" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>encoder.<span class="bu">eval</span>()</span>
@@ -831,7 +831,7 @@ trained in 6s on CPU  (labels used: 0)</code></pre>
 <span id="cb7-21"><a href="#cb7-21" aria-label="21"></a>    acc <span class="op">=</span> KNeighborsClassifier(<span class="dv">5</span>).fit(ftr, y_lab.numpy()).score(fte, y_test.numpy())</span>
 <span id="cb7-22"><a href="#cb7-22" aria-label="22"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>name<span class="sc">:22s}</span><span class="ss">  5-NN test accuracy = </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  contrastive features    5-NN test accuracy = 0.490
+<pre><code>  contrastive features    5-NN test accuracy = 0.491
   random-init features    5-NN test accuracy = 0.518
   raw pixels              5-NN test accuracy = 0.738</code></pre>
 </div>
@@ -861,7 +861,7 @@ trained in 6s on CPU  (labels used: 0)</code></pre>
 <p>So let’s actually give it the scale. We ran the <em>same</em> recipe — contrastive pretrain, then linear-probe with few labels — on a single <strong>NVIDIA A100</strong> (one <a href="https://www.alcf.anl.gov/polaris">Polaris</a> node at ALCF), but with the knobs the laptop couldn’t afford: the harder <strong>CIFAR-10</strong> (color images, where raw pixels are <em>not</em> linearly separable), a <strong>batch size of 1024</strong>, <strong>2,000 steps</strong>, and the <strong>full 50,000-image</strong> unlabeled pool. The whole thing finished in <strong>~51 seconds</strong> on the GPU.</p>
 <p>This time the story flips completely — the learned representation wins at <em>every</em> label budget, and by a wide margin exactly where it matters most (few labels).</p>
 <p>The cell below <strong>runs the experiment when a GPU is present</strong> (that’s what happened when this page was rendered on Polaris) and otherwise <strong>replays the last GPU run’s results</strong> from a cached file — so the figure and table you see are genuine A100-measured numbers either way:</p>
-<div id="cell-fig-gpu-lowlabel" class="cell" data-execution_count="6">
+<div id="cell-fig-gpu-lowlabel" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the GPU experiment (runs on CUDA, replays the cache on CPU)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="im">import</span> json</span>
@@ -991,13 +991,13 @@ trained in 6s on CPU  (labels used: 0)</code></pre>
 <span id="cb9-125"><a href="#cb9-125" aria-label="125"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>(freshly computed on NVIDIA A100-SXM4-40GB)</code></pre>
+<pre><code>(replayed from a prior run on NVIDIA A100-SXM4-40GB)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-gpu-lowlabel" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpu-lowlabel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-gpu-lowlabel-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-pretrained features (linear-probed) beat training the same network from scratch at every label count — by +10 to +13 points in the scarce-label regime."><img src="index_files/figure-html/fig-gpu-lowlabel-output-2.png" width="554" height="370" class="figure-img"></a>
+<a href="index_files/figure-html/fig-gpu-lowlabel-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-pretrained features (linear-probed) beat training the same network from scratch at every label count — by +10 to +13 points in the scarce-label regime."><img src="index_files/figure-html/fig-gpu-lowlabel-output-2.png" width="553" height="372" class="figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpu-lowlabel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-pretrained features (linear-probed) beat training the same network from scratch at every label count — by +10 to +13 points in the scarce-label regime.
@@ -1006,7 +1006,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 </div>
 </div>
 </div>
-<div id="8fd95943" class="cell" data-execution_count="7">
+<div id="d417e551" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the results table</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1062,9 +1062,9 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5,000</td>
-<td style="text-align: left;">32.0%</td>
+<td style="text-align: left;">48.0%</td>
 <td style="text-align: left;">55.7%</td>
-<td style="text-align: right;">23.7</td>
+<td style="text-align: right;">7.7</td>
 </tr>
 </tbody>
 </table>
@@ -1088,14 +1088,14 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <section id="sec-scale" class="level2">
 <h2 class="anchored" data-anchor-id="sec-scale">🖥️ The real thing: cluster-scale SimCLR (reference)</h2>
 <p>The rest of this page is the <strong>original, production-flavored implementation</strong>: CIFAR-10 (color, harder), a deeper ConvNeXt-style encoder, the full distributed NT-Xent loss with <code>all_gather</code> across GPUs, and PyTorch DDP wiring for a 4×A100 Polaris node. It is kept here as a <strong>reference for how this is done at scale</strong> — the cells are display-only (they expect a multi-GPU allocation and a CIFAR download), but they’re the real code the miniature above is a scaled-down echo of.</p>
-<div id="fe1918d9" class="cell" data-execution_count="8">
+<div id="7accba8f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="im">import</span> sys</span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="cf">if</span> sys.platform <span class="op">==</span> <span class="st">"darwin"</span>:</span>
 <span id="cb12-4"><a href="#cb12-4" aria-label="4"></a>    os.environ[<span class="st">"TORCH_DEVICE"</span>] <span class="op">=</span> <span class="st">"cpu"</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-label="5"></a>    os.environ[<span class="st">'PYTORCH_ENABLE_MPS_FALLBACK'</span>] <span class="op">=</span> <span class="st">"1"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5e6eb62c" class="cell" data-execution_count="9">
+<div id="31bcf2e5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="im">import</span> numpy</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="im">import</span> random</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="im">import</span> torch</span>
@@ -1119,7 +1119,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb13-21"><a href="#cb13-21" aria-label="21"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s the Convolutional Neural Network Again:</p>
-<div id="a97927cb" class="cell" data-execution_count="10">
+<div id="1dd98149" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
@@ -1221,7 +1221,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb14-99"><a href="#cb14-99" aria-label="99"></a>        x <span class="op">=</span> <span class="va">self</span>.head(x)</span>
 <span id="cb14-100"><a href="#cb14-100" aria-label="100"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d05ad732" class="cell" data-execution_count="11">
+<div id="1e3a9e84" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>    model.to(torch.get_default_device())</span>
@@ -1241,7 +1241,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <p>This will download the data if needed:</p>
 <p>We’re going to train this on Polaris nodes which have 4 A100s (But only using one node at a time). So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</p>
 <p>(They are all from the <a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">DDP Tutorial</a> )</p>
-<div id="b5b4e486" class="cell" data-execution_count="12">
+<div id="fadd47df" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="kw">def</span> setup(rank, world_size):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
@@ -1252,7 +1252,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb16-8"><a href="#cb16-8" aria-label="8"></a><span class="kw">def</span> cleanup():</span>
 <span id="cb16-9"><a href="#cb16-9" aria-label="9"></a>    dist.destroy_process_group()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4776361b" class="cell" data-execution_count="13">
+<div id="4c386ace" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="im">import</span> ezpz</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
@@ -1308,7 +1308,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb17-53"><a href="#cb17-53" aria-label="53"></a></span>
 <span id="cb17-54"><a href="#cb17-54" aria-label="54"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b1b5051c" class="cell" data-execution_count="14">
+<div id="14979edc" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a></span>
@@ -1325,32 +1325,32 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb18-14"><a href="#cb18-14" aria-label="14"></a>                                        ])</span>
 <span id="cb18-15"><a href="#cb18-15" aria-label="15"></a>    <span class="cf">return</span> data_transforms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b4d42104" class="cell" data-execution_count="15">
+<div id="ab7d22b6" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a60cd441" class="cell" data-execution_count="16">
+<div id="7a5bede8" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b681acbc" class="cell" data-execution_count="17">
+<div id="ae0703c9" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a491891f" class="cell" data-execution_count="18">
+<div id="bd9322d9" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a>console.log(<span class="bu">type</span>(X1))</span>
 <span id="cb22-4"><a href="#cb22-4" aria-label="4"></a>console.log(<span class="bu">type</span>(X2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5ff31ca0" class="cell" data-execution_count="19">
+<div id="92e44afa" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="op">%</span>matplotlib inline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cae8337a" class="cell" data-execution_count="20">
+<div id="ab5c84c8" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ab586302" class="cell" data-execution_count="21">
+<div id="691252bd" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
@@ -1497,7 +1497,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb25-144"><a href="#cb25-144" aria-label="144"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
 <span id="cb25-145"><a href="#cb25-145" aria-label="145"></a>        <span class="cf">return</span> loss, loss_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fad22553" class="cell" data-execution_count="22">
+<div id="84174716" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a>    model.train()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>    head.train()</span>
@@ -1527,7 +1527,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb26-27"><a href="#cb26-27" aria-label="27"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb26-28"><a href="#cb26-28" aria-label="28"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c6808867" class="cell" data-execution_count="23">
+<div id="6928e44b" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a>    <span class="co"># Validation must NOT update the weights: put everything in eval mode and</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>    <span class="co"># disable gradients. (This function used to call .backward()/optimizer.step()</span></span>
@@ -1558,11 +1558,11 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb27-28"><a href="#cb27-28" aria-label="28"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
 <span id="cb27-29"><a href="#cb27-29" aria-label="29"></a>    <span class="cf">return</span> sum_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="31bc4463" class="cell" data-execution_count="24">
+<div id="c5c1e850" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The contrastive <strong>pretraining loop</strong> — no labels, just pulling augmented views of the same image together. On a multi-GPU node you’d wrap <code>model</code>/<code>head</code> in <code>DDP</code> first; here it’s shown single-device for clarity:</p>
-<div id="0104d510" class="cell" data-execution_count="25">
+<div id="2a17613d" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
 <span id="cb29-2"><a href="#cb29-2" aria-label="2"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-label="3"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(N_EPOCHS):</span>
@@ -1575,7 +1575,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb29-10"><a href="#cb29-10" aria-label="10"></a>        console.log(<span class="ss">f"epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">: "</span></span>
 <span id="cb29-11"><a href="#cb29-11" aria-label="11"></a>                    <span class="op">+</span> <span class="st">"; "</span>.join(<span class="ss">f"</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">=</span><span class="sc">{</span>v<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> k, v <span class="kw">in</span> metrics.items()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2f49255b" class="cell" data-execution_count="26">
+<div id="42510acb" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1601,7 +1601,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb30-23"><a href="#cb30-23" aria-label="23"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb30-24"><a href="#cb30-24" aria-label="24"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d4df0eb4" class="cell" data-execution_count="27">
+<div id="2f917e95" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
 <span id="cb31-2"><a href="#cb31-2" aria-label="2"></a>    head.train()</span>
 <span id="cb31-3"><a href="#cb31-3" aria-label="3"></a>    model.<span class="bu">eval</span>()</span>
@@ -1633,14 +1633,14 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb31-29"><a href="#cb31-29" aria-label="29"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb31-30"><a href="#cb31-30" aria-label="30"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7e30cd9d" class="cell" data-execution_count="28">
+<div id="8fd95e40" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-label="2"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
 <span id="cb32-4"><a href="#cb32-4" aria-label="4"></a>console.log(fine_tune_optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then the <strong>fine-tuning loop</strong> — the representation stays frozen; only the small classification head learns, from a handful of labels:</p>
-<div id="cf5e5608" class="cell" data-execution_count="29">
+<div id="172cbf00" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
 <span id="cb33-2"><a href="#cb33-2" aria-label="2"></a>    <span class="cf">with</span> tqdm(total<span class="op">=</span><span class="bu">len</span>(train), desc<span class="op">=</span><span class="ss">f"Fine-tune epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">"</span>) <span class="im">as</span> bar:</span>
 <span id="cb33-3"><a href="#cb33-3" aria-label="3"></a>        fine_tune(train, model, classification_head,</span>

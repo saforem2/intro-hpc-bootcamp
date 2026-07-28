@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -714,7 +714,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/3-python/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/3-python/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<div id="f13d15c2" class="cell" data-execution_count="1">
+<div id="f13d15c2" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># This page uses the `bootcamp` helper package. On Colab (or any fresh</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># environment) install it + its dependencies; locally this is a no-op.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">try</span>:</span>
@@ -779,7 +779,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </tbody>
 </table>
 <p>You can run shell commands <em>from inside a notebook</em> by prefixing them with <code>!</code>. Here’s the Python version we’re running:</p>
-<div id="a698e7fc" class="cell" data-execution_count="2">
+<div id="a698e7fc" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="op">!</span>python3 <span class="op">--</span>version</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Python 3.14.5</code></pre>
@@ -808,7 +808,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="variables-and-types" class="level2">
 <h2 class="anchored" data-anchor-id="variables-and-types">🐍 Variables and types</h2>
 <p>A <strong>variable</strong> is a name bound to a value. Python figures out the type for you:</p>
-<div id="54058228" class="cell" data-execution_count="3">
+<div id="54058228" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>n_gpus <span class="op">=</span> <span class="dv">4</span>              <span class="co"># int</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>learning_rate <span class="op">=</span> <span class="fl">0.001</span>   <span class="co"># float</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>model_name <span class="op">=</span> <span class="st">"GPT"</span>      <span class="co"># str</span></span>
@@ -822,7 +822,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <p>Arithmetic and f-strings (string formatting) are the two things you’ll reach for constantly:</p>
-<div id="377ebb05" class="cell" data-execution_count="4">
+<div id="377ebb05" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>tokens <span class="op">=</span> <span class="dv">1_000_000</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>seconds <span class="op">=</span> <span class="fl">42.0</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>throughput <span class="op">=</span> tokens <span class="op">/</span> seconds</span>
@@ -835,7 +835,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="data-structures-lists-and-dicts" class="level2">
 <h2 class="anchored" data-anchor-id="data-structures-lists-and-dicts">📦 Data structures: lists and dicts</h2>
 <p>A <strong>list</strong> is an ordered, mutable collection. A <strong>dictionary</strong> maps keys to values. Between them they cover most of what you’ll need:</p>
-<div id="34701bbd" class="cell" data-execution_count="5">
+<div id="34701bbd" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># a list of layer widths</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>layers <span class="op">=</span> [<span class="dv">784</span>, <span class="dv">256</span>, <span class="dv">128</span>, <span class="dv">10</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"num layers:"</span>, <span class="bu">len</span>(layers))</span>
@@ -848,7 +848,7 @@ first / last: 784 10
 after append: [784, 256, 128, 10, 1]</code></pre>
 </div>
 </div>
-<div id="6ee405bd" class="cell" data-execution_count="6">
+<div id="6ee405bd" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="co"># a dict of hyperparameters</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>config <span class="op">=</span> {<span class="st">"lr"</span>: <span class="fl">0.001</span>, <span class="st">"batch_size"</span>: <span class="dv">64</span>, <span class="st">"epochs"</span>: <span class="dv">10</span>}</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"learning rate:"</span>, config[<span class="st">"lr"</span>])</span>
@@ -867,7 +867,7 @@ after append: [784, 256, 128, 10, 1]</code></pre>
 <section id="loops-and-comprehensions" class="level2">
 <h2 class="anchored" data-anchor-id="loops-and-comprehensions">🔁 Loops and comprehensions</h2>
 <p>A <code>for</code> loop repeats work. A <strong>list comprehension</strong> is the Pythonic one-liner for “build a list by transforming another”:</p>
-<div id="82ad815f" class="cell" data-execution_count="7">
+<div id="82ad815f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># the long way</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>squares <span class="op">=</span> []</span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>):</span>
@@ -891,7 +891,7 @@ even squares: [4, 16, 36, 64, 100]</code></pre>
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">🧰 Functions</h2>
 <p>A <strong>function</strong> packages logic behind a name so you can reuse it. Define with <code>def</code>, hand back a result with <code>return</code>:</p>
-<div id="6b69847c" class="cell" data-execution_count="8">
+<div id="6b69847c" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">def</span> relu(x):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>    <span class="co">"""Rectified linear unit: max(0, x) — the workhorse activation function."""</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>    <span class="cf">return</span> x <span class="cf">if</span> x <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span>
@@ -907,7 +907,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 </div>
 <p>Functions can take <strong>default arguments</strong>, which makes them flexible:</p>
-<div id="2f3ddf65" class="cell" data-execution_count="9">
+<div id="2f3ddf65" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="kw">def</span> scale(values, factor<span class="op">=</span><span class="fl">2.0</span>):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>    <span class="cf">return</span> [v <span class="op">*</span> factor <span class="cf">for</span> v <span class="kw">in</span> values]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a></span>
@@ -929,7 +929,7 @@ relu(+3.0) = 3.0</code></pre>
 <li><code>self</code> — refers to <em>this particular object</em>; you store data on it (<code>self.x = …</code>) and read it back later.</li>
 <li><strong>methods</strong> — functions defined inside the class that take <code>self</code> as their first argument.</li>
 </ul>
-<div id="e5880ee9" class="cell" data-execution_count="10">
+<div id="e5880ee9" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="kw">class</span> Counter:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>    <span class="co">"""A tiny object that keeps a running total."""</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a></span>
@@ -950,7 +950,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 </div>
 <p>Each object carries its own data, so two instances don’t interfere:</p>
-<div id="bea2c0a0" class="cell" data-execution_count="11">
+<div id="bea2c0a0" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a>a <span class="op">=</span> Counter(start<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>b <span class="op">=</span> Counter()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-label="3"></a>a.add(<span class="dv">1</span>)</span>
@@ -964,7 +964,7 @@ relu(+3.0) = 3.0</code></pre>
 <section id="imports-the-scientific-python-stack" class="level2">
 <h2 class="anchored" data-anchor-id="imports-the-scientific-python-stack">📚 Imports: the scientific-Python stack</h2>
 <p>Real work builds on <strong>libraries</strong>. You pull them in with <code>import</code>. The three you’ll see on nearly every page:</p>
-<div id="ec6c12d2" class="cell" data-execution_count="12">
+<div id="ec6c12d2" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np              <span class="co"># fast numerical arrays</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># plotting</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl</span>
@@ -1018,7 +1018,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="90bb9432" class="cell" data-execution_count="13">
+<div id="90bb9432" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="kw">def</span> mean(values):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
@@ -1058,7 +1058,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="9109f1f6" class="cell" data-execution_count="14">
+<div id="9109f1f6" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a>words <span class="op">=</span> [<span class="st">"hpc"</span>, <span class="st">"gpu"</span>, <span class="st">"llm"</span>]</span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a><span class="bu">print</span>([w.upper() <span class="cf">for</span> w <span class="kw">in</span> words])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1096,7 +1096,7 @@ relu(+3.0) = 3.0</code></pre>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="6160f46f" class="cell" data-execution_count="15">
+<div id="6160f46f" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a>counts <span class="op">=</span> {<span class="st">"gpu0"</span>: <span class="dv">120</span>, <span class="st">"gpu1"</span>: <span class="dv">95</span>, <span class="st">"gpu2"</span>: <span class="dv">130</span>}</span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"total:"</span>, <span class="bu">sum</span>(counts.values()))</span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"busiest:"</span>, <span class="bu">max</span>(counts, key<span class="op">=</span>counts.get))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1136,7 +1136,7 @@ busiest: gpu2</code></pre>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="b833baee" class="cell" data-execution_count="16">
+<div id="b833baee" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="kw">class</span> Accumulator:</span>
 <span id="cb29-2"><a href="#cb29-2" aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb29-3"><a href="#cb29-3" aria-label="3"></a>        <span class="va">self</span>.values <span class="op">=</span> []</span>

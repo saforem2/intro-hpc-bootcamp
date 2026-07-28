@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b6918c44c6715ed89883937c727f3feb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a3ed1e389e04aecaddb71d9ea09824d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ce6b2a9a69017066a7b1cfba0e875628.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7d116befc48781ec46e6f1697199c1ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -748,7 +748,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p>This page runs anywhere — a laptop or <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/4-data/index.ipynb">Google Colab</a> (hit the badge above), no HPC account required. It assumes the <a href="../../00-intro-AI-HPC/3-python/index.html"><strong>Python primer</strong></a> (page 00.3); everything else you need is installed by the setup cell below.</p>
 </div>
 </div>
-<div id="8aa3d69a" class="cell" data-execution_count="1">
+<div id="59ec9de7" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># This page uses the `bootcamp` helper package. On Colab (or any fresh</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># environment) install it + its dependencies; locally this is a no-op.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">try</span>:</span>
@@ -759,7 +759,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="numpy-arrays-and-vectorized-math" class="level2">
 <h2 class="anchored" data-anchor-id="numpy-arrays-and-vectorized-math">🔢 NumPy: arrays and vectorized math</h2>
 <p>A NumPy <strong>array</strong> looks like a list, but math on it happens <em>element-wise</em> and <em>fast</em> — no Python loop:</p>
-<div id="d82d65ab" class="cell" data-execution_count="2">
+<div id="6715102d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>a <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
@@ -775,7 +775,7 @@ sum / mean:  15 3.0</code></pre>
 </div>
 </div>
 <p>Arrays have a <strong>shape</strong> and can be multi-dimensional (a matrix is just a 2-D array). This is exactly how images, batches, and weight matrices are stored:</p>
-<div id="7c2dc3d8" class="cell" data-execution_count="3">
+<div id="e52e5fa0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>M <span class="op">=</span> np.arange(<span class="dv">12</span>).reshape(<span class="dv">3</span>, <span class="dv">4</span>)   <span class="co"># 3 rows, 4 columns</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="bu">print</span>(M)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"shape:"</span>, M.shape)</span>
@@ -791,7 +791,7 @@ row sums:     [ 6 22 38]</code></pre>
 </div>
 </div>
 <p><strong>Broadcasting</strong> lets arrays of different shapes combine — here we standardize each column (subtract its mean, divide by its std) in one line:</p>
-<div id="1eb44b92" class="cell" data-execution_count="4">
+<div id="278c59ff" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>col_mean <span class="op">=</span> M.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>col_std <span class="op">=</span> M.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>standardized <span class="op">=</span> (M <span class="op">-</span> col_mean) <span class="op">/</span> col_std</span>
@@ -813,7 +813,7 @@ row sums:     [ 6 22 38]</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Random data is everywhere in ML. Seed the generator so results are repeatable:</p>
-<div id="4fe767b1" class="cell" data-execution_count="5">
+<div id="8c275695" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>samples <span class="op">=</span> rng.normal(loc<span class="op">=</span><span class="fl">0.0</span>, scale<span class="op">=</span><span class="fl">1.0</span>, size<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="bu">print</span>(np.<span class="bu">round</span>(samples, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -827,13 +827,13 @@ row sums:     [ 6 22 38]</code></pre>
 <section id="pandas-tables-of-real-data" class="level2">
 <h2 class="anchored" data-anchor-id="pandas-tables-of-real-data">🐼 pandas: tables of real data</h2>
 <p>NumPy is great for pure numbers, but real datasets have <strong>named columns</strong> and mixed types. That’s <code>pandas</code>. Let’s load a real dataset — house sale prices vs. living area:</p>
-<div id="d6b4982f" class="cell" data-execution_count="6">
+<div id="c501a78c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="co"># download the dataset if it isn't already here (works locally and on Colab)</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-label="4"></a><span class="im">import</span> os, urllib.request</span>
 <span id="cb10-5"><a href="#cb10-5" aria-label="5"></a>url <span class="op">=</span> (<span class="st">"https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>       <span class="st">"main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-label="6"></a>       <span class="st">"master/old/2024-Spring/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-label="7"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"slimmed_realestate_data.csv"</span>):</span>
 <span id="cb10-8"><a href="#cb10-8" aria-label="8"></a>    urllib.request.urlretrieve(url, <span class="st">"slimmed_realestate_data.csv"</span>)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-label="9"></a></span>
@@ -884,7 +884,7 @@ row sums:     [ 6 22 38]</code></pre>
 </div>
 </div>
 <p>A few things you’ll do with almost every dataset — inspect its shape, summarize it, and select columns:</p>
-<div id="ba1f68d7" class="cell" data-execution_count="7">
+<div id="eeec0eda" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="bu">print</span>(<span class="st">"shape (rows, cols):"</span>, df.shape)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"columns:"</span>, <span class="bu">list</span>(df.columns))</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -951,7 +951,7 @@ columns: ['SalePrice', 'GrLivArea']</code></pre>
 </div>
 </div>
 </div>
-<div id="bc716c04" class="cell" data-execution_count="8">
+<div id="6a0a032c" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="co"># select a single column (a pandas Series) and compute on it</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>prices <span class="op">=</span> df[<span class="st">"SalePrice"</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"cheapest:  $</span><span class="sc">{</span>prices<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
@@ -973,7 +973,7 @@ large &amp; expensive homes: 28 of 551</code></pre>
 <section id="matplotlib-seeing-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="matplotlib-seeing-the-data">📈 Matplotlib: seeing the data</h2>
 <p>Numbers in a table only tell you so much — plot them. A <strong>scatter plot</strong> reveals the relationship between living area and price:</p>
-<div id="cfad51fe" class="cell" data-execution_count="9">
+<div id="2088a836" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl</span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>style_mpl()                     <span class="co"># ambivalent look (transparent + grey) + Iosevka</span></span>
@@ -994,7 +994,7 @@ large &amp; expensive homes: 28 of 551</code></pre>
 </div>
 </div>
 <p>The upward trend is exactly what a <strong>linear regression</strong> model learns to fit — which is the <a href="../../00-intro-AI-HPC/6-linear-regression/index.html">next example</a>. A <strong>histogram</strong> shows the <em>distribution</em> of a single variable:</p>
-<div id="b244a5bd" class="cell" data-execution_count="10">
+<div id="c241e7ce" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>ax.hist(df[<span class="st">"SalePrice"</span>], bins<span class="op">=</span><span class="dv">30</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>ax.set_xlabel(<span class="st">"Sale price ($)"</span>)</span>
@@ -1038,7 +1038,7 @@ large &amp; expensive homes: 28 of 551</code></pre>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="b080b0cd" class="cell" data-execution_count="11">
+<div id="8f8ad63a" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a>a <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">11</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="bu">print</span>(a[a <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>].mean())   <span class="co"># (2+4+6+8+10)/5 = 6.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1076,7 +1076,7 @@ large &amp; expensive homes: 28 of 551</code></pre>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="256660cd" class="cell" data-execution_count="12">
+<div id="cf3e8374" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a>df[<span class="st">"PricePerSqFt"</span>] <span class="op">=</span> df[<span class="st">"SalePrice"</span>] <span class="op">/</span> df[<span class="st">"GrLivArea"</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"avg price/sqft: $</span><span class="sc">{</span>df[<span class="st">'PricePerSqFt'</span>]<span class="sc">.</span>mean()<span class="sc">:,.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1114,7 +1114,7 @@ large &amp; expensive homes: 28 of 551</code></pre>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="0e1b9bf4" class="cell" data-execution_count="13">
+<div id="b02a6e09" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.2</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a>ax.hist(df[<span class="st">"GrLivArea"</span>], bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-label="3"></a>ax.set_xlabel(<span class="st">"Living area (sq ft)"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"Count"</span>)</span>
@@ -1808,7 +1808,7 @@ Python.”</span> August 6. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb22-125"><a href="#cb22-125" aria-label="113"></a><span class="co"># download the dataset if it isn't already here (works locally and on Colab)</span></span>
 <span id="cb22-126"><a href="#cb22-126" aria-label="114"></a><span class="im">import</span> os, urllib.request</span>
 <span id="cb22-127"><a href="#cb22-127" aria-label="115"></a>url <span class="op">=</span> (<span class="st">"https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/"</span></span>
-<span id="cb22-128"><a href="#cb22-128" aria-label="116"></a>       <span class="st">"main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
+<span id="cb22-128"><a href="#cb22-128" aria-label="116"></a>       <span class="st">"master/old/2024-Spring/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv"</span>)</span>
 <span id="cb22-129"><a href="#cb22-129" aria-label="117"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"slimmed_realestate_data.csv"</span>):</span>
 <span id="cb22-130"><a href="#cb22-130" aria-label="118"></a>    urllib.request.urlretrieve(url, <span class="st">"slimmed_realestate_data.csv"</span>)</span>
 <span id="cb22-131"><a href="#cb22-131" aria-label="119"></a></span>
