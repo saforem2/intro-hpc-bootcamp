@@ -68,8 +68,8 @@ In particular, we will introduce neural networks and how to train and improve th
 The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains thousands of examples of handwritten numbers, with each digit labeled 0-9.
 
 ::: {.callout-tip title="🎯 Before you start" collapse="false"}
-**Prerequisites:** the [00] primers on [Python](../3-python/index.qmd) and
-[working with data](../4-data/index.qmd) — you should be comfortable reading a
+**Prerequisites:** the [00] primers on [Python](../../00-intro-AI-HPC/3-python/index.qmd) and
+[working with data](../../00-intro-AI-HPC/4-data/index.qmd) — you should be comfortable reading a
 loop, a function, and a `numpy` array.
 
 **Where it runs:** everything here runs on a laptop or in
@@ -83,6 +83,11 @@ mid-90s (**~95–97%**). If your numbers are in that ballpark, it's working.
 :::
 
 ```{python}
+# ezpz reads this at import time: drop the `module:line:function` suffix from
+# every log line so the notebook shows clean `[timestamp][LEVEL] message`.
+import os
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"
+
 # This page uses the `bootcamp` helper package plus `ezpz` (logging + utilities)
 # and `ambivalent`/`seaborn` (plot styling), which come in with `ezpz`. On Colab
 # (or any fresh environment) install them; locally this is a no-op.
@@ -350,7 +355,7 @@ We now need:
 ::: {.callout-note title="Anatomy of an `nn.Module`" collapse="false"}
 This is the first place we build a model as a **class**. Every PyTorch model
 subclasses `nn.Module` and follows the same shape (classes are introduced in the
-[Python primer](../3-python/index.qmd)):
+[Python primer](../../00-intro-AI-HPC/3-python/index.qmd)):
 
 - `class LinearClassifier(nn.Module):` — our model *is a* `nn.Module`, so it
   inherits all of PyTorch's machinery (parameter tracking, `.to(device)`, etc.).
