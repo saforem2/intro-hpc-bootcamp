@@ -66,6 +66,9 @@ import matplotlib_inline.backend_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina', 'svg', 'png')
 import os
 os.environ["TRUECOLOR"] = "1"
+# ezpz reads this at import time: drop the `module:line:function` suffix from
+# every log line so the notebook shows clean `[timestamp][LEVEL] message`.
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"
 import matplotlib as mpl
 # mpl.rcParams['figure.dpi'] = 400
 ```

@@ -81,6 +81,9 @@ import the plumbing and pick a device directly (on a cluster you'd use
 import os
 os.environ["WANDB_DISABLED"] = "1"   # keep the tutorial offline
 os.environ["WANDB_MODE"] = "disabled"
+# ezpz reads this at import time: drop the `module:line:function` suffix from
+# every log line so the notebook shows clean `[timestamp][LEVEL] message`.
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"
 
 import math
 import time
