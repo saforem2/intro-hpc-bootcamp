@@ -358,42 +358,50 @@ def apply_kmeans(
     iterations: int = 100,
     seed: int = 123,
     cmap: Optional[str] = None,
+    init: str = "kmeans++",
 ) -> tuple[np.ndarray, np.ndarray, list]:
-    """Returns (centroids, cluster_id, history) where history is a list of
-    (centroids, cluster_id) snapshots — one per iteration, for animation."""
-    history = []
-    # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-    # ┃ initialize centroids:               ┃
-    # ┃   - shape: (n_clusters, x.shape[1]) ┃
-    # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    centroids = initialize_centroids(
-        x,  # (n_points, n_features)
-        n_clusters=n_clusters,
-        seed=seed,
-    )
+    """Run k-means and return (centroids, cluster_id, history).
+
+    `history` is a list of (centroids, cluster_id) snapshots — one per frame,
+    starting with the INITIAL state — so an animation shows the centroids
+    actually drifting into place and points recoloring as they're reassigned.
+
+    `init` chooses the starting centroids:
+      - "kmeans++" (default): the smart init taught above — spreads centroids one
+        per blob, so on well-separated data it converges in a step or two.
+      - "random": pick `n_clusters` random data points. Deliberately "dumb" — it
+        can drop two seeds in one blob, so it takes several visible iterations to
+        untangle. We use this for the animation precisely BECAUSE it converges
+        slowly enough to watch.
+    """
+    if init == "random":
+        rng = np.random.default_rng(seed)
+        centroids = x[rng.choice(len(x), size=n_clusters, replace=False)].copy()
+    else:
+        centroids = initialize_centroids(x, n_clusters=n_clusters, seed=seed)
+
+    # frame 0 = the INITIAL assignment, BEFORE any centroid moves, so the very
+    # first thing you see is the (bad) starting guess.
+    cluster_id = find_closest_centroid(compute_distance(x, centroids, n_clusters))
+    history = [(centroids.copy(), cluster_id.copy())]
+
     # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ -- Iteratively improve centroid location ----------------- ┃
-    # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-    # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
     # ┃ 1. Compute the distance from entries in x to each centroid ┃
-    # ┃    - distance.shape: (n_points, n_clusters)                ┃
     # ┃ 2. Return the closest cluster (0, 1, ..., n_clusters-1)    ┃
-    # ┃    - cluster_id.shape: (n_points)                          ┃
     # ┃ 3. Calculate the mean position of each labeled cluster     ┃
-    # ┃    - centroids.shape: (n_clusters, n_features)             ┃
     # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
     for i in range(iterations):
-        # save old centroids
         old_centroids = centroids
         distance = compute_distance(x, old_centroids, n_clusters)
         cluster_id = find_closest_centroid(distance)
         centroids = compute_centroids(x, cluster_id, n_clusters)
 
-        # record each iteration's assignment + centroids so we can animate below
+        # record this iteration's (moved) centroids + fresh assignment
         history.append((centroids.copy(), cluster_id.copy()))
         print(f"Iteration: {i}")
 
-        # if our points are the same as the old centroids, then we can stop
+        # if the centroids stopped moving, we've converged
         if np.all(old_centroids == centroids):
             print(f"No change in centroids! Exiting!")
             break
@@ -416,27 +424,35 @@ SEED = 456
 iterations = 50
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html
+# cluster_std=1.6 lets the blobs overlap a bit, so points near the borders get
+# reassigned as the centroids move — that's what makes the animation worth watching.
 x, y = datasets.make_blobs(
     n_samples=n_samples,
     n_features=n_features,
     centers=n_clusters_true,
+    cluster_std=1.6,
     random_state=SEED,
 )
 
 x_sc = StandardScaler().fit_transform(x)
 
+# init="random" (not k-means++) on purpose: it starts from a bad guess and takes
+# several iterations to untangle, so you can actually SEE the centroids converge.
+# (In practice you'd use the k-means++ init taught above — it's faster.)
 centroids, cluster_id, history = apply_kmeans(
     x_sc,
     n_clusters_guess,
     iterations,
-    SEED,
+    seed=0,
     cmap=cmap,
+    init="random",
 )
 ```
 
-Watch the algorithm converge: each frame is one iteration — points recolor as
-they're reassigned to the nearest centroid (★), and the centroids drift into
-place. Drag the slider or hit ▶:
+Watch the algorithm converge from a deliberately bad random start (two of the
+three centroids land in the same blob). Each frame is one iteration: points
+recolor as they're reassigned to the nearest centroid (★), and the centroids
+drift into place until nothing changes. Drag the slider or hit ▶:
 
 ```{python}
 #| code-fold: true
@@ -464,7 +480,9 @@ fig.update_layout(
     yaxis=dict(scaleanchor="x", scaleratio=1),
     updatemenus=[dict(type="buttons", showactive=False, x=0, y=-0.08, xanchor="left",
         buttons=[dict(label="▶ Play", method="animate",
-                      args=[None, dict(frame=dict(duration=400, redraw=True), fromcurrent=True)])])],
+                      args=[None, dict(frame=dict(duration=900, redraw=True),
+                                       transition=dict(duration=350, easing="cubic-in-out"),
+                                       fromcurrent=True)])])],
     sliders=[dict(active=0, x=0.1, len=0.9, y=-0.02, currentvalue=dict(prefix="iteration "),
         steps=[dict(method="animate", label=str(i),
                     args=[[str(i)], dict(mode="immediate", frame=dict(duration=0, redraw=True))])
