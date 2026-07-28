@@ -558,23 +558,33 @@ A quick sketch of the plot you're aiming for (runs at build time with dummy
 numbers — replace with your measured sweep):
 
 ```{python}
-import matplotlib.pyplot as plt
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()   # house style (transparent bg, Iosevka, grey axes) + inline plotly.js
 
 nodes = [1, 2, 4, 8]
 tps = [3.1e5, 6.0e5, 1.15e6, 2.1e6]     # measured tokens/sec (example)
 mfu = [42.0, 41.5, 40.2, 37.8]          # measured MFU %      (example)
 ideal = [tps[0] * n for n in nodes]     # perfect linear scaling reference
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 3.4))
-ax1.plot(nodes, ideal, "--", color="#838383", label="ideal (linear)")
-ax1.plot(nodes, tps, "o-", color="#7DCAFF", label="measured")
-ax1.set(xlabel="nodes", ylabel="tokens/sec", title="Throughput scaling")
-ax1.legend()
-
-ax2.plot(nodes, mfu, "o-", color="#ff8181")
-ax2.set(xlabel="nodes", ylabel="MFU (%)", title="MFU vs scale", ylim=(0, 50))
-fig.tight_layout()
-plt.show()
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("Throughput scaling", "MFU vs scale"))
+fig.add_scatter(x=nodes, y=ideal, mode="lines", name="ideal (linear)",
+                line=dict(color=COLORS["grey"], dash="dash"), row=1, col=1)
+fig.add_scatter(x=nodes, y=tps, mode="lines+markers", name="measured",
+                line=dict(color=COLORS["blue"]), marker=dict(size=8), row=1, col=1)
+fig.add_scatter(x=nodes, y=mfu, mode="lines+markers", showlegend=False,
+                line=dict(color=COLORS["red"]), marker=dict(size=8), row=1, col=2)
+fig.update_xaxes(title_text="nodes", row=1, col=1)
+fig.update_xaxes(title_text="nodes", row=1, col=2)
+fig.update_yaxes(title_text="tokens/sec", row=1, col=1)
+fig.update_yaxes(title_text="MFU (%)", range=[0, 50], row=1, col=2)
+fig.update_layout(height=360, margin=dict(t=50),
+                  legend=dict(x=0.01, y=0.99, xanchor="left", yanchor="top"))
+fig.show()
 ```
 
 ## 🎒 Homework
