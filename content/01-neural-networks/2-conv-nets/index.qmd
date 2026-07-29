@@ -971,23 +971,31 @@ model.eval()
 PRINT_EVERY = 10
 EVAL_ITERS = 50          # short demo run; drop this cap to evaluate the full set
 
+# The validation batches are small (batch_size=16), so a *per-batch* loss is very
+# noisy — one hard batch sends it bouncing. What we actually care about is the
+# model's average performance over the whole set, so we accumulate correct/total
+# and plot the RUNNING MEAN. That curve is stable and tracks the training loss,
+# instead of the per-batch sawtooth you'd get from logging each batch on its own.
+seen, run_correct, run_loss_sum = 0, 0, 0.0
 with torch.no_grad():
     for bidx, (x, y) in enumerate(tqdm(val_dataloader, total=EVAL_ITERS)):
         if bidx >= EVAL_ITERS:
             break
-        t0 = time.perf_counter()
         pred = model(x.to(DTYPE))
-        loss = loss_fn(pred, y).item()
-        correct = (pred.argmax(1) == y).to(torch.float).sum().item()
-        acc = correct / y.shape[0]
+        run_loss_sum += loss_fn(pred, y).item() * y.shape[0]
+        run_correct += (pred.argmax(1) == y).to(torch.float).sum().item()
+        seen += y.shape[0]
         metrics = {
             "val/iter": bidx,
-            "val/loss": loss,
-            "val/acc": acc,
+            "val/loss": run_loss_sum / seen,   # running mean loss over all images so far
+            "val/acc": run_correct / seen,     # running mean accuracy
         }
         summary = eval_history.update(metrics)
         if bidx % PRINT_EVERY == 0:
             logger.info(summary)
+
+logger.info(f"validation over {seen} images: "
+            f"loss={run_loss_sum / seen:.4f}  acc={run_correct / seen:.4f}")
 ```
 
 ## Plot Metrics
@@ -1019,6 +1027,10 @@ fig.show()
 ```
 
 ### Validation Metrics
+
+These are **running means** over the validation set, so each curve converges to
+the model's true held-out loss / accuracy rather than jumping around with every
+small batch — that's why it settles instead of sawtoothing.
 
 ```{python}
 #| code-fold: true
