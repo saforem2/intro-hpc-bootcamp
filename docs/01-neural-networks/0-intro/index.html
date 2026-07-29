@@ -693,7 +693,7 @@ window.Quarto = {
   <li><a href="#from-a-line-to-a-neuron" id="toc-from-a-line-to-a-neuron" class="nav-link active" data-scroll-target="#from-a-line-to-a-neuron">From a line to a neuron</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><strong>References:</strong></a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -786,7 +786,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 27, 2026</p>
+      <p class="date-modified">July 29, 2026</p>
     </div>
   </div>
     
@@ -1600,246 +1600,247 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb9-8"><a href="#cb9-8" aria-label="8"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-label="9"></a><span class="an">format:</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-label="10"></a><span class="co">  html: default</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-label="11"></a><span class="co">  gfm:</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-label="12"></a><span class="co">    toc: true</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-label="13"></a><span class="an">author:</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-label="14"></a><span class="co">  - id: sf</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-label="15"></a><span class="co">    name: Sam Foreman</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-label="16"></a><span class="co">    orcid: 0000-0002-9981-0876</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-label="17"></a><span class="co">    email: foremans@anl.gov</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-label="18"></a><span class="co">    affiliation:</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-label="19"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-label="20"></a><span class="co">        city: Lemont</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a><span class="co">        state: IL</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a><span class="co">        url: https://alcf.anl.gov/about/people/sam-foreman</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a><span class="co">  - id: mn</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a><span class="co">    name: Marieme Ngom</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-label="25"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-label="26"></a><span class="co">    email: mngom@anl.gov</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-label="27"></a><span class="co">    affiliation:</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-label="29"></a><span class="co">        city: Lemont</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-label="30"></a><span class="co">        state: IL</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-label="31"></a><span class="co">        url: https://alcf.anl.gov/about/people/marieme-ngom</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-label="32"></a><span class="co">  - id: hz</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a><span class="co">    name: Huihuo Zheng</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-label="34"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-label="35"></a><span class="co">    email: huihuo.zheng@anl.gov</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-label="36"></a><span class="co">    affiliation:</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-label="37"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-label="38"></a><span class="co">        city: Lemont</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a><span class="co">        state: IL</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-label="40"></a><span class="co">        url: https://alcf.anl.gov/about/people/huihuo-zheng</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-label="41"></a><span class="co">  - id: bl</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-label="42"></a><span class="co">    name: Bethany Lusch</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-label="43"></a><span class="co">    email: blusch@anl.gov</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-label="44"></a><span class="co">    orcid: 0000-0002-9521-9990</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-label="45"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb9-46"><a href="#cb9-46" aria-label="46"></a><span class="co">    affiliation:</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-label="47"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb9-48"><a href="#cb9-48" aria-label="48"></a><span class="co">        city: Lemont</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-label="49"></a><span class="co">        state: IL</span></span>
-<span id="cb9-50"><a href="#cb9-50" aria-label="50"></a><span class="co">        url: https://alcf.anl.gov/about/people/bethany-lusch</span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a><span class="co">  - id: tc</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-label="52"></a><span class="co">    name: Taylor Childers</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-label="53"></a><span class="co">    orcid: 0000-0002-0492-613X</span></span>
-<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a><span class="co">    email: jchilders@anl.gov</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-label="55"></a><span class="co">    affiliation:</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-label="56"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb9-57"><a href="#cb9-57" aria-label="57"></a><span class="co">        city: Lemont</span></span>
-<span id="cb9-58"><a href="#cb9-58" aria-label="58"></a><span class="co">        state: IL</span></span>
-<span id="cb9-59"><a href="#cb9-59" aria-label="59"></a><span class="co">        url: https://alcf.anl.gov/about/people/taylor-childers</span></span>
-<span id="cb9-60"><a href="#cb9-60" aria-label="60"></a><span class="co">---</span></span>
-<span id="cb9-61"><a href="#cb9-61" aria-label="61"></a></span>
-<span id="cb9-62"><a href="#cb9-62" aria-label="62"></a><span class="co">&lt;!--</span></span>
-<span id="cb9-63"><a href="#cb9-63" aria-label="63"></a><span class="co">Author: Marieme Ngom (mngom@anl.gov), combining and adapting materials evolved</span></span>
-<span id="cb9-64"><a href="#cb9-64" aria-label="64"></a><span class="co">over time by Bethany Lusch, Asad Khan, Prasanna Balaprakash, Taylor Childers,</span></span>
-<span id="cb9-65"><a href="#cb9-65" aria-label="65"></a><span class="co">Corey Adams, Kyle Felker, and Tanwi Mallick </span></span>
-<span id="cb9-66"><a href="#cb9-66" aria-label="66"></a><span class="co">--&gt;</span></span>
-<span id="cb9-67"><a href="#cb9-67" aria-label="67"></a></span>
-<span id="cb9-68"><a href="#cb9-68" aria-label="68"></a>This tutorial covers the basics of neural networks (aka "deep learning"), which</span>
-<span id="cb9-69"><a href="#cb9-69" aria-label="69"></a>is a technique within machine learning that tends to outperform other</span>
-<span id="cb9-70"><a href="#cb9-70" aria-label="70"></a>techniques when dealing with a large amount of data.</span>
-<span id="cb9-71"><a href="#cb9-71" aria-label="71"></a></span>
-<span id="cb9-72"><a href="#cb9-72" aria-label="72"></a>::: {.callout-note title="📋 Before you start" collapse="false"}</span>
-<span id="cb9-73"><a href="#cb9-73" aria-label="73"></a>This section assumes the <span class="co">[</span><span class="ot">00</span><span class="co">] [Python]</span>(../../00-intro-AI-HPC/3-python/index.qmd)</span>
-<span id="cb9-74"><a href="#cb9-74" aria-label="74"></a>and <span class="co">[</span><span class="ot">data</span><span class="co">](../../00-intro-AI-HPC/4-data/index.qmd)</span> primers, and every cell here</span>
-<span id="cb9-75"><a href="#cb9-75" aria-label="75"></a>runs on a plain laptop or <span class="co">[</span><span class="ot">Colab</span><span class="co">](https://colab.research.google.com/)</span> — no GPU</span>
-<span id="cb9-76"><a href="#cb9-76" aria-label="76"></a>needed.</span>
-<span id="cb9-77"><a href="#cb9-77" aria-label="77"></a>:::</span>
-<span id="cb9-78"><a href="#cb9-78" aria-label="78"></a></span>
-<span id="cb9-79"><a href="#cb9-79" aria-label="79"></a><span class="ss">- </span>🎯 **Goals**:</span>
-<span id="cb9-80"><a href="#cb9-80" aria-label="80"></a><span class="ss">  - </span>Introduce deep learning fundamentals through hands-on activities</span>
-<span id="cb9-81"><a href="#cb9-81" aria-label="81"></a><span class="ss">  - </span>Provide the necessary background for the rest of the project</span>
-<span id="cb9-82"><a href="#cb9-82" aria-label="82"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-label="83"></a><span class="ss">- </span>📖 **Definitions**:</span>
-<span id="cb9-84"><a href="#cb9-84" aria-label="84"></a><span class="ss">  - </span>_Artificial intelligence_ (AI) is a set of approaches to solving complex problems by imitating the brain's ability to learn. </span>
-<span id="cb9-85"><a href="#cb9-85" aria-label="85"></a><span class="ss">  - </span>_Machine learning_ (ML) is the field of study that gives computers the ability to learn without being explicitly programmed (i.e. learning patterns instead of writing down rules.) Arguably, machine learning is now a subfield of AI. </span>
-<span id="cb9-86"><a href="#cb9-86" aria-label="86"></a></span>
-<span id="cb9-87"><a href="#cb9-87" aria-label="87"></a><span class="ss">- </span>🤔 **Recap**:</span>
-<span id="cb9-88"><a href="#cb9-88" aria-label="88"></a>  Last week, we learned about using linear regression to predict the sale price of a house. We fit a function to the dataset:</span>
-<span id="cb9-89"><a href="#cb9-89" aria-label="89"></a><span class="ss">  - </span>Input: above ground square feet</span>
-<span id="cb9-90"><a href="#cb9-90" aria-label="90"></a><span class="ss">  - </span>Output: sale price</span>
-<span id="cb9-91"><a href="#cb9-91" aria-label="91"></a><span class="ss">  - </span>Function type: linear</span>
-<span id="cb9-92"><a href="#cb9-92" aria-label="92"></a><span class="ss">  - </span>Loss function: mean squared error</span>
-<span id="cb9-93"><a href="#cb9-93" aria-label="93"></a><span class="ss">  - </span>Optimization algorithm: stochastic gradient descent</span>
-<span id="cb9-94"><a href="#cb9-94" aria-label="94"></a></span>
-<span id="cb9-95"><a href="#cb9-95" aria-label="95"></a>  This week, we'll work on a "classification" problem, which means that we have</span>
-<span id="cb9-96"><a href="#cb9-96" aria-label="96"></a>  a category label for each data point, and we fit a function that can</span>
-<span id="cb9-97"><a href="#cb9-97" aria-label="97"></a>  categorize inputs. </span>
-<span id="cb9-98"><a href="#cb9-98" aria-label="98"></a></span>
-<span id="cb9-99"><a href="#cb9-99" aria-label="99"></a><span class="fu">## From a line to a neuron</span></span>
-<span id="cb9-100"><a href="#cb9-100" aria-label="100"></a></span>
-<span id="cb9-101"><a href="#cb9-101" aria-label="101"></a>A neural network is built out of **neurons**, and a single neuron is a small</span>
-<span id="cb9-102"><a href="#cb9-102" aria-label="102"></a>extension of the linear regression you just saw. Last week's model computed</span>
-<span id="cb9-103"><a href="#cb9-103" aria-label="103"></a>$w \cdot x + b$; a neuron does the same weighted sum and then passes it through a</span>
-<span id="cb9-104"><a href="#cb9-104" aria-label="104"></a>nonlinear **activation function** $\sigma$:</span>
-<span id="cb9-105"><a href="#cb9-105" aria-label="105"></a></span>
-<span id="cb9-106"><a href="#cb9-106" aria-label="106"></a>$$ y = \sigma(w \cdot x + b) $$</span>
-<span id="cb9-107"><a href="#cb9-107" aria-label="107"></a></span>
-<span id="cb9-108"><a href="#cb9-108" aria-label="108"></a>That one nonlinearity is what lets stacks of neurons fit curves and categories</span>
-<span id="cb9-109"><a href="#cb9-109" aria-label="109"></a>instead of just straight lines. Let's build one with nothing but <span class="in">`numpy`</span> and</span>
-<span id="cb9-110"><a href="#cb9-110" aria-label="110"></a>poke at it:</span>
-<span id="cb9-111"><a href="#cb9-111" aria-label="111"></a></span>
-<span id="cb9-114"><a href="#cb9-114" aria-label="112"></a><span class="in">```{python}</span></span>
-<span id="cb9-115"><a href="#cb9-115" aria-label="113"></a><span class="co"># On Colab (or any fresh environment) install the `bootcamp` helper for the</span></span>
-<span id="cb9-116"><a href="#cb9-116" aria-label="114"></a><span class="co"># house plot style; locally this is a no-op.</span></span>
-<span id="cb9-117"><a href="#cb9-117" aria-label="115"></a><span class="cf">try</span>:</span>
-<span id="cb9-118"><a href="#cb9-118" aria-label="116"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
-<span id="cb9-119"><a href="#cb9-119" aria-label="117"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb9-120"><a href="#cb9-120" aria-label="118"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
-<span id="cb9-121"><a href="#cb9-121" aria-label="119"></a></span>
-<span id="cb9-122"><a href="#cb9-122" aria-label="120"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl, COLORS</span>
-<span id="cb9-123"><a href="#cb9-123" aria-label="121"></a>style_mpl()   <span class="co"># ambivalent look (transparent bg + grey text) + Iosevka font</span></span>
-<span id="cb9-124"><a href="#cb9-124" aria-label="122"></a><span class="in">```</span></span>
-<span id="cb9-125"><a href="#cb9-125" aria-label="123"></a></span>
-<span id="cb9-128"><a href="#cb9-128" aria-label="124"></a><span class="in">```{python}</span></span>
-<span id="cb9-129"><a href="#cb9-129" aria-label="125"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb9-130"><a href="#cb9-130" aria-label="126"></a></span>
-<span id="cb9-131"><a href="#cb9-131" aria-label="127"></a><span class="co"># Three activation functions we'll meet again and again</span></span>
-<span id="cb9-132"><a href="#cb9-132" aria-label="128"></a><span class="kw">def</span> relu(z):     <span class="cf">return</span> np.maximum(<span class="fl">0.0</span>, z)</span>
-<span id="cb9-133"><a href="#cb9-133" aria-label="129"></a><span class="kw">def</span> sigmoid(z):  <span class="cf">return</span> <span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>z))</span>
-<span id="cb9-134"><a href="#cb9-134" aria-label="130"></a><span class="kw">def</span> tanh(z):     <span class="cf">return</span> np.tanh(z)</span>
-<span id="cb9-135"><a href="#cb9-135" aria-label="131"></a></span>
-<span id="cb9-136"><a href="#cb9-136" aria-label="132"></a><span class="kw">def</span> neuron(x, w, b, activation):</span>
-<span id="cb9-137"><a href="#cb9-137" aria-label="133"></a>    <span class="co">"""A single neuron: weighted sum of inputs, then a nonlinearity."""</span></span>
-<span id="cb9-138"><a href="#cb9-138" aria-label="134"></a>    z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b          <span class="co"># the same w·x + b as linear regression</span></span>
-<span id="cb9-139"><a href="#cb9-139" aria-label="135"></a>    <span class="cf">return</span> activation(z)</span>
-<span id="cb9-140"><a href="#cb9-140" aria-label="136"></a></span>
-<span id="cb9-141"><a href="#cb9-141" aria-label="137"></a>x <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>])     <span class="co"># a 3-feature input</span></span>
-<span id="cb9-142"><a href="#cb9-142" aria-label="138"></a>w <span class="op">=</span> np.array([<span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])    <span class="co"># one weight per feature</span></span>
-<span id="cb9-143"><a href="#cb9-143" aria-label="139"></a>b <span class="op">=</span> <span class="fl">0.3</span>                           <span class="co"># bias</span></span>
-<span id="cb9-144"><a href="#cb9-144" aria-label="140"></a></span>
-<span id="cb9-145"><a href="#cb9-145" aria-label="141"></a><span class="cf">for</span> name, act <span class="kw">in</span> [(<span class="st">"relu"</span>, relu), (<span class="st">"sigmoid"</span>, sigmoid), (<span class="st">"tanh"</span>, tanh)]:</span>
-<span id="cb9-146"><a href="#cb9-146" aria-label="142"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:&gt;8}</span><span class="ss">: y = </span><span class="sc">{</span>neuron(x, w, b, act)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb9-147"><a href="#cb9-147" aria-label="143"></a><span class="in">```</span></span>
-<span id="cb9-148"><a href="#cb9-148" aria-label="144"></a></span>
-<span id="cb9-149"><a href="#cb9-149" aria-label="145"></a>The **same** weighted sum feeds every activation, but each one squashes it</span>
-<span id="cb9-150"><a href="#cb9-150" aria-label="146"></a>differently. Change a weight and the output moves:</span>
-<span id="cb9-151"><a href="#cb9-151" aria-label="147"></a></span>
-<span id="cb9-154"><a href="#cb9-154" aria-label="148"></a><span class="in">```{python}</span></span>
-<span id="cb9-155"><a href="#cb9-155" aria-label="149"></a>w_big <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])   <span class="co"># bump the first weight up</span></span>
-<span id="cb9-156"><a href="#cb9-156" aria-label="150"></a><span class="bu">print</span>(<span class="ss">f"original w -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w,     b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb9-157"><a href="#cb9-157" aria-label="151"></a><span class="bu">print</span>(<span class="ss">f"larger w   -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w_big, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb9-158"><a href="#cb9-158" aria-label="152"></a><span class="in">```</span></span>
-<span id="cb9-159"><a href="#cb9-159" aria-label="153"></a></span>
-<span id="cb9-160"><a href="#cb9-160" aria-label="154"></a>Here is what those three activations actually look like — this is the "shape"</span>
-<span id="cb9-161"><a href="#cb9-161" aria-label="155"></a>each neuron can bend the data into:</span>
-<span id="cb9-162"><a href="#cb9-162" aria-label="156"></a></span>
-<span id="cb9-165"><a href="#cb9-165" aria-label="157"></a><span class="in">```{python}</span></span>
-<span id="cb9-166"><a href="#cb9-166" aria-label="158"></a><span class="co">#| label: fig-activations</span></span>
-<span id="cb9-167"><a href="#cb9-167" aria-label="159"></a><span class="co">#| fig-cap: "Three common activation functions."</span></span>
-<span id="cb9-168"><a href="#cb9-168" aria-label="160"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-169"><a href="#cb9-169" aria-label="161"></a></span>
-<span id="cb9-170"><a href="#cb9-170" aria-label="162"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb9-171"><a href="#cb9-171" aria-label="163"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.0</span>))</span>
-<span id="cb9-172"><a href="#cb9-172" aria-label="164"></a>ax.plot(z, relu(z),    label<span class="op">=</span><span class="st">"ReLU"</span>,    color<span class="op">=</span>COLORS[<span class="st">"blue"</span>],  lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-173"><a href="#cb9-173" aria-label="165"></a>ax.plot(z, sigmoid(z), label<span class="op">=</span><span class="st">"sigmoid"</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>],   lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-174"><a href="#cb9-174" aria-label="166"></a>ax.plot(z, tanh(z),    label<span class="op">=</span><span class="st">"tanh"</span>,    color<span class="op">=</span>COLORS[<span class="st">"green"</span>], lw<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-175"><a href="#cb9-175" aria-label="167"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], lw<span class="op">=</span><span class="fl">0.8</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb9-176"><a href="#cb9-176" aria-label="168"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], lw<span class="op">=</span><span class="fl">0.8</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb9-177"><a href="#cb9-177" aria-label="169"></a>ax.set_xlabel(<span class="st">"z = w·x + b"</span>)</span>
-<span id="cb9-178"><a href="#cb9-178" aria-label="170"></a>ax.set_ylabel(<span class="st">"σ(z)"</span>)</span>
-<span id="cb9-179"><a href="#cb9-179" aria-label="171"></a>ax.legend()</span>
-<span id="cb9-180"><a href="#cb9-180" aria-label="172"></a>plt.show()</span>
-<span id="cb9-181"><a href="#cb9-181" aria-label="173"></a><span class="in">```</span></span>
-<span id="cb9-182"><a href="#cb9-182" aria-label="174"></a></span>
-<span id="cb9-183"><a href="#cb9-183" aria-label="175"></a>::: {.callout-note title="Exercise — feel the activation" collapse="false"}</span>
-<span id="cb9-184"><a href="#cb9-184" aria-label="176"></a>Using the <span class="in">`neuron`</span> function above, keep <span class="in">`x`</span>, <span class="in">`w`</span>, and <span class="in">`b`</span> the same but compare</span>
-<span id="cb9-185"><a href="#cb9-185" aria-label="177"></a><span class="in">`relu`</span> and <span class="in">`sigmoid`</span>. For this input the pre-activation sum $z = w \cdot x + b$</span>
-<span id="cb9-186"><a href="#cb9-186" aria-label="178"></a>is **negative** — predict what each activation returns *before* running it, then</span>
-<span id="cb9-187"><a href="#cb9-187" aria-label="179"></a>check.</span>
-<span id="cb9-188"><a href="#cb9-188" aria-label="180"></a></span>
-<span id="cb9-189"><a href="#cb9-189" aria-label="181"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
-<span id="cb9-192"><a href="#cb9-192" aria-label="182"></a><span class="in">```{python}</span></span>
-<span id="cb9-193"><a href="#cb9-193" aria-label="183"></a>z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b</span>
-<span id="cb9-194"><a href="#cb9-194" aria-label="184"></a><span class="bu">print</span>(<span class="ss">f"z = </span><span class="sc">{</span>z<span class="sc">:.4f}</span><span class="ss">  (negative)"</span>)</span>
-<span id="cb9-195"><a href="#cb9-195" aria-label="185"></a><span class="bu">print</span>(<span class="ss">f"relu(z)    = </span><span class="sc">{</span>neuron(x, w, b, relu)<span class="sc">:.4f}</span><span class="ss">"</span>)     <span class="co"># clipped to exactly 0</span></span>
-<span id="cb9-196"><a href="#cb9-196" aria-label="186"></a><span class="bu">print</span>(<span class="ss">f"sigmoid(z) = </span><span class="sc">{</span>neuron(x, w, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)  <span class="co"># squashed toward 0, but &gt; 0</span></span>
-<span id="cb9-197"><a href="#cb9-197" aria-label="187"></a><span class="in">```</span></span>
-<span id="cb9-198"><a href="#cb9-198" aria-label="188"></a>ReLU zeroes out any negative input, so it returns exactly <span class="in">`0.0`</span>. Sigmoid maps</span>
-<span id="cb9-199"><a href="#cb9-199" aria-label="189"></a>every input into <span class="in">`(0, 1)`</span>, so a negative <span class="in">`z`</span> gives a small positive number</span>
-<span id="cb9-200"><a href="#cb9-200" aria-label="190"></a>(below <span class="in">`0.5`</span>) rather than zero.</span>
-<span id="cb9-201"><a href="#cb9-201" aria-label="191"></a>:::</span>
+<span id="cb9-11"><a href="#cb9-11" aria-label="11"></a><span class="co">  ipynb: default   # runnable lesson (5 code cells) — offer the notebook download</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-label="12"></a><span class="co">  gfm:</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-label="13"></a><span class="co">    toc: true</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-label="14"></a><span class="an">author:</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-label="15"></a><span class="co">  - id: sf</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-label="16"></a><span class="co">    name: Sam Foreman</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-label="17"></a><span class="co">    orcid: 0000-0002-9981-0876</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-label="18"></a><span class="co">    email: foremans@anl.gov</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-label="19"></a><span class="co">    affiliation:</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-label="20"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-label="21"></a><span class="co">        city: Lemont</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a><span class="co">        state: IL</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a><span class="co">        url: https://alcf.anl.gov/about/people/sam-foreman</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a><span class="co">  - id: mn</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-label="25"></a><span class="co">    name: Marieme Ngom</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-label="26"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-label="27"></a><span class="co">    email: mngom@anl.gov</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a><span class="co">    affiliation:</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-label="29"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-label="30"></a><span class="co">        city: Lemont</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-label="31"></a><span class="co">        state: IL</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-label="32"></a><span class="co">        url: https://alcf.anl.gov/about/people/marieme-ngom</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a><span class="co">  - id: hz</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-label="34"></a><span class="co">    name: Huihuo Zheng</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-label="35"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-label="36"></a><span class="co">    email: huihuo.zheng@anl.gov</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-label="37"></a><span class="co">    affiliation:</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-label="38"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a><span class="co">        city: Lemont</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-label="40"></a><span class="co">        state: IL</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-label="41"></a><span class="co">        url: https://alcf.anl.gov/about/people/huihuo-zheng</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-label="42"></a><span class="co">  - id: bl</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-label="43"></a><span class="co">    name: Bethany Lusch</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-label="44"></a><span class="co">    email: blusch@anl.gov</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-label="45"></a><span class="co">    orcid: 0000-0002-9521-9990</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-label="46"></a><span class="co">    # orcid: 0000-0002-9981-0876</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-label="47"></a><span class="co">    affiliation:</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-label="48"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-label="49"></a><span class="co">        city: Lemont</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-label="50"></a><span class="co">        state: IL</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a><span class="co">        url: https://alcf.anl.gov/about/people/bethany-lusch</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-label="52"></a><span class="co">  - id: tc</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-label="53"></a><span class="co">    name: Taylor Childers</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a><span class="co">    orcid: 0000-0002-0492-613X</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-label="55"></a><span class="co">    email: jchilders@anl.gov</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-label="56"></a><span class="co">    affiliation:</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-label="57"></a><span class="co">      - name: '[ANL](https://www.anl.gov/)'</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-label="58"></a><span class="co">        city: Lemont</span></span>
+<span id="cb9-59"><a href="#cb9-59" aria-label="59"></a><span class="co">        state: IL</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-label="60"></a><span class="co">        url: https://alcf.anl.gov/about/people/taylor-childers</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-label="61"></a><span class="co">---</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-label="62"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-label="63"></a><span class="co">&lt;!--</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-label="64"></a><span class="co">Author: Marieme Ngom (mngom@anl.gov), combining and adapting materials evolved</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-label="65"></a><span class="co">over time by Bethany Lusch, Asad Khan, Prasanna Balaprakash, Taylor Childers,</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-label="66"></a><span class="co">Corey Adams, Kyle Felker, and Tanwi Mallick </span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-label="67"></a><span class="co">--&gt;</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-label="68"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-label="69"></a>This tutorial covers the basics of neural networks (aka "deep learning"), which</span>
+<span id="cb9-70"><a href="#cb9-70" aria-label="70"></a>is a technique within machine learning that tends to outperform other</span>
+<span id="cb9-71"><a href="#cb9-71" aria-label="71"></a>techniques when dealing with a large amount of data.</span>
+<span id="cb9-72"><a href="#cb9-72" aria-label="72"></a></span>
+<span id="cb9-73"><a href="#cb9-73" aria-label="73"></a>::: {.callout-note title="📋 Before you start" collapse="false"}</span>
+<span id="cb9-74"><a href="#cb9-74" aria-label="74"></a>This section assumes the <span class="co">[</span><span class="ot">00</span><span class="co">] [Python]</span>(../../00-intro-AI-HPC/3-python/index.qmd)</span>
+<span id="cb9-75"><a href="#cb9-75" aria-label="75"></a>and <span class="co">[</span><span class="ot">data</span><span class="co">](../../00-intro-AI-HPC/4-data/index.qmd)</span> primers, and every cell here</span>
+<span id="cb9-76"><a href="#cb9-76" aria-label="76"></a>runs on a plain laptop or <span class="co">[</span><span class="ot">Colab</span><span class="co">](https://colab.research.google.com/)</span> — no GPU</span>
+<span id="cb9-77"><a href="#cb9-77" aria-label="77"></a>needed.</span>
+<span id="cb9-78"><a href="#cb9-78" aria-label="78"></a>:::</span>
+<span id="cb9-79"><a href="#cb9-79" aria-label="79"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-label="80"></a><span class="ss">- </span>🎯 **Goals**:</span>
+<span id="cb9-81"><a href="#cb9-81" aria-label="81"></a><span class="ss">  - </span>Introduce deep learning fundamentals through hands-on activities</span>
+<span id="cb9-82"><a href="#cb9-82" aria-label="82"></a><span class="ss">  - </span>Provide the necessary background for the rest of the project</span>
+<span id="cb9-83"><a href="#cb9-83" aria-label="83"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-label="84"></a><span class="ss">- </span>📖 **Definitions**:</span>
+<span id="cb9-85"><a href="#cb9-85" aria-label="85"></a><span class="ss">  - </span>_Artificial intelligence_ (AI) is a set of approaches to solving complex problems by imitating the brain's ability to learn. </span>
+<span id="cb9-86"><a href="#cb9-86" aria-label="86"></a><span class="ss">  - </span>_Machine learning_ (ML) is the field of study that gives computers the ability to learn without being explicitly programmed (i.e. learning patterns instead of writing down rules.) Arguably, machine learning is now a subfield of AI. </span>
+<span id="cb9-87"><a href="#cb9-87" aria-label="87"></a></span>
+<span id="cb9-88"><a href="#cb9-88" aria-label="88"></a><span class="ss">- </span>🤔 **Recap**:</span>
+<span id="cb9-89"><a href="#cb9-89" aria-label="89"></a>  Last week, we learned about using linear regression to predict the sale price of a house. We fit a function to the dataset:</span>
+<span id="cb9-90"><a href="#cb9-90" aria-label="90"></a><span class="ss">  - </span>Input: above ground square feet</span>
+<span id="cb9-91"><a href="#cb9-91" aria-label="91"></a><span class="ss">  - </span>Output: sale price</span>
+<span id="cb9-92"><a href="#cb9-92" aria-label="92"></a><span class="ss">  - </span>Function type: linear</span>
+<span id="cb9-93"><a href="#cb9-93" aria-label="93"></a><span class="ss">  - </span>Loss function: mean squared error</span>
+<span id="cb9-94"><a href="#cb9-94" aria-label="94"></a><span class="ss">  - </span>Optimization algorithm: stochastic gradient descent</span>
+<span id="cb9-95"><a href="#cb9-95" aria-label="95"></a></span>
+<span id="cb9-96"><a href="#cb9-96" aria-label="96"></a>  This week, we'll work on a "classification" problem, which means that we have</span>
+<span id="cb9-97"><a href="#cb9-97" aria-label="97"></a>  a category label for each data point, and we fit a function that can</span>
+<span id="cb9-98"><a href="#cb9-98" aria-label="98"></a>  categorize inputs. </span>
+<span id="cb9-99"><a href="#cb9-99" aria-label="99"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-label="100"></a><span class="fu">## From a line to a neuron</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-label="101"></a></span>
+<span id="cb9-102"><a href="#cb9-102" aria-label="102"></a>A neural network is built out of **neurons**, and a single neuron is a small</span>
+<span id="cb9-103"><a href="#cb9-103" aria-label="103"></a>extension of the linear regression you just saw. Last week's model computed</span>
+<span id="cb9-104"><a href="#cb9-104" aria-label="104"></a>$w \cdot x + b$; a neuron does the same weighted sum and then passes it through a</span>
+<span id="cb9-105"><a href="#cb9-105" aria-label="105"></a>nonlinear **activation function** $\sigma$:</span>
+<span id="cb9-106"><a href="#cb9-106" aria-label="106"></a></span>
+<span id="cb9-107"><a href="#cb9-107" aria-label="107"></a>$$ y = \sigma(w \cdot x + b) $$</span>
+<span id="cb9-108"><a href="#cb9-108" aria-label="108"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-label="109"></a>That one nonlinearity is what lets stacks of neurons fit curves and categories</span>
+<span id="cb9-110"><a href="#cb9-110" aria-label="110"></a>instead of just straight lines. Let's build one with nothing but <span class="in">`numpy`</span> and</span>
+<span id="cb9-111"><a href="#cb9-111" aria-label="111"></a>poke at it:</span>
+<span id="cb9-112"><a href="#cb9-112" aria-label="112"></a></span>
+<span id="cb9-115"><a href="#cb9-115" aria-label="113"></a><span class="in">```{python}</span></span>
+<span id="cb9-116"><a href="#cb9-116" aria-label="114"></a><span class="co"># On Colab (or any fresh environment) install the `bootcamp` helper for the</span></span>
+<span id="cb9-117"><a href="#cb9-117" aria-label="115"></a><span class="co"># house plot style; locally this is a no-op.</span></span>
+<span id="cb9-118"><a href="#cb9-118" aria-label="116"></a><span class="cf">try</span>:</span>
+<span id="cb9-119"><a href="#cb9-119" aria-label="117"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
+<span id="cb9-120"><a href="#cb9-120" aria-label="118"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb9-121"><a href="#cb9-121" aria-label="119"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
+<span id="cb9-122"><a href="#cb9-122" aria-label="120"></a></span>
+<span id="cb9-123"><a href="#cb9-123" aria-label="121"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl, COLORS</span>
+<span id="cb9-124"><a href="#cb9-124" aria-label="122"></a>style_mpl()   <span class="co"># ambivalent look (transparent bg + grey text) + Iosevka font</span></span>
+<span id="cb9-125"><a href="#cb9-125" aria-label="123"></a><span class="in">```</span></span>
+<span id="cb9-126"><a href="#cb9-126" aria-label="124"></a></span>
+<span id="cb9-129"><a href="#cb9-129" aria-label="125"></a><span class="in">```{python}</span></span>
+<span id="cb9-130"><a href="#cb9-130" aria-label="126"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-131"><a href="#cb9-131" aria-label="127"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-label="128"></a><span class="co"># Three activation functions we'll meet again and again</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-label="129"></a><span class="kw">def</span> relu(z):     <span class="cf">return</span> np.maximum(<span class="fl">0.0</span>, z)</span>
+<span id="cb9-134"><a href="#cb9-134" aria-label="130"></a><span class="kw">def</span> sigmoid(z):  <span class="cf">return</span> <span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>z))</span>
+<span id="cb9-135"><a href="#cb9-135" aria-label="131"></a><span class="kw">def</span> tanh(z):     <span class="cf">return</span> np.tanh(z)</span>
+<span id="cb9-136"><a href="#cb9-136" aria-label="132"></a></span>
+<span id="cb9-137"><a href="#cb9-137" aria-label="133"></a><span class="kw">def</span> neuron(x, w, b, activation):</span>
+<span id="cb9-138"><a href="#cb9-138" aria-label="134"></a>    <span class="co">"""A single neuron: weighted sum of inputs, then a nonlinearity."""</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-label="135"></a>    z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b          <span class="co"># the same w·x + b as linear regression</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-label="136"></a>    <span class="cf">return</span> activation(z)</span>
+<span id="cb9-141"><a href="#cb9-141" aria-label="137"></a></span>
+<span id="cb9-142"><a href="#cb9-142" aria-label="138"></a>x <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>])     <span class="co"># a 3-feature input</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-label="139"></a>w <span class="op">=</span> np.array([<span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])    <span class="co"># one weight per feature</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-label="140"></a>b <span class="op">=</span> <span class="fl">0.3</span>                           <span class="co"># bias</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-label="141"></a></span>
+<span id="cb9-146"><a href="#cb9-146" aria-label="142"></a><span class="cf">for</span> name, act <span class="kw">in</span> [(<span class="st">"relu"</span>, relu), (<span class="st">"sigmoid"</span>, sigmoid), (<span class="st">"tanh"</span>, tanh)]:</span>
+<span id="cb9-147"><a href="#cb9-147" aria-label="143"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:&gt;8}</span><span class="ss">: y = </span><span class="sc">{</span>neuron(x, w, b, act)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb9-148"><a href="#cb9-148" aria-label="144"></a><span class="in">```</span></span>
+<span id="cb9-149"><a href="#cb9-149" aria-label="145"></a></span>
+<span id="cb9-150"><a href="#cb9-150" aria-label="146"></a>The **same** weighted sum feeds every activation, but each one squashes it</span>
+<span id="cb9-151"><a href="#cb9-151" aria-label="147"></a>differently. Change a weight and the output moves:</span>
+<span id="cb9-152"><a href="#cb9-152" aria-label="148"></a></span>
+<span id="cb9-155"><a href="#cb9-155" aria-label="149"></a><span class="in">```{python}</span></span>
+<span id="cb9-156"><a href="#cb9-156" aria-label="150"></a>w_big <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])   <span class="co"># bump the first weight up</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-label="151"></a><span class="bu">print</span>(<span class="ss">f"original w -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w,     b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb9-158"><a href="#cb9-158" aria-label="152"></a><span class="bu">print</span>(<span class="ss">f"larger w   -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w_big, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb9-159"><a href="#cb9-159" aria-label="153"></a><span class="in">```</span></span>
+<span id="cb9-160"><a href="#cb9-160" aria-label="154"></a></span>
+<span id="cb9-161"><a href="#cb9-161" aria-label="155"></a>Here is what those three activations actually look like — this is the "shape"</span>
+<span id="cb9-162"><a href="#cb9-162" aria-label="156"></a>each neuron can bend the data into:</span>
+<span id="cb9-163"><a href="#cb9-163" aria-label="157"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-label="158"></a><span class="in">```{python}</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-label="159"></a><span class="co">#| label: fig-activations</span></span>
+<span id="cb9-168"><a href="#cb9-168" aria-label="160"></a><span class="co">#| fig-cap: "Three common activation functions."</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-label="161"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-170"><a href="#cb9-170" aria-label="162"></a></span>
+<span id="cb9-171"><a href="#cb9-171" aria-label="163"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb9-172"><a href="#cb9-172" aria-label="164"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.4</span>, <span class="fl">4.0</span>))</span>
+<span id="cb9-173"><a href="#cb9-173" aria-label="165"></a>ax.plot(z, relu(z),    label<span class="op">=</span><span class="st">"ReLU"</span>,    color<span class="op">=</span>COLORS[<span class="st">"blue"</span>],  lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-174"><a href="#cb9-174" aria-label="166"></a>ax.plot(z, sigmoid(z), label<span class="op">=</span><span class="st">"sigmoid"</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>],   lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-175"><a href="#cb9-175" aria-label="167"></a>ax.plot(z, tanh(z),    label<span class="op">=</span><span class="st">"tanh"</span>,    color<span class="op">=</span>COLORS[<span class="st">"green"</span>], lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-176"><a href="#cb9-176" aria-label="168"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], lw<span class="op">=</span><span class="fl">0.8</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-177"><a href="#cb9-177" aria-label="169"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], lw<span class="op">=</span><span class="fl">0.8</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-178"><a href="#cb9-178" aria-label="170"></a>ax.set_xlabel(<span class="st">"z = w·x + b"</span>)</span>
+<span id="cb9-179"><a href="#cb9-179" aria-label="171"></a>ax.set_ylabel(<span class="st">"σ(z)"</span>)</span>
+<span id="cb9-180"><a href="#cb9-180" aria-label="172"></a>ax.legend()</span>
+<span id="cb9-181"><a href="#cb9-181" aria-label="173"></a>plt.show()</span>
+<span id="cb9-182"><a href="#cb9-182" aria-label="174"></a><span class="in">```</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-label="175"></a></span>
+<span id="cb9-184"><a href="#cb9-184" aria-label="176"></a>::: {.callout-note title="Exercise — feel the activation" collapse="false"}</span>
+<span id="cb9-185"><a href="#cb9-185" aria-label="177"></a>Using the <span class="in">`neuron`</span> function above, keep <span class="in">`x`</span>, <span class="in">`w`</span>, and <span class="in">`b`</span> the same but compare</span>
+<span id="cb9-186"><a href="#cb9-186" aria-label="178"></a><span class="in">`relu`</span> and <span class="in">`sigmoid`</span>. For this input the pre-activation sum $z = w \cdot x + b$</span>
+<span id="cb9-187"><a href="#cb9-187" aria-label="179"></a>is **negative** — predict what each activation returns *before* running it, then</span>
+<span id="cb9-188"><a href="#cb9-188" aria-label="180"></a>check.</span>
+<span id="cb9-189"><a href="#cb9-189" aria-label="181"></a></span>
+<span id="cb9-190"><a href="#cb9-190" aria-label="182"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
+<span id="cb9-193"><a href="#cb9-193" aria-label="183"></a><span class="in">```{python}</span></span>
+<span id="cb9-194"><a href="#cb9-194" aria-label="184"></a>z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b</span>
+<span id="cb9-195"><a href="#cb9-195" aria-label="185"></a><span class="bu">print</span>(<span class="ss">f"z = </span><span class="sc">{</span>z<span class="sc">:.4f}</span><span class="ss">  (negative)"</span>)</span>
+<span id="cb9-196"><a href="#cb9-196" aria-label="186"></a><span class="bu">print</span>(<span class="ss">f"relu(z)    = </span><span class="sc">{</span>neuron(x, w, b, relu)<span class="sc">:.4f}</span><span class="ss">"</span>)     <span class="co"># clipped to exactly 0</span></span>
+<span id="cb9-197"><a href="#cb9-197" aria-label="187"></a><span class="bu">print</span>(<span class="ss">f"sigmoid(z) = </span><span class="sc">{</span>neuron(x, w, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)  <span class="co"># squashed toward 0, but &gt; 0</span></span>
+<span id="cb9-198"><a href="#cb9-198" aria-label="188"></a><span class="in">```</span></span>
+<span id="cb9-199"><a href="#cb9-199" aria-label="189"></a>ReLU zeroes out any negative input, so it returns exactly <span class="in">`0.0`</span>. Sigmoid maps</span>
+<span id="cb9-200"><a href="#cb9-200" aria-label="190"></a>every input into <span class="in">`(0, 1)`</span>, so a negative <span class="in">`z`</span> gives a small positive number</span>
+<span id="cb9-201"><a href="#cb9-201" aria-label="191"></a>(below <span class="in">`0.5`</span>) rather than zero.</span>
 <span id="cb9-202"><a href="#cb9-202" aria-label="192"></a>:::</span>
-<span id="cb9-203"><a href="#cb9-203" aria-label="193"></a></span>
-<span id="cb9-204"><a href="#cb9-204" aria-label="194"></a>The <span class="co">[</span><span class="ot">MNIST dataset</span><span class="co">](http://yann.lecun.com/exdb/mnist/)</span> contains thousands of</span>
-<span id="cb9-205"><a href="#cb9-205" aria-label="195"></a>examples of handwritten numbers, with each digit labeled 0-9.</span>
-<span id="cb9-206"><a href="#cb9-206" aria-label="196"></a></span>
-<span id="cb9-207"><a href="#cb9-207" aria-label="197"></a>::: {#fig-mnist-example}</span>
-<span id="cb9-208"><a href="#cb9-208" aria-label="198"></a></span>
-<span id="cb9-209"><a href="#cb9-209" aria-label="199"></a><span class="al">![MNIST Task](../images/mnist_task_generated.svg)</span></span>
-<span id="cb9-210"><a href="#cb9-210" aria-label="200"></a></span>
-<span id="cb9-211"><a href="#cb9-211" aria-label="201"></a>A digit is just a grid of pixel intensities; the task is to fit a function</span>
-<span id="cb9-212"><a href="#cb9-212" aria-label="202"></a>$f(\text{image}) = \text{label}$.</span>
-<span id="cb9-213"><a href="#cb9-213" aria-label="203"></a>:::</span>
-<span id="cb9-214"><a href="#cb9-214" aria-label="204"></a></span>
-<span id="cb9-215"><a href="#cb9-215" aria-label="205"></a>We'll start with the MNIST problem in this notebook:</span>
-<span id="cb9-216"><a href="#cb9-216" aria-label="206"></a></span>
-<span id="cb9-217"><a href="#cb9-217" aria-label="207"></a><span class="co">[</span><span class="ot">📓 Fitting MNIST with a multi-layer perceptron (MLP)</span><span class="co">](../1-mnist/index.qmd)</span></span>
-<span id="cb9-218"><a href="#cb9-218" aria-label="208"></a></span>
-<span id="cb9-219"><a href="#cb9-219" aria-label="209"></a>Next week, we'll learn about other types of neural networks.</span>
-<span id="cb9-220"><a href="#cb9-220" aria-label="210"></a></span>
-<span id="cb9-221"><a href="#cb9-221" aria-label="211"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
-<span id="cb9-222"><a href="#cb9-222" aria-label="212"></a>Test yourself — think it through, then reveal the answer.</span>
-<span id="cb9-223"><a href="#cb9-223" aria-label="213"></a></span>
-<span id="cb9-224"><a href="#cb9-224" aria-label="214"></a>**Q1.** How does machine learning differ from traditional programming?</span>
-<span id="cb9-225"><a href="#cb9-225" aria-label="215"></a></span>
-<span id="cb9-226"><a href="#cb9-226" aria-label="216"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb9-227"><a href="#cb9-227" aria-label="217"></a>In traditional programming you write explicit rules. In machine learning you</span>
-<span id="cb9-228"><a href="#cb9-228" aria-label="218"></a>show the computer many examples and it **learns the patterns** (the rules) on its</span>
-<span id="cb9-229"><a href="#cb9-229" aria-label="219"></a>own from the data.</span>
-<span id="cb9-230"><a href="#cb9-230" aria-label="220"></a>::::</span>
-<span id="cb9-231"><a href="#cb9-231" aria-label="221"></a></span>
-<span id="cb9-232"><a href="#cb9-232" aria-label="222"></a>**Q2.** Last week's house-price task predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</span>
-<span id="cb9-233"><a href="#cb9-233" aria-label="223"></a></span>
-<span id="cb9-234"><a href="#cb9-234" aria-label="224"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb9-235"><a href="#cb9-235" aria-label="225"></a>Predicting a continuous number is **regression**; predicting a category label is</span>
-<span id="cb9-236"><a href="#cb9-236" aria-label="226"></a>**classification**. MNIST is a classification problem.</span>
-<span id="cb9-237"><a href="#cb9-237" aria-label="227"></a>::::</span>
-<span id="cb9-238"><a href="#cb9-238" aria-label="228"></a></span>
-<span id="cb9-239"><a href="#cb9-239" aria-label="229"></a>**Q3.** In the house-price example the pieces were: input, output, function type, loss (MSE), optimizer (SGD). Which of these must change for MNIST, and why?</span>
-<span id="cb9-240"><a href="#cb9-240" aria-label="230"></a></span>
-<span id="cb9-241"><a href="#cb9-241" aria-label="231"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb9-242"><a href="#cb9-242" aria-label="232"></a>The **output/function** (it must produce a class instead of a number) and the</span>
-<span id="cb9-243"><a href="#cb9-243" aria-label="233"></a>**loss** (cross-entropy instead of MSE, since we're scoring category predictions).</span>
-<span id="cb9-244"><a href="#cb9-244" aria-label="234"></a>The overall recipe — fit a function by minimizing a loss with an optimizer —</span>
-<span id="cb9-245"><a href="#cb9-245" aria-label="235"></a>stays the same.</span>
-<span id="cb9-246"><a href="#cb9-246" aria-label="236"></a>::::</span>
-<span id="cb9-247"><a href="#cb9-247" aria-label="237"></a></span>
-<span id="cb9-248"><a href="#cb9-248" aria-label="238"></a>:::</span>
-<span id="cb9-249"><a href="#cb9-249" aria-label="239"></a></span>
-<span id="cb9-250"><a href="#cb9-250" aria-label="240"></a><span class="fu">## __References:__</span></span>
-<span id="cb9-251"><a href="#cb9-251" aria-label="241"></a></span>
-<span id="cb9-252"><a href="#cb9-252" aria-label="242"></a><span class="ss">- </span>Here are some recommendations for further reading:</span>
-<span id="cb9-253"><a href="#cb9-253" aria-label="243"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">tensorflow.org tutorials</span><span class="co">](https://www.tensorflow.org/tutorials)</span></span>
-<span id="cb9-254"><a href="#cb9-254" aria-label="244"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">keras.io tutorials</span><span class="co">](https://keras.io/examples/)</span></span>
-<span id="cb9-255"><a href="#cb9-255" aria-label="245"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">CS231n: Convolutional Neural Networks for Visual Recognition</span><span class="co">](http://cs231n.stanford.edu/)</span></span>
-<span id="cb9-256"><a href="#cb9-256" aria-label="246"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning Specialization, Andrew Ng</span><span class="co">](https://www.coursera.org/specializations/deep-learning?utm_source=deeplearningai&amp;utm_medium=institutions&amp;utm_campaign=WebsiteCoursesDLSTopButton)</span></span>
-<span id="cb9-257"><a href="#cb9-257" aria-label="247"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">PyTorch Challenge, Udacity</span><span class="co">](https://www.udacity.com/facebook-pytorch-scholarship)</span></span>
-<span id="cb9-258"><a href="#cb9-258" aria-label="248"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning with Python</span><span class="co">](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438)</span></span>
-<span id="cb9-259"><a href="#cb9-259" aria-label="249"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Keras Blog</span><span class="co">](https://blog.keras.io/)</span></span>
-<span id="cb9-260"><a href="#cb9-260" aria-label="250"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Hands-on ML book</span><span class="co">](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)</span> with <span class="co">[</span><span class="ot">notebooks</span><span class="co">](https://github.com/ageron/handson-ml2)</span>.</span>
+<span id="cb9-203"><a href="#cb9-203" aria-label="193"></a>:::</span>
+<span id="cb9-204"><a href="#cb9-204" aria-label="194"></a></span>
+<span id="cb9-205"><a href="#cb9-205" aria-label="195"></a>The <span class="co">[</span><span class="ot">MNIST dataset</span><span class="co">](http://yann.lecun.com/exdb/mnist/)</span> contains thousands of</span>
+<span id="cb9-206"><a href="#cb9-206" aria-label="196"></a>examples of handwritten numbers, with each digit labeled 0-9.</span>
+<span id="cb9-207"><a href="#cb9-207" aria-label="197"></a></span>
+<span id="cb9-208"><a href="#cb9-208" aria-label="198"></a>::: {#fig-mnist-example}</span>
+<span id="cb9-209"><a href="#cb9-209" aria-label="199"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-label="200"></a><span class="al">![MNIST Task](../images/mnist_task_generated.svg)</span></span>
+<span id="cb9-211"><a href="#cb9-211" aria-label="201"></a></span>
+<span id="cb9-212"><a href="#cb9-212" aria-label="202"></a>A digit is just a grid of pixel intensities; the task is to fit a function</span>
+<span id="cb9-213"><a href="#cb9-213" aria-label="203"></a>$f(\text{image}) = \text{label}$.</span>
+<span id="cb9-214"><a href="#cb9-214" aria-label="204"></a>:::</span>
+<span id="cb9-215"><a href="#cb9-215" aria-label="205"></a></span>
+<span id="cb9-216"><a href="#cb9-216" aria-label="206"></a>We'll start with the MNIST problem in this notebook:</span>
+<span id="cb9-217"><a href="#cb9-217" aria-label="207"></a></span>
+<span id="cb9-218"><a href="#cb9-218" aria-label="208"></a><span class="co">[</span><span class="ot">📓 Fitting MNIST with a multi-layer perceptron (MLP)</span><span class="co">](../1-mnist/index.qmd)</span></span>
+<span id="cb9-219"><a href="#cb9-219" aria-label="209"></a></span>
+<span id="cb9-220"><a href="#cb9-220" aria-label="210"></a>Next week, we'll learn about other types of neural networks.</span>
+<span id="cb9-221"><a href="#cb9-221" aria-label="211"></a></span>
+<span id="cb9-222"><a href="#cb9-222" aria-label="212"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
+<span id="cb9-223"><a href="#cb9-223" aria-label="213"></a>Test yourself — think it through, then reveal the answer.</span>
+<span id="cb9-224"><a href="#cb9-224" aria-label="214"></a></span>
+<span id="cb9-225"><a href="#cb9-225" aria-label="215"></a>**Q1.** How does machine learning differ from traditional programming?</span>
+<span id="cb9-226"><a href="#cb9-226" aria-label="216"></a></span>
+<span id="cb9-227"><a href="#cb9-227" aria-label="217"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb9-228"><a href="#cb9-228" aria-label="218"></a>In traditional programming you write explicit rules. In machine learning you</span>
+<span id="cb9-229"><a href="#cb9-229" aria-label="219"></a>show the computer many examples and it **learns the patterns** (the rules) on its</span>
+<span id="cb9-230"><a href="#cb9-230" aria-label="220"></a>own from the data.</span>
+<span id="cb9-231"><a href="#cb9-231" aria-label="221"></a>::::</span>
+<span id="cb9-232"><a href="#cb9-232" aria-label="222"></a></span>
+<span id="cb9-233"><a href="#cb9-233" aria-label="223"></a>**Q2.** Last week's house-price task predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</span>
+<span id="cb9-234"><a href="#cb9-234" aria-label="224"></a></span>
+<span id="cb9-235"><a href="#cb9-235" aria-label="225"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb9-236"><a href="#cb9-236" aria-label="226"></a>Predicting a continuous number is **regression**; predicting a category label is</span>
+<span id="cb9-237"><a href="#cb9-237" aria-label="227"></a>**classification**. MNIST is a classification problem.</span>
+<span id="cb9-238"><a href="#cb9-238" aria-label="228"></a>::::</span>
+<span id="cb9-239"><a href="#cb9-239" aria-label="229"></a></span>
+<span id="cb9-240"><a href="#cb9-240" aria-label="230"></a>**Q3.** In the house-price example the pieces were: input, output, function type, loss (MSE), optimizer (SGD). Which of these must change for MNIST, and why?</span>
+<span id="cb9-241"><a href="#cb9-241" aria-label="231"></a></span>
+<span id="cb9-242"><a href="#cb9-242" aria-label="232"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb9-243"><a href="#cb9-243" aria-label="233"></a>The **output/function** (it must produce a class instead of a number) and the</span>
+<span id="cb9-244"><a href="#cb9-244" aria-label="234"></a>**loss** (cross-entropy instead of MSE, since we're scoring category predictions).</span>
+<span id="cb9-245"><a href="#cb9-245" aria-label="235"></a>The overall recipe — fit a function by minimizing a loss with an optimizer —</span>
+<span id="cb9-246"><a href="#cb9-246" aria-label="236"></a>stays the same.</span>
+<span id="cb9-247"><a href="#cb9-247" aria-label="237"></a>::::</span>
+<span id="cb9-248"><a href="#cb9-248" aria-label="238"></a></span>
+<span id="cb9-249"><a href="#cb9-249" aria-label="239"></a>:::</span>
+<span id="cb9-250"><a href="#cb9-250" aria-label="240"></a></span>
+<span id="cb9-251"><a href="#cb9-251" aria-label="241"></a><span class="fu">## __References:__</span></span>
+<span id="cb9-252"><a href="#cb9-252" aria-label="242"></a></span>
+<span id="cb9-253"><a href="#cb9-253" aria-label="243"></a><span class="ss">- </span>Here are some recommendations for further reading:</span>
+<span id="cb9-254"><a href="#cb9-254" aria-label="244"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">tensorflow.org tutorials</span><span class="co">](https://www.tensorflow.org/tutorials)</span></span>
+<span id="cb9-255"><a href="#cb9-255" aria-label="245"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">keras.io tutorials</span><span class="co">](https://keras.io/examples/)</span></span>
+<span id="cb9-256"><a href="#cb9-256" aria-label="246"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">CS231n: Convolutional Neural Networks for Visual Recognition</span><span class="co">](http://cs231n.stanford.edu/)</span></span>
+<span id="cb9-257"><a href="#cb9-257" aria-label="247"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning Specialization, Andrew Ng</span><span class="co">](https://www.coursera.org/specializations/deep-learning?utm_source=deeplearningai&amp;utm_medium=institutions&amp;utm_campaign=WebsiteCoursesDLSTopButton)</span></span>
+<span id="cb9-258"><a href="#cb9-258" aria-label="248"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">PyTorch Challenge, Udacity</span><span class="co">](https://www.udacity.com/facebook-pytorch-scholarship)</span></span>
+<span id="cb9-259"><a href="#cb9-259" aria-label="249"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Deep Learning with Python</span><span class="co">](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438)</span></span>
+<span id="cb9-260"><a href="#cb9-260" aria-label="250"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Keras Blog</span><span class="co">](https://blog.keras.io/)</span></span>
+<span id="cb9-261"><a href="#cb9-261" aria-label="251"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Hands-on ML book</span><span class="co">](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)</span> with <span class="co">[</span><span class="ot">notebooks</span><span class="co">](https://github.com/ageron/handson-ml2)</span>.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -1856,7 +1857,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/01-neural-networks/0-intro/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

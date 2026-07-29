@@ -33,8 +33,9 @@ domain and the Transformer comes along for the ride:
 - 🧬 [**\[03.0\] GenSLM: Genome-Scale Language
   Models**](0-genslm/index.qmd) — the flagship example: a Transformer
   trained on whole genomes that revealed SARS-CoV-2 evolutionary
-  dynamics (a 2022 Gordon Bell Special Prize finalist), with a hands-on
-  codon-tokenization + tiny-model demo you can run.
+  dynamics (winner of the 2022 ACM Gordon Bell Special Prize for
+  HPC-Based COVID-19 Research), with a hands-on codon-tokenization +
+  tiny-model demo you can run.
 
 ## Where this goes next
 

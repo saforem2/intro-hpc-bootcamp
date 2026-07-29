@@ -4,7 +4,8 @@ Sam Foreman
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
-- [Contents](#contents)
+- [👋 Welcome](#wave-welcome)
+- [🗺️ Map of this section](#world_map-map-of-this-section)
 - [Overview](#overview)
   - [Topics](#topics)
 - [Natural Language Processing (NLP)](#natural-language-processing-nlp)
@@ -20,16 +21,34 @@ Sam Foreman
 > Argonne, and discussion/editorial work by Taylor Childers, Bethany
 > Lusch, and Venkat Vishwanath (Argonne)
 
-## Contents
+## 👋 Welcome
 
-- 📂 [02-llms/](index.qmd)
-  - [\[02.0\] Intro to LLMs](0-intro-to-llms/index.qmd)
-  - [\[02.1\] Parallel Training](1-parallel-training/index.qmd)
-  - [\[02.2\] Shakespeare Example
-    (Colab)](2-shakespeare-example-colab/index.ipynb)
-  - [\[02.3\] Shakespeare from Scratch
-    (ezpz)](3-shakespeare-ezpz/index.qmd)
-  - [\[02.4\] Evaluating LLMs](4-evaluating-llms/index.qmd)
+This section takes the neural networks from
+[\[01\]](../01-neural-networks/index.qmd) and scales them up to
+**language models**. You’ll see what makes a Transformer tick, then
+train a small GPT from scratch — first in Colab, then with the same
+`ezpz` tooling you’ll use at cluster scale in
+[\[03\]](../03-advanced-llms/index.qmd). The conceptual pages run on a
+laptop; the training examples run anywhere from Colab to a
+supercomputer.
+
+## 🗺️ Map of this section
+
+The pages move from concepts → hands-on training → evaluation:
+
+- 🧠 [**\[02.0\] Intro to LLMs**](0-intro-to-llms/index.qmd) — why
+  sequences, tokenization, embeddings, and a guided dissection of
+  GPT-2’s internals.
+- ⚙️ [**\[02.1\] Parallel Training**](1-parallel-training/index.qmd) — a
+  hands-on lab distributing an LLM training run across GPUs.
+- 🪶 [**\[02.2\] Shakespeare Example
+  (Colab)**](2-shakespeare-example-colab/index.ipynb) — train a
+  character-level GPT in the browser; watch gibberish become verse.
+- 🎭 [**\[02.3\] Shakespeare from Scratch
+  (ezpz)**](3-shakespeare-ezpz/index.qmd) — the same idea rebuilt with
+  `ezpz`, ready to scale from a laptop to the cluster.
+- 📊 [**\[02.4\] Evaluating LLMs**](4-evaluating-llms/index.qmd) — how
+  to tell whether a language model is actually any good.
 
 Ready to scale up? Continue to the 🚀 **[\[03\] Advanced / Large-Scale
 LLMs](../03-advanced-llms/index.qmd)** track.
@@ -39,8 +58,8 @@ LLMs](../03-advanced-llms/index.qmd)** track.
 Inspiration from the blog posts “The Illustrated Transformer” and “The
 Illustrated GPT2” by Jay Alammar, highly recommended reading.
 
-This tutorial covers the some fundamental concepts necessary to to study
-of large language models (LLMs).
+Across the pages in this section you’ll meet the fundamental concepts
+behind large language models (LLMs):
 
 ### Topics
 

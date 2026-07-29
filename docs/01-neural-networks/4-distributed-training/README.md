@@ -34,7 +34,6 @@ Sam Foreman
     Strategies](#spider_web-additional-parallelism-strategies)
   - [Pipeline Parallelism (PP)](#pipeline-parallelism-pp)
   - [Tensor Parallel (TP)](#tensor-parallel-tp)
-  - [Tensor Parallel (TP)](#tensor-parallel-tp-1)
   - [Tensor (/ Model) Parallel Training:
     Example](#tensor--model-parallel-training-example)
   - [Tensor (Model)
@@ -65,13 +64,13 @@ Sam Foreman
 ### 📑 Outline
 
 1.  [Scaling: Overview](#scaling-overview)
-2.  [Data Parallel Training](#data-parallel-training)
+2.  [Data Parallel Training](#distributed-data-parallelism-ddp)
     1.  [Communication](#communication)
-    2.  [Why Distributed Training?](#why-distributed-training)
+    2.  [The Case for Scaling](#the-case-for-scaling)
 3.  [Beyond Data Parallelism](#going-beyond-data-parallelism)
     1.  [Additional Parallelism
         Strategies](#additional-parallelism-strategies)
-4.  [Large Language Models](#large-language-models)
+4.  [Large Language Models](#scaling-up-to-large-language-models)
 5.  [Hands On](#hands-on)
 
 > [!IMPORTANT]
@@ -1167,11 +1166,14 @@ Figure 14: [DeepSpeed](deepspeed.ai) +
 
 <img src="./assets/ddp-vs-fsdp.svg" class="column-body-outset" />
 
-Figure 15: **DDP vs. FSDP.** In DDP every rank holds a *full copy* of
-the model, gradients, and optimizer states — simple, but memory scales
-with model size. FSDP (ZeRO-3) **shards** all three across ranks and
-reconstructs each layer’s params on the fly with `all-gather`, trading
-extra communication for a large memory saving.
+Figure 15: **Memory sharding, DDP → ZeRO-3.** For a 1B-param fp32 model
+with Adam, each rank normally holds the full **16 GB** (params 4 + grads
+4 + optimizer states 8). The **ZeRO** stages progressively shard those
+three across the $N$ data-parallel ranks: ZeRO-1 shards optimizer
+states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch **FSDP**
+`FULL_SHARD`) shards everything — driving per-GPU memory toward $16/N$
+GB, at the cost of extra `all-gather` communication to reconstruct each
+layer on the fly.
 
 </div>
 
@@ -1297,25 +1299,6 @@ Figure 17: Pipeline Parallelism
 
 </div>
 
-### Tensor Parallel (TP)
-
-<div>
-
-</div>
-
-<div class="notes">
-
-- Split up network over multiple workers
-- Each receives disjoint subset
-- All communication associated with subsets are distributed
-- Communication whenever dataflow between two subsets
-- Typically **more complicated** to implement than data parallel
-  training
-- Suitable when the model is too large to fit onto a single device (CPU
-  / GPU)
-
-</div>
-
 ### Tensor (/ Model) Parallel Training: Example
 
 Want to compute:
@@ -1350,7 +1333,7 @@ flowchart LR
   t2("`x₂`") --> X2
 ```
 
-Figure 20
+Figure 19
 
 </div>
 
@@ -1372,7 +1355,7 @@ Figure 20
 
 ![](assets/parallelism-tp-parallel_gemm.png)
 
-Figure 21: Tensor Parallel GEMM. This information is based on (the much
+Figure 20: Tensor Parallel GEMM. This information is based on (the much
 more in-depth) [TP
 Overview](https://github.com/huggingface/transformers/issues/10321#issuecomment-783543530)
 by [@anton-l](https://github.com/anton-l)
@@ -1387,7 +1370,7 @@ by [@anton-l](https://github.com/anton-l)
 
 ![](assets/parallelism-deepspeed-3d.png)
 
-Figure 22: Figure taken from [3D parallelism: Scaling to
+Figure 21: Figure taken from [3D parallelism: Scaling to
 trillion-parameter
 models](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
 
@@ -1481,7 +1464,7 @@ text generation) see:
 
 ![](./assets/emergent-abilities.gif)
 
-Figure 23: See Wei et al. (2022), Yao et al. (2023)
+Figure 22: See Wei et al. (2022), Yao et al. (2023)
 
 </div>
 
@@ -1513,7 +1496,7 @@ Figure 23: See Wei et al. (2022), Yao et al. (2023)
 
 ![](./assets/gpt3-training-step-back-prop.gif)
 
-Figure 24: **Pre-training**: Virtually *all of the compute* used during
+Figure 23: **Pre-training**: Virtually *all of the compute* used during
 pre-training.
 
 </div>
@@ -1544,7 +1527,7 @@ pre-training.
 
 ![](./assets/gpt3-fine-tuning.gif)
 
-Figure 25: **Fine-tuning**: Fine-tuning actually updates the model’s
+Figure 24: **Fine-tuning**: Fine-tuning actually updates the model’s
 weights to make the model better at a certain task.
 
 </div>
@@ -1559,7 +1542,7 @@ weights to make the model better at a certain task.
 
 ![](./assets/hf_assisted_generation.mov)
 
-Figure 26: Language Model trained for causal language modeling.
+Figure 25: Language Model trained for causal language modeling.
 
 </div>
 
@@ -1569,7 +1552,7 @@ Figure 26: Language Model trained for causal language modeling.
 
 ![](./assets/hf_assisted_generation2.mov)
 
-Figure 27: Language Model trained for causal language modeling.
+Figure 26: Language Model trained for causal language modeling.
 
 </div>
 
@@ -1619,10 +1602,11 @@ Figure 27: Language Model trained for causal language modeling.
         uv pip install git+https://github.com/saforem2/ezpz
         ```
 
-    2.   [saforem2/`wordplay`](https://github.com/saforem2/ezpz):
+    2.   [saforem2/`wordplay`](https://github.com/saforem2/wordplay):
 
         ``` bash
-        # from inside `wordplay/`
+        git clone https://github.com/saforem2/wordplay
+        cd wordplay
         uv pip install -e .
         ```
 
@@ -1641,7 +1625,7 @@ Figure 27: Language Model trained for causal language modeling.
 
 <script src="https://asciinema.org/a/668460.js" id="asciicast-668460" async="true"></script>
 
-Figure 28: Example: using [🍋
+Figure 27: Example: using [🍋
 `ezpz test`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/examples/test.py)
 to train a small model using DDP
 
@@ -1653,7 +1637,7 @@ to train a small model using DDP
 
 ![](./assets/nanogpt.jpg)
 
-Figure 29: The simplest, fastest repository for training / finetuning
+Figure 28: The simplest, fastest repository for training / finetuning
 GPT based models. Figure from
 [karpathy/`nanoGPT`](https://github.com/karpathy/nanoGPT)
 
@@ -2001,7 +1985,7 @@ At lie my lord with the me an arms be a s
 
 <script src="https://asciinema.org/a/668462.js" id="asciicast-668462" async="true"></script>
 
-Figure 30: Training a LLM to talk like Shakespeare using
+Figure 29: Training a LLM to talk like Shakespeare using
 [saforem2/`wordplay` 🎮💬](https://github.com/saforem2/wordplay)
 
 </div>

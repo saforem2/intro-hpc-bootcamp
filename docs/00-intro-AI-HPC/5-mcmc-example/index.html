@@ -4581,7 +4581,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#where-this-goes-next" id="toc-where-this-goes-next" class="nav-link" data-scroll-target="#where-this-goes-next">Where this goes next</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4646,7 +4646,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 27, 2026</p>
+      <p class="date-modified">July 29, 2026</p>
     </div>
   </div>
     
@@ -4703,7 +4703,7 @@ window.Quarto = {
 </div>
 </div>
 <p>First, the imports and house plot style:</p>
-<div id="c06500ab" class="cell" data-execution_count="1">
+<div id="c06500ab" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
@@ -4712,7 +4712,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The simulation.</strong> This is the whole idea — throw <code>N</code> random darts at the square, count how many land inside the circle, and turn that ratio into an estimate of π. It’s just a few lines:</p>
-<div id="c8e9bf19" class="cell" data-execution_count="2">
+<div id="c8e9bf19" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="kw">def</span> estimate_pi(n, seed<span class="op">=</span><span class="dv">1234</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>    <span class="co">"""Estimate π by Monte Carlo: sample n points in the unit square and</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co">    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""</span></span>
@@ -4730,7 +4730,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Visualizing it.</strong> Everything below is just plotting — an interactive scatter with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the estimate of π converge as more samples land.</p>
-<div id="6b28fa68" class="cell" data-execution_count="3">
+<div id="6b28fa68" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>N <span class="op">=</span> <span class="bu">len</span>(pts)</span>
@@ -4807,7 +4807,7 @@ if (outputEl) {{
 <p>The estimate gets better with more samples — but generating millions of points <em>one at a time</em> is slow. The fix: split the work across <strong><code>P</code> workers</strong> that sample <strong>simultaneously</strong>. Each worker handles every <code>P</code>-th point (exactly what the <code>mpi4py</code> code below does with <code>range(comm.rank, N, comm.size)</code>), so together they finish in roughly <code>1/P</code> the time.</p>
 <p>Drag the shared <strong>wall-clock</strong> slider (or hit ▶): both panels draw the <em>same</em> points and converge to the same π, but the parallel side (8 workers) races ahead and finishes while the sequential side is still plodding along. That time gap <strong>is</strong> the speedup.</p>
 <p><strong>The setup.</strong> Both panels draw the <em>same</em> points; the only difference is how many get processed per unit of wall-clock time — 1 for sequential, <code>P</code> for parallel. The strided assignment <code>worker = arange(N) % P</code> mirrors exactly what the <code>mpi4py</code> code does with <code>range(comm.rank, N, comm.size)</code>.</p>
-<div id="a9d20d29" class="cell" data-execution_count="4">
+<div id="a9d20d29" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>rng2 <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
@@ -4821,7 +4821,7 @@ if (outputEl) {{
 <span id="cb4-11"><a href="#cb4-11" aria-label="11"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The plotting.</strong> Everything below builds the two-panel animation (folded — expand if you’re curious). A non-linear wall-clock schedule spends more frames while the parallel side is filling, so the speed difference is easy to see.</p>
-<div id="997ccc80" class="cell" data-execution_count="5">
+<div id="997ccc80" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
@@ -4940,7 +4940,7 @@ if (outputEl) {{
 <section id="how-fast-does-the-error-shrink" class="level3">
 <h3 class="anchored" data-anchor-id="how-fast-does-the-error-shrink">How fast does the error shrink?</h3>
 <p>More samples → a better estimate, but <em>how much</em> better? Below we plot the <strong>absolute error</strong> <span class="math inline">|\hat\pi - \pi|</span> as we add samples. Monte Carlo error falls off like <span class="math inline">1/\sqrt{N}</span> — so on <strong>log-log axes</strong> it’s a straight line with slope <span class="math inline">-\tfrac12</span>. The practical catch: to get one more decimal digit (10× less error) you need <strong>100× more samples</strong> — which is exactly why you reach for parallelism.</p>
-<div id="06a0f40f" class="cell" data-execution_count="6">
+<div id="06a0f40f" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> math</span>
@@ -5040,7 +5040,7 @@ if (outputEl) {{
 </div>
 </div>
 </div>
-<div id="b8a7dab5" class="cell" data-execution_count="7">
+<div id="b8a7dab5" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="im">import</span> random</span>
@@ -5079,11 +5079,11 @@ if (outputEl) {{
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="ff3052d8" class="cell" data-execution_count="8">
+<div id="ff3052d8" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>master<span class="op">/</span>old<span class="op">/</span><span class="dv">2024</span><span class="op">-</span>Spring<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="op">!</span> pip install mpi4py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="be68f13d" class="cell" data-execution_count="9">
+<div id="be68f13d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>--------------------------------------------------------------------------
@@ -5092,7 +5092,7 @@ signal 13 (Broken pipe: 13).
 --------------------------------------------------------------------------</code></pre>
 </div>
 </div>
-<div id="512b8ccd" class="cell" data-execution_count="10">
+<div id="512b8ccd" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>--------------------------------------------------------------------------
@@ -5101,7 +5101,7 @@ signal 13 (Broken pipe: 13).
 --------------------------------------------------------------------------</code></pre>
 </div>
 </div>
-<div id="b1f5bdbf" class="cell" data-execution_count="11">
+<div id="b1f5bdbf" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>--------------------------------------------------------------------------
@@ -5114,18 +5114,34 @@ signal 13 (Broken pipe: 13).
 <section id="running-pi-on-polaris" class="level3">
 <h3 class="anchored" data-anchor-id="running-pi-on-polaris">Running <span class="math inline">\pi</span> on Polaris</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
-<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a><span class="co"># choose debug queue outside of the class</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a><span class="co"># grab an interactive node on the debug queue (swap &lt;project&gt; for your allocation)</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
 <span id="cb15-5"><a href="#cb15-5" aria-label="5"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a><span class="ex">module</span> load conda/2023-10-04</span>
-<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
-<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
-<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
-<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a><span class="co"># load the base conda environment (ships a recent PyTorch + mpi4py)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a><span class="ex">module</span> use /soft/modulefiles</span>
+<span id="cb15-8"><a href="#cb15-8" aria-label="8"></a><span class="ex">module</span> load conda</span>
+<span id="cb15-9"><a href="#cb15-9" aria-label="9"></a><span class="ex">conda</span> activate base</span>
+<span id="cb15-10"><a href="#cb15-10" aria-label="10"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-label="11"></a><span class="fu">git</span> clone https://github.com/argonne-lcf/ai-science-training-series.git</span>
+<span id="cb15-12"><a href="#cb15-12" aria-label="12"></a><span class="bu">cd</span> ai-science-training-series/old/2024-Spring/01_intro_AI_on_Supercomputer/</span>
+<span id="cb15-13"><a href="#cb15-13" aria-label="13"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 1 python mpi_pi.py   <span class="co"># ~3.1420,  wall time drops as ranks increase</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-label="14"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 2 python mpi_pi.py</span>
+<span id="cb15-15"><a href="#cb15-15" aria-label="15"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 4 python mpi_pi.py</span>
+<span id="cb15-16"><a href="#cb15-16" aria-label="16"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 8 python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-note callout-titled" title="🔎 On Polaris, `mpiexec` (not `mpirun`)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🔎 On Polaris, <code>mpiexec</code> (not <code>mpirun</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Polaris uses PBS + <code>mpiexec</code> to place ranks across the allocated nodes. The <code>mpirun</code> in the local cell above is fine on a laptop; on the cluster use <code>mpiexec -n &lt;ranks&gt;</code>.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="where-this-goes-next" class="level2">
@@ -6060,32 +6076,41 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-406"><a href="#cb16-406" aria-label="384"></a></span>
 <span id="cb16-407"><a href="#cb16-407" aria-label="385"></a><span class="in">```bash</span></span>
 <span id="cb16-408"><a href="#cb16-408" aria-label="386"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@polaris.alcf.anl.gov</span>
-<span id="cb16-409"><a href="#cb16-409" aria-label="387"></a><span class="ex">qsub</span> <span class="at">-A</span> ALCFAITP <span class="at">-l</span> select=1 <span class="at">-q</span> ALCFAITP <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb16-410"><a href="#cb16-410" aria-label="388"></a><span class="co"># choose debug queue outside of the class</span></span>
-<span id="cb16-411"><a href="#cb16-411" aria-label="389"></a><span class="co"># qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle</span></span>
+<span id="cb16-409"><a href="#cb16-409" aria-label="387"></a></span>
+<span id="cb16-410"><a href="#cb16-410" aria-label="388"></a><span class="co"># grab an interactive node on the debug queue (swap &lt;project&gt; for your allocation)</span></span>
+<span id="cb16-411"><a href="#cb16-411" aria-label="389"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=1 <span class="at">-l</span> walltime=0:30:00 <span class="at">-l</span> filesystems=home:eagle</span>
 <span id="cb16-412"><a href="#cb16-412" aria-label="390"></a></span>
-<span id="cb16-413"><a href="#cb16-413" aria-label="391"></a><span class="ex">module</span> load conda/2023-10-04</span>
-<span id="cb16-414"><a href="#cb16-414" aria-label="392"></a><span class="ex">conda</span> activate /soft/datascience/ALCFAITP/2023-10-04</span>
-<span id="cb16-415"><a href="#cb16-415" aria-label="393"></a><span class="fu">git</span> clone git@github.com:argonne-lcf/ai-science-training-series.git</span>
-<span id="cb16-416"><a href="#cb16-416" aria-label="394"></a><span class="bu">cd</span> ai-science-training-series/01_intro_AI_on_Supercomputer/</span>
-<span id="cb16-417"><a href="#cb16-417" aria-label="395"></a><span class="ex">mpirun</span> <span class="at">-np</span> 1 python mpi_pi.py   <span class="co"># 3.141988,   8.029037714004517  s</span></span>
-<span id="cb16-418"><a href="#cb16-418" aria-label="396"></a><span class="ex">mpirun</span> <span class="at">-np</span> 2 python mpi_pi.py   <span class="co"># 3.1415096   4.212774038314819  s</span></span>
-<span id="cb16-419"><a href="#cb16-419" aria-label="397"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 python mpi_pi.py   <span class="co"># 3.1425632   2.093632459640503  s</span></span>
-<span id="cb16-420"><a href="#cb16-420" aria-label="398"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 python mpi_pi.py   <span class="co"># 3.1411632   1.0610620975494385 s</span></span>
-<span id="cb16-421"><a href="#cb16-421" aria-label="399"></a><span class="in">```</span></span>
-<span id="cb16-422"><a href="#cb16-422" aria-label="400"></a></span>
-<span id="cb16-423"><a href="#cb16-423" aria-label="401"></a><span class="fu">## Where this goes next</span></span>
-<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a></span>
-<span id="cb16-425"><a href="#cb16-425" aria-label="403"></a>The same idea of splitting work across many processes — which we just used with</span>
-<span id="cb16-426"><a href="#cb16-426" aria-label="404"></a>MPI to estimate $\pi$ — is exactly what powers **distributed training** of</span>
-<span id="cb16-427"><a href="#cb16-427" aria-label="405"></a>modern AI models (data parallelism, model parallelism, and more).</span>
-<span id="cb16-428"><a href="#cb16-428" aria-label="406"></a></span>
-<span id="cb16-429"><a href="#cb16-429" aria-label="407"></a>::: {.callout-tip title="➡️ Next steps"}</span>
-<span id="cb16-430"><a href="#cb16-430" aria-label="408"></a>We cover distributed and parallel training in depth in</span>
-<span id="cb16-431"><a href="#cb16-431" aria-label="409"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb16-432"><a href="#cb16-432" aria-label="410"></a>(DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it</span>
-<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a>to LLMs in <span class="co">[</span><span class="ot">**\[02\] Parallel Training**</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>.</span>
-<span id="cb16-434"><a href="#cb16-434" aria-label="412"></a>:::</span>
+<span id="cb16-413"><a href="#cb16-413" aria-label="391"></a><span class="co"># load the base conda environment (ships a recent PyTorch + mpi4py)</span></span>
+<span id="cb16-414"><a href="#cb16-414" aria-label="392"></a><span class="ex">module</span> use /soft/modulefiles</span>
+<span id="cb16-415"><a href="#cb16-415" aria-label="393"></a><span class="ex">module</span> load conda</span>
+<span id="cb16-416"><a href="#cb16-416" aria-label="394"></a><span class="ex">conda</span> activate base</span>
+<span id="cb16-417"><a href="#cb16-417" aria-label="395"></a></span>
+<span id="cb16-418"><a href="#cb16-418" aria-label="396"></a><span class="fu">git</span> clone https://github.com/argonne-lcf/ai-science-training-series.git</span>
+<span id="cb16-419"><a href="#cb16-419" aria-label="397"></a><span class="bu">cd</span> ai-science-training-series/old/2024-Spring/01_intro_AI_on_Supercomputer/</span>
+<span id="cb16-420"><a href="#cb16-420" aria-label="398"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 1 python mpi_pi.py   <span class="co"># ~3.1420,  wall time drops as ranks increase</span></span>
+<span id="cb16-421"><a href="#cb16-421" aria-label="399"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 2 python mpi_pi.py</span>
+<span id="cb16-422"><a href="#cb16-422" aria-label="400"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 4 python mpi_pi.py</span>
+<span id="cb16-423"><a href="#cb16-423" aria-label="401"></a><span class="ex">mpiexec</span> <span class="at">-n</span> 8 python mpi_pi.py</span>
+<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a><span class="in">```</span></span>
+<span id="cb16-425"><a href="#cb16-425" aria-label="403"></a></span>
+<span id="cb16-426"><a href="#cb16-426" aria-label="404"></a>::: {.callout-note title="🔎 On Polaris, <span class="in">`mpiexec`</span> (not <span class="in">`mpirun`</span>)"}</span>
+<span id="cb16-427"><a href="#cb16-427" aria-label="405"></a>Polaris uses PBS + <span class="in">`mpiexec`</span> to place ranks across the allocated nodes. The</span>
+<span id="cb16-428"><a href="#cb16-428" aria-label="406"></a><span class="in">`mpirun`</span> in the local cell above is fine on a laptop; on the cluster use</span>
+<span id="cb16-429"><a href="#cb16-429" aria-label="407"></a><span class="in">`mpiexec -n &lt;ranks&gt;`</span>.</span>
+<span id="cb16-430"><a href="#cb16-430" aria-label="408"></a>:::</span>
+<span id="cb16-431"><a href="#cb16-431" aria-label="409"></a></span>
+<span id="cb16-432"><a href="#cb16-432" aria-label="410"></a><span class="fu">## Where this goes next</span></span>
+<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a></span>
+<span id="cb16-434"><a href="#cb16-434" aria-label="412"></a>The same idea of splitting work across many processes — which we just used with</span>
+<span id="cb16-435"><a href="#cb16-435" aria-label="413"></a>MPI to estimate $\pi$ — is exactly what powers **distributed training** of</span>
+<span id="cb16-436"><a href="#cb16-436" aria-label="414"></a>modern AI models (data parallelism, model parallelism, and more).</span>
+<span id="cb16-437"><a href="#cb16-437" aria-label="415"></a></span>
+<span id="cb16-438"><a href="#cb16-438" aria-label="416"></a>::: {.callout-tip title="➡️ Next steps"}</span>
+<span id="cb16-439"><a href="#cb16-439" aria-label="417"></a>We cover distributed and parallel training in depth in</span>
+<span id="cb16-440"><a href="#cb16-440" aria-label="418"></a><span class="co">[</span><span class="ot">**\[01\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb16-441"><a href="#cb16-441" aria-label="419"></a>(DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it</span>
+<span id="cb16-442"><a href="#cb16-442" aria-label="420"></a>to LLMs in <span class="co">[</span><span class="ot">**\[02\] Parallel Training**</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span>.</span>
+<span id="cb16-443"><a href="#cb16-443" aria-label="421"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -6102,7 +6127,7 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

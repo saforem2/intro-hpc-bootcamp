@@ -4592,7 +4592,7 @@ window.Quarto = {
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">🎒 Homework</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">📚 References</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4829,7 +4829,7 @@ C \approx 6 \, N \, D
 <section id="a-toy-mfu-that-really-runs" class="level3">
 <h3 class="anchored" data-anchor-id="a-toy-mfu-that-really-runs">① A toy MFU that really runs</h3>
 <p>Let’s make this concrete with a tiny example that runs on a laptop CPU. We time a real (tiny) training step, compute <code>tokens/sec</code>, and form an <strong>MFU-style ratio</strong> by comparing achieved FLOP/s against a <em>measured</em> peak (a big dense matmul on the same machine). Flip <code>eval: false → true</code> and it runs as-is; on a GPU cluster you’d swap the measured peak for <code>ezpz.flops.get_peak_flops()</code>.</p>
-<div id="12234456" class="cell" data-execution_count="1">
+<div id="12234456" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="im">import</span> torch</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a></span>
@@ -4852,7 +4852,7 @@ C \approx 6 \, N \, D
 <pre><code>measured peak (dense matmul): 1775.2 GFLOP/s</code></pre>
 </div>
 </div>
-<div id="194b8e6f" class="cell" data-execution_count="2">
+<div id="194b8e6f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="co"># --- (b) Time a tiny "language-model-shaped" training step ---</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>batch, seq, d_model, vocab <span class="op">=</span> <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">256</span>, <span class="dv">512</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>tokens_per_step <span class="op">=</span> batch <span class="op">*</span> seq</span>
@@ -4892,7 +4892,7 @@ C \approx 6 \, N \, D
 throughput : 722,256 tokens/sec</code></pre>
 </div>
 </div>
-<div id="60c776d7" class="cell" data-execution_count="3">
+<div id="60c776d7" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="co"># --- (c) Compute a toy MFU-style ratio using the 6*N*D rule ---</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="co"># Count the params that actually do matmuls (the linear head dominates here).</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>N <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> lm_head.parameters())</span>
@@ -4916,7 +4916,7 @@ toy MFU          : 32.1%</code></pre>
 <section id="the-real-thing-ezpz.flops.compute_mfu" class="level3">
 <h3 class="anchored" data-anchor-id="the-real-thing-ezpz.flops.compute_mfu">The real thing: <code>ezpz.flops.compute_mfu</code></h3>
 <p>In a real run you don’t hand-roll this. <code>ezpz</code> ships <a href="https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py"><code>ezpz.flops</code></a>, which counts FLOPs with PyTorch’s <code>FlopCounterMode</code> and knows the peak BF16 FLOP/s for common accelerators (H100/H200/B200, A100, MI300X, Intel PVC, …):</p>
-<div id="48f2d082" class="cell" data-execution_count="4">
+<div id="48f2d082" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="im">import</span> ezpz</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="im">from</span> ezpz.flops <span class="im">import</span> try_estimate, compute_mfu</span>
@@ -5035,7 +5035,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <section id="synthetic-data-conceptual-recipe" class="level3">
 <h3 class="anchored" data-anchor-id="synthetic-data-conceptual-recipe">Synthetic data (conceptual recipe)</h3>
 <p>When high-quality human data runs out for a domain, teams <strong>generate</strong> more with a strong existing model — this is how much of the recent gain in math/code/reasoning data was produced. The core loop (display-only pseudo-code):</p>
-<div id="f818c902" class="cell" data-execution_count="5">
+<div id="f818c902" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="co"># Conceptual synthetic-data generation loop. NOT runnable here — this is</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="co"># the *shape* of the pipeline, not a drop-in implementation.</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="im">from</span> your_pipeline <span class="im">import</span> teacher_model, seed_prompts, verify</span>
@@ -5144,7 +5144,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <li><strong><code>MFU</code> vs node count</strong> — ideally flat. A downward slope means each added node buys less useful compute — the classic scaling wall.</li>
 </ol>
 <p>A quick sketch of the plot you’re aiming for (runs at build time with dummy numbers — replace with your measured sweep):</p>
-<div id="d8fbcb17" class="cell" data-execution_count="6">
+<div id="d8fbcb17" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
@@ -5228,7 +5228,7 @@ if (outputEl) {{
 <li><a href="https://allenai.org/olmo">OLMo</a> and the Dolma data report — open data-mixture and curation details</li>
 <li><a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/index.html">[02.1] Parallel Training</a></li>
 </ul>
-<div id="d216e5d7" class="cell" data-execution_count="7">
+<div id="d216e5d7" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>Last updated: 2026-07-28 00:55</code></pre>
 </div>
@@ -6409,7 +6409,7 @@ Foreman, Sam. 2026. <span>“🏗️ Pretraining at Scale.”</span> July 22. <a
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/1-pretraining-at-scale/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

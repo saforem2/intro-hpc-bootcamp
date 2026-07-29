@@ -697,7 +697,7 @@ window.Quarto = {
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">🎒 Homework</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">📚 References</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -751,7 +751,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 27, 2026</p>
+      <p class="date-modified">July 29, 2026</p>
     </div>
   </div>
     
@@ -1214,7 +1214,8 @@ Table&nbsp;1: An illustrative continued-pretraining data mix.
 <li><p>Set up the environment (system-agnostic):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
-<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="ex">uv</span> pip install <span class="st">"trl&gt;=0.12"</span> <span class="st">"peft&gt;=0.13"</span> <span class="st">"datasets"</span> <span class="st">"accelerate"</span> <span class="st">"deepspeed"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="co"># trl&gt;=0.20 for the SFTConfig(assistant_only_loss=..., max_length=...) args used below</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-label="4"></a><span class="ex">uv</span> pip install <span class="st">"trl&gt;=0.20"</span> <span class="st">"peft&gt;=0.13"</span> <span class="st">"datasets"</span> <span class="st">"accelerate"</span> <span class="st">"deepspeed"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Confirm the distributed setup works:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="ex">ezpz</span> test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Launch multi-GPU / multi-node SFT. <code>ezpz launch</code> runs the command across every rank of your allocation:</p>
@@ -2281,92 +2282,93 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-464"><a href="#cb17-464" aria-label="452"></a>    <span class="in">```bash</span></span>
 <span id="cb17-465"><a href="#cb17-465" aria-label="453"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
 <span id="cb17-466"><a href="#cb17-466" aria-label="454"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
-<span id="cb17-467"><a href="#cb17-467" aria-label="455"></a>    <span class="ex">uv</span> pip install <span class="st">"trl&gt;=0.12"</span> <span class="st">"peft&gt;=0.13"</span> <span class="st">"datasets"</span> <span class="st">"accelerate"</span> <span class="st">"deepspeed"</span></span>
-<span id="cb17-468"><a href="#cb17-468" aria-label="456"></a>    <span class="in">```</span></span>
-<span id="cb17-469"><a href="#cb17-469" aria-label="457"></a></span>
-<span id="cb17-470"><a href="#cb17-470" aria-label="458"></a><span class="ss">2. </span>Confirm the distributed setup works:</span>
-<span id="cb17-471"><a href="#cb17-471" aria-label="459"></a></span>
-<span id="cb17-472"><a href="#cb17-472" aria-label="460"></a>    <span class="in">```bash</span></span>
-<span id="cb17-473"><a href="#cb17-473" aria-label="461"></a>    <span class="ex">ezpz</span> test</span>
-<span id="cb17-474"><a href="#cb17-474" aria-label="462"></a>    <span class="in">```</span></span>
-<span id="cb17-475"><a href="#cb17-475" aria-label="463"></a></span>
-<span id="cb17-476"><a href="#cb17-476" aria-label="464"></a><span class="ss">3. </span>Launch multi-GPU / multi-node SFT. <span class="in">`ezpz launch`</span> runs the command across</span>
-<span id="cb17-477"><a href="#cb17-477" aria-label="465"></a>   every rank of your allocation:</span>
-<span id="cb17-478"><a href="#cb17-478" aria-label="466"></a></span>
-<span id="cb17-479"><a href="#cb17-479" aria-label="467"></a>    <span class="in">```bash</span></span>
-<span id="cb17-480"><a href="#cb17-480" aria-label="468"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> trl.scripts.sft <span class="dt">\</span></span>
-<span id="cb17-481"><a href="#cb17-481" aria-label="469"></a>        <span class="at">--model_name_or_path</span> EleutherAI/pythia-410m <span class="dt">\</span></span>
-<span id="cb17-482"><a href="#cb17-482" aria-label="470"></a>        <span class="at">--dataset_name</span> HuggingFaceH4/ultrachat_200k <span class="dt">\</span></span>
-<span id="cb17-483"><a href="#cb17-483" aria-label="471"></a>        <span class="at">--learning_rate</span> 2e-4 <span class="dt">\</span></span>
-<span id="cb17-484"><a href="#cb17-484" aria-label="472"></a>        <span class="at">--per_device_train_batch_size</span> 4 <span class="dt">\</span></span>
-<span id="cb17-485"><a href="#cb17-485" aria-label="473"></a>        <span class="at">--gradient_accumulation_steps</span> 8 <span class="dt">\</span></span>
-<span id="cb17-486"><a href="#cb17-486" aria-label="474"></a>        <span class="at">--num_train_epochs</span> 1 <span class="dt">\</span></span>
-<span id="cb17-487"><a href="#cb17-487" aria-label="475"></a>        <span class="at">--bf16</span> <span class="dt">\</span></span>
-<span id="cb17-488"><a href="#cb17-488" aria-label="476"></a>        <span class="at">--packing</span> <span class="dt">\</span></span>
-<span id="cb17-489"><a href="#cb17-489" aria-label="477"></a>        <span class="at">--use_peft</span> <span class="at">--lora_r</span> 16 <span class="at">--lora_alpha</span> 32 <span class="dt">\</span></span>
-<span id="cb17-490"><a href="#cb17-490" aria-label="478"></a>        <span class="at">--output_dir</span> sft-lora-out</span>
-<span id="cb17-491"><a href="#cb17-491" aria-label="479"></a>    <span class="in">```</span></span>
-<span id="cb17-492"><a href="#cb17-492" aria-label="480"></a></span>
-<span id="cb17-493"><a href="#cb17-493" aria-label="481"></a><span class="ss">4. </span>For long runs, add fault tolerance (spare nodes + automatic failover):</span>
-<span id="cb17-494"><a href="#cb17-494" aria-label="482"></a></span>
-<span id="cb17-495"><a href="#cb17-495" aria-label="483"></a>    <span class="in">```bash</span></span>
-<span id="cb17-496"><a href="#cb17-496" aria-label="484"></a>    <span class="ex">ezpz</span> launch <span class="at">--auto-retry</span> <span class="at">--spare-nodes</span> auto <span class="dt">\</span></span>
-<span id="cb17-497"><a href="#cb17-497" aria-label="485"></a>        python3 <span class="at">-m</span> trl.scripts.sft <span class="at">--model_name_or_path</span> EleutherAI/pythia-410m ...</span>
-<span id="cb17-498"><a href="#cb17-498" aria-label="486"></a>    <span class="in">```</span></span>
-<span id="cb17-499"><a href="#cb17-499" aria-label="487"></a></span>
-<span id="cb17-500"><a href="#cb17-500" aria-label="488"></a>::: {.callout-tip title="💡 Tip: node-local data"}</span>
-<span id="cb17-501"><a href="#cb17-501" aria-label="489"></a>Staging your dataset and environment to each node's local <span class="in">`/tmp`</span> avoids</span>
-<span id="cb17-502"><a href="#cb17-502" aria-label="490"></a>hammering the shared filesystem during a long SFT run:</span>
-<span id="cb17-503"><a href="#cb17-503" aria-label="491"></a></span>
-<span id="cb17-504"><a href="#cb17-504" aria-label="492"></a><span class="in">```bash</span></span>
-<span id="cb17-505"><a href="#cb17-505" aria-label="493"></a><span class="ex">ezpz</span> yeet ./sft-data <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 1</span>
-<span id="cb17-506"><a href="#cb17-506" aria-label="494"></a><span class="in">```</span></span>
-<span id="cb17-507"><a href="#cb17-507" aria-label="495"></a>:::</span>
-<span id="cb17-508"><a href="#cb17-508" aria-label="496"></a></span>
-<span id="cb17-509"><a href="#cb17-509" aria-label="497"></a><span class="fu">## 🎒 Homework</span></span>
-<span id="cb17-510"><a href="#cb17-510" aria-label="498"></a></span>
-<span id="cb17-511"><a href="#cb17-511" aria-label="499"></a>Fine-tune a small **base** model (e.g. <span class="in">`EleutherAI/pythia-410m`</span> or</span>
-<span id="cb17-512"><a href="#cb17-512" aria-label="500"></a><span class="in">`Qwen/Qwen2.5-0.5B`</span>) to follow a **custom instruction template** of your choosing,</span>
-<span id="cb17-513"><a href="#cb17-513" aria-label="501"></a>and submit *proof* of a before/after change in behavior.</span>
-<span id="cb17-514"><a href="#cb17-514" aria-label="502"></a></span>
-<span id="cb17-515"><a href="#cb17-515" aria-label="503"></a>Your submission should include:</span>
-<span id="cb17-516"><a href="#cb17-516" aria-label="504"></a></span>
-<span id="cb17-517"><a href="#cb17-517" aria-label="505"></a><span class="ss">1. </span>The **prompt/completion (or `messages`) schema** you trained on, and the</span>
-<span id="cb17-518"><a href="#cb17-518" aria-label="506"></a>   **chat template** string you applied.</span>
-<span id="cb17-519"><a href="#cb17-519" aria-label="507"></a><span class="ss">2. </span>A **before** generation: prompt the raw base model and show it does *not*</span>
-<span id="cb17-520"><a href="#cb17-520" aria-label="508"></a>   follow instructions cleanly.</span>
-<span id="cb17-521"><a href="#cb17-521" aria-label="509"></a><span class="ss">3. </span>An **after** generation: prompt your fine-tuned model with the *same* prompt</span>
-<span id="cb17-522"><a href="#cb17-522" aria-label="510"></a>   (rendered through the template) and show it now follows the instruction.</span>
-<span id="cb17-523"><a href="#cb17-523" aria-label="511"></a></span>
-<span id="cb17-524"><a href="#cb17-524" aria-label="512"></a>Where *proof* can be any of:</span>
-<span id="cb17-525"><a href="#cb17-525" aria-label="513"></a></span>
-<span id="cb17-526"><a href="#cb17-526" aria-label="514"></a><span class="ss">- </span>The text printed to your terminal during the run (before/after generations).</span>
-<span id="cb17-527"><a href="#cb17-527" aria-label="515"></a><span class="ss">- </span>A path to a logfile from a run on the ALCF filesystems.</span>
-<span id="cb17-528"><a href="#cb17-528" aria-label="516"></a><span class="ss">- </span>A screenshot of the training curve or generations.</span>
-<span id="cb17-529"><a href="#cb17-529" aria-label="517"></a><span class="ss">- </span>A url to a <span class="co">[</span><span class="ot">W&amp;B Run</span><span class="co">](https://wandb.ai)</span> or W&amp;B Report.</span>
-<span id="cb17-530"><a href="#cb17-530" aria-label="518"></a></span>
-<span id="cb17-531"><a href="#cb17-531" aria-label="519"></a>::: {.callout-tip title="Hint" collapse="true"}</span>
-<span id="cb17-532"><a href="#cb17-532" aria-label="520"></a>The smallest full loop is: <span class="in">`SFTTrainer`</span> + a <span class="in">`LoraConfig`</span> + a few hundred examples</span>
-<span id="cb17-533"><a href="#cb17-533" aria-label="521"></a>in <span class="in">`messages`</span> format. Keep <span class="in">`max_length`</span> small and <span class="in">`num_train_epochs=1`</span> so it runs</span>
-<span id="cb17-534"><a href="#cb17-534" aria-label="522"></a>in minutes. Compare <span class="in">`model.generate(...)`</span> before vs. after loading the adapter.</span>
-<span id="cb17-535"><a href="#cb17-535" aria-label="523"></a>:::</span>
-<span id="cb17-536"><a href="#cb17-536" aria-label="524"></a></span>
-<span id="cb17-537"><a href="#cb17-537" aria-label="525"></a><span class="fu">## 📚 References</span></span>
-<span id="cb17-538"><a href="#cb17-538" aria-label="526"></a></span>
-<span id="cb17-539"><a href="#cb17-539" aria-label="527"></a><span class="ss">- </span>HuggingFace TRL — <span class="co">[</span><span class="ot">SFT Trainer docs</span><span class="co">](https://huggingface.co/docs/trl/sft_trainer)</span></span>
-<span id="cb17-540"><a href="#cb17-540" aria-label="528"></a><span class="ss">- </span>HuggingFace PEFT — <span class="co">[</span><span class="ot">LoRA docs</span><span class="co">](https://huggingface.co/docs/peft/developer_guides/lora)</span></span>
-<span id="cb17-541"><a href="#cb17-541" aria-label="529"></a><span class="ss">- </span>Hu et al., *LoRA: Low-Rank Adaptation of Large Language Models* — <span class="co">[</span><span class="ot">arXiv:2106.09685</span><span class="co">](https://arxiv.org/abs/2106.09685)</span></span>
-<span id="cb17-542"><a href="#cb17-542" aria-label="530"></a><span class="ss">- </span>Grattafiori et al., *The Llama 3 Herd of Models* — <span class="co">[</span><span class="ot">arXiv:2407.21783</span><span class="co">](https://arxiv.org/abs/2407.21783)</span></span>
-<span id="cb17-543"><a href="#cb17-543" aria-label="531"></a><span class="ss">- </span>Lambert et al., *Tülu 3: Pushing Frontiers in Open Language Model Post-Training* — <span class="co">[</span><span class="ot">arXiv:2411.15124</span><span class="co">](https://arxiv.org/abs/2411.15124)</span></span>
-<span id="cb17-544"><a href="#cb17-544" aria-label="532"></a><span class="ss">- </span>OLMo Team, *2 OLMo 2 Furious* — <span class="co">[</span><span class="ot">arXiv:2501.00656</span><span class="co">](https://arxiv.org/abs/2501.00656)</span></span>
-<span id="cb17-545"><a href="#cb17-545" aria-label="533"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Chat templating in 🤗 Transformers</span><span class="co">](https://huggingface.co/docs/transformers/main/en/chat_templating)</span></span>
-<span id="cb17-546"><a href="#cb17-546" aria-label="534"></a><span class="ss">- </span>Next: <span class="co">[</span><span class="ot">\[03.4\] RL &amp; Reasoning</span><span class="co">](../4-rl-and-reasoning/index.qmd)</span> — DPO / GRPO / PPO alignment.</span>
-<span id="cb17-547"><a href="#cb17-547" aria-label="535"></a></span>
-<span id="cb17-550"><a href="#cb17-550" aria-label="536"></a><span class="in">```{python}</span></span>
-<span id="cb17-551"><a href="#cb17-551" aria-label="537"></a><span class="co">#| echo: false</span></span>
-<span id="cb17-552"><a href="#cb17-552" aria-label="538"></a><span class="im">import</span> datetime</span>
-<span id="cb17-553"><a href="#cb17-553" aria-label="539"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb17-554"><a href="#cb17-554" aria-label="540"></a><span class="in">```</span></span>
+<span id="cb17-467"><a href="#cb17-467" aria-label="455"></a>    <span class="co"># trl&gt;=0.20 for the SFTConfig(assistant_only_loss=..., max_length=...) args used below</span></span>
+<span id="cb17-468"><a href="#cb17-468" aria-label="456"></a>    <span class="ex">uv</span> pip install <span class="st">"trl&gt;=0.20"</span> <span class="st">"peft&gt;=0.13"</span> <span class="st">"datasets"</span> <span class="st">"accelerate"</span> <span class="st">"deepspeed"</span></span>
+<span id="cb17-469"><a href="#cb17-469" aria-label="457"></a>    <span class="in">```</span></span>
+<span id="cb17-470"><a href="#cb17-470" aria-label="458"></a></span>
+<span id="cb17-471"><a href="#cb17-471" aria-label="459"></a><span class="ss">2. </span>Confirm the distributed setup works:</span>
+<span id="cb17-472"><a href="#cb17-472" aria-label="460"></a></span>
+<span id="cb17-473"><a href="#cb17-473" aria-label="461"></a>    <span class="in">```bash</span></span>
+<span id="cb17-474"><a href="#cb17-474" aria-label="462"></a>    <span class="ex">ezpz</span> test</span>
+<span id="cb17-475"><a href="#cb17-475" aria-label="463"></a>    <span class="in">```</span></span>
+<span id="cb17-476"><a href="#cb17-476" aria-label="464"></a></span>
+<span id="cb17-477"><a href="#cb17-477" aria-label="465"></a><span class="ss">3. </span>Launch multi-GPU / multi-node SFT. <span class="in">`ezpz launch`</span> runs the command across</span>
+<span id="cb17-478"><a href="#cb17-478" aria-label="466"></a>   every rank of your allocation:</span>
+<span id="cb17-479"><a href="#cb17-479" aria-label="467"></a></span>
+<span id="cb17-480"><a href="#cb17-480" aria-label="468"></a>    <span class="in">```bash</span></span>
+<span id="cb17-481"><a href="#cb17-481" aria-label="469"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> trl.scripts.sft <span class="dt">\</span></span>
+<span id="cb17-482"><a href="#cb17-482" aria-label="470"></a>        <span class="at">--model_name_or_path</span> EleutherAI/pythia-410m <span class="dt">\</span></span>
+<span id="cb17-483"><a href="#cb17-483" aria-label="471"></a>        <span class="at">--dataset_name</span> HuggingFaceH4/ultrachat_200k <span class="dt">\</span></span>
+<span id="cb17-484"><a href="#cb17-484" aria-label="472"></a>        <span class="at">--learning_rate</span> 2e-4 <span class="dt">\</span></span>
+<span id="cb17-485"><a href="#cb17-485" aria-label="473"></a>        <span class="at">--per_device_train_batch_size</span> 4 <span class="dt">\</span></span>
+<span id="cb17-486"><a href="#cb17-486" aria-label="474"></a>        <span class="at">--gradient_accumulation_steps</span> 8 <span class="dt">\</span></span>
+<span id="cb17-487"><a href="#cb17-487" aria-label="475"></a>        <span class="at">--num_train_epochs</span> 1 <span class="dt">\</span></span>
+<span id="cb17-488"><a href="#cb17-488" aria-label="476"></a>        <span class="at">--bf16</span> <span class="dt">\</span></span>
+<span id="cb17-489"><a href="#cb17-489" aria-label="477"></a>        <span class="at">--packing</span> <span class="dt">\</span></span>
+<span id="cb17-490"><a href="#cb17-490" aria-label="478"></a>        <span class="at">--use_peft</span> <span class="at">--lora_r</span> 16 <span class="at">--lora_alpha</span> 32 <span class="dt">\</span></span>
+<span id="cb17-491"><a href="#cb17-491" aria-label="479"></a>        <span class="at">--output_dir</span> sft-lora-out</span>
+<span id="cb17-492"><a href="#cb17-492" aria-label="480"></a>    <span class="in">```</span></span>
+<span id="cb17-493"><a href="#cb17-493" aria-label="481"></a></span>
+<span id="cb17-494"><a href="#cb17-494" aria-label="482"></a><span class="ss">4. </span>For long runs, add fault tolerance (spare nodes + automatic failover):</span>
+<span id="cb17-495"><a href="#cb17-495" aria-label="483"></a></span>
+<span id="cb17-496"><a href="#cb17-496" aria-label="484"></a>    <span class="in">```bash</span></span>
+<span id="cb17-497"><a href="#cb17-497" aria-label="485"></a>    <span class="ex">ezpz</span> launch <span class="at">--auto-retry</span> <span class="at">--spare-nodes</span> auto <span class="dt">\</span></span>
+<span id="cb17-498"><a href="#cb17-498" aria-label="486"></a>        python3 <span class="at">-m</span> trl.scripts.sft <span class="at">--model_name_or_path</span> EleutherAI/pythia-410m ...</span>
+<span id="cb17-499"><a href="#cb17-499" aria-label="487"></a>    <span class="in">```</span></span>
+<span id="cb17-500"><a href="#cb17-500" aria-label="488"></a></span>
+<span id="cb17-501"><a href="#cb17-501" aria-label="489"></a>::: {.callout-tip title="💡 Tip: node-local data"}</span>
+<span id="cb17-502"><a href="#cb17-502" aria-label="490"></a>Staging your dataset and environment to each node's local <span class="in">`/tmp`</span> avoids</span>
+<span id="cb17-503"><a href="#cb17-503" aria-label="491"></a>hammering the shared filesystem during a long SFT run:</span>
+<span id="cb17-504"><a href="#cb17-504" aria-label="492"></a></span>
+<span id="cb17-505"><a href="#cb17-505" aria-label="493"></a><span class="in">```bash</span></span>
+<span id="cb17-506"><a href="#cb17-506" aria-label="494"></a><span class="ex">ezpz</span> yeet ./sft-data <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 1</span>
+<span id="cb17-507"><a href="#cb17-507" aria-label="495"></a><span class="in">```</span></span>
+<span id="cb17-508"><a href="#cb17-508" aria-label="496"></a>:::</span>
+<span id="cb17-509"><a href="#cb17-509" aria-label="497"></a></span>
+<span id="cb17-510"><a href="#cb17-510" aria-label="498"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb17-511"><a href="#cb17-511" aria-label="499"></a></span>
+<span id="cb17-512"><a href="#cb17-512" aria-label="500"></a>Fine-tune a small **base** model (e.g. <span class="in">`EleutherAI/pythia-410m`</span> or</span>
+<span id="cb17-513"><a href="#cb17-513" aria-label="501"></a><span class="in">`Qwen/Qwen2.5-0.5B`</span>) to follow a **custom instruction template** of your choosing,</span>
+<span id="cb17-514"><a href="#cb17-514" aria-label="502"></a>and submit *proof* of a before/after change in behavior.</span>
+<span id="cb17-515"><a href="#cb17-515" aria-label="503"></a></span>
+<span id="cb17-516"><a href="#cb17-516" aria-label="504"></a>Your submission should include:</span>
+<span id="cb17-517"><a href="#cb17-517" aria-label="505"></a></span>
+<span id="cb17-518"><a href="#cb17-518" aria-label="506"></a><span class="ss">1. </span>The **prompt/completion (or `messages`) schema** you trained on, and the</span>
+<span id="cb17-519"><a href="#cb17-519" aria-label="507"></a>   **chat template** string you applied.</span>
+<span id="cb17-520"><a href="#cb17-520" aria-label="508"></a><span class="ss">2. </span>A **before** generation: prompt the raw base model and show it does *not*</span>
+<span id="cb17-521"><a href="#cb17-521" aria-label="509"></a>   follow instructions cleanly.</span>
+<span id="cb17-522"><a href="#cb17-522" aria-label="510"></a><span class="ss">3. </span>An **after** generation: prompt your fine-tuned model with the *same* prompt</span>
+<span id="cb17-523"><a href="#cb17-523" aria-label="511"></a>   (rendered through the template) and show it now follows the instruction.</span>
+<span id="cb17-524"><a href="#cb17-524" aria-label="512"></a></span>
+<span id="cb17-525"><a href="#cb17-525" aria-label="513"></a>Where *proof* can be any of:</span>
+<span id="cb17-526"><a href="#cb17-526" aria-label="514"></a></span>
+<span id="cb17-527"><a href="#cb17-527" aria-label="515"></a><span class="ss">- </span>The text printed to your terminal during the run (before/after generations).</span>
+<span id="cb17-528"><a href="#cb17-528" aria-label="516"></a><span class="ss">- </span>A path to a logfile from a run on the ALCF filesystems.</span>
+<span id="cb17-529"><a href="#cb17-529" aria-label="517"></a><span class="ss">- </span>A screenshot of the training curve or generations.</span>
+<span id="cb17-530"><a href="#cb17-530" aria-label="518"></a><span class="ss">- </span>A url to a <span class="co">[</span><span class="ot">W&amp;B Run</span><span class="co">](https://wandb.ai)</span> or W&amp;B Report.</span>
+<span id="cb17-531"><a href="#cb17-531" aria-label="519"></a></span>
+<span id="cb17-532"><a href="#cb17-532" aria-label="520"></a>::: {.callout-tip title="Hint" collapse="true"}</span>
+<span id="cb17-533"><a href="#cb17-533" aria-label="521"></a>The smallest full loop is: <span class="in">`SFTTrainer`</span> + a <span class="in">`LoraConfig`</span> + a few hundred examples</span>
+<span id="cb17-534"><a href="#cb17-534" aria-label="522"></a>in <span class="in">`messages`</span> format. Keep <span class="in">`max_length`</span> small and <span class="in">`num_train_epochs=1`</span> so it runs</span>
+<span id="cb17-535"><a href="#cb17-535" aria-label="523"></a>in minutes. Compare <span class="in">`model.generate(...)`</span> before vs. after loading the adapter.</span>
+<span id="cb17-536"><a href="#cb17-536" aria-label="524"></a>:::</span>
+<span id="cb17-537"><a href="#cb17-537" aria-label="525"></a></span>
+<span id="cb17-538"><a href="#cb17-538" aria-label="526"></a><span class="fu">## 📚 References</span></span>
+<span id="cb17-539"><a href="#cb17-539" aria-label="527"></a></span>
+<span id="cb17-540"><a href="#cb17-540" aria-label="528"></a><span class="ss">- </span>HuggingFace TRL — <span class="co">[</span><span class="ot">SFT Trainer docs</span><span class="co">](https://huggingface.co/docs/trl/sft_trainer)</span></span>
+<span id="cb17-541"><a href="#cb17-541" aria-label="529"></a><span class="ss">- </span>HuggingFace PEFT — <span class="co">[</span><span class="ot">LoRA docs</span><span class="co">](https://huggingface.co/docs/peft/developer_guides/lora)</span></span>
+<span id="cb17-542"><a href="#cb17-542" aria-label="530"></a><span class="ss">- </span>Hu et al., *LoRA: Low-Rank Adaptation of Large Language Models* — <span class="co">[</span><span class="ot">arXiv:2106.09685</span><span class="co">](https://arxiv.org/abs/2106.09685)</span></span>
+<span id="cb17-543"><a href="#cb17-543" aria-label="531"></a><span class="ss">- </span>Grattafiori et al., *The Llama 3 Herd of Models* — <span class="co">[</span><span class="ot">arXiv:2407.21783</span><span class="co">](https://arxiv.org/abs/2407.21783)</span></span>
+<span id="cb17-544"><a href="#cb17-544" aria-label="532"></a><span class="ss">- </span>Lambert et al., *Tülu 3: Pushing Frontiers in Open Language Model Post-Training* — <span class="co">[</span><span class="ot">arXiv:2411.15124</span><span class="co">](https://arxiv.org/abs/2411.15124)</span></span>
+<span id="cb17-545"><a href="#cb17-545" aria-label="533"></a><span class="ss">- </span>OLMo Team, *2 OLMo 2 Furious* — <span class="co">[</span><span class="ot">arXiv:2501.00656</span><span class="co">](https://arxiv.org/abs/2501.00656)</span></span>
+<span id="cb17-546"><a href="#cb17-546" aria-label="534"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Chat templating in 🤗 Transformers</span><span class="co">](https://huggingface.co/docs/transformers/main/en/chat_templating)</span></span>
+<span id="cb17-547"><a href="#cb17-547" aria-label="535"></a><span class="ss">- </span>Next: <span class="co">[</span><span class="ot">\[03.4\] RL &amp; Reasoning</span><span class="co">](../4-rl-and-reasoning/index.qmd)</span> — DPO / GRPO / PPO alignment.</span>
+<span id="cb17-548"><a href="#cb17-548" aria-label="536"></a></span>
+<span id="cb17-551"><a href="#cb17-551" aria-label="537"></a><span class="in">```{python}</span></span>
+<span id="cb17-552"><a href="#cb17-552" aria-label="538"></a><span class="co">#| echo: false</span></span>
+<span id="cb17-553"><a href="#cb17-553" aria-label="539"></a><span class="im">import</span> datetime</span>
+<span id="cb17-554"><a href="#cb17-554" aria-label="540"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M:%S'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-555"><a href="#cb17-555" aria-label="541"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -2383,7 +2385,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/3-mid-post-training/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

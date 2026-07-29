@@ -4598,7 +4598,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#keep-learning" id="toc-keep-learning" class="nav-link" data-scroll-target="#keep-learning">Keep learning</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -4669,7 +4669,7 @@ window.Quarto = {
 
 
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<div id="6dcfe8d5" class="cell" data-execution_count="1">
+<div id="6dcfe8d5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># This page uses the `bootcamp` helper package. On Colab (or any fresh</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># environment) install it + its dependencies; locally this is a no-op.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">try</span>:</span>
@@ -4677,7 +4677,7 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5494c48b" class="cell" data-execution_count="2">
+<div id="5494c48b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
@@ -4695,7 +4695,7 @@ window.Quarto = {
 <section id="toy-dataset-2d-blobs" class="level3">
 <h3 class="anchored" data-anchor-id="toy-dataset-2d-blobs">Toy Dataset (2D Blobs)</h3>
 <p>Define 3 blobs on a 2D plane:</p>
-<div id="9f324085" class="cell" data-execution_count="3">
+<div id="9f324085" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="im">import</span> os</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="im">import</span> sklearn</span>
@@ -4726,7 +4726,7 @@ window.Quarto = {
 <span id="cb3-28"><a href="#cb3-28" aria-label="28"></a>SEED <span class="op">=</span> <span class="dv">42</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-label="29"></a>DFIGSIZE <span class="op">=</span> plt.rcParamsDefault[<span class="st">'figure.figsize'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f0e11f40" class="cell" data-execution_count="4">
+<div id="f0e11f40" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>n_samples <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># 1000 2D data points</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>n_clusters <span class="op">=</span> <span class="dv">3</span>  <span class="co"># 3 unique blobs</span></span>
@@ -4773,12 +4773,12 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<div id="287aca0c" class="cell" data-execution_count="5">
+<div id="287aca0c" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="co"># Normalize features</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="27822e6c" class="cell" data-execution_count="6">
+<div id="27822e6c" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># Original (left) vs. standardized (right) — note the axis scales change,</span></span>
@@ -4874,7 +4874,7 @@ Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
-<div id="1c147dd9" class="cell" data-execution_count="7">
+<div id="1c147dd9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="kw">def</span> initialize_centroids(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>        n_clusters: <span class="bu">int</span>,</span>
@@ -4925,7 +4925,7 @@ Figure&nbsp;3
 </figcaption>
 </figure>
 </div>
-<div id="0456846e" class="cell" data-execution_count="8">
+<div id="0456846e" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="kw">def</span> compute_distance(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>        centroids: np.ndarray,</span>
@@ -4961,7 +4961,7 @@ Figure&nbsp;3
 </section>
 <section id="step-2b-find-nearest-cluster-for-each-point" class="level3">
 <h3 class="anchored" data-anchor-id="step-2b-find-nearest-cluster-for-each-point">Step 2b: Find nearest cluster for each point</h3>
-<div id="70bcd30c" class="cell" data-execution_count="9">
+<div id="70bcd30c" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="kw">def</span> find_closest_centroid(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>        distance: np.ndarray</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
@@ -4997,7 +4997,7 @@ Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
-<div id="11585687" class="cell" data-execution_count="10">
+<div id="11585687" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">def</span> compute_centroids(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>        x: np.ndarray,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>        nearest_centroid_indices: np.ndarray,</span>
@@ -5043,7 +5043,7 @@ Figure&nbsp;5
 </figcaption>
 </figure>
 </div>
-<div id="2674560a" class="cell" data-execution_count="11">
+<div id="2674560a" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="im">from</span> __future__ <span class="im">import</span> absolute_import, annotations, division, print_function</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
@@ -5112,7 +5112,7 @@ Figure&nbsp;5
 </section>
 <section id="run-example" class="level2">
 <h2 class="anchored" data-anchor-id="run-example">Run Example</h2>
-<div id="cc87a630" class="cell" data-execution_count="12">
+<div id="cc87a630" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> COLORS</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
@@ -5159,7 +5159,7 @@ No change in centroids! Exiting!</code></pre>
 </div>
 </div>
 <p>Watch the algorithm converge from a deliberately bad random start (two of the three centroids land in the same blob). Each frame is one iteration: points recolor as they’re reassigned to the nearest centroid (★), and the centroids drift into place until nothing changes. Drag the slider or hit ▶:</p>
-<div id="303a4015" class="cell" data-execution_count="13">
+<div id="303a4015" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a>_cats <span class="op">=</span> [<span class="st">"#2196F3"</span>, <span class="st">"#EF5350"</span>, <span class="st">"#4CAF50"</span>, <span class="st">"#FFA726"</span>, <span class="st">"#AE81FF"</span>,</span>
@@ -5230,7 +5230,7 @@ if (outputEl) {{
 <h2 class="anchored" data-anchor-id="k-means-on-a-breast-cancer-dataset">K-Means on a Breast Cancer Dataset</h2>
 <p>Now we use more realistic data that cannot be easily plotted on a 2D grid. This dataset has 30 features (columns) for 569 patients (rows). In addition, there is a <em>target</em> feature that indicates if the cancer was <em>malignant</em> (0) or <em>benign</em> (1). In the ideal case, our 30 features would provide easy deliniation between these two classes.</p>
 <p>Let’s extract our data into <span class="math inline">x</span> and our truth labels into <span class="math inline">y</span></p>
-<div id="42efbbd5" class="cell" data-execution_count="14">
+<div id="42efbbd5" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a></span>
@@ -5252,11 +5252,11 @@ if (outputEl) {{
 <span id="cb15-19"><a href="#cb15-19" aria-label="19"></a>    y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
 <span id="cb15-20"><a href="#cb15-20" aria-label="20"></a>    <span class="cf">return</span> x, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fb91cb68" class="cell" data-execution_count="15">
+<div id="fb91cb68" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a>data <span class="op">=</span> load_cancer_data()</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>x, y <span class="op">=</span> sort_cancer_data(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="25ca97a5" class="cell" data-execution_count="16">
+<div id="25ca97a5" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="bu">print</span>(data.keys())</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="bu">print</span>(<span class="st">"data size:"</span>, <span class="bu">len</span>(data[<span class="st">"data"</span>]))</span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a><span class="bu">print</span>(<span class="st">"number of features:"</span>, <span class="bu">len</span>(data[<span class="st">"feature_names"</span>]))</span>
@@ -5276,7 +5276,7 @@ number of features: 30
  'worst concave points' 'worst symmetry' 'worst fractal dimension']</code></pre>
 </div>
 </div>
-<div id="54aa3807" class="cell" data-execution_count="17">
+<div id="54aa3807" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="co"># wrap data in pandas DataFrame</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="co"># y = data['target'] # value: 0 = 'Malignant' 1 = 'Benign'</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-label="3"></a>x <span class="op">=</span> data[<span class="st">"data"</span>]</span>
@@ -5290,7 +5290,7 @@ x.shape: (569, 30)
 y.shape: (569,)</code></pre>
 </div>
 </div>
-<div id="09470250" class="cell" data-execution_count="18">
+<div id="09470250" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="co"># normalize</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -5307,7 +5307,7 @@ y.shape: (569,)</code></pre>
 </div>
 </div>
 </div>
-<div id="2744908d" class="cell" data-execution_count="19">
+<div id="2744908d" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_hists</span>
 <span id="cb22-2"><a href="#cb22-2" aria-label="2"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-label="3"></a><span class="co"># for seed in range(10):</span></span>
@@ -5356,7 +5356,7 @@ if (outputEl) {{
 </div>
 <p>This plot shows the normalized inertia as we vary the number <code>n_clusters</code> used in our k-means fit to the breast cancer data. This value essentially indicates the mean distance of a point to the cluster centroids. Obviously more clusters result in data points being nearer to a centroid.</p>
 <p>If our dataset easily split into 2 clusters, we would see a step function behavior going from 1 to 2, then only very minor improvements above 2. What we see here tells us our data does not easily cluster.</p>
-<div id="1cf04875" class="cell" data-execution_count="20">
+<div id="1cf04875" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a>_, fig <span class="op">=</span> plot_kmeans_obj_plotly(x_sc, nclusters<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -5388,7 +5388,7 @@ if (outputEl) {{
 </div>
 </div>
 <p>For example, if we return to our blob data with 2 clusters, it become clear.</p>
-<div id="ca629735" class="cell" data-execution_count="21">
+<div id="ca629735" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a>n_samples <span class="op">=</span> <span class="dv">300</span>  <span class="co"># 300 2D data points</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>n_clusters <span class="op">=</span> <span class="dv">2</span>  <span class="co"># unique blobs</span></span>
@@ -5435,7 +5435,7 @@ if (outputEl) {{
 <p>The idea behind a SOM is that you’re mapping high-dimensional vectors onto a smaller dimensional (typically 2D) space. Vectors that are close in the high-dimensional space also end up being mapped to nodes that are close in 2D space thus preserving the “topology” of the original data.</p>
 <p>Training a SOM needs a handful of small helpers. We build them up one at a time here, then wire them together in the training loop below.</p>
 <p>First, the <strong>best matching unit</strong> (BMU): given an input vector, find the neuron whose weights are closest to it. This is the SOM’s analogue of “find the nearest centroid” from k-means.</p>
-<div id="fc97c886" class="cell" data-execution_count="22">
+<div id="fc97c886" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="co"># finding best matching unit</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="kw">def</span> find_bmu(t, net, n):</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a>    <span class="co">"""</span></span>
@@ -5462,25 +5462,25 @@ if (outputEl) {{
 <span id="cb26-24"><a href="#cb26-24" aria-label="24"></a>    <span class="cf">return</span> (bmu, bmu_idx)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>As training proceeds we shrink the neighbourhood <strong>radius</strong>, so the map moves from coarse, global organization early on to fine, local tuning later:</p>
-<div id="abec7f70" class="cell" data-execution_count="23">
+<div id="abec7f70" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="co"># Decaying radius of influence</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a><span class="kw">def</span> decay_radius(initial_radius, i, time_constant):</span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>    <span class="cf">return</span> initial_radius <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> time_constant)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>…and likewise decay the <strong>learning rate</strong>, so early updates are large and later ones are gentle:</p>
-<div id="a827f0c8" class="cell" data-execution_count="24">
+<div id="a827f0c8" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="co"># Decaying learning rate</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-label="2"></a><span class="kw">def</span> decay_learning_rate(initial_learning_rate, i, n_iterations):</span>
 <span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>    <span class="cf">return</span> initial_learning_rate <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> n_iterations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Within the current radius, a neuron’s <strong>influence</strong> falls off with its distance from the BMU (a Gaussian bump), so the closest neurons move the most:</p>
-<div id="552e06e8" class="cell" data-execution_count="25">
+<div id="552e06e8" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="co"># Influence in 2D space</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-label="2"></a><span class="kw">def</span> calculate_influence(distance, radius):</span>
 <span id="cb29-3"><a href="#cb29-3" aria-label="3"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>distance <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> (radius<span class="op">**</span><span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, <strong>update the weights</strong>: pull the BMU and its neighbours toward the input vector, scaled by the learning rate and each neuron’s influence:</p>
-<div id="d0d113bf" class="cell" data-execution_count="26">
+<div id="d0d113bf" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a><span class="co"># Update weights</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-label="2"></a><span class="kw">def</span> update_weights(net, bmu_idx, r, l):</span>
 <span id="cb30-3"><a href="#cb30-3" aria-label="3"></a>    wlen <span class="op">=</span> net.shape[<span class="dv">2</span>]</span>
@@ -5503,7 +5503,7 @@ if (outputEl) {{
 </div>
 <section id="generating-color-data-and-normalizing" class="level3">
 <h3 class="anchored" data-anchor-id="generating-color-data-and-normalizing">Generating “Color” data and normalizing</h3>
-<div id="0514bd13" class="cell" data-execution_count="27">
+<div id="0514bd13" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a>raw_data <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">255</span>, (<span class="dv">10000</span>, <span class="dv">3</span>))  <span class="co"># JPEG like data</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-label="2"></a><span class="co"># raw_data = np.random.uniform(size=(500, 3))</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-label="3"></a>data <span class="op">=</span> StandardScaler().fit_transform(raw_data)  <span class="co"># Normalized</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -5512,31 +5512,31 @@ if (outputEl) {{
 <section id="defining-som" class="level3">
 <h3 class="anchored" data-anchor-id="defining-som">Defining SOM</h3>
 <p>Defining network size, number of iterations and learning rate</p>
-<div id="c9ed4eda" class="cell" data-execution_count="28">
+<div id="c9ed4eda" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">50</span>, <span class="dv">50</span>])</span>
 <span id="cb32-2"><a href="#cb32-2" aria-label="2"></a>n_iterations <span class="op">=</span> <span class="dv">2500</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.075</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Establish size variables based on data</p>
-<div id="841f1799" class="cell" data-execution_count="29">
+<div id="841f1799" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a>m <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
 <span id="cb33-2"><a href="#cb33-2" aria-label="2"></a>n <span class="op">=</span> data.shape[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Weight matrix (i.e.&nbsp;the SOM) needs to be one n-dimensional vector for each neuron in the SOM</p>
-<div id="6eac1bbd" class="cell" data-execution_count="30">
+<div id="6eac1bbd" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a>net <span class="op">=</span> np.random.random(</span>
 <span id="cb34-2"><a href="#cb34-2" aria-label="2"></a>    (network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-label="3"></a>)  <span class="co"># 50x50 = 2500 neurons, each with a 3D vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Initial neighbourhood radius and decay parameter</p>
-<div id="edaaa05e" class="cell" data-execution_count="31">
+<div id="edaaa05e" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-label="2"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="initial-state-of-som-color-network" class="level3">
 <h3 class="anchored" data-anchor-id="initial-state-of-som-color-network">Initial state of SOM color network</h3>
-<div id="d8b69a3c" class="cell" data-execution_count="32">
+<div id="d8b69a3c" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a>plt.rcParams[<span class="st">"image.cmap"</span>] <span class="op">=</span> <span class="st">"rainbow"</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
 <span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>image <span class="op">=</span> ax.matshow(net)</span>
@@ -5553,7 +5553,7 @@ if (outputEl) {{
 </section>
 <section id="training-som" class="level3">
 <h3 class="anchored" data-anchor-id="training-som">Training SOM</h3>
-<div id="a1e5ecfc" class="cell" data-execution_count="33">
+<div id="a1e5ecfc" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-label="1"></a><span class="kw">def</span> normalize(x: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
 <span id="cb37-2"><a href="#cb37-2" aria-label="2"></a>    <span class="cf">return</span> (x <span class="op">-</span> np.<span class="bu">min</span>(x)) <span class="op">/</span> (np.<span class="bu">max</span>(x) <span class="op">-</span> np.<span class="bu">min</span>(x))</span>
 <span id="cb37-3"><a href="#cb37-3" aria-label="3"></a></span>
@@ -5587,7 +5587,7 @@ if (outputEl) {{
 <section id="visualization-of-trained-colormap-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-colormap-som">Visualization of trained colormap SOM</h3>
 <p>Rather than a static grid of snapshots, let’s animate the map organizing itself. Drag the slider (or hit ▶) to watch neighboring neurons settle into smoothly varying colors as training proceeds:</p>
-<div id="ff15d0b4" class="cell" data-execution_count="34">
+<div id="ff15d0b4" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-label="1"></a><span class="co"># each snapshot is a normalized (H, W, 3) RGB map; go.Image wants 0-255 uint8</span></span>
@@ -5643,7 +5643,7 @@ if (outputEl) {{
 </div>
 </div>
 <p>This is the same map as the final frame of the animation above (rendered the same way, so the orientation matches):</p>
-<div id="8a1f56ad" class="cell" data-execution_count="35">
+<div id="8a1f56ad" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a>fig <span class="op">=</span> go.Figure(go.Image(z<span class="op">=</span>to_rgb(normalize(net))))</span>
@@ -5683,7 +5683,7 @@ if (outputEl) {{
 </section>
 <section id="som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="som-on-cancer-data">SOM on Cancer data</h3>
-<div id="c361e0c6" class="cell" data-execution_count="36">
+<div id="c361e0c6" class="cell" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-label="1"></a><span class="co"># Load data</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-label="2"></a>data <span class="op">=</span> datasets.load_breast_cancer()</span>
 <span id="cb41-3"><a href="#cb41-3" aria-label="3"></a><span class="co"># Get features and target</span></span>
@@ -5694,7 +5694,7 @@ if (outputEl) {{
 <pre><code>(569, 30) (569,)</code></pre>
 </div>
 </div>
-<div id="f491603b" class="cell" data-execution_count="37">
+<div id="f491603b" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">10</span>])</span>
 <span id="cb43-2"><a href="#cb43-2" aria-label="2"></a>n_iterations <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-label="3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
@@ -5710,7 +5710,7 @@ if (outputEl) {{
 <span id="cb43-13"><a href="#cb43-13" aria-label="13"></a><span class="co"># radius decay parameter</span></span>
 <span id="cb43-14"><a href="#cb43-14" aria-label="14"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="365b16f7" class="cell" data-execution_count="38">
+<div id="365b16f7" class="cell" data-execution_count="39">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-label="1"></a><span class="co"># convert the network to something we can visualize</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-label="2"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb44-3"><a href="#cb44-3" aria-label="3"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>),</span>
@@ -5740,7 +5740,7 @@ if (outputEl) {{
 </section>
 <section id="training-som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="training-som-on-cancer-data">Training SOM on Cancer data</h3>
-<div id="25a8b6d0" class="cell" data-execution_count="39">
+<div id="25a8b6d0" class="cell" data-execution_count="40">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-label="1"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
 <span id="cb45-2"><a href="#cb45-2" aria-label="2"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-label="3"></a>    t <span class="op">=</span> X[np.random.randint(<span class="dv">0</span>, n_points), :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
@@ -5779,7 +5779,7 @@ if (outputEl) {{
 </section>
 <section id="visualization-of-trained-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-som">Visualization of trained SOM</h3>
-<div id="11a3194d" class="cell" data-execution_count="40">
+<div id="11a3194d" class="cell" data-execution_count="41">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb46-2"><a href="#cb46-2" aria-label="2"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-label="3"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
@@ -7299,7 +7299,7 @@ Learning.”</span> July 25. <a href="https://saforem2.github.io/intro-hpc-bootc
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/00-intro-AI-HPC/7-statistical-learning/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

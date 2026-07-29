@@ -705,7 +705,7 @@ window.Quarto = {
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">🎒 Homework</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">📚 References</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -759,7 +759,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 27, 2026</p>
+      <p class="date-modified">July 29, 2026</p>
     </div>
   </div>
     
@@ -812,7 +812,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <section id="a-toy-that-really-runs" class="level2">
 <h2 class="anchored" data-anchor-id="a-toy-that-really-runs">👋 ① A toy that really runs</h2>
 <p>Let’s build a complete MoE layer in a few dozen lines of pure PyTorch — small enough to run on a laptop CPU. It has all four moving parts: a <strong>router</strong>, <strong>sparse dispatch</strong> to expert FFNs, a weighted <strong>combine</strong>, and the <strong>load-balancing loss</strong>.</p>
-<div id="d3983b52" class="cell" data-execution_count="2">
+<div id="9d547549" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
@@ -836,7 +836,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <span id="cb1-21"><a href="#cb1-21" aria-label="21"></a>        <span class="cf">return</span> <span class="va">self</span>.net(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now the MoE layer itself. Read the four numbered steps in <code>forward</code>:</p>
-<div id="960dd3e9" class="cell" data-execution_count="3">
+<div id="10f797fe" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="kw">class</span> MoELayer(nn.Module):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, d_model<span class="op">=</span><span class="dv">8</span>, d_hidden<span class="op">=</span><span class="dv">16</span>, n_experts<span class="op">=</span><span class="dv">4</span>, top_k<span class="op">=</span><span class="dv">2</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -883,7 +883,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>        <span class="cf">return</span> out, aux_loss, counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Run it on a tiny batch of 12 tokens and inspect <strong>per-expert utilization</strong> — the single most important thing to watch when training an MoE:</p>
-<div id="5082d21a" class="cell" data-execution_count="4">
+<div id="57cab1cc" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>n_tokens, d_model <span class="op">=</span> <span class="dv">12</span>, <span class="dv">8</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>x <span class="op">=</span> torch.randn(n_tokens, d_model)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a></span>
@@ -944,7 +944,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <section id="peek-inside-the-router" class="level3">
 <h3 class="anchored" data-anchor-id="peek-inside-the-router">🔎 Peek inside the router</h3>
 <p>The aggregate <code>counts</code> above hide the actual <em>decisions</em> the router made. Let’s open it up — nothing but a softmax over the gate logits picks experts — and watch what changes as we make routing denser (<strong>top-1 → top-3</strong>):</p>
-<div id="2c4035be" class="cell" data-execution_count="5">
+<div id="3f4db0dd" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># The router is just a softmax over the gate's logits.</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>probs <span class="op">=</span> F.softmax(moe.gate(x), dim<span class="op">=-</span><span class="dv">1</span>)       <span class="co"># (n_tokens, n_experts) routing dist</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>top2 <span class="op">=</span> probs.topk(<span class="dv">2</span>, dim<span class="op">=-</span><span class="dv">1</span>)                  <span class="co"># what top-2 routing selects per token</span></span>
@@ -1063,13 +1063,17 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <p><span class="math display">
 \text{capacity} \;=\; \Big\lceil \text{capacity\_factor} \times \frac{\text{tokens} \times k}{E} \Big\rceil
 </span></p>
-<div id="9c43a073" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>capacity_factor <span class="op">=</span> <span class="fl">1.25</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>capacity <span class="op">=</span> <span class="bu">int</span>(capacity_factor <span class="op">*</span> n_tokens <span class="op">*</span> moe.top_k <span class="op">/</span> moe.n_experts)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"expert capacity (cf=</span><span class="sc">{</span>capacity_factor<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>capacity<span class="sc">}</span><span class="ss"> tokens/expert"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="bu">print</span>(<span class="st">"tokens beyond capacity are 'dropped' (skip the expert, kept via residual)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5c140f2f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">import</span> math</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>capacity_factor <span class="op">=</span> <span class="fl">1.25</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="co"># ceil (not int/truncate) to match the formula above: with n_tokens=12, k=2,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a><span class="co"># E=4 the raw value is 7.5, and we round UP to 8 so the buffer never under-sizes.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a>capacity <span class="op">=</span> math.ceil(capacity_factor <span class="op">*</span> n_tokens <span class="op">*</span> moe.top_k <span class="op">/</span> moe.n_experts)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"expert capacity (cf=</span><span class="sc">{</span>capacity_factor<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>capacity<span class="sc">}</span><span class="ss"> tokens/expert"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-label="8"></a><span class="bu">print</span>(<span class="st">"tokens beyond capacity are 'dropped' (skip the expert, kept via residual)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">expert capacity <span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">cf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.25</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span> tokens/expert
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">expert capacity <span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">cf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.25</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> tokens/expert
 </pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1446,9 +1450,9 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <li><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/saforem2/ezpz">saforem2/ezpz</a></li>
 <li>⏪ Prerequisite: <a href="../../01-neural-networks/4-distributed-training/index.html">[01.4] Distributed Training</a></li>
 </ul>
-<div id="13e46dc5" class="cell" data-execution_count="7">
+<div id="25332c2f" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">10:32</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">29</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">11:04</span>
 </pre>
 </div>
 </div>
@@ -2210,350 +2214,354 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb13-235"><a href="#cb13-235" aria-label="227"></a>$$</span>
 <span id="cb13-236"><a href="#cb13-236" aria-label="228"></a></span>
 <span id="cb13-239"><a href="#cb13-239" aria-label="229"></a><span class="in">```{python}</span></span>
-<span id="cb13-240"><a href="#cb13-240" aria-label="230"></a>capacity_factor <span class="op">=</span> <span class="fl">1.25</span></span>
-<span id="cb13-241"><a href="#cb13-241" aria-label="231"></a>capacity <span class="op">=</span> <span class="bu">int</span>(capacity_factor <span class="op">*</span> n_tokens <span class="op">*</span> moe.top_k <span class="op">/</span> moe.n_experts)</span>
-<span id="cb13-242"><a href="#cb13-242" aria-label="232"></a><span class="bu">print</span>(<span class="ss">f"expert capacity (cf=</span><span class="sc">{</span>capacity_factor<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>capacity<span class="sc">}</span><span class="ss"> tokens/expert"</span>)</span>
-<span id="cb13-243"><a href="#cb13-243" aria-label="233"></a><span class="bu">print</span>(<span class="st">"tokens beyond capacity are 'dropped' (skip the expert, kept via residual)."</span>)</span>
-<span id="cb13-244"><a href="#cb13-244" aria-label="234"></a><span class="in">```</span></span>
-<span id="cb13-245"><a href="#cb13-245" aria-label="235"></a></span>
-<span id="cb13-246"><a href="#cb13-246" aria-label="236"></a><span class="ss">- </span><span class="in">`capacity_factor = 1.0`</span> means "exactly the average load"; anything above the</span>
-<span id="cb13-247"><a href="#cb13-247" aria-label="237"></a>  cap is **dropped** (it skips the expert and passes through the residual</span>
-<span id="cb13-248"><a href="#cb13-248" aria-label="238"></a>  connection).</span>
-<span id="cb13-249"><a href="#cb13-249" aria-label="239"></a><span class="ss">- </span>Larger capacity → fewer dropped tokens but more wasted compute/memory on</span>
-<span id="cb13-250"><a href="#cb13-250" aria-label="240"></a>  padding. Typical values are <span class="in">`1.0`</span>–<span class="in">`2.0`</span>.</span>
-<span id="cb13-251"><a href="#cb13-251" aria-label="241"></a></span>
-<span id="cb13-252"><a href="#cb13-252" aria-label="242"></a>::: {.callout-tip title="🔬 At DeepSeek-v3 scale…"}</span>
-<span id="cb13-253"><a href="#cb13-253" aria-label="243"></a>The toy above has 4 experts and 12 tokens on one CPU. DeepSeek-v3 has **256</span>
-<span id="cb13-254"><a href="#cb13-254" aria-label="244"></a>routed experts + 1 shared expert per MoE layer**, routes **top-8**, and streams</span>
-<span id="cb13-255"><a href="#cb13-255" aria-label="245"></a>**millions of tokens per step** across thousands of GPUs. The `for e in</span>
-<span id="cb13-256"><a href="#cb13-256" aria-label="246"></a>range(n_experts)` Python loop becomes a single fused **grouped GEMM**, and the</span>
-<span id="cb13-257"><a href="#cb13-257" aria-label="247"></a>"dispatch tokens to experts" step becomes an **all-to-all** collective across the</span>
-<span id="cb13-258"><a href="#cb13-258" aria-label="248"></a>network — because the experts no longer live on the same GPU. That is *expert</span>
-<span id="cb13-259"><a href="#cb13-259" aria-label="249"></a>parallelism*, the subject of movement ③.</span>
-<span id="cb13-260"><a href="#cb13-260" aria-label="250"></a>:::</span>
-<span id="cb13-261"><a href="#cb13-261" aria-label="251"></a></span>
-<span id="cb13-262"><a href="#cb13-262" aria-label="252"></a><span class="fu">## 🏗️ ② The real thing: DeepSeek-v3</span></span>
-<span id="cb13-263"><a href="#cb13-263" aria-label="253"></a></span>
-<span id="cb13-264"><a href="#cb13-264" aria-label="254"></a><span class="co">[</span><span class="ot">DeepSeek-v3</span><span class="co">](https://arxiv.org/abs/2412.19437)</span> (Dec 2024) is the reference MoE</span>
-<span id="cb13-265"><a href="#cb13-265" aria-label="255"></a>LLM: **671B total parameters, ~37B activated per token**, trained on 14.8T</span>
-<span id="cb13-266"><a href="#cb13-266" aria-label="256"></a>tokens in FP8. Its MoE block refines the toy above with four key ideas.</span>
+<span id="cb13-240"><a href="#cb13-240" aria-label="230"></a><span class="im">import</span> math</span>
+<span id="cb13-241"><a href="#cb13-241" aria-label="231"></a></span>
+<span id="cb13-242"><a href="#cb13-242" aria-label="232"></a>capacity_factor <span class="op">=</span> <span class="fl">1.25</span></span>
+<span id="cb13-243"><a href="#cb13-243" aria-label="233"></a><span class="co"># ceil (not int/truncate) to match the formula above: with n_tokens=12, k=2,</span></span>
+<span id="cb13-244"><a href="#cb13-244" aria-label="234"></a><span class="co"># E=4 the raw value is 7.5, and we round UP to 8 so the buffer never under-sizes.</span></span>
+<span id="cb13-245"><a href="#cb13-245" aria-label="235"></a>capacity <span class="op">=</span> math.ceil(capacity_factor <span class="op">*</span> n_tokens <span class="op">*</span> moe.top_k <span class="op">/</span> moe.n_experts)</span>
+<span id="cb13-246"><a href="#cb13-246" aria-label="236"></a><span class="bu">print</span>(<span class="ss">f"expert capacity (cf=</span><span class="sc">{</span>capacity_factor<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>capacity<span class="sc">}</span><span class="ss"> tokens/expert"</span>)</span>
+<span id="cb13-247"><a href="#cb13-247" aria-label="237"></a><span class="bu">print</span>(<span class="st">"tokens beyond capacity are 'dropped' (skip the expert, kept via residual)."</span>)</span>
+<span id="cb13-248"><a href="#cb13-248" aria-label="238"></a><span class="in">```</span></span>
+<span id="cb13-249"><a href="#cb13-249" aria-label="239"></a></span>
+<span id="cb13-250"><a href="#cb13-250" aria-label="240"></a><span class="ss">- </span><span class="in">`capacity_factor = 1.0`</span> means "exactly the average load"; anything above the</span>
+<span id="cb13-251"><a href="#cb13-251" aria-label="241"></a>  cap is **dropped** (it skips the expert and passes through the residual</span>
+<span id="cb13-252"><a href="#cb13-252" aria-label="242"></a>  connection).</span>
+<span id="cb13-253"><a href="#cb13-253" aria-label="243"></a><span class="ss">- </span>Larger capacity → fewer dropped tokens but more wasted compute/memory on</span>
+<span id="cb13-254"><a href="#cb13-254" aria-label="244"></a>  padding. Typical values are <span class="in">`1.0`</span>–<span class="in">`2.0`</span>.</span>
+<span id="cb13-255"><a href="#cb13-255" aria-label="245"></a></span>
+<span id="cb13-256"><a href="#cb13-256" aria-label="246"></a>::: {.callout-tip title="🔬 At DeepSeek-v3 scale…"}</span>
+<span id="cb13-257"><a href="#cb13-257" aria-label="247"></a>The toy above has 4 experts and 12 tokens on one CPU. DeepSeek-v3 has **256</span>
+<span id="cb13-258"><a href="#cb13-258" aria-label="248"></a>routed experts + 1 shared expert per MoE layer**, routes **top-8**, and streams</span>
+<span id="cb13-259"><a href="#cb13-259" aria-label="249"></a>**millions of tokens per step** across thousands of GPUs. The `for e in</span>
+<span id="cb13-260"><a href="#cb13-260" aria-label="250"></a>range(n_experts)` Python loop becomes a single fused **grouped GEMM**, and the</span>
+<span id="cb13-261"><a href="#cb13-261" aria-label="251"></a>"dispatch tokens to experts" step becomes an **all-to-all** collective across the</span>
+<span id="cb13-262"><a href="#cb13-262" aria-label="252"></a>network — because the experts no longer live on the same GPU. That is *expert</span>
+<span id="cb13-263"><a href="#cb13-263" aria-label="253"></a>parallelism*, the subject of movement ③.</span>
+<span id="cb13-264"><a href="#cb13-264" aria-label="254"></a>:::</span>
+<span id="cb13-265"><a href="#cb13-265" aria-label="255"></a></span>
+<span id="cb13-266"><a href="#cb13-266" aria-label="256"></a><span class="fu">## 🏗️ ② The real thing: DeepSeek-v3</span></span>
 <span id="cb13-267"><a href="#cb13-267" aria-label="257"></a></span>
-<span id="cb13-268"><a href="#cb13-268" aria-label="258"></a>::: {#fig-deepseek-moe}</span>
-<span id="cb13-269"><a href="#cb13-269" aria-label="259"></a></span>
-<span id="cb13-272"><a href="#cb13-272" aria-label="260"></a><span class="in">```{mermaid}</span></span>
-<span id="cb13-273"><a href="#cb13-273" aria-label="261"></a>flowchart TB</span>
-<span id="cb13-274"><a href="#cb13-274" aria-label="262"></a>    x(<span class="ot">"</span><span class="st">`token hidden state`</span><span class="ot">"</span>)</span>
-<span id="cb13-275"><a href="#cb13-275" aria-label="263"></a>    subgraph BLK[<span class="ot">"</span><span class="st">`DeepSeek-v3 MoE block`</span><span class="ot">"</span>]</span>
-<span id="cb13-276"><a href="#cb13-276" aria-label="264"></a>        direction TB</span>
-<span id="cb13-277"><a href="#cb13-277" aria-label="265"></a>        R{<span class="ot">"</span><span class="st">`Router&lt;br&gt;(sigmoid + bias)`</span><span class="ot">"</span>}</span>
-<span id="cb13-278"><a href="#cb13-278" aria-label="266"></a>        S(<span class="ot">"</span><span class="st">`Shared Expert&lt;br&gt;(always on)`</span><span class="ot">"</span>)</span>
-<span id="cb13-279"><a href="#cb13-279" aria-label="267"></a>        subgraph RE[<span class="ot">"</span><span class="st">`256 Routed Experts`</span><span class="ot">"</span>]</span>
-<span id="cb13-280"><a href="#cb13-280" aria-label="268"></a>            direction LR</span>
-<span id="cb13-281"><a href="#cb13-281" aria-label="269"></a>            e1(<span class="ot">"</span><span class="st">`E₁`</span><span class="ot">"</span>)</span>
-<span id="cb13-282"><a href="#cb13-282" aria-label="270"></a>            e2(<span class="ot">"</span><span class="st">`E₂`</span><span class="ot">"</span>)</span>
-<span id="cb13-283"><a href="#cb13-283" aria-label="271"></a>            edots(<span class="ot">"</span><span class="st">`…`</span><span class="ot">"</span>)</span>
-<span id="cb13-284"><a href="#cb13-284" aria-label="272"></a>            e256(<span class="ot">"</span><span class="st">`E₂₅₆`</span><span class="ot">"</span>)</span>
-<span id="cb13-285"><a href="#cb13-285" aria-label="273"></a>        end</span>
-<span id="cb13-286"><a href="#cb13-286" aria-label="274"></a>        C((<span class="ot">"</span><span class="st">`+`</span><span class="ot">"</span>))</span>
-<span id="cb13-287"><a href="#cb13-287" aria-label="275"></a>    end</span>
-<span id="cb13-288"><a href="#cb13-288" aria-label="276"></a>    <span class="ot">y</span>(<span class="ot">"</span><span class="st">`output`</span><span class="ot">"</span>)</span>
-<span id="cb13-289"><a href="#cb13-289" aria-label="277"></a>    x --&gt; R</span>
-<span id="cb13-290"><a href="#cb13-290" aria-label="278"></a>    x --&gt; S</span>
-<span id="cb13-291"><a href="#cb13-291" aria-label="279"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e1</span>
-<span id="cb13-292"><a href="#cb13-292" aria-label="280"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e2</span>
-<span id="cb13-293"><a href="#cb13-293" aria-label="281"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e256</span>
-<span id="cb13-294"><a href="#cb13-294" aria-label="282"></a>    e1 --&gt; C</span>
-<span id="cb13-295"><a href="#cb13-295" aria-label="283"></a>    e2 --&gt; C</span>
-<span id="cb13-296"><a href="#cb13-296" aria-label="284"></a>    e256 --&gt; C</span>
-<span id="cb13-297"><a href="#cb13-297" aria-label="285"></a>    S --&gt; C</span>
-<span id="cb13-298"><a href="#cb13-298" aria-label="286"></a>    C --&gt; y</span>
-<span id="cb13-299"><a href="#cb13-299" aria-label="287"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
-<span id="cb13-300"><a href="#cb13-300" aria-label="288"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-301"><a href="#cb13-301" aria-label="289"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-302"><a href="#cb13-302" aria-label="290"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-303"><a href="#cb13-303" aria-label="291"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-304"><a href="#cb13-304" aria-label="292"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-305"><a href="#cb13-305" aria-label="293"></a>class BLK,RE block</span>
-<span id="cb13-306"><a href="#cb13-306" aria-label="294"></a>class R yellow</span>
-<span id="cb13-307"><a href="#cb13-307" aria-label="295"></a>class S purple</span>
-<span id="cb13-308"><a href="#cb13-308" aria-label="296"></a>class e1,e2,e256 blue</span>
-<span id="cb13-309"><a href="#cb13-309" aria-label="297"></a>class edots block</span>
-<span id="cb13-310"><a href="#cb13-310" aria-label="298"></a>class C green</span>
-<span id="cb13-311"><a href="#cb13-311" aria-label="299"></a>class x,y red</span>
-<span id="cb13-312"><a href="#cb13-312" aria-label="300"></a><span class="in">```</span></span>
-<span id="cb13-313"><a href="#cb13-313" aria-label="301"></a></span>
-<span id="cb13-314"><a href="#cb13-314" aria-label="302"></a>The DeepSeek-v3 MoE block: a **shared expert** (always active) plus **8 of 256</span>
-<span id="cb13-315"><a href="#cb13-315" aria-label="303"></a>routed experts**, combined additively.</span>
-<span id="cb13-316"><a href="#cb13-316" aria-label="304"></a>:::</span>
+<span id="cb13-268"><a href="#cb13-268" aria-label="258"></a><span class="co">[</span><span class="ot">DeepSeek-v3</span><span class="co">](https://arxiv.org/abs/2412.19437)</span> (Dec 2024) is the reference MoE</span>
+<span id="cb13-269"><a href="#cb13-269" aria-label="259"></a>LLM: **671B total parameters, ~37B activated per token**, trained on 14.8T</span>
+<span id="cb13-270"><a href="#cb13-270" aria-label="260"></a>tokens in FP8. Its MoE block refines the toy above with four key ideas.</span>
+<span id="cb13-271"><a href="#cb13-271" aria-label="261"></a></span>
+<span id="cb13-272"><a href="#cb13-272" aria-label="262"></a>::: {#fig-deepseek-moe}</span>
+<span id="cb13-273"><a href="#cb13-273" aria-label="263"></a></span>
+<span id="cb13-276"><a href="#cb13-276" aria-label="264"></a><span class="in">```{mermaid}</span></span>
+<span id="cb13-277"><a href="#cb13-277" aria-label="265"></a>flowchart TB</span>
+<span id="cb13-278"><a href="#cb13-278" aria-label="266"></a>    x(<span class="ot">"</span><span class="st">`token hidden state`</span><span class="ot">"</span>)</span>
+<span id="cb13-279"><a href="#cb13-279" aria-label="267"></a>    subgraph BLK[<span class="ot">"</span><span class="st">`DeepSeek-v3 MoE block`</span><span class="ot">"</span>]</span>
+<span id="cb13-280"><a href="#cb13-280" aria-label="268"></a>        direction TB</span>
+<span id="cb13-281"><a href="#cb13-281" aria-label="269"></a>        R{<span class="ot">"</span><span class="st">`Router&lt;br&gt;(sigmoid + bias)`</span><span class="ot">"</span>}</span>
+<span id="cb13-282"><a href="#cb13-282" aria-label="270"></a>        S(<span class="ot">"</span><span class="st">`Shared Expert&lt;br&gt;(always on)`</span><span class="ot">"</span>)</span>
+<span id="cb13-283"><a href="#cb13-283" aria-label="271"></a>        subgraph RE[<span class="ot">"</span><span class="st">`256 Routed Experts`</span><span class="ot">"</span>]</span>
+<span id="cb13-284"><a href="#cb13-284" aria-label="272"></a>            direction LR</span>
+<span id="cb13-285"><a href="#cb13-285" aria-label="273"></a>            e1(<span class="ot">"</span><span class="st">`E₁`</span><span class="ot">"</span>)</span>
+<span id="cb13-286"><a href="#cb13-286" aria-label="274"></a>            e2(<span class="ot">"</span><span class="st">`E₂`</span><span class="ot">"</span>)</span>
+<span id="cb13-287"><a href="#cb13-287" aria-label="275"></a>            edots(<span class="ot">"</span><span class="st">`…`</span><span class="ot">"</span>)</span>
+<span id="cb13-288"><a href="#cb13-288" aria-label="276"></a>            e256(<span class="ot">"</span><span class="st">`E₂₅₆`</span><span class="ot">"</span>)</span>
+<span id="cb13-289"><a href="#cb13-289" aria-label="277"></a>        end</span>
+<span id="cb13-290"><a href="#cb13-290" aria-label="278"></a>        C((<span class="ot">"</span><span class="st">`+`</span><span class="ot">"</span>))</span>
+<span id="cb13-291"><a href="#cb13-291" aria-label="279"></a>    end</span>
+<span id="cb13-292"><a href="#cb13-292" aria-label="280"></a>    <span class="ot">y</span>(<span class="ot">"</span><span class="st">`output`</span><span class="ot">"</span>)</span>
+<span id="cb13-293"><a href="#cb13-293" aria-label="281"></a>    x --&gt; R</span>
+<span id="cb13-294"><a href="#cb13-294" aria-label="282"></a>    x --&gt; S</span>
+<span id="cb13-295"><a href="#cb13-295" aria-label="283"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e1</span>
+<span id="cb13-296"><a href="#cb13-296" aria-label="284"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e2</span>
+<span id="cb13-297"><a href="#cb13-297" aria-label="285"></a>    R --&gt;|<span class="ot">"</span><span class="st">`top-8`</span><span class="ot">"</span>| e256</span>
+<span id="cb13-298"><a href="#cb13-298" aria-label="286"></a>    e1 --&gt; C</span>
+<span id="cb13-299"><a href="#cb13-299" aria-label="287"></a>    e2 --&gt; C</span>
+<span id="cb13-300"><a href="#cb13-300" aria-label="288"></a>    e256 --&gt; C</span>
+<span id="cb13-301"><a href="#cb13-301" aria-label="289"></a>    S --&gt; C</span>
+<span id="cb13-302"><a href="#cb13-302" aria-label="290"></a>    C --&gt; y</span>
+<span id="cb13-303"><a href="#cb13-303" aria-label="291"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
+<span id="cb13-304"><a href="#cb13-304" aria-label="292"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-305"><a href="#cb13-305" aria-label="293"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-306"><a href="#cb13-306" aria-label="294"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-307"><a href="#cb13-307" aria-label="295"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-308"><a href="#cb13-308" aria-label="296"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-309"><a href="#cb13-309" aria-label="297"></a>class BLK,RE block</span>
+<span id="cb13-310"><a href="#cb13-310" aria-label="298"></a>class R yellow</span>
+<span id="cb13-311"><a href="#cb13-311" aria-label="299"></a>class S purple</span>
+<span id="cb13-312"><a href="#cb13-312" aria-label="300"></a>class e1,e2,e256 blue</span>
+<span id="cb13-313"><a href="#cb13-313" aria-label="301"></a>class edots block</span>
+<span id="cb13-314"><a href="#cb13-314" aria-label="302"></a>class C green</span>
+<span id="cb13-315"><a href="#cb13-315" aria-label="303"></a>class x,y red</span>
+<span id="cb13-316"><a href="#cb13-316" aria-label="304"></a><span class="in">```</span></span>
 <span id="cb13-317"><a href="#cb13-317" aria-label="305"></a></span>
-<span id="cb13-318"><a href="#cb13-318" aria-label="306"></a><span class="ss">1. </span>**Shared + routed experts.** One **shared expert** processes *every* token</span>
-<span id="cb13-319"><a href="#cb13-319" aria-label="307"></a>   (capturing common knowledge), while **8 of 256 routed experts** are selected</span>
-<span id="cb13-320"><a href="#cb13-320" aria-label="308"></a>   per token. This is the "DeepSeekMoE" fine-grained + shared-expert design.</span>
-<span id="cb13-321"><a href="#cb13-321" aria-label="309"></a><span class="ss">2. </span>**Multi-head Latent Attention (MLA).** Attention keys/values are compressed</span>
-<span id="cb13-322"><a href="#cb13-322" aria-label="310"></a>   into a small **latent vector** via low-rank projection, shrinking the KV-cache</span>
-<span id="cb13-323"><a href="#cb13-323" aria-label="311"></a>   dramatically at inference — orthogonal to MoE but part of the same model.</span>
-<span id="cb13-324"><a href="#cb13-324" aria-label="312"></a><span class="ss">3. </span>**Auxiliary-loss-free load balancing.** Instead of the aux loss from our toy</span>
-<span id="cb13-325"><a href="#cb13-325" aria-label="313"></a>   (which adds gradient noise), DeepSeek-v3 adds a per-expert **bias term** to the</span>
-<span id="cb13-326"><a href="#cb13-326" aria-label="314"></a>   routing scores and nudges it up/down each step to equalize load. No extra loss</span>
-<span id="cb13-327"><a href="#cb13-327" aria-label="315"></a>   term, no interference with the language-modeling objective.</span>
-<span id="cb13-328"><a href="#cb13-328" aria-label="316"></a><span class="ss">4. </span>**Multi-Token Prediction (MTP).** Extra lightweight heads predict *several*</span>
-<span id="cb13-329"><a href="#cb13-329" aria-label="317"></a>   future tokens per position, densifying the training signal and enabling</span>
-<span id="cb13-330"><a href="#cb13-330" aria-label="318"></a>   speculative decoding at inference.</span>
-<span id="cb13-331"><a href="#cb13-331" aria-label="319"></a></span>
-<span id="cb13-332"><a href="#cb13-332" aria-label="320"></a><span class="fu">### 🧾 A torchtitan MoE config (display-only)</span></span>
-<span id="cb13-333"><a href="#cb13-333" aria-label="321"></a></span>
-<span id="cb13-334"><a href="#cb13-334" aria-label="322"></a><span class="co">[</span><span class="ot">torchtitan</span><span class="co">](https://github.com/pytorch/torchtitan)</span> ships a <span class="in">`deepseek_v3`</span> model</span>
-<span id="cb13-335"><a href="#cb13-335" aria-label="323"></a>with a MoE block controlled from the job's TOML. This is a representative excerpt</span>
-<span id="cb13-336"><a href="#cb13-336" aria-label="324"></a>— **display only** (torchtitan is not installed in the build environment):</span>
+<span id="cb13-318"><a href="#cb13-318" aria-label="306"></a>The DeepSeek-v3 MoE block: a **shared expert** (always active) plus **8 of 256</span>
+<span id="cb13-319"><a href="#cb13-319" aria-label="307"></a>routed experts**, combined additively.</span>
+<span id="cb13-320"><a href="#cb13-320" aria-label="308"></a>:::</span>
+<span id="cb13-321"><a href="#cb13-321" aria-label="309"></a></span>
+<span id="cb13-322"><a href="#cb13-322" aria-label="310"></a><span class="ss">1. </span>**Shared + routed experts.** One **shared expert** processes *every* token</span>
+<span id="cb13-323"><a href="#cb13-323" aria-label="311"></a>   (capturing common knowledge), while **8 of 256 routed experts** are selected</span>
+<span id="cb13-324"><a href="#cb13-324" aria-label="312"></a>   per token. This is the "DeepSeekMoE" fine-grained + shared-expert design.</span>
+<span id="cb13-325"><a href="#cb13-325" aria-label="313"></a><span class="ss">2. </span>**Multi-head Latent Attention (MLA).** Attention keys/values are compressed</span>
+<span id="cb13-326"><a href="#cb13-326" aria-label="314"></a>   into a small **latent vector** via low-rank projection, shrinking the KV-cache</span>
+<span id="cb13-327"><a href="#cb13-327" aria-label="315"></a>   dramatically at inference — orthogonal to MoE but part of the same model.</span>
+<span id="cb13-328"><a href="#cb13-328" aria-label="316"></a><span class="ss">3. </span>**Auxiliary-loss-free load balancing.** Instead of the aux loss from our toy</span>
+<span id="cb13-329"><a href="#cb13-329" aria-label="317"></a>   (which adds gradient noise), DeepSeek-v3 adds a per-expert **bias term** to the</span>
+<span id="cb13-330"><a href="#cb13-330" aria-label="318"></a>   routing scores and nudges it up/down each step to equalize load. No extra loss</span>
+<span id="cb13-331"><a href="#cb13-331" aria-label="319"></a>   term, no interference with the language-modeling objective.</span>
+<span id="cb13-332"><a href="#cb13-332" aria-label="320"></a><span class="ss">4. </span>**Multi-Token Prediction (MTP).** Extra lightweight heads predict *several*</span>
+<span id="cb13-333"><a href="#cb13-333" aria-label="321"></a>   future tokens per position, densifying the training signal and enabling</span>
+<span id="cb13-334"><a href="#cb13-334" aria-label="322"></a>   speculative decoding at inference.</span>
+<span id="cb13-335"><a href="#cb13-335" aria-label="323"></a></span>
+<span id="cb13-336"><a href="#cb13-336" aria-label="324"></a><span class="fu">### 🧾 A torchtitan MoE config (display-only)</span></span>
 <span id="cb13-337"><a href="#cb13-337" aria-label="325"></a></span>
-<span id="cb13-338"><a href="#cb13-338" aria-label="326"></a><span class="in">```toml</span></span>
-<span id="cb13-339"><a href="#cb13-339" aria-label="327"></a><span class="in">[job]</span></span>
-<span id="cb13-340"><a href="#cb13-340" aria-label="328"></a><span class="in">description = "DeepSeek-v3-style MoE training"</span></span>
+<span id="cb13-338"><a href="#cb13-338" aria-label="326"></a><span class="co">[</span><span class="ot">torchtitan</span><span class="co">](https://github.com/pytorch/torchtitan)</span> ships a <span class="in">`deepseek_v3`</span> model</span>
+<span id="cb13-339"><a href="#cb13-339" aria-label="327"></a>with a MoE block controlled from the job's TOML. This is a representative excerpt</span>
+<span id="cb13-340"><a href="#cb13-340" aria-label="328"></a>— **display only** (torchtitan is not installed in the build environment):</span>
 <span id="cb13-341"><a href="#cb13-341" aria-label="329"></a></span>
-<span id="cb13-342"><a href="#cb13-342" aria-label="330"></a><span class="in">[model]</span></span>
-<span id="cb13-343"><a href="#cb13-343" aria-label="331"></a><span class="in">name = "deepseek_v3"</span></span>
-<span id="cb13-344"><a href="#cb13-344" aria-label="332"></a><span class="in">flavor = "16B"                 # a small debug flavor; the full model is 671B</span></span>
-<span id="cb13-345"><a href="#cb13-345" aria-label="333"></a><span class="in">tokenizer_path = "./assets/tokenizer/tokenizer.json"</span></span>
-<span id="cb13-346"><a href="#cb13-346" aria-label="334"></a></span>
-<span id="cb13-347"><a href="#cb13-347" aria-label="335"></a><span class="in">[model.moe]</span></span>
-<span id="cb13-348"><a href="#cb13-348" aria-label="336"></a><span class="in">num_experts = 256              # routed experts</span></span>
-<span id="cb13-349"><a href="#cb13-349" aria-label="337"></a><span class="in">num_shared_experts = 1         # always-on shared expert</span></span>
-<span id="cb13-350"><a href="#cb13-350" aria-label="338"></a><span class="in">top_k = 8                      # routed experts activated per token</span></span>
-<span id="cb13-351"><a href="#cb13-351" aria-label="339"></a><span class="in">score_func = "sigmoid"         # DeepSeek-v3 gating</span></span>
-<span id="cb13-352"><a href="#cb13-352" aria-label="340"></a><span class="in">route_norm = true              # renormalize the top-k gate weights</span></span>
-<span id="cb13-353"><a href="#cb13-353" aria-label="341"></a><span class="in">load_balance_coeff = 1e-3      # aux-loss-FREE: speed of the per-expert bias update</span></span>
-<span id="cb13-354"><a href="#cb13-354" aria-label="342"></a></span>
-<span id="cb13-355"><a href="#cb13-355" aria-label="343"></a><span class="in">[training]</span></span>
-<span id="cb13-356"><a href="#cb13-356" aria-label="344"></a><span class="in">seq_len = 4096</span></span>
-<span id="cb13-357"><a href="#cb13-357" aria-label="345"></a><span class="in">local_batch_size = 8</span></span>
-<span id="cb13-358"><a href="#cb13-358" aria-label="346"></a><span class="in">steps = 10000</span></span>
-<span id="cb13-359"><a href="#cb13-359" aria-label="347"></a><span class="in">dtype = "bfloat16"</span></span>
-<span id="cb13-360"><a href="#cb13-360" aria-label="348"></a></span>
-<span id="cb13-361"><a href="#cb13-361" aria-label="349"></a><span class="in">[parallelism]</span></span>
-<span id="cb13-362"><a href="#cb13-362" aria-label="350"></a><span class="in">data_parallel_shard_degree = -1   # FSDP over whatever ranks are left</span></span>
-<span id="cb13-363"><a href="#cb13-363" aria-label="351"></a><span class="in">tensor_parallel_degree = 1</span></span>
-<span id="cb13-364"><a href="#cb13-364" aria-label="352"></a><span class="in">expert_parallel_degree = 8        # &lt;-- shard the 256 experts across 8 ranks</span></span>
-<span id="cb13-365"><a href="#cb13-365" aria-label="353"></a><span class="in">pipeline_parallel_degree = 1</span></span>
-<span id="cb13-366"><a href="#cb13-366" aria-label="354"></a></span>
-<span id="cb13-367"><a href="#cb13-367" aria-label="355"></a><span class="in">[checkpoint]</span></span>
-<span id="cb13-368"><a href="#cb13-368" aria-label="356"></a><span class="in">enable = true                     # torchtitan uses Distributed Checkpoint (DCP)</span></span>
-<span id="cb13-369"><a href="#cb13-369" aria-label="357"></a><span class="in">interval = 500</span></span>
-<span id="cb13-370"><a href="#cb13-370" aria-label="358"></a><span class="in">```</span></span>
-<span id="cb13-371"><a href="#cb13-371" aria-label="359"></a></span>
-<span id="cb13-372"><a href="#cb13-372" aria-label="360"></a><span class="fu">### 📊 Dense vs. MoE: params and FLOPs</span></span>
-<span id="cb13-373"><a href="#cb13-373" aria-label="361"></a></span>
-<span id="cb13-374"><a href="#cb13-374" aria-label="362"></a>The whole point of MoE is decoupling **total** capacity from **per-token** cost:</span>
+<span id="cb13-342"><a href="#cb13-342" aria-label="330"></a><span class="in">```toml</span></span>
+<span id="cb13-343"><a href="#cb13-343" aria-label="331"></a><span class="in">[job]</span></span>
+<span id="cb13-344"><a href="#cb13-344" aria-label="332"></a><span class="in">description = "DeepSeek-v3-style MoE training"</span></span>
+<span id="cb13-345"><a href="#cb13-345" aria-label="333"></a></span>
+<span id="cb13-346"><a href="#cb13-346" aria-label="334"></a><span class="in">[model]</span></span>
+<span id="cb13-347"><a href="#cb13-347" aria-label="335"></a><span class="in">name = "deepseek_v3"</span></span>
+<span id="cb13-348"><a href="#cb13-348" aria-label="336"></a><span class="in">flavor = "16B"                 # a small debug flavor; the full model is 671B</span></span>
+<span id="cb13-349"><a href="#cb13-349" aria-label="337"></a><span class="in">tokenizer_path = "./assets/tokenizer/tokenizer.json"</span></span>
+<span id="cb13-350"><a href="#cb13-350" aria-label="338"></a></span>
+<span id="cb13-351"><a href="#cb13-351" aria-label="339"></a><span class="in">[model.moe]</span></span>
+<span id="cb13-352"><a href="#cb13-352" aria-label="340"></a><span class="in">num_experts = 256              # routed experts</span></span>
+<span id="cb13-353"><a href="#cb13-353" aria-label="341"></a><span class="in">num_shared_experts = 1         # always-on shared expert</span></span>
+<span id="cb13-354"><a href="#cb13-354" aria-label="342"></a><span class="in">top_k = 8                      # routed experts activated per token</span></span>
+<span id="cb13-355"><a href="#cb13-355" aria-label="343"></a><span class="in">score_func = "sigmoid"         # DeepSeek-v3 gating</span></span>
+<span id="cb13-356"><a href="#cb13-356" aria-label="344"></a><span class="in">route_norm = true              # renormalize the top-k gate weights</span></span>
+<span id="cb13-357"><a href="#cb13-357" aria-label="345"></a><span class="in">load_balance_coeff = 1e-3      # aux-loss-FREE: speed of the per-expert bias update</span></span>
+<span id="cb13-358"><a href="#cb13-358" aria-label="346"></a></span>
+<span id="cb13-359"><a href="#cb13-359" aria-label="347"></a><span class="in">[training]</span></span>
+<span id="cb13-360"><a href="#cb13-360" aria-label="348"></a><span class="in">seq_len = 4096</span></span>
+<span id="cb13-361"><a href="#cb13-361" aria-label="349"></a><span class="in">local_batch_size = 8</span></span>
+<span id="cb13-362"><a href="#cb13-362" aria-label="350"></a><span class="in">steps = 10000</span></span>
+<span id="cb13-363"><a href="#cb13-363" aria-label="351"></a><span class="in">dtype = "bfloat16"</span></span>
+<span id="cb13-364"><a href="#cb13-364" aria-label="352"></a></span>
+<span id="cb13-365"><a href="#cb13-365" aria-label="353"></a><span class="in">[parallelism]</span></span>
+<span id="cb13-366"><a href="#cb13-366" aria-label="354"></a><span class="in">data_parallel_shard_degree = -1   # FSDP over whatever ranks are left</span></span>
+<span id="cb13-367"><a href="#cb13-367" aria-label="355"></a><span class="in">tensor_parallel_degree = 1</span></span>
+<span id="cb13-368"><a href="#cb13-368" aria-label="356"></a><span class="in">expert_parallel_degree = 8        # &lt;-- shard the 256 experts across 8 ranks</span></span>
+<span id="cb13-369"><a href="#cb13-369" aria-label="357"></a><span class="in">pipeline_parallel_degree = 1</span></span>
+<span id="cb13-370"><a href="#cb13-370" aria-label="358"></a></span>
+<span id="cb13-371"><a href="#cb13-371" aria-label="359"></a><span class="in">[checkpoint]</span></span>
+<span id="cb13-372"><a href="#cb13-372" aria-label="360"></a><span class="in">enable = true                     # torchtitan uses Distributed Checkpoint (DCP)</span></span>
+<span id="cb13-373"><a href="#cb13-373" aria-label="361"></a><span class="in">interval = 500</span></span>
+<span id="cb13-374"><a href="#cb13-374" aria-label="362"></a><span class="in">```</span></span>
 <span id="cb13-375"><a href="#cb13-375" aria-label="363"></a></span>
-<span id="cb13-376"><a href="#cb13-376" aria-label="364"></a>::: {#tbl-dense-vs-moe}</span>
+<span id="cb13-376"><a href="#cb13-376" aria-label="364"></a><span class="fu">### 📊 Dense vs. MoE: params and FLOPs</span></span>
 <span id="cb13-377"><a href="#cb13-377" aria-label="365"></a></span>
-<span id="cb13-378"><a href="#cb13-378" aria-label="366"></a><span class="pp">|</span> Quantity                     <span class="pp">|</span> Dense (Llama-3 70B) <span class="pp">|</span> MoE (DeepSeek-v3)        <span class="pp">|</span></span>
-<span id="cb13-379"><a href="#cb13-379" aria-label="367"></a><span class="pp">| :---------------------------</span> <span class="pp">| :-----------------:</span> <span class="pp">| :----------------------:</span> <span class="pp">|</span></span>
-<span id="cb13-380"><a href="#cb13-380" aria-label="368"></a><span class="pp">|</span> Total parameters             <span class="pp">|</span> 70B                 <span class="pp">|</span> **671B**                 <span class="pp">|</span></span>
-<span id="cb13-381"><a href="#cb13-381" aria-label="369"></a><span class="pp">|</span> Activated params / token     <span class="pp">|</span> 70B                 <span class="pp">|</span> **~37B**                 <span class="pp">|</span></span>
-<span id="cb13-382"><a href="#cb13-382" aria-label="370"></a><span class="pp">|</span> FFN experts                  <span class="pp">|</span> 1                   <span class="pp">|</span> 256 routed + 1 shared    <span class="pp">|</span></span>
-<span id="cb13-383"><a href="#cb13-383" aria-label="371"></a><span class="pp">|</span> Experts active / token       <span class="pp">|</span> —                   <span class="pp">|</span> 8 routed + 1 shared      <span class="pp">|</span></span>
-<span id="cb13-384"><a href="#cb13-384" aria-label="372"></a><span class="pp">|</span> FLOPs / token                <span class="pp">|</span> $\propto$ 70B       <span class="pp">|</span> $\propto$ 37B            <span class="pp">|</span></span>
-<span id="cb13-385"><a href="#cb13-385" aria-label="373"></a><span class="pp">|</span> Activation ratio             <span class="pp">|</span> 100%                <span class="pp">|</span> **~5.5%**                <span class="pp">|</span></span>
-<span id="cb13-386"><a href="#cb13-386" aria-label="374"></a></span>
-<span id="cb13-387"><a href="#cb13-387" aria-label="375"></a>Dense vs. MoE at comparable quality: MoE stores far more knowledge for a similar</span>
-<span id="cb13-388"><a href="#cb13-388" aria-label="376"></a>per-token compute budget. {.striped .hover}</span>
-<span id="cb13-389"><a href="#cb13-389" aria-label="377"></a></span>
-<span id="cb13-390"><a href="#cb13-390" aria-label="378"></a>:::</span>
-<span id="cb13-391"><a href="#cb13-391" aria-label="379"></a></span>
-<span id="cb13-392"><a href="#cb13-392" aria-label="380"></a>The activation ratio is exactly the sparsity we saw in the toy, scaled up:</span>
+<span id="cb13-378"><a href="#cb13-378" aria-label="366"></a>The whole point of MoE is decoupling **total** capacity from **per-token** cost:</span>
+<span id="cb13-379"><a href="#cb13-379" aria-label="367"></a></span>
+<span id="cb13-380"><a href="#cb13-380" aria-label="368"></a>::: {#tbl-dense-vs-moe}</span>
+<span id="cb13-381"><a href="#cb13-381" aria-label="369"></a></span>
+<span id="cb13-382"><a href="#cb13-382" aria-label="370"></a><span class="pp">|</span> Quantity                     <span class="pp">|</span> Dense (Llama-3 70B) <span class="pp">|</span> MoE (DeepSeek-v3)        <span class="pp">|</span></span>
+<span id="cb13-383"><a href="#cb13-383" aria-label="371"></a><span class="pp">| :---------------------------</span> <span class="pp">| :-----------------:</span> <span class="pp">| :----------------------:</span> <span class="pp">|</span></span>
+<span id="cb13-384"><a href="#cb13-384" aria-label="372"></a><span class="pp">|</span> Total parameters             <span class="pp">|</span> 70B                 <span class="pp">|</span> **671B**                 <span class="pp">|</span></span>
+<span id="cb13-385"><a href="#cb13-385" aria-label="373"></a><span class="pp">|</span> Activated params / token     <span class="pp">|</span> 70B                 <span class="pp">|</span> **~37B**                 <span class="pp">|</span></span>
+<span id="cb13-386"><a href="#cb13-386" aria-label="374"></a><span class="pp">|</span> FFN experts                  <span class="pp">|</span> 1                   <span class="pp">|</span> 256 routed + 1 shared    <span class="pp">|</span></span>
+<span id="cb13-387"><a href="#cb13-387" aria-label="375"></a><span class="pp">|</span> Experts active / token       <span class="pp">|</span> —                   <span class="pp">|</span> 8 routed + 1 shared      <span class="pp">|</span></span>
+<span id="cb13-388"><a href="#cb13-388" aria-label="376"></a><span class="pp">|</span> FLOPs / token                <span class="pp">|</span> $\propto$ 70B       <span class="pp">|</span> $\propto$ 37B            <span class="pp">|</span></span>
+<span id="cb13-389"><a href="#cb13-389" aria-label="377"></a><span class="pp">|</span> Activation ratio             <span class="pp">|</span> 100%                <span class="pp">|</span> **~5.5%**                <span class="pp">|</span></span>
+<span id="cb13-390"><a href="#cb13-390" aria-label="378"></a></span>
+<span id="cb13-391"><a href="#cb13-391" aria-label="379"></a>Dense vs. MoE at comparable quality: MoE stores far more knowledge for a similar</span>
+<span id="cb13-392"><a href="#cb13-392" aria-label="380"></a>per-token compute budget. {.striped .hover}</span>
 <span id="cb13-393"><a href="#cb13-393" aria-label="381"></a></span>
-<span id="cb13-394"><a href="#cb13-394" aria-label="382"></a>$$</span>
-<span id="cb13-395"><a href="#cb13-395" aria-label="383"></a>\frac{P_\text{active}}{P_\text{total}} \;=\; \frac{37\text{B}}{671\text{B}} \;\approx\; 5.5\%</span>
-<span id="cb13-396"><a href="#cb13-396" aria-label="384"></a>$$</span>
+<span id="cb13-394"><a href="#cb13-394" aria-label="382"></a>:::</span>
+<span id="cb13-395"><a href="#cb13-395" aria-label="383"></a></span>
+<span id="cb13-396"><a href="#cb13-396" aria-label="384"></a>The activation ratio is exactly the sparsity we saw in the toy, scaled up:</span>
 <span id="cb13-397"><a href="#cb13-397" aria-label="385"></a></span>
-<span id="cb13-398"><a href="#cb13-398" aria-label="386"></a>A dense model with 671B parameters would cost **~18×** more FLOPs per token than</span>
-<span id="cb13-399"><a href="#cb13-399" aria-label="387"></a>DeepSeek-v3 — which is why nobody trains one.</span>
-<span id="cb13-400"><a href="#cb13-400" aria-label="388"></a></span>
-<span id="cb13-401"><a href="#cb13-401" aria-label="389"></a><span class="fu">## 🚀 ③ Scale it up: expert parallelism</span></span>
-<span id="cb13-402"><a href="#cb13-402" aria-label="390"></a></span>
-<span id="cb13-403"><a href="#cb13-403" aria-label="391"></a>Sparse activation is a *math* trick; **expert parallelism (EP)** is the *systems*</span>
-<span id="cb13-404"><a href="#cb13-404" aria-label="392"></a>trick that makes it fast. With 256 experts you cannot fit them all on one GPU, so</span>
-<span id="cb13-405"><a href="#cb13-405" aria-label="393"></a>you **shard the experts across GPUs** — e.g. 32 experts per GPU across 8 ranks</span>
-<span id="cb13-406"><a href="#cb13-406" aria-label="394"></a>(<span class="in">`expert_parallel_degree = 8`</span>).</span>
-<span id="cb13-407"><a href="#cb13-407" aria-label="395"></a></span>
-<span id="cb13-408"><a href="#cb13-408" aria-label="396"></a>The consequence: after the router picks each token's experts, the token's hidden</span>
-<span id="cb13-409"><a href="#cb13-409" aria-label="397"></a>state must physically **travel to the GPU that owns its expert**, run there, and</span>
-<span id="cb13-410"><a href="#cb13-410" aria-label="398"></a>come back. That round trip is a pair of **all-to-all** collectives.</span>
+<span id="cb13-398"><a href="#cb13-398" aria-label="386"></a>$$</span>
+<span id="cb13-399"><a href="#cb13-399" aria-label="387"></a>\frac{P_\text{active}}{P_\text{total}} \;=\; \frac{37\text{B}}{671\text{B}} \;\approx\; 5.5\%</span>
+<span id="cb13-400"><a href="#cb13-400" aria-label="388"></a>$$</span>
+<span id="cb13-401"><a href="#cb13-401" aria-label="389"></a></span>
+<span id="cb13-402"><a href="#cb13-402" aria-label="390"></a>A dense model with 671B parameters would cost **~18×** more FLOPs per token than</span>
+<span id="cb13-403"><a href="#cb13-403" aria-label="391"></a>DeepSeek-v3 — which is why nobody trains one.</span>
+<span id="cb13-404"><a href="#cb13-404" aria-label="392"></a></span>
+<span id="cb13-405"><a href="#cb13-405" aria-label="393"></a><span class="fu">## 🚀 ③ Scale it up: expert parallelism</span></span>
+<span id="cb13-406"><a href="#cb13-406" aria-label="394"></a></span>
+<span id="cb13-407"><a href="#cb13-407" aria-label="395"></a>Sparse activation is a *math* trick; **expert parallelism (EP)** is the *systems*</span>
+<span id="cb13-408"><a href="#cb13-408" aria-label="396"></a>trick that makes it fast. With 256 experts you cannot fit them all on one GPU, so</span>
+<span id="cb13-409"><a href="#cb13-409" aria-label="397"></a>you **shard the experts across GPUs** — e.g. 32 experts per GPU across 8 ranks</span>
+<span id="cb13-410"><a href="#cb13-410" aria-label="398"></a>(<span class="in">`expert_parallel_degree = 8`</span>).</span>
 <span id="cb13-411"><a href="#cb13-411" aria-label="399"></a></span>
-<span id="cb13-412"><a href="#cb13-412" aria-label="400"></a>::: {#fig-expert-parallel}</span>
-<span id="cb13-413"><a href="#cb13-413" aria-label="401"></a></span>
-<span id="cb13-416"><a href="#cb13-416" aria-label="402"></a><span class="in">```{mermaid}</span></span>
-<span id="cb13-417"><a href="#cb13-417" aria-label="403"></a>flowchart LR</span>
-<span id="cb13-418"><a href="#cb13-418" aria-label="404"></a>    subgraph G0[<span class="ot">"</span><span class="st">`GPU 0 · Experts 0–1`</span><span class="ot">"</span>]</span>
-<span id="cb13-419"><a href="#cb13-419" aria-label="405"></a>        direction TB</span>
-<span id="cb13-420"><a href="#cb13-420" aria-label="406"></a>        t0(<span class="ot">"</span><span class="st">`tokens₀`</span><span class="ot">"</span>)</span>
-<span id="cb13-421"><a href="#cb13-421" aria-label="407"></a>        E0(<span class="ot">"</span><span class="st">`E0`</span><span class="ot">"</span>)</span>
-<span id="cb13-422"><a href="#cb13-422" aria-label="408"></a>        E1(<span class="ot">"</span><span class="st">`E1`</span><span class="ot">"</span>)</span>
-<span id="cb13-423"><a href="#cb13-423" aria-label="409"></a>    end</span>
-<span id="cb13-424"><a href="#cb13-424" aria-label="410"></a>    subgraph G1[<span class="ot">"</span><span class="st">`GPU 1 · Experts 2–3`</span><span class="ot">"</span>]</span>
-<span id="cb13-425"><a href="#cb13-425" aria-label="411"></a>        direction TB</span>
-<span id="cb13-426"><a href="#cb13-426" aria-label="412"></a>        t1(<span class="ot">"</span><span class="st">`tokens₁`</span><span class="ot">"</span>)</span>
-<span id="cb13-427"><a href="#cb13-427" aria-label="413"></a>        E2(<span class="ot">"</span><span class="st">`E2`</span><span class="ot">"</span>)</span>
-<span id="cb13-428"><a href="#cb13-428" aria-label="414"></a>        E3(<span class="ot">"</span><span class="st">`E3`</span><span class="ot">"</span>)</span>
-<span id="cb13-429"><a href="#cb13-429" aria-label="415"></a>    end</span>
-<span id="cb13-430"><a href="#cb13-430" aria-label="416"></a>    t0 --&gt; E0</span>
-<span id="cb13-431"><a href="#cb13-431" aria-label="417"></a>    t0 --&gt; E1</span>
-<span id="cb13-432"><a href="#cb13-432" aria-label="418"></a>    t0 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E2</span>
-<span id="cb13-433"><a href="#cb13-433" aria-label="419"></a>    t0 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E3</span>
-<span id="cb13-434"><a href="#cb13-434" aria-label="420"></a>    t1 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E0</span>
-<span id="cb13-435"><a href="#cb13-435" aria-label="421"></a>    t1 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E1</span>
-<span id="cb13-436"><a href="#cb13-436" aria-label="422"></a>    t1 --&gt; E2</span>
-<span id="cb13-437"><a href="#cb13-437" aria-label="423"></a>    t1 --&gt; E3</span>
-<span id="cb13-438"><a href="#cb13-438" aria-label="424"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
-<span id="cb13-439"><a href="#cb13-439" aria-label="425"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-440"><a href="#cb13-440" aria-label="426"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-441"><a href="#cb13-441" aria-label="427"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-442"><a href="#cb13-442" aria-label="428"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb13-443"><a href="#cb13-443" aria-label="429"></a>class G0,G1 block</span>
-<span id="cb13-444"><a href="#cb13-444" aria-label="430"></a>class t0,t1 red</span>
-<span id="cb13-445"><a href="#cb13-445" aria-label="431"></a>class E0,E1 blue</span>
-<span id="cb13-446"><a href="#cb13-446" aria-label="432"></a>class E2,E3 yellow</span>
-<span id="cb13-447"><a href="#cb13-447" aria-label="433"></a><span class="in">```</span></span>
-<span id="cb13-448"><a href="#cb13-448" aria-label="434"></a></span>
-<span id="cb13-449"><a href="#cb13-449" aria-label="435"></a>Expert parallelism: each GPU owns a **subset of experts**. Tokens are shuffled to</span>
-<span id="cb13-450"><a href="#cb13-450" aria-label="436"></a>the right GPU with an **all-to-all** (dispatch), computed, then shuffled back</span>
-<span id="cb13-451"><a href="#cb13-451" aria-label="437"></a>(combine).</span>
-<span id="cb13-452"><a href="#cb13-452" aria-label="438"></a>:::</span>
-<span id="cb13-453"><a href="#cb13-453" aria-label="439"></a></span>
-<span id="cb13-454"><a href="#cb13-454" aria-label="440"></a><span class="fu">### 🧭 EP vs. the parallelism you already know</span></span>
-<span id="cb13-455"><a href="#cb13-455" aria-label="441"></a></span>
-<span id="cb13-456"><a href="#cb13-456" aria-label="442"></a><span class="pp">|</span> Strategy <span class="pp">|</span> What is split                        <span class="pp">|</span> Dominant collective <span class="pp">|</span> Replicated? <span class="pp">|</span></span>
-<span id="cb13-457"><a href="#cb13-457" aria-label="443"></a><span class="pp">| :-------</span> <span class="pp">| :-----------------------------------</span> <span class="pp">| :------------------</span> <span class="pp">| :----------</span> <span class="pp">|</span></span>
-<span id="cb13-458"><a href="#cb13-458" aria-label="444"></a><span class="pp">|</span> **DP**   <span class="pp">|</span> the *data* (each rank sees a shard)  <span class="pp">|</span> <span class="in">`all-reduce`</span> (grads)<span class="pp">|</span> full model  <span class="pp">|</span></span>
-<span id="cb13-459"><a href="#cb13-459" aria-label="445"></a><span class="pp">|</span> **TP**   <span class="pp">|</span> *within* a layer's weight matrices   <span class="pp">|</span> <span class="in">`all-reduce`</span> / <span class="in">`all-gather`</span> <span class="pp">|</span> per-layer <span class="pp">|</span></span>
-<span id="cb13-460"><a href="#cb13-460" aria-label="446"></a><span class="pp">|</span> **PP**   <span class="pp">|</span> *across* layers (stages)             <span class="pp">|</span> point-to-point      <span class="pp">|</span> per-stage   <span class="pp">|</span></span>
-<span id="cb13-461"><a href="#cb13-461" aria-label="447"></a><span class="pp">|</span> **EP**   | the *experts* of the MoE FFN         | **`all-to-all`**    <span class="pp">|</span> non-expert params <span class="pp">|</span></span>
-<span id="cb13-462"><a href="#cb13-462" aria-label="448"></a></span>
-<span id="cb13-463"><a href="#cb13-463" aria-label="449"></a>: How expert parallelism relates to the parallelism strategies from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> {.responsive .striped .hover}</span>
-<span id="cb13-464"><a href="#cb13-464" aria-label="450"></a></span>
-<span id="cb13-465"><a href="#cb13-465" aria-label="451"></a><span class="ss">- </span>**EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense weights; EP</span>
-<span id="cb13-466"><a href="#cb13-466" aria-label="452"></a>  gives each rank *different* expert weights. In practice you run **EP inside a</span>
-<span id="cb13-467"><a href="#cb13-467" aria-label="453"></a>  data-parallel world** — the attention and shared-expert params are still</span>
-<span id="cb13-468"><a href="#cb13-468" aria-label="454"></a>  FSDP-sharded, only the routed experts use EP.</span>
-<span id="cb13-469"><a href="#cb13-469" aria-label="455"></a><span class="ss">- </span>**EP vs. TP.** TP splits a *single* weight matrix and needs an <span class="in">`all-reduce`</span></span>
-<span id="cb13-470"><a href="#cb13-470" aria-label="456"></a>  every layer. EP keeps each expert whole on one rank and pays **`all-to-all`**</span>
-<span id="cb13-471"><a href="#cb13-471" aria-label="457"></a>  only at the MoE block. All-to-all moves *tokens*, not weights.</span>
-<span id="cb13-472"><a href="#cb13-472" aria-label="458"></a><span class="ss">- </span>**When EP helps.** When (a) the model is MoE, (b) the experts don't fit on one</span>
-<span id="cb13-473"><a href="#cb13-473" aria-label="459"></a>  GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the</span>
-<span id="cb13-474"><a href="#cb13-474" aria-label="460"></a>  all-to-all becomes the bottleneck — this is exactly the</span>
-<span id="cb13-475"><a href="#cb13-475" aria-label="461"></a>  *communication-vs-computation* tradeoff from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
-<span id="cb13-476"><a href="#cb13-476" aria-label="462"></a></span>
-<span id="cb13-477"><a href="#cb13-477" aria-label="463"></a><span class="fu">### 🛠️ Launch it with `ezpz`</span></span>
-<span id="cb13-478"><a href="#cb13-478" aria-label="464"></a></span>
-<span id="cb13-479"><a href="#cb13-479" aria-label="465"></a><span class="in">`ezpz`</span> sets up the distributed environment and launches on any scheduler</span>
-<span id="cb13-480"><a href="#cb13-480" aria-label="466"></a>(PBS → <span class="in">`mpiexec`</span>, SLURM → <span class="in">`srun`</span>, auto-detected). All commands below are</span>
-<span id="cb13-481"><a href="#cb13-481" aria-label="467"></a>**display-only** — run them on a login node of an ALCF/NERSC system.</span>
+<span id="cb13-412"><a href="#cb13-412" aria-label="400"></a>The consequence: after the router picks each token's experts, the token's hidden</span>
+<span id="cb13-413"><a href="#cb13-413" aria-label="401"></a>state must physically **travel to the GPU that owns its expert**, run there, and</span>
+<span id="cb13-414"><a href="#cb13-414" aria-label="402"></a>come back. That round trip is a pair of **all-to-all** collectives.</span>
+<span id="cb13-415"><a href="#cb13-415" aria-label="403"></a></span>
+<span id="cb13-416"><a href="#cb13-416" aria-label="404"></a>::: {#fig-expert-parallel}</span>
+<span id="cb13-417"><a href="#cb13-417" aria-label="405"></a></span>
+<span id="cb13-420"><a href="#cb13-420" aria-label="406"></a><span class="in">```{mermaid}</span></span>
+<span id="cb13-421"><a href="#cb13-421" aria-label="407"></a>flowchart LR</span>
+<span id="cb13-422"><a href="#cb13-422" aria-label="408"></a>    subgraph G0[<span class="ot">"</span><span class="st">`GPU 0 · Experts 0–1`</span><span class="ot">"</span>]</span>
+<span id="cb13-423"><a href="#cb13-423" aria-label="409"></a>        direction TB</span>
+<span id="cb13-424"><a href="#cb13-424" aria-label="410"></a>        t0(<span class="ot">"</span><span class="st">`tokens₀`</span><span class="ot">"</span>)</span>
+<span id="cb13-425"><a href="#cb13-425" aria-label="411"></a>        E0(<span class="ot">"</span><span class="st">`E0`</span><span class="ot">"</span>)</span>
+<span id="cb13-426"><a href="#cb13-426" aria-label="412"></a>        E1(<span class="ot">"</span><span class="st">`E1`</span><span class="ot">"</span>)</span>
+<span id="cb13-427"><a href="#cb13-427" aria-label="413"></a>    end</span>
+<span id="cb13-428"><a href="#cb13-428" aria-label="414"></a>    subgraph G1[<span class="ot">"</span><span class="st">`GPU 1 · Experts 2–3`</span><span class="ot">"</span>]</span>
+<span id="cb13-429"><a href="#cb13-429" aria-label="415"></a>        direction TB</span>
+<span id="cb13-430"><a href="#cb13-430" aria-label="416"></a>        t1(<span class="ot">"</span><span class="st">`tokens₁`</span><span class="ot">"</span>)</span>
+<span id="cb13-431"><a href="#cb13-431" aria-label="417"></a>        E2(<span class="ot">"</span><span class="st">`E2`</span><span class="ot">"</span>)</span>
+<span id="cb13-432"><a href="#cb13-432" aria-label="418"></a>        E3(<span class="ot">"</span><span class="st">`E3`</span><span class="ot">"</span>)</span>
+<span id="cb13-433"><a href="#cb13-433" aria-label="419"></a>    end</span>
+<span id="cb13-434"><a href="#cb13-434" aria-label="420"></a>    t0 --&gt; E0</span>
+<span id="cb13-435"><a href="#cb13-435" aria-label="421"></a>    t0 --&gt; E1</span>
+<span id="cb13-436"><a href="#cb13-436" aria-label="422"></a>    t0 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E2</span>
+<span id="cb13-437"><a href="#cb13-437" aria-label="423"></a>    t0 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E3</span>
+<span id="cb13-438"><a href="#cb13-438" aria-label="424"></a>    t1 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E0</span>
+<span id="cb13-439"><a href="#cb13-439" aria-label="425"></a>    t1 -.-&gt;|<span class="ot">"</span><span class="st">`all-to-all`</span><span class="ot">"</span>| E1</span>
+<span id="cb13-440"><a href="#cb13-440" aria-label="426"></a>    t1 --&gt; E2</span>
+<span id="cb13-441"><a href="#cb13-441" aria-label="427"></a>    t1 --&gt; E3</span>
+<span id="cb13-442"><a href="#cb13-442" aria-label="428"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
+<span id="cb13-443"><a href="#cb13-443" aria-label="429"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-444"><a href="#cb13-444" aria-label="430"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-445"><a href="#cb13-445" aria-label="431"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-446"><a href="#cb13-446" aria-label="432"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb13-447"><a href="#cb13-447" aria-label="433"></a>class G0,G1 block</span>
+<span id="cb13-448"><a href="#cb13-448" aria-label="434"></a>class t0,t1 red</span>
+<span id="cb13-449"><a href="#cb13-449" aria-label="435"></a>class E0,E1 blue</span>
+<span id="cb13-450"><a href="#cb13-450" aria-label="436"></a>class E2,E3 yellow</span>
+<span id="cb13-451"><a href="#cb13-451" aria-label="437"></a><span class="in">```</span></span>
+<span id="cb13-452"><a href="#cb13-452" aria-label="438"></a></span>
+<span id="cb13-453"><a href="#cb13-453" aria-label="439"></a>Expert parallelism: each GPU owns a **subset of experts**. Tokens are shuffled to</span>
+<span id="cb13-454"><a href="#cb13-454" aria-label="440"></a>the right GPU with an **all-to-all** (dispatch), computed, then shuffled back</span>
+<span id="cb13-455"><a href="#cb13-455" aria-label="441"></a>(combine).</span>
+<span id="cb13-456"><a href="#cb13-456" aria-label="442"></a>:::</span>
+<span id="cb13-457"><a href="#cb13-457" aria-label="443"></a></span>
+<span id="cb13-458"><a href="#cb13-458" aria-label="444"></a><span class="fu">### 🧭 EP vs. the parallelism you already know</span></span>
+<span id="cb13-459"><a href="#cb13-459" aria-label="445"></a></span>
+<span id="cb13-460"><a href="#cb13-460" aria-label="446"></a><span class="pp">|</span> Strategy <span class="pp">|</span> What is split                        <span class="pp">|</span> Dominant collective <span class="pp">|</span> Replicated? <span class="pp">|</span></span>
+<span id="cb13-461"><a href="#cb13-461" aria-label="447"></a><span class="pp">| :-------</span> <span class="pp">| :-----------------------------------</span> <span class="pp">| :------------------</span> <span class="pp">| :----------</span> <span class="pp">|</span></span>
+<span id="cb13-462"><a href="#cb13-462" aria-label="448"></a><span class="pp">|</span> **DP**   <span class="pp">|</span> the *data* (each rank sees a shard)  <span class="pp">|</span> <span class="in">`all-reduce`</span> (grads)<span class="pp">|</span> full model  <span class="pp">|</span></span>
+<span id="cb13-463"><a href="#cb13-463" aria-label="449"></a><span class="pp">|</span> **TP**   <span class="pp">|</span> *within* a layer's weight matrices   <span class="pp">|</span> <span class="in">`all-reduce`</span> / <span class="in">`all-gather`</span> <span class="pp">|</span> per-layer <span class="pp">|</span></span>
+<span id="cb13-464"><a href="#cb13-464" aria-label="450"></a><span class="pp">|</span> **PP**   <span class="pp">|</span> *across* layers (stages)             <span class="pp">|</span> point-to-point      <span class="pp">|</span> per-stage   <span class="pp">|</span></span>
+<span id="cb13-465"><a href="#cb13-465" aria-label="451"></a><span class="pp">|</span> **EP**   | the *experts* of the MoE FFN         | **`all-to-all`**    <span class="pp">|</span> non-expert params <span class="pp">|</span></span>
+<span id="cb13-466"><a href="#cb13-466" aria-label="452"></a></span>
+<span id="cb13-467"><a href="#cb13-467" aria-label="453"></a>: How expert parallelism relates to the parallelism strategies from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span> {.responsive .striped .hover}</span>
+<span id="cb13-468"><a href="#cb13-468" aria-label="454"></a></span>
+<span id="cb13-469"><a href="#cb13-469" aria-label="455"></a><span class="ss">- </span>**EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense weights; EP</span>
+<span id="cb13-470"><a href="#cb13-470" aria-label="456"></a>  gives each rank *different* expert weights. In practice you run **EP inside a</span>
+<span id="cb13-471"><a href="#cb13-471" aria-label="457"></a>  data-parallel world** — the attention and shared-expert params are still</span>
+<span id="cb13-472"><a href="#cb13-472" aria-label="458"></a>  FSDP-sharded, only the routed experts use EP.</span>
+<span id="cb13-473"><a href="#cb13-473" aria-label="459"></a><span class="ss">- </span>**EP vs. TP.** TP splits a *single* weight matrix and needs an <span class="in">`all-reduce`</span></span>
+<span id="cb13-474"><a href="#cb13-474" aria-label="460"></a>  every layer. EP keeps each expert whole on one rank and pays **`all-to-all`**</span>
+<span id="cb13-475"><a href="#cb13-475" aria-label="461"></a>  only at the MoE block. All-to-all moves *tokens*, not weights.</span>
+<span id="cb13-476"><a href="#cb13-476" aria-label="462"></a><span class="ss">- </span>**When EP helps.** When (a) the model is MoE, (b) the experts don't fit on one</span>
+<span id="cb13-477"><a href="#cb13-477" aria-label="463"></a>  GPU, and (c) your interconnect can absorb the all-to-all. On slow networks the</span>
+<span id="cb13-478"><a href="#cb13-478" aria-label="464"></a>  all-to-all becomes the bottleneck — this is exactly the</span>
+<span id="cb13-479"><a href="#cb13-479" aria-label="465"></a>  *communication-vs-computation* tradeoff from <span class="co">[</span><span class="ot">\[01.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
+<span id="cb13-480"><a href="#cb13-480" aria-label="466"></a></span>
+<span id="cb13-481"><a href="#cb13-481" aria-label="467"></a><span class="fu">### 🛠️ Launch it with `ezpz`</span></span>
 <span id="cb13-482"><a href="#cb13-482" aria-label="468"></a></span>
-<span id="cb13-483"><a href="#cb13-483" aria-label="469"></a><span class="ss">1. </span>Set up a system-agnostic environment and install deps:</span>
-<span id="cb13-484"><a href="#cb13-484" aria-label="470"></a></span>
-<span id="cb13-485"><a href="#cb13-485" aria-label="471"></a>   <span class="in">```bash</span></span>
-<span id="cb13-486"><a href="#cb13-486" aria-label="472"></a>   <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
-<span id="cb13-487"><a href="#cb13-487" aria-label="473"></a>   <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
-<span id="cb13-488"><a href="#cb13-488" aria-label="474"></a>   <span class="ex">uv</span> pip install git+https://github.com/pytorch/torchtitan</span>
-<span id="cb13-489"><a href="#cb13-489" aria-label="475"></a>   <span class="in">```</span></span>
-<span id="cb13-490"><a href="#cb13-490" aria-label="476"></a></span>
-<span id="cb13-491"><a href="#cb13-491" aria-label="477"></a><span class="ss">2. </span>Smoke-test the distributed setup before burning an allocation:</span>
-<span id="cb13-492"><a href="#cb13-492" aria-label="478"></a></span>
-<span id="cb13-493"><a href="#cb13-493" aria-label="479"></a>   <span class="in">```bash</span></span>
-<span id="cb13-494"><a href="#cb13-494" aria-label="480"></a>   <span class="ex">ezpz</span> test</span>
-<span id="cb13-495"><a href="#cb13-495" aria-label="481"></a>   <span class="in">```</span></span>
+<span id="cb13-483"><a href="#cb13-483" aria-label="469"></a><span class="in">`ezpz`</span> sets up the distributed environment and launches on any scheduler</span>
+<span id="cb13-484"><a href="#cb13-484" aria-label="470"></a>(PBS → <span class="in">`mpiexec`</span>, SLURM → <span class="in">`srun`</span>, auto-detected). All commands below are</span>
+<span id="cb13-485"><a href="#cb13-485" aria-label="471"></a>**display-only** — run them on a login node of an ALCF/NERSC system.</span>
+<span id="cb13-486"><a href="#cb13-486" aria-label="472"></a></span>
+<span id="cb13-487"><a href="#cb13-487" aria-label="473"></a><span class="ss">1. </span>Set up a system-agnostic environment and install deps:</span>
+<span id="cb13-488"><a href="#cb13-488" aria-label="474"></a></span>
+<span id="cb13-489"><a href="#cb13-489" aria-label="475"></a>   <span class="in">```bash</span></span>
+<span id="cb13-490"><a href="#cb13-490" aria-label="476"></a>   <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb13-491"><a href="#cb13-491" aria-label="477"></a>   <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
+<span id="cb13-492"><a href="#cb13-492" aria-label="478"></a>   <span class="ex">uv</span> pip install git+https://github.com/pytorch/torchtitan</span>
+<span id="cb13-493"><a href="#cb13-493" aria-label="479"></a>   <span class="in">```</span></span>
+<span id="cb13-494"><a href="#cb13-494" aria-label="480"></a></span>
+<span id="cb13-495"><a href="#cb13-495" aria-label="481"></a><span class="ss">2. </span>Smoke-test the distributed setup before burning an allocation:</span>
 <span id="cb13-496"><a href="#cb13-496" aria-label="482"></a></span>
-<span id="cb13-497"><a href="#cb13-497" aria-label="483"></a><span class="ss">3. </span>(Optional, at scale) Stage the environment to node-local <span class="in">`/tmp`</span> so every node</span>
-<span id="cb13-498"><a href="#cb13-498" aria-label="484"></a>   imports fast:</span>
-<span id="cb13-499"><a href="#cb13-499" aria-label="485"></a></span>
-<span id="cb13-500"><a href="#cb13-500" aria-label="486"></a>   <span class="in">```bash</span></span>
-<span id="cb13-501"><a href="#cb13-501" aria-label="487"></a>   <span class="ex">ezpz</span> yeet <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 1</span>
-<span id="cb13-502"><a href="#cb13-502" aria-label="488"></a>   <span class="in">```</span></span>
+<span id="cb13-497"><a href="#cb13-497" aria-label="483"></a>   <span class="in">```bash</span></span>
+<span id="cb13-498"><a href="#cb13-498" aria-label="484"></a>   <span class="ex">ezpz</span> test</span>
+<span id="cb13-499"><a href="#cb13-499" aria-label="485"></a>   <span class="in">```</span></span>
+<span id="cb13-500"><a href="#cb13-500" aria-label="486"></a></span>
+<span id="cb13-501"><a href="#cb13-501" aria-label="487"></a><span class="ss">3. </span>(Optional, at scale) Stage the environment to node-local <span class="in">`/tmp`</span> so every node</span>
+<span id="cb13-502"><a href="#cb13-502" aria-label="488"></a>   imports fast:</span>
 <span id="cb13-503"><a href="#cb13-503" aria-label="489"></a></span>
-<span id="cb13-504"><a href="#cb13-504" aria-label="490"></a><span class="ss">4. </span>Launch a DeepSeek-v3-style MoE run with **expert parallelism = 8**:</span>
-<span id="cb13-505"><a href="#cb13-505" aria-label="491"></a></span>
-<span id="cb13-506"><a href="#cb13-506" aria-label="492"></a>   <span class="in">```bash</span></span>
-<span id="cb13-507"><a href="#cb13-507" aria-label="493"></a>   <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
-<span id="cb13-508"><a href="#cb13-508" aria-label="494"></a>       <span class="at">--job.config_file</span> ./train_configs/deepseek_v3_moe.toml <span class="dt">\</span></span>
-<span id="cb13-509"><a href="#cb13-509" aria-label="495"></a>       <span class="at">--parallelism.expert_parallel_degree</span> 8 <span class="dt">\</span></span>
-<span id="cb13-510"><a href="#cb13-510" aria-label="496"></a>       <span class="at">--parallelism.data_parallel_shard_degree</span> <span class="at">-1</span> <span class="dt">\</span></span>
-<span id="cb13-511"><a href="#cb13-511" aria-label="497"></a>       <span class="at">--training.steps</span> 200 <span class="dt">\</span></span>
-<span id="cb13-512"><a href="#cb13-512" aria-label="498"></a>       <span class="at">--training.seq_len</span> 4096 <span class="dt">\</span></span>
-<span id="cb13-513"><a href="#cb13-513" aria-label="499"></a>       <span class="at">--metrics.log_freq</span> 10 <span class="dt">\</span></span>
-<span id="cb13-514"><a href="#cb13-514" aria-label="500"></a>       <span class="at">--profiling.enable_profiling</span></span>
-<span id="cb13-515"><a href="#cb13-515" aria-label="501"></a>   <span class="in">```</span></span>
-<span id="cb13-516"><a href="#cb13-516" aria-label="502"></a></span>
-<span id="cb13-517"><a href="#cb13-517" aria-label="503"></a>   <span class="in">`ezpz launch`</span> figures out the node/GPU count and the right launcher for you —</span>
-<span id="cb13-518"><a href="#cb13-518" aria-label="504"></a>   no <span class="in">`mpirun -n $NGPUS`</span> needed. Add <span class="in">`-A &lt;project&gt;`</span> to your job submission</span>
-<span id="cb13-519"><a href="#cb13-519" aria-label="505"></a>   (e.g. NERSC Perlmutter <span class="in">`m4388`</span>) as usual.</span>
+<span id="cb13-504"><a href="#cb13-504" aria-label="490"></a>   <span class="in">```bash</span></span>
+<span id="cb13-505"><a href="#cb13-505" aria-label="491"></a>   <span class="ex">ezpz</span> yeet <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 1</span>
+<span id="cb13-506"><a href="#cb13-506" aria-label="492"></a>   <span class="in">```</span></span>
+<span id="cb13-507"><a href="#cb13-507" aria-label="493"></a></span>
+<span id="cb13-508"><a href="#cb13-508" aria-label="494"></a><span class="ss">4. </span>Launch a DeepSeek-v3-style MoE run with **expert parallelism = 8**:</span>
+<span id="cb13-509"><a href="#cb13-509" aria-label="495"></a></span>
+<span id="cb13-510"><a href="#cb13-510" aria-label="496"></a>   <span class="in">```bash</span></span>
+<span id="cb13-511"><a href="#cb13-511" aria-label="497"></a>   <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
+<span id="cb13-512"><a href="#cb13-512" aria-label="498"></a>       <span class="at">--job.config_file</span> ./train_configs/deepseek_v3_moe.toml <span class="dt">\</span></span>
+<span id="cb13-513"><a href="#cb13-513" aria-label="499"></a>       <span class="at">--parallelism.expert_parallel_degree</span> 8 <span class="dt">\</span></span>
+<span id="cb13-514"><a href="#cb13-514" aria-label="500"></a>       <span class="at">--parallelism.data_parallel_shard_degree</span> <span class="at">-1</span> <span class="dt">\</span></span>
+<span id="cb13-515"><a href="#cb13-515" aria-label="501"></a>       <span class="at">--training.steps</span> 200 <span class="dt">\</span></span>
+<span id="cb13-516"><a href="#cb13-516" aria-label="502"></a>       <span class="at">--training.seq_len</span> 4096 <span class="dt">\</span></span>
+<span id="cb13-517"><a href="#cb13-517" aria-label="503"></a>       <span class="at">--metrics.log_freq</span> 10 <span class="dt">\</span></span>
+<span id="cb13-518"><a href="#cb13-518" aria-label="504"></a>       <span class="at">--profiling.enable_profiling</span></span>
+<span id="cb13-519"><a href="#cb13-519" aria-label="505"></a>   <span class="in">```</span></span>
 <span id="cb13-520"><a href="#cb13-520" aria-label="506"></a></span>
-<span id="cb13-521"><a href="#cb13-521" aria-label="507"></a><span class="ss">5. </span>For long jobs, run under fault tolerance so a dead node fails over to a spare:</span>
-<span id="cb13-522"><a href="#cb13-522" aria-label="508"></a></span>
-<span id="cb13-523"><a href="#cb13-523" aria-label="509"></a>   <span class="in">```bash</span></span>
-<span id="cb13-524"><a href="#cb13-524" aria-label="510"></a>   <span class="ex">ezpz</span> launch <span class="at">--auto-retry</span> <span class="at">--spare-nodes</span> auto <span class="dt">\</span></span>
-<span id="cb13-525"><a href="#cb13-525" aria-label="511"></a>       python3 <span class="at">-m</span> torchtitan.train <span class="at">--job.config_file</span> ./train_configs/deepseek_v3_moe.toml</span>
-<span id="cb13-526"><a href="#cb13-526" aria-label="512"></a>   <span class="in">```</span></span>
-<span id="cb13-527"><a href="#cb13-527" aria-label="513"></a></span>
-<span id="cb13-528"><a href="#cb13-528" aria-label="514"></a>A healthy run prints per-step throughput and MFU, roughly:</span>
-<span id="cb13-529"><a href="#cb13-529" aria-label="515"></a></span>
-<span id="cb13-530"><a href="#cb13-530" aria-label="516"></a><span class="in">```bash</span></span>
-<span id="cb13-531"><a href="#cb13-531" aria-label="517"></a><span class="ex">[step=10]</span>  loss=6.214  tokens/sec=48213  tflops=182.4  mfu=39.7%</span>
-<span id="cb13-532"><a href="#cb13-532" aria-label="518"></a><span class="ex">[step=20]</span>  loss=5.977  tokens/sec=49030  tflops=185.5  mfu=40.4%</span>
-<span id="cb13-533"><a href="#cb13-533" aria-label="519"></a><span class="in">```</span></span>
-<span id="cb13-534"><a href="#cb13-534" aria-label="520"></a></span>
-<span id="cb13-535"><a href="#cb13-535" aria-label="521"></a>::: {.callout-important title="⏰ Watch expert utilization" collapse="false"}</span>
-<span id="cb13-536"><a href="#cb13-536" aria-label="522"></a>The #1 MoE failure mode is **router collapse**: a few experts get all the tokens</span>
-<span id="cb13-537"><a href="#cb13-537" aria-label="523"></a>and the rest die. Watch per-expert token counts (torchtitan logs them) the same</span>
-<span id="cb13-538"><a href="#cb13-538" aria-label="524"></a>way you watched <span class="in">`counts`</span> in the toy — they should stay roughly uniform. If they</span>
-<span id="cb13-539"><a href="#cb13-539" aria-label="525"></a>collapse, your aux-loss coefficient (or DeepSeek's bias-update speed</span>
-<span id="cb13-540"><a href="#cb13-540" aria-label="526"></a><span class="in">`load_balance_coeff`</span>) is too small.</span>
-<span id="cb13-541"><a href="#cb13-541" aria-label="527"></a>:::</span>
-<span id="cb13-542"><a href="#cb13-542" aria-label="528"></a></span>
-<span id="cb13-543"><a href="#cb13-543" aria-label="529"></a><span class="fu">## 🎒 Homework</span></span>
-<span id="cb13-544"><a href="#cb13-544" aria-label="530"></a></span>
-<span id="cb13-545"><a href="#cb13-545" aria-label="531"></a>Submit **proof** that you launched a small MoE training run with expert</span>
-<span id="cb13-546"><a href="#cb13-546" aria-label="532"></a>parallelism and report two numbers: **expert utilization** and</span>
-<span id="cb13-547"><a href="#cb13-547" aria-label="533"></a>**tokens/sec**.</span>
+<span id="cb13-521"><a href="#cb13-521" aria-label="507"></a>   <span class="in">`ezpz launch`</span> figures out the node/GPU count and the right launcher for you —</span>
+<span id="cb13-522"><a href="#cb13-522" aria-label="508"></a>   no <span class="in">`mpirun -n $NGPUS`</span> needed. Add <span class="in">`-A &lt;project&gt;`</span> to your job submission</span>
+<span id="cb13-523"><a href="#cb13-523" aria-label="509"></a>   (e.g. NERSC Perlmutter <span class="in">`m4388`</span>) as usual.</span>
+<span id="cb13-524"><a href="#cb13-524" aria-label="510"></a></span>
+<span id="cb13-525"><a href="#cb13-525" aria-label="511"></a><span class="ss">5. </span>For long jobs, run under fault tolerance so a dead node fails over to a spare:</span>
+<span id="cb13-526"><a href="#cb13-526" aria-label="512"></a></span>
+<span id="cb13-527"><a href="#cb13-527" aria-label="513"></a>   <span class="in">```bash</span></span>
+<span id="cb13-528"><a href="#cb13-528" aria-label="514"></a>   <span class="ex">ezpz</span> launch <span class="at">--auto-retry</span> <span class="at">--spare-nodes</span> auto <span class="dt">\</span></span>
+<span id="cb13-529"><a href="#cb13-529" aria-label="515"></a>       python3 <span class="at">-m</span> torchtitan.train <span class="at">--job.config_file</span> ./train_configs/deepseek_v3_moe.toml</span>
+<span id="cb13-530"><a href="#cb13-530" aria-label="516"></a>   <span class="in">```</span></span>
+<span id="cb13-531"><a href="#cb13-531" aria-label="517"></a></span>
+<span id="cb13-532"><a href="#cb13-532" aria-label="518"></a>A healthy run prints per-step throughput and MFU, roughly:</span>
+<span id="cb13-533"><a href="#cb13-533" aria-label="519"></a></span>
+<span id="cb13-534"><a href="#cb13-534" aria-label="520"></a><span class="in">```bash</span></span>
+<span id="cb13-535"><a href="#cb13-535" aria-label="521"></a><span class="ex">[step=10]</span>  loss=6.214  tokens/sec=48213  tflops=182.4  mfu=39.7%</span>
+<span id="cb13-536"><a href="#cb13-536" aria-label="522"></a><span class="ex">[step=20]</span>  loss=5.977  tokens/sec=49030  tflops=185.5  mfu=40.4%</span>
+<span id="cb13-537"><a href="#cb13-537" aria-label="523"></a><span class="in">```</span></span>
+<span id="cb13-538"><a href="#cb13-538" aria-label="524"></a></span>
+<span id="cb13-539"><a href="#cb13-539" aria-label="525"></a>::: {.callout-important title="⏰ Watch expert utilization" collapse="false"}</span>
+<span id="cb13-540"><a href="#cb13-540" aria-label="526"></a>The #1 MoE failure mode is **router collapse**: a few experts get all the tokens</span>
+<span id="cb13-541"><a href="#cb13-541" aria-label="527"></a>and the rest die. Watch per-expert token counts (torchtitan logs them) the same</span>
+<span id="cb13-542"><a href="#cb13-542" aria-label="528"></a>way you watched <span class="in">`counts`</span> in the toy — they should stay roughly uniform. If they</span>
+<span id="cb13-543"><a href="#cb13-543" aria-label="529"></a>collapse, your aux-loss coefficient (or DeepSeek's bias-update speed</span>
+<span id="cb13-544"><a href="#cb13-544" aria-label="530"></a><span class="in">`load_balance_coeff`</span>) is too small.</span>
+<span id="cb13-545"><a href="#cb13-545" aria-label="531"></a>:::</span>
+<span id="cb13-546"><a href="#cb13-546" aria-label="532"></a></span>
+<span id="cb13-547"><a href="#cb13-547" aria-label="533"></a><span class="fu">## 🎒 Homework</span></span>
 <span id="cb13-548"><a href="#cb13-548" aria-label="534"></a></span>
-<span id="cb13-549"><a href="#cb13-549" aria-label="535"></a>Concretely:</span>
-<span id="cb13-550"><a href="#cb13-550" aria-label="536"></a></span>
-<span id="cb13-551"><a href="#cb13-551" aria-label="537"></a><span class="ss">1. </span>Launch the movement ③ command with a small flavor (e.g. `--training.steps</span>
-<span id="cb13-552"><a href="#cb13-552" aria-label="538"></a>   200<span class="in">`, `</span>expert_parallel_degree` matching your node's GPU count).</span>
-<span id="cb13-553"><a href="#cb13-553" aria-label="539"></a><span class="ss">2. </span>Report the **per-expert token counts / utilization** over training — do the</span>
-<span id="cb13-554"><a href="#cb13-554" aria-label="540"></a>   experts stay balanced, or does the router collapse?</span>
-<span id="cb13-555"><a href="#cb13-555" aria-label="541"></a><span class="ss">3. </span>Report the steady-state **tokens/sec** (and <span class="in">`mfu`</span> if shown).</span>
-<span id="cb13-556"><a href="#cb13-556" aria-label="542"></a></span>
-<span id="cb13-557"><a href="#cb13-557" aria-label="543"></a>Where **proof** can be any of:</span>
-<span id="cb13-558"><a href="#cb13-558" aria-label="544"></a></span>
-<span id="cb13-559"><a href="#cb13-559" aria-label="545"></a><span class="ss">- </span>The contents printed to your terminal during the run.</span>
-<span id="cb13-560"><a href="#cb13-560" aria-label="546"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems.</span>
-<span id="cb13-561"><a href="#cb13-561" aria-label="547"></a><span class="ss">- </span>A screenshot of the throughput / expert-utilization output or a W&amp;B chart.</span>
-<span id="cb13-562"><a href="#cb13-562" aria-label="548"></a><span class="ss">- </span>A URL to a <span class="co">[</span><span class="ot">W&amp;B</span><span class="co">](https://wandb.ai)</span> Run or Report.</span>
-<span id="cb13-563"><a href="#cb13-563" aria-label="549"></a></span>
-<span id="cb13-564"><a href="#cb13-564" aria-label="550"></a>**Stretch goals:**</span>
-<span id="cb13-565"><a href="#cb13-565" aria-label="551"></a></span>
-<span id="cb13-566"><a href="#cb13-566" aria-label="552"></a><span class="ss">- </span>Re-run with <span class="in">`expert_parallel_degree 1`</span> vs. <span class="in">`2`</span> vs. <span class="in">`4`</span> and plot tokens/sec vs.</span>
-<span id="cb13-567"><a href="#cb13-567" aria-label="553"></a>  EP degree. Where does the all-to-all start to hurt?</span>
-<span id="cb13-568"><a href="#cb13-568" aria-label="554"></a><span class="ss">- </span>The movement ① toy already runs on CPU. Sweep <span class="in">`top_k`</span> (1, 2, 3) and</span>
-<span id="cb13-569"><a href="#cb13-569" aria-label="555"></a>  <span class="in">`capacity_factor`</span> in it and show how the aux loss and per-expert counts change</span>
-<span id="cb13-570"><a href="#cb13-570" aria-label="556"></a>  as you make routing denser or sparser.</span>
-<span id="cb13-571"><a href="#cb13-571" aria-label="557"></a></span>
-<span id="cb13-572"><a href="#cb13-572" aria-label="558"></a><span class="fu">## 📚 References</span></span>
-<span id="cb13-573"><a href="#cb13-573" aria-label="559"></a></span>
-<span id="cb13-574"><a href="#cb13-574" aria-label="560"></a><span class="ss">- </span>DeepSeek-AI. *DeepSeek-V3 Technical Report*. <span class="co">[</span><span class="ot">arXiv:2412.19437</span><span class="co">](https://arxiv.org/abs/2412.19437)</span></span>
-<span id="cb13-575"><a href="#cb13-575" aria-label="561"></a><span class="ss">- </span>Fedus, Zoph, Shazeer. *Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity*. <span class="co">[</span><span class="ot">arXiv:2101.03961</span><span class="co">](https://arxiv.org/abs/2101.03961)</span></span>
-<span id="cb13-576"><a href="#cb13-576" aria-label="562"></a><span class="ss">- </span>Lepikhin et al. *GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding*. <span class="co">[</span><span class="ot">arXiv:2006.16668</span><span class="co">](https://arxiv.org/abs/2006.16668)</span></span>
-<span id="cb13-577"><a href="#cb13-577" aria-label="563"></a><span class="ss">- </span>Zoph et al. *ST-MoE: Designing Stable and Transferable Sparse Expert Models*. <span class="co">[</span><span class="ot">arXiv:2202.08906</span><span class="co">](https://arxiv.org/abs/2202.08906)</span></span>
-<span id="cb13-578"><a href="#cb13-578" aria-label="564"></a><span class="ss">- </span>Shazeer et al. *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*. <span class="co">[</span><span class="ot">arXiv:1701.06538</span><span class="co">](https://arxiv.org/abs/1701.06538)</span></span>
-<span id="cb13-579"><a href="#cb13-579" aria-label="565"></a><span class="ss">- </span>torchtitan team. *torchtitan: One-stop PyTorch native solution for production-ready LLM pre-training*. <span class="co">[</span><span class="ot">arXiv:2410.06511</span><span class="co">](https://arxiv.org/abs/2410.06511)</span> · {{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">pytorch/torchtitan</span><span class="co">](https://github.com/pytorch/torchtitan)</span></span>
-<span id="cb13-580"><a href="#cb13-580" aria-label="566"></a><span class="ss">- </span>{{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">saforem2/ezpz</span><span class="co">](https://github.com/saforem2/ezpz)</span></span>
-<span id="cb13-581"><a href="#cb13-581" aria-label="567"></a><span class="ss">- </span>⏪ Prerequisite: <span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb13-582"><a href="#cb13-582" aria-label="568"></a></span>
-<span id="cb13-585"><a href="#cb13-585" aria-label="569"></a><span class="in">```{python}</span></span>
-<span id="cb13-586"><a href="#cb13-586" aria-label="570"></a><span class="co">#| echo: false</span></span>
-<span id="cb13-587"><a href="#cb13-587" aria-label="571"></a><span class="im">import</span> datetime</span>
-<span id="cb13-588"><a href="#cb13-588" aria-label="572"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">:</span><span class="op">%</span>Y<span class="op">-%</span>m<span class="op">-%</span>d <span class="op">%</span>H<span class="sc">:</span><span class="op">%</span>M<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb13-589"><a href="#cb13-589" aria-label="573"></a><span class="in">```</span></span>
+<span id="cb13-549"><a href="#cb13-549" aria-label="535"></a>Submit **proof** that you launched a small MoE training run with expert</span>
+<span id="cb13-550"><a href="#cb13-550" aria-label="536"></a>parallelism and report two numbers: **expert utilization** and</span>
+<span id="cb13-551"><a href="#cb13-551" aria-label="537"></a>**tokens/sec**.</span>
+<span id="cb13-552"><a href="#cb13-552" aria-label="538"></a></span>
+<span id="cb13-553"><a href="#cb13-553" aria-label="539"></a>Concretely:</span>
+<span id="cb13-554"><a href="#cb13-554" aria-label="540"></a></span>
+<span id="cb13-555"><a href="#cb13-555" aria-label="541"></a><span class="ss">1. </span>Launch the movement ③ command with a small flavor (e.g. `--training.steps</span>
+<span id="cb13-556"><a href="#cb13-556" aria-label="542"></a>   200<span class="in">`, `</span>expert_parallel_degree` matching your node's GPU count).</span>
+<span id="cb13-557"><a href="#cb13-557" aria-label="543"></a><span class="ss">2. </span>Report the **per-expert token counts / utilization** over training — do the</span>
+<span id="cb13-558"><a href="#cb13-558" aria-label="544"></a>   experts stay balanced, or does the router collapse?</span>
+<span id="cb13-559"><a href="#cb13-559" aria-label="545"></a><span class="ss">3. </span>Report the steady-state **tokens/sec** (and <span class="in">`mfu`</span> if shown).</span>
+<span id="cb13-560"><a href="#cb13-560" aria-label="546"></a></span>
+<span id="cb13-561"><a href="#cb13-561" aria-label="547"></a>Where **proof** can be any of:</span>
+<span id="cb13-562"><a href="#cb13-562" aria-label="548"></a></span>
+<span id="cb13-563"><a href="#cb13-563" aria-label="549"></a><span class="ss">- </span>The contents printed to your terminal during the run.</span>
+<span id="cb13-564"><a href="#cb13-564" aria-label="550"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems.</span>
+<span id="cb13-565"><a href="#cb13-565" aria-label="551"></a><span class="ss">- </span>A screenshot of the throughput / expert-utilization output or a W&amp;B chart.</span>
+<span id="cb13-566"><a href="#cb13-566" aria-label="552"></a><span class="ss">- </span>A URL to a <span class="co">[</span><span class="ot">W&amp;B</span><span class="co">](https://wandb.ai)</span> Run or Report.</span>
+<span id="cb13-567"><a href="#cb13-567" aria-label="553"></a></span>
+<span id="cb13-568"><a href="#cb13-568" aria-label="554"></a>**Stretch goals:**</span>
+<span id="cb13-569"><a href="#cb13-569" aria-label="555"></a></span>
+<span id="cb13-570"><a href="#cb13-570" aria-label="556"></a><span class="ss">- </span>Re-run with <span class="in">`expert_parallel_degree 1`</span> vs. <span class="in">`2`</span> vs. <span class="in">`4`</span> and plot tokens/sec vs.</span>
+<span id="cb13-571"><a href="#cb13-571" aria-label="557"></a>  EP degree. Where does the all-to-all start to hurt?</span>
+<span id="cb13-572"><a href="#cb13-572" aria-label="558"></a><span class="ss">- </span>The movement ① toy already runs on CPU. Sweep <span class="in">`top_k`</span> (1, 2, 3) and</span>
+<span id="cb13-573"><a href="#cb13-573" aria-label="559"></a>  <span class="in">`capacity_factor`</span> in it and show how the aux loss and per-expert counts change</span>
+<span id="cb13-574"><a href="#cb13-574" aria-label="560"></a>  as you make routing denser or sparser.</span>
+<span id="cb13-575"><a href="#cb13-575" aria-label="561"></a></span>
+<span id="cb13-576"><a href="#cb13-576" aria-label="562"></a><span class="fu">## 📚 References</span></span>
+<span id="cb13-577"><a href="#cb13-577" aria-label="563"></a></span>
+<span id="cb13-578"><a href="#cb13-578" aria-label="564"></a><span class="ss">- </span>DeepSeek-AI. *DeepSeek-V3 Technical Report*. <span class="co">[</span><span class="ot">arXiv:2412.19437</span><span class="co">](https://arxiv.org/abs/2412.19437)</span></span>
+<span id="cb13-579"><a href="#cb13-579" aria-label="565"></a><span class="ss">- </span>Fedus, Zoph, Shazeer. *Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity*. <span class="co">[</span><span class="ot">arXiv:2101.03961</span><span class="co">](https://arxiv.org/abs/2101.03961)</span></span>
+<span id="cb13-580"><a href="#cb13-580" aria-label="566"></a><span class="ss">- </span>Lepikhin et al. *GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding*. <span class="co">[</span><span class="ot">arXiv:2006.16668</span><span class="co">](https://arxiv.org/abs/2006.16668)</span></span>
+<span id="cb13-581"><a href="#cb13-581" aria-label="567"></a><span class="ss">- </span>Zoph et al. *ST-MoE: Designing Stable and Transferable Sparse Expert Models*. <span class="co">[</span><span class="ot">arXiv:2202.08906</span><span class="co">](https://arxiv.org/abs/2202.08906)</span></span>
+<span id="cb13-582"><a href="#cb13-582" aria-label="568"></a><span class="ss">- </span>Shazeer et al. *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*. <span class="co">[</span><span class="ot">arXiv:1701.06538</span><span class="co">](https://arxiv.org/abs/1701.06538)</span></span>
+<span id="cb13-583"><a href="#cb13-583" aria-label="569"></a><span class="ss">- </span>torchtitan team. *torchtitan: One-stop PyTorch native solution for production-ready LLM pre-training*. <span class="co">[</span><span class="ot">arXiv:2410.06511</span><span class="co">](https://arxiv.org/abs/2410.06511)</span> · {{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">pytorch/torchtitan</span><span class="co">](https://github.com/pytorch/torchtitan)</span></span>
+<span id="cb13-584"><a href="#cb13-584" aria-label="570"></a><span class="ss">- </span>{{&lt; fa brands github &gt;}} <span class="co">[</span><span class="ot">saforem2/ezpz</span><span class="co">](https://github.com/saforem2/ezpz)</span></span>
+<span id="cb13-585"><a href="#cb13-585" aria-label="571"></a><span class="ss">- </span>⏪ Prerequisite: <span class="co">[</span><span class="ot">\[01.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb13-586"><a href="#cb13-586" aria-label="572"></a></span>
+<span id="cb13-589"><a href="#cb13-589" aria-label="573"></a><span class="in">```{python}</span></span>
+<span id="cb13-590"><a href="#cb13-590" aria-label="574"></a><span class="co">#| echo: false</span></span>
+<span id="cb13-591"><a href="#cb13-591" aria-label="575"></a><span class="im">import</span> datetime</span>
+<span id="cb13-592"><a href="#cb13-592" aria-label="576"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">:</span><span class="op">%</span>Y<span class="op">-%</span>m<span class="op">-%</span>d <span class="op">%</span>H<span class="sc">:</span><span class="op">%</span>M<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-593"><a href="#cb13-593" aria-label="577"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
@@ -2570,7 +2578,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/03-advanced-llms/0-moe/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
