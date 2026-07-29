@@ -429,19 +429,23 @@ wrap the model in `DDP`, and launch across all 4 GPUs on the node.)
 ```{python}
 import ezpz
 
-DEVICE = ezpz.get_torch_device_type()          # 'cuda' | 'xpu' | 'mps' | 'cpu'
-# NB: we do NOT call torch.set_default_device(DEVICE) — it makes every tensor
-# (including the CPU-only index generators DataLoader/random_split need) try to
-# land on the GPU. Instead we create tensors on CPU by default and move the
-# model + each batch to DEVICE explicitly (see `.to(DEVICE)` below).
-_ON_GPU = DEVICE in ("cuda", "xpu")
+DEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'
 
-batch_size      = 128 if _ON_GPU else 32
-SUBSET          = 5000 if _ON_GPU else 256      # images pulled from CIFAR-10
-STEPS_PER_EPOCH = 40 if _ON_GPU else 3          # cap so a render can't run away
-N_EPOCHS        = 3 if _ON_GPU else 1
-logger.info(f"device={DEVICE}  batch_size={batch_size}  subset={SUBSET}  "
-            f"steps/epoch={STEPS_PER_EPOCH}  epochs={N_EPOCHS}")
+# Two configs: the real GPU run, and a tiny one that keeps a laptop/Colab render
+# to a few seconds. `batch_size` images per step; `subset` images pulled from
+# CIFAR-10; `steps_per_epoch` caps each loop so a render can't run away.
+GPU_CONFIG = dict(batch_size=128, subset=5000, steps_per_epoch=40, epochs=3)
+CPU_CONFIG = dict(batch_size=32,  subset=256,  steps_per_epoch=3,  epochs=1)
+
+cfg = GPU_CONFIG if DEVICE in ("cuda", "xpu") else CPU_CONFIG
+batch_size, SUBSET, STEPS_PER_EPOCH, N_EPOCHS = (
+    cfg["batch_size"], cfg["subset"], cfg["steps_per_epoch"], cfg["epochs"])
+
+# NB: we deliberately do NOT call torch.set_default_device(DEVICE). It would make
+# every new tensor land on the GPU — including the CPU-only index generators that
+# DataLoader / random_split require. Instead tensors default to CPU and we move
+# the model + each batch to DEVICE explicitly (see the `.to(DEVICE)` calls below).
+logger.info(f"device={DEVICE}  config={cfg}")
 ```
 
 Here's the Convolutional Neural Network Again:
