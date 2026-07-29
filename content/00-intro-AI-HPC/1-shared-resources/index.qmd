@@ -17,8 +17,8 @@ You do **not** need an HPC account to follow this page — it's conceptual. Here
 you'll learn how schedulers share a supercomputer across users and what a *job*
 is; the commands below are readable by anyone, whether or not you have access to
 a cluster. You'll only need real cluster access for the large-scale, hands-on
-labs later in the course (e.g. distributed training in [01.4], the LLM lab in
-[02.1], and the AI-for-science examples in [03.x]).
+labs later in the course (e.g. distributed training in [1.4], the LLM lab in
+[2.1], and the AI-for-science examples in [03.x]).
 :::
 
 Supercomputers contain many computer _nodes_ and not every application will use

@@ -415,7 +415,7 @@ modern AI models (data parallelism, model parallelism, and more).
 
 ::: {.callout-tip title="➡️ Next steps"}
 We cover distributed and parallel training in depth in
-[**\[01\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd)
+[**\[1\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd)
 (DDP, FSDP, tensor/pipeline parallelism, collective communication) and apply it
-to LLMs in [**\[02\] Parallel Training**](../../02-llms/1-parallel-training/index.qmd).
+to LLMs in [**\[2\] Parallel Training**](../../02-llms/1-parallel-training/index.qmd).
 :::

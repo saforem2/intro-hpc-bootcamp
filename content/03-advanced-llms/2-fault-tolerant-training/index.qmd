@@ -18,7 +18,7 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](
 
 ## 👋 Failures are the norm, not the exception
 
-In [\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd)
+In [\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd)
 you learned that a collective op only completes when **every** rank participates
 — one silent straggler and the whole job waits *indefinitely*. That fragility is
 exactly the problem at scale.
@@ -214,7 +214,7 @@ signal 9`, `Connection closed by peer`, `UR_RESULT_ERROR_OUT_OF_RESOURCES`,
 ### Checkpointing a model that no longer fits on one GPU
 
 The toy saved one `.pt` file from one process. But once you're using FSDP or
-3D parallelism (from [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)),
+3D parallelism (from [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)),
 model + optimizer state is **sharded across hundreds of ranks** — funneling it
 all to rank 0 to write one giant file is slow and often OOMs.
 
@@ -222,7 +222,7 @@ The answer is **Distributed Checkpointing (DCP)** — [`torch.distributed.checkp
 Each rank writes **its own shard** in parallel, and DCP can **reshard on load**,
 so a run saved on 512 GPUs can resume onto 256. `torchtitan` uses DCP by default
 (`--checkpoint.enable --checkpoint.interval N`, see
-[\[03.1\] Pretraining at Scale](../1-pretraining-at-scale/index.qmd)).
+[\[3.1\] Pretraining at Scale](../1-pretraining-at-scale/index.qmd)).
 
 ```{python}
 #| eval: false

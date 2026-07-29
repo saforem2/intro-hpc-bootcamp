@@ -71,7 +71,7 @@ is a technique within machine learning that tends to outperform other
 techniques when dealing with a large amount of data.
 
 ::: {.callout-note title="📋 Before you start" collapse="false"}
-This section assumes the [00] [Python](../../00-intro-AI-HPC/3-python/index.qmd)
+This section assumes the [0] [Python](../../00-intro-AI-HPC/3-python/index.qmd)
 and [data](../../00-intro-AI-HPC/4-data/index.qmd) primers, and every cell here
 runs on a plain laptop or [Colab](https://colab.research.google.com/) — no GPU
 needed.

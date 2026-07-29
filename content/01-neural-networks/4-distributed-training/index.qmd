@@ -1335,13 +1335,13 @@ a hands-on distributed-training example; for the LLM concepts themselves
 (transformers, attention, the training life-cycle, text generation) see:
 
 ::: {.callout-tip title="➡️ Learn more about LLMs"}
-- [**\[02\] Intro to LLMs**](../../02-llms/0-intro-to-llms/index.qmd) — transformers, tokenization, attention, and building a mini-LLM.
-- [**\[02\] Parallel Training**](../../02-llms/1-parallel-training/index.qmd) — hands-on distributed LLM training on HPC.
-- [**\[03\] Advanced / Large-Scale LLMs**](../../03-advanced-llms/index.qmd) — MoE, pretraining at scale, fault tolerance, and RL.
+- [**\[2\] Intro to LLMs**](../../02-llms/0-intro-to-llms/index.qmd) — transformers, tokenization, attention, and building a mini-LLM.
+- [**\[2\] Parallel Training**](../../02-llms/1-parallel-training/index.qmd) — hands-on distributed LLM training on HPC.
+- [**\[3\] Advanced / Large-Scale LLMs**](../../03-advanced-llms/index.qmd) — MoE, pretraining at scale, fault tolerance, and RL.
 :::
 
 <!-- Trimmed: general LLM explainer (emergent abilities, life-cycle, forward
-     pass, text generation) moved conceptually to [02] Intro to LLMs to keep
+     pass, text generation) moved conceptually to [2] Intro to LLMs to keep
      this page focused on distributed training. -->
 
 ::: {.hidden}
@@ -1453,7 +1453,7 @@ The walkthrough below runs on **ALCF (Polaris, PBS)**. If you're on
 **NERSC Perlmutter** — or you just want a clean, standalone recipe without the
 surrounding lesson — jump to the dedicated hands-on lab:
 
-➡️ [**\[02\] Hands-On: Launching a Distributed Run**](../../02-llms/1-parallel-training/index.qmd)
+➡️ [**\[2\] Hands-On: Launching a Distributed Run**](../../02-llms/1-parallel-training/index.qmd)
 (SLURM / `salloc`, project `m4388`). It runs the *same* `wordplay` DDP example.
 :::
 

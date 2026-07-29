@@ -17,10 +17,10 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/3-mid-post-training/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
 
 So far you have seen how a model is _pretrained_ from scratch (labs
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[02.2\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[2.2\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
 and how that pretraining is _scaled_ across GPUs and nodes
-([\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd),
-[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/index.qmd)).
+([\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd),
+[\[2.1\] Parallel Training](../../02-llms/1-parallel-training/index.qmd)).
 
 A pretrained **base model** is a very good next-token predictor. It is *not* yet
 a chatbot: ask it a question and it will happily continue your question rather
@@ -83,7 +83,7 @@ ask."
 - **Post-training / SFT** (this lab) — teach the model to follow instructions and
   speak in a **chat template** using (prompt, completion) pairs.
 - **Alignment / RL** — DPO / GRPO / PPO on preference data. Covered in the next
-  lab: [\[03.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd).
+  lab: [\[3.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd).
 
 Throughout we use the HuggingFace [TRL](https://huggingface.co/docs/trl) and
 [PEFT](https://huggingface.co/docs/peft) libraries — the standard, batteries-included
@@ -431,7 +431,7 @@ Frontier post-training operates on a completely different order of magnitude:
 - **Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not just
   LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the
   parallelism strategies from
-  [\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd).
+  [\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd).
 - **Staged pipelines.** The Llama 3 report
   ([arXiv:2407.21783](https://arxiv.org/abs/2407.21783)) describes several rounds
   of SFT interleaved with preference optimization, plus dedicated mid-training
@@ -532,7 +532,7 @@ in minutes. Compare `model.generate(...)` before vs. after loading the adapter.
 - Lambert et al., *Tülu 3: Pushing Frontiers in Open Language Model Post-Training* — [arXiv:2411.15124](https://arxiv.org/abs/2411.15124)
 - OLMo Team, *2 OLMo 2 Furious* — [arXiv:2501.00656](https://arxiv.org/abs/2501.00656)
 - [Chat templating in 🤗 Transformers](https://huggingface.co/docs/transformers/main/en/chat_templating)
-- Next: [\[03.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd) — DPO / GRPO / PPO alignment.
+- Next: [\[3.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd) — DPO / GRPO / PPO alignment.
 
 ```{python}
 #| echo: false

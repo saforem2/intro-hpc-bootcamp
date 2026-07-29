@@ -31,7 +31,7 @@ training loop, and the text generation are all written inline — using only
   `ezpz.History` and launch at scale with `ezpz launch`.
 
 This page assumes you've seen the attention/transformer mechanics from
-[**\[02.0\] Intro to LLMs**](../0-intro-to-llms/index.qmd) — here we focus on
+[**\[2.0\] Intro to LLMs**](../0-intro-to-llms/index.qmd) — here we focus on
 the *training* side.
 :::
 

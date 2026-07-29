@@ -22,7 +22,7 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to AI-driven Scie
 
 This is a **hands-on lab**: you'll launch a real multi-GPU
 [data-parallel](#concepts-recap) training run on a supercomputer. It's the
-practical counterpart to the [**\[01\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd)
+practical counterpart to the [**\[1\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd)
 lesson — read that first if the concepts below are new to you.
 
 ::: {#concepts-recap .callout-note title="🧠 Concepts recap (30-second version)" collapse="true"}
@@ -40,7 +40,7 @@ to scale training:
 Real large-scale LLM training combines all three. For the full treatment —
 all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with
 runnable examples — see
-[**\[01\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd).
+[**\[1\] Distributed Training**](../../01-neural-networks/4-distributed-training/index.qmd).
 :::
 
 ## 👋 Hands On

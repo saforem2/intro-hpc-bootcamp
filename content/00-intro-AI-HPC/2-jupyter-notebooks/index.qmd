@@ -19,14 +19,14 @@ notebook is using the **right Python environment**.
 
 ::: {.callout-important title="🧭 You do NOT need a cluster account for most of this course"}
 The majority of the material runs on a **laptop or [Google Colab](https://colab.research.google.com)** —
-look for the Colab badge at the top of each notebook. Sections **[00]–[02.0]**
+look for the Colab badge at the top of each notebook. Sections **[0]–[2.0]**
 (Python, data, first models, neural-network basics, intro to LLMs) need nothing
 but a browser.
 
 You only need HPC access for the **large-scale labs**:
 
-- **[\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/)**
-- **[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/)**
+- **[\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/)**
+- **[\[2.1\] Parallel Training](../../02-llms/1-parallel-training/)**
 - the **[\[03.x\] Advanced / Large-Scale LLM](../../03-advanced-llms/)** pages
 
 If you're just getting started, skip ahead and come back to this page when you
@@ -161,7 +161,7 @@ kernel only when you need packages the defaults don't provide.
 
 You'll meet two schedulers in the wild: **PBS Pro** (ALCF: Polaris, Sophia) and
 **SLURM** (NERSC: Perlmutter). The concepts are identical — see
-[\[00.1\] Shared Resources](../1-shared-resources/) for the full walkthrough — only
+[\[0.1\] Shared Resources](../1-shared-resources/) for the full walkthrough — only
 the commands differ. If you know one, this table gets you the other:
 
 | Task                         | PBS (Polaris @ ALCF)                     | SLURM (Perlmutter @ NERSC)                  |
@@ -188,7 +188,7 @@ you can drive either machine by hand when you need to.
 ## 🏔️ Running the labs on Perlmutter
 
 Here's the concrete recipe for an HPC lab (this is exactly what
-[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) walks through):
+[\[2.1\] Parallel Training](../../02-llms/1-parallel-training/) walks through):
 
 1. **Log in and grab an interactive GPU node.** `salloc` submits the request and
    drops you onto the node once it starts:
@@ -225,8 +225,8 @@ Here's the concrete recipe for an HPC lab (this is exactly what
     ```
 
 The full, annotated end-to-end run (with expected output) lives on the
-[\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/)
-and [\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) pages.
+[\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/)
+and [\[2.1\] Parallel Training](../../02-llms/1-parallel-training/) pages.
 
 ::: {.callout-tip title="📎 Slides"}
 The original NERSC Jupyter walkthrough slides are available as a

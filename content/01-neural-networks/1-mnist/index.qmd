@@ -68,7 +68,7 @@ In particular, we will introduce neural networks and how to train and improve th
 The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains thousands of examples of handwritten numbers, with each digit labeled 0-9.
 
 ::: {.callout-tip title="🎯 Before you start" collapse="false"}
-**Prerequisites:** the [00] primers on [Python](../../00-intro-AI-HPC/3-python/index.qmd) and
+**Prerequisites:** the [0] primers on [Python](../../00-intro-AI-HPC/3-python/index.qmd) and
 [working with data](../../00-intro-AI-HPC/4-data/index.qmd) — you should be comfortable reading a
 loop, a function, and a `numpy` array.
 

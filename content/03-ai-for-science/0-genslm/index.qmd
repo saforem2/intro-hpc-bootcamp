@@ -19,7 +19,7 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](
 
 This whole course is called **"AI *for Science*"** — and this is the page where it
 all pays off. Back in
-[\[02.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) we opened with
+[\[2.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) we opened with
 a claim: the Transformer isn't a *text* architecture, it's a *sequence*
 architecture, and much of science is sequences — DNA, RNA, proteins, SMILES
 strings. We even name-dropped the example we're about to build up to. Now we cash
@@ -39,7 +39,7 @@ from scratch.
 By the end of this session you will be able to:
 
 1. Explain what a **genome-scale language model** is — the *same* Transformer from
-   [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd), fed nucleotides instead of
+   [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd), fed nucleotides instead of
    words.
 2. Describe **codon tokenization** (3 nucleotides → 1 token) and contrast it with
    **BPE** on text.
@@ -49,12 +49,12 @@ By the end of this session you will be able to:
    massive sequence corpora, and billion-parameter models trained across many
    GPUs.
 5. Connect that scale story back to the **distributed-training** machinery you
-   already learned in [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
-   and [\[02.1\]](../../02-llms/1-parallel-training/index.qmd).
+   already learned in [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
+   and [\[2.1\]](../../02-llms/1-parallel-training/index.qmd).
 :::
 
 ::: {.callout-note title="🧭 Where this fits"}
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) built a mini-LLM from scratch
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) built a mini-LLM from scratch
 on tiny-Shakespeare with a character-level tokenizer. **Nothing about that model
 was English-specific.** Swap the tokenizer — characters → codons — and point it at
 genomes, and the exact same next-token objective becomes a tool for biology. This
@@ -64,7 +64,7 @@ page is that swap, taken to its scientific conclusion.
 ## 🧬 From English to genomes: the same Transformer
 
 A language model learns $P(t_i \mid t_1, \ldots, t_{i-1})$ — the probability of the
-next token given everything before it. In [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)
+next token given everything before it. In [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd)
 the tokens were subwords of English. Here they're pieces of a genome. The
 architecture — embeddings, masked self-attention, feed-forward blocks, a softmax
 over a vocabulary — **does not change**. Only the alphabet does.
@@ -196,7 +196,7 @@ context windows — more on that in @sec-scale.
 ## ② A tiny CodonGPT that learns genome structure {#sec-real}
 
 Now the fun part: feed those tokens to the *same* from-scratch GPT architecture
-you built in [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) and watch it learn.
+you built in [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) and watch it learn.
 We can't train on a real genome here (that's the whole point of the HPC section),
 so we use a **synthetic "genome"**: a short, biologically-flavored motif repeated
 enough that a tiny model can discover its structure in ~100 iterations on a CPU.
@@ -231,13 +231,13 @@ def get_batch():
     return x, y
 ```
 
-The model is the standard decoder block from [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)
+The model is the standard decoder block from [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd)
 — masked self-attention + feed-forward, with residuals and layer-norm — just sized
 tiny:
 
 ```{python}
 #| code-fold: true
-#| code-summary: "Show the from-scratch CodonGPT definition (same as [02.0], sized tiny)"
+#| code-summary: "Show the from-scratch CodonGPT definition (same as [2.0], sized tiny)"
 class Head(nn.Module):
     """One head of masked self-attention."""
 
@@ -400,18 +400,18 @@ nucleotides (~10,000 codons); bacterial genomes are far longer. Attention cost
 grows **quadratically** with sequence length, so modeling long-range dependencies
 across a genome pushes memory and compute far past a single GPU. This is precisely
 the pressure that motivates **sequence/context parallelism** from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
 **2 · Massive sequence corpora.** Training on the PATRIC gene database plus global
 SARS-CoV-2 sequences means streaming enormous datasets through the model — the
 data-loading and sharding problem you met in
-[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/index.qmd).
+[\[2.1\] Parallel Training](../../02-llms/1-parallel-training/index.qmd).
 
 **3 · Billion-parameter models.** The largest GenSLM foundation models don't fit
 in one GPU's memory. Training them requires sharding parameters, gradients, and
 optimizer state across many devices — **ZeRO / FSDP** and **3D parallelism** from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd), the same
-tools the [\[03.1\] Pretraining at Scale](../../03-advanced-llms/1-pretraining-at-scale/index.qmd)
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd), the same
+tools the [\[3.1\] Pretraining at Scale](../../03-advanced-llms/1-pretraining-at-scale/index.qmd)
 lab drives with `torchtitan`.
 
 | Ingredient | Our toy CodonGPT | Real GenSLM |
@@ -439,7 +439,7 @@ for the specifics (model sizes, throughput, and scaling numbers).
 ### Loading the *real* pretrained model (run this yourself)
 
 The released 25M-parameter model (`genslm_25M_patric`) is a standard HuggingFace-style
-Transformer — the API will feel familiar from [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd).
+Transformer — the API will feel familiar from [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd).
 It's **not** run at build time here: the weights are a large download (via a Globus
 endpoint), so this cell is display-only. On a machine with the weights, it just
 works:
@@ -470,7 +470,7 @@ Notice the output format: **space-separated codons**, exactly what our tiny
 
 ::: {.callout-tip title="⚙️ Training it at scale with the tools from this track"}
 GenSLM ships its own HPC launcher, but the *pattern* is identical to everything
-in [\[03\]](../../03-advanced-llms/index.qmd): build a codon dataset, wrap a
+in [\[3\]](../../03-advanced-llms/index.qmd): build a codon dataset, wrap a
 Transformer in FSDP/3D parallelism, and launch across nodes with checkpointing.
 Reusing this course's [`ezpz`](https://github.com/saforem2/ezpz) workflow, a
 genome pretraining run is the same shape as any other:
@@ -481,7 +481,7 @@ uv pip install git+https://github.com/saforem2/ezpz
 ezpz launch -n <N> python3 train_codon_gpt.py --data genomes/ --ckpt-interval 500
 ```
 
-The [\[03.2\] Fault-Tolerant Training](../../03-advanced-llms/2-fault-tolerant-training/index.qmd)
+The [\[3.2\] Fault-Tolerant Training](../../03-advanced-llms/2-fault-tolerant-training/index.qmd)
 lab explains why that `--ckpt-interval` matters for a multi-day run.
 :::
 
@@ -536,8 +536,8 @@ model.
   seconds — proving the idea end-to-end.
 - **GenSLM** scaled that idea to real genomes and billion-parameter models on
   **Polaris + Perlmutter**, using the *same* distributed-training tools from
-  [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd) /
-  [\[02.1\]](../../02-llms/1-parallel-training/index.qmd), and modeled SARS-CoV-2
+  [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd) /
+  [\[2.1\]](../../02-llms/1-parallel-training/index.qmd), and modeled SARS-CoV-2
   evolution well enough to win a **Gordon Bell Special Prize**.
 - This is what "AI for science on HPC" looks like: a general architecture + a
   scientific alphabet + a supercomputer.
@@ -555,7 +555,7 @@ model.
   **Special Prize for HPC-Based COVID-19 Research**.
 - ALCF, [Polaris](https://www.alcf.anl.gov/polaris) — one of the systems GenSLM
   trained on.
-- [\[02.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) — the
+- [\[2.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) — the
   from-scratch Transformer this page reuses.
 - Vaswani et al., [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762)
   (2017) — the architecture underneath it all.

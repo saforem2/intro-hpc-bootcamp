@@ -2641,6 +2641,23 @@ th {
   border-width: 0;
 }
 
+// Give content tables readable horizontal rules: a stronger line under the
+// header and a faint separator between rows (no vertical lines — keeps it
+// clean). Scoped to article tables so chart/layout tables stay border-free.
+// !important because the base `thead,tbody,tr,td,th { border-width: 0 }` reset
+// above otherwise wins the collapsed-border edge.
+#quarto-document-content table:not(.plotly):not(.dataframe-noborder) {
+  th {
+    border-bottom: 2px solid var(--dim-color) !important;
+  }
+  td {
+    border-bottom: 1px solid oklch(from var(--dim-color) l c h / 0.25) !important;
+  }
+  tbody tr:last-child td {
+    border-bottom: 0 !important;
+  }
+}
+
 #quarto-appendix.default > .quarto-appendix-citeas {
   color: $code-color;
 

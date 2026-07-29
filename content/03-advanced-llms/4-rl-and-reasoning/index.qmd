@@ -16,7 +16,7 @@ Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/4-rl-and-reasoning/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/4-rl-and-reasoning/index.qmd)
 
-In [\[03.3\] Mid- & Post-Training](../3-mid-post-training/index.qmd) you turned a
+In [\[3.3\] Mid- & Post-Training](../3-mid-post-training/index.qmd) you turned a
 **base model** into an instruction-follower with supervised fine-tuning (SFT).
 SFT is *imitation*: it copies reference completions token-for-token. But the best
 answer is often not in your dataset, and "good" is hard to write down as a single
@@ -273,7 +273,7 @@ readability, then large-scale GRPO across many nodes with a fast generation
 backend (e.g. vLLM) feeding the training ranks.
 
 The distributed machinery underneath is exactly what you already know from
-[\[01.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd):
+[\[1.4\] Distributed Training](../../01-neural-networks/4-distributed-training/index.qmd):
 the policy is sharded with ZeRO/FSDP, generation is parallelized across ranks, and
 rewards are gathered with the same collectives. RL just adds a **generate → verify
 → update** loop around the training step. The API below is the same one you saw in
@@ -534,7 +534,7 @@ step takes seconds. Log the mean of `reward_correct` each step and watch it clim
 - Lambert et al., *Tülu 3: Pushing Frontiers in Open Language Model Post-Training* (RLVR) — [arXiv:2411.15124](https://arxiv.org/abs/2411.15124)
 - DeepSeek-AI, *DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via RL* — [arXiv:2501.12948](https://arxiv.org/abs/2501.12948)
 - HuggingFace TRL — [GRPO Trainer](https://huggingface.co/docs/trl/grpo_trainer) · [DPO Trainer](https://huggingface.co/docs/trl/dpo_trainer) · [PPO Trainer](https://huggingface.co/docs/trl/ppo_trainer)
-- Previous: [\[03.3\] Mid- & Post-Training](../3-mid-post-training/index.qmd) — CPT + SFT with TRL/PEFT.
+- Previous: [\[3.3\] Mid- & Post-Training](../3-mid-post-training/index.qmd) — CPT + SFT with TRL/PEFT.
 
 ```{python}
 #| echo: false
