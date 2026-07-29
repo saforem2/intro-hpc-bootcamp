@@ -923,7 +923,13 @@ print(
 )
 ```
 
-## Run Training
+## Run Training (with validation checkpoints)
+
+We train in a single loop, but **every `VAL_EVERY` steps we pause and measure the
+model on the held-out validation set**. Recording train and validation loss on the
+*same* iteration axis is what lets you see **overfitting**: the train loss keeps
+falling, but once the model starts memorizing rather than generalizing, the
+validation loss flattens and turns back up.
 
 ```{python}
 #| scrolled: true
@@ -932,13 +938,33 @@ import time
 import ezpz
 from tqdm.auto import tqdm, trange
 
-PRINT_EVERY = 50
 # Scale the run to the hardware: a long-enough run on a GPU to actually show
 # overfitting (train loss keeps dropping while val loss turns back up), and a
 # short quick run on a CPU build. This page was rendered on a Polaris A100.
 TRAIN_ITERS = 3000 if DEVICE in ("cuda", "xpu") else 100
+PRINT_EVERY = max(1, TRAIN_ITERS // 30)
+VAL_EVERY = max(1, TRAIN_ITERS // 30)   # ~30 validation checkpoints across the run
+VAL_BATCHES = 20 if DEVICE in ("cuda", "xpu") else 5  # val batches averaged per checkpoint
 
-history = ezpz.History()
+
+def quick_eval(n_batches):
+    """Average loss + accuracy over a few validation batches (running mean)."""
+    model.eval()
+    seen, correct, loss_sum = 0, 0, 0.0
+    with torch.no_grad():
+        for bidx, (x, y) in enumerate(val_dataloader):
+            if bidx >= n_batches:
+                break
+            pred = model(x.to(DTYPE))
+            loss_sum += loss_fn(pred, y).item() * y.shape[0]
+            correct += (pred.argmax(1) == y).to(torch.float).sum().item()
+            seen += y.shape[0]
+    model.train()
+    return loss_sum / max(seen, 1), correct / max(seen, 1)
+
+
+history = ezpz.History()          # per-step training metrics
+val_history = ezpz.History()      # validation metrics, one point per checkpoint
 model.train()
 train_it = iter(train_dataloader)   # create the iterator ONCE (don't rebuild per step)
 for i in trange(TRAIN_ITERS, desc="Training"):
@@ -960,42 +986,13 @@ for i in trange(TRAIN_ITERS, desc="Training"):
     ).replace("/", ".")
     if i % PRINT_EVERY == 0:
         logger.info(summary)
-```
 
-## Run Validation
-
-```{python}
-#| scrolled: true
-eval_history = ezpz.History()
-model.eval()
-PRINT_EVERY = 10
-EVAL_ITERS = 50          # short demo run; drop this cap to evaluate the full set
-
-# The validation batches are small (batch_size=16), so a *per-batch* loss is very
-# noisy — one hard batch sends it bouncing. What we actually care about is the
-# model's average performance over the whole set, so we accumulate correct/total
-# and plot the RUNNING MEAN. That curve is stable and tracks the training loss,
-# instead of the per-batch sawtooth you'd get from logging each batch on its own.
-seen, run_correct, run_loss_sum = 0, 0, 0.0
-with torch.no_grad():
-    for bidx, (x, y) in enumerate(tqdm(val_dataloader, total=EVAL_ITERS)):
-        if bidx >= EVAL_ITERS:
-            break
-        pred = model(x.to(DTYPE))
-        run_loss_sum += loss_fn(pred, y).item() * y.shape[0]
-        run_correct += (pred.argmax(1) == y).to(torch.float).sum().item()
-        seen += y.shape[0]
-        metrics = {
-            "val/iter": bidx,
-            "val/loss": run_loss_sum / seen,   # running mean loss over all images so far
-            "val/acc": run_correct / seen,     # running mean accuracy
-        }
-        summary = eval_history.update(metrics)
-        if bidx % PRINT_EVERY == 0:
-            logger.info(summary)
-
-logger.info(f"validation over {seen} images: "
-            f"loss={run_loss_sum / seen:.4f}  acc={run_correct / seen:.4f}")
+    # --- periodic validation checkpoint, recorded at the current train iter ---
+    if i % VAL_EVERY == 0:
+        val_loss, val_acc = quick_eval(VAL_BATCHES)
+        logger.info(val_history.update(
+            {"val/iter": i, "val/loss": val_loss, "val/acc": val_acc}
+        ).replace("/", "."))
 ```
 
 ## Plot Metrics
@@ -1003,7 +1000,12 @@ logger.info(f"validation over {seen} images: "
 The per-step metrics live in each `History`'s `.data` (a dict of lists), so we
 plot them ourselves in the house style.
 
-### Training Metrics
+### Training vs. validation loss
+
+The headline plot: **training loss** (every step) with the **validation loss**
+checkpoints overlaid on the same iteration axis. As long as the two fall
+together the model is genuinely learning; if the validation curve bottoms out and
+starts rising while training loss keeps dropping, that's **overfitting**.
 
 ```{python}
 #| code-fold: true
@@ -1013,35 +1015,37 @@ from plotly.subplots import make_subplots
 from bootcamp.plotly_theme import apply_theme, COLORS
 apply_theme()
 
-td = history.data
-# show loss + whatever timing metrics were recorded
-keys = [k for k in ("train/loss", "train/dt", "train/dtf", "train/dtb") if k in td]
-fig = make_subplots(rows=1, cols=len(keys), subplot_titles=[k.split("/")[-1] for k in keys])
-palette = ["blue", "orange", "green", "purple"]
-for i, k in enumerate(keys):
-    fig.add_scatter(y=td[k], x=td.get("train/iter"), mode="lines",
-                    line=dict(color=COLORS[palette[i % len(palette)]]),
-                    showlegend=False, row=1, col=i + 1)
-fig.update_layout(height=320, margin=dict(t=40))
+td, vd = history.data, val_history.data
+fig = go.Figure()
+fig.add_scatter(y=td["train/loss"], x=td.get("train/iter"), mode="lines",
+                name="train loss", line=dict(color=COLORS["blue"], width=1),
+                opacity=0.7)
+fig.add_scatter(y=vd["val/loss"], x=vd.get("val/iter"), mode="lines+markers",
+                name="val loss", line=dict(color=COLORS["red"], width=2),
+                marker=dict(size=6))
+fig.update_layout(height=360, margin=dict(t=40),
+                  xaxis_title="training iteration", yaxis_title="loss",
+                  legend=dict(x=0.99, y=0.99, xanchor="right", yanchor="top"))
 fig.show()
 ```
 
-### Validation Metrics
+### Validation accuracy & step timing
 
-These are **running means** over the validation set, so each curve converges to
-the model's true held-out loss / accuracy rather than jumping around with every
-small batch — that's why it settles instead of sawtoothing.
+Validation accuracy over the same checkpoints (should climb, then plateau), plus
+the per-step training throughput for reference.
 
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the plotting code"
-ed = eval_history.data
-keys = [k for k in ("val/loss", "val/acc") if k in ed]
-fig = make_subplots(rows=1, cols=len(keys), subplot_titles=[k.split("/")[-1] for k in keys])
-for i, k in enumerate(keys):
-    fig.add_scatter(y=ed[k], x=ed.get("val/iter"), mode="lines+markers",
-                    line=dict(color=COLORS["blue" if "loss" in k else "green"]),
-                    showlegend=False, row=1, col=i + 1)
+timing_keys = [k for k in ("train/dtf", "train/dtb") if k in td]
+fig = make_subplots(rows=1, cols=1 + len(timing_keys),
+                    subplot_titles=["val accuracy"] + [k.split("/")[-1] for k in timing_keys])
+fig.add_scatter(y=vd["val/acc"], x=vd.get("val/iter"), mode="lines+markers",
+                line=dict(color=COLORS["green"]), showlegend=False, row=1, col=1)
+for j, k in enumerate(timing_keys):
+    fig.add_scatter(y=td[k], x=td.get("train/iter"), mode="lines",
+                    line=dict(color=COLORS["orange" if j == 0 else "purple"]),
+                    showlegend=False, row=1, col=j + 2)
 fig.update_layout(height=320, margin=dict(t=40))
 fig.show()
 ```
