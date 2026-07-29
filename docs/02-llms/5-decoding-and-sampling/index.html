@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-bc2a2e0d5f1c97e67ff5fab7d2ff51c5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-5a3abb07c69ff2216a64cf8d7e285466.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-cafe44bb1fe39df60459295e1ad8df90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-70bbbc3842a0a39d5faf79a9dce278b4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -4638,7 +4638,7 @@ return Plotly;
 </div>
 </div>
 </div>
-<div id="a0b11ff6" class="cell" data-execution_count="1">
+<div id="a0b11ff6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># On Colab / a fresh env, install transformers + the bootcamp helpers.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
@@ -4646,7 +4646,7 @@ return Plotly;
 <span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span> transformers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="584da9dd" class="cell" data-execution_count="2">
+<div id="584da9dd" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2LMHeadModel, GPT2TokenizerFast</span>
@@ -4660,7 +4660,7 @@ return Plotly;
 <section id="the-next-token-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="the-next-token-distribution">🔢 The next-token distribution</h2>
 <p>A single forward pass gives the model’s scores (<strong>logits</strong>) for every token in the vocabulary at the next position. Softmax turns those into a probability distribution. Let’s look at the most likely next tokens for a prompt:</p>
-<div id="cell-fig-next-token" class="cell" data-execution_count="3">
+<div id="cell-fig-next-token" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
@@ -4720,7 +4720,7 @@ Figure&nbsp;1: GPT-2’s probability distribution over the next token after the 
 <section id="greedy-vs.-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="greedy-vs.-sampling">🎯 Greedy vs.&nbsp;sampling</h2>
 <p>The simplest rule is <strong>greedy</strong>: always take the single most probable token (<code>argmax</code>). It’s deterministic — same prompt, same output, every time — which makes it repetitive and prone to loops.</p>
-<div id="82d49715" class="cell" data-execution_count="4">
+<div id="82d49715" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>gen_kwargs <span class="op">=</span> <span class="bu">dict</span>(max_new_tokens<span class="op">=</span><span class="dv">20</span>, pad_token_id<span class="op">=</span>tok.eos_token_id)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="cf">with</span> torch.no_grad():</span>
@@ -4734,7 +4734,7 @@ Figure&nbsp;1: GPT-2’s probability distribution over the next token after the 
 </div>
 </div>
 <p><strong>Sampling</strong> (<code>do_sample=True</code>) instead <em>draws</em> the next token according to its probability — so more probable tokens appear more often, but the output varies run to run. Here are three independent samples of the same prompt:</p>
-<div id="d5fb335b" class="cell" data-execution_count="5">
+<div id="d5fb335b" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="cf">with</span> torch.no_grad():</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>    samples <span class="op">=</span> model.generate(ids, do_sample<span class="op">=</span><span class="va">True</span>, num_return_sequences<span class="op">=</span><span class="dv">3</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>                             <span class="op">**</span>gen_kwargs)</span>
@@ -4758,13 +4758,13 @@ SAMPLE 2: The capital of France is now occupied by Al Qaeda and now by a French-
 <li><code>T &gt; 1</code> <strong>flattens</strong> it (more weight on the long tail → more diverse, riskier).</li>
 <li><code>T = 1</code> leaves it unchanged.</li>
 </ul>
-<div id="8a6d1c55" class="cell" data-execution_count="6">
+<div id="8a6d1c55" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="kw">def</span> scale_by_temperature(logits, T):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>    <span class="co">"""Rescale logits by temperature (T&gt;0). Smaller T -&gt; sharper distribution."""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>    <span class="cf">return</span> logits <span class="op">/</span> T</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Watch what temperature does to the <em>same</em> next-token distribution:</p>
-<div id="cell-fig-temperature" class="cell" data-execution_count="7">
+<div id="cell-fig-temperature" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a>fig <span class="op">=</span> go.Figure()</span>
@@ -4815,7 +4815,7 @@ Figure&nbsp;2: The same GPT-2 next-token distribution at three temperatures. Low
 </div>
 </div>
 <p>The same effect in generated text — low temperature is focused and repetitive, high temperature is varied and can go off the rails:</p>
-<div id="53a79bfb" class="cell" data-execution_count="8">
+<div id="53a79bfb" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="cf">for</span> T <span class="kw">in</span> (<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>    <span class="cf">with</span> torch.no_grad():</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>        out <span class="op">=</span> model.generate(ids, do_sample<span class="op">=</span><span class="va">True</span>, temperature<span class="op">=</span>T, <span class="op">**</span>gen_kwargs)</span>
@@ -4830,7 +4830,7 @@ T=1.5: The capital of France is now Paris-Tows. These borders were once maintain
 <section id="top-p-nucleus-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="top-p-nucleus-sampling">🎯 Top-p (nucleus) sampling</h2>
 <p>Temperature reshapes <em>all</em> tokens — including absurd ones in the far tail. <strong>Top-p sampling</strong> (a.k.a. <em>nucleus</em> sampling) instead <strong>keeps only the smallest set of top tokens whose probabilities sum to <code>p</code></strong>, then samples from just those. It adapts to the distribution: when the model is confident, the nucleus is tiny; when it’s unsure, the nucleus is larger.</p>
-<div id="cell-fig-top-p" class="cell" data-execution_count="9">
+<div id="cell-fig-top-p" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>top_p <span class="op">=</span> <span class="fl">0.9</span></span>
@@ -4889,7 +4889,7 @@ Figure&nbsp;3: Sorted next-token probabilities and their cumulative sum. Top-p k
 </div>
 </div>
 <p>So for this prompt the nucleus is tiny — <code>top_p=0.9</code> samples from only a handful of tokens and discards the rest of the 50,257-token vocabulary:</p>
-<div id="c5ab8224" class="cell" data-execution_count="10">
+<div id="c5ab8224" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="bu">print</span>(<span class="ss">f"top_p=</span><span class="sc">{</span>top_p<span class="sc">}</span><span class="ss">: nucleus = </span><span class="sc">{</span>n_kept<span class="sc">}</span><span class="ss"> tokens "</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>      <span class="ss">f"(out of </span><span class="sc">{</span><span class="bu">len</span>(probs)<span class="sc">:,}</span><span class="ss">); the other </span><span class="sc">{</span><span class="bu">len</span>(probs) <span class="op">-</span> n_kept<span class="sc">:,}</span><span class="ss"> are never sampled"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -4897,7 +4897,7 @@ Figure&nbsp;3: Sorted next-token probabilities and their cumulative sum. Top-p k
 </div>
 </div>
 <p>Compare a wide nucleus to a narrow one in generated text:</p>
-<div id="2939db4c" class="cell" data-execution_count="11">
+<div id="2939db4c" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="cf">for</span> p <span class="kw">in</span> (<span class="fl">0.9</span>, <span class="fl">0.5</span>):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a>    <span class="cf">with</span> torch.no_grad():</span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>        out <span class="op">=</span> model.generate(ids, do_sample<span class="op">=</span><span class="va">True</span>, top_p<span class="op">=</span>p, <span class="op">**</span>gen_kwargs)</span>
