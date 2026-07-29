@@ -200,9 +200,15 @@ fig.update_layout(height=360, margin=dict(t=40),
 fig.show()
 ```
 
-So for this prompt, `top_p=0.9` samples from only the top `{python} n_kept`
-tokens — the rest of the 50,257-token vocabulary is discarded. Compare a wide
-nucleus to a narrow one in generated text:
+So for this prompt the nucleus is tiny — `top_p=0.9` samples from only a handful
+of tokens and discards the rest of the 50,257-token vocabulary:
+
+```{python}
+print(f"top_p={top_p}: nucleus = {n_kept} tokens "
+      f"(out of {len(probs):,}); the other {len(probs) - n_kept:,} are never sampled")
+```
+
+Compare a wide nucleus to a narrow one in generated text:
 
 ```{python}
 for p in (0.9, 0.5):
