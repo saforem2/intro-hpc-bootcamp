@@ -384,19 +384,28 @@ if comm.rank==0:
 
 ```bash
 ssh <username>@polaris.alcf.anl.gov
-qsub -A ALCFAITP -l select=1 -q ALCFAITP -l walltime=0:30:00 -l filesystems=home:eagle
-# choose debug queue outside of the class
-# qsub -A ALCFAITP -l select=1 -q debug -l walltime=0:30:00 -l filesystems=home:eagle
 
-module load conda/2023-10-04
-conda activate /soft/datascience/ALCFAITP/2023-10-04
-git clone git@github.com:argonne-lcf/ai-science-training-series.git
-cd ai-science-training-series/01_intro_AI_on_Supercomputer/
-mpirun -np 1 python mpi_pi.py   # 3.141988,   8.029037714004517  s
-mpirun -np 2 python mpi_pi.py   # 3.1415096   4.212774038314819  s
-mpirun -np 4 python mpi_pi.py   # 3.1425632   2.093632459640503  s
-mpirun -np 8 python mpi_pi.py   # 3.1411632   1.0610620975494385 s
+# grab an interactive node on the debug queue (swap <project> for your allocation)
+qsub -I -A <project> -q debug -l select=1 -l walltime=0:30:00 -l filesystems=home:eagle
+
+# load the base conda environment (ships a recent PyTorch + mpi4py)
+module use /soft/modulefiles
+module load conda
+conda activate base
+
+git clone https://github.com/argonne-lcf/ai-science-training-series.git
+cd ai-science-training-series/old/2024-Spring/01_intro_AI_on_Supercomputer/
+mpiexec -n 1 python mpi_pi.py   # ~3.1420,  wall time drops as ranks increase
+mpiexec -n 2 python mpi_pi.py
+mpiexec -n 4 python mpi_pi.py
+mpiexec -n 8 python mpi_pi.py
 ```
+
+::: {.callout-note title="🔎 On Polaris, `mpiexec` (not `mpirun`)"}
+Polaris uses PBS + `mpiexec` to place ranks across the allocated nodes. The
+`mpirun` in the local cell above is fine on a laptop; on the cluster use
+`mpiexec -n <ranks>`.
+:::
 
 ## Where this goes next
 

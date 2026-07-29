@@ -14,6 +14,7 @@ editor:
   freeze: auto
 format:
   html: default
+  ipynb: default   # emit the notebook so the Colab badge + "Other Formats" Jupyter link work
   gfm:
     toc: true
 ---
@@ -33,12 +34,12 @@ format:
 ### 📑 Outline
 
 1. [Scaling: Overview](#scaling-overview)
-1. [Data Parallel Training](#data-parallel-training)
+1. [Data Parallel Training](#distributed-data-parallelism-ddp)
     1. [Communication](#communication)
-    1. [Why Distributed Training?](#why-distributed-training)
+    1. [The Case for Scaling](#the-case-for-scaling)
 1. [Beyond Data Parallelism](#going-beyond-data-parallelism)
     1. [Additional Parallelism Strategies](#additional-parallelism-strategies)
-1. [Large Language Models](#large-language-models)
+1. [Large Language Models](#scaling-up-to-large-language-models)
 1. [Hands On](#hands-on)
 
 ::: {.callout-important title="💻 Laptop vs. 🖥️ cluster: what can you run where?" collapse="false"}
@@ -1041,10 +1042,13 @@ Keeping the communication to computation ratio small is important for effective 
   - can optionally offload the sharded model params to CPU
 - [Introducing PyTorch Fully Sharded Data Parallel (FSDP) API | PyTorch](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/)
 
-![**DDP vs. FSDP.** In DDP every rank holds a *full copy* of the model, gradients,
-and optimizer states — simple, but memory scales with model size. FSDP (ZeRO-3)
-**shards** all three across ranks and reconstructs each layer's params on the fly
-with `all-gather`, trading extra communication for a large memory saving.](./assets/ddp-vs-fsdp.svg){#fig-ddp-vs-fsdp .column-body-outset}
+![**Memory sharding, DDP → ZeRO-3.** For a 1B-param fp32 model with Adam, each
+rank normally holds the full **16 GB** (params 4 + grads 4 + optimizer states 8).
+The **ZeRO** stages progressively shard those three across the $N$ data-parallel
+ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3
+(PyTorch **FSDP** `FULL_SHARD`) shards everything — driving per-GPU memory toward
+$16/N$ GB, at the cost of extra `all-gather` communication to reconstruct each
+layer on the fly.](./assets/ddp-vs-fsdp.svg){#fig-ddp-vs-fsdp .column-body-outset}
 
 ::: {#fig-fsdp}
 
@@ -1144,66 +1148,6 @@ class b1, yellow
 Pipeline Parallelism
 :::
 
-
-:::
-
-:::
-
-### Tensor Parallel (TP)
-
-::: {layout="[50,50]"}
-
-::: {.column}
-- Each tensor is split up into multiple chunks
-- Each shard of the tensor resides on its designated GPU
-- During processing each shard gets processed separately (and in parallel) on
-  different GPUs
-    - synced at the end of the step
-
-- See: [🤗 Model Parallelism](https://huggingface.co/docs/transformers/v4.15.0/parallelism) for additional details
-:::
-
-::: {.column}
-
-::: {#fig-model-parallel-1}
-
-```{mermaid}
-flowchart LR
-   subgraph G0["`GPU0`"]
-    direction TB
-    a0("`Layer 0`")
-    b0("`Layer 1`")
-    c0("`Layer 2`")
-    d0("`Layer 3`")
-   end
-   subgraph G1["`GPU1`"]
-    direction TB
-    a1("`Layer 0`")
-    b1("`Layer 1`")
-    c1("`Layer 2`")
-    d1("`Layer 3`")
-   end
-   a0 <-.-> a1
-   b0 <-.-> b1
-   c0 <-.-> c1
-   d0 <-.-> d1
-classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
-classDef orange fill:#FFC47F,stroke:#333,stroke-width:1px,color:#000
-classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
-classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
-classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
-classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
-classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
-class G0,G1, block
-class a0,a1 red
-class b0,b1 green
-class c0,c1 blue
-class d0,d1 yellow
-```
-
-Tensor Parallel Training
-:::
-
 :::
 
 :::
@@ -1263,17 +1207,6 @@ Tensor Parallel Training
 :::
 
 :::
-
-:::
-
-::: {.notes}
-
-- Split up network over multiple workers
-- Each receives disjoint subset
-- All communication associated with subsets are distributed
-- Communication whenever dataflow between two subsets
-- Typically **more complicated** to implement than data parallel training
-- Suitable when the model is too large to fit onto a single device (CPU / GPU)
 
 :::
 
@@ -1553,10 +1486,11 @@ surrounding lesson — jump to the dedicated hands-on lab:
         uv pip install git+https://github.com/saforem2/ezpz
         ```
 
-    1. {{< fa brands github >}} [saforem2/`wordplay`](https://github.com/saforem2/ezpz):
+    1. {{< fa brands github >}} [saforem2/`wordplay`](https://github.com/saforem2/wordplay):
 
         ```bash
-        # from inside `wordplay/`
+        git clone https://github.com/saforem2/wordplay
+        cd wordplay
         uv pip install -e .
         ```
 

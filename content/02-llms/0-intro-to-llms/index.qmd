@@ -344,10 +344,14 @@ from transformers import pipeline
 
 input_text = "I got an A+ in my final exam; I am very"
 generator = pipeline("text-generation", model="openai-community/gpt2")
+# do_sample=True: draw from the probability distribution (so the 5 completions
+# actually differ). Without it the pipeline decodes greedily, and asking for
+# num_return_sequences > 1 from a single greedy path raises a ValueError.
 print(
     [
         i["generated_text"]
-        for i in generator(input_text, max_length=20, num_return_sequences=5)
+        for i in generator(input_text, max_length=20,
+                           num_return_sequences=5, do_sample=True)
     ]
 )
 ```
@@ -538,8 +542,31 @@ categories. It learned them purely from how the words are used.
 
 ## 🧱 Inside a Transformer
 
-Now the model itself. We'll dissect **GPT-2**, a *Transformer decoder* used to
-generate text. Let's look at its structure:
+The model we'll dissect is a **GPT** — a *Generative Pre-trained Transformer*.
+The name is the three-sentence summary of the whole architecture:
+
+- **Generative** — it *generates* text, one token at a time.
+- **Pre-trained** — it is *trained* on a huge corpus (typically trillions of
+  tokens scraped from the internet) before you ever use it.
+- **Transformer** — it is a *decoder-only* Transformer neural network.
+
+At its most basic, a GPT is a function from a sequence of integer tokens to a
+grid of scores — one row per input position, one column per vocabulary entry:
+
+```python
+def gpt(inputs: list[int]) -> list[list[float]]:
+    # inputs.shape  = [seq_len]              (a tokenized prompt)
+    # output.shape  = [seq_len, vocab_size]  (next-token scores at each position)
+    output = model(inputs)
+    return output
+```
+
+The last row of that output — the scores after the *final* input token — is the
+distribution we sample from to pick the next word. Do that repeatedly, feeding
+each new token back in, and you have text generation.
+
+Now the model itself. We'll dissect **GPT-2**, a concrete *Transformer decoder*.
+Let's look at its structure:
 
 ```{python}
 from transformers import GPT2LMHeadModel

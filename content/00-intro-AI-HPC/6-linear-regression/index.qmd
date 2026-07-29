@@ -47,9 +47,9 @@ In this notebook, we will talk about:
 ## How to run this notebook on Polaris
 
 - Go to <https://jupyter.alcf.anl.gov>, and click "Login Polaris"
-- After login, select `ALCFAITP` project and `ALCFAITP` queue during the
-  lecture (use `debug` queue outside of the lecture)
-- Load the notebook and select "datascience/conda-2023-01-10" python kernel
+- After login, select your allocation as the **project** and the `debug` queue
+  (or whichever queue your instructor specifies)
+- Load the notebook and select the current **`datascience/conda`** Python kernel
 
 ::: {#fig-jupyter}
 

@@ -227,8 +227,12 @@ $$
 $$
 
 ```{python}
+import math
+
 capacity_factor = 1.25
-capacity = int(capacity_factor * n_tokens * moe.top_k / moe.n_experts)
+# ceil (not int/truncate) to match the formula above: with n_tokens=12, k=2,
+# E=4 the raw value is 7.5, and we round UP to 8 so the buffer never under-sizes.
+capacity = math.ceil(capacity_factor * n_tokens * moe.top_k / moe.n_experts)
 print(f"expert capacity (cf={capacity_factor}): {capacity} tokens/expert")
 print("tokens beyond capacity are 'dropped' (skip the expert, kept via residual).")
 ```

@@ -291,7 +291,9 @@ website:
   site-url: "https://saforem2.github.io/intro-hpc-bootcamp/"
   repo-url: https://github.com/saforem2/intro-hpc-bootcamp
   repo-actions: [source, edit, issue]
-  # repo-subdir: content
+  # the Quarto project root is content/, but on GitHub the sources live under
+  # content/ — so tell repo-actions to prepend it, else "View source"/"Edit" 404.
+  repo-subdir: content
   comments:
     giscus:
       repo: saforem2/intro-hpc-bootcamp

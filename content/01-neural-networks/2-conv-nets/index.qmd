@@ -202,7 +202,8 @@ alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
 alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
 
 # Create a random convolution:
-# shape is: (channels_in, channels_out, kernel_x, kernel_y)
+# PyTorch conv weight shape is (channels_out, channels_in, kernel_x, kernel_y).
+# Here in==out==3 (RGB), so both are 3 — but the order matters once they differ.
 conv_random = torch.rand((3, 3, 15, 15))
 
 alcf_rand = torch.nn.functional.conv2d(alcf_tensor, conv_random)
