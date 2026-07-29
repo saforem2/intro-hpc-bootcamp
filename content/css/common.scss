@@ -1375,9 +1375,10 @@ nav td code:not(.sourceCode) {
 
 .callout {
   width: 100% !important;
-  margin-block: 0.25lh;
+  // Give callouts room to breathe: ~1 line of space above and below so they
+  // don't crowd the surrounding paragraphs (was 0.25lh, too tight).
+  margin-block: 1lh;
   border-radius: $link-border-radius;
-  // margin-block-end: 0.5rem;
 }
 
 .callout .callout-title-container {
