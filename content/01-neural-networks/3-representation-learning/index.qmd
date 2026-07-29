@@ -383,23 +383,27 @@ pretrain+probe > from-scratch in the low-label regime — is robust.
 ## 🖥️ The real thing: cluster-scale SimCLR (reference) {#sec-scale}
 
 The rest of this page is the **original, production-flavored implementation**:
-CIFAR-10 (color, harder), a deeper ConvNeXt-style encoder, the full distributed
-NT-Xent loss with `all_gather` across GPUs, and PyTorch DDP wiring for a 4×A100
-Polaris node. It is kept here as a **reference for how this is done at scale** —
-the cells are display-only (they expect a multi-GPU allocation and a CIFAR
-download), but they're the real code the miniature above is a scaled-down echo of.
+CIFAR-10 (color, harder), a deeper ConvNeXt-style encoder, and the full
+distributed NT-Xent loss with `all_gather` across GPUs — the real code the
+miniature above is a scaled-down echo of.
+
+These cells **actually run**, scaled to whatever hardware renders the page: on
+the A100 that built this page they train on a real (bounded) CIFAR-10 subset;
+on a laptop or Colab the config below shrinks to a few hundred images and a
+handful of steps so it still finishes in under a minute. The `contrastive_loss`
+also shows the `world_size > 1` `all_gather` path used for a true multi-GPU run,
+even though we execute it single-device here.
 
 ```{python}
-#| eval: false
 import os
 import sys
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"
 if sys.platform == "darwin":
     os.environ["TORCH_DEVICE"] = "cpu"
     os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = "1"
 ```
 
 ```{python}
-#| eval: false
 import numpy
 import random
 import torch
@@ -411,23 +415,37 @@ from rich.theme import Theme
 
 console = Console(theme=Theme(STYLES))
 
-
-
 import torch.distributed as dist
 import torch.nn as nn
 import torch.optim as optim
 import torch.multiprocessing as mp
 
 from torch.nn.parallel import DistributedDataParallel as DDP
+```
 
-batch_size = 128
+**Scale the run to the hardware.** On a GPU we train on a real CIFAR-10 subset
+for a few hundred steps; on a CPU build we shrink everything so the page still
+renders in under a minute. (For the *full* production run you'd drop these caps,
+wrap the model in `DDP`, and launch across all 4 GPUs on the node.)
 
+```{python}
+import ezpz
+
+DEVICE = ezpz.get_torch_device_type()          # 'cuda' | 'xpu' | 'mps' | 'cpu'
+torch.set_default_device(DEVICE)
+_ON_GPU = DEVICE in ("cuda", "xpu")
+
+batch_size      = 128 if _ON_GPU else 32
+SUBSET          = 5000 if _ON_GPU else 256      # images pulled from CIFAR-10
+STEPS_PER_EPOCH = 40 if _ON_GPU else 3          # cap so a render can't run away
+N_EPOCHS        = 3 if _ON_GPU else 1
+console.log(f"device={DEVICE}  batch_size={batch_size}  subset={SUBSET}  "
+            f"steps/epoch={STEPS_PER_EPOCH}  epochs={N_EPOCHS}")
 ```
 
 Here's the Convolutional Neural Network Again:
 
 ```{python}
-#| eval: false
 from torch import nn
 
 class Downsampler(nn.Module):
@@ -532,7 +550,6 @@ class Classifier(nn.Module):
 ```
 
 ```{python}
-#| eval: false
 def create_representation_model(n_features, rank, size):
     model = Classifier(32, 2, 2, n_features)
     model.to(torch.get_default_device())
@@ -554,13 +571,15 @@ This will download the data if needed:
 
 
 
-We're going to train this on Polaris nodes which have 4 A100s (But only using one node at a time).  So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:
-
-(They are all from the [DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) )
+For a *real* multi-node run you'd distribute across the 4 A100s on a Polaris
+node with PyTorch DDP. The two helpers below are that wiring (from the
+[DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)) —
+kept `eval: false` because a notebook render is a single process and
+`init_process_group` would block waiting for peers. On the cluster you'd call
+`setup(rank, world_size)` once per rank and wrap the model in `DDP`.
 
 ```{python}
 #| eval: false
-
 def setup(rank, world_size):
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
@@ -572,14 +591,11 @@ def cleanup():
     dist.destroy_process_group()
 ```
 
-```{python}
-#| eval: false
-import ezpz
+The data loader below **does** run — it downloads CIFAR-10 and (via `SUBSET`)
+keeps only as many images as the current hardware can chew through quickly:
 
-def create_data_loaders(transforms, batch_size, rank, seed):
-    # Start up the data loader:
-    # dev = torch.device(
-    #     f"cuda:{rank}") if torch.cuda.is_available() else torch.device("cpu")
+```{python}
+def create_data_loaders(transforms, batch_size, rank, seed, subset=None):
     dev = ezpz.get_torch_device_type()
 
     training_data = torchvision.datasets.CIFAR10(
@@ -589,21 +605,30 @@ def create_data_loaders(transforms, batch_size, rank, seed):
         transform=transforms
     )
 
+    # Bound the dataset so a page render stays fast (full set on a big GPU run).
+    if subset is not None:
+        idx = torch.randperm(
+            len(training_data),
+            generator=torch.Generator().manual_seed(seed),
+        )[:subset].tolist()
+        training_data = torch.utils.data.Subset(training_data, idx)
+
     training_data, validation_data = torch.utils.data.random_split(
         training_data,
         [0.8, 0.2],
         generator=torch.Generator().manual_seed(55))
 
-    # The dataloader makes our dataset iterable 
+    # num_workers=0: worker subprocesses don't play well with a notebook render
+    # that has set a default CUDA device; a single-process loader is plenty here.
     train_dataloader = torch.utils.data.DataLoader(training_data,
                                                    batch_size=batch_size,
                                                    shuffle=True,
-                                                   num_workers=8)
+                                                   num_workers=0)
 
     val_dataloader = torch.utils.data.DataLoader(validation_data,
                                                  batch_size=batch_size,
                                                  shuffle=True,
-                                                 num_workers=8)
+                                                 num_workers=0)
 
 
     def preprocess(x, y):
@@ -632,9 +657,6 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 
 
 ```{python}
-#| eval: false
-
-
 # This method is from the pytorch implementation of SimCLR:
 # https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py
 
@@ -653,24 +675,19 @@ def get_simclr_pipeline_transform(size, s=1):
 ```
 
 ```{python}
-#| eval: false
 transforms1 = get_simclr_pipeline_transform((32,32))
 transforms2 = get_simclr_pipeline_transform((32,32))
 ```
 
 ```{python}
-#| eval: false
-train, val = create_data_loaders(v2.ToTensor(), batch_size, 0, seed = 1234)
-
+train, val = create_data_loaders(v2.ToTensor(), batch_size, 0, seed=1234, subset=SUBSET)
 ```
 
 ```{python}
-#| eval: false
 batch, (X, Y) = next(enumerate(train))
 ```
 
 ```{python}
-#| eval: false
 X1 = transforms1(X); X2 = transforms2(X)
 
 console.log(type(X1))
@@ -678,21 +695,20 @@ console.log(type(X2))
 ```
 
 ```{python}
-#| eval: false
 from matplotlib import pyplot as plt
 %matplotlib inline
 ```
 
 ```{python}
-#| eval: false
-plt.imshow(X[0].cpu().permute((1,2,0))); plt.show()
-plt.imshow(X1[0].cpu().permute((1,2,0))); plt.show()
-plt.imshow(X2[0].cpu().permute((1,2,0))); plt.show()
+#| fig-cap: "One CIFAR-10 image (left) and two random SimCLR augmentations of it — the pairs contrastive learning pulls together."
+#| layout-ncol: 3
+plt.imshow(X[0].cpu().permute((1,2,0))); plt.axis("off"); plt.show()
+plt.imshow(X1[0].cpu().permute((1,2,0))); plt.axis("off"); plt.show()
+plt.imshow(X2[0].cpu().permute((1,2,0))); plt.axis("off"); plt.show()
 ```
 
 
 ```{python}
-#| eval: false
 def contrastive_loss(first_images, second_images, rank, world_size = 1, temperature=0.1):
         # Each image is represented with k parameters,
         # Assume the batch size is N, so the
@@ -841,40 +857,37 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
 ```
 
 ```{python}
-#| eval: false
-def train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):
+def train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size,
+                    progress_bar, max_steps=None):
     model.train()
     head.train()
     for (batch, (X, _)) in enumerate(dataloader):
+        if max_steps is not None and batch >= max_steps:
+            break                              # cap so a page render stays bounded
         # forward pass
         X1 = t1(X); X2 = t2(X)
         pred1 = head(model(X1))
         pred2 = head(model(X2))
         loss, metrics = loss_fn(pred1, pred2, rank, size)
 
-        # console.log(metrics)
-        
         # backward pass calculates gradients
         loss.backward()
-        
+
         # take one step with these gradients
         optimizer.step()
-        
-        # resets the gradients 
+
+        # resets the gradients
         optimizer.zero_grad()
 
-        # progress_bar.refresh()
         cpu_metrics = { key : f"{metrics[key].detach().cpu().numpy():.2f}" for key in metrics.keys()}
         cpu_metrics["loss"] = f"{loss.detach().cpu().numpy():.2f}"
         progress_bar.update()
         progress_bar.set_postfix(cpu_metrics)
-        # progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"
-        # break
 ```
 
 ```{python}
-#| eval: false
-def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):
+def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size,
+                       progress_bar, max_steps=None):
     # Validation must NOT update the weights: put everything in eval mode and
     # disable gradients. (This function used to call .backward()/optimizer.step()
     # — that would *train* on the validation set, which defeats the purpose of a
@@ -885,6 +898,8 @@ def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, pro
     sum_metrics = None
     with torch.no_grad():
         for (batch, (X, _)) in enumerate(dataloader):
+            if max_steps is not None and batch >= max_steps:
+                break
             # forward pass only
             X1 = t1(X); X2 = t2(X)
             pred1 = head(model(X1))
@@ -906,7 +921,6 @@ def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, pro
 ```
 
 ```{python}
-#| eval: false
 optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters()), lr=0.001)
 ```
 
@@ -916,16 +930,17 @@ the same image together. On a multi-GPU node you'd wrap `model`/`head` in `DDP`
 first; here it's shown single-device for clarity:
 
 ```{python}
-#| eval: false
-from tqdm.notebook import tqdm
+from tqdm.auto import tqdm
 
 for epoch in range(N_EPOCHS):
-    with tqdm(total=len(train), desc=f"Pretrain epoch {epoch}") as bar:
+    with tqdm(total=min(STEPS_PER_EPOCH, len(train)), desc=f"Pretrain epoch {epoch}") as bar:
         train_one_epoch(train, transforms1, transforms2,
-                        model, head, contrastive_loss, optimizer, 0, 1, bar)
-    with tqdm(total=len(val), desc=f"Validate epoch {epoch}") as bar:
+                        model, head, contrastive_loss, optimizer, 0, 1, bar,
+                        max_steps=STEPS_PER_EPOCH)
+    with tqdm(total=min(STEPS_PER_EPOCH, len(val)), desc=f"Validate epoch {epoch}") as bar:
         metrics = validate_one_epoch(val, transforms1, transforms2,
-                                     model, head, contrastive_loss, 0, 1, bar)
+                                     model, head, contrastive_loss, 0, 1, bar,
+                                     max_steps=STEPS_PER_EPOCH)
         console.log(f"epoch {epoch}: "
                     + "; ".join(f"{k}={v:.2f}" for k, v in metrics.items()))
 ```
@@ -933,70 +948,61 @@ for epoch in range(N_EPOCHS):
 
 
 ```{python}
-#| eval: false
-def evaluate(dataloader, model, head, loss_fn, val_bar):
+def evaluate(dataloader, model, head, loss_fn, val_bar, max_steps=None):
     # Set the model to evaluation mode - some NN pieces behave differently during training
-    # Unnecessary in this situation but added for best practices
     model.eval()
-    size = len(dataloader)
-    num_batches = len(dataloader)
-    loss, correct = 0, 0
+    n_correct, n_seen, loss_sum, n_batches = 0, 0, 0.0, 0
 
-    # We can save computation and memory by not calculating gradients here - we aren't optimizing 
+    # We can save computation and memory by not calculating gradients here - we aren't optimizing
     with torch.no_grad():
-        # loop over all of the batches
-        for X, y in dataloader:
-
+        for batch, (X, y) in enumerate(dataloader):
+            if max_steps is not None and batch >= max_steps:
+                break
             pred = head(model(X))
-            loss += loss_fn(pred, y).item()
-            # how many are correct in this batch? Tracking for accuracy 
-            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+            loss_sum += loss_fn(pred, y).item(); n_batches += 1
+            # how many are correct in this batch? Tracking for accuracy
+            n_correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+            n_seen += y.shape[0]
             val_bar.update()
-            
-    loss /= num_batches
-    correct /= (size*batch_size)
-    
-    accuracy = 100*correct
+
+    loss = loss_sum / max(n_batches, 1)
+    accuracy = 100 * n_correct / max(n_seen, 1)
     return accuracy, loss
 ```
 
 ```{python}
-#| eval: false
-def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):
+def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar, max_steps=None):
     head.train()
-    model.eval()
+    rep_model.eval()
     for batch1, (X, Y) in enumerate(dataloader):
+        if max_steps is not None and batch1 >= max_steps:
+            break
         # forward pass
         # Calling detach blocks all gradients into the representation model!
         rep = rep_model(X).detach()
         pred = head(rep)
         loss = loss_fn(pred, Y)
-        
-        
+
         # backward pass calculates gradients
         loss.backward()
-        
+
         # take one step with these gradients
         optimizer.step()
-        
-        # resets the gradients 
+
+        # resets the gradients
         optimizer.zero_grad()
 
         correct = (pred.argmax(1) == Y).type(torch.float).mean().item()
-                    
-        # progress_bar.refresh()
         cpu_metrics = {}
         cpu_metrics["acc"] = f"{correct:.2f}"
         cpu_metrics["loss"] = f"{loss.detach().cpu().numpy():.2f}"
         progress_bar.update()
         progress_bar.set_postfix(cpu_metrics)
-        # progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"
-        # break
 ```
 
 ```{python}
-#| eval: false
-classification_head = nn.Linear(256, 10)  # .cuda()
+classification_head = nn.Linear(256, 10)
+classification_head.to(torch.get_default_device())
 classification_loss = loss_fn = nn.CrossEntropyLoss()
 fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)
 console.log(fine_tune_optimizer)
@@ -1006,13 +1012,13 @@ Then the **fine-tuning loop** — the representation stays frozen; only the smal
 classification head learns, from a handful of labels:
 
 ```{python}
-#| eval: false
-for epoch in range(5):
-    with tqdm(total=len(train), desc=f"Fine-tune epoch {epoch}") as bar:
+for epoch in range(N_EPOCHS):
+    with tqdm(total=min(STEPS_PER_EPOCH, len(train)), desc=f"Fine-tune epoch {epoch}") as bar:
         fine_tune(train, model, classification_head,
-                  classification_loss, fine_tune_optimizer, bar)
-    with tqdm(total=len(val), desc=f"Validate epoch {epoch}") as bar:
-        acc, loss = evaluate(val, model, classification_head, classification_loss, bar)
+                  classification_loss, fine_tune_optimizer, bar, max_steps=STEPS_PER_EPOCH)
+    with tqdm(total=min(STEPS_PER_EPOCH, len(val)), desc=f"Validate epoch {epoch}") as bar:
+        acc, loss = evaluate(val, model, classification_head, classification_loss, bar,
+                             max_steps=STEPS_PER_EPOCH)
         console.log(f"epoch {epoch}: val loss {loss:.3f}, accuracy {acc:.3f}")
 ```
 
