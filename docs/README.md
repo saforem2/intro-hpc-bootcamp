@@ -32,18 +32,18 @@ open it in Google Colab, or run it on an HPC system.
 
 Work through the five parts in order — each builds on the last:
 
-1.  **[\[00\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute
-    systems, the scheduler, Python, and data; then your first models
-    (Monte Carlo, linear regression, clustering). **New? [Start with
-    Compute Systems ➡️](./00-intro-AI-HPC/0-compute-systems/)**
-2.  **[\[01\] Neural Networks](01-neural-networks/)** — from a single
+1.  **[\[0\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute systems,
+    the scheduler, Python, and data; then your first models (Monte
+    Carlo, linear regression, clustering). **New? [Start with Compute
+    Systems ➡️](./00-intro-AI-HPC/0-compute-systems/)**
+2.  **[\[1\] Neural Networks](01-neural-networks/)** — from a single
     neuron to CNNs, representation learning, and distributed training.
-3.  **[\[02\] Large Language Models](02-llms/)** — how LLMs work, then
+3.  **[\[2\] Large Language Models](02-llms/)** — how LLMs work, then
     build and train a GPT from scratch and learn to evaluate it.
-4.  **[\[03\] Advanced / Large-Scale LLMs](03-advanced-llms/)** — MoE,
+4.  **[\[3\] Advanced / Large-Scale LLMs](03-advanced-llms/)** — MoE,
     pretraining at scale, fault tolerance, post-training, and RL for
     reasoning.
-5.  **[\[04\] AI for Science](03-ai-for-science/)** — the payoff: the
+5.  **[\[4\] AI for Science](03-ai-for-science/)** — the payoff: the
     same Transformer + HPC stack applied to genomes, proteins, and
     molecules.
 
@@ -64,50 +64,49 @@ Work through the five parts in order — each builds on the last:
 
 - 🏡 [Intro to {AI, HPC} for Science/](./)
 
-  - 📂 [**\[00\] Intro to AI and HPC**/](00-intro-AI-HPC/)
-    - 📄 [\[00.0\] Compute
-      systems](./00-intro-AI-HPC/0-compute-systems/)
-    - 📄 [\[00.1\]
+  - 📂 [**\[0\] Intro to AI and HPC**/](00-intro-AI-HPC/)
+    - 📄 [\[0.0\] Compute systems](./00-intro-AI-HPC/0-compute-systems/)
+    - 📄 [\[0.1\]
       Shared-resources](./00-intro-AI-HPC/1-shared-resources/)
-    - 📄 [\[00.2\] Jupyter
+    - 📄 [\[0.2\] Jupyter
       Notebooks](./00-intro-AI-HPC/2-jupyter-notebooks/)
-    - 📄 [\[00.3\] Using Python](./00-intro-AI-HPC/3-python/)
-    - 📄 [\[00.4\] Working with Data](./00-intro-AI-HPC/4-data/)
-    - 📗 [\[00.5\] MCMC Example](./00-intro-AI-HPC/5-mcmc-example/)
-    - 📗 [\[00.6\] Linear
+    - 📄 [\[0.3\] Using Python](./00-intro-AI-HPC/3-python/)
+    - 📄 [\[0.4\] Working with Data](./00-intro-AI-HPC/4-data/)
+    - 📗 [\[0.5\] MCMC Example](./00-intro-AI-HPC/5-mcmc-example/)
+    - 📗 [\[0.6\] Linear
       Regression](./00-intro-AI-HPC/6-linear-regression/)
-    - 📗 [\[00.7\] Statistical
+    - 📗 [\[0.7\] Statistical
       Learning](./00-intro-AI-HPC/7-statistical-learning/)
-  - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/)
-    - 📄 [\[01.0\] Intro](./01-neural-networks/0-intro/)
-    - 📗 [\[01.1\] MNIST](./01-neural-networks/1-mnist/)
-    - 📗 [\[01.2\] Convolutional
+  - 📂 [**\[1\] Neural Networks/**](./01-neural-networks/)
+    - 📄 [\[1.0\] Intro](./01-neural-networks/0-intro/)
+    - 📗 [\[1.1\] MNIST](./01-neural-networks/1-mnist/)
+    - 📗 [\[1.2\] Convolutional
       Networks](./01-neural-networks/2-conv-nets/)
-    - 📗 [\[01.3\] Representation
+    - 📗 [\[1.3\] Representation
       Learning](./01-neural-networks/3-representation-learning/)
-    - 📄 [\[01.4\] Distributed
+    - 📄 [\[1.4\] Distributed
       Training](./01-neural-networks/4-distributed-training/)
-  - 📂 [**\[02\] Large Language Models**](./02-llms/)
-    - 📗 [\[02.0\] Intro to LLMs](./02-llms/0-intro-to-llms/)
-    - 📗 [\[02.1\] Parallel Training](./02-llms/1-parallel-training/)
-    - 📗 [\[02.2\] Shakespeare Example
+  - 📂 [**\[2\] Large Language Models**](./02-llms/)
+    - 📗 [\[2.0\] Intro to LLMs](./02-llms/0-intro-to-llms/)
+    - 📗 [\[2.1\] Parallel Training](./02-llms/1-parallel-training/)
+    - 📗 [\[2.2\] Shakespeare Example
       (colab)](./02-llms/2-shakespeare-example-colab/)
-    - 🪶 [\[02.3\] Shakespeare from Scratch
+    - 🪶 [\[2.3\] Shakespeare from Scratch
       (ezpz)](./02-llms/3-shakespeare-ezpz/)
-    - 📊 [\[02.4\] Evaluating LLMs](./02-llms/4-evaluating-llms/)
-  - 📂 [**\[03\] Advanced / Large-Scale LLMs**](./03-advanced-llms/)
-    - 📗 [\[03.0\] Mixture of Experts & Expert
+    - 📊 [\[2.4\] Evaluating LLMs](./02-llms/4-evaluating-llms/)
+  - 📂 [**\[3\] Advanced / Large-Scale LLMs**](./03-advanced-llms/)
+    - 📗 [\[3.0\] Mixture of Experts & Expert
       Parallelism](./03-advanced-llms/0-moe/)
-    - 📗 [\[03.1\] Pretraining at
+    - 📗 [\[3.1\] Pretraining at
       Scale](./03-advanced-llms/1-pretraining-at-scale/)
-    - 📗 [\[03.2\] Fault-Tolerant
+    - 📗 [\[3.2\] Fault-Tolerant
       Training](./03-advanced-llms/2-fault-tolerant-training/)
-    - 📗 [\[03.3\] Mid- &
+    - 📗 [\[3.3\] Mid- &
       Post-Training](./03-advanced-llms/3-mid-post-training/)
-    - 📗 [\[03.4\] RL & Reasoning
+    - 📗 [\[3.4\] RL & Reasoning
       Models](./03-advanced-llms/4-rl-and-reasoning/)
-  - 📂 [**\[04\] AI for Science**](./03-ai-for-science/)
-    - 🧬 [\[04.0\] GenSLM: Genome-Scale Language
+  - 📂 [**\[4\] AI for Science**](./03-ai-for-science/)
+    - 🧬 [\[4.0\] GenSLM: Genome-Scale Language
       Models](./03-ai-for-science/0-genslm/)
 
 ## 🏔️ Running instructions
@@ -162,12 +161,12 @@ launch a multi-node run with
 [`ezpz launch`](https://github.com/saforem2/ezpz) — lives on the
 dedicated pages, complete with annotated output:
 
-- 🧠 **[\[01.4\] Distributed
+- 🧠 **[\[1.4\] Distributed
   Training](./01-neural-networks/4-distributed-training/)** — the
   concepts (DDP, FSDP, collective ops, 3D parallelism) *and* a complete
   Perlmutter run you can reproduce, including a full annotated training
   log.
-- 🚀 **[\[02.1\] Parallel Training](./02-llms/1-parallel-training/)** —
+- 🚀 **[\[2.1\] Parallel Training](./02-llms/1-parallel-training/)** —
   the same ideas applied to pretraining a GPT with
   [`wordplay`](https://github.com/saforem2/wordplay).
 

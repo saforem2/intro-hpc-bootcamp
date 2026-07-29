@@ -15,7 +15,7 @@ text as the running example. But the *same* models, trained on the
 *same* kind of supercomputers, are now driving discovery across the
 sciences.
 
-The core idea from [\[02.0\] Intro to
+The core idea from [\[2.0\] Intro to
 LLMs](../02-llms/0-intro-to-llms/index.qmd) still holds: **a sequence is
 a sequence.** Swap English tokens for the “language” of a scientific
 domain and the Transformer comes along for the ride:
@@ -30,7 +30,7 @@ domain and the Transformer comes along for the ride:
 
 ## In this section
 
-- 🧬 [**\[03.0\] GenSLM: Genome-Scale Language
+- 🧬 [**\[3.0\] GenSLM: Genome-Scale Language
   Models**](0-genslm/index.qmd) — the flagship example: a Transformer
   trained on whole genomes that revealed SARS-CoV-2 evolutionary
   dynamics (winner of the 2022 ACM Gordon Bell Special Prize for
