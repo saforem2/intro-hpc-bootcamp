@@ -3354,6 +3354,15 @@ figure > figcaption.quarto-float-caption-bottom {
   }
 }
 
+// Body figures can now be as wide as the (widened) body track, but their
+// captions should stay at the readable prose measure and center under the
+// figure — otherwise a one-line caption stretches the full ~1080px width.
+#quarto-document-content figure > figcaption,
+#quarto-document-content figure > figcaption.quarto-float-caption {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
 .code-with-filename .code-with-filename-file {
   margin-bottom: 0;
   padding-bottom: 2px;
