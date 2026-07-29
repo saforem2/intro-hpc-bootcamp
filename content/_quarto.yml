@@ -246,6 +246,7 @@ project:
     - "./02-llms/2-shakespeare-example-colab/index.ipynb"
     - "./02-llms/3-shakespeare-ezpz/index.qmd"
     - "./02-llms/4-evaluating-llms/index.qmd"
+    - "./02-llms/5-decoding-and-sampling/index.qmd"
     - "!./02-llms/0-intro-to-llms/OLD/"
     - "!./02-llms/01-hands-on-llms/index.ipynb"
     - "!./02-llms/02-prompt-engineering/index.qmd"
@@ -380,6 +381,8 @@ website:
             href: "./02-llms/3-shakespeare-ezpz/index.qmd"
           - text: "[2.4] Evaluating LLMs"
             href: "./02-llms/4-evaluating-llms/index.qmd"
+          - text: "[2.5] Decoding & Sampling"
+            href: "./02-llms/5-decoding-and-sampling/index.qmd"
 
       - id: 03-advanced-llms
         section: "[3] Advanced / Large-Scale LLMs"

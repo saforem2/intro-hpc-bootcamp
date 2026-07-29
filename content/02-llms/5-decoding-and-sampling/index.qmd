@@ -1,0 +1,227 @@
+---
+title: "🎲 Decoding & Sampling"
+description: "How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run."
+categories:
+  - ai
+  - hpc
+  - llm
+date: 2026-07-29
+date-modified: last-modified
+jupyter: python3
+format:
+  html: default
+  ipynb: default
+  gfm:
+    toc: true
+---
+
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+Decoding examples adapted from Sebastian Raschka's
+[*Reasoning From Scratch*, ch. 4](https://github.com/rasbt/reasoning-from-scratch).
+:::
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/5-decoding-and-sampling/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/5-decoding-and-sampling/index.qmd)
+
+In [\[2.0\] Intro to LLMs](../0-intro-to-llms/index.qmd) we saw that a GPT maps a
+sequence of tokens to a grid of scores — one **probability distribution over the
+whole vocabulary** for each position. But how do we get from that distribution to
+the *next word*? That choice is called **decoding**, and it has a huge effect on
+whether the output is repetitive and safe, or varied and creative (or unhinged).
+
+::: {.callout-tip title="🎯 What you'll learn" collapse="false"}
+- Generation = repeatedly **sampling the next token** from a distribution.
+- **Greedy** decoding (always take the top token) vs **sampling**.
+- **Temperature** — one knob that flattens or sharpens the distribution.
+- **Top-p (nucleus) sampling** — keep only the most probable tokens, then sample.
+
+Everything here runs on a **laptop or Colab** (CPU) with the small `gpt2` model —
+no GPU required.
+:::
+
+```{python}
+# On Colab / a fresh env, install transformers + the bootcamp helpers.
+try:
+    import bootcamp  # noqa: F401
+    import transformers  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp" transformers
+```
+
+```{python}
+import torch
+import torch.nn.functional as F
+from transformers import GPT2LMHeadModel, GPT2TokenizerFast
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()   # house style + inline plotly.js
+
+torch.manual_seed(0)
+tok = GPT2TokenizerFast.from_pretrained("gpt2")
+model = GPT2LMHeadModel.from_pretrained("gpt2").eval()
+```
+
+## 🔢 The next-token distribution
+
+A single forward pass gives the model's scores (**logits**) for every token in the
+vocabulary at the next position. Softmax turns those into a probability
+distribution. Let's look at the most likely next tokens for a prompt:
+
+```{python}
+#| label: fig-next-token
+#| fig-cap: "GPT-2's probability distribution over the next token after the prompt. Generation picks one of these, appends it, and repeats."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+
+prompt = "The capital of France is"
+ids = tok(prompt, return_tensors="pt").input_ids
+with torch.no_grad():
+    logits = model(ids).logits[0, -1]        # logits for the position after the prompt
+probs = F.softmax(logits, dim=-1)
+
+topk = torch.topk(probs, 15)
+labels = [tok.decode([i]).strip() or "␣" for i in topk.indices]
+fig = go.Figure(go.Bar(x=labels, y=topk.values.tolist(),
+                       marker_color=COLORS["blue"]))
+fig.update_layout(height=340, margin=dict(t=40),
+                  title=f"P(next token | {prompt!r})",
+                  xaxis_title="candidate token", yaxis_title="probability")
+fig.show()
+```
+
+No single token is close to certain — the model is genuinely *unsure*, and several
+completions are reasonable. **How we pick from this distribution is decoding.**
+
+## 🎯 Greedy vs. sampling
+
+The simplest rule is **greedy**: always take the single most probable token
+(`argmax`). It's deterministic — same prompt, same output, every time — which
+makes it repetitive and prone to loops.
+
+```{python}
+gen_kwargs = dict(max_new_tokens=20, pad_token_id=tok.eos_token_id)
+
+with torch.no_grad():
+    greedy = model.generate(ids, do_sample=False, **gen_kwargs)
+print("GREEDY:", tok.decode(greedy[0], skip_special_tokens=True))
+```
+
+**Sampling** (`do_sample=True`) instead *draws* the next token according to its
+probability — so more probable tokens appear more often, but the output varies run
+to run. Here are three independent samples of the same prompt:
+
+```{python}
+with torch.no_grad():
+    samples = model.generate(ids, do_sample=True, num_return_sequences=3,
+                             **gen_kwargs)
+for i, s in enumerate(samples):
+    print(f"SAMPLE {i}:", tok.decode(s, skip_special_tokens=True))
+```
+
+Greedy gives you the "safe" path; sampling gives you variety. The next two knobs
+control *how much* variety.
+
+## 🌡️ Temperature
+
+**Temperature** `T` rescales the logits *before* the softmax: dividing by `T`.
+
+- `T < 1` **sharpens** the distribution (more weight on the top tokens → closer to
+  greedy, more focused).
+- `T > 1` **flattens** it (more weight on the long tail → more diverse, riskier).
+- `T = 1` leaves it unchanged.
+
+```{python}
+def scale_by_temperature(logits, T):
+    """Rescale logits by temperature (T>0). Smaller T -> sharper distribution."""
+    return logits / T
+```
+
+Watch what temperature does to the *same* next-token distribution:
+
+```{python}
+#| label: fig-temperature
+#| fig-cap: "The same GPT-2 next-token distribution at three temperatures. Low T concentrates probability on the top tokens; high T spreads it toward the tail."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+fig = go.Figure()
+palette = {0.5: COLORS["green"], 1.0: COLORS["blue"], 1.5: COLORS["red"]}
+for T, color in palette.items():
+    p = F.softmax(scale_by_temperature(logits, T), dim=-1)
+    tk = torch.topk(probs, 12).indices          # same 12 tokens for a fair comparison
+    fig.add_bar(x=[tok.decode([i]).strip() or "␣" for i in tk],
+                y=p[tk].tolist(), name=f"T = {T}", marker_color=color, opacity=0.75)
+fig.update_layout(height=360, margin=dict(t=40), barmode="group",
+                  title="Temperature reshapes the next-token distribution",
+                  xaxis_title="candidate token", yaxis_title="probability")
+fig.show()
+```
+
+The same effect in generated text — low temperature is focused and repetitive,
+high temperature is varied and can go off the rails:
+
+```{python}
+for T in (0.5, 1.0, 1.5):
+    with torch.no_grad():
+        out = model.generate(ids, do_sample=True, temperature=T, **gen_kwargs)
+    print(f"T={T}:", tok.decode(out[0], skip_special_tokens=True))
+```
+
+## 🎯 Top-p (nucleus) sampling
+
+Temperature reshapes *all* tokens — including absurd ones in the far tail. **Top-p
+sampling** (a.k.a. *nucleus* sampling) instead **keeps only the smallest set of
+top tokens whose probabilities sum to `p`**, then samples from just those. It
+adapts to the distribution: when the model is confident, the nucleus is tiny; when
+it's unsure, the nucleus is larger.
+
+```{python}
+#| label: fig-top-p
+#| fig-cap: "Sorted next-token probabilities and their cumulative sum. Top-p keeps tokens left of the cutoff (where the cumulative sum first exceeds p) and samples only from those."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+top_p = 0.9
+sorted_probs, sorted_idx = torch.sort(probs, descending=True)
+cumsum = torch.cumsum(sorted_probs, dim=-1)
+n_show = 20
+n_kept = int((cumsum <= top_p).sum().item()) + 1   # include the token that crosses p
+
+fig = go.Figure()
+fig.add_bar(x=list(range(n_show)), y=sorted_probs[:n_show].tolist(),
+            name="sorted probability", marker_color=COLORS["blue"], opacity=0.6)
+fig.add_scatter(x=list(range(n_show)), y=cumsum[:n_show].tolist(), mode="lines+markers",
+                name="cumulative sum", line=dict(color=COLORS["orange"]))
+fig.add_hline(y=top_p, line=dict(color=COLORS["red"], dash="dash"),
+              annotation_text=f"top_p = {top_p}")
+fig.add_vline(x=n_kept - 0.5, line=dict(color=COLORS["grey"], dash="dot"),
+              annotation_text=f"nucleus = {n_kept} tokens")
+fig.update_layout(height=360, margin=dict(t=40),
+                  title="Top-p keeps the nucleus of most-probable tokens",
+                  xaxis_title="token rank (sorted by probability)", yaxis_title="probability")
+fig.show()
+```
+
+So for this prompt, `top_p=0.9` samples from only the top `{python} n_kept`
+tokens — the rest of the 50,257-token vocabulary is discarded. Compare a wide
+nucleus to a narrow one in generated text:
+
+```{python}
+for p in (0.9, 0.5):
+    with torch.no_grad():
+        out = model.generate(ids, do_sample=True, top_p=p, **gen_kwargs)
+    print(f"top_p={p}:", tok.decode(out[0], skip_special_tokens=True))
+```
+
+## 🔑 Key takeaways
+
+- An LLM outputs a **probability distribution** over the next token; **decoding**
+  is how you pick from it, one token at a time.
+- **Greedy** is deterministic and repetitive; **sampling** adds variety.
+- **Temperature** sharpens (`T<1`) or flattens (`T>1`) the whole distribution.
+- **Top-p** keeps only the most-probable *nucleus* and samples from it, adapting to
+  how confident the model is.
+- In practice you combine them — e.g. `temperature≈0.7, top_p≈0.9` is a common
+  "sensible default" for chat models.
+
+➡️ **Next:** these knobs aren't just for style — sampling *many* completions and
+combining them can make a model measurably **more accurate**. That's
+**self-consistency**, in [\[3.4\] RL & Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd).

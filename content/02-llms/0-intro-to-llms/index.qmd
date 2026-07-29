@@ -356,8 +356,10 @@ print(
 )
 ```
 
-That's the whole black box: **text in, text out**. The rest of this session is
-about what happens *inside*.
+That's the whole black box: **text in, text out**. (`do_sample=True` and friends
+are *decoding* settings — how the model picks each next token; we dig into
+temperature and top-p in [\[2.5\] Decoding & Sampling](../5-decoding-and-sampling/index.qmd).)
+The rest of this session is about what happens *inside*.
 
 ## 🔬 Opening the Black Box
 

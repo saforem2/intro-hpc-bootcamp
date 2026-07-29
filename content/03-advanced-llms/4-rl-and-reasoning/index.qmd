@@ -495,6 +495,93 @@ up the distributed environment for you.
         python3 -m trl.scripts.grpo --model_name_or_path Qwen/Qwen2.5-0.5B-Instruct ...
     ```
 
+## 🗳️ Inference-time scaling: self-consistency
+
+Everything above makes a model reason *better by training it*. But there's a
+complementary trick that needs **no training at all** — you just spend more
+compute **at inference time**. It's called **self-consistency**
+([Wang et al. 2022, arXiv:2203.11171](https://arxiv.org/abs/2203.11171)):
+
+1. Ask the model the same question **$N$ times** with **sampling on** (temperature
+   > 0, so each run explores a different chain-of-thought — see
+   [\[2.5\] Decoding & Sampling](../../02-llms/5-decoding-and-sampling/index.qmd)).
+2. Extract the **final answer** from each of the $N$ chains.
+3. Take the **majority vote**.
+
+The intuition: there are many wrong answers but usually one right one, so *correct*
+final answers tend to agree with each other while mistakes scatter. Voting
+concentrates the signal.
+
+Here's the whole idea as a runnable toy — no model needed. We simulate a "reasoner"
+that lands on the correct answer **45% of the time** (so a single sample is wrong
+more often than not) and otherwise blurts a random wrong answer, then watch what
+majority-vote accuracy does as we increase $N$:
+
+```{python}
+import random
+from collections import Counter
+
+random.seed(0)
+TRUE_ANSWER = 42
+P_CORRECT = 0.45            # one sample is right < half the time
+WRONG_POOL = [7, 13, 40, 41, 43, 99]
+
+def one_chain():
+    """Simulate one sampled chain-of-thought's final answer."""
+    if random.random() < P_CORRECT:
+        return TRUE_ANSWER
+    return random.choice(WRONG_POOL)
+
+def self_consistency_answer(n):
+    """Sample n chains, return the majority-voted final answer."""
+    votes = Counter(one_chain() for _ in range(n))
+    return votes.most_common(1)[0][0]
+
+# Estimate accuracy of majority-vote as N grows (averaged over many trials).
+TRIALS = 400
+Ns = [1, 3, 5, 9, 15, 25, 41]
+acc = [sum(self_consistency_answer(n) == TRUE_ANSWER for _ in range(TRIALS)) / TRIALS
+       for n in Ns]
+for n, a in zip(Ns, acc):
+    print(f"N={n:>2d} samples -> majority-vote accuracy {a:.2f}")
+```
+
+A single sample is right ~45% of the time, but voting over a couple dozen samples
+pushes accuracy well past that — the correct answer wins the vote even though it's
+a minority of any *individual* run's mistakes:
+
+```{python}
+#| label: fig-self-consistency
+#| fig-cap: "Self-consistency: majority-vote accuracy climbs as more chains-of-thought are sampled, well above the ~45% accuracy of any single sample (dashed line)."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
+
+fig = go.Figure()
+fig.add_scatter(x=Ns, y=acc, mode="lines+markers", name="majority vote",
+                line=dict(color=COLORS["green"], width=2), marker=dict(size=8))
+fig.add_hline(y=P_CORRECT, line=dict(color=COLORS["grey"], dash="dash"),
+              annotation_text="single sample (~0.45)")
+fig.update_layout(height=340, margin=dict(t=40),
+                  title="More samples → better answers (no extra training)",
+                  xaxis_title="N (chains sampled per question)",
+                  yaxis_title="accuracy", yaxis_range=[0, 1])
+fig.show()
+```
+
+::: {.callout-tip title="🎯 Two ways to buy reasoning"}
+- **RLVR / GRPO** (above) bakes reasoning *into the weights* — pay once at
+  training time, cheap at inference.
+- **Self-consistency** buys reasoning *at inference time* — no training, but you
+  pay $N\times$ the generation cost per question.
+
+They compose: a GRPO-trained reasoning model sampled with self-consistency is a
+very strong, if compute-hungry, combination. This is the "inference-time scaling"
+that makes reasoning models like o1/R1 so effective.
+:::
+
 ## 🎒 Homework
 
 Train (or prompt-then-train) a small model to use the `<think>` pattern on a

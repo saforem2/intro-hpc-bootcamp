@@ -27,7 +27,7 @@ Colab to a supercomputer.
 
 ## 🗺️ Map of this section
 
-The pages move from concepts → hands-on training → evaluation:
+The pages move from concepts → hands-on training → generation & evaluation:
 
 - 🧠 [**\[2.0\] Intro to LLMs**](0-intro-to-llms/index.qmd) — why sequences,
   tokenization, embeddings, and a guided dissection of GPT-2's internals.
@@ -39,6 +39,9 @@ The pages move from concepts → hands-on training → evaluation:
   the same idea rebuilt with `ezpz`, ready to scale from a laptop to the cluster.
 - 📊 [**\[2.4\] Evaluating LLMs**](4-evaluating-llms/index.qmd) — how to tell
   whether a language model is actually any good.
+- 🎲 [**\[2.5\] Decoding & Sampling**](5-decoding-and-sampling/index.qmd) — how a
+  model turns logits into text: greedy vs sampling, temperature, and top-p, with
+  interactive plots you can run.
 
 Ready to scale up? Continue to the 🚀 **[\[3\] Advanced / Large-Scale LLMs](../03-advanced-llms/index.qmd)** track.
 
