@@ -432,7 +432,10 @@ wrap the model in `DDP`, and launch across all 4 GPUs on the node.)
 import ezpz
 
 DEVICE = ezpz.get_torch_device_type()          # 'cuda' | 'xpu' | 'mps' | 'cpu'
-torch.set_default_device(DEVICE)
+# NB: we do NOT call torch.set_default_device(DEVICE) — it makes every tensor
+# (including the CPU-only index generators DataLoader/random_split need) try to
+# land on the GPU. Instead we create tensors on CPU by default and move the
+# model + each batch to DEVICE explicitly (see `.to(DEVICE)` below).
 _ON_GPU = DEVICE in ("cuda", "xpu")
 
 batch_size      = 128 if _ON_GPU else 32
@@ -552,7 +555,7 @@ class Classifier(nn.Module):
 ```{python}
 def create_representation_model(n_features, rank, size):
     model = Classifier(32, 2, 2, n_features)
-    model.to(torch.get_default_device())
+    model.to(DEVICE)
     return model
 
 model = create_representation_model(256, 0, 1)
@@ -560,11 +563,11 @@ head = torch.nn.Sequential(
     nn.Linear(256,128),
 )
 
-head.to(torch.get_default_device())
+head.to(DEVICE)
 
 from torchinfo import summary
-console.log(summary(model, input_size=(batch_size, 3, 32, 32)))
-console.log(summary(head, input_size=(batch_size, 256)))
+console.log(summary(model, input_size=(batch_size, 3, 32, 32), device=DEVICE))
+console.log(summary(head, input_size=(batch_size, 256), device=DEVICE))
 ```
 
 This will download the data if needed:
@@ -605,31 +608,29 @@ def create_data_loaders(transforms, batch_size, rank, seed, subset=None):
         transform=transforms
     )
 
-    # DataLoader shuffling + random_split generators must live on the CPU even
-    # when the default device is CUDA (indices are host-side), so pin device="cpu".
-    cpu_gen = lambda s: torch.Generator(device="cpu").manual_seed(s)
+    gen = lambda s: torch.Generator().manual_seed(s)   # CPU generators (host-side indices)
 
     # Bound the dataset so a page render stays fast (full set on a big GPU run).
     if subset is not None:
-        idx = torch.randperm(len(training_data), generator=cpu_gen(seed))[:subset].tolist()
+        idx = torch.randperm(len(training_data), generator=gen(seed))[:subset].tolist()
         training_data = torch.utils.data.Subset(training_data, idx)
 
     training_data, validation_data = torch.utils.data.random_split(
-        training_data, [0.8, 0.2], generator=cpu_gen(55))
+        training_data, [0.8, 0.2], generator=gen(55))
 
-    # num_workers=0: worker subprocesses don't play well with a notebook render
-    # that has set a default CUDA device; a single-process loader is plenty here.
+    # num_workers=0: a single-process loader is plenty at this scale and avoids
+    # worker/loader edge cases inside a notebook render.
     train_dataloader = torch.utils.data.DataLoader(training_data,
                                                    batch_size=batch_size,
                                                    shuffle=True,
                                                    num_workers=0,
-                                                   generator=cpu_gen(seed))
+                                                   generator=gen(seed))
 
     val_dataloader = torch.utils.data.DataLoader(validation_data,
                                                  batch_size=batch_size,
                                                  shuffle=True,
                                                  num_workers=0,
-                                                 generator=cpu_gen(seed + 1))
+                                                 generator=gen(seed + 1))
 
 
     def preprocess(x, y):
@@ -777,10 +778,12 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
         # Each 2*N by 2*N block is the local positive indexes, all others are negative.
         # That means that the index is shifted by global_rank*2*N
 
-        access_index_x = torch.arange(2*N)
+        # Index tensors must sit on the same device as `positive` (which is on
+        # `device`), so build them there directly.
+        access_index_x = torch.arange(2*N, device=device)
         # For the first N, the y-index is equal to x + 2*N
         # For the second N
-        access_index_y = torch.arange(2*N)
+        access_index_y = torch.arange(2*N, device=device)
         # Shift by +/- N:
         access_index_y[0:N] = access_index_y[0:N] + N
         access_index_y[N:]  = access_index_y[N:] - N
@@ -1003,7 +1006,7 @@ def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar, max
 
 ```{python}
 classification_head = nn.Linear(256, 10)
-classification_head.to(torch.get_default_device())
+classification_head.to(DEVICE)
 classification_loss = loss_fn = nn.CrossEntropyLoss()
 fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)
 console.log(fine_tune_optimizer)
