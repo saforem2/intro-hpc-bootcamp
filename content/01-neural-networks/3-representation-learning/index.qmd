@@ -409,11 +409,9 @@ import random
 import torch
 import torchvision
 from torchvision.transforms import v2
-from ezpz.log.config import STYLES
-from rich.console import Console
-from rich.theme import Theme
+import ezpz
 
-console = Console(theme=Theme(STYLES), log_path=False)   # no caller file:line prefix
+logger = ezpz.get_logger(__name__)   # clean [timestamp][I] log lines, like the other pages
 
 import torch.distributed as dist
 import torch.nn as nn
@@ -442,7 +440,7 @@ batch_size      = 128 if _ON_GPU else 32
 SUBSET          = 5000 if _ON_GPU else 256      # images pulled from CIFAR-10
 STEPS_PER_EPOCH = 40 if _ON_GPU else 3          # cap so a render can't run away
 N_EPOCHS        = 3 if _ON_GPU else 1
-console.log(f"device={DEVICE}  batch_size={batch_size}  subset={SUBSET}  "
+logger.info(f"device={DEVICE}  batch_size={batch_size}  subset={SUBSET}  "
             f"steps/epoch={STEPS_PER_EPOCH}  epochs={N_EPOCHS}")
 ```
 
@@ -566,8 +564,8 @@ head = torch.nn.Sequential(
 head.to(DEVICE)
 
 from torchinfo import summary
-console.log(summary(model, input_size=(batch_size, 3, 32, 32), device=DEVICE))
-console.log(summary(head, input_size=(batch_size, 256), device=DEVICE))
+logger.info(summary(model, input_size=(batch_size, 3, 32, 32), device=DEVICE))
+logger.info(summary(head, input_size=(batch_size, 256), device=DEVICE))
 ```
 
 This will download the data if needed:
@@ -692,8 +690,8 @@ batch, (X, Y) = next(enumerate(train))
 ```{python}
 X1 = transforms1(X); X2 = transforms2(X)
 
-console.log(type(X1))
-console.log(type(X2))
+logger.info(type(X1))
+logger.info(type(X2))
 ```
 
 ```{python}
@@ -790,7 +788,7 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
 
         access_index_y +=  rank * 2*N
 
-        # console.log("access_index_y: ", access_index_y, flush=True)
+        # logger.info("access_index_y: ", access_index_y, flush=True)
 
         positive[access_index_x, access_index_y] = 1
 
@@ -837,8 +835,8 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
         # Compute the exp, which we'll eventually sum and log:
         exp = torch.sum(torch.exp(negative_examples), dim=-1)
 
-        # console.log("Alignment: ", alignment, flush=True)
-        # console.log("exp: ",       exp, flush=True)
+        # logger.info("Alignment: ", alignment, flush=True)
+        # logger.info("exp: ",       exp, flush=True)
 
 
         # And compute the logsumexp of the negative examples:
@@ -945,7 +943,7 @@ for epoch in range(N_EPOCHS):
         metrics = validate_one_epoch(val, transforms1, transforms2,
                                      model, head, contrastive_loss, 0, 1, bar,
                                      max_steps=STEPS_PER_EPOCH)
-        console.log(f"epoch {epoch}: "
+        logger.info(f"epoch {epoch}: "
                     + "; ".join(f"{k}={v:.2f}" for k, v in metrics.items()))
 ```
 
@@ -1009,7 +1007,7 @@ classification_head = nn.Linear(256, 10)
 classification_head.to(DEVICE)
 classification_loss = loss_fn = nn.CrossEntropyLoss()
 fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)
-console.log(fine_tune_optimizer)
+logger.info(fine_tune_optimizer)
 ```
 
 Then the **fine-tuning loop** — the representation stays frozen; only the small
@@ -1023,7 +1021,52 @@ for epoch in range(N_EPOCHS):
     with tqdm(total=min(STEPS_PER_EPOCH, len(val)), desc=f"Validate epoch {epoch}") as bar:
         acc, loss = evaluate(val, model, classification_head, classification_loss, bar,
                              max_steps=STEPS_PER_EPOCH)
-        console.log(f"epoch {epoch}: val loss {loss:.3f}, accuracy {acc:.3f}")
+        logger.info(f"epoch {epoch}: val loss {loss:.3f}, accuracy {acc:.3f}")
+
+contrastive_acc = acc   # final linear-probe accuracy on the contrastive features
 ```
+
+## 🏁 Did the representation help?
+
+A linear-probe accuracy on its own doesn't mean much — we need something to
+compare it *against*. The fair baseline is the **exact same classification head,
+trained for the same number of steps, but on a *randomly-initialized* encoder**
+(no contrastive pretraining). If the pretraining did its job, its features should
+be easier to classify than random ones.
+
+```{python}
+# Baseline: an untrained (random-weight) encoder of the same architecture,
+# with a fresh head trained for the same budget on the same labeled data.
+baseline_encoder = create_representation_model(256, 0, 1)   # random init, never pretrained
+baseline_encoder.eval()                                      # frozen, like `model`
+baseline_head = nn.Linear(256, 10); baseline_head.to(DEVICE)
+baseline_opt = torch.optim.AdamW(baseline_head.parameters(), lr=0.01)
+
+for epoch in range(N_EPOCHS):
+    with tqdm(total=min(STEPS_PER_EPOCH, len(train)), desc=f"Baseline epoch {epoch}") as bar:
+        fine_tune(train, baseline_encoder, baseline_head,
+                  classification_loss, baseline_opt, bar, max_steps=STEPS_PER_EPOCH)
+with tqdm(total=min(STEPS_PER_EPOCH, len(val)), desc="Baseline eval") as bar:
+    baseline_acc, _ = evaluate(val, baseline_encoder, baseline_head,
+                               classification_loss, bar, max_steps=STEPS_PER_EPOCH)
+
+logger.info(f"contrastive-pretrained probe: acc = {contrastive_acc:5.1f}%")
+logger.info(f"from-scratch baseline:        acc = {baseline_acc:5.1f}%")
+logger.info(f"delta (pretraining benefit):  {contrastive_acc - baseline_acc:+5.1f} points")
+```
+
+::: {.callout-tip title="🎯 What this shows"}
+Same architecture, same labels, same training budget — the **only** difference is
+whether the encoder was contrastively pretrained on unlabeled images first. The
+pretrained features give the linear probe a head start, so it reaches higher
+accuracy from the same handful of labels. That is the whole promise of
+representation learning, and it's exactly the effect the low-label sweep in
+[the GPU section](#sec-gpu) shows at full scale: **learn a good representation
+from cheap unlabeled data, and you need far fewer expensive labels downstream.**
+
+(These are short, capped runs so the page renders quickly — the gap is smaller
+and noisier than a full multi-epoch run on the whole dataset. Drop the
+`STEPS_PER_EPOCH` / `SUBSET` caps and let it train longer to see it widen.)
+:::
 
 
