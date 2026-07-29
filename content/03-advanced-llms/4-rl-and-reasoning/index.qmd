@@ -43,7 +43,7 @@ toy cell that *does* run uses only `torch` (CPU) on tiny tensors — flip its
 
 ### (a) GRPO / RLVR from scratch, in plain PyTorch
 
-Strip away the language model and GRPO is short. The essence of
+Underneath the tooling, GRPO is short. The essence of
 **Group Relative Policy Optimization** ([Shao et al. 2024,
 arXiv:2402.03300](https://arxiv.org/abs/2402.03300)) is:
 
@@ -55,68 +55,158 @@ arXiv:2402.03300](https://arxiv.org/abs/2402.03300)) is:
 4. Nudge the policy with a **policy gradient** — raise the probability of the good
    completions, lower the probability of the bad ones.
 
-Here the "policy" is a categorical distribution over a handful of candidate
-answers to `2 + 3 = ?`. Everything is a tiny tensor, so this runs on a laptop CPU:
+To make this concrete we'll train a **real (tiny) GPT** with a **real GRPO loop** —
+no `trl`, no pre-canned scores, no big model. The policy is a small Transformer
+that generates actual token sequences; the reward is a Python verifier that reads
+those tokens. It runs on a **laptop CPU** in well under a minute, and you can watch
+it genuinely learn.
+
+**The task (a verifiable one).** The vocabulary is the ten digits `0–9` plus a
+`BOS` start token. Starting from `BOS`, the model emits `L = 4` digits, and the
+**reward is 1.0 if they sum to 10, else 0.0** — a cheap, exact check with *many*
+valid solutions (`5 5`, `1 2 3 4`, `9 1 0 0`, …). No labels, no reward model.
 
 ```{python}
+import os
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
+import ezpz
 
+logger = ezpz.get_logger(__name__)
 torch.manual_seed(0)
 
-# --- A toy "policy": a categorical over candidate completions. ---
-# In a real LM these would be full token sequences; here each "completion" is
-# one candidate final answer to the prompt "2 + 3 = ?".
-completions = ["5", "5.0", "six", "23", "cinq"]
-logits = torch.zeros(len(completions), requires_grad=True)  # pi_theta(completion)
+VOCAB_SIZE, BOS, SEQ_LEN = 11, 10, 4   # tokens 0-9 are digits, token 10 = BOS
 
-# --- A VERIFIABLE reward: no learned reward model, just a checker. ---
-# +1.0 if exactly correct, +0.1 if it at least parses as a number
-# (right *format*, wrong value), else 0.  This is the RLVR idea.
-def verify(text: str) -> float:
-    if text.strip() == "5":
-        return 1.0
-    try:
-        float(text)
-        return 0.1
-    except ValueError:
-        return 0.0
-
-K, lr = 8, 0.5  # group size, learning rate
-
-for step in range(60):
-    dist = torch.distributions.Categorical(logits=logits)
-    idx = dist.sample((K,))                                    # K completions
-    r = torch.tensor([verify(completions[i]) for i in idx])    # verifiable rewards
-
-    # Group-relative advantage: standardize rewards WITHIN the group.
-    adv = (r - r.mean()) / (r.std() + 1e-8)
-
-    # Policy-gradient objective:  maximize  E[ advantage * log pi(sample) ]
-    loss = -(adv * dist.log_prob(idx)).mean()
-
-    logits.grad = None
-    loss.backward()
-    with torch.no_grad():
-        logits -= lr * logits.grad                            # ascend the reward
-
-probs = F.softmax(logits, dim=-1).detach()
-for c, p in zip(completions, probs):
-    print(f"P({c!r:>7}) = {p:.3f}")
+def reward(seq: list[int]) -> float:
+    """Verifiable reward: 1.0 if the generated digits sum to 10, else 0.0."""
+    return 1.0 if sum(seq) == 10 else 0.0
 ```
 
-The policy starts uniform and, using **only** the verifier's signal, concentrates
-its probability mass on `"5"`. A few things worth noticing, because they carry
-over exactly to the real thing:
+**The policy — a real, tiny GPT.** One causal Transformer block over the digit
+vocabulary. Small, but a genuine autoregressive neural network (not a lookup
+table):
 
-- **No reward model.** `verify()` is a Python function. RLVR replaces a learned,
+```{python}
+class TinyGPT(nn.Module):
+    def __init__(self, vocab=VOCAB_SIZE, d=64, n_head=4, block=SEQ_LEN + 1):
+        super().__init__()
+        self.tok = nn.Embedding(vocab, d)
+        self.pos = nn.Embedding(block, d)
+        self.block = nn.TransformerEncoderLayer(d, n_head, 2 * d,
+                                                batch_first=True, dropout=0.0)
+        self.ln = nn.LayerNorm(d)
+        self.head = nn.Linear(d, vocab)
+
+    def forward(self, idx):                        # idx: (B, T)
+        T = idx.shape[1]
+        x = self.tok(idx) + self.pos(torch.arange(T, device=idx.device))
+        causal = torch.triu(torch.full((T, T), float("-inf"), device=idx.device), 1)
+        return self.head(self.ln(self.block(x, src_mask=causal)))   # (B, T, vocab)
+
+
+def sample_group(model, K):
+    """Roll out K sequences autoregressively; return them + summed log-probs."""
+    seqs = torch.full((K, 1), BOS)
+    logp = torch.zeros(K)
+    for _ in range(SEQ_LEN):
+        logits = model(seqs)[:, -1].clone()
+        logits[:, BOS] = float("-inf")            # never emit BOS mid-sequence
+        dist = torch.distributions.Categorical(logits=logits)
+        a = dist.sample()
+        logp = logp + dist.log_prob(a)
+        seqs = torch.cat([seqs, a[:, None]], dim=1)
+    return seqs[:, 1:], logp                       # drop the BOS column
+```
+
+**The GRPO loop.** Exactly the four steps above — sample a group of `K`, score
+each with the verifier, standardize rewards *within the group* for the advantage,
+and take a policy-gradient step:
+
+```{python}
+model = TinyGPT()
+opt = torch.optim.AdamW(model.parameters(), lr=3e-3)
+K = 32                                             # group size (completions/step)
+
+# generations from the UNtrained policy, for a before/after comparison
+with torch.no_grad():
+    before, _ = sample_group(model, 6)
+
+reward_curve = []
+for step in range(120):
+    gen, logp = sample_group(model, K)             # 1. sample a group of K
+    r = torch.tensor([reward(g) for g in gen.tolist()])   # 2. verifiable reward
+    adv = (r - r.mean()) / (r.std() + 1e-8)        # 3. group-relative advantage
+    loss = -(adv * logp).mean()                    # 4. policy gradient
+    opt.zero_grad(); loss.backward(); opt.step()
+    reward_curve.append(r.mean().item())
+    if step % 20 == 0:
+        logger.info(f"step {step:>3d}  mean reward = {r.mean():.3f}")
+
+logger.info(f"final mean reward = {reward_curve[-1]:.3f}")
+```
+
+The reward climbs from near-zero (random digits rarely sum to 10) toward 1.0 as the
+policy learns — purely from the verifier's 0/1 signal:
+
+```{python}
+#| label: fig-grpo-reward
+#| fig-cap: "GRPO training: the fraction of the group whose 4 digits sum to 10, per step. The tiny GPT policy learns the verifiable task from reward alone."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
+
+fig = go.Figure(go.Scatter(y=reward_curve, mode="lines",
+                           line=dict(color=COLORS["green"], width=2)))
+fig.update_layout(height=320, margin=dict(t=40),
+                  title="GRPO reward over training",
+                  xaxis_title="step", yaxis_title="mean reward (frac summing to 10)",
+                  yaxis_range=[0, 1.05])
+fig.show()
+```
+
+Sampling from the policy **before vs. after** training makes the learning concrete
+— random digits become digits that actually satisfy the rule:
+
+```{python}
+with torch.no_grad():
+    after, _ = sample_group(model, 6)
+
+def show(tag, seqs):
+    for g in seqs.tolist():
+        s = sum(g)
+        logger.info(f"  {tag}: {''.join(map(str, g))}  (sum={s}, {'✓' if s == 10 else '✗'})")
+
+show("before", before)
+show("after ", after)
+```
+
+A few things worth noticing, because they carry over exactly to a full-scale run:
+
+- **No reward model.** `reward()` is a Python function. RLVR replaces a learned,
   fallible reward model with a cheap, exact check.
 - **The group is the baseline.** Subtracting `r.mean()` is a *variance-reduction*
   baseline computed from the group itself — that is the "group relative" in GRPO,
   and why it needs **no value network** (unlike PPO).
-- **Zero-variance groups give zero signal.** If all $K$ samples get the same
+- **Zero-variance groups give zero signal.** If all `K` samples get the same
   reward, `adv` is all zeros and nothing updates — the model already agrees with
   the group, so there is nothing to learn from it.
+
+::: {.callout-warning title="⚠️ Reward maximization collapses diversity"}
+Look at the "after" samples: the policy tends to converge on **one** sum-to-10
+string and emit it over and over, even though many valid answers exist. That's
+**reward hacking / mode collapse** — nothing in a pure reward objective rewards
+*variety*, so the policy piles all its mass on whatever it found first.
+
+Real GRPO/PPO counter this with a **KL penalty to a frozen reference policy** (the
+same `beta` knob you'll see in DPO below) or an **entropy bonus**, keeping the
+trained model close to the base model's distribution. Adding a `beta * KL(policy ‖
+reference)` term to the loss above and watching diversity return is a great
+exercise — and it's exactly what the production trainers in the next section do.
+:::
 
 ### (b) The same idea in TRL (display-only)
 
