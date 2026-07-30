@@ -43,7 +43,7 @@ Work through the five parts in order — each builds on the last:
 4.  **[\[3\] Advanced / Large-Scale LLMs](03-advanced-llms/)** — MoE,
     pretraining at scale, fault tolerance, post-training, and RL for
     reasoning.
-5.  **[\[4\] AI for Science](03-ai-for-science/)** — the payoff: the
+5.  **[\[4\] AI for Science](04-ai-for-science/)** — the payoff: the
     same Transformer + HPC stack applied to genomes, proteins, and
     molecules.
 
@@ -105,9 +105,9 @@ Work through the five parts in order — each builds on the last:
       Post-Training](./03-advanced-llms/3-mid-post-training/)
     - 📗 [\[3.4\] RL & Reasoning
       Models](./03-advanced-llms/4-rl-and-reasoning/)
-  - 📂 [**\[4\] AI for Science**](./03-ai-for-science/)
+  - 📂 [**\[4\] AI for Science**](./04-ai-for-science/)
     - 🧬 [\[4.0\] GenSLM: Genome-Scale Language
-      Models](./03-ai-for-science/0-genslm/)
+      Models](./04-ai-for-science/0-genslm/)
 
 ## 🏔️ Running instructions
 
@@ -258,7 +258,7 @@ Full step-by-step (Perlmutter)
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \
-        train.dtype=bf16 \
+        train.dtype=bfloat16 \
         model.batch_size=8 \
         model.block_size=2048 \
         train.max_iters=1000 \

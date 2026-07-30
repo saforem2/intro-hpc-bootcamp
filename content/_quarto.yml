@@ -258,16 +258,16 @@ project:
     - "./03-advanced-llms/3-mid-post-training/index.qmd"
     - "./03-advanced-llms/4-rl-and-reasoning/index.qmd"
 
-    - "./03-ai-for-science/index.qmd"
-    - "./03-ai-for-science/0-genslm/index.qmd"
+    - "./04-ai-for-science/index.qmd"
+    - "./04-ai-for-science/0-genslm/index.qmd"
 
     # - "./02-llms/2-shakespeare-example-colab/index.ipynb"
     # - "./02-llms/4-evaluating-llms"
-    # - "./03-ai-for-science/0-genslm/index.qmd"
+    # - "./04-ai-for-science/0-genslm/index.qmd"
     # - "./02-llms/index.qmd"
     # - "./02-llms/**/*index.qmd"
     # - "./02-llms/**/*.ipynb"
-    # - "./03-ai-for-science/**/**/*.qmd"
+    # - "./04-ai-for-science/**/**/*.qmd"
     # - "./02-llms/0-intro-to-llms/index.qmd"
     # - "!./02-llms/1-hands-on-llms/index.ipynb"
     # # - "./02-llms/2-prompt-engineering/index.qmd"
@@ -277,10 +277,10 @@ project:
     # - "./02-llms/6-parallel-training/index.qmd"
     # - "./02-llms/7-shakespeare-example/index.qmd"
     # - "./02-llms/8-shakespeare-example-colab/index.ipynb"
-    # - "./03-ai-for-science/index.qmd"
+    # - "./04-ai-for-science/index.qmd"
     - "!**OLD**/**/*.qmd" 
-    # - "./03-ai-for-science/index.qmd"
-    # - "./03-ai-for-science/0-genslm/index.qmd"
+    # - "./04-ai-for-science/index.qmd"
+    # - "./04-ai-for-science/0-genslm/index.qmd"
 website:
   google-analytics: "GTM-MRCG68M5"
   bread-crumbs: true
@@ -399,12 +399,12 @@ website:
           - text: "[3.4] RL & Reasoning Models"
             href: "./03-advanced-llms/4-rl-and-reasoning/index.qmd"
 
-      - id: 03-ai-for-science
+      - id: 04-ai-for-science
         section: "[4] AI for Science"
-        href: "03-ai-for-science/index.qmd"
+        href: "04-ai-for-science/index.qmd"
         contents:
           - text: "[4.0] GenSLM: Genome-Scale LMs"
-            href: "./03-ai-for-science/0-genslm/index.qmd"
+            href: "./04-ai-for-science/0-genslm/index.qmd"
 
   page-footer:
     # left: |

@@ -16,7 +16,7 @@ format:
 
 Neural networks are the engine under everything else in this bootcamp — the LLMs
 in [\[2\]](../02-llms/index.qmd) and the science models in
-[\[3\]](../03-ai-for-science/index.qmd) are all neural networks, just larger. This
+[\[3\]](../04-ai-for-science/index.qmd) are all neural networks, just larger. This
 section builds them up from the ground: what a single neuron does, how a network
 learns from data, and why the whole enterprise eventually needs a supercomputer.
 
