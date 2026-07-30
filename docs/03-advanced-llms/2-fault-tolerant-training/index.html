@@ -999,10 +999,11 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb6-6"><a href="#cb6-6" aria-label="6"></a>    <span class="at">--max-failover-retries</span> 5 <span class="dt">\</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-label="7"></a>    <span class="at">--timeout</span> 1800 <span class="dt">\</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-label="8"></a>    <span class="at">-n</span> 96 <span class="dt">\</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-label="9"></a>    python3 <span class="at">-m</span> ezpz.examples.test <span class="dt">\</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-label="10"></a>        <span class="at">--max-iters</span> 50000 <span class="dt">\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-label="9"></a>    python3 <span class="at">-m</span> ezpz.examples.fsdp_tp <span class="dt">\</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-label="10"></a>        <span class="at">--train-iters</span> 50000 <span class="dt">\</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>        <span class="at">--ckpt-dir</span> /path/to/checkpoints <span class="dt">\</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-label="12"></a>        <span class="at">--ckpt-interval</span> 500</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-12"><a href="#cb6-12" aria-label="12"></a>        <span class="at">--save-interval</span> 500</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>(We use <code>ezpz.examples.fsdp_tp</code> here, not <code>ezpz.examples.test</code>: <code>fsdp_tp</code> is the example wired for <strong>distributed checkpointing + automatic resume</strong> — it saves every <code>--save-interval</code> steps to <code>--ckpt-dir</code> and, on relaunch, picks up from the latest checkpoint unless you pass <code>--no-resume</code>. That resume-on-restart is exactly what makes fault tolerance work.)</p>
 <p>What each flag does:</p>
 <ul>
 <li><strong><code>--auto-retry</code></strong> — splits your allocation into an <strong>active</strong> training set and a <strong>spare</strong> pool, then runs your command in a loop. On a non-zero exit it <em>scrapes the log</em> for the bad-node signatures from <a href="#sec-real" class="quarto-xref">Section&nbsp;3</a>, <strong>swaps the guilty node(s) out for spares</strong>, and relaunches. It keeps going until the run <strong>succeeds</strong>, hits the <strong>walltime</strong>, or <strong>runs out of spares</strong>.</li>
@@ -1088,9 +1089,9 @@ class WALL,EXH red
 <h2 class="anchored" data-anchor-id="homework">🎒 Homework</h2>
 <p>Prove that your training survives a crash. Submit <strong>proof of a resumed run</strong>:</p>
 <ol type="1">
-<li><p>Take a checkpointing training script — the <a href="#sec-toy" class="quarto-xref">Section&nbsp;2</a> loop is fine, or <code>python3 -m ezpz.examples.test</code> with a <code>--ckpt-dir</code> / <code>--ckpt-interval</code>, or your own — and launch it so it checkpoints every N steps:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="ex">ezpz</span> launch <span class="at">-n</span> <span class="op">&lt;</span>N<span class="op">&gt;</span> python3 <span class="at">-m</span> ezpz.examples.test <span class="dt">\</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>    <span class="at">--max-iters</span> 2000 <span class="at">--ckpt-dir</span> ./ckpts <span class="at">--ckpt-interval</span> 100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Take a checkpointing training script — the <a href="#sec-toy" class="quarto-xref">Section&nbsp;2</a> loop is fine, or <code>python3 -m ezpz.examples.fsdp_tp</code> (which supports <code>--ckpt-dir</code> / <code>--save-interval</code> and auto-resumes), or your own — and launch it so it checkpoints every N steps:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="ex">ezpz</span> launch <span class="at">-n</span> <span class="op">&lt;</span>N<span class="op">&gt;</span> python3 <span class="at">-m</span> ezpz.examples.fsdp_tp <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>    <span class="at">--train-iters</span> 2000 <span class="at">--ckpt-dir</span> ./ckpts <span class="at">--save-interval</span> 100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Kill it</strong> partway through (Ctrl-C, <code>scancel</code>/<code>qdel</code>, or just let the simulated crash fire) <em>after</em> at least one checkpoint has been written.</p></li>
 <li><p><strong>Relaunch the exact same command</strong> and confirm the run <strong>resumes</strong> — the step counter must continue from the last checkpoint, not restart at 0.</p></li>
 <li><p>(Optional stretch) Run it under <code>ezpz launch --auto-retry --spare-nodes auto</code> and find the <code>FAILOVER STOP: &lt;reason&gt;</code> line and the <code>attempt-N.log</code> files.</p></li>
@@ -1928,138 +1929,145 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-282"><a href="#cb9-282" aria-label="278"></a>    <span class="at">--max-failover-retries</span> 5 <span class="dt">\</span></span>
 <span id="cb9-283"><a href="#cb9-283" aria-label="279"></a>    <span class="at">--timeout</span> 1800 <span class="dt">\</span></span>
 <span id="cb9-284"><a href="#cb9-284" aria-label="280"></a>    <span class="at">-n</span> 96 <span class="dt">\</span></span>
-<span id="cb9-285"><a href="#cb9-285" aria-label="281"></a>    python3 <span class="at">-m</span> ezpz.examples.test <span class="dt">\</span></span>
-<span id="cb9-286"><a href="#cb9-286" aria-label="282"></a>        <span class="at">--max-iters</span> 50000 <span class="dt">\</span></span>
+<span id="cb9-285"><a href="#cb9-285" aria-label="281"></a>    python3 <span class="at">-m</span> ezpz.examples.fsdp_tp <span class="dt">\</span></span>
+<span id="cb9-286"><a href="#cb9-286" aria-label="282"></a>        <span class="at">--train-iters</span> 50000 <span class="dt">\</span></span>
 <span id="cb9-287"><a href="#cb9-287" aria-label="283"></a>        <span class="at">--ckpt-dir</span> /path/to/checkpoints <span class="dt">\</span></span>
-<span id="cb9-288"><a href="#cb9-288" aria-label="284"></a>        <span class="at">--ckpt-interval</span> 500</span>
+<span id="cb9-288"><a href="#cb9-288" aria-label="284"></a>        <span class="at">--save-interval</span> 500</span>
 <span id="cb9-289"><a href="#cb9-289" aria-label="285"></a><span class="in">```</span></span>
 <span id="cb9-290"><a href="#cb9-290" aria-label="286"></a></span>
-<span id="cb9-291"><a href="#cb9-291" aria-label="287"></a>What each flag does:</span>
-<span id="cb9-292"><a href="#cb9-292" aria-label="288"></a></span>
-<span id="cb9-293"><a href="#cb9-293" aria-label="289"></a><span class="ss">- </span>**`--auto-retry`** — splits your allocation into an **active** training set and</span>
-<span id="cb9-294"><a href="#cb9-294" aria-label="290"></a>  a **spare** pool, then runs your command in a loop. On a non-zero exit it</span>
-<span id="cb9-295"><a href="#cb9-295" aria-label="291"></a>  *scrapes the log* for the bad-node signatures from @sec-real, **swaps the</span>
-<span id="cb9-296"><a href="#cb9-296" aria-label="292"></a>  guilty node(s) out for spares**, and relaunches. It keeps going until the run</span>
-<span id="cb9-297"><a href="#cb9-297" aria-label="293"></a>  **succeeds**, hits the **walltime**, or **runs out of spares**.</span>
-<span id="cb9-298"><a href="#cb9-298" aria-label="294"></a><span class="ss">- </span>**`--spare-nodes auto`** — <span class="in">`auto`</span> uses every node beyond the <span class="in">`-n`</span> training set</span>
-<span id="cb9-299"><a href="#cb9-299" aria-label="295"></a>  as a spare (<span class="in">`total − active`</span>); or pass an explicit integer <span class="in">`N`</span>.</span>
-<span id="cb9-300"><a href="#cb9-300" aria-label="296"></a><span class="ss">- </span>**`--timeout SECONDS`** — an **idle-*output* watchdog**, not a total time</span>
-<span id="cb9-301"><a href="#cb9-301" aria-label="297"></a>  limit. If the job produces *no stdout* for this long, the launcher assumes a</span>
-<span id="cb9-302"><a href="#cb9-302" aria-label="298"></a>  silent collective hang (the shared-FS stall from @sec-real), kills it with</span>
-<span id="cb9-303"><a href="#cb9-303" aria-label="299"></a>  **exit 124**, and treats it as a bad-node failure. It **defaults to 1800s**</span>
-<span id="cb9-304"><a href="#cb9-304" aria-label="300"></a>  when <span class="in">`--auto-retry`</span> is set.</span>
-<span id="cb9-305"><a href="#cb9-305" aria-label="301"></a><span class="ss">- </span>**`--max-failover-retries N`** — cap on how many times to swap-and-retry</span>
-<span id="cb9-306"><a href="#cb9-306" aria-label="302"></a>  (default: unbounded, bounded only by walltime and spare pool).</span>
-<span id="cb9-307"><a href="#cb9-307" aria-label="303"></a><span class="ss">- </span>**`--retries N`** — the *simpler* cousin: a plain **process-level** re-run of</span>
-<span id="cb9-308"><a href="#cb9-308" aria-label="304"></a>  the same command N times, with **no** log scraping or node swapping. It is</span>
-<span id="cb9-309"><a href="#cb9-309" aria-label="305"></a>  **mutually exclusive** with <span class="in">`--auto-retry`</span> (use one or the other).</span>
-<span id="cb9-310"><a href="#cb9-310" aria-label="306"></a></span>
-<span id="cb9-311"><a href="#cb9-311" aria-label="307"></a>::: {.callout-tip title="🧠 A smarter guard than a retry counter"}</span>
-<span id="cb9-312"><a href="#cb9-312" aria-label="308"></a><span class="in">`--auto-retry`</span> also bails early on <span class="in">`STUCK_PRE_TRAINING`</span>: if **two consecutive**</span>
-<span id="cb9-313"><a href="#cb9-313" aria-label="309"></a>attempts produce zero <span class="in">`step=`</span> progress markers, the problem is a code/config bug</span>
-<span id="cb9-314"><a href="#cb9-314" aria-label="310"></a>(bad dataset path, wrong shapes), not a bad node — and no amount of node-swapping</span>
-<span id="cb9-315"><a href="#cb9-315" aria-label="311"></a>will fix it. This stops the loop from burning your entire spare pool relaunching</span>
-<span id="cb9-316"><a href="#cb9-316" aria-label="312"></a>a run that was never going to train.</span>
-<span id="cb9-317"><a href="#cb9-317" aria-label="313"></a>:::</span>
-<span id="cb9-318"><a href="#cb9-318" aria-label="314"></a></span>
-<span id="cb9-319"><a href="#cb9-319" aria-label="315"></a><span class="fu">### The failover loop</span></span>
-<span id="cb9-320"><a href="#cb9-320" aria-label="316"></a></span>
-<span id="cb9-323"><a href="#cb9-323" aria-label="317"></a><span class="in">```{mermaid}</span></span>
-<span id="cb9-324"><a href="#cb9-324" aria-label="318"></a>flowchart TD</span>
-<span id="cb9-325"><a href="#cb9-325" aria-label="319"></a>    START([<span class="ot">"</span><span class="st">`ezpz launch --auto-retry`</span><span class="ot">"</span>]) --&gt; SPLIT[<span class="ot">"</span><span class="st">`Split allocation:&lt;br/&gt;active + spare pool`</span><span class="ot">"</span>]</span>
-<span id="cb9-326"><a href="#cb9-326" aria-label="320"></a>    SPLIT --&gt; RUN[<span class="ot">"</span><span class="st">`Launch attempt&lt;br/&gt;on active nodes`</span><span class="ot">"</span>]</span>
-<span id="cb9-327"><a href="#cb9-327" aria-label="321"></a>    RUN --&gt; CHK{<span class="ot">"</span><span class="st">`Exit code?`</span><span class="ot">"</span>}</span>
-<span id="cb9-328"><a href="#cb9-328" aria-label="322"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`0 (success)`</span><span class="ot">"</span>| DONE([<span class="ot">"</span><span class="st">`✅ Done`</span><span class="ot">"</span>])</span>
-<span id="cb9-329"><a href="#cb9-329" aria-label="323"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`143 walltime,&lt;br/&gt;no crash pattern`</span><span class="ot">"</span>| WALL([<span class="ot">"</span><span class="st">`⏰ Walltime — stop`</span><span class="ot">"</span>])</span>
-<span id="cb9-330"><a href="#cb9-330" aria-label="324"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`nonzero / 124 hang`</span><span class="ot">"</span>| SCRAPE[<span class="ot">"</span><span class="st">`Scrape log for&lt;br/&gt;bad-node signatures`</span><span class="ot">"</span>]</span>
-<span id="cb9-331"><a href="#cb9-331" aria-label="325"></a>    SCRAPE --&gt; NAMED{<span class="ot">"</span><span class="st">`Named a&lt;br/&gt;bad node?`</span><span class="ot">"</span>}</span>
-<span id="cb9-332"><a href="#cb9-332" aria-label="326"></a>    NAMED --&gt;|<span class="ot">"</span><span class="st">`yes`</span><span class="ot">"</span>| SWAP[<span class="ot">"</span><span class="st">`Swap bad node&lt;br/&gt;→ spare`</span><span class="ot">"</span>]</span>
-<span id="cb9-333"><a href="#cb9-333" aria-label="327"></a>    NAMED --&gt;|<span class="ot">"</span><span class="st">`no`</span><span class="ot">"</span>| BLIND[<span class="ot">"</span><span class="st">`Blind-rotate&lt;br/&gt;one spare in`</span><span class="ot">"</span>]</span>
-<span id="cb9-334"><a href="#cb9-334" aria-label="328"></a>    SWAP --&gt; SPARES{<span class="ot">"</span><span class="st">`Spares left?`</span><span class="ot">"</span>}</span>
-<span id="cb9-335"><a href="#cb9-335" aria-label="329"></a>    BLIND --&gt; SPARES</span>
-<span id="cb9-336"><a href="#cb9-336" aria-label="330"></a>    SPARES --&gt;|<span class="ot">"</span><span class="st">`yes`</span><span class="ot">"</span>| RUN</span>
-<span id="cb9-337"><a href="#cb9-337" aria-label="331"></a>    SPARES --&gt;|<span class="ot">"</span><span class="st">`no`</span><span class="ot">"</span>| EXH([<span class="ot">"</span><span class="st">`💀 Exhausted — stop`</span><span class="ot">"</span>])</span>
-<span id="cb9-338"><a href="#cb9-338" aria-label="332"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
-<span id="cb9-339"><a href="#cb9-339" aria-label="333"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb9-340"><a href="#cb9-340" aria-label="334"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb9-341"><a href="#cb9-341" aria-label="335"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb9-342"><a href="#cb9-342" aria-label="336"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb9-343"><a href="#cb9-343" aria-label="337"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb9-344"><a href="#cb9-344" aria-label="338"></a>class START,SPLIT block</span>
-<span id="cb9-345"><a href="#cb9-345" aria-label="339"></a>class RUN,SCRAPE blue</span>
-<span id="cb9-346"><a href="#cb9-346" aria-label="340"></a>class SWAP,BLIND yellow</span>
-<span id="cb9-347"><a href="#cb9-347" aria-label="341"></a>class CHK,NAMED,SPARES purple</span>
-<span id="cb9-348"><a href="#cb9-348" aria-label="342"></a>class DONE green</span>
-<span id="cb9-349"><a href="#cb9-349" aria-label="343"></a>class WALL,EXH red</span>
-<span id="cb9-350"><a href="#cb9-350" aria-label="344"></a><span class="in">```</span></span>
-<span id="cb9-351"><a href="#cb9-351" aria-label="345"></a></span>
-<span id="cb9-352"><a href="#cb9-352" aria-label="346"></a>Every iteration writes an <span class="in">`attempt-N.log`</span> and appends any culprit to</span>
-<span id="cb9-353"><a href="#cb9-353" aria-label="347"></a><span class="in">`bad_nodes.txt`</span>, and the loop always ends with a single <span class="in">`FAILOVER STOP: &lt;reason&gt;`</span></span>
-<span id="cb9-354"><a href="#cb9-354" aria-label="348"></a>line (<span class="in">`success`</span> / <span class="in">`walltime`</span> / <span class="in">`exhausted`</span> / <span class="in">`stuck_pre_training`</span>) so a postmortem</span>
-<span id="cb9-355"><a href="#cb9-355" aria-label="349"></a><span class="in">`grep`</span> always lands on the verdict.</span>
-<span id="cb9-356"><a href="#cb9-356" aria-label="350"></a></span>
-<span id="cb9-357"><a href="#cb9-357" aria-label="351"></a>::: {.callout-note title="Can't put ezpz launch at the top? Use the bash lib"}</span>
-<span id="cb9-358"><a href="#cb9-358" aria-label="352"></a>Some job scripts (e.g. a <span class="in">`torchtitan`</span> launcher you don't own) can't be wrapped by</span>
-<span id="cb9-359"><a href="#cb9-359" aria-label="353"></a><span class="in">`ezpz launch`</span>. For those, <span class="in">`ezpz`</span> ships the same logic as a sourceable shell</span>
-<span id="cb9-360"><a href="#cb9-360" aria-label="354"></a>library, <span class="co">[</span><span class="ot">`src/ezpz/bin/failover.sh`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/bin/failover.sh)</span>:</span>
-<span id="cb9-361"><a href="#cb9-361" aria-label="355"></a></span>
-<span id="cb9-362"><a href="#cb9-362" aria-label="356"></a><span class="in">```bash</span></span>
-<span id="cb9-363"><a href="#cb9-363" aria-label="357"></a><span class="bu">source</span> <span class="st">"</span><span class="va">$(</span><span class="ex">python3</span> <span class="at">-c</span> <span class="st">'import ezpz, pathlib; print(pathlib.Path(ezpz.configs.BIN_DIR) / "failover.sh")'</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb9-364"><a href="#cb9-364" aria-label="358"></a><span class="ex">failover_init</span> <span class="st">"</span><span class="va">$NHOSTS_TRAIN</span><span class="st">"</span>    <span class="co"># split PBS_NODEFILE -&gt; active + spare</span></span>
-<span id="cb9-365"><a href="#cb9-365" aria-label="359"></a><span class="ex">failover_yeet_all</span>                <span class="co"># broadcast the venv to ALL nodes (spares included)</span></span>
-<span id="cb9-366"><a href="#cb9-366" aria-label="360"></a><span class="ex">failover_run</span> ezpz launch python3 <span class="at">-m</span> torchtitan.train <span class="at">--job.config_file</span> <span class="op">&lt;</span>toml<span class="op">&gt;</span></span>
-<span id="cb9-367"><a href="#cb9-367" aria-label="361"></a><span class="in">```</span></span>
-<span id="cb9-368"><a href="#cb9-368" aria-label="362"></a></span>
-<span id="cb9-369"><a href="#cb9-369" aria-label="363"></a>It scrapes the same signatures, swaps spares the same way, and honors the same</span>
-<span id="cb9-370"><a href="#cb9-370" aria-label="364"></a><span class="in">`FAILOVER_IDLE_TIMEOUT`</span> (default 1800s) watchdog.</span>
-<span id="cb9-371"><a href="#cb9-371" aria-label="365"></a>:::</span>
-<span id="cb9-372"><a href="#cb9-372" aria-label="366"></a></span>
-<span id="cb9-373"><a href="#cb9-373" aria-label="367"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb9-291"><a href="#cb9-291" aria-label="287"></a>(We use <span class="in">`ezpz.examples.fsdp_tp`</span> here, not <span class="in">`ezpz.examples.test`</span>: <span class="in">`fsdp_tp`</span> is the</span>
+<span id="cb9-292"><a href="#cb9-292" aria-label="288"></a>example wired for **distributed checkpointing + automatic resume** — it saves every</span>
+<span id="cb9-293"><a href="#cb9-293" aria-label="289"></a><span class="in">`--save-interval`</span> steps to <span class="in">`--ckpt-dir`</span> and, on relaunch, picks up from the latest</span>
+<span id="cb9-294"><a href="#cb9-294" aria-label="290"></a>checkpoint unless you pass <span class="in">`--no-resume`</span>. That resume-on-restart is exactly what</span>
+<span id="cb9-295"><a href="#cb9-295" aria-label="291"></a>makes fault tolerance work.)</span>
+<span id="cb9-296"><a href="#cb9-296" aria-label="292"></a></span>
+<span id="cb9-297"><a href="#cb9-297" aria-label="293"></a>What each flag does:</span>
+<span id="cb9-298"><a href="#cb9-298" aria-label="294"></a></span>
+<span id="cb9-299"><a href="#cb9-299" aria-label="295"></a><span class="ss">- </span>**`--auto-retry`** — splits your allocation into an **active** training set and</span>
+<span id="cb9-300"><a href="#cb9-300" aria-label="296"></a>  a **spare** pool, then runs your command in a loop. On a non-zero exit it</span>
+<span id="cb9-301"><a href="#cb9-301" aria-label="297"></a>  *scrapes the log* for the bad-node signatures from @sec-real, **swaps the</span>
+<span id="cb9-302"><a href="#cb9-302" aria-label="298"></a>  guilty node(s) out for spares**, and relaunches. It keeps going until the run</span>
+<span id="cb9-303"><a href="#cb9-303" aria-label="299"></a>  **succeeds**, hits the **walltime**, or **runs out of spares**.</span>
+<span id="cb9-304"><a href="#cb9-304" aria-label="300"></a><span class="ss">- </span>**`--spare-nodes auto`** — <span class="in">`auto`</span> uses every node beyond the <span class="in">`-n`</span> training set</span>
+<span id="cb9-305"><a href="#cb9-305" aria-label="301"></a>  as a spare (<span class="in">`total − active`</span>); or pass an explicit integer <span class="in">`N`</span>.</span>
+<span id="cb9-306"><a href="#cb9-306" aria-label="302"></a><span class="ss">- </span>**`--timeout SECONDS`** — an **idle-*output* watchdog**, not a total time</span>
+<span id="cb9-307"><a href="#cb9-307" aria-label="303"></a>  limit. If the job produces *no stdout* for this long, the launcher assumes a</span>
+<span id="cb9-308"><a href="#cb9-308" aria-label="304"></a>  silent collective hang (the shared-FS stall from @sec-real), kills it with</span>
+<span id="cb9-309"><a href="#cb9-309" aria-label="305"></a>  **exit 124**, and treats it as a bad-node failure. It **defaults to 1800s**</span>
+<span id="cb9-310"><a href="#cb9-310" aria-label="306"></a>  when <span class="in">`--auto-retry`</span> is set.</span>
+<span id="cb9-311"><a href="#cb9-311" aria-label="307"></a><span class="ss">- </span>**`--max-failover-retries N`** — cap on how many times to swap-and-retry</span>
+<span id="cb9-312"><a href="#cb9-312" aria-label="308"></a>  (default: unbounded, bounded only by walltime and spare pool).</span>
+<span id="cb9-313"><a href="#cb9-313" aria-label="309"></a><span class="ss">- </span>**`--retries N`** — the *simpler* cousin: a plain **process-level** re-run of</span>
+<span id="cb9-314"><a href="#cb9-314" aria-label="310"></a>  the same command N times, with **no** log scraping or node swapping. It is</span>
+<span id="cb9-315"><a href="#cb9-315" aria-label="311"></a>  **mutually exclusive** with <span class="in">`--auto-retry`</span> (use one or the other).</span>
+<span id="cb9-316"><a href="#cb9-316" aria-label="312"></a></span>
+<span id="cb9-317"><a href="#cb9-317" aria-label="313"></a>::: {.callout-tip title="🧠 A smarter guard than a retry counter"}</span>
+<span id="cb9-318"><a href="#cb9-318" aria-label="314"></a><span class="in">`--auto-retry`</span> also bails early on <span class="in">`STUCK_PRE_TRAINING`</span>: if **two consecutive**</span>
+<span id="cb9-319"><a href="#cb9-319" aria-label="315"></a>attempts produce zero <span class="in">`step=`</span> progress markers, the problem is a code/config bug</span>
+<span id="cb9-320"><a href="#cb9-320" aria-label="316"></a>(bad dataset path, wrong shapes), not a bad node — and no amount of node-swapping</span>
+<span id="cb9-321"><a href="#cb9-321" aria-label="317"></a>will fix it. This stops the loop from burning your entire spare pool relaunching</span>
+<span id="cb9-322"><a href="#cb9-322" aria-label="318"></a>a run that was never going to train.</span>
+<span id="cb9-323"><a href="#cb9-323" aria-label="319"></a>:::</span>
+<span id="cb9-324"><a href="#cb9-324" aria-label="320"></a></span>
+<span id="cb9-325"><a href="#cb9-325" aria-label="321"></a><span class="fu">### The failover loop</span></span>
+<span id="cb9-326"><a href="#cb9-326" aria-label="322"></a></span>
+<span id="cb9-329"><a href="#cb9-329" aria-label="323"></a><span class="in">```{mermaid}</span></span>
+<span id="cb9-330"><a href="#cb9-330" aria-label="324"></a>flowchart TD</span>
+<span id="cb9-331"><a href="#cb9-331" aria-label="325"></a>    START([<span class="ot">"</span><span class="st">`ezpz launch --auto-retry`</span><span class="ot">"</span>]) --&gt; SPLIT[<span class="ot">"</span><span class="st">`Split allocation:&lt;br/&gt;active + spare pool`</span><span class="ot">"</span>]</span>
+<span id="cb9-332"><a href="#cb9-332" aria-label="326"></a>    SPLIT --&gt; RUN[<span class="ot">"</span><span class="st">`Launch attempt&lt;br/&gt;on active nodes`</span><span class="ot">"</span>]</span>
+<span id="cb9-333"><a href="#cb9-333" aria-label="327"></a>    RUN --&gt; CHK{<span class="ot">"</span><span class="st">`Exit code?`</span><span class="ot">"</span>}</span>
+<span id="cb9-334"><a href="#cb9-334" aria-label="328"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`0 (success)`</span><span class="ot">"</span>| DONE([<span class="ot">"</span><span class="st">`✅ Done`</span><span class="ot">"</span>])</span>
+<span id="cb9-335"><a href="#cb9-335" aria-label="329"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`143 walltime,&lt;br/&gt;no crash pattern`</span><span class="ot">"</span>| WALL([<span class="ot">"</span><span class="st">`⏰ Walltime — stop`</span><span class="ot">"</span>])</span>
+<span id="cb9-336"><a href="#cb9-336" aria-label="330"></a>    CHK --&gt;|<span class="ot">"</span><span class="st">`nonzero / 124 hang`</span><span class="ot">"</span>| SCRAPE[<span class="ot">"</span><span class="st">`Scrape log for&lt;br/&gt;bad-node signatures`</span><span class="ot">"</span>]</span>
+<span id="cb9-337"><a href="#cb9-337" aria-label="331"></a>    SCRAPE --&gt; NAMED{<span class="ot">"</span><span class="st">`Named a&lt;br/&gt;bad node?`</span><span class="ot">"</span>}</span>
+<span id="cb9-338"><a href="#cb9-338" aria-label="332"></a>    NAMED --&gt;|<span class="ot">"</span><span class="st">`yes`</span><span class="ot">"</span>| SWAP[<span class="ot">"</span><span class="st">`Swap bad node&lt;br/&gt;→ spare`</span><span class="ot">"</span>]</span>
+<span id="cb9-339"><a href="#cb9-339" aria-label="333"></a>    NAMED --&gt;|<span class="ot">"</span><span class="st">`no`</span><span class="ot">"</span>| BLIND[<span class="ot">"</span><span class="st">`Blind-rotate&lt;br/&gt;one spare in`</span><span class="ot">"</span>]</span>
+<span id="cb9-340"><a href="#cb9-340" aria-label="334"></a>    SWAP --&gt; SPARES{<span class="ot">"</span><span class="st">`Spares left?`</span><span class="ot">"</span>}</span>
+<span id="cb9-341"><a href="#cb9-341" aria-label="335"></a>    BLIND --&gt; SPARES</span>
+<span id="cb9-342"><a href="#cb9-342" aria-label="336"></a>    SPARES --&gt;|<span class="ot">"</span><span class="st">`yes`</span><span class="ot">"</span>| RUN</span>
+<span id="cb9-343"><a href="#cb9-343" aria-label="337"></a>    SPARES --&gt;|<span class="ot">"</span><span class="st">`no`</span><span class="ot">"</span>| EXH([<span class="ot">"</span><span class="st">`💀 Exhausted — stop`</span><span class="ot">"</span>])</span>
+<span id="cb9-344"><a href="#cb9-344" aria-label="338"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
+<span id="cb9-345"><a href="#cb9-345" aria-label="339"></a>classDef red fill:<span class="co">#ff8181,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb9-346"><a href="#cb9-346" aria-label="340"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb9-347"><a href="#cb9-347" aria-label="341"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb9-348"><a href="#cb9-348" aria-label="342"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb9-349"><a href="#cb9-349" aria-label="343"></a>classDef purple fill:<span class="co">#FFCBE6,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb9-350"><a href="#cb9-350" aria-label="344"></a>class START,SPLIT block</span>
+<span id="cb9-351"><a href="#cb9-351" aria-label="345"></a>class RUN,SCRAPE blue</span>
+<span id="cb9-352"><a href="#cb9-352" aria-label="346"></a>class SWAP,BLIND yellow</span>
+<span id="cb9-353"><a href="#cb9-353" aria-label="347"></a>class CHK,NAMED,SPARES purple</span>
+<span id="cb9-354"><a href="#cb9-354" aria-label="348"></a>class DONE green</span>
+<span id="cb9-355"><a href="#cb9-355" aria-label="349"></a>class WALL,EXH red</span>
+<span id="cb9-356"><a href="#cb9-356" aria-label="350"></a><span class="in">```</span></span>
+<span id="cb9-357"><a href="#cb9-357" aria-label="351"></a></span>
+<span id="cb9-358"><a href="#cb9-358" aria-label="352"></a>Every iteration writes an <span class="in">`attempt-N.log`</span> and appends any culprit to</span>
+<span id="cb9-359"><a href="#cb9-359" aria-label="353"></a><span class="in">`bad_nodes.txt`</span>, and the loop always ends with a single <span class="in">`FAILOVER STOP: &lt;reason&gt;`</span></span>
+<span id="cb9-360"><a href="#cb9-360" aria-label="354"></a>line (<span class="in">`success`</span> / <span class="in">`walltime`</span> / <span class="in">`exhausted`</span> / <span class="in">`stuck_pre_training`</span>) so a postmortem</span>
+<span id="cb9-361"><a href="#cb9-361" aria-label="355"></a><span class="in">`grep`</span> always lands on the verdict.</span>
+<span id="cb9-362"><a href="#cb9-362" aria-label="356"></a></span>
+<span id="cb9-363"><a href="#cb9-363" aria-label="357"></a>::: {.callout-note title="Can't put ezpz launch at the top? Use the bash lib"}</span>
+<span id="cb9-364"><a href="#cb9-364" aria-label="358"></a>Some job scripts (e.g. a <span class="in">`torchtitan`</span> launcher you don't own) can't be wrapped by</span>
+<span id="cb9-365"><a href="#cb9-365" aria-label="359"></a><span class="in">`ezpz launch`</span>. For those, <span class="in">`ezpz`</span> ships the same logic as a sourceable shell</span>
+<span id="cb9-366"><a href="#cb9-366" aria-label="360"></a>library, <span class="co">[</span><span class="ot">`src/ezpz/bin/failover.sh`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/bin/failover.sh)</span>:</span>
+<span id="cb9-367"><a href="#cb9-367" aria-label="361"></a></span>
+<span id="cb9-368"><a href="#cb9-368" aria-label="362"></a><span class="in">```bash</span></span>
+<span id="cb9-369"><a href="#cb9-369" aria-label="363"></a><span class="bu">source</span> <span class="st">"</span><span class="va">$(</span><span class="ex">python3</span> <span class="at">-c</span> <span class="st">'import ezpz, pathlib; print(pathlib.Path(ezpz.configs.BIN_DIR) / "failover.sh")'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb9-370"><a href="#cb9-370" aria-label="364"></a><span class="ex">failover_init</span> <span class="st">"</span><span class="va">$NHOSTS_TRAIN</span><span class="st">"</span>    <span class="co"># split PBS_NODEFILE -&gt; active + spare</span></span>
+<span id="cb9-371"><a href="#cb9-371" aria-label="365"></a><span class="ex">failover_yeet_all</span>                <span class="co"># broadcast the venv to ALL nodes (spares included)</span></span>
+<span id="cb9-372"><a href="#cb9-372" aria-label="366"></a><span class="ex">failover_run</span> ezpz launch python3 <span class="at">-m</span> torchtitan.train <span class="at">--job.config_file</span> <span class="op">&lt;</span>toml<span class="op">&gt;</span></span>
+<span id="cb9-373"><a href="#cb9-373" aria-label="367"></a><span class="in">```</span></span>
 <span id="cb9-374"><a href="#cb9-374" aria-label="368"></a></span>
-<span id="cb9-375"><a href="#cb9-375" aria-label="369"></a>Prove that your training survives a crash. Submit **proof of a resumed run**:</span>
-<span id="cb9-376"><a href="#cb9-376" aria-label="370"></a></span>
-<span id="cb9-377"><a href="#cb9-377" aria-label="371"></a><span class="ss">1. </span>Take a checkpointing training script — the @sec-toy loop is fine, or</span>
-<span id="cb9-378"><a href="#cb9-378" aria-label="372"></a>   <span class="in">`python3 -m ezpz.examples.test`</span> with a <span class="in">`--ckpt-dir`</span> / <span class="in">`--ckpt-interval`</span>, or</span>
-<span id="cb9-379"><a href="#cb9-379" aria-label="373"></a>   your own — and launch it so it checkpoints every N steps:</span>
+<span id="cb9-375"><a href="#cb9-375" aria-label="369"></a>It scrapes the same signatures, swaps spares the same way, and honors the same</span>
+<span id="cb9-376"><a href="#cb9-376" aria-label="370"></a><span class="in">`FAILOVER_IDLE_TIMEOUT`</span> (default 1800s) watchdog.</span>
+<span id="cb9-377"><a href="#cb9-377" aria-label="371"></a>:::</span>
+<span id="cb9-378"><a href="#cb9-378" aria-label="372"></a></span>
+<span id="cb9-379"><a href="#cb9-379" aria-label="373"></a><span class="fu">## 🎒 Homework</span></span>
 <span id="cb9-380"><a href="#cb9-380" aria-label="374"></a></span>
-<span id="cb9-381"><a href="#cb9-381" aria-label="375"></a>    <span class="in">```bash</span></span>
-<span id="cb9-382"><a href="#cb9-382" aria-label="376"></a>    <span class="ex">ezpz</span> launch <span class="at">-n</span> <span class="op">&lt;</span>N<span class="op">&gt;</span> python3 <span class="at">-m</span> ezpz.examples.test <span class="dt">\</span></span>
-<span id="cb9-383"><a href="#cb9-383" aria-label="377"></a>        <span class="at">--max-iters</span> 2000 <span class="at">--ckpt-dir</span> ./ckpts <span class="at">--ckpt-interval</span> 100</span>
-<span id="cb9-384"><a href="#cb9-384" aria-label="378"></a>    <span class="in">```</span></span>
-<span id="cb9-385"><a href="#cb9-385" aria-label="379"></a></span>
-<span id="cb9-386"><a href="#cb9-386" aria-label="380"></a><span class="ss">2. </span>**Kill it** partway through (Ctrl-C, <span class="in">`scancel`</span>/<span class="in">`qdel`</span>, or just let the</span>
-<span id="cb9-387"><a href="#cb9-387" aria-label="381"></a>   simulated crash fire) *after* at least one checkpoint has been written.</span>
-<span id="cb9-388"><a href="#cb9-388" aria-label="382"></a></span>
-<span id="cb9-389"><a href="#cb9-389" aria-label="383"></a><span class="ss">3. </span>**Relaunch the exact same command** and confirm the run **resumes** — the step</span>
-<span id="cb9-390"><a href="#cb9-390" aria-label="384"></a>   counter must continue from the last checkpoint, not restart at 0.</span>
-<span id="cb9-391"><a href="#cb9-391" aria-label="385"></a></span>
-<span id="cb9-392"><a href="#cb9-392" aria-label="386"></a><span class="ss">4. </span>(Optional stretch) Run it under <span class="in">`ezpz launch --auto-retry --spare-nodes auto`</span></span>
-<span id="cb9-393"><a href="#cb9-393" aria-label="387"></a>   and find the <span class="in">`FAILOVER STOP: &lt;reason&gt;`</span> line and the <span class="in">`attempt-N.log`</span> files.</span>
-<span id="cb9-394"><a href="#cb9-394" aria-label="388"></a></span>
-<span id="cb9-395"><a href="#cb9-395" aria-label="389"></a>Where *proof* can be any of:</span>
-<span id="cb9-396"><a href="#cb9-396" aria-label="390"></a></span>
-<span id="cb9-397"><a href="#cb9-397" aria-label="391"></a><span class="ss">- </span>The contents printed to your terminal showing `resumed from checkpoint at</span>
-<span id="cb9-398"><a href="#cb9-398" aria-label="392"></a>  step K` and the counter continuing past it</span>
-<span id="cb9-399"><a href="#cb9-399" aria-label="393"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems containing the resumed run</span>
-<span id="cb9-400"><a href="#cb9-400" aria-label="394"></a><span class="ss">- </span>A screenshot of the terminal output or a W&amp;B chart where loss **continues**</span>
-<span id="cb9-401"><a href="#cb9-401" aria-label="395"></a>  (not resets) across the restart</span>
-<span id="cb9-402"><a href="#cb9-402" aria-label="396"></a><span class="ss">- </span>A url to a W&amp;B Run or Report</span>
-<span id="cb9-403"><a href="#cb9-403" aria-label="397"></a><span class="ss">- </span>etc.</span>
-<span id="cb9-404"><a href="#cb9-404" aria-label="398"></a></span>
-<span id="cb9-405"><a href="#cb9-405" aria-label="399"></a>The point: a run that resumes cleanly from a checkpoint is a run that can survive</span>
-<span id="cb9-406"><a href="#cb9-406" aria-label="400"></a>a multi-week job on thousands of GPUs.</span>
-<span id="cb9-407"><a href="#cb9-407" aria-label="401"></a></span>
-<span id="cb9-408"><a href="#cb9-408" aria-label="402"></a>::: {.callout-tip title="🔬 At DeepSeek-V3 / Llama-3 scale…"}</span>
-<span id="cb9-409"><a href="#cb9-409" aria-label="403"></a>This isn't academic. Llama-3 405B pretraining logged</span>
-<span id="cb9-410"><a href="#cb9-410" aria-label="404"></a><span class="co">[</span><span class="ot">**466 job interruptions** over 54 days</span><span class="co">](https://arxiv.org/abs/2407.21783)</span> — ~78%</span>
-<span id="cb9-411"><a href="#cb9-411" aria-label="405"></a>hardware, mostly GPU faults — and still sustained &gt;90% effective training time.</span>
-<span id="cb9-412"><a href="#cb9-412" aria-label="406"></a>The only reason that's possible is aggressive checkpointing plus automated</span>
-<span id="cb9-413"><a href="#cb9-413" aria-label="407"></a>detect-swap-resume: exactly the loop you just ran in miniature.</span>
-<span id="cb9-414"><a href="#cb9-414" aria-label="408"></a>:::</span>
-<span id="cb9-415"><a href="#cb9-415" aria-label="409"></a></span>
-<span id="cb9-416"><a href="#cb9-416" aria-label="410"></a>---</span>
-<span id="cb9-417"><a href="#cb9-417" aria-label="411"></a></span>
-<span id="cb9-418"><a href="#cb9-418" aria-label="412"></a>*Last updated: {{&lt; meta date-modified &gt;}}*</span>
+<span id="cb9-381"><a href="#cb9-381" aria-label="375"></a>Prove that your training survives a crash. Submit **proof of a resumed run**:</span>
+<span id="cb9-382"><a href="#cb9-382" aria-label="376"></a></span>
+<span id="cb9-383"><a href="#cb9-383" aria-label="377"></a><span class="ss">1. </span>Take a checkpointing training script — the @sec-toy loop is fine, or</span>
+<span id="cb9-384"><a href="#cb9-384" aria-label="378"></a>   <span class="in">`python3 -m ezpz.examples.fsdp_tp`</span> (which supports <span class="in">`--ckpt-dir`</span> /</span>
+<span id="cb9-385"><a href="#cb9-385" aria-label="379"></a>   <span class="in">`--save-interval`</span> and auto-resumes), or your own — and launch it so it</span>
+<span id="cb9-386"><a href="#cb9-386" aria-label="380"></a>   checkpoints every N steps:</span>
+<span id="cb9-387"><a href="#cb9-387" aria-label="381"></a></span>
+<span id="cb9-388"><a href="#cb9-388" aria-label="382"></a>    <span class="in">```bash</span></span>
+<span id="cb9-389"><a href="#cb9-389" aria-label="383"></a>    <span class="ex">ezpz</span> launch <span class="at">-n</span> <span class="op">&lt;</span>N<span class="op">&gt;</span> python3 <span class="at">-m</span> ezpz.examples.fsdp_tp <span class="dt">\</span></span>
+<span id="cb9-390"><a href="#cb9-390" aria-label="384"></a>        <span class="at">--train-iters</span> 2000 <span class="at">--ckpt-dir</span> ./ckpts <span class="at">--save-interval</span> 100</span>
+<span id="cb9-391"><a href="#cb9-391" aria-label="385"></a>    <span class="in">```</span></span>
+<span id="cb9-392"><a href="#cb9-392" aria-label="386"></a></span>
+<span id="cb9-393"><a href="#cb9-393" aria-label="387"></a><span class="ss">2. </span>**Kill it** partway through (Ctrl-C, <span class="in">`scancel`</span>/<span class="in">`qdel`</span>, or just let the</span>
+<span id="cb9-394"><a href="#cb9-394" aria-label="388"></a>   simulated crash fire) *after* at least one checkpoint has been written.</span>
+<span id="cb9-395"><a href="#cb9-395" aria-label="389"></a></span>
+<span id="cb9-396"><a href="#cb9-396" aria-label="390"></a><span class="ss">3. </span>**Relaunch the exact same command** and confirm the run **resumes** — the step</span>
+<span id="cb9-397"><a href="#cb9-397" aria-label="391"></a>   counter must continue from the last checkpoint, not restart at 0.</span>
+<span id="cb9-398"><a href="#cb9-398" aria-label="392"></a></span>
+<span id="cb9-399"><a href="#cb9-399" aria-label="393"></a><span class="ss">4. </span>(Optional stretch) Run it under <span class="in">`ezpz launch --auto-retry --spare-nodes auto`</span></span>
+<span id="cb9-400"><a href="#cb9-400" aria-label="394"></a>   and find the <span class="in">`FAILOVER STOP: &lt;reason&gt;`</span> line and the <span class="in">`attempt-N.log`</span> files.</span>
+<span id="cb9-401"><a href="#cb9-401" aria-label="395"></a></span>
+<span id="cb9-402"><a href="#cb9-402" aria-label="396"></a>Where *proof* can be any of:</span>
+<span id="cb9-403"><a href="#cb9-403" aria-label="397"></a></span>
+<span id="cb9-404"><a href="#cb9-404" aria-label="398"></a><span class="ss">- </span>The contents printed to your terminal showing `resumed from checkpoint at</span>
+<span id="cb9-405"><a href="#cb9-405" aria-label="399"></a>  step K` and the counter continuing past it</span>
+<span id="cb9-406"><a href="#cb9-406" aria-label="400"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems containing the resumed run</span>
+<span id="cb9-407"><a href="#cb9-407" aria-label="401"></a><span class="ss">- </span>A screenshot of the terminal output or a W&amp;B chart where loss **continues**</span>
+<span id="cb9-408"><a href="#cb9-408" aria-label="402"></a>  (not resets) across the restart</span>
+<span id="cb9-409"><a href="#cb9-409" aria-label="403"></a><span class="ss">- </span>A url to a W&amp;B Run or Report</span>
+<span id="cb9-410"><a href="#cb9-410" aria-label="404"></a><span class="ss">- </span>etc.</span>
+<span id="cb9-411"><a href="#cb9-411" aria-label="405"></a></span>
+<span id="cb9-412"><a href="#cb9-412" aria-label="406"></a>The point: a run that resumes cleanly from a checkpoint is a run that can survive</span>
+<span id="cb9-413"><a href="#cb9-413" aria-label="407"></a>a multi-week job on thousands of GPUs.</span>
+<span id="cb9-414"><a href="#cb9-414" aria-label="408"></a></span>
+<span id="cb9-415"><a href="#cb9-415" aria-label="409"></a>::: {.callout-tip title="🔬 At DeepSeek-V3 / Llama-3 scale…"}</span>
+<span id="cb9-416"><a href="#cb9-416" aria-label="410"></a>This isn't academic. Llama-3 405B pretraining logged</span>
+<span id="cb9-417"><a href="#cb9-417" aria-label="411"></a><span class="co">[</span><span class="ot">**466 job interruptions** over 54 days</span><span class="co">](https://arxiv.org/abs/2407.21783)</span> — ~78%</span>
+<span id="cb9-418"><a href="#cb9-418" aria-label="412"></a>hardware, mostly GPU faults — and still sustained &gt;90% effective training time.</span>
+<span id="cb9-419"><a href="#cb9-419" aria-label="413"></a>The only reason that's possible is aggressive checkpointing plus automated</span>
+<span id="cb9-420"><a href="#cb9-420" aria-label="414"></a>detect-swap-resume: exactly the loop you just ran in miniature.</span>
+<span id="cb9-421"><a href="#cb9-421" aria-label="415"></a>:::</span>
+<span id="cb9-422"><a href="#cb9-422" aria-label="416"></a></span>
+<span id="cb9-423"><a href="#cb9-423" aria-label="417"></a>---</span>
+<span id="cb9-424"><a href="#cb9-424" aria-label="418"></a></span>
+<span id="cb9-425"><a href="#cb9-425" aria-label="419"></a>*Last updated: {{&lt; meta date-modified &gt;}}*</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
