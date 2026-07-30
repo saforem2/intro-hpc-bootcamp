@@ -348,7 +348,44 @@ print("generated:", decode(generated))
 ```
 
 It reproduces the learned motif — the codon-level analogue of GPT-2 continuing a
-sentence. Let's visualize the training curve (uses the shared `bootcamp` plotting
+sentence.
+
+### Scoring how "surprising" a mutation is
+
+This is the payoff hinted at in the intro — the exact signal GenSLM used to flag
+emerging variants. A model that has learned the genome's grammar assigns **high
+probability** (low *surprise*) to codons that fit, and **low probability** (high
+surprise) to ones that don't. We measure surprise as the **negative
+log-likelihood** the model assigns to a candidate next codon given the preceding
+context — no labels, just the model's own next-token distribution:
+
+```{python}
+@torch.no_grad()
+def surprise(context_dna: str, next_codon: str) -> float:
+    """Negative log-likelihood the model assigns to `next_codon` after `context_dna`.
+    High = surprising (the model didn't expect it); low = business as usual."""
+    ctx = torch.tensor([encode(context_dna)])       # (1, T)
+    logits, _ = model(ctx)                           # (1, T, vocab_size)
+    logp = F.log_softmax(logits[0, -1], dim=-1)      # distribution over the next codon
+    return -logp[stoi[next_codon]].item()
+
+# In the motif  ATG · AAA · CGC · GGG · ...  the codon after "ATG" is canonically
+# "AAA". Compare the model's surprise at the real codon vs. a mutation.
+for ctx, canonical, mutant in [("ATG", "AAA", "TTT"),
+                               ("ATGAAACGC", "GGG", "CCC")]:
+    s_ok = surprise(ctx, canonical)
+    s_mut = surprise(ctx, mutant)
+    print(f"after {ctx:>10s}:  {canonical} (canonical) surprise={s_ok:5.2f}   "
+          f"{mutant} (mutation) surprise={s_mut:5.2f}   ->  {s_mut/max(s_ok,1e-6):,.0f}x more surprising")
+```
+
+The canonical codon is almost free (the model expected it); the mutation costs
+*many* nats of surprise. Run this across every position of a real genome and the
+spikes light up exactly where a sequence departs from what the model learned as
+normal — that is variant detection, done with a language model and **zero labeled
+data**.
+
+Let's visualize the training curve (uses the shared `bootcamp` plotting
 theme):
 
 ```{python}

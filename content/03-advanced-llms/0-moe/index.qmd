@@ -243,6 +243,29 @@ print("tokens beyond capacity are 'dropped' (skip the expert, kept via residual)
 - Larger capacity → fewer dropped tokens but more wasted compute/memory on
   padding. Typical values are `1.0`–`2.0`.
 
+Let's actually apply the cap to the routing from our toy run above (`counts` is the
+per-expert token count the `MoELayer` returned) and see the drops happen:
+
+```{python}
+total_dispatched = int(counts.sum())              # == n_tokens * top_k
+dropped = 0
+print(f"capacity = {capacity} tokens/expert  (capacity_factor={capacity_factor})\n")
+for e, c in enumerate(counts.tolist()):
+    over = max(c - capacity, 0)
+    dropped += over
+    flag = f"DROP {over}" if over else "ok"
+    print(f"  expert {e}: {c:2d} routed / cap {capacity}  ->  {flag}")
+print(f"\ndropped {dropped}/{total_dispatched} dispatches "
+      f"({dropped / total_dispatched:.0%}) — these tokens skip the expert and ride "
+      f"the residual through unchanged.")
+```
+
+Because our untrained router is lumpy, an over-subscribed expert drops its overflow
+while others sit under capacity — wasted work on both ends. This is exactly why the
+**load-balancing aux loss** matters: flatten the distribution and the drop rate
+falls. Try re-running with `capacity_factor = 1.0` (tighter → more drops) vs `2.0`
+(looser → none) to feel the trade-off.
+
 ::: {.callout-tip title="🔬 At DeepSeek-v3 scale…"}
 The toy above has 4 experts and 12 tokens on one CPU. DeepSeek-v3 has **256
 routed experts + 1 shared expert per MoE layer**, routes **top-8**, and streams

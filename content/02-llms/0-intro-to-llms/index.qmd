@@ -1164,6 +1164,53 @@ class LanguageModel(nn.Module):
         return idx
 ```
 
+### Train it — and watch it learn
+
+An **untrained** model just emits noise. Let's sample from it *before* training so
+we have a baseline, then run the training loop and sample again:
+
+```{python}
+model = LanguageModel().to(device)
+n_params = sum(p.numel() for p in model.parameters())
+print(f"model has {n_params/1e3:.1f}K parameters, training on {device}")
+
+# a fresh, untrained model: pure gibberish
+ctx = torch.zeros((1, 1), dtype=torch.long, device=device)   # start from token 0
+print("--- BEFORE training ---")
+print(decode(model.generate(ctx, max_new_tokens=200)[0].tolist()))
+```
+
+```{python}
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+
+for step in range(max_iters):
+    xb, yb = get_batch("train")
+    xb, yb = xb.to(device), yb.to(device)
+    _, loss = model(xb, yb)
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
+    if step % eval_interval == 0 or step == max_iters - 1:
+        print(f"step {step:4d}  train loss {loss.item():.3f}")
+```
+
+The loss falls from ~4.2 (random over the vocabulary, $\ln$(vocab size)) toward
+~2 as the model learns character statistics. Now sample again — the **same**
+`generate()` call, but from the *trained* weights:
+
+```{python}
+print("--- AFTER training ---")
+print(decode(model.generate(ctx, max_new_tokens=400)[0].tolist()))
+```
+
+It won't write *Hamlet* — it's a ~200K-parameter character model trained for a few
+hundred steps — but the transformation is unmistakable: the gibberish becomes
+line-broken text with capitalized speaker names, plausible word shapes, and
+Shakespearean punctuation. That is a language model, built from the pieces above,
+learning purely by predicting the next character. Train longer / bigger (as in
+[\[2.3\] Shakespeare from Scratch](../3-shakespeare-ezpz/index.qmd)) and it keeps
+getting better.
+
 ## 🤗 Using Pretrained Models with HuggingFace
 
 Building from scratch teaches you *how* Transformers work. In practice, you'll
