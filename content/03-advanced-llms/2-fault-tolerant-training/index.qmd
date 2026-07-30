@@ -278,11 +278,17 @@ ezpz launch \
     --max-failover-retries 5 \
     --timeout 1800 \
     -n 96 \
-    python3 -m ezpz.examples.test \
-        --max-iters 50000 \
+    python3 -m ezpz.examples.fsdp_tp \
+        --train-iters 50000 \
         --ckpt-dir /path/to/checkpoints \
-        --ckpt-interval 500
+        --save-interval 500
 ```
+
+(We use `ezpz.examples.fsdp_tp` here, not `ezpz.examples.test`: `fsdp_tp` is the
+example wired for **distributed checkpointing + automatic resume** — it saves every
+`--save-interval` steps to `--ckpt-dir` and, on relaunch, picks up from the latest
+checkpoint unless you pass `--no-resume`. That resume-on-restart is exactly what
+makes fault tolerance work.)
 
 What each flag does:
 
@@ -369,12 +375,13 @@ It scrapes the same signatures, swaps spares the same way, and honors the same
 Prove that your training survives a crash. Submit **proof of a resumed run**:
 
 1. Take a checkpointing training script — the @sec-toy loop is fine, or
-   `python3 -m ezpz.examples.test` with a `--ckpt-dir` / `--ckpt-interval`, or
-   your own — and launch it so it checkpoints every N steps:
+   `python3 -m ezpz.examples.fsdp_tp` (which supports `--ckpt-dir` /
+   `--save-interval` and auto-resumes), or your own — and launch it so it
+   checkpoints every N steps:
 
     ```bash
-    ezpz launch -n <N> python3 -m ezpz.examples.test \
-        --max-iters 2000 --ckpt-dir ./ckpts --ckpt-interval 100
+    ezpz launch -n <N> python3 -m ezpz.examples.fsdp_tp \
+        --train-iters 2000 --ckpt-dir ./ckpts --save-interval 100
     ```
 
 2. **Kill it** partway through (Ctrl-C, `scancel`/`qdel`, or just let the

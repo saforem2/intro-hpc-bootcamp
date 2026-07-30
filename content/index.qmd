@@ -301,7 +301,7 @@ ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \
-        train.dtype=bf16 \
+        train.dtype=bfloat16 \
         model.batch_size=8 \
         model.block_size=2048 \
         train.max_iters=1000 \

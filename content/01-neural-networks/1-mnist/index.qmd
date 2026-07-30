@@ -78,8 +78,10 @@ in a few minutes on CPU — no GPU required (a GPU only speeds up the training l
 it changes nothing about the results).
 
 **What success looks like:** the simple **linear** model should reach roughly
-**~92%** test accuracy, and the deeper **nonlinear** model should climb into the
-mid-90s (**~95–97%**). If your numbers are in that ballpark, it's working.
+**~91%** test accuracy, and the deeper **nonlinear** model should climb a few
+points higher into the **~93–94%** range. If your numbers are in that ballpark,
+it's working. (Training longer, or with a larger network, pushes the nonlinear
+model into the mid-to-high 90s — a good thing to try for the homework.)
 :::
 
 ```{python}

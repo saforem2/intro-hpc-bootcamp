@@ -1542,7 +1542,7 @@ ezpz launch python3 -m wordplay \
     train.backend=DDP \
     train.eval_interval=100 \
     data=shakespeare \
-    train.dtype=bf16 \
+    train.dtype=bfloat16 \
     model.batch_size=64 \
     model.block_size=1024 \
     train.max_iters=1000 \

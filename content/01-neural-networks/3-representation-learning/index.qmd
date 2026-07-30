@@ -731,10 +731,14 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
 
         c = torch.concat([first_images, second_images], dim=0)
 
-        # Gather all the c up if the world size > 1:
+        # Gather all the c up if the world size > 1. Use the AUTOGRAD-AWARE
+        # functional all_gather: the plain torch.distributed.all_gather writes
+        # into a preallocated list, returns None, and does NOT backprop across
+        # ranks — which would silently break a contrastive loss. The functional
+        # variant returns the gathered tensors and keeps gradients flowing.
         if world_size > 1:
-            gathered_c = torch.distributed.all_gather(tensor=c)
-            gathered_c = gathered_c.reshape((-1, first_images.shape[-1]))
+            from torch.distributed.nn.functional import all_gather
+            gathered_c = torch.cat(all_gather(c), dim=0)   # (world_size * 2N, k)
         else:
             gathered_c = c
 
