@@ -676,7 +676,7 @@ class ConvNextBlock(nn.Module):
         kernel_size: Optional[None] = None,
     ):
         super(ConvNextBlock, self).__init__()
-        # Depthwise, seperable convolution with a large number of output filters:
+        # Depthwise, separable convolution with a large number of output filters:
         kernel_size = [7, 7] if kernel_size is None else kernel_size
         self.conv1 = nn.Conv2d(
             in_channels=in_channels,
@@ -1183,7 +1183,7 @@ directly to earlier layers.
 
 ### U-Nets
 
-U-NET is a convolution based neural network architecture orginally developed for
+U-NET is a convolution based neural network architecture originally developed for
 biomedical image segmentation tasks.
 It has an encoder-decoder architecture with skip connections in between them.
 

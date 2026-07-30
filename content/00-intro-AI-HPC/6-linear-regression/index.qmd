@@ -121,7 +121,7 @@ training an AI works.
 First we will load some tools that others wrote and we can use to help us work.
 
 - [Pandas](https://pandas.pydata.org/docs/): a toolkit for working with row vs.
-  column data, like excel sheets, and CSV (Comma Seperated Values) files.
+  column data, like excel sheets, and CSV (Comma Separated Values) files.
 - [Numpy](https://numpy.org/doc/): a toolkit for managing arrays, vectors,
   matrices, etc, doing math with them, slicing them up, and many other handy
   things.
@@ -355,7 +355,7 @@ So we will select our _loss function_ to be the [Mean Squared Error](https://en.
 $$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$
 
 where $y_i$ is our $i^{th}$ entry in the `data['SalePrice']` vector and
-$\hat{y_i}$ is the prediction based on evaluting $m * x_i + b$.
+$\hat{y_i}$ is the prediction based on evaluating $m * x_i + b$.
 
 This function looks like the figure below when we plot it with 
 $x=y_i - \hat{y_i}(x_i)$

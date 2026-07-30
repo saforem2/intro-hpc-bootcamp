@@ -690,7 +690,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../04-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] AI for Science</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -699,7 +699,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../04-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4.0] GenSLM: Genome-Scale LMs</span></a>
   </div>
 </li>
@@ -2477,7 +2477,7 @@ Figure&nbsp;19
 <section id="tensor-model-parallelismefficient-large-scale" class="level3">
 <h3 class="anchored" data-anchor-id="tensor-model-parallelismefficient-large-scale">Tensor (Model) Parallelism<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h3>
 <ul>
-<li>In <strong>Tensor Paralleism</strong> each GPU processes only a slice of a tensor and only aggregates the full tensor for operations that require the whole thing.
+<li>In <strong>Tensor Parallelism</strong> each GPU processes only a slice of a tensor and only aggregates the full tensor for operations that require the whole thing.
 <ul>
 <li>The main building block of any transformer is a fully connected <code>nn.Linear</code> followed by a nonlinear activation GeLU.
 <ul>
@@ -4972,7 +4972,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-1290"><a href="#cb19-1290" aria-label="1246"></a></span>
 <span id="cb19-1291"><a href="#cb19-1291" aria-label="1247"></a><span class="fu">### Tensor (Model) Parallelism[^efficient-large-scale]</span></span>
 <span id="cb19-1292"><a href="#cb19-1292" aria-label="1248"></a></span>
-<span id="cb19-1293"><a href="#cb19-1293" aria-label="1249"></a><span class="ss">- </span>In **Tensor Paralleism** each GPU processes only a slice of a tensor and only</span>
+<span id="cb19-1293"><a href="#cb19-1293" aria-label="1249"></a><span class="ss">- </span>In **Tensor Parallelism** each GPU processes only a slice of a tensor and only</span>
 <span id="cb19-1294"><a href="#cb19-1294" aria-label="1250"></a>aggregates the full tensor for operations that require the whole thing.</span>
 <span id="cb19-1295"><a href="#cb19-1295" aria-label="1251"></a><span class="ss">  - </span>The main building block of any transformer is a fully connected</span>
 <span id="cb19-1296"><a href="#cb19-1296" aria-label="1252"></a>  <span class="in">`nn.Linear`</span> followed by a nonlinear activation GeLU.</span>

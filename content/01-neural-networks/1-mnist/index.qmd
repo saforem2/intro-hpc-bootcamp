@@ -897,7 +897,7 @@ Vanishing gradients
 Exploding gradients
 : Gradients grow exponentially usually due to "poor" weight initialization.
 
-<!--  <img src="images/test_data_rule.png" width="800" hight="500" align="center"/>
+<!--  <img src="images/test_data_rule.png" width="800" height="500" align="center"/>
   -->
 
 We can now implement a deep network in PyTorch.

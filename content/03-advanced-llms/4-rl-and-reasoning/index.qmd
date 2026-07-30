@@ -33,10 +33,13 @@ and the `<think>` recipe.
 
 ::: {.callout-warning title="Render note" collapse="true"}
 `trl`, `peft`, and `vllm` are **not** installed in the site build environment, and
-real RL fine-tuning needs a GPU. Every cell that touches them is marked
-`#| eval: false`, so it renders as copy-pasteable code without running. The one
-toy cell that *does* run uses only `torch` (CPU) on tiny tensors — flip its
-`eval` to run it, or drop it on the cluster as-is.
+real RL fine-tuning of a large model needs a GPU. Every cell that touches them is
+marked `#| eval: false`, so it renders as copy-pasteable code without running.
+Everything in **§① A toy that really runs** and the **self-consistency** section
+*does* run at build time on CPU with plain `torch` — including the real char-GPT
+GRPO training loop below, whose reward curve and before/after samples are computed
+fresh each render. Drop the `eval: false` cells on the cluster to run them for
+real.
 :::
 
 ## 🧪 ① A toy that really runs

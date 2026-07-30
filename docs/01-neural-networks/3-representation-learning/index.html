@@ -624,7 +624,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../04-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] AI for Science</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -633,7 +633,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../04-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4.0] GenSLM: Genome-Scale LMs</span></a>
   </div>
 </li>
@@ -1175,7 +1175,7 @@ Figure&nbsp;1: Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-
 <span id="cb15-18"><a href="#cb15-18" aria-label="18"></a><span class="kw">class</span> ConvNextBlock(nn.Module):</span>
 <span id="cb15-19"><a href="#cb15-19" aria-label="19"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels):</span>
 <span id="cb15-20"><a href="#cb15-20" aria-label="20"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>        <span class="co"># Depthwise, separable convolution with a large number of output filters:</span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-label="22"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
 <span id="cb15-23"><a href="#cb15-23" aria-label="23"></a>            in_channels<span class="op">=</span>in_channels,</span>
 <span id="cb15-24"><a href="#cb15-24" aria-label="24"></a>            out_channels<span class="op">=</span>in_channels,</span>
@@ -1659,7 +1659,7 @@ Estimated Total Size (MB): <span class="ansi-cyan-fg ansi-bold">0.39</span>
 <span id="cb27-108"><a href="#cb27-108" aria-label="108"></a>            <span class="co"># Top 5 is a little more complicated:</span></span>
 <span id="cb27-109"><a href="#cb27-109" aria-label="109"></a>            <span class="co"># Compute the index distance to the correct index, abs value:</span></span>
 <span id="cb27-110"><a href="#cb27-110" aria-label="110"></a>            top5_acc_dist <span class="op">=</span> torch.<span class="bu">abs</span>(topk.indices[:,<span class="dv">1</span>:] <span class="op">-</span> access_index_y.to(topk.indices.device).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb27-111"><a href="#cb27-111" aria-label="111"></a>            <span class="co"># Get the minumum value, and see if it is less than 5:</span></span>
+<span id="cb27-111"><a href="#cb27-111" aria-label="111"></a>            <span class="co"># Get the minimum value, and see if it is less than 5:</span></span>
 <span id="cb27-112"><a href="#cb27-112" aria-label="112"></a>            min_values, _ <span class="op">=</span> torch.<span class="bu">min</span>(top5_acc_dist, dim<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb27-113"><a href="#cb27-113" aria-label="113"></a>            top5_acc <span class="op">=</span>  min_values <span class="op">&lt;</span> <span class="fl">5.</span></span>
 <span id="cb27-114"><a href="#cb27-114" aria-label="114"></a>            <span class="co"># Average over the batch dimension:</span></span>
@@ -3054,7 +3054,7 @@ Networks.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb37-493"><a href="#cb37-493" aria-label="471"></a><span class="kw">class</span> ConvNextBlock(nn.Module):</span>
 <span id="cb37-494"><a href="#cb37-494" aria-label="472"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels):</span>
 <span id="cb37-495"><a href="#cb37-495" aria-label="473"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb37-496"><a href="#cb37-496" aria-label="474"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
+<span id="cb37-496"><a href="#cb37-496" aria-label="474"></a>        <span class="co"># Depthwise, separable convolution with a large number of output filters:</span></span>
 <span id="cb37-497"><a href="#cb37-497" aria-label="475"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
 <span id="cb37-498"><a href="#cb37-498" aria-label="476"></a>            in_channels<span class="op">=</span>in_channels,</span>
 <span id="cb37-499"><a href="#cb37-499" aria-label="477"></a>            out_channels<span class="op">=</span>in_channels,</span>
@@ -3406,7 +3406,7 @@ Networks.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb37-867"><a href="#cb37-867" aria-label="823"></a>            <span class="co"># Top 5 is a little more complicated:</span></span>
 <span id="cb37-868"><a href="#cb37-868" aria-label="824"></a>            <span class="co"># Compute the index distance to the correct index, abs value:</span></span>
 <span id="cb37-869"><a href="#cb37-869" aria-label="825"></a>            top5_acc_dist <span class="op">=</span> torch.<span class="bu">abs</span>(topk.indices[:,<span class="dv">1</span>:] <span class="op">-</span> access_index_y.to(topk.indices.device).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb37-870"><a href="#cb37-870" aria-label="826"></a>            <span class="co"># Get the minumum value, and see if it is less than 5:</span></span>
+<span id="cb37-870"><a href="#cb37-870" aria-label="826"></a>            <span class="co"># Get the minimum value, and see if it is less than 5:</span></span>
 <span id="cb37-871"><a href="#cb37-871" aria-label="827"></a>            min_values, _ <span class="op">=</span> torch.<span class="bu">min</span>(top5_acc_dist, dim<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb37-872"><a href="#cb37-872" aria-label="828"></a>            top5_acc <span class="op">=</span>  min_values <span class="op">&lt;</span> <span class="fl">5.</span></span>
 <span id="cb37-873"><a href="#cb37-873" aria-label="829"></a>            <span class="co"># Average over the batch dimension:</span></span>

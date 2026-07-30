@@ -1246,7 +1246,7 @@ flowchart LR
 
 ### Tensor (Model) Parallelism[^efficient-large-scale]
 
-- In **Tensor Paralleism** each GPU processes only a slice of a tensor and only
+- In **Tensor Parallelism** each GPU processes only a slice of a tensor and only
 aggregates the full tensor for operations that require the whole thing.
   - The main building block of any transformer is a fully connected
   `nn.Linear` followed by a nonlinear activation GeLU.

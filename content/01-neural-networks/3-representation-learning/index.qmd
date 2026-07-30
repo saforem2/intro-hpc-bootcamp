@@ -471,7 +471,7 @@ class Downsampler(nn.Module):
 class ConvNextBlock(nn.Module):
     def __init__(self, in_channels):
         super(ConvNextBlock, self).__init__()
-        # Depthwise, seperable convolution with a large number of output filters:
+        # Depthwise, separable convolution with a large number of output filters:
         self.conv1 = nn.Conv2d(
             in_channels=in_channels,
             out_channels=in_channels,
@@ -823,7 +823,7 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
             # Top 5 is a little more complicated:
             # Compute the index distance to the correct index, abs value:
             top5_acc_dist = torch.abs(topk.indices[:,1:] - access_index_y.to(topk.indices.device).reshape(-1,1))
-            # Get the minumum value, and see if it is less than 5:
+            # Get the minimum value, and see if it is less than 5:
             min_values, _ = torch.min(top5_acc_dist, dim=-1)
             top5_acc =  min_values < 5.
             # Average over the batch dimension:

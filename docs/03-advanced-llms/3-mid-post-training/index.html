@@ -662,7 +662,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../04-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] AI for Science</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -671,7 +671,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../04-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4.0] GenSLM: Genome-Scale LMs</span></a>
   </div>
 </li>
@@ -863,7 +863,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>trl</code>, <code>peft</code>, and <code>deepspeed</code> are <strong>not</strong> installed in the site build environment, and real fine-tuning needs a GPU. Every cell that touches them is marked <code>#| eval: false</code> so it renders as copy-pasteable code without running. The two tiny cells that <em>do</em> run use only <code>transformers</code> + <code>torch</code> on CPU with a <code>gpt2</code> tokenizer — flip any <code>eval: false</code> to <code>true</code> on the cluster to run it for real.</p>
+<p><code>trl</code>, <code>peft</code>, and <code>deepspeed</code> are <strong>not</strong> installed in the site build environment, and real fine-tuning needs a GPU. Every cell that touches them is marked <code>#| eval: false</code> so it renders as copy-pasteable code without running. The handful of cells that <em>do</em> run use only <code>transformers</code> + <code>torch</code> on CPU with a <code>gpt2</code> tokenizer — flip any <code>eval: false</code> to <code>true</code> on the cluster to run it for real.</p>
 </div>
 </div>
 </div>
@@ -1929,7 +1929,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-95"><a href="#cb17-95" aria-label="93"></a><span class="in">`trl`</span>, <span class="in">`peft`</span>, and <span class="in">`deepspeed`</span> are **not** installed in the site build</span>
 <span id="cb17-96"><a href="#cb17-96" aria-label="94"></a>environment, and real fine-tuning needs a GPU. Every cell that touches them is</span>
 <span id="cb17-97"><a href="#cb17-97" aria-label="95"></a>marked <span class="in">`#| eval: false`</span> so it renders as copy-pasteable code without running.</span>
-<span id="cb17-98"><a href="#cb17-98" aria-label="96"></a>The two tiny cells that *do* run use only <span class="in">`transformers`</span> + <span class="in">`torch`</span> on CPU with a</span>
+<span id="cb17-98"><a href="#cb17-98" aria-label="96"></a>The handful of cells that *do* run use only <span class="in">`transformers`</span> + <span class="in">`torch`</span> on CPU with a</span>
 <span id="cb17-99"><a href="#cb17-99" aria-label="97"></a><span class="in">`gpt2`</span> tokenizer — flip any <span class="in">`eval: false`</span> to <span class="in">`true`</span> on the cluster to run it</span>
 <span id="cb17-100"><a href="#cb17-100" aria-label="98"></a>for real.</span>
 <span id="cb17-101"><a href="#cb17-101" aria-label="99"></a>:::</span>

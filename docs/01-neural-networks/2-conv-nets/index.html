@@ -4563,7 +4563,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../04-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] AI for Science</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -4572,7 +4572,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../04-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4.0] GenSLM: Genome-Scale LMs</span></a>
   </div>
 </li>
@@ -5483,7 +5483,7 @@ Figure&nbsp;10
 <span id="cb21-28"><a href="#cb21-28" aria-label="28"></a>        kernel_size: Optional[<span class="va">None</span>] <span class="op">=</span> <span class="va">None</span>,</span>
 <span id="cb21-29"><a href="#cb21-29" aria-label="29"></a>    ):</span>
 <span id="cb21-30"><a href="#cb21-30" aria-label="30"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb21-31"><a href="#cb21-31" aria-label="31"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-label="31"></a>        <span class="co"># Depthwise, separable convolution with a large number of output filters:</span></span>
 <span id="cb21-32"><a href="#cb21-32" aria-label="32"></a>        kernel_size <span class="op">=</span> [<span class="dv">7</span>, <span class="dv">7</span>] <span class="cf">if</span> kernel_size <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> kernel_size</span>
 <span id="cb21-33"><a href="#cb21-33" aria-label="33"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
 <span id="cb21-34"><a href="#cb21-34" aria-label="34"></a>            in_channels<span class="op">=</span>in_channels,</span>
@@ -6235,7 +6235,7 @@ Figure&nbsp;11: ResNet stacks residual blocks; each block’s skip connection le
 </section>
 <section id="u-nets" class="level3">
 <h3 class="anchored" data-anchor-id="u-nets">U-Nets</h3>
-<p>U-NET is a convolution based neural network architecture orginally developed for biomedical image segmentation tasks. It has an encoder-decoder architecture with skip connections in between them.</p>
+<p>U-NET is a convolution based neural network architecture originally developed for biomedical image segmentation tasks. It has an encoder-decoder architecture with skip connections in between them.</p>
 <div id="fig-u-nets" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-u-nets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -7505,7 +7505,7 @@ Foreman, Sam, Sam Foreman, Huihuo Zheng, Corey Adams, and Bethany Lusch.
 <span id="cb36-718"><a href="#cb36-718" aria-label="676"></a>        kernel_size: Optional[<span class="va">None</span>] <span class="op">=</span> <span class="va">None</span>,</span>
 <span id="cb36-719"><a href="#cb36-719" aria-label="677"></a>    ):</span>
 <span id="cb36-720"><a href="#cb36-720" aria-label="678"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb36-721"><a href="#cb36-721" aria-label="679"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
+<span id="cb36-721"><a href="#cb36-721" aria-label="679"></a>        <span class="co"># Depthwise, separable convolution with a large number of output filters:</span></span>
 <span id="cb36-722"><a href="#cb36-722" aria-label="680"></a>        kernel_size <span class="op">=</span> [<span class="dv">7</span>, <span class="dv">7</span>] <span class="cf">if</span> kernel_size <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> kernel_size</span>
 <span id="cb36-723"><a href="#cb36-723" aria-label="681"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
 <span id="cb36-724"><a href="#cb36-724" aria-label="682"></a>            in_channels<span class="op">=</span>in_channels,</span>
@@ -8012,7 +8012,7 @@ Foreman, Sam, Sam Foreman, Huihuo Zheng, Corey Adams, and Bethany Lusch.
 <span id="cb36-1251"><a href="#cb36-1251" aria-label="1183"></a></span>
 <span id="cb36-1252"><a href="#cb36-1252" aria-label="1184"></a><span class="fu">### U-Nets</span></span>
 <span id="cb36-1253"><a href="#cb36-1253" aria-label="1185"></a></span>
-<span id="cb36-1254"><a href="#cb36-1254" aria-label="1186"></a>U-NET is a convolution based neural network architecture orginally developed for</span>
+<span id="cb36-1254"><a href="#cb36-1254" aria-label="1186"></a>U-NET is a convolution based neural network architecture originally developed for</span>
 <span id="cb36-1255"><a href="#cb36-1255" aria-label="1187"></a>biomedical image segmentation tasks.</span>
 <span id="cb36-1256"><a href="#cb36-1256" aria-label="1188"></a>It has an encoder-decoder architecture with skip connections in between them.</span>
 <span id="cb36-1257"><a href="#cb36-1257" aria-label="1189"></a></span>

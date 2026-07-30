@@ -36,7 +36,7 @@ If you look inside your Desktop or Laptop you'll find these parts:
 Typical computer parts
 :::
 
-A computing node of a supercomputer is very similar, each has simliar parts,
+A computing node of a supercomputer is very similar, each has similar parts,
 but it is designed as a single unit that can be inserted and removed from large
 closet-sized racks with many others:
 

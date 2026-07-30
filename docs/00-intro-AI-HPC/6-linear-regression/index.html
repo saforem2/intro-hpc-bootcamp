@@ -4556,7 +4556,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../04-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] AI for Science</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -4565,7 +4565,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../04-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4.0] GenSLM: Genome-Scale LMs</span></a>
   </div>
 </li>
@@ -4763,7 +4763,7 @@ class R yellow
 <p>We’re going to review the math involved in this process to help understand how training an AI works.</p>
 <p>First we will load some tools that others wrote and we can use to help us work.</p>
 <ul>
-<li><a href="https://pandas.pydata.org/docs/">Pandas</a>: a toolkit for working with row vs. column data, like excel sheets, and CSV (Comma Seperated Values) files.</li>
+<li><a href="https://pandas.pydata.org/docs/">Pandas</a>: a toolkit for working with row vs. column data, like excel sheets, and CSV (Comma Separated Values) files.</li>
 <li><a href="https://numpy.org/doc/">Numpy</a>: a toolkit for managing arrays, vectors, matrices, etc, doing math with them, slicing them up, and many other handy things.</li>
 <li><a href="https://matplotlib.org/stable/index.html">Matplotlib</a>: a toolkit for plotting data</li>
 </ul>
@@ -4996,7 +4996,7 @@ if (outputEl) {{
 <p>A <em>loss function</em>, or <em>objective function</em>, is something we define and is based on what we want to achieve. In the method of SGD, it is our goal to minimize (or make close to zero) the values calculated from the <em>loss function</em>. In our example, we ideally want the prediction of our <em>model</em> to be equal to the actual data, though we will settle for “as close as possible”.</p>
 <p>So we will select our <em>loss function</em> to be the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error</a> function:</p>
 <p><span class="math display"> L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 </span></p>
-<p>where <span class="math inline">y_i</span> is our <span class="math inline">i^{th}</span> entry in the <code>data['SalePrice']</code> vector and <span class="math inline">\hat{y_i}</span> is the prediction based on evaluting <span class="math inline">m * x_i + b</span>.</p>
+<p>where <span class="math inline">y_i</span> is our <span class="math inline">i^{th}</span> entry in the <code>data['SalePrice']</code> vector and <span class="math inline">\hat{y_i}</span> is the prediction based on evaluating <span class="math inline">m * x_i + b</span>.</p>
 <p>This function looks like the figure below when we plot it with <span class="math inline">x=y_i - \hat{y_i}(x_i)</span> and we we want to be down near <span class="math inline">y_i - \hat{y_i}(x_i) = 0</span> which indicates that our <span class="math inline">y_i</span> is as close as possible to <span class="math inline">\hat{y_i}</span>.</p>
 <div id="cell-fig-loss-func" class="cell" data-execution_count="14">
 <details class="code-fold">
@@ -6344,7 +6344,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
 <span id="cb31-123"><a href="#cb31-123" aria-label="121"></a>First we will load some tools that others wrote and we can use to help us work.</span>
 <span id="cb31-124"><a href="#cb31-124" aria-label="122"></a></span>
 <span id="cb31-125"><a href="#cb31-125" aria-label="123"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span>: a toolkit for working with row vs.</span>
-<span id="cb31-126"><a href="#cb31-126" aria-label="124"></a>  column data, like excel sheets, and CSV (Comma Seperated Values) files.</span>
+<span id="cb31-126"><a href="#cb31-126" aria-label="124"></a>  column data, like excel sheets, and CSV (Comma Separated Values) files.</span>
 <span id="cb31-127"><a href="#cb31-127" aria-label="125"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Numpy</span><span class="co">](https://numpy.org/doc/)</span>: a toolkit for managing arrays, vectors,</span>
 <span id="cb31-128"><a href="#cb31-128" aria-label="126"></a>  matrices, etc, doing math with them, slicing them up, and many other handy</span>
 <span id="cb31-129"><a href="#cb31-129" aria-label="127"></a>  things.</span>
@@ -6578,7 +6578,7 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
 <span id="cb31-381"><a href="#cb31-381" aria-label="355"></a>$$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$</span>
 <span id="cb31-382"><a href="#cb31-382" aria-label="356"></a></span>
 <span id="cb31-383"><a href="#cb31-383" aria-label="357"></a>where $y_i$ is our $i^{th}$ entry in the <span class="in">`data['SalePrice']`</span> vector and</span>
-<span id="cb31-384"><a href="#cb31-384" aria-label="358"></a>$\hat{y_i}$ is the prediction based on evaluting $m * x_i + b$.</span>
+<span id="cb31-384"><a href="#cb31-384" aria-label="358"></a>$\hat{y_i}$ is the prediction based on evaluating $m * x_i + b$.</span>
 <span id="cb31-385"><a href="#cb31-385" aria-label="359"></a></span>
 <span id="cb31-386"><a href="#cb31-386" aria-label="360"></a>This function looks like the figure below when we plot it with </span>
 <span id="cb31-387"><a href="#cb31-387" aria-label="361"></a>$x=y_i - \hat{y_i}(x_i)$</span>

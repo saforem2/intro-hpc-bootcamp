@@ -743,7 +743,7 @@ print(few_shot_COT_prompt_explanation)
 
 ```
 
-Falcon-7B-Instruct is a 7B parameters causal decoder-only model built by TII based on Falcon-7B and finetuned on a mixture of chat/instruct datasets. The model, is not very efficient at identifying odd numbers. However, it does generate the correct sum in most cases. Although, continously prompting using few-shot chain-of-thought prompting to get the sum of odd numbers from a list of integers, did result in the correct result. The effort for this simple math task is tedious. However, using the newer Chatgpt 4o did result in the correct answer using zero-shot prompting.
+Falcon-7B-Instruct is a 7B parameters causal decoder-only model built by TII based on Falcon-7B and finetuned on a mixture of chat/instruct datasets. The model, is not very efficient at identifying odd numbers. However, it does generate the correct sum in most cases. Although, continuously prompting using few-shot chain-of-thought prompting to get the sum of odd numbers from a list of integers, did result in the correct result. The effort for this simple math task is tedious. However, using the newer Chatgpt 4o did result in the correct answer using zero-shot prompting.
 
 
 The temperature parameter in large language models, including those accessible via Hugging Face, controls the randomness of the models responses. It adjusts the probability distribution of the generated tokens, resulting in how "creative" or "conservative" the output is.
