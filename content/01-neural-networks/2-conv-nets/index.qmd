@@ -219,6 +219,54 @@ figure = plt.figure(figsize=(1.5 * fx, 1.5 * fy))
 _ = plt.imshow(rand_image)
 ```
 
+A *random* kernel just produces noise. But a kernel is only a small grid of
+numbers — and the *right* numbers detect real structure. The classic example is
+the **Sobel filter**, a hand-designed $3\times3$ kernel that responds to
+horizontal (or vertical) brightness gradients, i.e. **edges**:
+
+$$
+h_x = \begin{bmatrix} -1 & 0 & +1 \\ -2 & 0 & +2 \\ -1 & 0 & +1 \end{bmatrix}
+\qquad
+h_y = \begin{bmatrix} -1 & -2 & -1 \\ \phantom{-}0 & \phantom{-}0 & \phantom{-}0 \\ +1 & +2 & +1 \end{bmatrix}
+$$
+
+```{python}
+import torch.nn.functional as F
+
+# Convert the RGB photo to a single grayscale (luminance) channel: (1, 1, H, W).
+rgb = torchvision.transforms.ToTensor()(alcf_image)          # (3, H, W)
+gray = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2])    # (H, W)
+gray = gray.reshape((1, 1) + gray.shape)
+
+# The two Sobel kernels, as fixed (non-learned) conv weights of shape
+# (out_channels=1, in_channels=1, 3, 3).
+sobel_x = torch.tensor([[-1., 0., 1.],
+                        [-2., 0., 2.],
+                        [-1., 0., 1.]]).reshape(1, 1, 3, 3)
+sobel_y = torch.tensor([[-1., -2., -1.],
+                        [ 0.,  0.,  0.],
+                        [ 1.,  2.,  1.]]).reshape(1, 1, 3, 3)
+
+# Apply each kernel, then combine into a single gradient-magnitude edge map.
+gx = F.conv2d(gray, sobel_x, padding=1)
+gy = F.conv2d(gray, sobel_y, padding=1)
+edges = torch.sqrt(gx**2 + gy**2)
+edges = (edges / edges.max())[0, 0].cpu()   # normalize to [0, 1] for display
+
+fig, ax = plt.subplots(1, 2, figsize=(1.6 * fx, 0.9 * fy))
+ax[0].imshow(gray[0, 0].cpu(), cmap="gray"); ax[0].set_title("input (grayscale)")
+ax[1].imshow(edges, cmap="gray");            ax[1].set_title("Sobel edge map")
+for a in ax:
+    a.set_xticks([]); a.set_yticks([])
+plt.tight_layout()
+```
+
+We *chose* those nine numbers by hand and got an edge detector for free. The key
+idea of a CNN is to **stop choosing them by hand**: make the kernel weights
+learnable and let gradient descent discover whatever filters minimize the loss —
+edge detectors, texture detectors, and eventually much more abstract features in
+the deeper layers.
+
 ### Normalization
 
 Normalization is the act of transforming the mean and moment of your data to
