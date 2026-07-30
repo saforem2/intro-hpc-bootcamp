@@ -206,10 +206,125 @@ string and emit it over and over, even though many valid answers exist. That's
 
 Real GRPO/PPO counter this with a **KL penalty to a frozen reference policy** (the
 same `beta` knob you'll see in DPO below) or an **entropy bonus**, keeping the
-trained model close to the base model's distribution. Adding a `beta * KL(policy ‖
-reference)` term to the loss above and watching diversity return is a great
-exercise — and it's exactly what the production trainers in the next section do.
+trained model close to the base model's distribution — exactly what the production
+trainers in the next section do. The very next subsection **adds that term and
+watches diversity return**.
 :::
+
+### (a′) Add an entropy bonus — watch diversity come back
+
+Let's actually fix the collapse. The cleanest knob here is an **entropy bonus**:
+reward the policy for keeping its per-step distribution *spread out*, not just for
+being correct. One extra term in the loss:
+
+$$
+\mathcal{L} = \underbrace{-\,\mathbb{E}[A \cdot \log \pi_\theta]}_{\text{maximize reward}}
+\;-\; \beta \cdot \underbrace{\mathbb{E}[\,\mathcal{H}(\pi_\theta)\,]}_{\text{stay diverse}}
+$$
+
+(The KL-to-a-frozen-reference penalty in production trainers does the same job —
+it pulls the policy back toward the base model's spread. Here the base policy is
+already near-uniform, so an entropy bonus is the more direct lever.) We just
+accumulate the per-step entropy that `Categorical` already exposes, so
+`sample_group` needs one extra returned value:
+
+```{python}
+def sample_group_H(model, K):
+    """Like sample_group, but also returns the summed per-step entropy (K,)."""
+    seqs = torch.full((K, 1), BOS)
+    logp = torch.zeros(K)
+    ent = torch.zeros(K)
+    for _ in range(SEQ_LEN):
+        logits = model(seqs)[:, -1].clone()
+        logits[:, BOS] = float("-inf")
+        dist = torch.distributions.Categorical(logits=logits)
+        a = dist.sample()
+        logp = logp + dist.log_prob(a)
+        ent = ent + dist.entropy()
+        seqs = torch.cat([seqs, a[:, None]], dim=1)
+    return seqs[:, 1:], logp, ent
+
+@torch.no_grad()
+def diversity(m, n=256):
+    """Fraction of samples that are valid, and how many *distinct* valid answers."""
+    gen, _, _ = sample_group_H(m, n)
+    strs = ["".join(map(str, g)) for g in gen.tolist()]
+    valid = sorted({s for s in strs if sum(int(c) for c in s) == 10})
+    frac = sum(1 for g in gen.tolist() if reward(g) == 1.0) / n
+    return frac, valid
+
+def train_grpo(beta, steps=150, seed=0):
+    """GRPO with an entropy bonus of strength beta. beta=0 reproduces §(a)."""
+    torch.manual_seed(seed)
+    m = TinyGPT()
+    opt = torch.optim.AdamW(m.parameters(), lr=3e-3)
+    for step in range(steps):
+        gen, logp, ent = sample_group_H(m, K)
+        r = torch.tensor([reward(g) for g in gen.tolist()])
+        adv = (r - r.mean()) / (r.std() + 1e-8)
+        loss = -(adv * logp).mean() - beta * ent.mean()   # reward + entropy bonus
+        opt.zero_grad(); loss.backward(); opt.step()
+    return m
+```
+
+Now sweep `beta` from 0 (pure reward — the collapse) upward. Near the collapse
+threshold a *single* run is noisy, so we average over a few seeds to see the
+trend cleanly — for each `beta` we report the mean reward and the mean number of
+*distinct* valid answers the trained policy emits:
+
+```{python}
+betas = [0.0, 0.1, 0.2, 0.3]
+seeds = [0, 1, 2]
+rewards, n_distinct, examples = [], [], []
+for b in betas:
+    fr, nd, ex = [], [], []
+    for s in seeds:
+        frac, valid = diversity(train_grpo(b, seed=s))
+        fr.append(frac); nd.append(len(valid)); ex = valid[:6] if len(valid) > len(ex) else ex
+    rewards.append(sum(fr) / len(fr)); n_distinct.append(sum(nd) / len(nd)); examples.append(ex)
+    logger.info(f"beta={b:<4}  reward={rewards[-1]:.2f}  distinct valid={n_distinct[-1]:.1f}  e.g. {ex}")
+```
+
+```{python}
+#| label: fig-grpo-entropy-diversity
+#| fig-cap: "The reward-vs-diversity tradeoff. A moderate entropy bonus recovers multiple valid solutions while keeping reward high; push it too far and reward finally suffers."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
+
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+fig.add_bar(x=[str(b) for b in betas], y=n_distinct, name="distinct valid solutions",
+            marker_color=COLORS["green"], opacity=0.85)
+fig.add_scatter(x=[str(b) for b in betas], y=rewards, name="reward (frac valid)",
+                mode="lines+markers", line=dict(color=COLORS["red"], width=2),
+                marker=dict(size=8), secondary_y=True)
+fig.update_layout(height=360, margin=dict(t=50),
+                  title="Entropy bonus: reward vs. solution diversity")
+fig.update_xaxes(title_text="entropy-bonus strength β")
+fig.update_yaxes(title_text="# distinct sum-to-10 strings", secondary_y=False)
+fig.update_yaxes(title_text="reward (frac valid)", range=[0, 1.05], secondary_y=True)
+fig.show()
+```
+
+```{python}
+# The best beta is the one giving the most diversity while reward stays high.
+best = max(range(len(betas)), key=lambda i: (n_distinct[i] if rewards[i] >= 0.9 else -1))
+logger.info(f"β=0 (pure reward): reward={rewards[0]:.2f}, {n_distinct[0]:.1f} distinct solution(s) -> collapse")
+logger.info(f"β={betas[best]} (sweet spot): reward={rewards[best]:.2f}, "
+            f"{n_distinct[best]:.1f} distinct solutions -> {examples[best]}")
+```
+
+At `beta=0` the policy collapses to a single answer, exactly as in §(a). Raise the
+entropy bonus a little and, while reward stays high, the policy starts emitting
+**several distinct** valid sum-to-10 strings again — diversity returns for nearly
+free. Push `beta` too high and reward finally craters (the policy is now paid more
+for being random than for being right). That U-shaped tradeoff *is* the story of
+regularized RL: the `beta` knob buys back the base model's diversity, and set too
+aggressively it erases the task. Production trainers spend real effort tuning
+exactly this term.
 
 ### (b) The same idea in TRL (display-only)
 

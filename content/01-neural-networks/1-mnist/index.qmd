@@ -972,6 +972,62 @@ fig.show()
 show_failures(nonlinear_model, test_dataloader)
 ```
 
+### Which digits does it confuse?
+
+Overall accuracy is a single number; it hides *where* the mistakes are. A
+**confusion matrix** answers "when the true digit is a 4, what does the model
+guess?" — row $i$, column $j$ counts test examples whose true label is $i$ but
+that the model predicted as $j$. A perfect model is all diagonal; the bright
+*off*-diagonal cells are the pairs it mixes up (classically 4↔9, 3↔5, 7↔9).
+
+```{python}
+import numpy as np
+
+# Run the trained model over the whole test set and collect (true, predicted).
+y_true, y_pred = [], []
+nonlinear_model.eval()
+with torch.no_grad():
+    for X, y in test_dataloader:
+        logits = nonlinear_model(X)
+        y_pred.append(logits.argmax(1))
+        y_true.append(y)
+y_true = torch.cat(y_true).numpy()
+y_pred = torch.cat(y_pred).numpy()
+
+# 10x10 counts. cm[i, j] = # of true-i examples predicted as j.
+cm = np.zeros((10, 10), dtype=int)
+np.add.at(cm, (y_true, y_pred), 1)
+
+# Normalize each row to a *rate* so classes with more examples don't dominate.
+cm_rate = cm / cm.sum(axis=1, keepdims=True)
+```
+
+```{python}
+fig = go.Figure(go.Heatmap(
+    z=cm_rate, x=list(range(10)), y=list(range(10)),
+    colorscale="Blues", zmin=0, zmax=1,
+    hovertemplate="true=%{y}, pred=%{x}<br>rate=%{z:.2%}<extra></extra>",
+))
+fig.update_layout(
+    xaxis_title="predicted digit", yaxis_title="true digit",
+    yaxis=dict(autorange="reversed"), height=460,
+    title="Confusion matrix (row-normalized)")
+fig.show()
+
+# Call out the single worst off-diagonal confusion.
+off = cm_rate.copy()
+np.fill_diagonal(off, 0.0)
+i, j = np.unravel_index(off.argmax(), off.shape)
+print(f"most-confused pair: true {i} -> predicted {j} "
+      f"({off[i, j]:.1%} of all {i}s)")
+```
+
+The diagonal should be overwhelmingly the brightest band — the model is right
+most of the time — and the worst confusion is usually a genuinely ambiguous
+pair a human would also hesitate on. This is the kind of per-class diagnostic
+you'd use to decide *what to fix next* (more data for a weak class, a better
+architecture, targeted augmentation).
+
 ## Recap
 
 To train and validate a neural network model, you need:

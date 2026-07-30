@@ -192,6 +192,84 @@ every input into `(0, 1)`, so a negative `z` gives a small positive number
 :::
 :::
 
+### Why stack neurons? A curved boundary you can see
+
+We claimed nonlinearity is what lets a network "fit curves and categories
+instead of just straight lines." Let's *see* it. Here is a **two-moons**
+dataset — two interleaving crescents that **no straight line can separate**:
+
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(0)
+
+def make_moons(n=400, noise=0.15):
+    """Two interleaving half-circles — the classic not-linearly-separable toy."""
+    n0 = n // 2
+    t0 = np.linspace(0, np.pi, n0)
+    t1 = np.linspace(0, np.pi, n - n0)
+    x0 = np.stack([np.cos(t0),            np.sin(t0)], 1)              # upper moon
+    x1 = np.stack([1 - np.cos(t1), 1 - np.sin(t1) - 0.5], 1)         # lower moon
+    X = np.concatenate([x0, x1]) + rng.normal(0, noise, (n, 2))
+    y = np.concatenate([np.zeros(n0), np.ones(n - n0)]).astype(int)
+    return X.astype(np.float32), y
+
+X, y = make_moons()
+plt.figure(figsize=(4.5, 3.5))
+plt.scatter(X[y == 0, 0], X[y == 0, 1], s=12, color=COLORS["blue"], label="class 0")
+plt.scatter(X[y == 1, 0], X[y == 1, 1], s=12, color=COLORS["red"], label="class 1")
+plt.legend(); plt.title("two-moons: not linearly separable")
+plt.xticks([]); plt.yticks([])
+```
+
+Now train a **tiny MLP** — just one hidden layer of 16 ReLU units — and plot the
+region it assigns to each class. A single neuron (a "line") could only ever draw
+a straight cut; the hidden layer lets the network bend the boundary:
+
+```{python}
+import torch
+import torch.nn as nn
+
+torch.manual_seed(0)
+Xt = torch.from_numpy(X)
+yt = torch.from_numpy(y).float().unsqueeze(1)
+
+# 2 inputs -> 16 hidden (ReLU) -> 1 output (probability via sigmoid).
+model = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 1))
+opt = torch.optim.Adam(model.parameters(), lr=0.05)
+loss_fn = nn.BCEWithLogitsLoss()
+
+for step in range(400):
+    opt.zero_grad()
+    loss = loss_fn(model(Xt), yt)
+    loss.backward()
+    opt.step()
+
+acc = ((model(Xt) > 0).float() == yt).float().mean().item()
+print(f"final loss = {loss.item():.3f}   train accuracy = {acc:.1%}")
+```
+
+```{python}
+# Evaluate the model on a dense grid to shade its decision regions.
+xx, yy = np.meshgrid(np.linspace(-1.6, 2.6, 200), np.linspace(-1.4, 1.9, 200))
+grid = torch.from_numpy(np.stack([xx.ravel(), yy.ravel()], 1).astype(np.float32))
+with torch.no_grad():
+    zz = torch.sigmoid(model(grid)).reshape(xx.shape).numpy()
+
+plt.figure(figsize=(4.5, 3.5))
+plt.contourf(xx, yy, zz, levels=20, cmap="coolwarm", alpha=0.7)
+plt.scatter(X[y == 0, 0], X[y == 0, 1], s=12, color=COLORS["blue"])
+plt.scatter(X[y == 1, 0], X[y == 1, 1], s=12, color=COLORS["red"])
+plt.title(f"learned decision boundary ({acc:.0%} accurate)")
+plt.xticks([]); plt.yticks([])
+```
+
+The boundary is **curved** — it wraps around each crescent. That curvature is
+exactly what the hidden layer + ReLU bought us; delete the hidden layer (go
+straight `Linear(2, 1)`) and the best it can do is a single straight line that
+gets one moon badly wrong. This is the whole reason we stack neurons, and it
+scales directly to the MNIST problem next.
+
 The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains thousands of
 examples of handwritten numbers, with each digit labeled 0-9.
 
