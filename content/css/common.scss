@@ -1067,8 +1067,55 @@ img a:hover {
   background: none !important;
 }
 
-.sidebar-header-stacked .sidebar-title {
+// Sidebar header: keep the site title and the tool buttons (home / GitHub /
+// dark-mode) on the SAME row. Quarto's default leaves the title as a plain
+// block whose line box spans the full column, so the inline-flex tools block
+// has no room left and wraps onto a line of its own.
+//
+// The docked column is ~264px wide (≈219px of content); the title alone
+// measures ~218px at the default 1.3rem, so a one-line title + buttons simply
+// does not fit. Shrinking the title slightly and letting it wrap to two
+// balanced lines, with the buttons centered alongside, is what actually fits.
+.sidebar-header-stacked .sidebar-title,
+.sidebar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.sidebar-title > a {
+  flex: 1 1 auto;
+  min-width: 0; // let the title shrink/wrap instead of shoving the buttons down
+  font-size: 1.15rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance; // split "Intro to HPC Bootcamp" evenly across two lines
+}
+
+// NB: the selector is deliberately `.sidebar-title .sidebar-tools-main` rather
+// than the bare class — Quarto ships `.sidebar-title .sidebar-tools-main
+// { margin-top: -6px }` (specificity 0,2,0), which a bare `.sidebar-tools-main`
+// rule cannot override no matter how late it appears in the cascade.
+.sidebar-title .sidebar-tools-main,
+.sidebar-tools-main {
+  flex: 0 0 auto;
+  margin: 0; // clears Quarto's -6px top margin, which misaligned the row
   display: inline-flex;
+  align-items: center;
+  gap: 0.05rem;
+}
+
+// Let the nav icons recede until pointed at — they are utilities, not content.
+.sidebar-tools-main .quarto-navigation-tool {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
 }
 
 .sidebar #quarto-search svg.aa-SubmitIcon {

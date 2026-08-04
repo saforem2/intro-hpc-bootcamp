@@ -33,10 +33,10 @@ Sam Foreman
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/4-evaluating-llms/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/4-evaluating-llms/index.qmd)
 
-By now you have trained a model ([\[02.1\] Parallel
+By now you have trained a model ([\[2.1\] Parallel
 Training](../1-parallel-training/index.qmd)). Coming up, you will teach
 it to follow instructions and even nudge it toward *reasoning* with
-reinforcement learning ([\[03.4\] RL &
+reinforcement learning ([\[3.4\] RL &
 Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)). But
 before any of that pays off, you need to answer one deceptively simple
 question:
@@ -190,7 +190,7 @@ no subjectivity.
 > ### 🔗 This is exactly RLVR
 >
 > Verifiable evaluation is the same idea as **RL with Verifiable Rewards
-> (RLVR)**, which you will meet in [\[03.4\] RL &
+> (RLVR)**, which you will meet in [\[3.4\] RL &
 > Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd).
 > There, a programmatic verifier (test suite, math checker) *is* the
 > reward signal used to train the model. Here, that same verifier *is*
@@ -202,7 +202,7 @@ no subjectivity.
 
 ### Perplexity
 
-Recall from [\[02.0\] Intro to LLMs](../0-intro-to-llms/index.qmd) that
+Recall from [\[2.0\] Intro to LLMs](../0-intro-to-llms/index.qmd) that
 **perplexity** is the exponentiated cross-entropy loss,
 $\text{PPL} = \exp(\text{CE})$ — “how surprised is the model by held-out
 text?” Lower is better. It is great for tracking *pretraining* progress
@@ -392,7 +392,7 @@ surface. Here are the ways evaluation lies.
 >
 > ### Gaming metrics / reward hacking
 >
-> This is the deep connection to the RL you will meet in [\[03.4\] RL &
+> This is the deep connection to the RL you will meet in [\[3.4\] RL &
 > Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd). When
 > a metric becomes a *training target* (RLVR reward, or “optimize for
 > the benchmark”), the model learns to maximize the *measure* rather
@@ -431,9 +431,9 @@ surface. Here are the ways evaluation lies.
 ## 🎒 Homework
 
 Pick a small model you can run on a login node or laptop (e.g. `gpt2`,
-`EleutherAI/pythia-160m`, or the mini-LLM you built in [\[02.0\] Intro
-to LLMs](../0-intro-to-llms/index.qmd)) and a small task (a slice of
-GSM8K, a set of factual Q&A, or a format-following task).
+`EleutherAI/pythia-160m`, or the mini-LLM you built in [\[2.0\] Intro to
+LLMs](../0-intro-to-llms/index.qmd)) and a small task (a slice of GSM8K,
+a set of factual Q&A, or a format-following task).
 
 1.  **Evaluate the model with two *different* metrics** on the same task
     — for example **strict exact-match vs. lenient extract-then-match**,

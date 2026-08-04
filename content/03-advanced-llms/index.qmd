@@ -107,7 +107,7 @@ virtual environment and install everything:
 
 ```bash
 # 1. Build / activate a .venv and load the ezpz shell helpers (system-agnostic)
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 
 # 2. Install ezpz into the environment
 uv pip install git+https://github.com/saforem2/ezpz

@@ -1472,7 +1472,7 @@ surrounding lesson — jump to the dedicated hands-on lab:
 1. 🐍 Setup Python:
 
     ```bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     ```
 
 ### 📦 Install {`ezpz`, `wordplay`}

@@ -513,7 +513,7 @@ Reusing this course's [`ezpz`](https://github.com/saforem2/ezpz) workflow, a
 genome pretraining run is the same shape as any other:
 
 ```bash
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install git+https://github.com/saforem2/ezpz
 ezpz launch -n <N> python3 train_codon_gpt.py --data genomes/ --ckpt-interval 500
 ```

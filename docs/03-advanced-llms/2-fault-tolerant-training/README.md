@@ -26,7 +26,7 @@ Sam Foreman
 
 ## 👋 Failures are the norm, not the exception
 
-In [\[01.4\] Distributed
+In [\[1.4\] Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd) you
 learned that a collective op only completes when **every** rank
 participates — one silent straggler and the whole job waits
@@ -255,7 +255,7 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB
 
 The toy saved one `.pt` file from one process. But once you’re using
 FSDP or 3D parallelism (from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)),
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)),
 model + optimizer state is **sharded across hundreds of ranks** —
 funneling it all to rank 0 to write one giant file is slow and often
 OOMs.
@@ -265,7 +265,7 @@ The answer is **Distributed Checkpointing (DCP)** —
 Each rank writes **its own shard** in parallel, and DCP can **reshard on
 load**, so a run saved on 512 GPUs can resume onto 256. `torchtitan`
 uses DCP by default (`--checkpoint.enable --checkpoint.interval N`, see
-[\[03.1\] Pretraining at Scale](../1-pretraining-at-scale/index.qmd)).
+[\[3.1\] Pretraining at Scale](../1-pretraining-at-scale/index.qmd)).
 
 ``` python
 # Sketch of sharded save/load with PyTorch DCP (display-only).
@@ -306,7 +306,7 @@ First, the usual one-time environment setup (see the [track
 intro](../index.qmd#one-time-setup)):
 
 ``` bash
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install git+https://github.com/saforem2/ezpz
 ezpz test   # confirm device / backend / world size
 ```
@@ -325,11 +325,18 @@ ezpz launch \
     --max-failover-retries 5 \
     --timeout 1800 \
     -n 96 \
-    python3 -m ezpz.examples.test \
-        --max-iters 50000 \
+    python3 -m ezpz.examples.fsdp_tp \
+        --train-iters 50000 \
         --ckpt-dir /path/to/checkpoints \
-        --ckpt-interval 500
+        --save-interval 500
 ```
+
+(We use `ezpz.examples.fsdp_tp` here, not `ezpz.examples.test`:
+`fsdp_tp` is the example wired for **distributed checkpointing +
+automatic resume** — it saves every `--save-interval` steps to
+`--ckpt-dir` and, on relaunch, picks up from the latest checkpoint
+unless you pass `--no-resume`. That resume-on-restart is exactly what
+makes fault tolerance work.)
 
 What each flag does:
 
@@ -431,13 +438,13 @@ run**:
 
 1.  Take a checkpointing training script — the
     <a href="#sec-toy" class="quarto-xref">Section 2</a> loop is fine,
-    or `python3 -m ezpz.examples.test` with a `--ckpt-dir` /
-    `--ckpt-interval`, or your own — and launch it so it checkpoints
-    every N steps:
+    or `python3 -m ezpz.examples.fsdp_tp` (which supports `--ckpt-dir` /
+    `--save-interval` and auto-resumes), or your own — and launch it so
+    it checkpoints every N steps:
 
     ``` bash
-    ezpz launch -n <N> python3 -m ezpz.examples.test \
-        --max-iters 2000 --ckpt-dir ./ckpts --ckpt-interval 100
+    ezpz launch -n <N> python3 -m ezpz.examples.fsdp_tp \
+        --train-iters 2000 --ckpt-dir ./ckpts --save-interval 100
     ```
 
 2.  **Kill it** partway through (Ctrl-C, `scancel`/`qdel`, or just let
@@ -479,4 +486,4 @@ can survive a multi-week job on thousands of GPUs.
 
 ------------------------------------------------------------------------
 
-*Last updated: 2026-07-24*
+*Last updated: 2026-08-03*

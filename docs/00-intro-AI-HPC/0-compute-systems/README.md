@@ -46,7 +46,7 @@ Figure 1: Typical computer parts
 
 </div>
 
-A computing node of a supercomputer is very similar, each has simliar
+A computing node of a supercomputer is very similar, each has similar
 parts, but it is designed as a single unit that can be inserted and
 removed from large closet-sized racks with many others:
 

@@ -41,7 +41,7 @@ On any ALCF / NERSC system (or a laptop), install `ezpz` and set up the
 environment with the one-liner:
 
 ```bash
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install "git+https://github.com/saforem2/ezpz"
 ```
 

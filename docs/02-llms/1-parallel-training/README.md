@@ -24,7 +24,7 @@ Sam Foreman
 
 This is a **hands-on lab**: you’ll launch a real multi-GPU
 [data-parallel](#concepts-recap) training run on a supercomputer. It’s
-the practical counterpart to the [**\[01\] Distributed
+the practical counterpart to the [**\[1\] Distributed
 Training**](../../01-neural-networks/4-distributed-training/index.qmd)
 lesson — read that first if the concepts below are new to you.
 
@@ -48,7 +48,7 @@ lesson — read that first if the concepts below are new to you.
 >
 > Real large-scale LLM training combines all three. For the full
 > treatment — all-reduce/broadcast/gather, ZeRO/FSDP, and
-> pipeline/tensor parallelism with runnable examples — see [**\[01\]
+> pipeline/tensor parallelism with runnable examples — see [**\[1\]
 > Distributed
 > Training**](../../01-neural-networks/4-distributed-training/index.qmd).
 
@@ -80,7 +80,7 @@ lesson — read that first if the concepts below are new to you.
 3.  Setup python (creates / activates a `.venv` and detects the job):
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     ```
 
 4.  Install `{ezpz, wordplay}`:
@@ -152,7 +152,7 @@ lesson — read that first if the concepts below are new to you.
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \
-        train.dtype=bf16 \
+        train.dtype=bfloat16 \
         model.batch_size=64 \
         model.block_size=1024 \
         train.max_iters=1000 \

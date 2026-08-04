@@ -13,7 +13,7 @@ format:
 ---
 
 ::: {.callout-note title="🧭 No account needed"}
-You do **not** need an HPC account to follow this page — it's conceptual. Here
+You do **not** need an HPC account to follow this page; it's conceptual. Here
 you'll learn how schedulers share a supercomputer across users and what a *job*
 is; the commands below are readable by anyone, whether or not you have access to
 a cluster. You'll only need real cluster access for the large-scale, hands-on
@@ -37,7 +37,7 @@ nodes? 1000 nodes?
 
 ::: {.callout-note title="🏙️ Analogy: the scheduler as a maître d'"}
 A supercomputer is a huge restaurant and every user wants a table (nodes) for a
-certain length of time (walltime). You don't just walk in and sit down — you tell
+certain length of time (walltime). You don't just walk in and sit down. You tell
 the **maître d'** (the scheduler) your party size and how long you'll stay, and it
 seats you when a suitable table frees up. Ask for a small table for a short time
 and you're seated quickly; ask for the whole restaurant for all night and you'll
@@ -60,7 +60,7 @@ command names differ.
 
 ::: {.callout-note title="🖥️ Which machine will we use?"}
 The course's **primary hands-on machine is NERSC Perlmutter**, which uses
-**SLURM** — so if you're following along, reach for the SLURM commands below. The
+**SLURM**, so if you're following along, reach for the SLURM commands below. The
 same ideas map directly onto **PBS** systems like ALCF's Polaris (just swap
 `sbatch`↔`qsub`, `squeue`↔`qstat`, and so on), so the PBS tabs are here for
 reference too. The full PBS↔SLURM command cheat-sheet lives on the setup page.
@@ -159,7 +159,7 @@ submit directory:
 :::
 
 ::: {.callout-tip title="🧠 Check your understanding" collapse="false"}
-Test yourself — think it through, then reveal the answer.
+Test yourself: think it through, then reveal the answer.
 
 **Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?
 

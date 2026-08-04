@@ -69,7 +69,7 @@ also work on ALCF PBS systems if you switch the allocation command.
 1. Setup python (creates / activates a `.venv` and detects the job):
 
     ```bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     ```
 
 1. Install `{ezpz, wordplay}`:

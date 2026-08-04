@@ -1339,7 +1339,7 @@ Figure 19
 
 ### Tensor (Model) Parallelism[^2]
 
-- In **Tensor Paralleism** each GPU processes only a slice of a tensor
+- In **Tensor Parallelism** each GPU processes only a slice of a tensor
   and only aggregates the full tensor for operations that require the
   whole thing.
   - The main building block of any transformer is a fully connected
@@ -1447,12 +1447,12 @@ text generation) see:
 >
 > ### ➡️ Learn more about LLMs
 >
-> - [**\[02\] Intro to LLMs**](../../02-llms/0-intro-to-llms/index.qmd)
->   — transformers, tokenization, attention, and building a mini-LLM.
-> - [**\[02\] Parallel
+> - [**\[2\] Intro to LLMs**](../../02-llms/0-intro-to-llms/index.qmd) —
+>   transformers, tokenization, attention, and building a mini-LLM.
+> - [**\[2\] Parallel
 >   Training**](../../02-llms/1-parallel-training/index.qmd) — hands-on
 >   distributed LLM training on HPC.
-> - [**\[03\] Advanced / Large-Scale
+> - [**\[3\] Advanced / Large-Scale
 >   LLMs**](../../03-advanced-llms/index.qmd) — MoE, pretraining at
 >   scale, fault tolerance, and RL.
 
@@ -1568,7 +1568,7 @@ Figure 26: Language Model trained for causal language modeling.
 > **NERSC Perlmutter** — or you just want a clean, standalone recipe
 > without the surrounding lesson — jump to the dedicated hands-on lab:
 >
-> ➡️ [**\[02\] Hands-On: Launching a Distributed
+> ➡️ [**\[2\] Hands-On: Launching a Distributed
 > Run**](../../02-llms/1-parallel-training/index.qmd) (SLURM / `salloc`,
 > project `m4388`). It runs the *same* `wordplay` DDP example.
 
@@ -1589,7 +1589,7 @@ Figure 26: Language Model trained for causal language modeling.
 2.  🐍 Setup Python:
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     ```
 
 ### 📦 Install {`ezpz`, `wordplay`}
@@ -1663,7 +1663,7 @@ ezpz launch python3 -m wordplay \
     train.backend=DDP \
     train.eval_interval=100 \
     data=shakespeare \
-    train.dtype=bf16 \
+    train.dtype=bfloat16 \
     model.batch_size=64 \
     model.block_size=1024 \
     train.max_iters=1000 \

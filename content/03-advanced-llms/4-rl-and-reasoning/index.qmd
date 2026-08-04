@@ -669,7 +669,7 @@ up the distributed environment for you.
 1. Set up the environment and install the RL stack:
 
     ```bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install git+https://github.com/saforem2/ezpz
     uv pip install "trl>=0.14" "peft>=0.13" "datasets" "accelerate" "vllm"
     ```

@@ -33,7 +33,7 @@ Sam Foreman
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/0-moe/index.ipynb)
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/0-moe/index.qmd)
 
-By now you have seen how to split a model across many GPUs in [\[01.4\]
+By now you have seen how to split a model across many GPUs in [\[1.4\]
 Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd):
 data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline
@@ -334,13 +334,17 @@ cap how many tokens each expert may accept. That cap is set by the
 $$\text{capacity} \;=\; \Big\lceil \text{capacity\_factor} \times \frac{\text{tokens} \times k}{E} \Big\rceil$$
 
 ``` python
+import math
+
 capacity_factor = 1.25
-capacity = int(capacity_factor * n_tokens * moe.top_k / moe.n_experts)
+# ceil (not int/truncate) to match the formula above: with n_tokens=12, k=2,
+# E=4 the raw value is 7.5, and we round UP to 8 so the buffer never under-sizes.
+capacity = math.ceil(capacity_factor * n_tokens * moe.top_k / moe.n_experts)
 print(f"expert capacity (cf={capacity_factor}): {capacity} tokens/expert")
 print("tokens beyond capacity are 'dropped' (skip the expert, kept via residual).")
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">expert capacity <span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">cf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.25</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span> tokens/expert
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">expert capacity <span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">cf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.25</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> tokens/expert
 </pre>
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">tokens beyond capacity are <span style="color: #008000; text-decoration-color: #008000">'dropped'</span> <span style="font-weight: bold">(</span>skip the expert, kept via residual<span style="font-weight: bold">)</span>.
@@ -351,6 +355,50 @@ print("tokens beyond capacity are 'dropped' (skip the expert, kept via residual)
   the residual connection).
 - Larger capacity → fewer dropped tokens but more wasted compute/memory
   on padding. Typical values are `1.0`–`2.0`.
+
+Let’s actually apply the cap to the routing from our toy run above
+(`counts` is the per-expert token count the `MoELayer` returned) and see
+the drops happen:
+
+``` python
+total_dispatched = int(counts.sum())              # == n_tokens * top_k
+dropped = 0
+print(f"capacity = {capacity} tokens/expert  (capacity_factor={capacity_factor})\n")
+for e, c in enumerate(counts.tolist()):
+    over = max(c - capacity, 0)
+    dropped += over
+    flag = f"DROP {over}" if over else "ok"
+    print(f"  expert {e}: {c:2d} routed / cap {capacity}  ->  {flag}")
+print(f"\ndropped {dropped}/{total_dispatched} dispatches "
+      f"({dropped / total_dispatched:.0%}) — these tokens skip the expert and ride "
+      f"the residual through unchanged.")
+```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">capacity = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> tokens/expert  <span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">capacity_factor</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.25</span><span style="font-weight: bold">)</span>
+&#10;</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  expert <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>:  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span> routed <span style="color: #800080; text-decoration-color: #800080">/</span> cap <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>  -&gt;  ok
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  expert <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>:  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span> routed <span style="color: #800080; text-decoration-color: #800080">/</span> cap <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>  -&gt;  ok
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  expert <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>:  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span> routed <span style="color: #800080; text-decoration-color: #800080">/</span> cap <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>  -&gt;  ok
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">  expert <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>:  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span> routed <span style="color: #800080; text-decoration-color: #800080">/</span> cap <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>  -&gt;  ok
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+dropped <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24</span> dispatches <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>%<span style="font-weight: bold">)</span> — these tokens skip the expert and ride the residual through unchanged.
+</pre>
+
+Because our untrained router is lumpy, an over-subscribed expert drops
+its overflow while others sit under capacity — wasted work on both ends.
+This is exactly why the **load-balancing aux loss** matters: flatten the
+distribution and the drop rate falls. Try re-running with
+`capacity_factor = 1.0` (tighter → more drops) vs `2.0` (looser → none)
+to feel the trade-off.
 
 > [!TIP]
 >
@@ -571,7 +619,7 @@ computed, then shuffled back (combine).
 | **EP** | the *experts* of the MoE FFN | **`all-to-all`** | non-expert params |
 
 How expert parallelism relates to the parallelism strategies from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
 {.table-responsive .table-striped .table-hover}
 
 - **EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense
@@ -587,7 +635,7 @@ How expert parallelism relates to the parallelism strategies from
   fit on one GPU, and (c) your interconnect can absorb the all-to-all.
   On slow networks the all-to-all becomes the bottleneck — this is
   exactly the *communication-vs-computation* tradeoff from
-  [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
+  [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
 ### 🛠️ Launch it with `ezpz`
 
@@ -598,7 +646,7 @@ How expert parallelism relates to the parallelism strategies from
 1.  Set up a system-agnostic environment and install deps:
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install git+https://github.com/saforem2/ezpz
     uv pip install git+https://github.com/pytorch/torchtitan
     ```
@@ -709,8 +757,8 @@ Where **proof** can be any of:
   [arXiv:2410.06511](https://arxiv.org/abs/2410.06511) ·
   [pytorch/torchtitan](https://github.com/pytorch/torchtitan)
 -  [saforem2/ezpz](https://github.com/saforem2/ezpz)
-- ⏪ Prerequisite: [\[01.4\] Distributed
+- ⏪ Prerequisite: [\[1.4\] Distributed
   Training](../../01-neural-networks/4-distributed-training/index.qmd)
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">10:32</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">08</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">03</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">21:57</span>
 </pre>

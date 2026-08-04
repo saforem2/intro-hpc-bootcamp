@@ -19,8 +19,8 @@ Sam Foreman
 > across users and what a *job* is; the commands below are readable by
 > anyone, whether or not you have access to a cluster. You’ll only need
 > real cluster access for the large-scale, hands-on labs later in the
-> course (e.g. distributed training in \[01.4\], the LLM lab in
-> \[02.1\], and the AI-for-science examples in \[03.x\]).
+> course (e.g. distributed training in \[1.4\], the LLM lab in \[2.1\],
+> and the AI-for-science examples in \[03.x\]).
 
 Supercomputers contain many computer *nodes* and not every application
 will use ALL of them. Therefore, we use programs called *schedulers*
@@ -213,7 +213,7 @@ scancel 1234567      # cancel a job
   of the page shows a graphical representation of all nodes. Colors
   indicate a *job* running on that *node*. Below the graphic there is a
   table that lists *running* and *queued* jobs.
-  - *running* refers to jobs running right now on comptuer nodes. If you
+  - *running* refers to jobs running right now on computer nodes. If you
     hover on a colored node in the graphic, it will highlight all the
     nodes used by the same job AND the job in the *running* table below.
   - *queued* jobs are waiting for an opening in which to run.

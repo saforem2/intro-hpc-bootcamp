@@ -260,7 +260,7 @@ First, the usual one-time environment setup (see the
 [track intro](../index.qmd#one-time-setup)):
 
 ```bash
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install git+https://github.com/saforem2/ezpz
 ezpz test   # confirm device / backend / world size
 ```

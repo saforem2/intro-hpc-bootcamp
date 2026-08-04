@@ -31,11 +31,11 @@ Sam Foreman
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/3-mid-post-training/index.qmd)
 
 So far you have seen how a model is *pretrained* from scratch (labs
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[02.2\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
-and how that pretraining is *scaled* across GPUs and nodes ([\[01.4\]
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd)–[\[2.2\]](../../02-llms/2-shakespeare-example-colab/index.ipynb))
+and how that pretraining is *scaled* across GPUs and nodes ([\[1.4\]
 Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd),
-[\[02.1\] Parallel
+[\[2.1\] Parallel
 Training](../../02-llms/1-parallel-training/index.qmd)).
 
 A pretrained **base model** is a very good next-token predictor. It is
@@ -102,7 +102,7 @@ text” toward “does what you ask.”
   instructions and speak in a **chat template** using (prompt,
   completion) pairs.
 - **Alignment / RL** — DPO / GRPO / PPO on preference data. Covered in
-  the next lab: [\[03.4\] RL &
+  the next lab: [\[3.4\] RL &
   Reasoning](../4-rl-and-reasoning/index.qmd).
 
 Throughout we use the HuggingFace [TRL](https://huggingface.co/docs/trl)
@@ -116,7 +116,7 @@ batteries-included stack for post-training.
 > `trl`, `peft`, and `deepspeed` are **not** installed in the site build
 > environment, and real fine-tuning needs a GPU. Every cell that touches
 > them is marked `#| eval: false` so it renders as copy-pasteable code
-> without running. The two tiny cells that *do* run use only
+> without running. The handful of cells that *do* run use only
 > `transformers` + `torch` on CPU with a `gpt2` tokenizer — flip any
 > `eval: false` to `true` on the cluster to run it for real.
 
@@ -480,7 +480,7 @@ Table 1: An illustrative continued-pretraining data mix.
 >   dominates the final quality.
 > - **Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not
 >   just LoRA) across many nodes, sharding optimizer state with
->   ZeRO/FSDP — exactly the parallelism strategies from [\[01.4\]
+>   ZeRO/FSDP — exactly the parallelism strategies from [\[1.4\]
 >   Distributed
 >   Training](../../01-neural-networks/4-distributed-training/index.qmd).
 > - **Staged pipelines.** The Llama 3 report
@@ -502,9 +502,10 @@ the launch — it auto-detects the scheduler (PBS → `mpiexec`, SLURM →
 1.  Set up the environment (system-agnostic):
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install git+https://github.com/saforem2/ezpz
-    uv pip install "trl>=0.12" "peft>=0.13" "datasets" "accelerate" "deepspeed"
+    # trl>=0.20 for the SFTConfig(assistant_only_loss=..., max_length=...) args used below
+    uv pip install "trl>=0.20" "peft>=0.13" "datasets" "accelerate" "deepspeed"
     ```
 
 2.  Confirm the distributed setup works:
@@ -598,7 +599,7 @@ Where *proof* can be any of:
   [arXiv:2501.00656](https://arxiv.org/abs/2501.00656)
 - [Chat templating in 🤗
   Transformers](https://huggingface.co/docs/transformers/main/en/chat_templating)
-- Next: [\[03.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd) — DPO
+- Next: [\[3.4\] RL & Reasoning](../4-rl-and-reasoning/index.qmd) — DPO
   / GRPO / PPO alignment.
 
 <!-- -->

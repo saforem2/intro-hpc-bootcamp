@@ -506,7 +506,7 @@ are display-only — run them inside an interactive allocation (or a job script)
 qsub -A <project> -q debug -l select=8 -l walltime=01:00:00 -I
 
 # --- 1. Build env once against a Python that exists on every node ---
-source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install "git+https://github.com/saforem2/ezpz"
 # ... plus torchtitan + torch for your system ...
 

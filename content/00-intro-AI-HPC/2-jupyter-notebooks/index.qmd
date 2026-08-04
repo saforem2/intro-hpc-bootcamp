@@ -208,7 +208,7 @@ Here's the concrete recipe for an HPC lab (this is exactly what
 3. **Set up Python** — this creates/activates a `.venv` and detects the job:
 
     ```bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install "git+https://github.com/saforem2/ezpz"
     ```
 

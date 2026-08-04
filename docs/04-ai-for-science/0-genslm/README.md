@@ -10,6 +10,8 @@ Sam Foreman
     tokens](#codons-the-genomes-native-tokens)
 - [① A codon tokenizer that really runs](#sec-toy)
 - [② A tiny CodonGPT that learns genome structure](#sec-real)
+  - [Scoring how “surprising” a mutation
+    is](#scoring-how-surprising-a-mutation-is)
 - [③ Why this needed a supercomputer](#sec-scale)
   - [Loading the *real* pretrained model (run this
     yourself)](#loading-the-real-pretrained-model-run-this-yourself)
@@ -30,7 +32,7 @@ Sam Foreman
 [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/04-ai-for-science/0-genslm/index.qmd)
 
 This whole course is called **“AI *for Science*”** — and this is the
-page where it all pays off. Back in [\[02.0\] Language
+page where it all pays off. Back in [\[2.0\] Language
 Models](../../02-llms/0-intro-to-llms/index.qmd) we opened with a claim:
 the Transformer isn’t a *text* architecture, it’s a *sequence*
 architecture, and much of science is sequences — DNA, RNA, proteins,
@@ -55,7 +57,7 @@ you’ll have built a (very) small version of it from scratch.
 >
 > 1.  Explain what a **genome-scale language model** is — the *same*
 >     Transformer from
->     [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd), fed
+>     [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd), fed
 >     nucleotides instead of words.
 > 2.  Describe **codon tokenization** (3 nucleotides → 1 token) and
 >     contrast it with **BPE** on text.
@@ -66,14 +68,14 @@ you’ll have built a (very) small version of it from scratch.
 >     models trained across many GPUs.
 > 5.  Connect that scale story back to the **distributed-training**
 >     machinery you already learned in
->     [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
->     and [\[02.1\]](../../02-llms/1-parallel-training/index.qmd).
+>     [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
+>     and [\[2.1\]](../../02-llms/1-parallel-training/index.qmd).
 
 > [!NOTE]
 >
 > ### 🧭 Where this fits
 >
-> [\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) built a mini-LLM
+> [\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) built a mini-LLM
 > from scratch on tiny-Shakespeare with a character-level tokenizer.
 > **Nothing about that model was English-specific.** Swap the tokenizer
 > — characters → codons — and point it at genomes, and the exact same
@@ -84,7 +86,7 @@ you’ll have built a (very) small version of it from scratch.
 
 A language model learns $P(t_i \mid t_1, \ldots, t_{i-1})$ — the
 probability of the next token given everything before it. In
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) the tokens were
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) the tokens were
 subwords of English. Here they’re pieces of a genome. The architecture —
 embeddings, masked self-attention, feed-forward blocks, a softmax over a
 vocabulary — **does not change**. Only the alphabet does.
@@ -229,7 +231,7 @@ models can afford very long context windows — more on that in
 
 Now the fun part: feed those tokens to the *same* from-scratch GPT
 architecture you built in
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) and watch it learn.
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) and watch it learn.
 We can’t train on a real genome here (that’s the whole point of the HPC
 section), so we use a **synthetic “genome”**: a short,
 biologically-flavored motif repeated enough that a tiny model can
@@ -266,12 +268,12 @@ def get_batch():
 ```
 
 The model is the standard decoder block from
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd) — masked
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd) — masked
 self-attention + feed-forward, with residuals and layer-norm — just
 sized tiny:
 
 <details class="code-fold">
-<summary>Show the from-scratch CodonGPT definition (same as \[02.0\],
+<summary>Show the from-scratch CodonGPT definition (same as \[2.0\],
 sized tiny)</summary>
 
 ``` python
@@ -393,8 +395,49 @@ print("generated:", decode(generated))
     generated: ATG AAA CGC GGG TTT CTA TAG ATG AAA CGC GGG TTT
 
 It reproduces the learned motif — the codon-level analogue of GPT-2
-continuing a sentence. Let’s visualize the training curve (uses the
-shared `bootcamp` plotting theme):
+continuing a sentence.
+
+### Scoring how “surprising” a mutation is
+
+This is the payoff hinted at in the intro — the exact signal GenSLM used
+to flag emerging variants. A model that has learned the genome’s grammar
+assigns **high probability** (low *surprise*) to codons that fit, and
+**low probability** (high surprise) to ones that don’t. We measure
+surprise as the **negative log-likelihood** the model assigns to a
+candidate next codon given the preceding context — no labels, just the
+model’s own next-token distribution:
+
+``` python
+@torch.no_grad()
+def surprise(context_dna: str, next_codon: str) -> float:
+    """Negative log-likelihood the model assigns to `next_codon` after `context_dna`.
+    High = surprising (the model didn't expect it); low = business as usual."""
+    ctx = torch.tensor([encode(context_dna)])       # (1, T)
+    logits, _ = model(ctx)                           # (1, T, vocab_size)
+    logp = F.log_softmax(logits[0, -1], dim=-1)      # distribution over the next codon
+    return -logp[stoi[next_codon]].item()
+
+# In the motif  ATG · AAA · CGC · GGG · ...  the codon after "ATG" is canonically
+# "AAA". Compare the model's surprise at the real codon vs. a mutation.
+for ctx, canonical, mutant in [("ATG", "AAA", "TTT"),
+                               ("ATGAAACGC", "GGG", "CCC")]:
+    s_ok = surprise(ctx, canonical)
+    s_mut = surprise(ctx, mutant)
+    print(f"after {ctx:>10s}:  {canonical} (canonical) surprise={s_ok:5.2f}   "
+          f"{mutant} (mutation) surprise={s_mut:5.2f}   ->  {s_mut/max(s_ok,1e-6):,.0f}x more surprising")
+```
+
+    after        ATG:  AAA (canonical) surprise= 0.02   TTT (mutation) surprise= 5.86   ->  320x more surprising
+    after  ATGAAACGC:  GGG (canonical) surprise= 0.02   CCC (mutation) surprise= 5.97   ->  325x more surprising
+
+The canonical codon is almost free (the model expected it); the mutation
+costs *many* nats of surprise. Run this across every position of a real
+genome and the spikes light up exactly where a sequence departs from
+what the model learned as normal — that is variant detection, done with
+a language model and **zero labeled data**.
+
+Let’s visualize the training curve (uses the shared `bootcamp` plotting
+theme):
 
 ``` python
 try:
@@ -3745,8 +3788,8 @@ return Plotly;
 }));</script>
         
 
-<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                    <div id="e1e7a02f-ee18-468d-80b9-69995efc0e74" class="plotly-graph-div" style="height:360px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("e1e7a02f-ee18-468d-80b9-69995efc0e74")) {                    Plotly.newPlot(                        "e1e7a02f-ee18-468d-80b9-69995efc0e74",                        [{"line":{"color":"#2196F3","width":2},"mode":"lines","name":"train loss","y":[4.49796199798584,4.0433454513549805,3.6922543048858643,3.310659408569336,3.049354076385498,2.7439029216766357,2.5058863162994385,2.292656898498535,2.111260414123535,1.94066321849823,1.7767254114151,1.6173131465911865,1.4855846166610718,1.3370972871780396,1.2053203582763672,1.0851669311523438,0.9682971239089966,0.8708630800247192,0.7872040271759033,0.7073124051094055,0.6392905712127686,0.5695366859436035,0.5127047300338745,0.4637986421585083,0.41451123356819153,0.3805355727672577,0.34331241250038147,0.31164199113845825,0.2814676761627197,0.2596932351589203,0.2352103888988495,0.2150993049144745,0.19737662374973297,0.182120680809021,0.16757342219352722,0.1541541963815689,0.14244404435157776,0.13247734308242798,0.12394604086875916,0.11512913554906845,0.10718420147895813,0.10029686242341995,0.09429086744785309,0.08839897811412811,0.08314958214759827,0.07919908314943314,0.07469182461500168,0.07090068608522415,0.06706549227237701,0.06428959965705872,0.061152469366788864,0.05831538513302803,0.05595574155449867,0.05367615446448326,0.051500484347343445,0.04936644434928894,0.04766882583498955,0.04580473527312279,0.04433635249733925,0.042903829365968704,0.04135534539818764,0.04004329442977905,0.03888300806283951,0.03769257292151451,0.03663841634988785,0.035643819719552994,0.03458961844444275,0.03364994004368782,0.0328332781791687,0.03209173306822777,0.03117847815155983,0.030524209141731262,0.029865462332963943,0.029199471697211266,0.028524048626422882,0.027824081480503082,0.02734723873436451,0.026639675721526146,0.026112057268619537,0.02565484680235386,0.025142477825284004,0.024640247225761414,0.024252189323306084,0.023755498230457306,0.023319890722632408,0.022864030674099922,0.02247338928282261,0.022043172270059586,0.02174481190741062,0.021367693319916725,0.021031338721513748,0.020680198445916176,0.020340802147984505,0.02002972550690174,0.019708162173628807,0.019389620050787926,0.019111886620521545,0.01885397359728813,0.01853768154978752,0.01826120913028717],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"height":360,"title":{"text":"CodonGPT: training loss on a synthetic genome"},"xaxis":{"title":{"text":"iteration"}},"yaxis":{"title":{"text":"cross-entropy loss"}}},                        {"responsive": true}                    ).then(function(){
-                            &#10;var gd = document.getElementById('e1e7a02f-ee18-468d-80b9-69995efc0e74');
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                    <div id="aeb8084c-d0d7-4cb3-8a12-d5984c7887b0" class="plotly-graph-div" style="height:360px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("aeb8084c-d0d7-4cb3-8a12-d5984c7887b0")) {                    Plotly.newPlot(                        "aeb8084c-d0d7-4cb3-8a12-d5984c7887b0",                        [{"line":{"color":"#2196F3","width":2},"mode":"lines","name":"train loss","y":[4.49796199798584,4.0433454513549805,3.6922543048858643,3.310659408569336,3.049354076385498,2.7439029216766357,2.5058863162994385,2.292656898498535,2.111260414123535,1.94066321849823,1.7767254114151,1.6173131465911865,1.4855846166610718,1.3370972871780396,1.2053203582763672,1.0851669311523438,0.9682971239089966,0.8708630800247192,0.7872040271759033,0.7073124051094055,0.6392905712127686,0.5695366859436035,0.5127047300338745,0.4637986421585083,0.41451123356819153,0.3805355727672577,0.34331241250038147,0.31164199113845825,0.2814676761627197,0.2596932351589203,0.2352103888988495,0.2150993049144745,0.19737662374973297,0.182120680809021,0.16757342219352722,0.1541541963815689,0.14244404435157776,0.13247734308242798,0.12394604086875916,0.11512913554906845,0.10718420147895813,0.10029686242341995,0.09429086744785309,0.08839897811412811,0.08314958214759827,0.07919908314943314,0.07469182461500168,0.07090068608522415,0.06706549227237701,0.06428959965705872,0.061152469366788864,0.05831538513302803,0.05595574155449867,0.05367615446448326,0.051500484347343445,0.04936644434928894,0.04766882583498955,0.04580473527312279,0.04433635249733925,0.042903829365968704,0.04135534539818764,0.04004329442977905,0.03888300806283951,0.03769257292151451,0.03663841634988785,0.035643819719552994,0.03458961844444275,0.03364994004368782,0.0328332781791687,0.03209173306822777,0.03117847815155983,0.030524209141731262,0.029865462332963943,0.029199471697211266,0.028524048626422882,0.027824081480503082,0.02734723873436451,0.026639675721526146,0.026112057268619537,0.02565484680235386,0.025142477825284004,0.024640247225761414,0.024252189323306084,0.023755498230457306,0.023319890722632408,0.022864030674099922,0.02247338928282261,0.022043172270059586,0.02174481190741062,0.021367693319916725,0.021031338721513748,0.020680198445916176,0.020340802147984505,0.02002972550690174,0.019708162173628807,0.019389620050787926,0.019111886620521545,0.01885397359728813,0.01853768154978752,0.01826120913028717],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"height":360,"title":{"text":"CodonGPT: training loss on a synthetic genome"},"xaxis":{"title":{"text":"iteration"}},"yaxis":{"title":{"text":"cross-entropy loss"}}},                        {"responsive": true}                    ).then(function(){
+                            &#10;var gd = document.getElementById('aeb8084c-d0d7-4cb3-8a12-d5984c7887b0');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -3793,20 +3836,20 @@ Attention cost grows **quadratically** with sequence length, so modeling
 long-range dependencies across a genome pushes memory and compute far
 past a single GPU. This is precisely the pressure that motivates
 **sequence/context parallelism** from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
 **2 · Massive sequence corpora.** Training on the PATRIC gene database
 plus global SARS-CoV-2 sequences means streaming enormous datasets
 through the model — the data-loading and sharding problem you met in
-[\[02.1\] Parallel
+[\[2.1\] Parallel
 Training](../../02-llms/1-parallel-training/index.qmd).
 
 **3 · Billion-parameter models.** The largest GenSLM foundation models
 don’t fit in one GPU’s memory. Training them requires sharding
 parameters, gradients, and optimizer state across many devices — **ZeRO
 / FSDP** and **3D parallelism** from
-[\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd),
-the same tools the [\[03.1\] Pretraining at
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd),
+the same tools the [\[3.1\] Pretraining at
 Scale](../../03-advanced-llms/1-pretraining-at-scale/index.qmd) lab
 drives with `torchtitan`.
 
@@ -3841,7 +3884,7 @@ scale {.table-responsive .table-striped .table-hover}
 
 The released 25M-parameter model (`genslm_25M_patric`) is a standard
 HuggingFace-style Transformer — the API will feel familiar from
-[\[02.0\]](../../02-llms/0-intro-to-llms/index.qmd). It’s **not** run at
+[\[2.0\]](../../02-llms/0-intro-to-llms/index.qmd). It’s **not** run at
 build time here: the weights are a large download (via a Globus
 endpoint), so this cell is display-only. On a machine with the weights,
 it just works:
@@ -3875,19 +3918,19 @@ language.
 > ### ⚙️ Training it at scale with the tools from this track
 >
 > GenSLM ships its own HPC launcher, but the *pattern* is identical to
-> everything in [\[03\]](../../03-advanced-llms/index.qmd): build a
-> codon dataset, wrap a Transformer in FSDP/3D parallelism, and launch
-> across nodes with checkpointing. Reusing this course’s
+> everything in [\[3\]](../../03-advanced-llms/index.qmd): build a codon
+> dataset, wrap a Transformer in FSDP/3D parallelism, and launch across
+> nodes with checkpointing. Reusing this course’s
 > [`ezpz`](https://github.com/saforem2/ezpz) workflow, a genome
 > pretraining run is the same shape as any other:
 >
 > ``` bash
-> source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+> source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 > uv pip install git+https://github.com/saforem2/ezpz
 > ezpz launch -n <N> python3 train_codon_gpt.py --data genomes/ --ckpt-interval 500
 > ```
 >
-> The [\[03.2\] Fault-Tolerant
+> The [\[3.2\] Fault-Tolerant
 > Training](../../03-advanced-llms/2-fault-tolerant-training/index.qmd)
 > lab explains why that `--ckpt-interval` matters for a multi-day run.
 
@@ -3957,8 +4000,8 @@ and its `<unk>` fraction.
 > - **GenSLM** scaled that idea to real genomes and billion-parameter
 >   models on **Polaris + Perlmutter**, using the *same*
 >   distributed-training tools from
->   [\[01.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
->   / [\[02.1\]](../../02-llms/1-parallel-training/index.qmd), and
+>   [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)
+>   / [\[2.1\]](../../02-llms/1-parallel-training/index.qmd), and
 >   modeled SARS-CoV-2 evolution well enough to win a **Gordon Bell
 >   Special Prize**.
 > - This is what “AI for science on HPC” looks like: a general
@@ -3977,7 +4020,7 @@ and its `<unk>` fraction.
   2022 **Special Prize for HPC-Based COVID-19 Research**.
 - ALCF, [Polaris](https://www.alcf.anl.gov/polaris) — one of the systems
   GenSLM trained on.
-- [\[02.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) —
+- [\[2.0\] Language Models](../../02-llms/0-intro-to-llms/index.qmd) —
   the from-scratch Transformer this page reuses.
 - Vaswani et al., [*Attention Is All You
   Need*](https://arxiv.org/abs/1706.03762)
@@ -4016,4 +4059,4 @@ HPC story this whole course has been building toward.
 
 ------------------------------------------------------------------------
 
-*Last updated: 2026-07-27*
+*Last updated: 2026-08-03*

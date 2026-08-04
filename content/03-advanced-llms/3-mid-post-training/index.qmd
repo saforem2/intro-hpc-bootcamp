@@ -450,7 +450,7 @@ wires up the distributed environment for you. No `mpirun -n $NGPUS` bookkeeping.
 1. Set up the environment (system-agnostic):
 
     ```bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install git+https://github.com/saforem2/ezpz
     # trl>=0.20 for the SFTConfig(assistant_only_loss=..., max_length=...) args used below
     uv pip install "trl>=0.20" "peft>=0.13" "datasets" "accelerate" "deepspeed"

@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-cafe44bb1fe39df60459295e1ad8df90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-70bbbc3842a0a39d5faf79a9dce278b4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b77a11f25bcfb6602383af3b583204a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e380a9006d171cd86bb9730d85a4f3d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -464,7 +464,7 @@ window.Quarto = {
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
+    <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-house"></i></a>
     <a href="https://github.com/saforem2/intro-hpc-bootcamp" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -765,7 +765,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 3, 2026</p>
     </div>
   </div>
     
@@ -818,7 +818,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <section id="a-toy-that-really-runs" class="level2">
 <h2 class="anchored" data-anchor-id="a-toy-that-really-runs">👋 ① A toy that really runs</h2>
 <p>Let’s build a complete MoE layer in a few dozen lines of pure PyTorch — small enough to run on a laptop CPU. It has all four moving parts: a <strong>router</strong>, <strong>sparse dispatch</strong> to expert FFNs, a weighted <strong>combine</strong>, and the <strong>load-balancing loss</strong>.</p>
-<div id="ba724d62" class="cell" data-execution_count="1">
+<div id="ba724d62" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
@@ -842,7 +842,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <span id="cb1-21"><a href="#cb1-21" aria-label="21"></a>        <span class="cf">return</span> <span class="va">self</span>.net(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now the MoE layer itself. Read the four numbered steps in <code>forward</code>:</p>
-<div id="2d38a4f3" class="cell" data-execution_count="2">
+<div id="2d38a4f3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="kw">class</span> MoELayer(nn.Module):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, d_model<span class="op">=</span><span class="dv">8</span>, d_hidden<span class="op">=</span><span class="dv">16</span>, n_experts<span class="op">=</span><span class="dv">4</span>, top_k<span class="op">=</span><span class="dv">2</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -889,7 +889,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>        <span class="cf">return</span> out, aux_loss, counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Run it on a tiny batch of 12 tokens and inspect <strong>per-expert utilization</strong> — the single most important thing to watch when training an MoE:</p>
-<div id="59ca4e77" class="cell" data-execution_count="3">
+<div id="59ca4e77" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>n_tokens, d_model <span class="op">=</span> <span class="dv">12</span>, <span class="dv">8</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>x <span class="op">=</span> torch.randn(n_tokens, d_model)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a></span>
@@ -950,7 +950,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <section id="peek-inside-the-router" class="level3">
 <h3 class="anchored" data-anchor-id="peek-inside-the-router">🔎 Peek inside the router</h3>
 <p>The aggregate <code>counts</code> above hide the actual <em>decisions</em> the router made. Let’s open it up — nothing but a softmax over the gate logits picks experts — and watch what changes as we make routing denser (<strong>top-1 → top-3</strong>):</p>
-<div id="e67d770d" class="cell" data-execution_count="4">
+<div id="e67d770d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># The router is just a softmax over the gate's logits.</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>probs <span class="op">=</span> F.softmax(moe.gate(x), dim<span class="op">=-</span><span class="dv">1</span>)       <span class="co"># (n_tokens, n_experts) routing dist</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a>top2 <span class="op">=</span> probs.topk(<span class="dv">2</span>, dim<span class="op">=-</span><span class="dv">1</span>)                  <span class="co"># what top-2 routing selects per token</span></span>
@@ -1069,7 +1069,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <p><span class="math display">
 \text{capacity} \;=\; \Big\lceil \text{capacity\_factor} \times \frac{\text{tokens} \times k}{E} \Big\rceil
 </span></p>
-<div id="b423a6a1" class="cell" data-execution_count="5">
+<div id="b423a6a1" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">import</span> math</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>capacity_factor <span class="op">=</span> <span class="fl">1.25</span></span>
@@ -1092,7 +1092,7 @@ P_\text{active} \;\approx\; P_\text{attn+embed} \;+\; \frac{k}{E}\, P_\text{expe
 <li>Larger capacity → fewer dropped tokens but more wasted compute/memory on padding. Typical values are <code>1.0</code>–<code>2.0</code>.</li>
 </ul>
 <p>Let’s actually apply the cap to the routing from our toy run above (<code>counts</code> is the per-expert token count the <code>MoELayer</code> returned) and see the drops happen:</p>
-<div id="06945a65" class="cell" data-execution_count="6">
+<div id="06945a65" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>total_dispatched <span class="op">=</span> <span class="bu">int</span>(counts.<span class="bu">sum</span>())              <span class="co"># == n_tokens * top_k</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>dropped <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"capacity = </span><span class="sc">{</span>capacity<span class="sc">}</span><span class="ss"> tokens/expert  (capacity_factor=</span><span class="sc">{</span>capacity_factor<span class="sc">}</span><span class="ss">)</span><span class="ch">\n</span><span class="ss">"</span>)</span>
@@ -1420,7 +1420,7 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <p><code>ezpz</code> sets up the distributed environment and launches on any scheduler (PBS → <code>mpiexec</code>, SLURM → <code>srun</code>, auto-detected). All commands below are <strong>display-only</strong> — run them on a login node of an ALCF/NERSC system.</p>
 <ol type="1">
 <li><p>Set up a system-agnostic environment and install deps:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="ex">uv</span> pip install git+https://github.com/pytorch/torchtitan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Smoke-test the distributed setup before burning an allocation:</p>
@@ -1496,7 +1496,7 @@ Figure&nbsp;2: Expert parallelism: each GPU owns a <strong>subset of experts</st
 <li><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/saforem2/ezpz">saforem2/ezpz</a></li>
 <li>⏪ Prerequisite: <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a></li>
 </ul>
-<div id="e3f084eb" class="cell" data-execution_count="7">
+<div id="e3f084eb" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Last updated: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2026</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">07</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">29</span> <span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">21:25</span>
 </pre>
@@ -2529,7 +2529,7 @@ Parallelism.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bo
 <span id="cb14-512"><a href="#cb14-512" aria-label="496"></a><span class="ss">1. </span>Set up a system-agnostic environment and install deps:</span>
 <span id="cb14-513"><a href="#cb14-513" aria-label="497"></a></span>
 <span id="cb14-514"><a href="#cb14-514" aria-label="498"></a>   <span class="in">```bash</span></span>
-<span id="cb14-515"><a href="#cb14-515" aria-label="499"></a>   <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb14-515"><a href="#cb14-515" aria-label="499"></a>   <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb14-516"><a href="#cb14-516" aria-label="500"></a>   <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
 <span id="cb14-517"><a href="#cb14-517" aria-label="501"></a>   <span class="ex">uv</span> pip install git+https://github.com/pytorch/torchtitan</span>
 <span id="cb14-518"><a href="#cb14-518" aria-label="502"></a>   <span class="in">```</span></span>

@@ -28,15 +28,15 @@ environment**.
 >
 > The majority of the material runs on a **laptop or [Google
 > Colab](https://colab.research.google.com)** — look for the Colab badge
-> at the top of each notebook. Sections **\[00\]–\[02.0\]** (Python,
-> data, first models, neural-network basics, intro to LLMs) need nothing
-> but a browser.
+> at the top of each notebook. Sections **\[0\]–\[2.0\]** (Python, data,
+> first models, neural-network basics, intro to LLMs) need nothing but a
+> browser.
 >
 > You only need HPC access for the **large-scale labs**:
 >
-> - **[\[01.4\] Distributed
+> - **[\[1.4\] Distributed
 >   Training](../../01-neural-networks/4-distributed-training/)**
-> - **[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/)**
+> - **[\[2.1\] Parallel Training](../../02-llms/1-parallel-training/)**
 > - the **[\[03.x\] Advanced / Large-Scale
 >   LLM](../../03-advanced-llms/)** pages
 >
@@ -190,7 +190,7 @@ jupyter kernelspec uninstall myenv      # remove one
 
 You’ll meet two schedulers in the wild: **PBS Pro** (ALCF: Polaris,
 Sophia) and **SLURM** (NERSC: Perlmutter). The concepts are identical —
-see [\[00.1\] Shared Resources](../1-shared-resources/) for the full
+see [\[0.1\] Shared Resources](../1-shared-resources/) for the full
 walkthrough — only the commands differ. If you know one, this table gets
 you the other:
 
@@ -220,9 +220,8 @@ you the other:
 
 ## 🏔️ Running the labs on Perlmutter
 
-Here’s the concrete recipe for an HPC lab (this is exactly what
-[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) walks
-through):
+Here’s the concrete recipe for an HPC lab (this is exactly what [\[2.1\]
+Parallel Training](../../02-llms/1-parallel-training/) walks through):
 
 1.  **Log in and grab an interactive GPU node.** `salloc` submits the
     request and drops you onto the node once it starts:
@@ -243,7 +242,7 @@ through):
     job:
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     uv pip install "git+https://github.com/saforem2/ezpz"
     ```
 
@@ -260,9 +259,9 @@ through):
     ```
 
 The full, annotated end-to-end run (with expected output) lives on the
-[\[01.4\] Distributed
-Training](../../01-neural-networks/4-distributed-training/) and
-[\[02.1\] Parallel Training](../../02-llms/1-parallel-training/) pages.
+[\[1.4\] Distributed
+Training](../../01-neural-networks/4-distributed-training/) and [\[2.1\]
+Parallel Training](../../02-llms/1-parallel-training/) pages.
 
 > [!TIP]
 >

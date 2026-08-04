@@ -322,7 +322,10 @@ website:
     collapse-level: 1
     # contents: auto
     tools:
-      - icon: home
+      # NB: Bootstrap Icons has no `home` glyph (it is `house`); `icon: home`
+      # emitted `<i class="bi bi-home">`, which resolves to `content: none` and
+      # rendered as an invisible gap next to the GitHub mark.
+      - icon: house
         href: "index.qmd"
         text: "Home"
       - icon: github

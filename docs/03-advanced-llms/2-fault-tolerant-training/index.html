@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-cafe44bb1fe39df60459295e1ad8df90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-70bbbc3842a0a39d5faf79a9dce278b4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b77a11f25bcfb6602383af3b583204a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e380a9006d171cd86bb9730d85a4f3d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -416,7 +416,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Intro to HPC Bootcamp</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
+    <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-house"></i></a>
     <a href="https://github.com/saforem2/intro-hpc-bootcamp" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -710,7 +710,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 3, 2026</p>
     </div>
   </div>
     
@@ -987,7 +987,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="sec-scale">③ Scale it up: <code>ezpz launch --auto-retry</code></h2>
 <p>Knowing <em>how</em> to restart is only half the battle — at 3am, someone (or something) has to actually notice the crash, figure out which node was bad, throw it out, and relaunch. <code>ezpz launch --auto-retry</code> does all of that in a loop.</p>
 <p>First, the usual one-time environment setup (see the <a href="../../03-advanced-llms/index.html#one-time-setup">track intro</a>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a><span class="ex">ezpz</span> test   <span class="co"># confirm device / backend / world size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then launch a run under the failover loop. Because your training script already implements the checkpoint/restart contract from <a href="#sec-toy" class="quarto-xref">Section&nbsp;2</a>, a relaunch on fresh nodes just resumes from <code>latest.pt</code>:</p>
@@ -1119,7 +1119,7 @@ class WALL,EXH red
 </div>
 </div>
 <hr>
-<p><em>Last updated: July 29, 2026</em></p>
+<p><em>Last updated: August 3, 2026</em></p>
 
 
 
@@ -1911,7 +1911,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-264"><a href="#cb9-264" aria-label="260"></a><span class="co">[</span><span class="ot">track intro</span><span class="co">](../index.qmd#one-time-setup)</span>):</span>
 <span id="cb9-265"><a href="#cb9-265" aria-label="261"></a></span>
 <span id="cb9-266"><a href="#cb9-266" aria-label="262"></a><span class="in">```bash</span></span>
-<span id="cb9-267"><a href="#cb9-267" aria-label="263"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb9-267"><a href="#cb9-267" aria-label="263"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb9-268"><a href="#cb9-268" aria-label="264"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
 <span id="cb9-269"><a href="#cb9-269" aria-label="265"></a><span class="ex">ezpz</span> test   <span class="co"># confirm device / backend / world size</span></span>
 <span id="cb9-270"><a href="#cb9-270" aria-label="266"></a><span class="in">```</span></span>

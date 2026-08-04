@@ -87,8 +87,8 @@ The following is a list of common NLP tasks, with some examples:
 
 - **Classifying whole sentences**: Getting the sentiment of a review,
   detecting if an email is spam, determining if a sentence is
-  gramatically correct or whether two sentences are logically related or
-  not.
+  grammatically correct or whether two sentences are logically related
+  or not.
 - **Classifying each word in a sentence**: Identifying the grammatical
   components of a sentence (noun, verb, adjectvie, …), or the named
   entities (person, location, organization, …).
@@ -102,7 +102,7 @@ The following is a list of common NLP tasks, with some examples:
 
 ## Large Language Models (LLMs)
 
-> A large lanuage model (LLM) is an AI model trained on massive amounts
+> A large language model (LLM) is an AI model trained on massive amounts
 > of text data that can understand and generate human-like text,
 > recognize patterns in language, and perform a wide variety of language
 > tasks without task-specific training.  

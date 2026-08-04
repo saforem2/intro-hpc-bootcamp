@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7df2ce19c1687010d033b5aaaa1b2993.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cafe44bb1fe39df60459295e1ad8df90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-70bbbc3842a0a39d5faf79a9dce278b4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b77a11f25bcfb6602383af3b583204a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e380a9006d171cd86bb9730d85a4f3d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -416,7 +416,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Intro to HPC Bootcamp</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
+    <a href="../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-house"></i></a>
     <a href="https://github.com/saforem2/intro-hpc-bootcamp" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -703,7 +703,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 3, 2026</p>
     </div>
   </div>
     
@@ -798,7 +798,7 @@ class FOUND,ADV block
 <h2 class="anchored" data-anchor-id="one-time-setup">⚙️ One-time setup</h2>
 <p>Every lab in this track uses <a href="https://github.com/saforem2/ezpz"><code>ezpz</code></a> to handle the distributed boilerplate. Run this <strong>once</strong> from a fresh shell to build a virtual environment and install everything:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># 1. Build / activate a .venv and load the ezpz shell helpers (system-agnostic)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="co"># 2. Install ezpz into the environment</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
@@ -1471,7 +1471,7 @@ Foreman, Sam. 2026. <span>“🚀 Advanced / Large-Scale LLMs.”</span> July
 <span id="cb2-109"><a href="#cb2-109" aria-label="107"></a></span>
 <span id="cb2-110"><a href="#cb2-110" aria-label="108"></a><span class="in">```bash</span></span>
 <span id="cb2-111"><a href="#cb2-111" aria-label="109"></a><span class="co"># 1. Build / activate a .venv and load the ezpz shell helpers (system-agnostic)</span></span>
-<span id="cb2-112"><a href="#cb2-112" aria-label="110"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup</span> .venv</span>
+<span id="cb2-112"><a href="#cb2-112" aria-label="110"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb2-113"><a href="#cb2-113" aria-label="111"></a></span>
 <span id="cb2-114"><a href="#cb2-114" aria-label="112"></a><span class="co"># 2. Install ezpz into the environment</span></span>
 <span id="cb2-115"><a href="#cb2-115" aria-label="113"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>

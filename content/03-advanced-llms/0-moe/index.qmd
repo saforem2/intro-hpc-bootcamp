@@ -496,7 +496,7 @@ the right GPU with an **all-to-all** (dispatch), computed, then shuffled back
 1. Set up a system-agnostic environment and install deps:
 
    ```bash
-   source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+   source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
    uv pip install git+https://github.com/saforem2/ezpz
    uv pip install git+https://github.com/pytorch/torchtitan
    ```

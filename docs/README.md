@@ -178,7 +178,7 @@ dedicated pages, complete with annotated output:
 >
 > ``` bash
 > # 1. set up the environment (system-agnostic)
-> source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+> source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 > uv pip install "git+https://github.com/saforem2/ezpz"
 >
 > # 2. verify the distributed setup
@@ -224,7 +224,7 @@ Full step-by-step (Perlmutter)
 4.  Setup Python:
 
     ``` bash
-    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup .venv
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
     ```
 
 5.  Setup [wandb](https://wandb.ai):
