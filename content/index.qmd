@@ -1,7 +1,7 @@
 ---
 # toc: true
 title: "Intro to HPC Bootcamp"
-description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training large language models at scale."
+description: "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training large language models at scale."
 categories:
   - ai4science
   - hpc
@@ -15,11 +15,11 @@ citation:
    url: https://saforem2.github.io/intro-hpc-bootcamp
 open-graph:
   title: "Intro to HPC Bootcamp"
-  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."
+  description: "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale."
   # image: "./assets/thumbnail.png"
 twitter-card:
   title: "Intro to HPC Bootcamp"
-  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."
+  description: "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale."
   site: "saforem2"
   creator: "saforem2"
 sidebar: sidebar
@@ -98,7 +98,7 @@ sidebar: sidebar
 ## 👋 Welcome
 
 This is a **hands-on introduction to doing AI on supercomputers**. It starts from
-the ground up — the shell, Python, and how HPC systems work — and builds all the
+the ground up (the shell, Python, and how HPC systems work) and builds all the
 way to **training large language models across many GPUs**. Almost every page is a
 runnable notebook: you can read it here, open it in Google Colab, or run it on an
 HPC system.
@@ -112,7 +112,7 @@ few pages ([Using Python](./00-intro-AI-HPC/3-python/),
 
 ### 🚦 Start here
 
-Work through the five parts in order — each builds on the last:
+Work through the five parts in order. Each builds on the last:
 
 1. **[\[0\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute systems, the
    scheduler, Python, and data; then your first models (Monte Carlo, linear
@@ -127,10 +127,10 @@ Work through the five parts in order — each builds on the last:
    Transformer + HPC stack applied to genomes, proteins, and molecules.
 
 ::: {.callout-note title="🖥️ Where the code runs" collapse="false"}
-The lighter notebooks run anywhere (including a laptop or **Google Colab** — look
+The lighter notebooks run anywhere (including a laptop or **Google Colab**; look
 for the [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com)
 badge at the top of each page). The large-scale training examples are meant for an
-HPC system — the bootcamp uses **Jupyter on [NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**
+HPC system. The bootcamp uses **Jupyter on [NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**
 (project `m4388`), but the commands are scheduler-agnostic and work on ALCF PBS
 systems too. See [running instructions](#running-instructions) below.
 :::
@@ -211,8 +211,8 @@ systems too. See [running instructions](#running-instructions) below.
 ## 🌐 Distributed Training Example {#distributed-training-example}
 
 Ready to train a real model across multiple GPUs? The full end-to-end
-walkthrough — request an interactive job, set up the environment, and launch a
-multi-node run with [`ezpz launch`](https://github.com/saforem2/ezpz) — lives on
+walkthrough (request an interactive job, set up the environment, and launch a
+multi-node run with [`ezpz launch`](https://github.com/saforem2/ezpz)) lives on
 the dedicated pages, complete with annotated output:
 
 - 🧠 **[\[1.4\] Distributed Training](./01-neural-networks/4-distributed-training/)** —
@@ -221,7 +221,7 @@ the dedicated pages, complete with annotated output:
 - 🚀 **[\[2.1\] Parallel Training](./02-llms/1-parallel-training/)** — the same
   ideas applied to pretraining a GPT with [`wordplay`](https://github.com/saforem2/wordplay).
 
-::: {.callout-tip title="TL;DR — launch a run" collapse="true"}
+::: {.callout-tip title="TL;DR: launch a run" collapse="true"}
 On an HPC system with an interactive allocation:
 
 ```bash
