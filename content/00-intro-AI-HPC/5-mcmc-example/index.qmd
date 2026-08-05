@@ -364,20 +364,42 @@ if comm.rank==0:
 
 ```{python}
 #| output: false
-! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/master/old/2024-Spring/01_intro_AI_on_Supercomputer/mpi_pi.py
-! pip install mpi4py
+import shutil
+import subprocess
+import sys
+import urllib.request
+from pathlib import Path
+
+URL = (
+    "https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series"
+    "/master/old/2024-Spring/01_intro_AI_on_Supercomputer/mpi_pi.py"
+)
+if not Path("mpi_pi.py").exists():          # `wget` would add mpi_pi.py.1, .2, ...
+    urllib.request.urlretrieve(URL, "mpi_pi.py")
+
+try:
+    import mpi4py  # noqa: F401
+except ImportError:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "mpi4py"], check=True)
+
+# Launch the ranks with THIS interpreter. A bare `python` is whatever happens to
+# be first on PATH -- on many machines that is a different install (or missing
+# entirely, since Homebrew ships only `python3`), and the ranks then die with a
+# confusing `signal 13 (Broken pipe)` instead of an ImportError.
+PY = sys.executable
+MPIRUN = shutil.which("mpirun") or shutil.which("mpiexec")
 ```
 
 ```{python}
-! mpirun -np 1 --allow-run-as-root python mpi_pi.py
+! {MPIRUN} -np 1 --allow-run-as-root {PY} mpi_pi.py
 ```
 
 ```{python}
-! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
+! {MPIRUN} -np 2 --allow-run-as-root --oversubscribe {PY} mpi_pi.py
 ```
 
 ```{python}
-! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
+! {MPIRUN} -np 4 --allow-run-as-root --oversubscribe {PY} mpi_pi.py
 ```
 
 ### Running $\pi$ on Polaris
