@@ -66,11 +66,17 @@ enough to run on a laptop CPU. It has all four moving parts: a **router**,
 **load-balancing loss**.
 
 ```{python}
+import os
+
+os.environ["EZPZ_LOG_SHOW_PATH"] = "0"   # drop the module:line suffix from log lines
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import ezpz
 from rich import print
 
+logger = ezpz.get_logger(__name__)
 torch.manual_seed(0)
 
 
@@ -178,22 +184,22 @@ what changes as we make routing denser (**top-1 → top-3**):
 probs = F.softmax(moe.gate(x), dim=-1)       # (n_tokens, n_experts) routing dist
 top2 = probs.topk(2, dim=-1)                  # what top-2 routing selects per token
 
-print("per-token routing decisions (chosen expert = gate weight):")
+logger.info("per-token routing decisions (chosen expert = gate weight):")
 for t in range(n_tokens):
     picks = "  ".join(
         f"E{e}={w:.2f}"
         for e, w in zip(top2.indices[t].tolist(), top2.values[t].tolist())
     )
-    print(f"  token {t:2d} -> {picks}")
+    logger.info(f"  token {t:2d} -> {picks}")
 
 # Vary the routing density: dispatches (and load) grow with k, but E is unchanged.
-print("\ntop-k   dispatches   per-expert load          busiest / idlest")
+logger.info("top-k   dispatches   per-expert load          busiest / idlest")
 for k in (1, 2, 3):
     idx = probs.topk(k, dim=-1).indices                    # (n_tokens, k)
     load = torch.bincount(idx.flatten(), minlength=moe.n_experts)
     bars = "  ".join(f"E{e}:{c}" for e, c in enumerate(load.tolist()))
-    print(f"  top-{k}    {idx.numel():5d}      {bars}      "
-          f"{load.max().item()} / {load.min().item()}")
+    logger.info(f"  top-{k}    {idx.numel():5d}      {bars}      "
+                f"{load.max().item()} / {load.min().item()}")
 ```
 
 - Top-$k$ is nothing fancier than "keep the $k$ largest gate weights per token":
