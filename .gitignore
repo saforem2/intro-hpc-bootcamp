@@ -29,3 +29,73 @@ backup/
 
 # Quarto freeze cache — untracked; we publish the committed docs/ output instead
 content/_freeze/
+
+# ---------------------------------------------------------------------------
+# Build / run output. None of this belongs in the repo, and a stray
+# `git add <dir>` that sweeps it in makes pushes crawl (486MB of CIFAR under
+# content/data alone). Keep these rules ahead of any broad `git add`.
+# ---------------------------------------------------------------------------
+
+# Dataset downloads, re-fetched by the notebooks on demand
+content/data/
+/data/
+
+# Training/run artifacts written by example code
+content/outputs/
+content/logs/
+/logs/
+jpgs/
+
+# Local scratch renders and packaging metadata
+content/_site_test/
+src/*.egg-info/
+
+# Loose screenshots dropped in the repo root while iterating on the design.
+# Anything a page actually uses lives under content/assets/ or content/**/img/.
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+
+# content/assets/ is a staging area Quarto copies FROM, and every file a page
+# actually uses is already committed on the other side, under docs/. Tracking
+# the source copies too would duplicate ~45MB of gifs/pdfs in a repo whose
+# history is already large, so the whole staging dir stays ignored -- except
+# the handful of hand-authored SVGs that were tracked before this rule.
+content/assets/
+!content/assets/anl_logos/
+!content/assets/linear-net-with-weights.svg
+
+# Per-page rendered figure dirs mirrored into the source tree (docs/ has them)
+content/**/index_files/
+
+# Python bytecode and packaging strays
+__pycache__/
+*.pyc
+
+# Re-running a diagram cell writes a fresh `<name>1/`, `<name>2/`, ... beside
+# the real one. Only the unnumbered dir is referenced by a page; the numbered
+# copies are duplicates of it.
+content/**/img/*[0-9]/
+
+# Scratch left behind by the MPI examples
+content/mpi_pi.py.[0-9]*
+content/test-index.html
+/hostfile
+content/hostfile
+
+# Image/data payloads for the two notebooks parked out of the render (see the
+# `!...index.ipynb` excludes in content/_quarto.yml). The notebooks themselves
+# stay tracked; these are just their unused attachments.
+content/01-neural-networks/2-advanced/images/
+content/01-neural-networks/2-advanced/data/
+content/01-neural-networks/1-mnist-ipynb/images/
+
+# One-off probe render
+content/01-neural-networks/2-conv-nets/_cwdprobe.html
+content/01-neural-networks/2-conv-nets/_cwdprobe_files/
+
+# Datasets/scratch pulled into content/ by example code
+content/input.txt
+content/slimmed_realestate_data.csv
+content/02-llms/Untitled.ipynb
