@@ -982,17 +982,27 @@ the tiny-Shakespeare dataset with a character-level tokenizer.
 ### Hyperparameters
 
 ```{python}
-batch_size = 4     # independent sequences in parallel
-block_size = 32    # maximum context length
-max_iters = 500
-eval_interval = 50
-learning_rate = 1e-3
 device = "cuda" if torch.cuda.is_available() else "cpu"
+
+# Scale the run to the hardware. On a GPU this trains the model the section
+# above actually describes (batch 16, 5000 steps); on a CPU it falls back to a
+# smaller budget so a laptop build still finishes in about a minute. The
+# published page was rendered on a GPU, so the loss curve and the sample below
+# are the full-size run.
+if device == "cuda":
+    batch_size, max_iters, eval_interval = 16, 5000, 500
+else:
+    batch_size, max_iters, eval_interval = 4, 500, 50
+
+block_size = 32    # maximum context length
+learning_rate = 1e-3
 eval_iters = 200
 n_embd = 64
 n_head = 4         # head_size = 16
 n_layer = 4
 dropout = 0.0
+
+print(f"training on {device}: batch_size={batch_size}, max_iters={max_iters}")
 ```
 
 ### Data: tiny-Shakespeare
@@ -1195,17 +1205,20 @@ for step in range(max_iters):
         print(f"step {step:4d}  train loss {loss.item():.3f}")
 ```
 
-The loss falls from ~4.2 (random over the vocabulary, $\ln$(vocab size)) toward
-~2 as the model learns character statistics. Now sample again, using the **same**
-`generate()` call but from the *trained* weights:
+The loss falls from ~4.2 (random over the vocabulary, $\ln$(vocab size)) as the
+model learns character statistics: to roughly 2.5 in the short CPU run, and down
+toward ~1.5 in the full GPU run above. That difference is worth noticing. It is
+the same architecture and the same code; only the compute budget changed, and
+the extra steps are what turn noise into something readable. Now sample again,
+using the **same** `generate()` call but from the *trained* weights:
 
 ```{python}
 print("--- AFTER training ---")
 print(decode(model.generate(ctx, max_new_tokens=400)[0].tolist()))
 ```
 
-It won't write *Hamlet*; it's a ~200K-parameter character model trained for a few
-hundred steps. But the transformation is unmistakable: the gibberish becomes
+It won't write *Hamlet*; it's a ~200K-parameter character model and a few
+minutes of training. But the transformation is unmistakable: the gibberish becomes
 line-broken text with capitalized speaker names, plausible word shapes, and
 Shakespearean punctuation. That is a language model, built from the pieces above,
 learning purely by predicting the next character. Train longer / bigger (as in
