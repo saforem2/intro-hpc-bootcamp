@@ -11,16 +11,16 @@ author:
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/3-representation-learning/index.ipynb)
 
 ::: {.callout-note title="✨ Optional / Bonus material"}
-This page is a **bonus** — it isn't required for the course, but it's a great next
+This page is a **bonus**. It isn't required for the course, but it's a great next
 step if you enjoyed the CNN material. Read through it, run the cells, and bring
 questions to Slack; we're happy to talk it over.
 
 **Prereqs:** the [\[1.1\] MNIST](../1-mnist/index.qmd) and
 [\[1.2\] Convolutional Networks](../2-conv-nets/index.qmd) pages. Everything here
-runs on a **laptop or Colab** (CPU, a minute or two — no GPU needed).
+runs on a **laptop or Colab** (CPU, a minute or two, no GPU needed).
 :::
 
-The previous notebooks trained a classifier that did OK — *when we had lots of
+The previous notebooks trained a classifier that did OK, *when we had lots of
 labeled data.* But labels are expensive: someone has to annotate every image. So
 here's the question that drives this page:
 
@@ -32,17 +32,17 @@ land near each other), *then* attach a small classifier on top. The headline
 technique here is **contrastive learning** (the idea behind
 [SimCLR](https://arxiv.org/abs/2002.05709)): show the network two randomly
 augmented views of the same image and train it to pull their representations
-together while pushing apart the representations of *different* images — all
+together while pushing apart the representations of *different* images, all
 without a single label.
 
 This page has two parts:
 
-1. **A miniature you can actually run** (just below) — a tiny contrastive learner
+1. **A miniature you can actually run** (just below): a tiny contrastive learner
    on Fashion-MNIST that trains on a laptop in under a minute. We'll watch its
    loss go down and *measure* how good the learned features are. The result is an
-   honest and slightly surprising one — it sets up the punchline of the whole
+   honest and slightly surprising one, and it sets up the punchline of the whole
    course.
-2. **The real, cluster-scale version** (further down) — the original CIFAR-10 +
+2. **The real, cluster-scale version** (further down): the original CIFAR-10 +
    multi-GPU SimCLR code, kept as a reference for how this is done for real on a
    supercomputer.
 
@@ -106,7 +106,7 @@ class Encoder(nn.Module):
 augmented views of each, encode them, and ask: for every view, is its
 *positive partner* (the other view of the same image) closer than all the other
 images in the batch? That's exactly a classification problem the model can be
-trained on — no labels required.
+trained on, and no labels are required.
 
 ```{python}
 # Two random "views" of an image: crop + flip. Same picture, different look.
@@ -125,7 +125,7 @@ def nt_xent(z1, z2, temperature=0.2):
     return F.cross_entropy(sim, targets)
 ```
 
-**Train it** — 300 steps on the *unlabeled* pool. Watch the loss fall: the model
+**Train it.** 300 steps on the *unlabeled* pool. Watch the loss fall: the model
 is genuinely learning to recognize "same image, different view."
 
 ```{python}
@@ -147,7 +147,7 @@ print("contrastive loss:", loss_curve)
 print(f"trained in {time.time() - _t0:.0f}s on CPU  (labels used: 0)")
 ```
 
-The loss drops from ~6 to ~4 — the contrastive task is being solved. So how good
+The loss drops from ~6 to ~4, so the contrastive task is being solved. So how good
 are the features? Let's measure honestly, using labels **only to evaluate** (never
 to train the encoder). We compare three feature spaces with a simple
 5-nearest-neighbor classifier:
@@ -177,10 +177,10 @@ for name, ftr, fte in [
     print(f"  {name:22s}  5-NN test accuracy = {acc:.3f}")
 ```
 
-::: {.callout-important title="🤔 Wait — the fancy method *lost*?"}
+::: {.callout-important title="🤔 Wait, the fancy method *lost*?"}
 On this tiny, CPU-scale setup the honest result is **surprising**: our
 contrastively-trained features are barely better than a *randomly initialized*
-encoder, and **raw pixels win outright**. That is not a bug — it's the real
+encoder, and **raw pixels win outright**. That is not a bug. It's the real
 lesson.
 
 Fashion-MNIST is small and low-resolution, so raw pixels are *already* fairly
@@ -211,17 +211,17 @@ are *not* linearly separable), a **batch size of 1024**, **2,000 steps**, and th
 **full 50,000-image** unlabeled pool. The whole thing finished in **~51 seconds**
 on the GPU.
 
-This time the story flips completely — the learned representation wins at *every*
+This time the story flips completely: the learned representation wins at *every*
 label budget, and by a wide margin exactly where it matters most (few labels).
 
 The cell below **runs the experiment when a GPU is present** (that's what happened
 when this page was rendered on Polaris) and otherwise **replays the last GPU run's
-results** from a cached file — so the figure and table you see are genuine
+results** from a cached file, so the figure and table you see are genuine
 A100-measured numbers either way:
 
 ```{python}
 #| label: fig-gpu-lowlabel
-#| fig-cap: "Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-pretrained features (linear-probed) beat training the same network from scratch at every label count — by +10 to +13 points in the scarce-label regime."
+#| fig-cap: "Low-label accuracy on CIFAR-10, measured on an A100. Contrastive-pretrained features (linear-probed) beat training the same network from scratch at every label count, by +10 to +13 points in the scarce-label regime."
 #| code-fold: true
 #| code-summary: "Show the GPU experiment (runs on CUDA, replays the cache on CPU)"
 import json
@@ -367,7 +367,7 @@ Markdown(df.to_markdown(index=False))
 
 That's the whole thesis of representation learning, made concrete: **when labels
 are scarce, learning a good representation from unlabeled data first is worth far
-more than more careful supervised training** — *once you have the compute to learn
+more than more careful supervised training**, *once you have the compute to learn
 that representation.* The laptop demo above and this A100 run are the same code;
 the only difference is scale. That gap between "doesn't help" and "+13 points" is
 precisely the value a supercomputer buys you.
@@ -384,7 +384,7 @@ pretrain+probe > from-scratch in the low-label regime — is robust.
 
 The rest of this page is the **original, production-flavored implementation**:
 CIFAR-10 (color, harder), a deeper ConvNeXt-style encoder, and the full
-distributed NT-Xent loss with `all_gather` across GPUs — the real code the
+distributed NT-Xent loss with `all_gather` across GPUs. This is the real code the
 miniature above is a scaled-down echo of.
 
 These cells **actually run**, scaled to whatever hardware renders the page: on
@@ -578,7 +578,7 @@ This will download the data if needed:
 
 For a *real* multi-node run you'd distribute across the 4 A100s on a Polaris
 node with PyTorch DDP. The two helpers below are that wiring (from the
-[DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)) —
+[DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)),
 kept `eval: false` because a notebook render is a single process and
 `init_process_group` would block waiting for peers. On the cluster you'd call
 `setup(rank, world_size)` once per rank and wrap the model in `DDP`.
@@ -596,7 +596,7 @@ def cleanup():
     dist.destroy_process_group()
 ```
 
-The data loader below **does** run — it downloads CIFAR-10 and (via `SUBSET`)
+The data loader below **does** run: it downloads CIFAR-10 and (via `SUBSET`)
 keeps only as many images as the current hardware can chew through quickly:
 
 ```{python}
@@ -704,7 +704,7 @@ from matplotlib import pyplot as plt
 ```
 
 ```{python}
-#| fig-cap: "One CIFAR-10 image (left) and two random SimCLR augmentations of it — the pairs contrastive learning pulls together."
+#| fig-cap: "One CIFAR-10 image (left) and two random SimCLR augmentations of it: the pairs contrastive learning pulls together."
 #| layout-ncol: 3
 plt.imshow(X[0].cpu().permute((1,2,0))); plt.axis("off"); plt.show()
 plt.imshow(X1[0].cpu().permute((1,2,0))); plt.axis("off"); plt.show()
@@ -935,7 +935,7 @@ optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters())
 ```
 
 
-The contrastive **pretraining loop** — no labels, just pulling augmented views of
+The contrastive **pretraining loop**: no labels, just pulling augmented views of
 the same image together. On a multi-GPU node you'd wrap `model`/`head` in `DDP`
 first; here it's shown single-device for clarity:
 
@@ -1018,7 +1018,7 @@ fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.0
 logger.info(fine_tune_optimizer)
 ```
 
-Then the **fine-tuning loop** — the representation stays frozen; only the small
+Then the **fine-tuning loop**. The representation stays frozen; only the small
 classification head learns, from a handful of labels:
 
 ```{python}
@@ -1036,7 +1036,7 @@ contrastive_acc = acc   # final linear-probe accuracy on the contrastive feature
 
 ## 🏁 Did the representation help?
 
-A linear-probe accuracy on its own doesn't mean much — we need something to
+A linear-probe accuracy on its own doesn't mean much; we need something to
 compare it *against*. The fair baseline is the **exact same classification head,
 trained for the same number of steps, but on a *randomly-initialized* encoder**
 (no contrastive pretraining). If the pretraining did its job, its features should
@@ -1064,7 +1064,7 @@ logger.info(f"delta (pretraining benefit):  {contrastive_acc - baseline_acc:+5.1
 ```
 
 ::: {.callout-tip title="🎯 What this shows"}
-Same architecture, same labels, same training budget — the **only** difference is
+Same architecture, same labels, same training budget. The **only** difference is
 whether the encoder was contrastively pretrained on unlabeled images first. The
 pretrained features give the linear probe a head start, so it reaches higher
 accuracy from the same handful of labels. That is the whole promise of
@@ -1072,7 +1072,7 @@ representation learning, and it's exactly the effect the low-label sweep in
 [the GPU section](#sec-gpu) shows at full scale: **learn a good representation
 from cheap unlabeled data, and you need far fewer expensive labels downstream.**
 
-(These are short, capped runs so the page renders quickly — the gap is smaller
+(These are short, capped runs so the page renders quickly, so the gap is smaller
 and noisier than a full multi-epoch run on the whole dataset. Drop the
 `STEPS_PER_EPOCH` / `SUBSET` caps and let it train longer to see it widen.)
 :::

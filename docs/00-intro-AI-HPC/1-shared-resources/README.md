@@ -14,7 +14,7 @@ Sam Foreman
 >
 > ### 🧭 No account needed
 >
-> You do **not** need an HPC account to follow this page — it’s
+> You do **not** need an HPC account to follow this page; it’s
 > conceptual. Here you’ll learn how schedulers share a supercomputer
 > across users and what a *job* is; the commands below are readable by
 > anyone, whether or not you have access to a cluster. You’ll only need
@@ -43,11 +43,11 @@ nodes? 1000 nodes?
 >
 > A supercomputer is a huge restaurant and every user wants a table
 > (nodes) for a certain length of time (walltime). You don’t just walk
-> in and sit down — you tell the **maître d’** (the scheduler) your
-> party size and how long you’ll stay, and it seats you when a suitable
-> table frees up. Ask for a small table for a short time and you’re
-> seated quickly; ask for the whole restaurant for all night and you’ll
-> wait. That trade-off *is* queue time.
+> in and sit down. You tell the **maître d’** (the scheduler) your party
+> size and how long you’ll stay, and it seats you when a suitable table
+> frees up. Ask for a small table for a short time and you’re seated
+> quickly; ask for the whole restaurant for all night and you’ll wait.
+> That trade-off *is* queue time.
 
 ## 🎯 Submitting a job
 
@@ -68,7 +68,7 @@ identical; only the command names differ.
 > ### 🖥️ Which machine will we use?
 >
 > The course’s **primary hands-on machine is NERSC Perlmutter**, which
-> uses **SLURM** — so if you’re following along, reach for the SLURM
+> uses **SLURM**, so if you’re following along, reach for the SLURM
 > commands below. The same ideas map directly onto **PBS** systems like
 > ALCF’s Polaris (just swap `sbatch`↔`qsub`, `squeue`↔`qstat`, and so
 > on), so the PBS tabs are here for reference too. The full PBS↔SLURM
@@ -174,7 +174,7 @@ scancel 1234567      # cancel a job
 >
 > ### 🧠 Check your understanding
 >
-> Test yourself — think it through, then reveal the answer.
+> Test yourself: think it through, then reveal the answer.
 >
 > **Q1.** You ask for 512 nodes for 12 hours and your colleague asks for
 > 1 node for 10 minutes. Whose job is likely to start sooner, and why?

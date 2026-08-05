@@ -40,7 +40,7 @@ domain and the Transformer comes along for the ride:
 ## Where this goes next
 
 The same recipe powers a growing list of scientific foundation models at
-ALCF and beyond — protein-design pipelines (MProt-DPO), weather/climate
+ALCF and beyond: protein-design pipelines (MProt-DPO), weather/climate
 models (Aeris), and sampling for lattice QCD (l2hmc-qcd), among others.
 GenSLM is the entry point: once you see how one scientific “language”
 maps onto the Transformer stack you’ve already built, the rest follow

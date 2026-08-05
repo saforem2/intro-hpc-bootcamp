@@ -701,7 +701,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -722,7 +722,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You do <strong>not</strong> need an HPC account to follow this page — it’s conceptual. Here you’ll learn how schedulers share a supercomputer across users and what a <em>job</em> is; the commands below are readable by anyone, whether or not you have access to a cluster. You’ll only need real cluster access for the large-scale, hands-on labs later in the course (e.g.&nbsp;distributed training in [1.4], the LLM lab in [2.1], and the AI-for-science examples in [03.x]).</p>
+<p>You do <strong>not</strong> need an HPC account to follow this page; it’s conceptual. Here you’ll learn how schedulers share a supercomputer across users and what a <em>job</em> is; the commands below are readable by anyone, whether or not you have access to a cluster. You’ll only need real cluster access for the large-scale, hands-on labs later in the course (e.g.&nbsp;distributed training in [1.4], the LLM lab in [2.1], and the AI-for-science examples in [03.x]).</p>
 </div>
 </div>
 <p>Supercomputers contain many computer <em>nodes</em> and not every application will use ALL of them. Therefore, we use programs called <em>schedulers</em> that allow users to schedule a <em>job</em> based on how many nodes they need for a specified time.</p>
@@ -747,7 +747,7 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A supercomputer is a huge restaurant and every user wants a table (nodes) for a certain length of time (walltime). You don’t just walk in and sit down — you tell the <strong>maître d’</strong> (the scheduler) your party size and how long you’ll stay, and it seats you when a suitable table frees up. Ask for a small table for a short time and you’re seated quickly; ask for the whole restaurant for all night and you’ll wait. That trade-off <em>is</em> queue time.</p>
+<p>A supercomputer is a huge restaurant and every user wants a table (nodes) for a certain length of time (walltime). You don’t just walk in and sit down. You tell the <strong>maître d’</strong> (the scheduler) your party size and how long you’ll stay, and it seats you when a suitable table frees up. Ask for a small table for a short time and you’re seated quickly; ask for the whole restaurant for all night and you’ll wait. That trade-off <em>is</em> queue time.</p>
 </div>
 </div>
 <section id="submitting-a-job" class="level2">
@@ -768,7 +768,7 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The course’s <strong>primary hands-on machine is NERSC Perlmutter</strong>, which uses <strong>SLURM</strong> — so if you’re following along, reach for the SLURM commands below. The same ideas map directly onto <strong>PBS</strong> systems like ALCF’s Polaris (just swap <code>sbatch</code>↔︎<code>qsub</code>, <code>squeue</code>↔︎<code>qstat</code>, and so on), so the PBS tabs are here for reference too. The full PBS↔︎SLURM command cheat-sheet lives on the setup page.</p>
+<p>The course’s <strong>primary hands-on machine is NERSC Perlmutter</strong>, which uses <strong>SLURM</strong>, so if you’re following along, reach for the SLURM commands below. The same ideas map directly onto <strong>PBS</strong> systems like ALCF’s Polaris (just swap <code>sbatch</code>↔︎<code>qsub</code>, <code>squeue</code>↔︎<code>qstat</code>, and so on), so the PBS tabs are here for reference too. The full PBS↔︎SLURM command cheat-sheet lives on the setup page.</p>
 </div>
 </div>
 <section id="interactive-jobs" class="level3">
@@ -860,7 +860,7 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Test yourself — think it through, then reveal the answer.</p>
+<p>Test yourself: think it through, then reveal the answer.</p>
 <p><strong>Q1.</strong> You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -1484,7 +1484,7 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-13"><a href="#cb7-13" aria-label="13"></a><span class="co">---</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-label="14"></a></span>
 <span id="cb7-15"><a href="#cb7-15" aria-label="15"></a>::: {.callout-note title="🧭 No account needed"}</span>
-<span id="cb7-16"><a href="#cb7-16" aria-label="16"></a>You do **not** need an HPC account to follow this page — it's conceptual. Here</span>
+<span id="cb7-16"><a href="#cb7-16" aria-label="16"></a>You do **not** need an HPC account to follow this page; it's conceptual. Here</span>
 <span id="cb7-17"><a href="#cb7-17" aria-label="17"></a>you'll learn how schedulers share a supercomputer across users and what a *job*</span>
 <span id="cb7-18"><a href="#cb7-18" aria-label="18"></a>is; the commands below are readable by anyone, whether or not you have access to</span>
 <span id="cb7-19"><a href="#cb7-19" aria-label="19"></a>a cluster. You'll only need real cluster access for the large-scale, hands-on</span>
@@ -1508,7 +1508,7 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-37"><a href="#cb7-37" aria-label="37"></a></span>
 <span id="cb7-38"><a href="#cb7-38" aria-label="38"></a>::: {.callout-note title="🏙️ Analogy: the scheduler as a maître d'"}</span>
 <span id="cb7-39"><a href="#cb7-39" aria-label="39"></a>A supercomputer is a huge restaurant and every user wants a table (nodes) for a</span>
-<span id="cb7-40"><a href="#cb7-40" aria-label="40"></a>certain length of time (walltime). You don't just walk in and sit down — you tell</span>
+<span id="cb7-40"><a href="#cb7-40" aria-label="40"></a>certain length of time (walltime). You don't just walk in and sit down. You tell</span>
 <span id="cb7-41"><a href="#cb7-41" aria-label="41"></a>the **maître d'** (the scheduler) your party size and how long you'll stay, and it</span>
 <span id="cb7-42"><a href="#cb7-42" aria-label="42"></a>seats you when a suitable table frees up. Ask for a small table for a short time</span>
 <span id="cb7-43"><a href="#cb7-43" aria-label="43"></a>and you're seated quickly; ask for the whole restaurant for all night and you'll</span>
@@ -1531,7 +1531,7 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-60"><a href="#cb7-60" aria-label="60"></a></span>
 <span id="cb7-61"><a href="#cb7-61" aria-label="61"></a>::: {.callout-note title="🖥️ Which machine will we use?"}</span>
 <span id="cb7-62"><a href="#cb7-62" aria-label="62"></a>The course's **primary hands-on machine is NERSC Perlmutter**, which uses</span>
-<span id="cb7-63"><a href="#cb7-63" aria-label="63"></a>**SLURM** — so if you're following along, reach for the SLURM commands below. The</span>
+<span id="cb7-63"><a href="#cb7-63" aria-label="63"></a>**SLURM**, so if you're following along, reach for the SLURM commands below. The</span>
 <span id="cb7-64"><a href="#cb7-64" aria-label="64"></a>same ideas map directly onto **PBS** systems like ALCF's Polaris (just swap</span>
 <span id="cb7-65"><a href="#cb7-65" aria-label="65"></a><span class="in">`sbatch`</span>↔<span class="in">`qsub`</span>, <span class="in">`squeue`</span>↔<span class="in">`qstat`</span>, and so on), so the PBS tabs are here for</span>
 <span id="cb7-66"><a href="#cb7-66" aria-label="66"></a>reference too. The full PBS↔SLURM command cheat-sheet lives on the setup page.</span>
@@ -1630,7 +1630,7 @@ Scheduling.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-boo
 <span id="cb7-159"><a href="#cb7-159" aria-label="159"></a>:::</span>
 <span id="cb7-160"><a href="#cb7-160" aria-label="160"></a></span>
 <span id="cb7-161"><a href="#cb7-161" aria-label="161"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
-<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a>Test yourself — think it through, then reveal the answer.</span>
+<span id="cb7-162"><a href="#cb7-162" aria-label="162"></a>Test yourself: think it through, then reveal the answer.</span>
 <span id="cb7-163"><a href="#cb7-163" aria-label="163"></a></span>
 <span id="cb7-164"><a href="#cb7-164" aria-label="164"></a>**Q1.** You ask for 512 nodes for 12 hours and your colleague asks for 1 node for 10 minutes. Whose job is likely to start sooner, and why?</span>
 <span id="cb7-165"><a href="#cb7-165" aria-label="165"></a></span>

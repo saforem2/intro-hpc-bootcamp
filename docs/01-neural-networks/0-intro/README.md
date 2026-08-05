@@ -21,7 +21,7 @@ outperform other techniques when dealing with a large amount of data.
 > [Python](../../00-intro-AI-HPC/3-python/index.qmd) and
 > [data](../../00-intro-AI-HPC/4-data/index.qmd) primers, and every cell
 > here runs on a plain laptop or
-> [Colab](https://colab.research.google.com/) — no GPU needed.
+> [Colab](https://colab.research.google.com/), no GPU needed.
 
 - 🎯 **Goals**:
   - Introduce deep learning fundamentals through hands-on activities
@@ -107,7 +107,7 @@ print(f"larger w   -> sigmoid = {neuron(x, w_big, b, sigmoid):.4f}")
     original w -> sigmoid = 0.4013
     larger w   -> sigmoid = 0.8022
 
-Here is what those three activations actually look like — this is the
+Here is what those three activations actually look like. This is the
 “shape” each neuron can bend the data into:
 
 ``` python
@@ -136,11 +136,11 @@ Figure 1: Three common activation functions.
 
 > [!NOTE]
 >
-> ### Exercise — feel the activation
+> ### Exercise: feel the activation
 >
 > Using the `neuron` function above, keep `x`, `w`, and `b` the same but
 > compare `relu` and `sigmoid`. For this input the pre-activation sum
-> $z = w \cdot x + b$ is **negative** — predict what each activation
+> $z = w \cdot x + b$ is **negative**. Predict what each activation
 > returns *before* running it, then check.
 >
 > > [!TIP]
@@ -166,7 +166,7 @@ Figure 1: Three common activation functions.
 
 We claimed nonlinearity is what lets a network “fit curves and
 categories instead of just straight lines.” Let’s *see* it. Here is a
-**two-moons** dataset — two interleaving crescents that **no straight
+**two-moons** dataset of two interleaving crescents that **no straight
 line can separate**:
 
 ``` python
@@ -242,7 +242,7 @@ plt.xticks([]); plt.yticks([])
 
 ![](index_files/figure-commonmark/cell-9-output-1.png)
 
-The boundary is **curved** — it wraps around each crescent. That
+The boundary is **curved**; it wraps around each crescent. That
 curvature is exactly what the hidden layer + ReLU bought us; delete the
 hidden layer (go straight `Linear(2, 1)`) and the best it can do is a
 single straight line that gets one moon badly wrong. This is the whole
@@ -273,7 +273,7 @@ Next week, we’ll learn about other types of neural networks.
 >
 > ### 🧠 Check your understanding
 >
-> Test yourself — think it through, then reveal the answer.
+> Test yourself: think it through, then reveal the answer.
 >
 > **Q1.** How does machine learning differ from traditional programming?
 >

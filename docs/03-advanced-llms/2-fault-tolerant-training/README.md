@@ -29,25 +29,25 @@ Sam Foreman
 In [\[1.4\] Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd) you
 learned that a collective op only completes when **every** rank
-participates — one silent straggler and the whole job waits
+participates. One silent straggler and the whole job waits
 *indefinitely*. That fragility is exactly the problem at scale.
 
 Do the arithmetic. A single GPU has a mean time between failures (MTBF)
 measured in years. But a job on **thousands** of GPUs running for
-**weeks** is a product of thousands of those probabilities — so the
+**weeks** is a product of thousands of those probabilities, so the
 *job’s* MTBF collapses to **hours**. Meta reported [hundreds of
 interruptions](https://arxiv.org/abs/2407.21783) during Llama-3 405B
 pretraining; roughly 78% were hardware issues, the majority GPU-related.
 At that scale a network link flapping, a straggler or dead node, a
 shared-filesystem stall, an ECC memory error, or an out-of-memory (OOM)
-spike is not an *if* — it *will* happen, probably several times before
+spike is not an *if*. It *will* happen, probably several times before
 your run finishes.
 
 So “training at scale” is really two jobs: (1) make the model learn, and
 (2) make the run **survive** the failures that are guaranteed to
 interrupt it. This lab is about job \#2. The contract is simple:
 
-> **Checkpoint often enough that a crash costs minutes, not days — and
+> **Checkpoint often enough that a crash costs minutes, not days, and
 > make restart automatic so a human doesn’t have to babysit the run at
 > 3am.**
 
@@ -61,11 +61,11 @@ flag.
 
 The whole idea of fault tolerance rests on one primitive: **you can stop
 a training run at any step and resume it exactly where it left off.**
-Let’s build that primitive from scratch — small enough to run on a CPU
-in under a second.
+Let’s build that primitive from scratch, small enough to run on a CPU in
+under a second.
 
 The run below trains a tiny model, checkpoints every few steps,
-**crashes on purpose** partway through, and then restarts — picking the
+**crashes on purpose** partway through, and then restarts, picking the
 step counter up right where the crash left it.
 
 ``` python
@@ -164,7 +164,7 @@ print("\n✅ Training finished. The step counter never restarted from 0.")
     ✅ Training finished. The step counter never restarted from 0.
 
 Notice what made the restart *seamless*: **Run \#2 is the exact same
-call as Run \#1.** The code doesn’t know or care that it crashed — it
+call as Run \#1.** The code doesn’t know or care that it crashed; it
 just checks for a checkpoint on startup. That is the whole
 checkpoint/restart contract, and it’s what every fault-tolerance system
 below is built on.
@@ -178,9 +178,9 @@ below is built on.
 >
 > - **Optimizer state.** Adam’s first/second moments and SGD’s momentum
 >   buffers live in `opt.state_dict()`. Drop them and the optimizer
->   restarts cold — your loss spikes and effective learning rate is
->   wrong for hundreds of steps after every restart. On a run that
->   restarts a dozen times, that adds up.
+>   restarts cold: your loss spikes and effective learning rate is wrong
+>   for hundreds of steps after every restart. On a run that restarts a
+>   dozen times, that adds up.
 > - **RNG state.** Save `torch.get_rng_state()` (and NumPy/CUDA RNG) so
 >   data shuffling, dropout, and augmentation resume *identically*.
 >   Otherwise “resume” silently replays or skips samples.
@@ -192,11 +192,11 @@ below is built on.
 > `save_checkpoint` writes to `latest.pt.tmp` and then `os.replace()`s
 > it into place. `os.replace` is an **atomic** rename on POSIX
 > filesystems: `latest.pt` is *always* either the old complete
-> checkpoint or the new complete one — never a half-written file.
-> Without this, a crash *during* the save (very possible when the node
-> is dying) leaves a truncated `latest.pt`, and your restart fails to
-> load the very thing meant to save you. Write-then-rename is the
-> cheapest insurance in all of HPC.
+> checkpoint or the new complete one, never a half-written file. Without
+> this, a crash *during* the save (very possible when the node is dying)
+> leaves a truncated `latest.pt`, and your restart fails to load the
+> very thing meant to save you. Write-then-rename is the cheapest
+> insurance in all of HPC.
 
 ## ② The real thing: failure modes and their signatures
 
@@ -217,7 +217,7 @@ run:
 Common at-scale failure modes and their log signatures
 {.table-responsive .table-striped .table-hover}
 
-The failover scraper in `ezpz` matches these **real** signatures — these
+The failover scraper in `ezpz` matches these **real** signatures. These
 are lines pulled from Aurora/Sunspot postmortems, not invented examples:
 
 ``` bash
@@ -243,7 +243,7 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB
 > When a node dies, `mpiexec` sprays `rank N died from signal 11`
 > (SIGSEGV) or `signal 15` (SIGTERM) from **every** rank that was torn
 > down as collateral. The `ezpz` scraper **deliberately ignores** those
-> cascading `signal {11,15}` lines — tagging them would swap out an
+> cascading `signal {11,15}` lines; tagging them would swap out an
 > *innocent* node and leave the real culprit in place. (This is a real
 > postmortem lesson: job 8466848 had rank 1304 die from signal 11 as a
 > downstream effect of a `std::bad_alloc` on a *different* node.) The
@@ -256,11 +256,11 @@ torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB
 The toy saved one `.pt` file from one process. But once you’re using
 FSDP or 3D parallelism (from
 [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd)),
-model + optimizer state is **sharded across hundreds of ranks** —
+model + optimizer state is **sharded across hundreds of ranks**, and
 funneling it all to rank 0 to write one giant file is slow and often
 OOMs.
 
-The answer is **Distributed Checkpointing (DCP)** —
+The answer is **Distributed Checkpointing (DCP)**, or
 [`torch.distributed.checkpoint`](https://pytorch.org/docs/stable/distributed.checkpoint.html).
 Each rank writes **its own shard** in parallel, and DCP can **reshard on
 load**, so a run saved on 512 GPUs can resume onto 256. `torchtitan`
@@ -286,18 +286,18 @@ dcp.load(state, checkpoint_id="ckpt/step-1000")
 > Lustre/GPFS is a **shared, contended** resource. If all N ranks call
 > `torch.save` to the same directory at the same step, you hammer the
 > metadata server (MDS) and can *induce* the very stall you’re trying to
-> survive — the job goes silent with no error at all. Mitigations: use
+> survive: the job goes silent with no error at all. Mitigations: use
 > **DCP** (parallel shard writes) rather than gather-to-rank-0;
 > **stripe** large checkpoint files across OSTs ([Lustre
 > striping](https://wiki.lustre.org/Configuring_Lustre_File_Striping));
 > stagger or throttle writers; and keep only the last few checkpoints so
 > you don’t DOS your own filesystem. A silent hang with a live W&B
-> heartbeat but *frozen* training metrics is the classic signature — and
+> heartbeat but *frozen* training metrics is the classic signature, and
 > it’s why the launcher below has an **idle-output watchdog**.
 
 ## ③ Scale it up: `ezpz launch --auto-retry`
 
-Knowing *how* to restart is only half the battle — at 3am, someone (or
+Knowing *how* to restart is only half the battle. At 3am, someone (or
 something) has to actually notice the crash, figure out which node was
 bad, throw it out, and relaunch. `ezpz launch --auto-retry` does all of
 that in a loop.
@@ -333,7 +333,7 @@ ezpz launch \
 
 (We use `ezpz.examples.fsdp_tp` here, not `ezpz.examples.test`:
 `fsdp_tp` is the example wired for **distributed checkpointing +
-automatic resume** — it saves every `--save-interval` steps to
+automatic resume**. It saves every `--save-interval` steps to
 `--ckpt-dir` and, on relaunch, picks up from the latest checkpoint
 unless you pass `--no-resume`. That resume-on-restart is exactly what
 makes fault tolerance work.)
@@ -371,7 +371,7 @@ What each flag does:
 > `--auto-retry` also bails early on `STUCK_PRE_TRAINING`: if **two
 > consecutive** attempts produce zero `step=` progress markers, the
 > problem is a code/config bug (bad dataset path, wrong shapes), not a
-> bad node — and no amount of node-swapping will fix it. This stops the
+> bad node, and no amount of node-swapping will fix it. This stops the
 > loop from burning your entire spare pool relaunching a run that was
 > never going to train.
 
@@ -451,9 +451,9 @@ run**:
     the simulated crash fire) *after* at least one checkpoint has been
     written.
 
-3.  **Relaunch the exact same command** and confirm the run **resumes**
-    — the step counter must continue from the last checkpoint, not
-    restart at 0.
+3.  **Relaunch the exact same command** and confirm the run **resumes**:
+    the step counter must continue from the last checkpoint, not restart
+    at 0.
 
 4.  (Optional stretch) Run it under
     `ezpz launch --auto-retry --spare-nodes auto` and find the
@@ -486,4 +486,4 @@ can survive a multi-week job on thousands of GPUs.
 
 ------------------------------------------------------------------------
 
-*Last updated: 2026-08-03*
+*Last updated: 2026-08-04*

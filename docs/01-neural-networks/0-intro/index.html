@@ -795,7 +795,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -819,7 +819,7 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>This section assumes the [0] <a href="../../00-intro-AI-HPC/3-python/index.html">Python</a> and <a href="../../00-intro-AI-HPC/4-data/index.html">data</a> primers, and every cell here runs on a plain laptop or <a href="https://colab.research.google.com/">Colab</a> — no GPU needed.</p>
+<p>This section assumes the [0] <a href="../../00-intro-AI-HPC/3-python/index.html">Python</a> and <a href="../../00-intro-AI-HPC/4-data/index.html">data</a> primers, and every cell here runs on a plain laptop or <a href="https://colab.research.google.com/">Colab</a>, no GPU needed.</p>
 </div>
 </div>
 </div>
@@ -849,7 +849,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 <p>A neural network is built out of <strong>neurons</strong>, and a single neuron is a small extension of the linear regression you just saw. Last week’s model computed <span class="math inline">w \cdot x + b</span>; a neuron does the same weighted sum and then passes it through a nonlinear <strong>activation function</strong> <span class="math inline">\sigma</span>:</p>
 <p><span class="math display"> y = \sigma(w \cdot x + b) </span></p>
 <p>That one nonlinearity is what lets stacks of neurons fit curves and categories instead of just straight lines. Let’s build one with nothing but <code>numpy</code> and poke at it:</p>
-<div id="1dcaa195" class="cell" data-execution_count="1">
+<div id="1dcaa195" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># On Colab (or any fresh environment) install the `bootcamp` helper for the</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># house plot style; locally this is a no-op.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">try</span>:</span>
@@ -860,7 +860,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 <span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> style_mpl, COLORS</span>
 <span id="cb1-9"><a href="#cb1-9" aria-label="9"></a>style_mpl()   <span class="co"># ambivalent look (transparent bg + grey text) + Iosevka font</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="05249f23" class="cell" data-execution_count="2">
+<div id="05249f23" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co"># Three activation functions we'll meet again and again</span></span>
@@ -886,7 +886,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 </div>
 </div>
 <p>The <strong>same</strong> weighted sum feeds every activation, but each one squashes it differently. Change a weight and the output moves:</p>
-<div id="0194193d" class="cell" data-execution_count="3">
+<div id="0194193d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>w_big <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="fl">0.1</span>])   <span class="co"># bump the first weight up</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"original w -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w,     b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"larger w   -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w_big, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -895,8 +895,8 @@ This week, we’ll work on a “classification” problem, which means that we h
 larger w   -&gt; sigmoid = 0.8022</code></pre>
 </div>
 </div>
-<p>Here is what those three activations actually look like — this is the “shape” each neuron can bend the data into:</p>
-<div id="cell-fig-activations" class="cell" data-execution_count="4">
+<p>Here is what those three activations actually look like. This is the “shape” each neuron can bend the data into:</p>
+<div id="cell-fig-activations" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
@@ -923,19 +923,19 @@ Figure&nbsp;1: Three common activation functions.
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note callout-titled" title="Exercise — feel the activation">
+<div class="callout callout-style-simple callout-note callout-titled" title="Exercise: feel the activation">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise — feel the activation
+<span class="screen-reader-only">Note</span>Exercise: feel the activation
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Using the <code>neuron</code> function above, keep <code>x</code>, <code>w</code>, and <code>b</code> the same but compare <code>relu</code> and <code>sigmoid</code>. For this input the pre-activation sum <span class="math inline">z = w \cdot x + b</span> is <strong>negative</strong> — predict what each activation returns <em>before</em> running it, then check.</p>
+<p>Using the <code>neuron</code> function above, keep <code>x</code>, <code>w</code>, and <code>b</code> the same but compare <code>relu</code> and <code>sigmoid</code>. For this input the pre-activation sum <span class="math inline">z = w \cdot x + b</span> is <strong>negative</strong>. Predict what each activation returns <em>before</em> running it, then check.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="💡 Solution">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -948,7 +948,7 @@ Figure&nbsp;1: Three common activation functions.
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="a55f3803" class="cell" data-execution_count="5">
+<div id="a55f3803" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>z <span class="op">=</span> np.dot(w, x) <span class="op">+</span> b</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"z = </span><span class="sc">{</span>z<span class="sc">:.4f}</span><span class="ss">  (negative)"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"relu(z)    = </span><span class="sc">{</span>neuron(x, w, b, relu)<span class="sc">:.4f}</span><span class="ss">"</span>)     <span class="co"># clipped to exactly 0</span></span>
@@ -968,8 +968,8 @@ sigmoid(z) = 0.4013</code></pre>
 </div>
 <section id="why-stack-neurons-a-curved-boundary-you-can-see" class="level3">
 <h3 class="anchored" data-anchor-id="why-stack-neurons-a-curved-boundary-you-can-see">Why stack neurons? A curved boundary you can see</h3>
-<p>We claimed nonlinearity is what lets a network “fit curves and categories instead of just straight lines.” Let’s <em>see</em> it. Here is a <strong>two-moons</strong> dataset — two interleaving crescents that <strong>no straight line can separate</strong>:</p>
-<div id="e7a61352" class="cell" data-execution_count="6">
+<p>We claimed nonlinearity is what lets a network “fit curves and categories instead of just straight lines.” Let’s <em>see</em> it. Here is a <strong>two-moons</strong> dataset of two interleaving crescents that <strong>no straight line can separate</strong>:</p>
+<div id="e7a61352" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
@@ -1000,7 +1000,7 @@ sigmoid(z) = 0.4013</code></pre>
 </div>
 </div>
 <p>Now train a <strong>tiny MLP</strong> — just one hidden layer of 16 ReLU units — and plot the region it assigns to each class. A single neuron (a “line”) could only ever draw a straight cut; the hidden layer lets the network bend the boundary:</p>
-<div id="c116b11a" class="cell" data-execution_count="7">
+<div id="c116b11a" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">import</span> torch</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a></span>
@@ -1025,7 +1025,7 @@ sigmoid(z) = 0.4013</code></pre>
 <pre><code>final loss = 0.016   train accuracy = 99.5%</code></pre>
 </div>
 </div>
-<div id="d5145a4e" class="cell" data-execution_count="8">
+<div id="d5145a4e" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># Evaluate the model on a dense grid to shade its decision regions.</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>xx, yy <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="fl">1.6</span>, <span class="fl">2.6</span>, <span class="dv">200</span>), np.linspace(<span class="op">-</span><span class="fl">1.4</span>, <span class="fl">1.9</span>, <span class="dv">200</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>grid <span class="op">=</span> torch.from_numpy(np.stack([xx.ravel(), yy.ravel()], <span class="dv">1</span>).astype(np.float32))</span>
@@ -1046,7 +1046,7 @@ sigmoid(z) = 0.4013</code></pre>
 </div>
 </div>
 </div>
-<p>The boundary is <strong>curved</strong> — it wraps around each crescent. That curvature is exactly what the hidden layer + ReLU bought us; delete the hidden layer (go straight <code>Linear(2, 1)</code>) and the best it can do is a single straight line that gets one moon badly wrong. This is the whole reason we stack neurons, and it scales directly to the MNIST problem next.</p>
+<p>The boundary is <strong>curved</strong>; it wraps around each crescent. That curvature is exactly what the hidden layer + ReLU bought us; delete the hidden layer (go straight <code>Linear(2, 1)</code>) and the best it can do is a single straight line that gets one moon badly wrong. This is the whole reason we stack neurons, and it scales directly to the MNIST problem next.</p>
 <p>The <a href="http://yann.lecun.com/exdb/mnist/">MNIST dataset</a> contains thousands of examples of handwritten numbers, with each digit labeled 0-9.</p>
 <div id="fig-mnist-example" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1078,7 +1078,7 @@ Figure&nbsp;2: A digit is just a grid of pixel intensities; the task is to fit a
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Test yourself — think it through, then reveal the answer.</p>
+<p>Test yourself: think it through, then reveal the answer.</p>
 <p><strong>Q1.</strong> How does machine learning differ from traditional programming?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -1756,7 +1756,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-73"><a href="#cb13-73" aria-label="73"></a>::: {.callout-note title="📋 Before you start" collapse="false"}</span>
 <span id="cb13-74"><a href="#cb13-74" aria-label="74"></a>This section assumes the <span class="co">[</span><span class="ot">0</span><span class="co">] [Python]</span>(../../00-intro-AI-HPC/3-python/index.qmd)</span>
 <span id="cb13-75"><a href="#cb13-75" aria-label="75"></a>and <span class="co">[</span><span class="ot">data</span><span class="co">](../../00-intro-AI-HPC/4-data/index.qmd)</span> primers, and every cell here</span>
-<span id="cb13-76"><a href="#cb13-76" aria-label="76"></a>runs on a plain laptop or <span class="co">[</span><span class="ot">Colab</span><span class="co">](https://colab.research.google.com/)</span> — no GPU</span>
+<span id="cb13-76"><a href="#cb13-76" aria-label="76"></a>runs on a plain laptop or <span class="co">[</span><span class="ot">Colab</span><span class="co">](https://colab.research.google.com/)</span>, no GPU</span>
 <span id="cb13-77"><a href="#cb13-77" aria-label="77"></a>needed.</span>
 <span id="cb13-78"><a href="#cb13-78" aria-label="78"></a>:::</span>
 <span id="cb13-79"><a href="#cb13-79" aria-label="79"></a></span>
@@ -1835,7 +1835,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-158"><a href="#cb13-158" aria-label="152"></a><span class="bu">print</span>(<span class="ss">f"larger w   -&gt; sigmoid = </span><span class="sc">{</span>neuron(x, w_big, b, sigmoid)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb13-159"><a href="#cb13-159" aria-label="153"></a><span class="in">```</span></span>
 <span id="cb13-160"><a href="#cb13-160" aria-label="154"></a></span>
-<span id="cb13-161"><a href="#cb13-161" aria-label="155"></a>Here is what those three activations actually look like — this is the "shape"</span>
+<span id="cb13-161"><a href="#cb13-161" aria-label="155"></a>Here is what those three activations actually look like. This is the "shape"</span>
 <span id="cb13-162"><a href="#cb13-162" aria-label="156"></a>each neuron can bend the data into:</span>
 <span id="cb13-163"><a href="#cb13-163" aria-label="157"></a></span>
 <span id="cb13-166"><a href="#cb13-166" aria-label="158"></a><span class="in">```{python}</span></span>
@@ -1856,10 +1856,10 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-181"><a href="#cb13-181" aria-label="173"></a>plt.show()</span>
 <span id="cb13-182"><a href="#cb13-182" aria-label="174"></a><span class="in">```</span></span>
 <span id="cb13-183"><a href="#cb13-183" aria-label="175"></a></span>
-<span id="cb13-184"><a href="#cb13-184" aria-label="176"></a>::: {.callout-note title="Exercise — feel the activation" collapse="false"}</span>
+<span id="cb13-184"><a href="#cb13-184" aria-label="176"></a>::: {.callout-note title="Exercise: feel the activation" collapse="false"}</span>
 <span id="cb13-185"><a href="#cb13-185" aria-label="177"></a>Using the <span class="in">`neuron`</span> function above, keep <span class="in">`x`</span>, <span class="in">`w`</span>, and <span class="in">`b`</span> the same but compare</span>
 <span id="cb13-186"><a href="#cb13-186" aria-label="178"></a><span class="in">`relu`</span> and <span class="in">`sigmoid`</span>. For this input the pre-activation sum $z = w \cdot x + b$</span>
-<span id="cb13-187"><a href="#cb13-187" aria-label="179"></a>is **negative** — predict what each activation returns *before* running it, then</span>
+<span id="cb13-187"><a href="#cb13-187" aria-label="179"></a>is **negative**. Predict what each activation returns *before* running it, then</span>
 <span id="cb13-188"><a href="#cb13-188" aria-label="180"></a>check.</span>
 <span id="cb13-189"><a href="#cb13-189" aria-label="181"></a></span>
 <span id="cb13-190"><a href="#cb13-190" aria-label="182"></a>::: {.callout-tip title="💡 Solution" collapse="true"}</span>
@@ -1879,7 +1879,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-206"><a href="#cb13-206" aria-label="196"></a></span>
 <span id="cb13-207"><a href="#cb13-207" aria-label="197"></a>We claimed nonlinearity is what lets a network "fit curves and categories</span>
 <span id="cb13-208"><a href="#cb13-208" aria-label="198"></a>instead of just straight lines." Let's *see* it. Here is a **two-moons**</span>
-<span id="cb13-209"><a href="#cb13-209" aria-label="199"></a>dataset — two interleaving crescents that **no straight line can separate**:</span>
+<span id="cb13-209"><a href="#cb13-209" aria-label="199"></a>dataset of two interleaving crescents that **no straight line can separate**:</span>
 <span id="cb13-210"><a href="#cb13-210" aria-label="200"></a></span>
 <span id="cb13-213"><a href="#cb13-213" aria-label="201"></a><span class="in">```{python}</span></span>
 <span id="cb13-214"><a href="#cb13-214" aria-label="202"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1947,7 +1947,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-280"><a href="#cb13-280" aria-label="264"></a>plt.xticks([])<span class="op">;</span> plt.yticks([])</span>
 <span id="cb13-281"><a href="#cb13-281" aria-label="265"></a><span class="in">```</span></span>
 <span id="cb13-282"><a href="#cb13-282" aria-label="266"></a></span>
-<span id="cb13-283"><a href="#cb13-283" aria-label="267"></a>The boundary is **curved** — it wraps around each crescent. That curvature is</span>
+<span id="cb13-283"><a href="#cb13-283" aria-label="267"></a>The boundary is **curved**; it wraps around each crescent. That curvature is</span>
 <span id="cb13-284"><a href="#cb13-284" aria-label="268"></a>exactly what the hidden layer + ReLU bought us; delete the hidden layer (go</span>
 <span id="cb13-285"><a href="#cb13-285" aria-label="269"></a>straight <span class="in">`Linear(2, 1)`</span>) and the best it can do is a single straight line that</span>
 <span id="cb13-286"><a href="#cb13-286" aria-label="270"></a>gets one moon badly wrong. This is the whole reason we stack neurons, and it</span>
@@ -1971,7 +1971,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-304"><a href="#cb13-304" aria-label="288"></a>Next week, we'll learn about other types of neural networks.</span>
 <span id="cb13-305"><a href="#cb13-305" aria-label="289"></a></span>
 <span id="cb13-306"><a href="#cb13-306" aria-label="290"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
-<span id="cb13-307"><a href="#cb13-307" aria-label="291"></a>Test yourself — think it through, then reveal the answer.</span>
+<span id="cb13-307"><a href="#cb13-307" aria-label="291"></a>Test yourself: think it through, then reveal the answer.</span>
 <span id="cb13-308"><a href="#cb13-308" aria-label="292"></a></span>
 <span id="cb13-309"><a href="#cb13-309" aria-label="293"></a>**Q1.** How does machine learning differ from traditional programming?</span>
 <span id="cb13-310"><a href="#cb13-310" aria-label="294"></a></span>

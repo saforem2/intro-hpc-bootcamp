@@ -4690,7 +4690,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -4728,13 +4728,13 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p><strong>Prerequisites:</strong> the [0] primers on <a href="../../00-intro-AI-HPC/3-python/index.html">Python</a> and <a href="../../00-intro-AI-HPC/4-data/index.html">working with data</a> — you should be comfortable reading a loop, a function, and a <code>numpy</code> array.</p>
-<p><strong>Where it runs:</strong> everything here runs on a laptop or in <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/1-mnist/index.ipynb">Colab</a> in a few minutes on CPU — no GPU required (a GPU only speeds up the training loop, it changes nothing about the results).</p>
-<p><strong>What success looks like:</strong> the simple <strong>linear</strong> model should reach roughly <strong>~91%</strong> test accuracy, and the deeper <strong>nonlinear</strong> model should climb a few points higher into the <strong>~93–94%</strong> range. If your numbers are in that ballpark, it’s working. (Training longer, or with a larger network, pushes the nonlinear model into the mid-to-high 90s — a good thing to try for the homework.)</p>
+<p><strong>Prerequisites:</strong> the [0] primers on <a href="../../00-intro-AI-HPC/3-python/index.html">Python</a> and <a href="../../00-intro-AI-HPC/4-data/index.html">working with data</a>. You should be comfortable reading a loop, a function, and a <code>numpy</code> array.</p>
+<p><strong>Where it runs:</strong> everything here runs on a laptop or in <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/1-mnist/index.ipynb">Colab</a> in a few minutes on CPU, with no GPU required (a GPU only speeds up the training loop, it changes nothing about the results).</p>
+<p><strong>What success looks like:</strong> the simple <strong>linear</strong> model should reach roughly <strong>~91%</strong> test accuracy, and the deeper <strong>nonlinear</strong> model should climb a few points higher into the <strong>~93–94%</strong> range. If your numbers are in that ballpark, it’s working. (Training longer, or with a larger network, pushes the nonlinear model into the mid-to-high 90s, a good thing to try for the homework.)</p>
 </div>
 </div>
 </div>
-<div id="7a461165" class="cell" data-execution_count="1">
+<div id="7a461165" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># ezpz reads this at import time: drop the `module:line:function` suffix from</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># every log line so the notebook shows clean `[timestamp][LEVEL] message`.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="im">import</span> os</span>
@@ -4749,7 +4749,7 @@ window.Quarto = {
 <span id="cb1-12"><a href="#cb1-12" aria-label="12"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-13"><a href="#cb1-13" aria-label="13"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e84e0a01" class="cell" data-execution_count="2">
+<div id="e84e0a01" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -4771,7 +4771,7 @@ window.Quarto = {
 </div>
 </div>
 <p>The task is: given a digit <strong>image</strong> — really just a grid of pixel intensities — learn a function <span class="math inline">f</span> that returns the right <strong>label</strong>. Here’s the idea on a real digit (an 8×8 example, small enough to print every pixel value):</p>
-<div id="cell-fig-mnist-task" class="cell" data-execution_count="3">
+<div id="cell-fig-mnist-task" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> FancyBboxPatch</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_digits</span>
@@ -4824,7 +4824,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 </div>
 </div>
 </div>
-<div id="1c84a82c" class="cell" data-execution_count="4">
+<div id="1c84a82c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="co"># %matplotlib inline</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a><span class="im">import</span> torch</span>
@@ -4855,7 +4855,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 <li>inputs: 1 x 28 x 28 pixels</li>
 <li>outputs (labels): one integer per example</li>
 </ul>
-<div id="847e55da" class="cell" data-execution_count="5">
+<div id="847e55da" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>    root<span class="op">=</span><span class="st">"data"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>    train<span class="op">=</span><span class="va">True</span>,</span>
@@ -4870,7 +4870,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 <span id="cb6-12"><a href="#cb6-12" aria-label="12"></a>    transform<span class="op">=</span>torchvision.transforms.ToTensor()</span>
 <span id="cb6-13"><a href="#cb6-13" aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a451c88e" class="cell" data-execution_count="6">
+<div id="a451c88e" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>train_size <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> <span class="bu">len</span>(training_data))  <span class="co"># 80% for training</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>val_size <span class="op">=</span> <span class="bu">len</span>(training_data) <span class="op">-</span> train_size  <span class="co"># Remaining 20% for validation</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
@@ -4879,7 +4879,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 <span id="cb7-6"><a href="#cb7-6" aria-label="6"></a>    generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="de5efdde" class="cell" data-execution_count="7">
+<div id="de5efdde" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a>logger.info(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>    <span class="st">" "</span>.join([</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>        <span class="ss">f"MNIST data loaded:"</span>,</span>
@@ -4898,7 +4898,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 </div>
 </div>
 <p>Let’s take a closer look. Here are the first 10 training digits:</p>
-<div id="3df68d8d" class="cell" data-execution_count="8">
+<div id="3df68d8d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="co"># plt.figure(figsize=(10*pltsize, pltsize))</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a></span>
@@ -4987,7 +4987,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <ul>
 <li>A loss function <span class="math inline">J(\theta)</span> where <span class="math inline">\theta</span> is the list of parameters (here W and b). Last week, we used mean squared error (MSE), but this week let’s make two changes that make more sense for classification:
 <ul>
-<li>Change the output to be a length-10 vector — one score per digit class. Conceptually we want these to become <strong>class probabilities</strong> (10 numbers from 0 to 1 that add to 1); we’ll see below how <code>nn.CrossEntropyLoss</code> handles that conversion for us.</li>
+<li>Change the output to be a length-10 vector: one score per digit class. Conceptually we want these to become <strong>class probabilities</strong> (10 numbers from 0 to 1 that add to 1); we’ll see below how <code>nn.CrossEntropyLoss</code> handles that conversion for us.</li>
 <li>Cross entropy as the loss function, which is typical for classification. You can read more <a href="https://gombru.github.io/2018/05/23/cross_entropy_loss/">here</a>.</li>
 </ul></li>
 <li>An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s start with stochastic gradient descent (sgd), like last week. For far more information about more advanced optimizers than basic SGD, with some cool animations, see <a href="https://ruder.io/optimizing-gradient-descent/" class="uri">https://ruder.io/optimizing-gradient-descent/</a> or <a href="https://distill.pub/2017/momentum/" class="uri">https://distill.pub/2017/momentum/</a>.</li>
@@ -5016,7 +5016,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 </div>
 </div>
 </div>
-<div id="33f54a1e" class="cell" data-execution_count="9">
+<div id="33f54a1e" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="kw">class</span> LinearClassifier(nn.Module):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -5033,7 +5033,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb10-14"><a href="#cb10-14" aria-label="14"></a>        x <span class="op">=</span> <span class="va">self</span>.layer_1(x)</span>
 <span id="cb10-15"><a href="#cb10-15" aria-label="15"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d19f36be" class="cell" data-execution_count="10">
+<div id="d19f36be" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>linear_model <span class="op">=</span> LinearClassifier()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>logger.info(linear_model)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a></span>
@@ -5062,11 +5062,11 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Notice our <code>forward</code> returns the raw output of <code>self.layer_1</code> — 10 unnormalized numbers called <strong>logits</strong>, <em>not</em> the 0-to-1 probabilities we described above. That’s on purpose: <code>nn.CrossEntropyLoss</code> <strong>expects raw logits</strong> and applies the <code>softmax</code> internally (it fuses <code>log_softmax</code> + negative-log-likelihood for numerical stability). So the network deliberately has <strong>no final softmax layer</strong> — adding one would apply softmax twice and hurt training.</p>
+<p>Notice our <code>forward</code> returns the raw output of <code>self.layer_1</code>: 10 unnormalized numbers called <strong>logits</strong>, <em>not</em> the 0-to-1 probabilities we described above. That’s on purpose: <code>nn.CrossEntropyLoss</code> <strong>expects raw logits</strong> and applies the <code>softmax</code> internally (it fuses <code>log_softmax</code> + negative-log-likelihood for numerical stability). So the network deliberately has <strong>no final softmax layer</strong>; adding one would apply softmax twice and hurt training.</p>
 <p>If you ever want the actual probabilities (e.g.&nbsp;to <em>report</em> a confidence), apply <code>torch.softmax</code> yourself. Here’s what the (still-untrained) linear model produces for one image:</p>
 </div>
 </div>
-<div id="d2567b85" class="cell" data-execution_count="11">
+<div id="d2567b85" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a>example <span class="op">=</span> training_data[<span class="dv">0</span>][<span class="dv">0</span>].unsqueeze(<span class="dv">0</span>)   <span class="co"># shape (1, 1, 28, 28): one image</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>logits <span class="op">=</span> linear_model(example)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>probs <span class="op">=</span> torch.softmax(logits, dim<span class="op">=</span><span class="dv">1</span>)         <span class="co"># convert logits -&gt; probabilities</span></span>
@@ -5085,7 +5085,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 </div>
 </div>
 </div>
-<p>Only after <code>softmax</code> do we get 10 numbers between 0 and 1 that add to 1. Before training they’re all near <code>0.1</code> (the model has no idea yet); training will push the probability mass onto the correct digit. Note that we never need this to <em>train</em> — we only use it when we want a human-readable probability.</p>
+<p>Only after <code>softmax</code> do we get 10 numbers between 0 and 1 that add to 1. Before training they’re all near <code>0.1</code> (the model has no idea yet); training will push the probability mass onto the correct digit. Note that we never need this to <em>train</em>; we only use it when we want a human-readable probability.</p>
 </section>
 <section id="learning" class="level2">
 <h2 class="anchored" data-anchor-id="learning">Learning</h2>
@@ -5107,14 +5107,14 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <li>An epoch means one pass through the whole training data (looping over the batches). Using few epochs can lead to underfitting and using too many can lead to overfitting.</li>
 <li>The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.</li>
 </ul>
-<div id="6a1c5f9d" class="cell" data-execution_count="12">
+<div id="6a1c5f9d" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable </span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-label="4"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-label="5"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9bf7f174" class="cell" data-execution_count="13">
+<div id="9bf7f174" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>    model.train()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-label="3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
@@ -5128,7 +5128,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb14-11"><a href="#cb14-11" aria-label="11"></a>        <span class="co"># resets the gradients </span></span>
 <span id="cb14-12"><a href="#cb14-12" aria-label="12"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a6a2c962" class="cell" data-execution_count="14">
+<div id="a6a2c962" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-label="3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -5152,7 +5152,7 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <span id="cb15-21"><a href="#cb15-21" aria-label="21"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb15-22"><a href="#cb15-22" aria-label="22"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3ea2fdf8" class="cell" data-execution_count="15">
+<div id="3ea2fdf8" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -5199,7 +5199,7 @@ Wall time: 7.81 s
 </div>
 </div>
 </div>
-<div id="a9a6397d" class="cell" data-execution_count="16">
+<div id="a9a6397d" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a>fig <span class="op">=</span> go.Figure()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>fig.add_scatter(x<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(epochs)), y<span class="op">=</span>train_acc_all, mode<span class="op">=</span><span class="st">"lines+markers"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a>                name<span class="op">=</span><span class="st">"Training Acc."</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]))</span>
@@ -5235,7 +5235,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<div id="061417c0" class="cell" data-execution_count="17">
+<div id="061417c0" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="co"># Visualize how the model is doing on the first 10 examples</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span><span class="op">*</span>pltsize, pltsize))</span>
@@ -5261,7 +5261,7 @@ if (outputEl) {{
 <section id="prediction" class="level2">
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Let’s see how our model generalizes to the unseen test data.</p>
-<div id="99279a9d" class="cell" data-execution_count="18">
+<div id="99279a9d" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="co">#For HW: cell to change batch size</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-label="2"></a><span class="co">#create dataloader for test data</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-label="3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
@@ -5269,7 +5269,7 @@ if (outputEl) {{
 <span id="cb19-5"><a href="#cb19-5" aria-label="5"></a>batch_size_test <span class="op">=</span> <span class="dv">256</span> </span>
 <span id="cb19-6"><a href="#cb19-6" aria-label="6"></a>test_dataloader <span class="op">=</span> torch.utils.data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c4d3689b" class="cell" data-execution_count="19">
+<div id="c4d3689b" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-label="1"></a>acc_test, loss_test <span class="op">=</span> evaluate(test_dataloader, linear_model, loss_fn)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-label="2"></a>logger.info(<span class="ss">f"Test loss: </span><span class="sc">{</span>loss_test<span class="sc">}</span><span class="ss">, test accuracy: </span><span class="sc">{</span>acc_test<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-label="3"></a><span class="co"># logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -5282,7 +5282,7 @@ if (outputEl) {{
 </div>
 <p>We can now take a closer look at the results.</p>
 <p>Let’s define a helper function to show the failure cases of our classifier.</p>
-<div id="ac4166a5" class="cell" data-execution_count="20">
+<div id="ac4166a5" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="kw">def</span> show_failures(model, dataloader, maxtoshow<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb21-2"><a href="#cb21-2" aria-label="2"></a>    model.<span class="bu">eval</span>()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-label="3"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dataloader))</span>
@@ -5307,7 +5307,7 @@ if (outputEl) {{
 <span id="cb21-22"><a href="#cb21-22" aria-label="22"></a>            ii <span class="op">=</span> ii <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here are the first 10 images from the test data that this small model classified to a wrong class:</p>
-<div id="6f24fc81" class="cell" data-execution_count="21">
+<div id="6f24fc81" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-label="1"></a>show_failures(linear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
@@ -5385,7 +5385,7 @@ Figure&nbsp;3: A shallow (single-hidden-layer) neural network.
 </span></p>
 <p>where <span class="math inline">\mathbf{x}</span> is the input, <span class="math inline">\mathbf{W}_j</span> are the weights of the neural network, <span class="math inline">\sigma_j</span> the (nonlinear) activation functions, and <span class="math inline">\mathbf{b}_j</span> its biases.</p>
 <p>A few of the most common activation functions, plotted over <span class="math inline">x \in [-5, 5]</span>:</p>
-<div id="cell-fig-activation" class="cell" data-execution_count="22">
+<div id="cell-fig-activation" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb23-2"><a href="#cb23-2" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
@@ -5436,7 +5436,7 @@ Figure&nbsp;4: Common activation functions used in neural networks.
 </div>
 </div>
 <p>The <strong>activation function</strong> introduces the nonlinearity that lets the network learn complex tasks. Desirable properties include being differentiable, (mostly) monotonic, and well-behaved gradients. <code>ReLU</code> and its variants (<code>Leaky ReLU</code>, <code>ELU</code>, <code>GELU</code>, <code>SiLU</code>) dominate modern deep networks because they avoid the vanishing-gradient problem that plagues the saturating <code>Sigmoid</code>/<code>Tanh</code>.</p>
-<p>Stacking several hidden layers gives a <strong>deep</strong> neural network — each layer transforms the previous layer’s output, letting the model build up increasingly abstract representations:</p>
+<p>Stacking several hidden layers gives a <strong>deep</strong> neural network. Each layer transforms the previous layer’s output, letting the model build up increasingly abstract representations:</p>
 <div id="fig-nn-annotated" class="column-page quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-nn-annotated-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -5509,7 +5509,7 @@ Figure&nbsp;5: A deep neural network with several hidden layers.
 <section id="important-things-to-know" class="level2">
 <h2 class="anchored" data-anchor-id="important-things-to-know">Important things to know</h2>
 <p>Deep Neural networks can be overly flexible/complicated and “overfit” your data, just like fitting overly complicated polynomials. Let’s see this directly: we generate noisy samples from a smooth <strong>true function</strong> (a cosine), then fit polynomials of increasing degree and watch what happens.</p>
-<div id="8a9c19a9" class="cell" data-execution_count="23">
+<div id="8a9c19a9" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-label="1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
 <span id="cb24-2"><a href="#cb24-2" aria-label="2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
 <span id="cb24-3"><a href="#cb24-3" aria-label="3"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -5582,9 +5582,9 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<p>The <strong>degree-1</strong> line is too simple to follow the curve (<strong>underfitting / high bias</strong>); the <strong>degree-15</strong> polynomial contorts itself to hit every noisy point and swings wildly between them (<strong>overfitting / high variance</strong>); <strong>degree 4</strong> captures the real shape without chasing the noise. The cross-validated MSE (below each panel) is lowest for the balanced model — that’s the sweet spot we want.</p>
-<p>The same story shows up when we watch <strong>training vs.&nbsp;validation</strong> metrics over epochs. Early on both improve together; past a point the model starts memorizing the training set — training keeps improving while <strong>validation turns the wrong way</strong>. The gap between the two curves <em>is</em> overfitting, and the dashed line marks where you’d want to <strong>stop early</strong>:</p>
-<div id="7b9d3acd" class="cell" data-execution_count="24">
+<p>The <strong>degree-1</strong> line is too simple to follow the curve (<strong>underfitting / high bias</strong>); the <strong>degree-15</strong> polynomial contorts itself to hit every noisy point and swings wildly between them (<strong>overfitting / high variance</strong>); <strong>degree 4</strong> captures the real shape without chasing the noise. The cross-validated MSE (below each panel) is lowest for the balanced model, and that’s the sweet spot we want.</p>
+<p>The same story shows up when we watch <strong>training vs.&nbsp;validation</strong> metrics over epochs. Early on both improve together; past a point the model starts memorizing the training set, and training keeps improving while <strong>validation turns the wrong way</strong>. The gap between the two curves <em>is</em> overfitting, and the dashed line marks where you’d want to <strong>stop early</strong>:</p>
+<div id="7b9d3acd" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a><span class="co"># schematic training/validation curves over epochs (illustrative shapes)</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>ep <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">200</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-label="3"></a>stop <span class="op">=</span> <span class="fl">0.45</span>   <span class="co"># early-stopping sweet spot (validation's best point)</span></span>
@@ -5642,7 +5642,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<p>Past the dashed line the model keeps getting better on data it has <em>seen</em> while getting worse on data it <em>hasn’t</em> — the definition of overfitting.</p>
+<p>Past the dashed line the model keeps getting better on data it has <em>seen</em> while getting worse on data it <em>hasn’t</em>. That is the definition of overfitting.</p>
 <p>To improve the generalization of our model on previously unseen data, we employ a technique known as regularization, which constrains our optimization problem in order to discourage complex models.</p>
 <ul>
 <li>Dropout is the commonly used regularization technique. The Dropout layer randomly sets input units to 0 with a frequency of rate at each step during training time, which helps prevent overfitting.</li>
@@ -5663,7 +5663,7 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 </dl>
 <p>We can now implement a deep network in PyTorch.</p>
 <p><code>nn.Dropout()</code> performs the Dropout operation mentioned earlier:</p>
-<div id="ed68ef44" class="cell" data-execution_count="25">
+<div id="ed68ef44" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-label="1"></a><span class="co">#For HW: cell to change activation</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-label="2"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
 <span id="cb26-3"><a href="#cb26-3" aria-label="3"></a></span>
@@ -5689,13 +5689,13 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 <span id="cb26-23"><a href="#cb26-23" aria-label="23"></a></span>
 <span id="cb26-24"><a href="#cb26-24" aria-label="24"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e7835157" class="cell" data-execution_count="26">
+<div id="e7835157" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="co">#### For HW: cell to change learning rate</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-label="2"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb27-3"><a href="#cb27-3" aria-label="3"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb27-4"><a href="#cb27-4" aria-label="4"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="18e3967d" class="cell" data-execution_count="27">
+<div id="18e3967d" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb28-2"><a href="#cb28-2" aria-label="2"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -5742,7 +5742,7 @@ Wall time: 8.24 s
 </div>
 </div>
 </div>
-<div id="0b4b72e1" class="cell" data-execution_count="28">
+<div id="0b4b72e1" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a>fig <span class="op">=</span> go.Figure()</span>
 <span id="cb29-2"><a href="#cb29-2" aria-label="2"></a>fig.add_scatter(x<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(epochs)), y<span class="op">=</span>train_acc_all, mode<span class="op">=</span><span class="st">"lines+markers"</span>,</span>
 <span id="cb29-3"><a href="#cb29-3" aria-label="3"></a>                name<span class="op">=</span><span class="st">"Training Acc."</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]))</span>
@@ -5778,7 +5778,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<div id="da82c591" class="cell" data-execution_count="29">
+<div id="da82c591" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-label="1"></a>show_failures(nonlinear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
@@ -5798,8 +5798,8 @@ if (outputEl) {{
 </div>
 <section id="which-digits-does-it-confuse" class="level3">
 <h3 class="anchored" data-anchor-id="which-digits-does-it-confuse">Which digits does it confuse?</h3>
-<p>Overall accuracy is a single number; it hides <em>where</em> the mistakes are. A <strong>confusion matrix</strong> answers “when the true digit is a 4, what does the model guess?” — row <span class="math inline">i</span>, column <span class="math inline">j</span> counts test examples whose true label is <span class="math inline">i</span> but that the model predicted as <span class="math inline">j</span>. A perfect model is all diagonal; the bright <em>off</em>-diagonal cells are the pairs it mixes up (classically 4↔︎9, 3↔︎5, 7↔︎9).</p>
-<div id="cc5f965b" class="cell" data-execution_count="30">
+<p>Overall accuracy is a single number; it hides <em>where</em> the mistakes are. A <strong>confusion matrix</strong> answers “when the true digit is a 4, what does the model guess?” Row <span class="math inline">i</span>, column <span class="math inline">j</span> counts test examples whose true label is <span class="math inline">i</span> but that the model predicted as <span class="math inline">j</span>. A perfect model is all diagonal; the bright <em>off</em>-diagonal cells are the pairs it mixes up (classically 4↔︎9, 3↔︎5, 7↔︎9).</p>
+<div id="cc5f965b" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb31-2"><a href="#cb31-2" aria-label="2"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-label="3"></a><span class="co"># Run the trained model over the whole test set and collect (true, predicted).</span></span>
@@ -5820,7 +5820,7 @@ if (outputEl) {{
 <span id="cb31-18"><a href="#cb31-18" aria-label="18"></a><span class="co"># Normalize each row to a *rate* so classes with more examples don't dominate.</span></span>
 <span id="cb31-19"><a href="#cb31-19" aria-label="19"></a>cm_rate <span class="op">=</span> cm <span class="op">/</span> cm.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="29e494a4" class="cell" data-execution_count="31">
+<div id="29e494a4" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-label="1"></a>fig <span class="op">=</span> go.Figure(go.Heatmap(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-label="2"></a>    z<span class="op">=</span>cm_rate, x<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">10</span>)), y<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">10</span>)),</span>
 <span id="cb32-3"><a href="#cb32-3" aria-label="3"></a>    colorscale<span class="op">=</span><span class="st">"Blues"</span>, zmin<span class="op">=</span><span class="dv">0</span>, zmax<span class="op">=</span><span class="dv">1</span>,</span>
@@ -5869,7 +5869,7 @@ if (outputEl) {{
 <pre><code>most-confused pair: true 9 -&gt; predicted 4 (5.5% of all 9s)</code></pre>
 </div>
 </div>
-<p>The diagonal should be overwhelmingly the brightest band — the model is right most of the time — and the worst confusion is usually a genuinely ambiguous pair a human would also hesitate on. This is the kind of per-class diagnostic you’d use to decide <em>what to fix next</em> (more data for a weak class, a better architecture, targeted augmentation).</p>
+<p>The diagonal should be overwhelmingly the brightest band, since the model is right most of the time, and the worst confusion is usually a genuinely ambiguous pair a human would also hesitate on. This is the kind of per-class diagnostic you’d use to decide <em>what to fix next</em> (more data for a weak class, a better architecture, targeted augmentation).</p>
 </section>
 </section>
 <section id="recap" class="level2">
@@ -5901,7 +5901,7 @@ if (outputEl) {{
 <section id="homework-solution" class="level2">
 <h2 class="anchored" data-anchor-id="homework-solution">Homework solution</h2>
 <p>Make the following changes to the cells with the comment “#For HW”</p>
-<div id="29ab9a4e" class="cell" data-execution_count="32">
+<div id="29ab9a4e" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-label="1"></a><span class="co">#####################To modify the batch size##########################</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-label="2"></a>batch_size <span class="op">=</span> <span class="dv">32</span> <span class="co"># 64, 128, 256, 512</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-label="3"></a></span>
@@ -5944,7 +5944,7 @@ if (outputEl) {{
 <span id="cb34-40"><a href="#cb34-40" aria-label="40"></a><span class="co">##############################################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network. See below on how to incorporate it to your training.</p>
-<div id="3a00f12f" class="cell" data-execution_count="33">
+<div id="3a00f12f" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb35-2"><a href="#cb35-2" aria-label="2"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb35-3"><a href="#cb35-3" aria-label="3"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
@@ -5952,7 +5952,7 @@ if (outputEl) {{
 <span id="cb35-5"><a href="#cb35-5" aria-label="5"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
 <span id="cb35-6"><a href="#cb35-6" aria-label="6"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="75676fb6" class="cell" data-execution_count="34">
+<div id="75676fb6" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a><span class="op">%%</span>time</span>
 <span id="cb36-2"><a href="#cb36-2" aria-label="2"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>
@@ -6623,19 +6623,19 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-69"><a href="#cb37-69" aria-label="69"></a></span>
 <span id="cb37-70"><a href="#cb37-70" aria-label="70"></a>::: {.callout-tip title="🎯 Before you start" collapse="false"}</span>
 <span id="cb37-71"><a href="#cb37-71" aria-label="71"></a>**Prerequisites:** the <span class="co">[</span><span class="ot">0</span><span class="co">]</span> primers on <span class="co">[</span><span class="ot">Python</span><span class="co">](../../00-intro-AI-HPC/3-python/index.qmd)</span> and</span>
-<span id="cb37-72"><a href="#cb37-72" aria-label="72"></a><span class="co">[</span><span class="ot">working with data</span><span class="co">](../../00-intro-AI-HPC/4-data/index.qmd)</span> — you should be comfortable reading a</span>
+<span id="cb37-72"><a href="#cb37-72" aria-label="72"></a><span class="co">[</span><span class="ot">working with data</span><span class="co">](../../00-intro-AI-HPC/4-data/index.qmd)</span>. You should be comfortable reading a</span>
 <span id="cb37-73"><a href="#cb37-73" aria-label="73"></a>loop, a function, and a <span class="in">`numpy`</span> array.</span>
 <span id="cb37-74"><a href="#cb37-74" aria-label="74"></a></span>
 <span id="cb37-75"><a href="#cb37-75" aria-label="75"></a>**Where it runs:** everything here runs on a laptop or in</span>
 <span id="cb37-76"><a href="#cb37-76" aria-label="76"></a><span class="co">[</span><span class="ot">Colab</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/1-mnist/index.ipynb)</span></span>
-<span id="cb37-77"><a href="#cb37-77" aria-label="77"></a>in a few minutes on CPU — no GPU required (a GPU only speeds up the training loop,</span>
-<span id="cb37-78"><a href="#cb37-78" aria-label="78"></a>it changes nothing about the results).</span>
+<span id="cb37-77"><a href="#cb37-77" aria-label="77"></a>in a few minutes on CPU, with no GPU required (a GPU only speeds up the training</span>
+<span id="cb37-78"><a href="#cb37-78" aria-label="78"></a>loop, it changes nothing about the results).</span>
 <span id="cb37-79"><a href="#cb37-79" aria-label="79"></a></span>
 <span id="cb37-80"><a href="#cb37-80" aria-label="80"></a>**What success looks like:** the simple **linear** model should reach roughly</span>
 <span id="cb37-81"><a href="#cb37-81" aria-label="81"></a>**~91%** test accuracy, and the deeper **nonlinear** model should climb a few</span>
 <span id="cb37-82"><a href="#cb37-82" aria-label="82"></a>points higher into the **~93–94%** range. If your numbers are in that ballpark,</span>
 <span id="cb37-83"><a href="#cb37-83" aria-label="83"></a>it's working. (Training longer, or with a larger network, pushes the nonlinear</span>
-<span id="cb37-84"><a href="#cb37-84" aria-label="84"></a>model into the mid-to-high 90s — a good thing to try for the homework.)</span>
+<span id="cb37-84"><a href="#cb37-84" aria-label="84"></a>model into the mid-to-high 90s, a good thing to try for the homework.)</span>
 <span id="cb37-85"><a href="#cb37-85" aria-label="85"></a>:::</span>
 <span id="cb37-86"><a href="#cb37-86" aria-label="86"></a></span>
 <span id="cb37-89"><a href="#cb37-89" aria-label="87"></a><span class="in">```{python}</span></span>
@@ -6891,7 +6891,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-355"><a href="#cb37-355" aria-label="337"></a>  and b).</span>
 <span id="cb37-356"><a href="#cb37-356" aria-label="338"></a>  Last week, we used mean squared error (MSE), but this week let's make two</span>
 <span id="cb37-357"><a href="#cb37-357" aria-label="339"></a>  changes that make more sense for classification:</span>
-<span id="cb37-358"><a href="#cb37-358" aria-label="340"></a><span class="ss">  - </span>Change the output to be a length-10 vector — one score per digit class.</span>
+<span id="cb37-358"><a href="#cb37-358" aria-label="340"></a><span class="ss">  - </span>Change the output to be a length-10 vector: one score per digit class.</span>
 <span id="cb37-359"><a href="#cb37-359" aria-label="341"></a>    Conceptually we want these to become **class probabilities** (10 numbers</span>
 <span id="cb37-360"><a href="#cb37-360" aria-label="342"></a>    from 0 to 1 that add to 1); we'll see below how <span class="in">`nn.CrossEntropyLoss`</span></span>
 <span id="cb37-361"><a href="#cb37-361" aria-label="343"></a>    handles that conversion for us.</span>
@@ -6952,12 +6952,12 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-420"><a href="#cb37-420" aria-label="398"></a><span class="in">```</span></span>
 <span id="cb37-421"><a href="#cb37-421" aria-label="399"></a></span>
 <span id="cb37-422"><a href="#cb37-422" aria-label="400"></a>::: {.callout-important title="Logits, not probabilities"}</span>
-<span id="cb37-423"><a href="#cb37-423" aria-label="401"></a>Notice our <span class="in">`forward`</span> returns the raw output of <span class="in">`self.layer_1`</span> — 10 unnormalized</span>
+<span id="cb37-423"><a href="#cb37-423" aria-label="401"></a>Notice our <span class="in">`forward`</span> returns the raw output of <span class="in">`self.layer_1`</span>: 10 unnormalized</span>
 <span id="cb37-424"><a href="#cb37-424" aria-label="402"></a>numbers called **logits**, *not* the 0-to-1 probabilities we described above.</span>
 <span id="cb37-425"><a href="#cb37-425" aria-label="403"></a>That's on purpose: <span class="in">`nn.CrossEntropyLoss`</span> **expects raw logits** and applies the</span>
 <span id="cb37-426"><a href="#cb37-426" aria-label="404"></a><span class="in">`softmax`</span> internally (it fuses <span class="in">`log_softmax`</span> + negative-log-likelihood for</span>
 <span id="cb37-427"><a href="#cb37-427" aria-label="405"></a>numerical stability). So the network deliberately has **no final softmax</span>
-<span id="cb37-428"><a href="#cb37-428" aria-label="406"></a>layer** — adding one would apply softmax twice and hurt training.</span>
+<span id="cb37-428"><a href="#cb37-428" aria-label="406"></a>layer**; adding one would apply softmax twice and hurt training.</span>
 <span id="cb37-429"><a href="#cb37-429" aria-label="407"></a></span>
 <span id="cb37-430"><a href="#cb37-430" aria-label="408"></a>If you ever want the actual probabilities (e.g. to *report* a confidence), apply</span>
 <span id="cb37-431"><a href="#cb37-431" aria-label="409"></a><span class="in">`torch.softmax`</span> yourself. Here's what the (still-untrained) linear model produces</span>
@@ -6977,7 +6977,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-447"><a href="#cb37-447" aria-label="423"></a>Only after <span class="in">`softmax`</span> do we get 10 numbers between 0 and 1 that add to 1. Before</span>
 <span id="cb37-448"><a href="#cb37-448" aria-label="424"></a>training they're all near <span class="in">`0.1`</span> (the model has no idea yet); training will push</span>
 <span id="cb37-449"><a href="#cb37-449" aria-label="425"></a>the probability mass onto the correct digit. Note that we never need this to</span>
-<span id="cb37-450"><a href="#cb37-450" aria-label="426"></a>*train* — we only use it when we want a human-readable probability.</span>
+<span id="cb37-450"><a href="#cb37-450" aria-label="426"></a>*train*; we only use it when we want a human-readable probability.</span>
 <span id="cb37-451"><a href="#cb37-451" aria-label="427"></a></span>
 <span id="cb37-452"><a href="#cb37-452" aria-label="428"></a><span class="fu">## Learning</span></span>
 <span id="cb37-453"><a href="#cb37-453" aria-label="429"></a></span>
@@ -7267,7 +7267,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-761"><a href="#cb37-761" aria-label="713"></a>avoid the vanishing-gradient problem that plagues the saturating <span class="in">`Sigmoid`</span>/<span class="in">`Tanh`</span>.</span>
 <span id="cb37-762"><a href="#cb37-762" aria-label="714"></a></span>
 <span id="cb37-763"><a href="#cb37-763" aria-label="715"></a></span>
-<span id="cb37-764"><a href="#cb37-764" aria-label="716"></a>Stacking several hidden layers gives a **deep** neural network — each layer</span>
+<span id="cb37-764"><a href="#cb37-764" aria-label="716"></a>Stacking several hidden layers gives a **deep** neural network. Each layer</span>
 <span id="cb37-765"><a href="#cb37-765" aria-label="717"></a>transforms the previous layer's output, letting the model build up increasingly</span>
 <span id="cb37-766"><a href="#cb37-766" aria-label="718"></a>abstract representations:</span>
 <span id="cb37-767"><a href="#cb37-767" aria-label="719"></a></span>
@@ -7386,14 +7386,14 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-884"><a href="#cb37-884" aria-label="832"></a>bias**); the **degree-15** polynomial contorts itself to hit every noisy point and</span>
 <span id="cb37-885"><a href="#cb37-885" aria-label="833"></a>swings wildly between them (**overfitting / high variance**); **degree 4** captures</span>
 <span id="cb37-886"><a href="#cb37-886" aria-label="834"></a>the real shape without chasing the noise. The cross-validated MSE (below each</span>
-<span id="cb37-887"><a href="#cb37-887" aria-label="835"></a>panel) is lowest for the balanced model — that's the sweet spot we want.</span>
+<span id="cb37-887"><a href="#cb37-887" aria-label="835"></a>panel) is lowest for the balanced model, and that's the sweet spot we want.</span>
 <span id="cb37-888"><a href="#cb37-888" aria-label="836"></a></span>
 <span id="cb37-889"><a href="#cb37-889" aria-label="837"></a></span>
 <span id="cb37-890"><a href="#cb37-890" aria-label="838"></a>The same story shows up when we watch **training vs. validation** metrics over</span>
 <span id="cb37-891"><a href="#cb37-891" aria-label="839"></a>epochs. Early on both improve together; past a point the model starts memorizing</span>
-<span id="cb37-892"><a href="#cb37-892" aria-label="840"></a>the training set — training keeps improving while **validation turns the wrong</span>
-<span id="cb37-893"><a href="#cb37-893" aria-label="841"></a>way**. The gap between the two curves *is* overfitting, and the dashed line marks</span>
-<span id="cb37-894"><a href="#cb37-894" aria-label="842"></a>where you'd want to **stop early**:</span>
+<span id="cb37-892"><a href="#cb37-892" aria-label="840"></a>the training set, and training keeps improving while **validation turns the</span>
+<span id="cb37-893"><a href="#cb37-893" aria-label="841"></a>wrong way**. The gap between the two curves *is* overfitting, and the dashed line</span>
+<span id="cb37-894"><a href="#cb37-894" aria-label="842"></a>marks where you'd want to **stop early**:</span>
 <span id="cb37-895"><a href="#cb37-895" aria-label="843"></a></span>
 <span id="cb37-898"><a href="#cb37-898" aria-label="844"></a><span class="in">```{python}</span></span>
 <span id="cb37-899"><a href="#cb37-899" aria-label="845"></a><span class="co"># schematic training/validation curves over epochs (illustrative shapes)</span></span>
@@ -7428,7 +7428,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-928"><a href="#cb37-928" aria-label="874"></a><span class="in">```</span></span>
 <span id="cb37-929"><a href="#cb37-929" aria-label="875"></a></span>
 <span id="cb37-930"><a href="#cb37-930" aria-label="876"></a>Past the dashed line the model keeps getting better on data it has *seen* while</span>
-<span id="cb37-931"><a href="#cb37-931" aria-label="877"></a>getting worse on data it *hasn't* — the definition of overfitting.</span>
+<span id="cb37-931"><a href="#cb37-931" aria-label="877"></a>getting worse on data it *hasn't*. That is the definition of overfitting.</span>
 <span id="cb37-932"><a href="#cb37-932" aria-label="878"></a></span>
 <span id="cb37-933"><a href="#cb37-933" aria-label="879"></a></span>
 <span id="cb37-934"><a href="#cb37-934" aria-label="880"></a></span>
@@ -7530,7 +7530,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-1040"><a href="#cb37-1040" aria-label="976"></a></span>
 <span id="cb37-1041"><a href="#cb37-1041" aria-label="977"></a>Overall accuracy is a single number; it hides *where* the mistakes are. A</span>
 <span id="cb37-1042"><a href="#cb37-1042" aria-label="978"></a>**confusion matrix** answers "when the true digit is a 4, what does the model</span>
-<span id="cb37-1043"><a href="#cb37-1043" aria-label="979"></a>guess?" — row $i$, column $j$ counts test examples whose true label is $i$ but</span>
+<span id="cb37-1043"><a href="#cb37-1043" aria-label="979"></a>guess?" Row $i$, column $j$ counts test examples whose true label is $i$ but</span>
 <span id="cb37-1044"><a href="#cb37-1044" aria-label="980"></a>that the model predicted as $j$. A perfect model is all diagonal; the bright</span>
 <span id="cb37-1045"><a href="#cb37-1045" aria-label="981"></a>*off*-diagonal cells are the pairs it mixes up (classically 4↔9, 3↔5, 7↔9).</span>
 <span id="cb37-1046"><a href="#cb37-1046" aria-label="982"></a></span>
@@ -7576,8 +7576,8 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-1090"><a href="#cb37-1090" aria-label="1022"></a>      <span class="ss">f"(</span><span class="sc">{</span>off[i, j]<span class="sc">:.1%}</span><span class="ss"> of all </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">s)"</span>)</span>
 <span id="cb37-1091"><a href="#cb37-1091" aria-label="1023"></a><span class="in">```</span></span>
 <span id="cb37-1092"><a href="#cb37-1092" aria-label="1024"></a></span>
-<span id="cb37-1093"><a href="#cb37-1093" aria-label="1025"></a>The diagonal should be overwhelmingly the brightest band — the model is right</span>
-<span id="cb37-1094"><a href="#cb37-1094" aria-label="1026"></a>most of the time — and the worst confusion is usually a genuinely ambiguous</span>
+<span id="cb37-1093"><a href="#cb37-1093" aria-label="1025"></a>The diagonal should be overwhelmingly the brightest band, since the model is</span>
+<span id="cb37-1094"><a href="#cb37-1094" aria-label="1026"></a>right most of the time, and the worst confusion is usually a genuinely ambiguous</span>
 <span id="cb37-1095"><a href="#cb37-1095" aria-label="1027"></a>pair a human would also hesitate on. This is the kind of per-class diagnostic</span>
 <span id="cb37-1096"><a href="#cb37-1096" aria-label="1028"></a>you'd use to decide *what to fix next* (more data for a weak class, a better</span>
 <span id="cb37-1097"><a href="#cb37-1097" aria-label="1029"></a>architecture, targeted augmentation).</span>

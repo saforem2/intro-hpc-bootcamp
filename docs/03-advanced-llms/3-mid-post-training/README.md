@@ -106,8 +106,8 @@ text” toward “does what you ask.”
   Reasoning](../4-rl-and-reasoning/index.qmd).
 
 Throughout we use the HuggingFace [TRL](https://huggingface.co/docs/trl)
-and [PEFT](https://huggingface.co/docs/peft) libraries — the standard,
-batteries-included stack for post-training.
+and [PEFT](https://huggingface.co/docs/peft) libraries. Together they
+are the standard, batteries-included stack for post-training.
 
 > [!WARNING]
 >
@@ -117,7 +117,7 @@ batteries-included stack for post-training.
 > environment, and real fine-tuning needs a GPU. Every cell that touches
 > them is marked `#| eval: false` so it renders as copy-pasteable code
 > without running. The handful of cells that *do* run use only
-> `transformers` + `torch` on CPU with a `gpt2` tokenizer — flip any
+> `transformers` + `torch` on CPU with a `gpt2` tokenizer. Flip any
 > `eval: false` to `true` on the cluster to run it for real.
 
 ## 🧪 ① A toy that really runs
@@ -174,8 +174,8 @@ print(f"{len(ids)} tokens -> {tuple(blocks.shape)} (n_blocks, block_size)")
 
 That `(n_blocks, block_size)` tensor is exactly the shape a
 `DataCollator` feeds a `Trainer`. The actual training step loads a
-**base model** and runs a standard optimizer loop — heavy, so it is
-display-only here:
+**base model** and runs a standard optimizer loop, which is heavy, so it
+is display-only here:
 
 ``` python
 from transformers import (
@@ -266,8 +266,9 @@ print(prompt)
     <|im_start|>assistant
 
 The output is the exact string the model trains on. Note how
-`add_generation_prompt=True` leaves a dangling `<|im_start|>assistant\n`
-— that is the cue that tells the model *“your turn now.”*
+`add_generation_prompt=True` leaves a dangling
+`<|im_start|>assistant\n`. That is the cue that tells the model *“your
+turn now.”*
 
 Two ideas make SFT work:
 
@@ -338,7 +339,7 @@ while learning nothing about how to answer.
 >
 > **Solution.** Add
 > `for i, t in enumerate(completion_ids): logits[len(prompt_ids)+i, t] = 10.0`
-> before computing the loss — `loss_sft` drops to ~0. A fully SFT’d
+> before computing the loss, and `loss_sft` drops to ~0. A fully SFT’d
 > model assigns high probability to the target completion tokens, so the
 > (masked) loss it was trained on goes to zero.
 
@@ -388,7 +389,7 @@ trainer.save_model("sft-lora-out")    # saves only the small adapter weights
 > ### 🪶 Why LoRA fits on one node
 >
 > Full fine-tuning updates **all** the weights, so you must hold the
-> model, its gradients, and optimizer states in memory — often several
+> model, its gradients, and optimizer states in memory, often several
 > times the model size. **LoRA** ([Hu et al. 2021,
 > arXiv:2106.09685](https://arxiv.org/abs/2106.09685)) freezes the
 > pretrained weights $W_0$ and learns a tiny low-rank update
@@ -397,22 +398,22 @@ trainer.save_model("sft-lora-out")    # saves only the small adapter weights
 >
 > $$W = W_0 + \Delta W = W_0 + B A$$
 >
-> Only $A$ and $B$ are trained — often **\<1%** of the parameters. The
+> Only $A$ and $B$ are trained (often **\<1%** of the parameters). The
 > optimizer state shrinks with them, so a model that needs multiple
 > nodes to *fully* fine-tune can be LoRA-tuned on a **single GPU** (or
 > one node), and the resulting adapter is only a few MB.
 
 ## 🏭 ② The real thing
 
-*(display-only — real production configs and schemas)*
+*(display-only: real production configs and schemas)*
 
 ### Anatomy of a real chat template
 
 Instruction models are trained on a strict, tokenized conversation
 format. Here is the ChatML layout used by Qwen and (with variations)
 most modern chat models. The `<|im_start|>` / `<|im_end|>` markers are
-**special tokens** in the model’s vocabulary — single IDs, not
-spelled-out text:
+**special tokens** in the model’s vocabulary (single IDs, not
+spelled-out text):
 
 ``` text
 <|im_start|>system
@@ -431,7 +432,7 @@ must match the one used during SFT**, or quality collapses.
 
 ### A real SFT dataset schema
 
-Production SFT datasets store each conversation as a `messages` list —
+Production SFT datasets store each conversation as a `messages` list,
 the exact schema TRL consumes directly:
 
 ``` json
@@ -449,7 +450,7 @@ Widely used examples: `HuggingFaceH4/ultrachat_200k`,
 
 ### What a production CPT data mix looks like
 
-Domain adaptation rarely uses *only* the new domain — the mix is
+Domain adaptation rarely uses *only* the new domain; the mix is
 engineered to add a skill **without forgetting the old ones**:
 
 <div id="tbl-cpt-mix">
@@ -480,8 +481,8 @@ Table 1: An illustrative continued-pretraining data mix.
 >   dominates the final quality.
 > - **Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not
 >   just LoRA) across many nodes, sharding optimizer state with
->   ZeRO/FSDP — exactly the parallelism strategies from [\[1.4\]
->   Distributed
+>   ZeRO/FSDP. These are exactly the parallelism strategies from
+>   [\[1.4\] Distributed
 >   Training](../../01-neural-networks/4-distributed-training/index.qmd).
 > - **Staged pipelines.** The Llama 3 report
 >   ([arXiv:2407.21783](https://arxiv.org/abs/2407.21783)) describes
@@ -489,13 +490,13 @@ Table 1: An illustrative continued-pretraining data mix.
 >   dedicated mid-training phases for long-context and specific
 >   capabilities.
 >
-> The APIs below are the *same* ones you just saw — only the scale,
-> data, and node count change.
+> The APIs below are the *same* ones you just saw. Only the scale, data,
+> and node count change.
 
 ## 🚀 ③ Scale it up
 
 On the cluster, run SFT as a plain Python module and let `ezpz` handle
-the launch — it auto-detects the scheduler (PBS → `mpiexec`, SLURM →
+the launch. It auto-detects the scheduler (PBS → `mpiexec`, SLURM →
 `srun`) and wires up the distributed environment for you. No
 `mpirun -n $NGPUS` bookkeeping.
 

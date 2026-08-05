@@ -18,8 +18,8 @@ that comes after.
 
 No prior HPC experience is assumed. The early pages explain the machine
 and how to get a Jupyter notebook running on it; the later pages are
-runnable lessons — Python, NumPy/pandas, and three worked ML examples
-you can execute on a laptop or on the cluster.
+runnable lessons: Python, NumPy/pandas, and three worked ML examples you
+can execute on a laptop or on the cluster.
 
 ## 🗺️ Map of this section
 
@@ -37,7 +37,7 @@ one”:
 - 📄 [**\[0.3\] Using Python**](./3-python/) — a fast, runnable Python
   primer aimed at the idioms the rest of the course leans on.
 - 📄 [**\[0.4\] Working with Data**](./4-data/) — NumPy arrays, pandas
-  DataFrames, and Matplotlib — the tools every ML example uses.
+  DataFrames, and Matplotlib: the tools every ML example uses.
 - 📗 [**\[0.5\] MCMC Example**](./5-mcmc-example/) — estimate π with
   Monte Carlo and parallelize it with MPI: your first taste of “many
   processes, one result.”

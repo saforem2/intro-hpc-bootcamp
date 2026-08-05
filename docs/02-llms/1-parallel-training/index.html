@@ -698,7 +698,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -732,7 +732,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li>HTML version: <a href="https://samforeman.me/talks/ai-for-science-2024" class="uri">https://samforeman.me/talks/ai-for-science-2024</a></li>
 </ul></li>
 </ul>
-<p>This is a <strong>hands-on lab</strong>: you’ll launch a real multi-GPU <a href="#concepts-recap">data-parallel</a> training run on a supercomputer. It’s the practical counterpart to the <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[1] Distributed Training</strong></a> lesson — read that first if the concepts below are new to you.</p>
+<p>This is a <strong>hands-on lab</strong>: you’ll launch a real multi-GPU <a href="#concepts-recap">data-parallel</a> training run on a supercomputer. It’s the practical counterpart to the <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[1] Distributed Training</strong></a> lesson. Read that first if the concepts below are new to you.</p>
 <div id="concepts-recap" class="callout callout-style-simple callout-note callout-titled" title="🧠 Concepts recap (30-second version)">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -751,7 +751,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li><strong>Tensor Parallel (TP)</strong> — a single layer’s matrices are split <em>across</em> GPUs (usually within one node). Used when a layer is too big for one GPU.</li>
 <li><strong>Pipeline Parallel (PP)</strong> — different <em>layers</em> live on different GPUs and micro-batches flow through the stages like an assembly line.</li>
 </ul>
-<p>Real large-scale LLM training combines all three. For the full treatment — all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with runnable examples — see <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[1] Distributed Training</strong></a>.</p>
+<p>Real large-scale LLM training combines all three. For the full treatment (all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with runnable examples), see <a href="../../01-neural-networks/4-distributed-training/index.html"><strong>[1] Distributed Training</strong></a>.</p>
 </div>
 </div>
 </div>
@@ -763,7 +763,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>This workshop runs on <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a> (SLURM, project <strong><code>m4388</code></strong>). The <code>ezpz launch</code> command below is scheduler-agnostic — it auto-detects the environment (SLURM → <code>srun</code>, PBS → <code>mpiexec</code>) — so the same steps also work on ALCF PBS systems if you switch the allocation command.</p>
+<p>This workshop runs on <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a> (SLURM, project <strong><code>m4388</code></strong>). The <code>ezpz launch</code> command below is scheduler-agnostic: it auto-detects the environment (SLURM → <code>srun</code>, PBS → <code>mpiexec</code>), so the same steps also work on ALCF PBS systems if you switch the allocation command.</p>
 </div>
 </div>
 </div>
@@ -787,13 +787,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li><p>Test Distributed Setup:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="ex">ezpz</span> test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>See: <a href="https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py"><code>ezpz/test_dist.py</code></a></p>
-<p>::: {.callout-tip title=“✅ What you should see — confirm it’s <em>really</em> multi-GPU” collapse=“false”} Before launching anything expensive, make sure <code>ezpz</code> actually discovered <strong>more than one GPU</strong>. Early in the output, <code>ezpz</code> prints a distributed-setup banner with one line per rank, something like:</p>
+<p>::: {.callout-tip title=“✅ What you should see: confirm it’s <em>really</em> multi-GPU” collapse=“false”} Before launching anything expensive, make sure <code>ezpz</code> actually discovered <strong>more than one GPU</strong>. Early in the output, <code>ezpz</code> prints a distributed-setup banner with one line per rank, something like:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource console number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>[2026-07-22 ...][INFO][ezpz.dist] - Using device='cuda' with backend='nccl'</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>[2026-07-22 ...][INFO][ezpz.dist] - ['host'][0/3]   # rank 0 of 4</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>[2026-07-22 ...][INFO][ezpz.dist] - ['host'][1/3]   # rank 1 of 4</span>
 <span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>[2026-07-22 ...][INFO][ezpz.dist] - ['host'][2/3]   # rank 2 of 4</span>
 <span id="cb7-5"><a href="#cb7-5" aria-label="5"></a>[2026-07-22 ...][INFO][ezpz.dist] - ['host'][3/3]   # rank 3 of 4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The number to check is <strong><code>WORLD_SIZE</code></strong> — the total number of ranks (GPUs) across all nodes. Look for the <code>[i/N]</code> rank tags above (here <code>N+1 = 4</code>), or print it directly:</p>
+<p>The number to check is <strong><code>WORLD_SIZE</code></strong>: the total number of ranks (GPUs) across all nodes. Look for the <code>[i/N]</code> rank tags above (here <code>N+1 = 4</code>), or print it directly:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="bu">echo</span> <span class="st">"WORLD_SIZE=</span><span class="va">${WORLD_SIZE}</span><span class="st">"</span>   <span class="co"># set by the launcher inside the job</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong><code>WORLD_SIZE</code> &gt; 1</strong> → you have data parallelism. 🎉 Every rank above is a separate GPU that will process a different slice of each batch.</li>
@@ -812,7 +812,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb10-8"><a href="#cb10-8" aria-label="8"></a>    train.max_iters=1000 <span class="dt">\</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-label="9"></a>    train.log_interval=10 <span class="dt">\</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-label="10"></a>    train.compile=false</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>::: {.callout-tip title=“✅ What you should see — a healthy training run” collapse=“false”} <code>ezpz launch</code> first re-prints the distributed banner (again, confirm <code>WORLD_SIZE</code> matches the number of GPUs you requested), then starts logging one line every <code>log_interval</code> (=10) steps. The key signal of success is that the <strong><code>loss</code> trends downward</strong> as <code>iter</code> climbs:</p>
+<p>::: {.callout-tip title=“✅ What you should see: a healthy training run” collapse=“false”} <code>ezpz launch</code> first re-prints the distributed banner (again, confirm <code>WORLD_SIZE</code> matches the number of GPUs you requested), then starts logging one line every <code>log_interval</code> (=10) steps. The key signal of success is that the <strong><code>loss</code> trends downward</strong> as <code>iter</code> climbs:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource console number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>[ezpz.dist] - Using device='cuda' with backend='nccl', WORLD_SIZE=4</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>...</span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>[wordplay] - iter=10   loss=3.1420  dt=0.182s  sps=5.49  mtps=0.36  mfu=18.7%</span>
@@ -821,7 +821,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb11-6"><a href="#cb11-6" aria-label="6"></a>[wordplay] - iter=100  loss=2.0459  dt=0.177s  sps=5.64  mtps=0.37  mfu=19.4%</span>
 <span id="cb11-7"><a href="#cb11-7" aria-label="7"></a>[wordplay] - iter=100  eval: train_loss=2.03  val_loss=2.11</span>
 <span id="cb11-8"><a href="#cb11-8" aria-label="8"></a>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>(Exact numbers depend on the machine and batch size — don’t worry about matching them.) What matters:</p>
+<p>(Exact numbers depend on the machine and batch size, so don’t worry about matching them.) What matters:</p>
 <ul>
 <li><strong><code>loss</code> is going <em>down</em></strong> over the first ~100 iters (from ~3–4 toward ~2 or lower on tiny-Shakespeare). A flat or rising loss means something is wrong.</li>
 <li><strong><code>dt</code></strong> (seconds/iter) is roughly constant — steady throughput.</li>
@@ -1400,7 +1400,7 @@ Run.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/0
 <span id="cb12-23"><a href="#cb12-23" aria-label="23"></a>This is a **hands-on lab**: you'll launch a real multi-GPU</span>
 <span id="cb12-24"><a href="#cb12-24" aria-label="24"></a><span class="co">[</span><span class="ot">data-parallel</span><span class="co">](#concepts-recap)</span> training run on a supercomputer. It's the</span>
 <span id="cb12-25"><a href="#cb12-25" aria-label="25"></a>practical counterpart to the <span class="co">[</span><span class="ot">**\[1\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-label="26"></a>lesson — read that first if the concepts below are new to you.</span>
+<span id="cb12-26"><a href="#cb12-26" aria-label="26"></a>lesson. Read that first if the concepts below are new to you.</span>
 <span id="cb12-27"><a href="#cb12-27" aria-label="27"></a></span>
 <span id="cb12-28"><a href="#cb12-28" aria-label="28"></a>::: {#concepts-recap .callout-note title="🧠 Concepts recap (30-second version)" collapse="true"}</span>
 <span id="cb12-29"><a href="#cb12-29" aria-label="29"></a>The recipe below runs **Distributed Data Parallelism (DDP)**, the most common way</span>
@@ -1414,9 +1414,9 @@ Run.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/0
 <span id="cb12-37"><a href="#cb12-37" aria-label="37"></a><span class="ss">- </span>**Pipeline Parallel (PP)** — different *layers* live on different GPUs and</span>
 <span id="cb12-38"><a href="#cb12-38" aria-label="38"></a>  micro-batches flow through the stages like an assembly line.</span>
 <span id="cb12-39"><a href="#cb12-39" aria-label="39"></a></span>
-<span id="cb12-40"><a href="#cb12-40" aria-label="40"></a>Real large-scale LLM training combines all three. For the full treatment —</span>
-<span id="cb12-41"><a href="#cb12-41" aria-label="41"></a>all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with</span>
-<span id="cb12-42"><a href="#cb12-42" aria-label="42"></a>runnable examples — see</span>
+<span id="cb12-40"><a href="#cb12-40" aria-label="40"></a>Real large-scale LLM training combines all three. For the full treatment</span>
+<span id="cb12-41"><a href="#cb12-41" aria-label="41"></a>(all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor parallelism with</span>
+<span id="cb12-42"><a href="#cb12-42" aria-label="42"></a>runnable examples), see</span>
 <span id="cb12-43"><a href="#cb12-43" aria-label="43"></a><span class="co">[</span><span class="ot">**\[1\] Distributed Training**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
 <span id="cb12-44"><a href="#cb12-44" aria-label="44"></a>:::</span>
 <span id="cb12-45"><a href="#cb12-45" aria-label="45"></a></span>
@@ -1424,154 +1424,155 @@ Run.”</span> July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/0
 <span id="cb12-47"><a href="#cb12-47" aria-label="47"></a></span>
 <span id="cb12-48"><a href="#cb12-48" aria-label="48"></a>::: {.callout-note}</span>
 <span id="cb12-49"><a href="#cb12-49" aria-label="49"></a>This workshop runs on <span class="co">[</span><span class="ot">NERSC Perlmutter</span><span class="co">](https://docs.nersc.gov/systems/perlmutter/)</span></span>
-<span id="cb12-50"><a href="#cb12-50" aria-label="50"></a>(SLURM, project **`m4388`**). The <span class="in">`ezpz launch`</span> command below is scheduler-agnostic —</span>
-<span id="cb12-51"><a href="#cb12-51" aria-label="51"></a>it auto-detects the environment (SLURM → <span class="in">`srun`</span>, PBS → <span class="in">`mpiexec`</span>) — so the same steps</span>
-<span id="cb12-52"><a href="#cb12-52" aria-label="52"></a>also work on ALCF PBS systems if you switch the allocation command.</span>
-<span id="cb12-53"><a href="#cb12-53" aria-label="53"></a>:::</span>
-<span id="cb12-54"><a href="#cb12-54" aria-label="54"></a></span>
-<span id="cb12-55"><a href="#cb12-55" aria-label="55"></a><span class="ss">1. </span>Log in to Perlmutter and request an interactive GPU node:</span>
-<span id="cb12-56"><a href="#cb12-56" aria-label="56"></a></span>
-<span id="cb12-57"><a href="#cb12-57" aria-label="57"></a>    <span class="in">```bash</span></span>
-<span id="cb12-58"><a href="#cb12-58" aria-label="58"></a>    <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
-<span id="cb12-59"><a href="#cb12-59" aria-label="59"></a>    <span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="at">--constraint</span> gpu <span class="at">--account</span> m4388</span>
-<span id="cb12-60"><a href="#cb12-60" aria-label="60"></a>    <span class="in">```</span></span>
-<span id="cb12-61"><a href="#cb12-61" aria-label="61"></a></span>
-<span id="cb12-62"><a href="#cb12-62" aria-label="62"></a><span class="ss">1. </span>Clone <span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
-<span id="cb12-63"><a href="#cb12-63" aria-label="63"></a></span>
-<span id="cb12-64"><a href="#cb12-64" aria-label="64"></a>    <span class="in">```bash</span></span>
-<span id="cb12-65"><a href="#cb12-65" aria-label="65"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
-<span id="cb12-66"><a href="#cb12-66" aria-label="66"></a>    <span class="bu">cd</span> wordplay</span>
-<span id="cb12-67"><a href="#cb12-67" aria-label="67"></a>    <span class="in">```</span></span>
-<span id="cb12-68"><a href="#cb12-68" aria-label="68"></a></span>
-<span id="cb12-69"><a href="#cb12-69" aria-label="69"></a><span class="ss">1. </span>Setup python (creates / activates a <span class="in">`.venv`</span> and detects the job):</span>
-<span id="cb12-70"><a href="#cb12-70" aria-label="70"></a></span>
-<span id="cb12-71"><a href="#cb12-71" aria-label="71"></a>    <span class="in">```bash</span></span>
-<span id="cb12-72"><a href="#cb12-72" aria-label="72"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
-<span id="cb12-73"><a href="#cb12-73" aria-label="73"></a>    <span class="in">```</span></span>
-<span id="cb12-74"><a href="#cb12-74" aria-label="74"></a></span>
-<span id="cb12-75"><a href="#cb12-75" aria-label="75"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
-<span id="cb12-76"><a href="#cb12-76" aria-label="76"></a></span>
-<span id="cb12-77"><a href="#cb12-77" aria-label="77"></a>    <span class="in">```bash</span></span>
-<span id="cb12-78"><a href="#cb12-78" aria-label="78"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
-<span id="cb12-79"><a href="#cb12-79" aria-label="79"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> .</span>
-<span id="cb12-80"><a href="#cb12-80" aria-label="80"></a>    <span class="in">```</span></span>
-<span id="cb12-81"><a href="#cb12-81" aria-label="81"></a></span>
-<span id="cb12-82"><a href="#cb12-82" aria-label="82"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
-<span id="cb12-83"><a href="#cb12-83" aria-label="83"></a></span>
-<span id="cb12-84"><a href="#cb12-84" aria-label="84"></a>    <span class="in">```bash</span></span>
-<span id="cb12-85"><a href="#cb12-85" aria-label="85"></a>    <span class="co"># to setup:</span></span>
-<span id="cb12-86"><a href="#cb12-86" aria-label="86"></a>    <span class="ex">wandb</span> login</span>
-<span id="cb12-87"><a href="#cb12-87" aria-label="87"></a>    <span class="co"># to disable:</span></span>
-<span id="cb12-88"><a href="#cb12-88" aria-label="88"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
-<span id="cb12-89"><a href="#cb12-89" aria-label="89"></a>    <span class="in">```</span></span>
-<span id="cb12-90"><a href="#cb12-90" aria-label="90"></a></span>
-<span id="cb12-91"><a href="#cb12-91" aria-label="91"></a><span class="ss">1. </span>Test Distributed Setup:</span>
-<span id="cb12-92"><a href="#cb12-92" aria-label="92"></a></span>
-<span id="cb12-93"><a href="#cb12-93" aria-label="93"></a>    <span class="in">```bash</span></span>
-<span id="cb12-94"><a href="#cb12-94" aria-label="94"></a>    <span class="ex">ezpz</span> test</span>
-<span id="cb12-95"><a href="#cb12-95" aria-label="95"></a>    <span class="in">```</span></span>
-<span id="cb12-96"><a href="#cb12-96" aria-label="96"></a></span>
-<span id="cb12-97"><a href="#cb12-97" aria-label="97"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
-<span id="cb12-98"><a href="#cb12-98" aria-label="98"></a></span>
-<span id="cb12-99"><a href="#cb12-99" aria-label="99"></a>    ::: {.callout-tip title="✅ What you should see — confirm it's *really* multi-GPU" collapse="false"}</span>
-<span id="cb12-100"><a href="#cb12-100" aria-label="100"></a>    Before launching anything expensive, make sure <span class="in">`ezpz`</span> actually discovered</span>
-<span id="cb12-101"><a href="#cb12-101" aria-label="101"></a>    **more than one GPU**. Early in the output, <span class="in">`ezpz`</span> prints a distributed-setup</span>
-<span id="cb12-102"><a href="#cb12-102" aria-label="102"></a>    banner with one line per rank, something like:</span>
-<span id="cb12-103"><a href="#cb12-103" aria-label="103"></a></span>
-<span id="cb12-104"><a href="#cb12-104" aria-label="104"></a>    <span class="in">```console</span></span>
-<span id="cb12-105"><a href="#cb12-105" aria-label="105"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> Using device<span class="op">=</span><span class="ch">'c</span><span class="er">uda</span><span class="ch">'</span> with backend<span class="op">=</span><span class="ch">'n</span><span class="er">ccl</span><span class="ch">'</span></span>
-<span id="cb12-106"><a href="#cb12-106" aria-label="106"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">0</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">0</span> of <span class="dv">4</span></span>
-<span id="cb12-107"><a href="#cb12-107" aria-label="107"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">1</span> of <span class="dv">4</span></span>
-<span id="cb12-108"><a href="#cb12-108" aria-label="108"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">2</span> of <span class="dv">4</span></span>
-<span id="cb12-109"><a href="#cb12-109" aria-label="109"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">3</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">3</span> of <span class="dv">4</span></span>
-<span id="cb12-110"><a href="#cb12-110" aria-label="110"></a>    <span class="in">```</span></span>
-<span id="cb12-111"><a href="#cb12-111" aria-label="111"></a></span>
-<span id="cb12-112"><a href="#cb12-112" aria-label="112"></a>    The number to check is **`WORLD_SIZE`** — the total number of ranks (GPUs)</span>
-<span id="cb12-113"><a href="#cb12-113" aria-label="113"></a>    across all nodes. Look for the <span class="in">`[i/N]`</span> rank tags above (here <span class="in">`N+1 = 4`</span>), or</span>
-<span id="cb12-114"><a href="#cb12-114" aria-label="114"></a>    print it directly:</span>
-<span id="cb12-115"><a href="#cb12-115" aria-label="115"></a></span>
-<span id="cb12-116"><a href="#cb12-116" aria-label="116"></a>    <span class="in">```bash</span></span>
-<span id="cb12-117"><a href="#cb12-117" aria-label="117"></a>    <span class="bu">echo</span> <span class="st">"WORLD_SIZE=</span><span class="va">${WORLD_SIZE}</span><span class="st">"</span>   <span class="co"># set by the launcher inside the job</span></span>
-<span id="cb12-118"><a href="#cb12-118" aria-label="118"></a>    <span class="in">```</span></span>
-<span id="cb12-119"><a href="#cb12-119" aria-label="119"></a></span>
-<span id="cb12-120"><a href="#cb12-120" aria-label="120"></a><span class="ss">    - </span>**`WORLD_SIZE` &gt; 1** → you have data parallelism. 🎉 Every rank above is a</span>
-<span id="cb12-121"><a href="#cb12-121" aria-label="121"></a>      separate GPU that will process a different slice of each batch.</span>
-<span id="cb12-122"><a href="#cb12-122" aria-label="122"></a><span class="ss">    - </span>**`WORLD_SIZE` == 1** (only a single `[0/0]` rank) → you're on a **1-GPU**</span>
-<span id="cb12-123"><a href="#cb12-123" aria-label="123"></a>      allocation and are *not* doing data-parallel training. Go back and request</span>
-<span id="cb12-124"><a href="#cb12-124" aria-label="124"></a>      more GPUs (e.g. <span class="in">`salloc ... --gpus-per-node 4`</span>, or add <span class="in">`--nodes`</span>) before</span>
-<span id="cb12-125"><a href="#cb12-125" aria-label="125"></a>      continuing.</span>
-<span id="cb12-126"><a href="#cb12-126" aria-label="126"></a>    :::</span>
-<span id="cb12-127"><a href="#cb12-127" aria-label="127"></a></span>
-<span id="cb12-128"><a href="#cb12-128" aria-label="128"></a><span class="ss">1. </span>Prepare Data:</span>
-<span id="cb12-129"><a href="#cb12-129" aria-label="129"></a></span>
-<span id="cb12-130"><a href="#cb12-130" aria-label="130"></a>    <span class="in">```bash</span></span>
-<span id="cb12-131"><a href="#cb12-131" aria-label="131"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
-<span id="cb12-132"><a href="#cb12-132" aria-label="132"></a>    <span class="in">```</span></span>
-<span id="cb12-133"><a href="#cb12-133" aria-label="133"></a></span>
-<span id="cb12-134"><a href="#cb12-134" aria-label="134"></a><span class="ss">1. </span>Launch Training:</span>
-<span id="cb12-135"><a href="#cb12-135" aria-label="135"></a></span>
-<span id="cb12-136"><a href="#cb12-136" aria-label="136"></a>    <span class="in">```bash</span></span>
-<span id="cb12-137"><a href="#cb12-137" aria-label="137"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb12-138"><a href="#cb12-138" aria-label="138"></a>        train.backend=DDP <span class="dt">\</span></span>
-<span id="cb12-139"><a href="#cb12-139" aria-label="139"></a>        train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb12-140"><a href="#cb12-140" aria-label="140"></a>        data=shakespeare <span class="dt">\</span></span>
-<span id="cb12-141"><a href="#cb12-141" aria-label="141"></a>        train.dtype=bfloat16 <span class="dt">\</span></span>
-<span id="cb12-142"><a href="#cb12-142" aria-label="142"></a>        model.batch_size=64 <span class="dt">\</span></span>
-<span id="cb12-143"><a href="#cb12-143" aria-label="143"></a>        model.block_size=1024 <span class="dt">\</span></span>
-<span id="cb12-144"><a href="#cb12-144" aria-label="144"></a>        train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb12-145"><a href="#cb12-145" aria-label="145"></a>        train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb12-146"><a href="#cb12-146" aria-label="146"></a>        train.compile=false</span>
-<span id="cb12-147"><a href="#cb12-147" aria-label="147"></a>    <span class="in">```</span></span>
-<span id="cb12-148"><a href="#cb12-148" aria-label="148"></a></span>
-<span id="cb12-149"><a href="#cb12-149" aria-label="149"></a>    ::: {.callout-tip title="✅ What you should see — a healthy training run" collapse="false"}</span>
-<span id="cb12-150"><a href="#cb12-150" aria-label="150"></a>    <span class="in">`ezpz launch`</span> first re-prints the distributed banner (again, confirm</span>
-<span id="cb12-151"><a href="#cb12-151" aria-label="151"></a>    <span class="in">`WORLD_SIZE`</span> matches the number of GPUs you requested), then starts logging</span>
-<span id="cb12-152"><a href="#cb12-152" aria-label="152"></a>    one line every <span class="in">`log_interval`</span> (=10) steps. The key signal of success is that</span>
-<span id="cb12-153"><a href="#cb12-153" aria-label="153"></a>    the **`loss` trends downward** as <span class="in">`iter`</span> climbs:</span>
-<span id="cb12-154"><a href="#cb12-154" aria-label="154"></a></span>
-<span id="cb12-155"><a href="#cb12-155" aria-label="155"></a>    <span class="in">```console</span></span>
-<span id="cb12-156"><a href="#cb12-156" aria-label="156"></a>    <span class="op">[</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> Using device<span class="op">=</span><span class="ch">'c</span><span class="er">uda</span><span class="ch">'</span> with backend<span class="op">=</span><span class="ch">'n</span><span class="er">ccl</span><span class="ch">'</span><span class="op">,</span> WORLD_SIZE<span class="op">=</span><span class="dv">4</span></span>
-<span id="cb12-157"><a href="#cb12-157" aria-label="157"></a>    <span class="op">...</span></span>
-<span id="cb12-158"><a href="#cb12-158" aria-label="158"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">10</span>   loss<span class="op">=</span><span class="fl">3.1420</span>  dt<span class="op">=</span><span class="fl">0.182</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.49</span>  mtps<span class="op">=</span><span class="fl">0.36</span>  mfu<span class="op">=</span><span class="fl">18.7</span><span class="op">%</span></span>
-<span id="cb12-159"><a href="#cb12-159" aria-label="159"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">20</span>   loss<span class="op">=</span><span class="fl">2.8107</span>  dt<span class="op">=</span><span class="fl">0.179</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.58</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.1</span><span class="op">%</span></span>
-<span id="cb12-160"><a href="#cb12-160" aria-label="160"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">50</span>   loss<span class="op">=</span><span class="fl">2.4013</span>  dt<span class="op">=</span><span class="fl">0.178</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.61</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.3</span><span class="op">%</span></span>
-<span id="cb12-161"><a href="#cb12-161" aria-label="161"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">100</span>  loss<span class="op">=</span><span class="fl">2.0459</span>  dt<span class="op">=</span><span class="fl">0.177</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.64</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.4</span><span class="op">%</span></span>
-<span id="cb12-162"><a href="#cb12-162" aria-label="162"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">100</span>  eval<span class="op">:</span> train_loss<span class="op">=</span><span class="fl">2.03</span>  val_loss<span class="op">=</span><span class="fl">2.11</span></span>
-<span id="cb12-163"><a href="#cb12-163" aria-label="163"></a>    <span class="op">...</span></span>
-<span id="cb12-164"><a href="#cb12-164" aria-label="164"></a>    <span class="in">```</span></span>
-<span id="cb12-165"><a href="#cb12-165" aria-label="165"></a></span>
-<span id="cb12-166"><a href="#cb12-166" aria-label="166"></a>    (Exact numbers depend on the machine and batch size — don't worry about</span>
-<span id="cb12-167"><a href="#cb12-167" aria-label="167"></a>    matching them.) What matters:</span>
-<span id="cb12-168"><a href="#cb12-168" aria-label="168"></a></span>
-<span id="cb12-169"><a href="#cb12-169" aria-label="169"></a><span class="ss">    - </span>**`loss` is going *down*** over the first ~100 iters (from ~3–4 toward ~2 or</span>
-<span id="cb12-170"><a href="#cb12-170" aria-label="170"></a>      lower on tiny-Shakespeare). A flat or rising loss means something is wrong.</span>
-<span id="cb12-171"><a href="#cb12-171" aria-label="171"></a><span class="ss">    - </span>**`dt`** (seconds/iter) is roughly constant — steady throughput.</span>
-<span id="cb12-172"><a href="#cb12-172" aria-label="172"></a><span class="ss">    - </span>The periodic **`eval`** line (every <span class="in">`eval_interval`</span>=100 iters) reports</span>
-<span id="cb12-173"><a href="#cb12-173" aria-label="173"></a>      <span class="in">`train_loss`</span> / <span class="in">`val_loss`</span>; both should be falling early on.</span>
-<span id="cb12-174"><a href="#cb12-174" aria-label="174"></a></span>
-<span id="cb12-175"><a href="#cb12-175" aria-label="175"></a>    If instead you see a single rank, a <span class="in">`loss`</span> stuck near its initial value, or</span>
-<span id="cb12-176"><a href="#cb12-176" aria-label="176"></a>    NCCL/<span class="in">`srun`</span> errors, stop and re-check the earlier steps.</span>
-<span id="cb12-177"><a href="#cb12-177" aria-label="177"></a>    :::</span>
-<span id="cb12-178"><a href="#cb12-178" aria-label="178"></a></span>
-<span id="cb12-179"><a href="#cb12-179" aria-label="179"></a><span class="fu">## 🎒 Homework</span></span>
-<span id="cb12-180"><a href="#cb12-180" aria-label="180"></a></span>
-<span id="cb12-181"><a href="#cb12-181" aria-label="181"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
-<span id="cb12-182"><a href="#cb12-182" aria-label="182"></a></span>
-<span id="cb12-183"><a href="#cb12-183" aria-label="183"></a>Where _proof_ can be any of:</span>
-<span id="cb12-184"><a href="#cb12-184" aria-label="184"></a></span>
-<span id="cb12-185"><a href="#cb12-185" aria-label="185"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
-<span id="cb12-186"><a href="#cb12-186" aria-label="186"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the NERSC filesystems</span>
-<span id="cb12-187"><a href="#cb12-187" aria-label="187"></a>  (e.g. under your <span class="in">`m4388`</span> project space)</span>
-<span id="cb12-188"><a href="#cb12-188" aria-label="188"></a><span class="ss">- </span>A screenshot of:</span>
-<span id="cb12-189"><a href="#cb12-189" aria-label="189"></a><span class="ss">  - </span>the text printed out from the run</span>
-<span id="cb12-190"><a href="#cb12-190" aria-label="190"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
-<span id="cb12-191"><a href="#cb12-191" aria-label="191"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
-<span id="cb12-192"><a href="#cb12-192" aria-label="192"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
-<span id="cb12-193"><a href="#cb12-193" aria-label="193"></a><span class="ss">- </span>etc.</span>
-<span id="cb12-194"><a href="#cb12-194" aria-label="194"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-label="50"></a>(SLURM, project **`m4388`**). The <span class="in">`ezpz launch`</span> command below is</span>
+<span id="cb12-51"><a href="#cb12-51" aria-label="51"></a>scheduler-agnostic: it auto-detects the environment (SLURM → <span class="in">`srun`</span>, PBS →</span>
+<span id="cb12-52"><a href="#cb12-52" aria-label="52"></a><span class="in">`mpiexec`</span>), so the same steps also work on ALCF PBS systems if you switch the</span>
+<span id="cb12-53"><a href="#cb12-53" aria-label="53"></a>allocation command.</span>
+<span id="cb12-54"><a href="#cb12-54" aria-label="54"></a>:::</span>
+<span id="cb12-55"><a href="#cb12-55" aria-label="55"></a></span>
+<span id="cb12-56"><a href="#cb12-56" aria-label="56"></a><span class="ss">1. </span>Log in to Perlmutter and request an interactive GPU node:</span>
+<span id="cb12-57"><a href="#cb12-57" aria-label="57"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-label="58"></a>    <span class="in">```bash</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-label="59"></a>    <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb12-60"><a href="#cb12-60" aria-label="60"></a>    <span class="ex">salloc</span> <span class="at">--nodes</span> 1 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="at">--constraint</span> gpu <span class="at">--account</span> m4388</span>
+<span id="cb12-61"><a href="#cb12-61" aria-label="61"></a>    <span class="in">```</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-label="62"></a></span>
+<span id="cb12-63"><a href="#cb12-63" aria-label="63"></a><span class="ss">1. </span>Clone <span class="co">[</span><span class="ot">`saforem2/wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>:</span>
+<span id="cb12-64"><a href="#cb12-64" aria-label="64"></a></span>
+<span id="cb12-65"><a href="#cb12-65" aria-label="65"></a>    <span class="in">```bash</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-label="66"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb12-67"><a href="#cb12-67" aria-label="67"></a>    <span class="bu">cd</span> wordplay</span>
+<span id="cb12-68"><a href="#cb12-68" aria-label="68"></a>    <span class="in">```</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-label="69"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-label="70"></a><span class="ss">1. </span>Setup python (creates / activates a <span class="in">`.venv`</span> and detects the job):</span>
+<span id="cb12-71"><a href="#cb12-71" aria-label="71"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-label="72"></a>    <span class="in">```bash</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-label="73"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-label="74"></a>    <span class="in">```</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-label="75"></a></span>
+<span id="cb12-76"><a href="#cb12-76" aria-label="76"></a><span class="ss">1. </span>Install <span class="in">`{ezpz, wordplay}`</span>:</span>
+<span id="cb12-77"><a href="#cb12-77" aria-label="77"></a></span>
+<span id="cb12-78"><a href="#cb12-78" aria-label="78"></a>    <span class="in">```bash</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-label="79"></a>    <span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
+<span id="cb12-80"><a href="#cb12-80" aria-label="80"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> .</span>
+<span id="cb12-81"><a href="#cb12-81" aria-label="81"></a>    <span class="in">```</span></span>
+<span id="cb12-82"><a href="#cb12-82" aria-label="82"></a></span>
+<span id="cb12-83"><a href="#cb12-83" aria-label="83"></a><span class="ss">1. </span>Setup (or disable) <span class="co">[</span><span class="ot">`wandb`</span><span class="co">](https://wandb.ai)</span>:</span>
+<span id="cb12-84"><a href="#cb12-84" aria-label="84"></a></span>
+<span id="cb12-85"><a href="#cb12-85" aria-label="85"></a>    <span class="in">```bash</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-label="86"></a>    <span class="co"># to setup:</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-label="87"></a>    <span class="ex">wandb</span> login</span>
+<span id="cb12-88"><a href="#cb12-88" aria-label="88"></a>    <span class="co"># to disable:</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-label="89"></a>    <span class="bu">export</span> <span class="va">WANDB_DISABLED</span><span class="op">=</span>1</span>
+<span id="cb12-90"><a href="#cb12-90" aria-label="90"></a>    <span class="in">```</span></span>
+<span id="cb12-91"><a href="#cb12-91" aria-label="91"></a></span>
+<span id="cb12-92"><a href="#cb12-92" aria-label="92"></a><span class="ss">1. </span>Test Distributed Setup:</span>
+<span id="cb12-93"><a href="#cb12-93" aria-label="93"></a></span>
+<span id="cb12-94"><a href="#cb12-94" aria-label="94"></a>    <span class="in">```bash</span></span>
+<span id="cb12-95"><a href="#cb12-95" aria-label="95"></a>    <span class="ex">ezpz</span> test</span>
+<span id="cb12-96"><a href="#cb12-96" aria-label="96"></a>    <span class="in">```</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-label="97"></a></span>
+<span id="cb12-98"><a href="#cb12-98" aria-label="98"></a>    See: <span class="co">[</span><span class="ot">`ezpz/test_dist.py`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)</span></span>
+<span id="cb12-99"><a href="#cb12-99" aria-label="99"></a></span>
+<span id="cb12-100"><a href="#cb12-100" aria-label="100"></a>    ::: {.callout-tip title="✅ What you should see: confirm it's *really* multi-GPU" collapse="false"}</span>
+<span id="cb12-101"><a href="#cb12-101" aria-label="101"></a>    Before launching anything expensive, make sure <span class="in">`ezpz`</span> actually discovered</span>
+<span id="cb12-102"><a href="#cb12-102" aria-label="102"></a>    **more than one GPU**. Early in the output, <span class="in">`ezpz`</span> prints a distributed-setup</span>
+<span id="cb12-103"><a href="#cb12-103" aria-label="103"></a>    banner with one line per rank, something like:</span>
+<span id="cb12-104"><a href="#cb12-104" aria-label="104"></a></span>
+<span id="cb12-105"><a href="#cb12-105" aria-label="105"></a>    <span class="in">```console</span></span>
+<span id="cb12-106"><a href="#cb12-106" aria-label="106"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> Using device<span class="op">=</span><span class="ch">'c</span><span class="er">uda</span><span class="ch">'</span> with backend<span class="op">=</span><span class="ch">'n</span><span class="er">ccl</span><span class="ch">'</span></span>
+<span id="cb12-107"><a href="#cb12-107" aria-label="107"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">0</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">0</span> of <span class="dv">4</span></span>
+<span id="cb12-108"><a href="#cb12-108" aria-label="108"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">1</span> of <span class="dv">4</span></span>
+<span id="cb12-109"><a href="#cb12-109" aria-label="109"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">2</span> of <span class="dv">4</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-label="110"></a>    <span class="op">[</span><span class="dv">2026</span><span class="op">-</span><span class="bn">07</span><span class="op">-</span><span class="dv">22</span> <span class="op">...][</span>INFO<span class="op">][</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> <span class="op">[</span><span class="ch">'h</span><span class="er">ost</span><span class="ch">'</span><span class="op">][</span><span class="dv">3</span><span class="op">/</span><span class="dv">3</span><span class="op">]</span>   # rank <span class="dv">3</span> of <span class="dv">4</span></span>
+<span id="cb12-111"><a href="#cb12-111" aria-label="111"></a>    <span class="in">```</span></span>
+<span id="cb12-112"><a href="#cb12-112" aria-label="112"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-label="113"></a>    The number to check is **`WORLD_SIZE`**: the total number of ranks (GPUs)</span>
+<span id="cb12-114"><a href="#cb12-114" aria-label="114"></a>    across all nodes. Look for the <span class="in">`[i/N]`</span> rank tags above (here <span class="in">`N+1 = 4`</span>), or</span>
+<span id="cb12-115"><a href="#cb12-115" aria-label="115"></a>    print it directly:</span>
+<span id="cb12-116"><a href="#cb12-116" aria-label="116"></a></span>
+<span id="cb12-117"><a href="#cb12-117" aria-label="117"></a>    <span class="in">```bash</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-label="118"></a>    <span class="bu">echo</span> <span class="st">"WORLD_SIZE=</span><span class="va">${WORLD_SIZE}</span><span class="st">"</span>   <span class="co"># set by the launcher inside the job</span></span>
+<span id="cb12-119"><a href="#cb12-119" aria-label="119"></a>    <span class="in">```</span></span>
+<span id="cb12-120"><a href="#cb12-120" aria-label="120"></a></span>
+<span id="cb12-121"><a href="#cb12-121" aria-label="121"></a><span class="ss">    - </span>**`WORLD_SIZE` &gt; 1** → you have data parallelism. 🎉 Every rank above is a</span>
+<span id="cb12-122"><a href="#cb12-122" aria-label="122"></a>      separate GPU that will process a different slice of each batch.</span>
+<span id="cb12-123"><a href="#cb12-123" aria-label="123"></a><span class="ss">    - </span>**`WORLD_SIZE` == 1** (only a single `[0/0]` rank) → you're on a **1-GPU**</span>
+<span id="cb12-124"><a href="#cb12-124" aria-label="124"></a>      allocation and are *not* doing data-parallel training. Go back and request</span>
+<span id="cb12-125"><a href="#cb12-125" aria-label="125"></a>      more GPUs (e.g. <span class="in">`salloc ... --gpus-per-node 4`</span>, or add <span class="in">`--nodes`</span>) before</span>
+<span id="cb12-126"><a href="#cb12-126" aria-label="126"></a>      continuing.</span>
+<span id="cb12-127"><a href="#cb12-127" aria-label="127"></a>    :::</span>
+<span id="cb12-128"><a href="#cb12-128" aria-label="128"></a></span>
+<span id="cb12-129"><a href="#cb12-129" aria-label="129"></a><span class="ss">1. </span>Prepare Data:</span>
+<span id="cb12-130"><a href="#cb12-130" aria-label="130"></a></span>
+<span id="cb12-131"><a href="#cb12-131" aria-label="131"></a>    <span class="in">```bash</span></span>
+<span id="cb12-132"><a href="#cb12-132" aria-label="132"></a>    <span class="ex">python3</span> data/shakespeare_char/prepare.py</span>
+<span id="cb12-133"><a href="#cb12-133" aria-label="133"></a>    <span class="in">```</span></span>
+<span id="cb12-134"><a href="#cb12-134" aria-label="134"></a></span>
+<span id="cb12-135"><a href="#cb12-135" aria-label="135"></a><span class="ss">1. </span>Launch Training:</span>
+<span id="cb12-136"><a href="#cb12-136" aria-label="136"></a></span>
+<span id="cb12-137"><a href="#cb12-137" aria-label="137"></a>    <span class="in">```bash</span></span>
+<span id="cb12-138"><a href="#cb12-138" aria-label="138"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay <span class="dt">\</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-label="139"></a>        train.backend=DDP <span class="dt">\</span></span>
+<span id="cb12-140"><a href="#cb12-140" aria-label="140"></a>        train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb12-141"><a href="#cb12-141" aria-label="141"></a>        data=shakespeare <span class="dt">\</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-label="142"></a>        train.dtype=bfloat16 <span class="dt">\</span></span>
+<span id="cb12-143"><a href="#cb12-143" aria-label="143"></a>        model.batch_size=64 <span class="dt">\</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-label="144"></a>        model.block_size=1024 <span class="dt">\</span></span>
+<span id="cb12-145"><a href="#cb12-145" aria-label="145"></a>        train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb12-146"><a href="#cb12-146" aria-label="146"></a>        train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-label="147"></a>        train.compile=false</span>
+<span id="cb12-148"><a href="#cb12-148" aria-label="148"></a>    <span class="in">```</span></span>
+<span id="cb12-149"><a href="#cb12-149" aria-label="149"></a></span>
+<span id="cb12-150"><a href="#cb12-150" aria-label="150"></a>    ::: {.callout-tip title="✅ What you should see: a healthy training run" collapse="false"}</span>
+<span id="cb12-151"><a href="#cb12-151" aria-label="151"></a>    <span class="in">`ezpz launch`</span> first re-prints the distributed banner (again, confirm</span>
+<span id="cb12-152"><a href="#cb12-152" aria-label="152"></a>    <span class="in">`WORLD_SIZE`</span> matches the number of GPUs you requested), then starts logging</span>
+<span id="cb12-153"><a href="#cb12-153" aria-label="153"></a>    one line every <span class="in">`log_interval`</span> (=10) steps. The key signal of success is that</span>
+<span id="cb12-154"><a href="#cb12-154" aria-label="154"></a>    the **`loss` trends downward** as <span class="in">`iter`</span> climbs:</span>
+<span id="cb12-155"><a href="#cb12-155" aria-label="155"></a></span>
+<span id="cb12-156"><a href="#cb12-156" aria-label="156"></a>    <span class="in">```console</span></span>
+<span id="cb12-157"><a href="#cb12-157" aria-label="157"></a>    <span class="op">[</span>ezpz<span class="op">.</span>dist<span class="op">]</span> <span class="op">-</span> Using device<span class="op">=</span><span class="ch">'c</span><span class="er">uda</span><span class="ch">'</span> with backend<span class="op">=</span><span class="ch">'n</span><span class="er">ccl</span><span class="ch">'</span><span class="op">,</span> WORLD_SIZE<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb12-158"><a href="#cb12-158" aria-label="158"></a>    <span class="op">...</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-label="159"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">10</span>   loss<span class="op">=</span><span class="fl">3.1420</span>  dt<span class="op">=</span><span class="fl">0.182</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.49</span>  mtps<span class="op">=</span><span class="fl">0.36</span>  mfu<span class="op">=</span><span class="fl">18.7</span><span class="op">%</span></span>
+<span id="cb12-160"><a href="#cb12-160" aria-label="160"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">20</span>   loss<span class="op">=</span><span class="fl">2.8107</span>  dt<span class="op">=</span><span class="fl">0.179</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.58</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.1</span><span class="op">%</span></span>
+<span id="cb12-161"><a href="#cb12-161" aria-label="161"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">50</span>   loss<span class="op">=</span><span class="fl">2.4013</span>  dt<span class="op">=</span><span class="fl">0.178</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.61</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.3</span><span class="op">%</span></span>
+<span id="cb12-162"><a href="#cb12-162" aria-label="162"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">100</span>  loss<span class="op">=</span><span class="fl">2.0459</span>  dt<span class="op">=</span><span class="fl">0.177</span><span class="er">s</span>  sps<span class="op">=</span><span class="fl">5.64</span>  mtps<span class="op">=</span><span class="fl">0.37</span>  mfu<span class="op">=</span><span class="fl">19.4</span><span class="op">%</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-label="163"></a>    <span class="op">[</span>wordplay<span class="op">]</span> <span class="op">-</span> iter<span class="op">=</span><span class="dv">100</span>  eval<span class="op">:</span> train_loss<span class="op">=</span><span class="fl">2.03</span>  val_loss<span class="op">=</span><span class="fl">2.11</span></span>
+<span id="cb12-164"><a href="#cb12-164" aria-label="164"></a>    <span class="op">...</span></span>
+<span id="cb12-165"><a href="#cb12-165" aria-label="165"></a>    <span class="in">```</span></span>
+<span id="cb12-166"><a href="#cb12-166" aria-label="166"></a></span>
+<span id="cb12-167"><a href="#cb12-167" aria-label="167"></a>    (Exact numbers depend on the machine and batch size, so don't worry about</span>
+<span id="cb12-168"><a href="#cb12-168" aria-label="168"></a>    matching them.) What matters:</span>
+<span id="cb12-169"><a href="#cb12-169" aria-label="169"></a></span>
+<span id="cb12-170"><a href="#cb12-170" aria-label="170"></a><span class="ss">    - </span>**`loss` is going *down*** over the first ~100 iters (from ~3–4 toward ~2 or</span>
+<span id="cb12-171"><a href="#cb12-171" aria-label="171"></a>      lower on tiny-Shakespeare). A flat or rising loss means something is wrong.</span>
+<span id="cb12-172"><a href="#cb12-172" aria-label="172"></a><span class="ss">    - </span>**`dt`** (seconds/iter) is roughly constant — steady throughput.</span>
+<span id="cb12-173"><a href="#cb12-173" aria-label="173"></a><span class="ss">    - </span>The periodic **`eval`** line (every <span class="in">`eval_interval`</span>=100 iters) reports</span>
+<span id="cb12-174"><a href="#cb12-174" aria-label="174"></a>      <span class="in">`train_loss`</span> / <span class="in">`val_loss`</span>; both should be falling early on.</span>
+<span id="cb12-175"><a href="#cb12-175" aria-label="175"></a></span>
+<span id="cb12-176"><a href="#cb12-176" aria-label="176"></a>    If instead you see a single rank, a <span class="in">`loss`</span> stuck near its initial value, or</span>
+<span id="cb12-177"><a href="#cb12-177" aria-label="177"></a>    NCCL/<span class="in">`srun`</span> errors, stop and re-check the earlier steps.</span>
+<span id="cb12-178"><a href="#cb12-178" aria-label="178"></a>    :::</span>
+<span id="cb12-179"><a href="#cb12-179" aria-label="179"></a></span>
+<span id="cb12-180"><a href="#cb12-180" aria-label="180"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-label="181"></a></span>
+<span id="cb12-182"><a href="#cb12-182" aria-label="182"></a>Submit _proof_ that you were able to successfully follow the above instructions and launch a distributed data parallel training run.</span>
+<span id="cb12-183"><a href="#cb12-183" aria-label="183"></a></span>
+<span id="cb12-184"><a href="#cb12-184" aria-label="184"></a>Where _proof_ can be any of:</span>
+<span id="cb12-185"><a href="#cb12-185" aria-label="185"></a></span>
+<span id="cb12-186"><a href="#cb12-186" aria-label="186"></a><span class="ss">- </span>The contents printed out to your terminal during the run</span>
+<span id="cb12-187"><a href="#cb12-187" aria-label="187"></a><span class="ss">- </span>A path to a logfile containing the output from a run on the NERSC filesystems</span>
+<span id="cb12-188"><a href="#cb12-188" aria-label="188"></a>  (e.g. under your <span class="in">`m4388`</span> project space)</span>
+<span id="cb12-189"><a href="#cb12-189" aria-label="189"></a><span class="ss">- </span>A screenshot of:</span>
+<span id="cb12-190"><a href="#cb12-190" aria-label="190"></a><span class="ss">  - </span>the text printed out from the run</span>
+<span id="cb12-191"><a href="#cb12-191" aria-label="191"></a><span class="ss">  - </span>a graph from the W&amp;B Run</span>
+<span id="cb12-192"><a href="#cb12-192" aria-label="192"></a><span class="ss">  - </span>anything that shows that you clearly were able to run the example</span>
+<span id="cb12-193"><a href="#cb12-193" aria-label="193"></a><span class="ss">- </span>url to a W&amp;B Run or <span class="co">[</span><span class="ot">W&amp;B Report</span><span class="co">](https://api.wandb.ai/links/aurora_gpt/7du35js1)</span></span>
+<span id="cb12-194"><a href="#cb12-194" aria-label="194"></a><span class="ss">- </span>etc.</span>
 <span id="cb12-195"><a href="#cb12-195" aria-label="195"></a></span>
 <span id="cb12-196"><a href="#cb12-196" aria-label="196"></a></span>
-<span id="cb12-197"><a href="#cb12-197" aria-label="197"></a><span class="co">&lt;!--[^gpu]: If you do not have access to Perlmutter, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb12-197"><a href="#cb12-197" aria-label="197"></a></span>
+<span id="cb12-198"><a href="#cb12-198" aria-label="198"></a><span class="co">&lt;!--[^gpu]: If you do not have access to Perlmutter, you can install [OpenMPI](https://docs.open-mpi.org/en/v5.0.x/) and run across multiple CPUs as well--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

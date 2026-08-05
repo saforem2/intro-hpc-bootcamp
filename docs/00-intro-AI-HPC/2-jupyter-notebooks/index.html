@@ -705,7 +705,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -727,7 +727,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The majority of the material runs on a <strong>laptop or <a href="https://colab.research.google.com">Google Colab</a></strong> — look for the Colab badge at the top of each notebook. Sections <strong>[0]–[2.0]</strong> (Python, data, first models, neural-network basics, intro to LLMs) need nothing but a browser.</p>
+<p>The majority of the material runs on a <strong>laptop or <a href="https://colab.research.google.com">Google Colab</a></strong>; look for the Colab badge at the top of each notebook. Sections <strong>[0]–[2.0]</strong> (Python, data, first models, neural-network basics, intro to LLMs) need nothing but a browser.</p>
 <p>You only need HPC access for the <strong>large-scale labs</strong>:</p>
 <ul>
 <li><strong><a href="../../01-neural-networks/4-distributed-training/">[1.4] Distributed Training</a></strong></li>
@@ -737,7 +737,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p>If you’re just getting started, skip ahead and come back to this page when you reach one of those labs.</p>
 </div>
 </div>
-<p>The bootcamp’s reference machine is <strong><a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (a SLURM system, project <code>m4388</code>). The workflow is the same on ALCF PBS systems (Polaris, Sophia) — only the scheduler commands differ, and there’s a <a href="#pbs-slurm">translation table</a> below.</p>
+<p>The bootcamp’s reference machine is <strong><a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (a SLURM system, project <code>m4388</code>). The workflow is the same on ALCF PBS systems (Polaris, Sophia); only the scheduler commands differ, and there’s a <a href="#pbs-slurm">translation table</a> below.</p>
 <section id="getting-an-account-logging-in" class="level2">
 <h2 class="anchored" data-anchor-id="getting-an-account-logging-in">🔑 Getting an account &amp; logging in</h2>
 <p>To use Perlmutter you need (1) a NERSC account and (2) membership in the course allocation. Account requests and MFA setup are handled through <a href="https://iris.nersc.gov/">Iris</a> / the <a href="https://docs.nersc.gov/accounts/">NERSC docs</a>; your instructors will add you to project <code>m4388</code>.</p>
@@ -780,7 +780,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A compute-node Jupyter server is a real scheduled job — it holds those nodes (and burns allocation) until it stops. Closing the browser tab does <strong>not</strong> free the node. Use <strong>File → Hub Control Panel → Stop My Server</strong> when you finish.</p>
+<p>A compute-node Jupyter server is a real scheduled job: it holds those nodes (and burns allocation) until it stops. Closing the browser tab does <strong>not</strong> free the node. Use <strong>File → Hub Control Panel → Stop My Server</strong> when you finish.</p>
 </div>
 </div>
 <p>The exact server-option labels on the spawn page change over time, so rather than memorizing menu items, follow the authoritative walkthrough:</p>
@@ -788,8 +788,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </section>
 <section id="kernels-environments-the-1-gotcha" class="level2">
 <h2 class="anchored" data-anchor-id="kernels-environments-the-1-gotcha">🐍 Kernels &amp; environments (the #1 gotcha)</h2>
-<p>Here’s the failure mode that catches almost every newcomer: you open a notebook, run <code>import torch</code>, and get <code>ModuleNotFoundError</code> — even though you <em>know</em> you installed it. The culprit is almost always the <strong>kernel</strong>.</p>
-<p>A <strong>kernel</strong> is the specific Python interpreter (and its installed packages) that executes your cells. The dropdown in the top-right of a notebook (or the tiles in the Launcher) lets you choose it. <strong>A conda environment or a <code>venv</code> is not automatically a kernel</strong> — you have to register it first. Once registered, it shows up as a selectable kernel in Jupyter.</p>
+<p>Here’s the failure mode that catches almost every newcomer: you open a notebook, run <code>import torch</code>, and get <code>ModuleNotFoundError</code>, even though you <em>know</em> you installed it. The culprit is almost always the <strong>kernel</strong>.</p>
+<p>A <strong>kernel</strong> is the specific Python interpreter (and its installed packages) that executes your cells. The dropdown in the top-right of a notebook (or the tiles in the Launcher) lets you choose it. <strong>A conda environment or a <code>venv</code> is not automatically a kernel.</strong> You have to register it first. Once registered, it shows up as a selectable kernel in Jupyter.</p>
 <p>Each Jupyter kernel is just a small JSON file (a “kernelspec”) pointing at one Python interpreter. Registering your environment writes that file:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># 1. activate the environment you want to use</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="ex">conda</span> activate myenv          <span class="co"># (or: source .venv/bin/activate)</span></span>
@@ -818,10 +818,10 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Run this in a notebook cell — it tells you exactly which interpreter the kernel is using and whether your package is visible:</p>
+<p>Run this in a notebook cell. It tells you exactly which interpreter the kernel is using and whether your package is visible:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">import</span> sys<span class="op">;</span> <span class="bu">print</span>(sys.executable)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="im">import</span> torch<span class="op">;</span> <span class="bu">print</span>(torch.__version__)   <span class="co"># should NOT raise ModuleNotFoundError</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If <code>sys.executable</code> isn’t the environment you expected, you picked the wrong kernel — switch it in the top-right dropdown.</p>
+<p>If <code>sys.executable</code> isn’t the environment you expected, you picked the wrong kernel. Switch it in the top-right dropdown.</p>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled" title="📦 Prefer the provided modules when you can">
@@ -840,7 +840,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </section>
 <section id="pbs-slurm" class="level2">
 <h2 class="anchored" data-anchor-id="pbs-slurm">🔁 PBS ↔︎ SLURM cheatsheet</h2>
-<p>You’ll meet two schedulers in the wild: <strong>PBS Pro</strong> (ALCF: Polaris, Sophia) and <strong>SLURM</strong> (NERSC: Perlmutter). The concepts are identical — see <a href="../1-shared-resources/">[0.1] Shared Resources</a> for the full walkthrough — only the commands differ. If you know one, this table gets you the other:</p>
+<p>You’ll meet two schedulers in the wild: <strong>PBS Pro</strong> (ALCF: Polaris, Sophia) and <strong>SLURM</strong> (NERSC: Perlmutter). The concepts are identical (see <a href="../1-shared-resources/">[0.1] Shared Resources</a> for the full walkthrough); only the commands differ. If you know one, this table gets you the other:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -936,12 +936,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li><p><strong>Get the code</strong> into your project space:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/m4388/</span><span class="va">$USER</span><span class="st">"</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a><span class="fu">git</span> clone https://github.com/saforem2/wordplay <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> wordplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><strong>Set up Python</strong> — this creates/activates a <code>.venv</code> and detects the job:</p>
+<li><p><strong>Set up Python</strong> (this creates/activates a <code>.venv</code> and detects the job):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Verify the distributed setup</strong> (should print one line per GPU):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="ex">ezpz</span> test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><strong>Launch</strong> — <code>ezpz launch</code> figures out <code>srun</code>/<code>mpiexec</code> for you:</p>
+<li><p><strong>Launch.</strong> <code>ezpz launch</code> figures out <code>srun</code>/<code>mpiexec</code> for you:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay data=shakespeare train.max_iters=1000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 <p>The full, annotated end-to-end run (with expected output) lives on the <a href="../../01-neural-networks/4-distributed-training/">[1.4] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/">[2.1] Parallel Training</a> pages.</p>
@@ -961,8 +961,8 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </section>
 <section id="alcf-jupyter-polaris-sophia" class="level2">
 <h2 class="anchored" data-anchor-id="alcf-jupyter-polaris-sophia">🧪 ALCF Jupyter (Polaris / Sophia)</h2>
-<p>If you’re on an ALCF machine instead of NERSC, the flow is analogous — a hosted JupyterHub that spawns a notebook server as a PBS job:</p>
-<p>➡️ <strong><a href="https://jupyter.alcf.anl.gov/">jupyter.alcf.anl.gov</a></strong> — log in with your ALCF credentials + MFA and select the target system (<strong>Polaris</strong> or <strong>Sophia</strong>), your project, a queue, and a runtime.</p>
+<p>If you’re on an ALCF machine instead of NERSC, the flow is analogous: a hosted JupyterHub that spawns a notebook server as a PBS job:</p>
+<p>➡️ <strong><a href="https://jupyter.alcf.anl.gov/">jupyter.alcf.anl.gov</a></strong>. Log in with your ALCF credentials + MFA and select the target system (<strong>Polaris</strong> or <strong>Sophia</strong>), your project, a queue, and a runtime.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../img/jupyter_login_01.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Logging in to the ALCF JupyterHub portal"><img src="../img/jupyter_login_01.gif" class="img-fluid figure-img" alt="Logging in to the ALCF JupyterHub portal"></a></p>
@@ -976,7 +976,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <figcaption>Shutting down your ALCF Jupyter server</figcaption>
 </figure>
 </div>
-<p>Everything else — registering a conda/venv as a kernel with <code>ipykernel</code>, the <code>import</code> sanity-check — works identically. For current queue names, project flags, and portal specifics, see the <strong><a href="https://docs.alcf.anl.gov/services/jupyter-hub/">ALCF Jupyter Hub docs</a></strong>.</p>
+<p>Everything else works identically: registering a conda/venv as a kernel with <code>ipykernel</code>, the <code>import</code> sanity-check. For current queue names, project flags, and portal specifics, see the <strong><a href="https://docs.alcf.anl.gov/services/jupyter-hub/">ALCF Jupyter Hub docs</a></strong>.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🧠 Check your understanding">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1002,7 +1002,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The server is a scheduled job holding a GPU node (and burning allocation) until it stops. Closing the tab doesn’t stop it — use <strong>Hub Control Panel → Stop My Server</strong>.</p>
+<p>The server is a scheduled job holding a GPU node (and burning allocation) until it stops. Closing the tab doesn’t stop it. Use <strong>Hub Control Panel → Stop My Server</strong>.</p>
 </div>
 </div>
 </div>
@@ -1036,7 +1036,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>qsub</code> — PBS’s batch submit command. See the <a href="#pbs-slurm">cheatsheet</a> above.</p>
+<p><code>qsub</code>, PBS’s batch submit command. See the <a href="#pbs-slurm">cheatsheet</a> above.</p>
 </div>
 </div>
 </div>
@@ -1592,7 +1592,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-18"><a href="#cb11-18" aria-label="18"></a>notebook is using the **right Python environment**.</span>
 <span id="cb11-19"><a href="#cb11-19" aria-label="19"></a></span>
 <span id="cb11-20"><a href="#cb11-20" aria-label="20"></a>::: {.callout-important title="🧭 You do NOT need a cluster account for most of this course"}</span>
-<span id="cb11-21"><a href="#cb11-21" aria-label="21"></a>The majority of the material runs on a **laptop or [Google Colab](https://colab.research.google.com)** —</span>
+<span id="cb11-21"><a href="#cb11-21" aria-label="21"></a>The majority of the material runs on a **laptop or [Google Colab](https://colab.research.google.com)**;</span>
 <span id="cb11-22"><a href="#cb11-22" aria-label="22"></a>look for the Colab badge at the top of each notebook. Sections **[0]–[2.0]**</span>
 <span id="cb11-23"><a href="#cb11-23" aria-label="23"></a>(Python, data, first models, neural-network basics, intro to LLMs) need nothing</span>
 <span id="cb11-24"><a href="#cb11-24" aria-label="24"></a>but a browser.</span>
@@ -1609,7 +1609,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-35"><a href="#cb11-35" aria-label="35"></a></span>
 <span id="cb11-36"><a href="#cb11-36" aria-label="36"></a>The bootcamp's reference machine is **[NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**</span>
 <span id="cb11-37"><a href="#cb11-37" aria-label="37"></a>(a SLURM system, project <span class="in">`m4388`</span>). The workflow is the same on ALCF PBS systems</span>
-<span id="cb11-38"><a href="#cb11-38" aria-label="38"></a>(Polaris, Sophia) — only the scheduler commands differ, and there's a</span>
+<span id="cb11-38"><a href="#cb11-38" aria-label="38"></a>(Polaris, Sophia); only the scheduler commands differ, and there's a</span>
 <span id="cb11-39"><a href="#cb11-39" aria-label="39"></a><span class="co">[</span><span class="ot">translation table</span><span class="co">](#pbs-slurm)</span> below.</span>
 <span id="cb11-40"><a href="#cb11-40" aria-label="40"></a></span>
 <span id="cb11-41"><a href="#cb11-41" aria-label="41"></a><span class="fu">## 🔑 Getting an account &amp; logging in</span></span>
@@ -1661,7 +1661,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-87"><a href="#cb11-87" aria-label="87"></a>  <span class="ex">training</span> labs.</span>
 <span id="cb11-88"><a href="#cb11-88" aria-label="88"></a></span>
 <span id="cb11-89"><a href="#cb11-89" aria-label="89"></a><span class="ex">:::</span> {.callout-warning title=<span class="st">"⚠️ Shut down your server when you're done"</span>}</span>
-<span id="cb11-90"><a href="#cb11-90" aria-label="90"></a><span class="ex">A</span> compute-node Jupyter server is a real scheduled job — it holds those nodes <span class="er">(</span><span class="ex">and</span></span>
+<span id="cb11-90"><a href="#cb11-90" aria-label="90"></a><span class="ex">A</span> compute-node Jupyter server is a real scheduled job: it holds those nodes <span class="er">(</span><span class="ex">and</span></span>
 <span id="cb11-91"><a href="#cb11-91" aria-label="91"></a><span class="ex">burns</span> allocation<span class="kw">)</span> <span class="cf">until</span> <span class="ex">it</span> stops. Closing the browser tab does <span class="pp">**</span>not<span class="pp">**</span> free the</span>
 <span id="cb11-92"><a href="#cb11-92" aria-label="92"></a><span class="ex">node.</span> Use <span class="pp">**</span>File → Hub Control Panel → Stop My Server<span class="pp">**</span> when you finish.</span>
 <span id="cb11-93"><a href="#cb11-93" aria-label="93"></a><span class="ex">:::</span></span>
@@ -1674,13 +1674,13 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-100"><a href="#cb11-100" aria-label="100"></a><span class="co">## 🐍 Kernels &amp; environments (the #1 gotcha)</span></span>
 <span id="cb11-101"><a href="#cb11-101" aria-label="101"></a></span>
 <span id="cb11-102"><a href="#cb11-102" aria-label="102"></a><span class="ex">Here</span><span class="st">'s the failure mode that catches almost every newcomer: you open a notebook,</span></span>
-<span id="cb11-103"><a href="#cb11-103" aria-label="103"></a><span class="st">run `import torch`, and get `ModuleNotFoundError` — even though you *know* you</span></span>
+<span id="cb11-103"><a href="#cb11-103" aria-label="103"></a><span class="st">run `import torch`, and get `ModuleNotFoundError`, even though you *know* you</span></span>
 <span id="cb11-104"><a href="#cb11-104" aria-label="104"></a><span class="st">installed it. The culprit is almost always the **kernel**.</span></span>
 <span id="cb11-105"><a href="#cb11-105" aria-label="105"></a></span>
 <span id="cb11-106"><a href="#cb11-106" aria-label="106"></a><span class="st">A **kernel** is the specific Python interpreter (and its installed packages) that</span></span>
 <span id="cb11-107"><a href="#cb11-107" aria-label="107"></a><span class="st">executes your cells. The dropdown in the top-right of a notebook (or the tiles in</span></span>
 <span id="cb11-108"><a href="#cb11-108" aria-label="108"></a><span class="st">the Launcher) lets you choose it. **A conda environment or a `venv` is not</span></span>
-<span id="cb11-109"><a href="#cb11-109" aria-label="109"></a><span class="st">automatically a kernel** — you have to register it first. Once registered, it</span></span>
+<span id="cb11-109"><a href="#cb11-109" aria-label="109"></a><span class="st">automatically a kernel.** You have to register it first. Once registered, it</span></span>
 <span id="cb11-110"><a href="#cb11-110" aria-label="110"></a><span class="st">shows up as a selectable kernel in Jupyter.</span></span>
 <span id="cb11-111"><a href="#cb11-111" aria-label="111"></a></span>
 <span id="cb11-112"><a href="#cb11-112" aria-label="112"></a><span class="st">Each Jupyter kernel is just a small JSON file (a "kernelspec") pointing at one</span></span>
@@ -1711,7 +1711,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-137"><a href="#cb11-137" aria-label="137"></a><span class="st">```</span></span>
 <span id="cb11-138"><a href="#cb11-138" aria-label="138"></a></span>
 <span id="cb11-139"><a href="#cb11-139" aria-label="139"></a><span class="st">::: {.callout-tip title="✅ Sanity-check which Python you'</span>re actually running<span class="st">"}</span></span>
-<span id="cb11-140"><a href="#cb11-140" aria-label="140"></a><span class="st">Run this in a notebook cell — it tells you exactly which interpreter the kernel is</span></span>
+<span id="cb11-140"><a href="#cb11-140" aria-label="140"></a><span class="st">Run this in a notebook cell. It tells you exactly which interpreter the kernel is</span></span>
 <span id="cb11-141"><a href="#cb11-141" aria-label="141"></a><span class="st">using and whether your package is visible:</span></span>
 <span id="cb11-142"><a href="#cb11-142" aria-label="142"></a></span>
 <span id="cb11-143"><a href="#cb11-143" aria-label="143"></a><span class="kw">```</span><span class="ex">python</span></span>
@@ -1720,7 +1720,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-146"><a href="#cb11-146" aria-label="146"></a><span class="kw">```</span></span>
 <span id="cb11-147"><a href="#cb11-147" aria-label="147"></a></span>
 <span id="cb11-148"><a href="#cb11-148" aria-label="148"></a><span class="st">If </span><span class="kw">`</span><span class="ex">sys.executable</span><span class="kw">`</span><span class="st"> isn't the environment you expected, you picked the wrong</span></span>
-<span id="cb11-149"><a href="#cb11-149" aria-label="149"></a><span class="st">kernel — switch it in the top-right dropdown.</span></span>
+<span id="cb11-149"><a href="#cb11-149" aria-label="149"></a><span class="st">kernel. Switch it in the top-right dropdown.</span></span>
 <span id="cb11-150"><a href="#cb11-150" aria-label="150"></a><span class="st">:::</span></span>
 <span id="cb11-151"><a href="#cb11-151" aria-label="151"></a></span>
 <span id="cb11-152"><a href="#cb11-152" aria-label="152"></a><span class="st">::: {.callout-note title="</span>📦 Prefer the provided modules when you can<span class="st">"}</span></span>
@@ -1734,8 +1734,8 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-160"><a href="#cb11-160" aria-label="160"></a><span class="st">## 🔁 PBS ↔ SLURM cheatsheet {#pbs-slurm}</span></span>
 <span id="cb11-161"><a href="#cb11-161" aria-label="161"></a></span>
 <span id="cb11-162"><a href="#cb11-162" aria-label="162"></a><span class="st">You'll meet two schedulers in the wild: **PBS Pro** (ALCF: Polaris, Sophia) and</span></span>
-<span id="cb11-163"><a href="#cb11-163" aria-label="163"></a><span class="st">**SLURM** (NERSC: Perlmutter). The concepts are identical — see</span></span>
-<span id="cb11-164"><a href="#cb11-164" aria-label="164"></a><span class="st">[\[0.1\] Shared Resources](../1-shared-resources/) for the full walkthrough — only</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-label="163"></a><span class="st">**SLURM** (NERSC: Perlmutter). The concepts are identical (see</span></span>
+<span id="cb11-164"><a href="#cb11-164" aria-label="164"></a><span class="st">[\[0.1\] Shared Resources](../1-shared-resources/) for the full walkthrough); only</span></span>
 <span id="cb11-165"><a href="#cb11-165" aria-label="165"></a><span class="st">the commands differ. If you know one, this table gets you the other:</span></span>
 <span id="cb11-166"><a href="#cb11-166" aria-label="166"></a></span>
 <span id="cb11-167"><a href="#cb11-167" aria-label="167"></a><span class="st">| Task                         | PBS (Polaris @ ALCF)                     | SLURM (Perlmutter @ NERSC)                  |</span></span>
@@ -1779,7 +1779,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-205"><a href="#cb11-205" aria-label="205"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> wordplay</span>
 <span id="cb11-206"><a href="#cb11-206" aria-label="206"></a>    <span class="kw">```</span></span>
 <span id="cb11-207"><a href="#cb11-207" aria-label="207"></a></span>
-<span id="cb11-208"><a href="#cb11-208" aria-label="208"></a><span class="ex">3.</span> <span class="pp">**</span>Set up Python<span class="pp">**</span> — this creates/activates a <span class="kw">`</span>.venv<span class="kw">`</span> <span class="ex">and</span> detects the job:</span>
+<span id="cb11-208"><a href="#cb11-208" aria-label="208"></a><span class="ex">3.</span> <span class="pp">**</span>Set up Python<span class="pp">**</span> <span class="er">(</span><span class="ex">this</span> creates/activates a <span class="kw">`</span><span class="ex">.venv</span><span class="kw">`</span> and detects the job<span class="kw">)</span><span class="bu">:</span></span>
 <span id="cb11-209"><a href="#cb11-209" aria-label="209"></a></span>
 <span id="cb11-210"><a href="#cb11-210" aria-label="210"></a>    <span class="kw">```</span>bash</span>
 <span id="cb11-211"><a href="#cb11-211" aria-label="211"></a>    <span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
@@ -1792,7 +1792,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-218"><a href="#cb11-218" aria-label="218"></a>    <span class="ex">ezpz</span> test</span>
 <span id="cb11-219"><a href="#cb11-219" aria-label="219"></a>    <span class="kw">```</span></span>
 <span id="cb11-220"><a href="#cb11-220" aria-label="220"></a></span>
-<span id="cb11-221"><a href="#cb11-221" aria-label="221"></a><span class="ex">5.</span> <span class="pp">**</span>Launch<span class="pp">**</span> — <span class="kw">`</span>ezpz launch<span class="kw">`</span> <span class="ex">figures</span> out <span class="kw">`</span>srun<span class="kw">`</span><span class="ex">/</span><span class="kw">`</span>mpiexec<span class="kw">`</span> <span class="cf">for</span> you<span class="ex">:</span></span>
+<span id="cb11-221"><a href="#cb11-221" aria-label="221"></a><span class="ex">5.</span> <span class="pp">**</span>Launch.<span class="pp">**</span> <span class="kw">`</span>ezpz launch<span class="kw">`</span> <span class="ex">figures</span> out <span class="kw">`</span>srun<span class="kw">`</span><span class="ex">/</span><span class="kw">`</span>mpiexec<span class="kw">`</span> <span class="cf">for</span> you<span class="ex">:</span></span>
 <span id="cb11-222"><a href="#cb11-222" aria-label="222"></a></span>
 <span id="cb11-223"><a href="#cb11-223" aria-label="223"></a>    <span class="kw">```</span>bash</span>
 <span id="cb11-224"><a href="#cb11-224" aria-label="224"></a>    <span class="ex">ezpz</span> launch python3 <span class="at">-m</span> wordplay data=shakespeare train.max_iters=1000</span>
@@ -1810,10 +1810,10 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-236"><a href="#cb11-236" aria-label="236"></a></span>
 <span id="cb11-237"><a href="#cb11-237" aria-label="237"></a><span class="co">## 🧪 ALCF Jupyter (Polaris / Sophia)</span></span>
 <span id="cb11-238"><a href="#cb11-238" aria-label="238"></a></span>
-<span id="cb11-239"><a href="#cb11-239" aria-label="239"></a><span class="ex">If</span> you<span class="st">'re on an ALCF machine instead of NERSC, the flow is analogous — a hosted</span></span>
+<span id="cb11-239"><a href="#cb11-239" aria-label="239"></a><span class="ex">If</span> you<span class="st">'re on an ALCF machine instead of NERSC, the flow is analogous: a hosted</span></span>
 <span id="cb11-240"><a href="#cb11-240" aria-label="240"></a><span class="st">JupyterHub that spawns a notebook server as a PBS job:</span></span>
 <span id="cb11-241"><a href="#cb11-241" aria-label="241"></a></span>
-<span id="cb11-242"><a href="#cb11-242" aria-label="242"></a><span class="st">➡️ **[jupyter.alcf.anl.gov](https://jupyter.alcf.anl.gov/)** — log in with your</span></span>
+<span id="cb11-242"><a href="#cb11-242" aria-label="242"></a><span class="st">➡️ **[jupyter.alcf.anl.gov](https://jupyter.alcf.anl.gov/)**. Log in with your</span></span>
 <span id="cb11-243"><a href="#cb11-243" aria-label="243"></a><span class="st">ALCF credentials + MFA and select the target system (**Polaris** or **Sophia**),</span></span>
 <span id="cb11-244"><a href="#cb11-244" aria-label="244"></a><span class="st">your project, a queue, and a runtime.</span></span>
 <span id="cb11-245"><a href="#cb11-245" aria-label="245"></a></span>
@@ -1825,8 +1825,8 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-251"><a href="#cb11-251" aria-label="251"></a></span>
 <span id="cb11-252"><a href="#cb11-252" aria-label="252"></a><span class="ex">![Shutting</span> down your ALCF Jupyter server]<span class="er">(</span><span class="ex">../img/jupyter_shutdown_01.gif</span><span class="kw">)</span></span>
 <span id="cb11-253"><a href="#cb11-253" aria-label="253"></a></span>
-<span id="cb11-254"><a href="#cb11-254" aria-label="254"></a><span class="ex">Everything</span> else — registering a conda/venv as a kernel with <span class="kw">`</span>ipykernel<span class="kw">`</span><span class="ex">,</span> the</span>
-<span id="cb11-255"><a href="#cb11-255" aria-label="255"></a><span class="kw">`</span>import<span class="kw">`</span> <span class="ex">sanity-check</span> — works identically. For current queue names, project flags,</span>
+<span id="cb11-254"><a href="#cb11-254" aria-label="254"></a><span class="ex">Everything</span> else works identically: registering a conda/venv as a kernel with</span>
+<span id="cb11-255"><a href="#cb11-255" aria-label="255"></a><span class="kw">`</span>ipykernel<span class="kw">`</span><span class="ex">,</span> the <span class="kw">`</span>import<span class="kw">`</span> <span class="ex">sanity-check.</span> For current queue names, project flags,</span>
 <span id="cb11-256"><a href="#cb11-256" aria-label="256"></a><span class="ex">and</span> portal specifics, see the <span class="pp">**</span>[ALCF Jupyter Hub docs]<span class="er">(</span><span class="ex">https://docs.alcf.anl.gov/services/jupyter-hub/</span><span class="kw">)</span><span class="ex">**.</span></span>
 <span id="cb11-257"><a href="#cb11-257" aria-label="257"></a></span>
 <span id="cb11-258"><a href="#cb11-258" aria-label="258"></a><span class="ex">:::</span> {.callout-tip title=<span class="st">"🧠 Check your understanding"</span> collapse=<span class="st">"false"</span>}</span>
@@ -1835,7 +1835,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-261"><a href="#cb11-261" aria-label="261"></a></span>
 <span id="cb11-262"><a href="#cb11-262" aria-label="262"></a><span class="st">:::: {.callout-note title="Show answer" collapse="true"}</span></span>
 <span id="cb11-263"><a href="#cb11-263" aria-label="263"></a><span class="st">The server is a scheduled job holding a GPU node (and burning allocation) until</span></span>
-<span id="cb11-264"><a href="#cb11-264" aria-label="264"></a><span class="st">it stops. Closing the tab doesn'</span>t stop it — use <span class="pp">**</span>Hub Control Panel → Stop My</span>
+<span id="cb11-264"><a href="#cb11-264" aria-label="264"></a><span class="st">it stops. Closing the tab doesn'</span>t stop it. Use <span class="pp">**</span>Hub Control Panel → Stop My</span>
 <span id="cb11-265"><a href="#cb11-265" aria-label="265"></a><span class="ex">Server**.</span></span>
 <span id="cb11-266"><a href="#cb11-266" aria-label="266"></a><span class="ex">::::</span></span>
 <span id="cb11-267"><a href="#cb11-267" aria-label="267"></a></span>
@@ -1853,7 +1853,7 @@ Jupyter.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootca
 <span id="cb11-279"><a href="#cb11-279" aria-label="279"></a><span class="ex">equivalent</span> command on Polaris<span class="pp">?</span></span>
 <span id="cb11-280"><a href="#cb11-280" aria-label="280"></a></span>
 <span id="cb11-281"><a href="#cb11-281" aria-label="281"></a><span class="ex">::::</span> {.callout-note title=<span class="st">"Show answer"</span> collapse=<span class="st">"true"</span>}</span>
-<span id="cb11-282"><a href="#cb11-282" aria-label="282"></a><span class="kw">`</span>qsub<span class="kw">`</span> <span class="ex">—</span> PBS<span class="st">'s batch submit command. See the [cheatsheet](#pbs-slurm) above.</span></span>
+<span id="cb11-282"><a href="#cb11-282" aria-label="282"></a><span class="kw">`</span>qsub<span class="kw">`</span><span class="ex">,</span> PBS<span class="st">'s batch submit command. See the [cheatsheet](#pbs-slurm) above.</span></span>
 <span id="cb11-283"><a href="#cb11-283" aria-label="283"></a><span class="st">::::</span></span>
 <span id="cb11-284"><a href="#cb11-284" aria-label="284"></a><span class="st">:::</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>

@@ -797,7 +797,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -852,7 +852,7 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Most of this page is <strong>conceptual</strong>: the diagrams, the collective-communication walk-throughs, and the small NumPy / pure-Python cells below all run fine on a <strong>laptop or in Colab</strong> — no GPU required. They <em>simulate</em> what happens across ranks so you can build intuition before touching real hardware.</p>
+<p>Most of this page is <strong>conceptual</strong>: the diagrams, the collective-communication walk-throughs, and the small NumPy / pure-Python cells below all run fine on a <strong>laptop or in Colab</strong>, no GPU required. They <em>simulate</em> what happens across ranks so you can build intuition before touching real hardware.</p>
 <p>The <strong><a href="#hands-on">Hands On</a></strong> section at the end is different: it launches an actual multi-GPU DDP job and needs a <strong>real cluster allocation</strong> (e.g. Polaris / Aurora via PBS, or Perlmutter via SLURM). You can <em>read</em> it anywhere, but you can only <em>run</em> it from inside a job on the machine.</p>
 <p><strong>Rule of thumb:</strong> if a cell is <code>{python}</code> and imports only <code>numpy</code> / stdlib, you can run it right now. If it’s a <code>bash</code> block with <code>ezpz launch</code> / <code>mpiexec</code> / <code>srun</code>, it belongs on the cluster.</p>
 </div>
@@ -1519,7 +1519,7 @@ averaged gradient (what DDP applies): [ 0.067 -0.086  0.085]
 ✓ all ranks now agree on the gradient</code></pre>
 </div>
 </div>
-<p>That “everyone agrees” property is exactly why DDP keeps model replicas in sync: after each backward pass, one all-reduce makes every GPU apply the <em>same</em> averaged gradient. On real hardware this is a single call — <code>dist.all_reduce(grad)</code> (PyTorch) or <code>comm.Allreduce(...)</code> (<code>mpi4py</code>) — run by NCCL/oneCCL over the fast interconnect.</p>
+<p>That “everyone agrees” property is exactly why DDP keeps model replicas in sync: after each backward pass, one all-reduce makes every GPU apply the <em>same</em> averaged gradient. On real hardware this is a single call: <code>dist.all_reduce(grad)</code> (PyTorch) or <code>comm.Allreduce(...)</code> (<code>mpi4py</code>), run by NCCL/oneCCL over the fast interconnect.</p>
 </div>
 </div>
 </div>
@@ -1815,7 +1815,7 @@ Figure&nbsp;12: Scatters a list of tensors to the whole group
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>The all-reduce sim above showed one collective. The four diagrams in this section (<code>reduce</code>, <code>broadcast</code>, <code>all_gather</code>, <code>scatter</code>) are just as easy to simulate on the CPU — we represent “ranks” as a plain Python list, one array per rank, and print the buffers <strong>before</strong> and <strong>after</strong> each op. This mirrors the real <code>torch.distributed</code> / <code>mpi4py</code> API, minus the network:</p>
+<p>The all-reduce sim above showed one collective. The four diagrams in this section (<code>reduce</code>, <code>broadcast</code>, <code>all_gather</code>, <code>scatter</code>) are just as easy to simulate on the CPU: we represent “ranks” as a plain Python list, one array per rank, and print the buffers <strong>before</strong> and <strong>after</strong> each op. This mirrors the real <code>torch.distributed</code> / <code>mpi4py</code> API, minus the network:</p>
 <div id="a85647de" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
@@ -1860,7 +1860,7 @@ all_gather:                [[1.0, 2.0, 3.0, 4.0], [1.0, 2.0, 3.0, 4.0], [1.0, 2.
 scatter  ([10,20,30,40]):  [10, 20, 30, 40]</code></pre>
 </div>
 </div>
-<p>Notice the pattern: <strong>reduce</strong> collapses to one rank, <strong>broadcast</strong> copies one rank out to all, <strong>all_gather</strong> gives everyone the full set, and <strong>scatter</strong> splits one rank’s data out to the group. <code>all_reduce</code> (the previous cell) is literally <code>reduce</code> followed by <code>broadcast</code> — which is why DDP can average gradients with a single fused call.</p>
+<p>Notice the pattern: <strong>reduce</strong> collapses to one rank, <strong>broadcast</strong> copies one rank out to all, <strong>all_gather</strong> gives everyone the full set, and <strong>scatter</strong> splits one rank’s data out to the group. <code>all_reduce</code> (the previous cell) is literally <code>reduce</code> followed by <code>broadcast</code>, which is why DDP can average gradients with a single fused call.</p>
 </div>
 </div>
 </div>
@@ -1895,7 +1895,7 @@ scatter  ([10,20,30,40]):  [10, 20, 30, 40]</code></pre>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Adding GPUs changes more than throughput — it changes the <strong>effective batch size</strong> your optimizer sees, which in turn changes the learning rate you should use. This is pure arithmetic, so you can explore it on a laptop. Tweak the four inputs and re-run:</p>
+<p>Adding GPUs changes more than throughput. It changes the <strong>effective batch size</strong> your optimizer sees, which in turn changes the learning rate you should use. This is pure arithmetic, so you can explore it on a laptop. Tweak the four inputs and re-run:</p>
 <div id="6c4d9361" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="kw">def</span> scaling_report(world_size, per_device_batch, base_lr, dataset_size):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    <span class="co">"""Report the global quantities implied by a data-parallel setup."""</span></span>
@@ -1929,7 +1929,7 @@ LR (linear rule)  = 0.016   (base_lr * world_size)
 LR (sqrt rule)    = 0.004   (base_lr * sqrt(world_size))</code></pre>
 </div>
 </div>
-<p>Both LR rules appear in the literature: <strong>linear</strong> scaling (multiply by <code>world_size</code>) is the common default from <em>Accurate, Large Minibatch SGD</em>, while the <strong><code>sqrt</code></strong> rule (referenced above) is milder and often more stable for very large batches. Neither is magic — always keep a short warmup and watch your validation loss.</p>
+<p>Both LR rules appear in the literature: <strong>linear</strong> scaling (multiply by <code>world_size</code>) is the common default from <em>Accurate, Large Minibatch SGD</em>, while the <strong><code>sqrt</code></strong> rule (referenced above) is milder and often more stable for very large batches. Neither is magic: always keep a short warmup and watch your validation loss.</p>
 </div>
 </div>
 </div>
@@ -2212,10 +2212,10 @@ Figure&nbsp;14: <iconify-icon role="img" inline="" icon="logos:microsoft-icon" a
 <div id="fig-ddp-vs-fsdp" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-ddp-vs-fsdp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="./assets/ddp-vs-fsdp.svg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;15: Memory sharding, DDP → ZeRO-3. For a 1B-param fp32 model with Adam, each rank normally holds the full 16 GB (params 4 + grads 4 + optimizer states 8). The ZeRO stages progressively shard those three across the N data-parallel ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch FSDP FULL_SHARD) shards everything — driving per-GPU memory toward 16/N GB, at the cost of extra all-gather communication to reconstruct each layer on the fly."><img src="./assets/ddp-vs-fsdp.svg" class="img-fluid figure-img column-body-outset"></a>
+<a href="./assets/ddp-vs-fsdp.svg" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;15: Memory sharding, DDP → ZeRO-3. For a 1B-param fp32 model with Adam, each rank normally holds the full 16 GB (params 4 + grads 4 + optimizer states 8). The ZeRO stages progressively shard those three across the N data-parallel ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch FSDP FULL_SHARD) shards everything, driving per-GPU memory toward 16/N GB, at the cost of extra all-gather communication to reconstruct each layer on the fly."><img src="./assets/ddp-vs-fsdp.svg" class="img-fluid figure-img column-body-outset"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ddp-vs-fsdp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15: <strong>Memory sharding, DDP → ZeRO-3.</strong> For a 1B-param fp32 model with Adam, each rank normally holds the full <strong>16 GB</strong> (params 4 + grads 4 + optimizer states 8). The <strong>ZeRO</strong> stages progressively shard those three across the <span class="math inline">N</span> data-parallel ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch <strong>FSDP</strong> <code>FULL_SHARD</code>) shards everything — driving per-GPU memory toward <span class="math inline">16/N</span> GB, at the cost of extra <code>all-gather</code> communication to reconstruct each layer on the fly.
+Figure&nbsp;15: <strong>Memory sharding, DDP → ZeRO-3.</strong> For a 1B-param fp32 model with Adam, each rank normally holds the full <strong>16 GB</strong> (params 4 + grads 4 + optimizer states 8). The <strong>ZeRO</strong> stages progressively shard those three across the <span class="math inline">N</span> data-parallel ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch <strong>FSDP</strong> <code>FULL_SHARD</code>) shards everything, driving per-GPU memory toward <span class="math inline">16/N</span> GB, at the cost of extra <code>all-gather</code> communication to reconstruct each layer on the fly.
 </figcaption>
 </figure>
 </div>
@@ -2744,7 +2744,7 @@ Figure&nbsp;26: Language Model trained for causal language modeling.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The walkthrough below runs on <strong>ALCF (Polaris, PBS)</strong>. If you’re on <strong>NERSC Perlmutter</strong> — or you just want a clean, standalone recipe without the surrounding lesson — jump to the dedicated hands-on lab:</p>
+<p>The walkthrough below runs on <strong>ALCF (Polaris, PBS)</strong>. If you’re on <strong>NERSC Perlmutter</strong> (or you just want a clean, standalone recipe without the surrounding lesson), jump to the dedicated hands-on lab:</p>
 <p>➡️ <a href="../../02-llms/1-parallel-training/index.html"><strong>[2] Hands-On: Launching a Distributed Run</strong></a> (SLURM / <code>salloc</code>, project <code>m4388</code>). It runs the <em>same</em> <code>wordplay</code> DDP example.</p>
 </div>
 </div>
@@ -3771,7 +3771,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-45"><a href="#cb19-45" aria-label="45"></a>::: {.callout-important title="💻 Laptop vs. 🖥️ cluster: what can you run where?" collapse="false"}</span>
 <span id="cb19-46"><a href="#cb19-46" aria-label="46"></a>Most of this page is **conceptual**: the diagrams, the collective-communication</span>
 <span id="cb19-47"><a href="#cb19-47" aria-label="47"></a>walk-throughs, and the small NumPy / pure-Python cells below all run fine on a</span>
-<span id="cb19-48"><a href="#cb19-48" aria-label="48"></a>**laptop or in Colab** — no GPU required. They *simulate* what happens across</span>
+<span id="cb19-48"><a href="#cb19-48" aria-label="48"></a>**laptop or in Colab**, no GPU required. They *simulate* what happens across</span>
 <span id="cb19-49"><a href="#cb19-49" aria-label="49"></a>ranks so you can build intuition before touching real hardware.</span>
 <span id="cb19-50"><a href="#cb19-50" aria-label="50"></a></span>
 <span id="cb19-51"><a href="#cb19-51" aria-label="51"></a>The **[Hands On](#hands-on)** section at the end is different: it launches an</span>
@@ -4287,8 +4287,8 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-579"><a href="#cb19-579" aria-label="561"></a></span>
 <span id="cb19-580"><a href="#cb19-580" aria-label="562"></a>That "everyone agrees" property is exactly why DDP keeps model replicas in sync:</span>
 <span id="cb19-581"><a href="#cb19-581" aria-label="563"></a>after each backward pass, one all-reduce makes every GPU apply the *same*</span>
-<span id="cb19-582"><a href="#cb19-582" aria-label="564"></a>averaged gradient. On real hardware this is a single call —</span>
-<span id="cb19-583"><a href="#cb19-583" aria-label="565"></a><span class="in">`dist.all_reduce(grad)`</span> (PyTorch) or <span class="in">`comm.Allreduce(...)`</span> (<span class="in">`mpi4py`</span>) — run by</span>
+<span id="cb19-582"><a href="#cb19-582" aria-label="564"></a>averaged gradient. On real hardware this is a single call:</span>
+<span id="cb19-583"><a href="#cb19-583" aria-label="565"></a><span class="in">`dist.all_reduce(grad)`</span> (PyTorch) or <span class="in">`comm.Allreduce(...)`</span> (<span class="in">`mpi4py`</span>), run by</span>
 <span id="cb19-584"><a href="#cb19-584" aria-label="566"></a>NCCL/oneCCL over the fast interconnect.</span>
 <span id="cb19-585"><a href="#cb19-585" aria-label="567"></a>:::</span>
 <span id="cb19-586"><a href="#cb19-586" aria-label="568"></a></span>
@@ -4521,7 +4521,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-821"><a href="#cb19-821" aria-label="795"></a>::: {.callout-tip title="▶️ Try it: the other collectives in NumPy" collapse="false"}</span>
 <span id="cb19-822"><a href="#cb19-822" aria-label="796"></a>The all-reduce sim above showed one collective. The four diagrams in this</span>
 <span id="cb19-823"><a href="#cb19-823" aria-label="797"></a>section (<span class="in">`reduce`</span>, <span class="in">`broadcast`</span>, <span class="in">`all_gather`</span>, <span class="in">`scatter`</span>) are just as easy to</span>
-<span id="cb19-824"><a href="#cb19-824" aria-label="798"></a>simulate on the CPU — we represent "ranks" as a plain Python list, one array per</span>
+<span id="cb19-824"><a href="#cb19-824" aria-label="798"></a>simulate on the CPU: we represent "ranks" as a plain Python list, one array per</span>
 <span id="cb19-825"><a href="#cb19-825" aria-label="799"></a>rank, and print the buffers **before** and **after** each op. This mirrors the</span>
 <span id="cb19-826"><a href="#cb19-826" aria-label="800"></a>real <span class="in">`torch.distributed`</span> / <span class="in">`mpi4py`</span> API, minus the network:</span>
 <span id="cb19-827"><a href="#cb19-827" aria-label="801"></a></span>
@@ -4566,7 +4566,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-868"><a href="#cb19-868" aria-label="840"></a>Notice the pattern: **reduce** collapses to one rank, **broadcast** copies one</span>
 <span id="cb19-869"><a href="#cb19-869" aria-label="841"></a>rank out to all, **all_gather** gives everyone the full set, and **scatter**</span>
 <span id="cb19-870"><a href="#cb19-870" aria-label="842"></a>splits one rank's data out to the group. <span class="in">`all_reduce`</span> (the previous cell) is</span>
-<span id="cb19-871"><a href="#cb19-871" aria-label="843"></a>literally <span class="in">`reduce`</span> followed by <span class="in">`broadcast`</span> — which is why DDP can average</span>
+<span id="cb19-871"><a href="#cb19-871" aria-label="843"></a>literally <span class="in">`reduce`</span> followed by <span class="in">`broadcast`</span>, which is why DDP can average</span>
 <span id="cb19-872"><a href="#cb19-872" aria-label="844"></a>gradients with a single fused call.</span>
 <span id="cb19-873"><a href="#cb19-873" aria-label="845"></a>:::</span>
 <span id="cb19-874"><a href="#cb19-874" aria-label="846"></a></span>
@@ -4583,7 +4583,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-885"><a href="#cb19-885" aria-label="857"></a><span class="ot">[^mbs]: </span><span class="in">`micro_batch_size`</span> = batch_size **per** GPU</span>
 <span id="cb19-886"><a href="#cb19-886" aria-label="858"></a></span>
 <span id="cb19-887"><a href="#cb19-887" aria-label="859"></a>::: {.callout-tip title="▶️ Try it: a batch-size / LR-scaling calculator" collapse="false"}</span>
-<span id="cb19-888"><a href="#cb19-888" aria-label="860"></a>Adding GPUs changes more than throughput — it changes the **effective batch</span>
+<span id="cb19-888"><a href="#cb19-888" aria-label="860"></a>Adding GPUs changes more than throughput. It changes the **effective batch</span>
 <span id="cb19-889"><a href="#cb19-889" aria-label="861"></a>size** your optimizer sees, which in turn changes the learning rate you should</span>
 <span id="cb19-890"><a href="#cb19-890" aria-label="862"></a>use. This is pure arithmetic, so you can explore it on a laptop. Tweak the four</span>
 <span id="cb19-891"><a href="#cb19-891" aria-label="863"></a>inputs and re-run:</span>
@@ -4617,7 +4617,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-921"><a href="#cb19-921" aria-label="891"></a>Both LR rules appear in the literature: **linear** scaling (multiply by</span>
 <span id="cb19-922"><a href="#cb19-922" aria-label="892"></a><span class="in">`world_size`</span>) is the common default from *Accurate, Large Minibatch SGD*, while</span>
 <span id="cb19-923"><a href="#cb19-923" aria-label="893"></a>the **`sqrt`** rule (referenced above) is milder and often more stable for very</span>
-<span id="cb19-924"><a href="#cb19-924" aria-label="894"></a>large batches. Neither is magic — always keep a short warmup and watch your</span>
+<span id="cb19-924"><a href="#cb19-924" aria-label="894"></a>large batches. Neither is magic: always keep a short warmup and watch your</span>
 <span id="cb19-925"><a href="#cb19-925" aria-label="895"></a>validation loss.</span>
 <span id="cb19-926"><a href="#cb19-926" aria-label="896"></a>:::</span>
 <span id="cb19-927"><a href="#cb19-927" aria-label="897"></a></span>
@@ -4772,7 +4772,7 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-1082"><a href="#cb19-1082" aria-label="1046"></a>rank normally holds the full **16 GB** (params 4 + grads 4 + optimizer states 8).</span>
 <span id="cb19-1083"><a href="#cb19-1083" aria-label="1047"></a>The **ZeRO** stages progressively shard those three across the $N$ data-parallel</span>
 <span id="cb19-1084"><a href="#cb19-1084" aria-label="1048"></a>ranks: ZeRO-1 shards optimizer states, ZeRO-2 adds gradients, and ZeRO-3</span>
-<span id="cb19-1085"><a href="#cb19-1085" aria-label="1049"></a>(PyTorch **FSDP** <span class="in">`FULL_SHARD`</span>) shards everything — driving per-GPU memory toward</span>
+<span id="cb19-1085"><a href="#cb19-1085" aria-label="1049"></a>(PyTorch **FSDP** <span class="in">`FULL_SHARD`</span>) shards everything, driving per-GPU memory toward</span>
 <span id="cb19-1086"><a href="#cb19-1086" aria-label="1050"></a>$16/N$ GB, at the cost of extra <span class="in">`all-gather`</span> communication to reconstruct each</span>
 <span id="cb19-1087"><a href="#cb19-1087" aria-label="1051"></a>layer on the fly.](./assets/ddp-vs-fsdp.svg){#fig-ddp-vs-fsdp .column-body-outset}</span>
 <span id="cb19-1088"><a href="#cb19-1088" aria-label="1052"></a></span>
@@ -5176,8 +5176,8 @@ Foreman, Sam. 2025. <span>“Distributed Training.”</span> August 5. <a href="
 <span id="cb19-1494"><a href="#cb19-1494" aria-label="1450"></a></span>
 <span id="cb19-1495"><a href="#cb19-1495" aria-label="1451"></a>::: {.callout-tip title="🚀 Prefer a self-contained, copy-paste lab?"}</span>
 <span id="cb19-1496"><a href="#cb19-1496" aria-label="1452"></a>The walkthrough below runs on **ALCF (Polaris, PBS)**. If you're on</span>
-<span id="cb19-1497"><a href="#cb19-1497" aria-label="1453"></a>**NERSC Perlmutter** — or you just want a clean, standalone recipe without the</span>
-<span id="cb19-1498"><a href="#cb19-1498" aria-label="1454"></a>surrounding lesson — jump to the dedicated hands-on lab:</span>
+<span id="cb19-1497"><a href="#cb19-1497" aria-label="1453"></a>**NERSC Perlmutter** (or you just want a clean, standalone recipe without the</span>
+<span id="cb19-1498"><a href="#cb19-1498" aria-label="1454"></a>surrounding lesson), jump to the dedicated hands-on lab:</span>
 <span id="cb19-1499"><a href="#cb19-1499" aria-label="1455"></a></span>
 <span id="cb19-1500"><a href="#cb19-1500" aria-label="1456"></a>➡️ <span class="co">[</span><span class="ot">**\[2\] Hands-On: Launching a Distributed Run**</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span></span>
 <span id="cb19-1501"><a href="#cb19-1501" aria-label="1457"></a>(SLURM / <span class="in">`salloc`</span>, project <span class="in">`m4388`</span>). It runs the *same* <span class="in">`wordplay`</span> DDP example.</span>

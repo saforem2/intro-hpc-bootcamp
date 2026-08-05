@@ -48,11 +48,10 @@ $\pi = \frac{4N_\text{in}}{N_\text{total}}$
 > ### Monte Carlo vs. Markov Chain Monte Carlo (MCMC)
 >
 > This is **plain Monte Carlo**: every dart is drawn *independently*
-> from the same uniform distribution. **MCMC** is different — it builds
-> a *correlated chain* of samples, where each new sample is proposed
-> from the current one via a transition kernel
-> (e.g. Metropolis-Hastings). We use the simpler independent-sampling
-> approach here.
+> from the same uniform distribution. **MCMC** is different: it builds a
+> *correlated chain* of samples, where each new sample is proposed from
+> the current one via a transition kernel (e.g. Metropolis-Hastings). We
+> use the simpler independent-sampling approach here.
 
 First, the imports and house plot style:
 
@@ -3479,7 +3478,7 @@ if (outputEl) {{
 
 ### Why parallelize? Sequential vs. parallel, side by side
 
-The estimate gets better with more samples — but generating millions of
+The estimate gets better with more samples, but generating millions of
 points *one at a time* is slow. The fix: split the work across **`P`
 workers** that sample **simultaneously**. Each worker handles every
 `P`-th point (exactly what the `mpi4py` code below does with
@@ -3492,10 +3491,10 @@ workers) races ahead and finishes while the sequential side is still
 plodding along. That time gap **is** the speedup.
 
 **The setup.** Both panels draw the *same* points; the only difference
-is how many get processed per unit of wall-clock time — 1 for
-sequential, `P` for parallel. The strided assignment
-`worker = arange(N) % P` mirrors exactly what the `mpi4py` code does
-with `range(comm.rank, N, comm.size)`.
+is how many get processed per unit of wall-clock time: 1 for sequential,
+`P` for parallel. The strided assignment `worker = arange(N) % P`
+mirrors exactly what the `mpi4py` code does with
+`range(comm.rank, N, comm.size)`.
 
 ``` python
 N = 4000        # total samples (enough to fill gradually, light enough to embed)
@@ -3512,7 +3511,7 @@ def pi_of(n):
 ```
 
 **The plotting.** Everything below builds the two-panel animation
-(folded — expand if you’re curious). A non-linear wall-clock schedule
+(folded; expand if you’re curious). A non-linear wall-clock schedule
 spends more frames while the parallel side is filling, so the speed
 difference is easy to see.
 
@@ -3633,10 +3632,10 @@ if (outputEl) {{
 
 More samples → a better estimate, but *how much* better? Below we plot
 the **absolute error** $|\hat\pi - \pi|$ as we add samples. Monte Carlo
-error falls off like $1/\sqrt{N}$ — so on **log-log axes** it’s a
+error falls off like $1/\sqrt{N}$, so on **log-log axes** it’s a
 straight line with slope $-\tfrac12$. The practical catch: to get one
-more decimal digit (10× less error) you need **100× more samples** —
-which is exactly why you reach for parallelism.
+more decimal digit (10× less error) you need **100× more samples**. That
+is exactly why you reach for parallelism.
 
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -3708,8 +3707,8 @@ if (outputEl) {{
 > This animation shows **ideal linear speedup** (`P` workers → `P`×
 > faster). Real runs fall a little short: the workers must combine their
 > counts at the end (the `comm.Allreduce` below), and that communication
-> adds overhead — which is exactly why the Polaris timings below aren’t
-> a perfect `P`× as you add ranks.
+> adds overhead. That is why the Polaris timings below aren’t a perfect
+> `P`× as you add ranks.
 
 ### MPI example
 

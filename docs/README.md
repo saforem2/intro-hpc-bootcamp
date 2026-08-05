@@ -13,8 +13,8 @@ Sam Foreman
 ## 👋 Welcome
 
 This is a **hands-on introduction to doing AI on supercomputers**. It
-starts from the ground up — the shell, Python, and how HPC systems work
-— and builds all the way to **training large language models across many
+starts from the ground up (the shell, Python, and how HPC systems work)
+and builds all the way to **training large language models across many
 GPUs**. Almost every page is a runnable notebook: you can read it here,
 open it in Google Colab, or run it on an HPC system.
 
@@ -30,7 +30,7 @@ open it in Google Colab, or run it on an HPC system.
 
 ### 🚦 Start here
 
-Work through the five parts in order — each builds on the last:
+Work through the five parts in order. Each builds on the last:
 
 1.  **[\[0\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute systems,
     the scheduler, Python, and data; then your first models (Monte
@@ -52,10 +52,10 @@ Work through the five parts in order — each builds on the last:
 > ### 🖥️ Where the code runs
 >
 > The lighter notebooks run anywhere (including a laptop or **Google
-> Colab** — look for the
+> Colab**; look for the
 > [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com)
 > badge at the top of each page). The large-scale training examples are
-> meant for an HPC system — the bootcamp uses **Jupyter on [NERSC
+> meant for an HPC system. The bootcamp uses **Jupyter on [NERSC
 > Perlmutter](https://docs.nersc.gov/systems/perlmutter/)** (project
 > `m4388`), but the commands are scheduler-agnostic and work on ALCF PBS
 > systems too. See [running instructions](#running-instructions) below.
@@ -156,9 +156,9 @@ Instructions for Running @ NERSC
 ## 🌐 Distributed Training Example
 
 Ready to train a real model across multiple GPUs? The full end-to-end
-walkthrough — request an interactive job, set up the environment, and
+walkthrough (request an interactive job, set up the environment, and
 launch a multi-node run with
-[`ezpz launch`](https://github.com/saforem2/ezpz) — lives on the
+[`ezpz launch`](https://github.com/saforem2/ezpz)) lives on the
 dedicated pages, complete with annotated output:
 
 - 🧠 **[\[1.4\] Distributed
@@ -172,7 +172,7 @@ dedicated pages, complete with annotated output:
 
 > [!TIP]
 >
-> ### TL;DR — launch a run
+> ### TL;DR: launch a run
 >
 > On an HPC system with an interactive allocation:
 >

@@ -45,20 +45,20 @@ thousands of examples of handwritten numbers, with each digit labeled
 >
 > **Prerequisites:** the \[0\] primers on
 > [Python](../../00-intro-AI-HPC/3-python/index.qmd) and [working with
-> data](../../00-intro-AI-HPC/4-data/index.qmd) — you should be
+> data](../../00-intro-AI-HPC/4-data/index.qmd). You should be
 > comfortable reading a loop, a function, and a `numpy` array.
 >
 > **Where it runs:** everything here runs on a laptop or in
 > [Colab](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/01-neural-networks/1-mnist/index.ipynb)
-> in a few minutes on CPU — no GPU required (a GPU only speeds up the
-> training loop, it changes nothing about the results).
+> in a few minutes on CPU, with no GPU required (a GPU only speeds up
+> the training loop, it changes nothing about the results).
 >
 > **What success looks like:** the simple **linear** model should reach
 > roughly **~91%** test accuracy, and the deeper **nonlinear** model
 > should climb a few points higher into the **~93–94%** range. If your
 > numbers are in that ballpark, it’s working. (Training longer, or with
-> a larger network, pushes the nonlinear model into the mid-to-high 90s
-> — a good thing to try for the homework.)
+> a larger network, pushes the nonlinear model into the mid-to-high 90s,
+> a good thing to try for the homework.)
 
 ``` python
 # ezpz reads this at import time: drop the `module:line:function` suffix from
@@ -321,7 +321,7 @@ We now need:
 - A loss function $J(\theta)$ where $\theta$ is the list of parameters
   (here W and b). Last week, we used mean squared error (MSE), but this
   week let’s make two changes that make more sense for classification:
-  - Change the output to be a length-10 vector — one score per digit
+  - Change the output to be a length-10 vector: one score per digit
     class. Conceptually we want these to become **class probabilities**
     (10 numbers from 0 to 1 that add to 1); we’ll see below how
     `nn.CrossEntropyLoss` handles that conversion for us.
@@ -396,12 +396,12 @@ optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 >
 > ### Logits, not probabilities
 >
-> Notice our `forward` returns the raw output of `self.layer_1` — 10
+> Notice our `forward` returns the raw output of `self.layer_1`: 10
 > unnormalized numbers called **logits**, *not* the 0-to-1 probabilities
 > we described above. That’s on purpose: `nn.CrossEntropyLoss` **expects
 > raw logits** and applies the `softmax` internally (it fuses
 > `log_softmax` + negative-log-likelihood for numerical stability). So
-> the network deliberately has **no final softmax layer** — adding one
+> the network deliberately has **no final softmax layer**; adding one
 > would apply softmax twice and hurt training.
 >
 > If you ever want the actual probabilities (e.g. to *report* a
@@ -425,7 +425,7 @@ logger.info(f"they sum to:   {probs.sum().item():.3f}")   # == 1.0
 Only after `softmax` do we get 10 numbers between 0 and 1 that add to 1.
 Before training they’re all near `0.1` (the model has no idea yet);
 training will push the probability mass onto the correct digit. Note
-that we never need this to *train* — we only use it when we want a
+that we never need this to *train*; we only use it when we want a
 human-readable probability.
 
 ## Learning
@@ -4080,7 +4080,7 @@ and its variants (`Leaky ReLU`, `ELU`, `GELU`, `SiLU`) dominate modern
 deep networks because they avoid the vanishing-gradient problem that
 plagues the saturating `Sigmoid`/`Tanh`.
 
-Stacking several hidden layers gives a **deep** neural network — each
+Stacking several hidden layers gives a **deep** neural network. Each
 layer transforms the previous layer’s output, letting the model build up
 increasingly abstract representations:
 
@@ -4223,11 +4223,11 @@ The **degree-1** line is too simple to follow the curve (**underfitting
 every noisy point and swings wildly between them (**overfitting / high
 variance**); **degree 4** captures the real shape without chasing the
 noise. The cross-validated MSE (below each panel) is lowest for the
-balanced model — that’s the sweet spot we want.
+balanced model, and that’s the sweet spot we want.
 
 The same story shows up when we watch **training vs. validation**
 metrics over epochs. Early on both improve together; past a point the
-model starts memorizing the training set — training keeps improving
+model starts memorizing the training set, and training keeps improving
 while **validation turns the wrong way**. The gap between the two curves
 *is* overfitting, and the dashed line marks where you’d want to **stop
 early**:
@@ -4287,8 +4287,8 @@ if (outputEl) {{
 &#10;                        })                };            </script>        </div>
 
 Past the dashed line the model keeps getting better on data it has
-*seen* while getting worse on data it *hasn’t* — the definition of
-overfitting.
+*seen* while getting worse on data it *hasn’t*. That is the definition
+of overfitting.
 
 To improve the generalization of our model on previously unseen data, we
 employ a technique known as regularization, which constrains our
@@ -4427,7 +4427,7 @@ show_failures(nonlinear_model, test_dataloader)
 
 Overall accuracy is a single number; it hides *where* the mistakes are.
 A **confusion matrix** answers “when the true digit is a 4, what does
-the model guess?” — row $i$, column $j$ counts test examples whose true
+the model guess?” Row $i$, column $j$ counts test examples whose true
 label is $i$ but that the model predicted as $j$. A perfect model is all
 diagonal; the bright *off*-diagonal cells are the pairs it mixes up
 (classically 4↔9, 3↔5, 7↔9).
@@ -4498,11 +4498,12 @@ if (outputEl) {{
 
     most-confused pair: true 9 -> predicted 4 (4.9% of all 9s)
 
-The diagonal should be overwhelmingly the brightest band — the model is
-right most of the time — and the worst confusion is usually a genuinely
-ambiguous pair a human would also hesitate on. This is the kind of
-per-class diagnostic you’d use to decide *what to fix next* (more data
-for a weak class, a better architecture, targeted augmentation).
+The diagonal should be overwhelmingly the brightest band, since the
+model is right most of the time, and the worst confusion is usually a
+genuinely ambiguous pair a human would also hesitate on. This is the
+kind of per-class diagnostic you’d use to decide *what to fix next*
+(more data for a weak class, a better architecture, targeted
+augmentation).
 
 ## Recap
 

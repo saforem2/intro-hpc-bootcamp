@@ -7,8 +7,8 @@ Sam Foreman
 - [🧪 ① A toy that really runs](#test_tube-①-a-toy-that-really-runs)
   - [(a) GRPO / RLVR from scratch, in plain
     PyTorch](#a-grpo--rlvr-from-scratch-in-plain-pytorch)
-  - [(a′) Add an entropy bonus — watch diversity come
-    back](#a-add-an-entropy-bonus--watch-diversity-come-back)
+  - [(a′) Add an entropy bonus and watch diversity come
+    back](#a-add-an-entropy-bonus-and-watch-diversity-come-back)
   - [(b) The same idea in TRL
     (display-only)](#b-the-same-idea-in-trl-display-only)
 - [🏭 ② The real thing](#factory-②-the-real-thing)
@@ -37,8 +37,8 @@ token-for-token. But the best answer is often not in your dataset, and
 “good” is hard to write down as a single target string. **Reinforcement
 learning** takes over here: instead of imitating a fixed answer, we let
 the model *generate*, **score** each generation, and push the policy
-toward the high-scoring behavior — either what humans **prefer**, or
-what a verifier can **prove correct**.
+toward the high-scoring behavior: either what humans **prefer**, or what
+a verifier can **prove correct**.
 
 That second idea — reward = a programmatic check — is what powers
 today’s **reasoning models** (DeepSeek-R1, o1-style): reward correct
@@ -55,7 +55,7 @@ algorithm family (PPO / DPO / GRPO / RLVR), and the `<think>` recipe.
 > Every cell that touches them is marked `#| eval: false`, so it renders
 > as copy-pasteable code without running. Everything in **§① A toy that
 > really runs** and the **self-consistency** section *does* run at build
-> time on CPU with plain `torch` — including the real char-GPT GRPO
+> time on CPU with plain `torch`, including the real char-GPT GRPO
 > training loop below, whose reward curve and before/after samples are
 > computed fresh each render. Drop the `eval: false` cells on the
 > cluster to run them for real.
@@ -70,25 +70,25 @@ arXiv:2402.03300](https://arxiv.org/abs/2402.03300)) is:
 
 1.  For **one prompt**, sample a **group** of $K$ completions from the
     policy.
-2.  Score each with a **verifiable reward** — no learned reward model,
+2.  Score each with a **verifiable reward**: no learned reward model,
     just a checker (RLVR: *RL from Verifiable Rewards*).
 3.  Standardize the rewards *within the group* to get an **advantage**:
     better-than- average completions get positive advantage,
     worse-than-average get negative.
-4.  Nudge the policy with a **policy gradient** — raise the probability
+4.  Nudge the policy with a **policy gradient**: raise the probability
     of the good completions, lower the probability of the bad ones.
 
 To make this concrete we’ll train a **real (tiny) GPT** with a **real
-GRPO loop** — no `trl`, no pre-canned scores, no big model. The policy
-is a small Transformer that generates actual token sequences; the reward
-is a Python verifier that reads those tokens. It runs on a **laptop
-CPU** in well under a minute, and you can watch it genuinely learn.
+GRPO loop**: no `trl`, no pre-canned scores, no big model. The policy is
+a small Transformer that generates actual token sequences; the reward is
+a Python verifier that reads those tokens. It runs on a **laptop CPU**
+in well under a minute, and you can watch it genuinely learn.
 
 **The task (a verifiable one).** The vocabulary is the ten digits `0–9`
 plus a `BOS` start token. Starting from `BOS`, the model emits `L = 4`
-digits, and the **reward is 1.0 if they sum to 10, else 0.0** — a cheap,
-exact check with *many* valid solutions (`5 5`, `1 2 3 4`, `9 1 0 0`,
-…). No labels, no reward model.
+digits, and the **reward is 1.0 if they sum to 10, else 0.0**. That’s a
+cheap, exact check with *many* valid solutions (`5 5`, `1 2 3 4`,
+`9 1 0 0`, …). No labels, no reward model.
 
 ``` python
 import os
@@ -108,7 +108,7 @@ def reward(seq: list[int]) -> float:
     return 1.0 if sum(seq) == 10 else 0.0
 ```
 
-**The policy — a real, tiny GPT.** One causal Transformer block over the
+**The policy: a real, tiny GPT.** One causal Transformer block over the
 digit vocabulary. Small, but a genuine autoregressive neural network
 (not a lookup table):
 
@@ -144,7 +144,7 @@ def sample_group(model, K):
     return seqs[:, 1:], logp                       # drop the BOS column
 ```
 
-**The GRPO loop.** Exactly the four steps above — sample a group of `K`,
+**The GRPO loop.** Exactly the four steps above: sample a group of `K`,
 score each with the verifier, standardize rewards *within the group* for
 the advantage, and take a policy-gradient step:
 
@@ -180,7 +180,7 @@ logger.info(f"final mean reward = {reward_curve[-1]:.3f}")
     [2026-08-03 21:58:26][I] final mean reward = 1.000
 
 The reward climbs from near-zero (random digits rarely sum to 10) toward
-1.0 as the policy learns — purely from the verifier’s 0/1 signal:
+1.0 as the policy learns, purely from the verifier’s 0/1 signal:
 
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -3561,8 +3561,8 @@ Figure 1
 </div>
 
 Sampling from the policy **before vs. after** training makes the
-learning concrete — random digits become digits that actually satisfy
-the rule:
+learning concrete: random digits become digits that actually satisfy the
+rule:
 
 ``` python
 with torch.no_grad():
@@ -3596,12 +3596,12 @@ full-scale run:
 - **No reward model.** `reward()` is a Python function. RLVR replaces a
   learned, fallible reward model with a cheap, exact check.
 - **The group is the baseline.** Subtracting `r.mean()` is a
-  *variance-reduction* baseline computed from the group itself — that is
+  *variance-reduction* baseline computed from the group itself. That is
   the “group relative” in GRPO, and why it needs **no value network**
   (unlike PPO).
 - **Zero-variance groups give zero signal.** If all `K` samples get the
-  same reward, `adv` is all zeros and nothing updates — the model
-  already agrees with the group, so there is nothing to learn from it.
+  same reward, `adv` is all zeros and nothing updates. The model already
+  agrees with the group, so there is nothing to learn from it.
 
 > [!WARNING]
 >
@@ -3609,18 +3609,18 @@ full-scale run:
 >
 > Look at the “after” samples: the policy tends to converge on **one**
 > sum-to-10 string and emit it over and over, even though many valid
-> answers exist. That’s **reward hacking / mode collapse** — nothing in
-> a pure reward objective rewards *variety*, so the policy piles all its
+> answers exist. That’s **reward hacking / mode collapse**. Nothing in a
+> pure reward objective rewards *variety*, so the policy piles all its
 > mass on whatever it found first.
 >
 > Real GRPO/PPO counter this with a **KL penalty to a frozen reference
 > policy** (the same `beta` knob you’ll see in DPO below) or an
 > **entropy bonus**, keeping the trained model close to the base model’s
-> distribution — exactly what the production trainers in the next
-> section do. The very next subsection **adds that term and watches
-> diversity return**.
+> distribution, exactly what the production trainers in the next section
+> do. The very next subsection **adds that term and watches diversity
+> return**.
 
-### (a′) Add an entropy bonus — watch diversity come back
+### (a′) Add an entropy bonus and watch diversity come back
 
 Let’s actually fix the collapse. The cleanest knob here is an **entropy
 bonus**: reward the policy for keeping its per-step distribution *spread
@@ -3630,7 +3630,7 @@ $$\mathcal{L} = \underbrace{-\,\mathbb{E}[A \cdot \log \pi_\theta]}_{\text{maxim
 \;-\; \beta \cdot \underbrace{\mathbb{E}[\,\mathcal{H}(\pi_\theta)\,]}_{\text{stay diverse}}$$
 
 (The KL-to-a-frozen-reference penalty in production trainers does the
-same job — it pulls the policy back toward the base model’s spread. Here
+same job: it pulls the policy back toward the base model’s spread. Here
 the base policy is already near-uniform, so an entropy bonus is the more
 direct lever.) We just accumulate the per-step entropy that
 `Categorical` already exposes, so `sample_group` needs one extra
@@ -3675,9 +3675,9 @@ def train_grpo(beta, steps=150, seed=0):
     return m
 ```
 
-Now sweep `beta` from 0 (pure reward — the collapse) upward. Near the
+Now sweep `beta` from 0 (pure reward, the collapse) upward. Near the
 collapse threshold a *single* run is noisy, so we average over a few
-seeds to see the trend cleanly — for each `beta` we report the mean
+seeds to see the trend cleanly. For each `beta` we report the mean
 reward and the mean number of *distinct* valid answers the trained
 policy emits:
 
@@ -7097,7 +7097,7 @@ logger.info(f"β={betas[best]} (sweet spot): reward={rewards[best]:.2f}, "
 At `beta=0` the policy collapses to a single answer, exactly as in §(a).
 Raise the entropy bonus a little and, while reward stays high, the
 policy starts emitting **several distinct** valid sum-to-10 strings
-again — diversity returns for nearly free. Push `beta` too high and
+again; diversity returns for nearly free. Push `beta` too high and
 reward finally craters (the policy is now paid more for being random
 than for being right). That U-shaped tradeoff *is* the story of
 regularized RL: the `beta` knob buys back the base model’s diversity,
@@ -7108,7 +7108,7 @@ real effort tuning exactly this term.
 
 In practice the policy is an LLM and TRL’s `GRPOTrainer` runs the loop
 above over real token sequences. You supply the model, a dataset of
-**prompts**, and a **list of reward functions** — each is just a Python
+**prompts**, and a **list of reward functions**. Each is just a Python
 callable returning a score per completion:
 
 ``` python
@@ -7177,7 +7177,7 @@ trainer.train()
 
 ## 🏭 ② The real thing
 
-*(display-only — algorithm comparison + the reasoning-model recipe)*
+*(display-only: algorithm comparison + the reasoning-model recipe)*
 
 All four methods answer the same question — *“how do we push the policy
 toward better outputs?”* — but differ in **what supervision they need**
@@ -7185,8 +7185,8 @@ and **what extra machinery they carry**.
 
 <div id="tbl-rl-methods">
 
-Table 1: What each RL method needs. RLVR is not a separate optimizer —
-it is GRPO/PPO with a **verifier** in place of a learned reward model.
+Table 1: What each RL method needs. RLVR is not a separate optimizer: it
+is GRPO/PPO with a **verifier** in place of a learned reward model.
 
 | Method | Needs reward model? | Needs preference pairs? | Needs verifier? | Needs value network? | Notes |
 |:---|:--:|:--:|:--:|:--:|:---|
@@ -7207,7 +7207,7 @@ but four models in memory and a reward model that can be *hacked*.
 
 **GRPO** removes the critic: instead of learning a value function, it
 estimates the baseline empirically from a **group** of $K$ samples for
-the same prompt — exactly the standardization from the toy. For each
+the same prompt, exactly the standardization from the toy. For each
 completion $i$ in a group with rewards $\mathbf{r} = (r_1, \dots, r_K)$,
 the **group-relative advantage** is
 
@@ -7215,7 +7215,7 @@ $$\hat{A}_i = \frac{r_i - \operatorname{mean}(\mathbf{r})}{\operatorname{std}(\m
 
 **RLVR** removes the *reward model*. The insight ([Lambert et al. 2024,
 Tülu 3, arXiv:2411.15124](https://arxiv.org/abs/2411.15124)) is that for
-many tasks we don’t need to *learn* what “good” means — we can **check**
+many tasks we don’t need to *learn* what “good” means; we can **check**
 it:
 
 - **Math** — parse the final answer and compare to ground truth (or run
@@ -7247,7 +7247,7 @@ class M purple
 Figure 3: The reasoning-model recipe: **base → SFT → RLVR**. DeepSeek-R1
 showed that RLVR on top of a capable base model makes long
 chain-of-thought reasoning **emerge**, rewarded only by final-answer
-correctness — no step-by-step supervision required.
+correctness, with no step-by-step supervision required.
 
 </div>
 
@@ -7270,7 +7270,7 @@ correctness — no step-by-step supervision required.
 > the policy is sharded with ZeRO/FSDP, generation is parallelized
 > across ranks, and rewards are gathered with the same collectives. RL
 > just adds a **generate → verify → update** loop around the training
-> step. The API below is the same one you saw in §①b — only the model
+> step. The API below is the same one you saw in §①b. Only the model
 > size, the verifier, and the node count change.
 
 ## 🤖 ③ Build an agentic reasoning model
@@ -7279,9 +7279,9 @@ The trick that makes a model *reason* is a **format contract**: force
 the model to “think out loud” inside `<think>...</think>` tags
 **before** committing to a final answer. During RLVR we only score what
 comes **after** `</think>`, so the model is free to use the scratchpad
-however it likes — and because longer, more careful reasoning
-empirically leads to more correct final answers, the reasoning behavior
-is *reinforced* even though we never reward the reasoning directly.
+however it likes, and because longer, more careful reasoning empirically
+leads to more correct final answers, the reasoning behavior is
+*reinforced* even though we never reward the reasoning directly.
 
 **1. A system/format prompt** that demands the structure:
 
@@ -7301,7 +7301,7 @@ def make_prompt(question: str) -> list[dict]:
 ```
 
 **2. Reward functions** that parse the region after `</think>` and check
-it — one verifier for **correctness**, one for **format**. This list is
+it: one verifier for **correctness**, one for **format**. This list is
 exactly what you’d hand to `GRPOTrainer(reward_funcs=[...])`:
 
 ``` python
@@ -7354,7 +7354,7 @@ correct-answer-producing reasoning is what survives.
 
 **4. See it happen.** The two reward functions above are
 `#| eval: false` (they’d be handed to `GRPOTrainer`), but they’re plain
-Python — so we can run them *now* on a sampled group and feed the result
+Python, so we can run them *now* on a sampled group and feed the result
 through the **same** `(r - mean) / std` line from the toy in §①a. This
 turns the prose above into numbers, on a laptop CPU:
 
@@ -7401,7 +7401,7 @@ There is the `1.2` vs `0.2` from the text — now computed — and the group
 split into **positive** and **negative** advantage. Notice rollout 3 got
 the right *value* but skipped the tags: `reward_correct` can’t parse it,
 so it scores the **worst** of the group. That is precisely why the
-format contract is rewarded — no parseable answer, no credit.
+format contract is rewarded: no parseable answer, no credit.
 
 > [!NOTE]
 >
@@ -7410,7 +7410,7 @@ format contract is rewarded — no parseable answer, no credit.
 > The §①a toy noted that if every sample in a group gets the **same**
 > reward, the advantage is all zeros and nothing updates. Rebuild
 > `group` so all four rollouts are **correct *and* formatted**,
-> recompute `adv`, and confirm you get zeros — the policy already agrees
+> recompute `adv`, and confirm you get zeros. The policy already agrees
 > with the group, so there’s nothing to learn from it.
 >
 > > [!TIP]
@@ -7463,7 +7463,7 @@ inside `<think>` is discovered by the policy.
 ### 🚀 Scale it up
 
 On the cluster, run GRPO as a plain Python module and let `ezpz` handle
-the launch — it auto-detects the scheduler (PBS → `mpiexec`, SLURM →
+the launch. It auto-detects the scheduler (PBS → `mpiexec`, SLURM →
 `srun`) and wires up the distributed environment for you.
 
 1.  Set up the environment and install the RL stack:
@@ -7507,14 +7507,14 @@ the launch — it auto-detects the scheduler (PBS → `mpiexec`, SLURM →
 ## 🗳️ Inference-time scaling: self-consistency
 
 Everything above makes a model reason *better by training it*. But
-there’s a complementary trick that needs **no training at all** — you
+there’s a complementary trick that needs **no training at all**: you
 just spend more compute **at inference time**. It’s called
 **self-consistency** ([Wang et al. 2022,
 arXiv:2203.11171](https://arxiv.org/abs/2203.11171)):
 
 1.  Ask the model the same question **$N$ times** with **sampling on**
-    (temperature \> 0, so each run explores a different chain-of-thought
-    — see [\[2.5\] Decoding &
+    (temperature \> 0, so each run explores a different
+    chain-of-thought; see [\[2.5\] Decoding &
     Sampling](../../02-llms/5-decoding-and-sampling/index.qmd)).
 2.  Extract the **final answer** from each of the $N$ chains.
 3.  Take the **majority vote**.
@@ -7523,7 +7523,7 @@ The intuition: there are many wrong answers but usually one right one,
 so *correct* final answers tend to agree with each other while mistakes
 scatter. Voting concentrates the signal.
 
-Here’s the whole idea as a runnable toy — no model needed. We simulate a
+Here’s the whole idea as a runnable toy, no model needed. We simulate a
 “reasoner” that lands on the correct answer **45% of the time** (so a
 single sample is wrong more often than not) and otherwise blurts a
 random wrong answer, then watch what majority-vote accuracy does as we
@@ -7567,7 +7567,7 @@ for n, a in zip(Ns, acc):
     N=41 samples -> majority-vote accuracy 1.00
 
 A single sample is right ~45% of the time, but voting over a couple
-dozen samples pushes accuracy well past that — the correct answer wins
+dozen samples pushes accuracy well past that; the correct answer wins
 the vote even though it’s a minority of any *individual* run’s mistakes:
 
 <details class="code-fold">
@@ -10981,7 +10981,7 @@ Your submission should include:
     [GSM8K](https://huggingface.co/datasets/openai/gsm8k)-style
     problems).
 3.  A **reward-vs-step** curve (or the logged numbers) showing the mean
-    reward *increasing* as GRPO trains — this is your proof-of-run.
+    reward *increasing* as GRPO trains. This is your proof-of-run.
 
 Where *proof* can be any of:
 

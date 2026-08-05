@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training large language models at scale.">
+<meta name="description" content="A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training large language models at scale.">
 
 <title>Intro to HPC Bootcamp</title>
 <style>
@@ -137,11 +137,11 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 
 <meta property="og:title" content="Intro to HPC Bootcamp">
-<meta property="og:description" content="A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale.">
+<meta property="og:description" content="A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale.">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta name="twitter:title" content="Intro to HPC Bootcamp">
-<meta name="twitter:description" content="A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale.">
+<meta name="twitter:description" content="A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale.">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/assets/thumbnail.png">
 <meta name="twitter:creator" content="saforem2">
 <meta name="twitter:site" content="saforem2">
@@ -673,7 +673,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <div>
   <div class="description">
-    A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training large language models at scale.
+    A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training large language models at scale.
   </div>
 </div>
 
@@ -706,7 +706,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -719,7 +719,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <section id="welcome" class="level2">
 <h2 class="anchored" data-anchor-id="welcome">👋 Welcome</h2>
-<p>This is a <strong>hands-on introduction to doing AI on supercomputers</strong>. It starts from the ground up — the shell, Python, and how HPC systems work — and builds all the way to <strong>training large language models across many GPUs</strong>. Almost every page is a runnable notebook: you can read it here, open it in Google Colab, or run it on an HPC system.</p>
+<p>This is a <strong>hands-on introduction to doing AI on supercomputers</strong>. It starts from the ground up (the shell, Python, and how HPC systems work) and builds all the way to <strong>training large language models across many GPUs</strong>. Almost every page is a runnable notebook: you can read it here, open it in Google Colab, or run it on an HPC system.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🎯 Who this is for">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -738,7 +738,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 <section id="start-here" class="level3">
 <h3 class="anchored" data-anchor-id="start-here">🚦 Start here</h3>
-<p>Work through the five parts in order — each builds on the last:</p>
+<p>Work through the five parts in order. Each builds on the last:</p>
 <ol type="1">
 <li><strong><a href="00-intro-AI-HPC/">[0] Intro to AI and HPC</a></strong> — compute systems, the scheduler, Python, and data; then your first models (Monte Carlo, linear regression, clustering). <strong>New? <a href="./00-intro-AI-HPC/0-compute-systems/">Start with Compute Systems ➡️</a></strong></li>
 <li><strong><a href="01-neural-networks/">[1] Neural Networks</a></strong> — from a single neuron to CNNs, representation learning, and distributed training.</li>
@@ -758,7 +758,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>The lighter notebooks run anywhere (including a laptop or <strong>Google Colab</strong> — look for the <a href="https://colab.research.google.com"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> badge at the top of each page). The large-scale training examples are meant for an HPC system — the bootcamp uses <strong>Jupyter on <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (project <code>m4388</code>), but the commands are scheduler-agnostic and work on ALCF PBS systems too. See <a href="#running-instructions">running instructions</a> below.</p>
+<p>The lighter notebooks run anywhere (including a laptop or <strong>Google Colab</strong>; look for the <a href="https://colab.research.google.com"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> badge at the top of each page). The large-scale training examples are meant for an HPC system. The bootcamp uses <strong>Jupyter on <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (project <code>m4388</code>), but the commands are scheduler-agnostic and work on ALCF PBS systems too. See <a href="#running-instructions">running instructions</a> below.</p>
 </div>
 </div>
 </div>
@@ -837,18 +837,18 @@ Instructions for Running @ NERSC
 </section>
 <section id="distributed-training-example" class="level2">
 <h2 class="anchored" data-anchor-id="distributed-training-example">🌐 Distributed Training Example</h2>
-<p>Ready to train a real model across multiple GPUs? The full end-to-end walkthrough — request an interactive job, set up the environment, and launch a multi-node run with <a href="https://github.com/saforem2/ezpz"><code>ezpz launch</code></a> — lives on the dedicated pages, complete with annotated output:</p>
+<p>Ready to train a real model across multiple GPUs? The full end-to-end walkthrough (request an interactive job, set up the environment, and launch a multi-node run with <a href="https://github.com/saforem2/ezpz"><code>ezpz launch</code></a>) lives on the dedicated pages, complete with annotated output:</p>
 <ul>
 <li>🧠 <strong><a href="./01-neural-networks/4-distributed-training/">[1.4] Distributed Training</a></strong> — the concepts (DDP, FSDP, collective ops, 3D parallelism) <em>and</em> a complete Perlmutter run you can reproduce, including a full annotated training log.</li>
 <li>🚀 <strong><a href="./02-llms/1-parallel-training/">[2.1] Parallel Training</a></strong> — the same ideas applied to pretraining a GPT with <a href="https://github.com/saforem2/wordplay"><code>wordplay</code></a>.</li>
 </ul>
-<div class="callout callout-style-simple callout-tip callout-titled" title="TL;DR — launch a run">
+<div class="callout callout-style-simple callout-tip callout-titled" title="TL;DR: launch a run">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>TL;DR — launch a run
+<span class="screen-reader-only">Tip</span>TL;DR: launch a run
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1826,7 +1826,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="co">---</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-label="2"></a><span class="co"># toc: true</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-label="3"></a><span class="an">title:</span><span class="co"> "Intro to HPC Bootcamp"</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="an">description:</span><span class="co"> "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training large language models at scale."</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="an">description:</span><span class="co"> "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training large language models at scale."</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-label="5"></a><span class="an">categories:</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-label="6"></a><span class="co">  - ai4science</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-label="7"></a><span class="co">  - hpc</span></span>
@@ -1840,11 +1840,11 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-15"><a href="#cb17-15" aria-label="15"></a><span class="co">   url: https://saforem2.github.io/intro-hpc-bootcamp</span></span>
 <span id="cb17-16"><a href="#cb17-16" aria-label="16"></a><span class="an">open-graph:</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-label="17"></a><span class="co">  title: "Intro to HPC Bootcamp"</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-label="18"></a><span class="co">  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-label="18"></a><span class="co">  description: "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale."</span></span>
 <span id="cb17-19"><a href="#cb17-19" aria-label="19"></a><span class="co">  # image: "./assets/thumbnail.png"</span></span>
 <span id="cb17-20"><a href="#cb17-20" aria-label="20"></a><span class="an">twitter-card:</span></span>
 <span id="cb17-21"><a href="#cb17-21" aria-label="21"></a><span class="co">  title: "Intro to HPC Bootcamp"</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-label="22"></a><span class="co">  description: "A hands-on tour of AI on supercomputers — from Python and HPC basics through neural networks to training LLMs at scale."</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-label="22"></a><span class="co">  description: "A hands-on tour of AI on supercomputers: from Python and HPC basics through neural networks to training LLMs at scale."</span></span>
 <span id="cb17-23"><a href="#cb17-23" aria-label="23"></a><span class="co">  site: "saforem2"</span></span>
 <span id="cb17-24"><a href="#cb17-24" aria-label="24"></a><span class="co">  creator: "saforem2"</span></span>
 <span id="cb17-25"><a href="#cb17-25" aria-label="25"></a><span class="an">sidebar:</span><span class="co"> sidebar</span></span>
@@ -1923,7 +1923,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-98"><a href="#cb17-98" aria-label="98"></a><span class="fu">## 👋 Welcome</span></span>
 <span id="cb17-99"><a href="#cb17-99" aria-label="99"></a></span>
 <span id="cb17-100"><a href="#cb17-100" aria-label="100"></a>This is a **hands-on introduction to doing AI on supercomputers**. It starts from</span>
-<span id="cb17-101"><a href="#cb17-101" aria-label="101"></a>the ground up — the shell, Python, and how HPC systems work — and builds all the</span>
+<span id="cb17-101"><a href="#cb17-101" aria-label="101"></a>the ground up (the shell, Python, and how HPC systems work) and builds all the</span>
 <span id="cb17-102"><a href="#cb17-102" aria-label="102"></a>way to **training large language models across many GPUs**. Almost every page is a</span>
 <span id="cb17-103"><a href="#cb17-103" aria-label="103"></a>runnable notebook: you can read it here, open it in Google Colab, or run it on an</span>
 <span id="cb17-104"><a href="#cb17-104" aria-label="104"></a>HPC system.</span>
@@ -1937,7 +1937,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-112"><a href="#cb17-112" aria-label="112"></a></span>
 <span id="cb17-113"><a href="#cb17-113" aria-label="113"></a><span class="fu">### 🚦 Start here</span></span>
 <span id="cb17-114"><a href="#cb17-114" aria-label="114"></a></span>
-<span id="cb17-115"><a href="#cb17-115" aria-label="115"></a>Work through the five parts in order — each builds on the last:</span>
+<span id="cb17-115"><a href="#cb17-115" aria-label="115"></a>Work through the five parts in order. Each builds on the last:</span>
 <span id="cb17-116"><a href="#cb17-116" aria-label="116"></a></span>
 <span id="cb17-117"><a href="#cb17-117" aria-label="117"></a><span class="ss">1. </span>**[\[0\] Intro to AI and HPC](00-intro-AI-HPC/)** — compute systems, the</span>
 <span id="cb17-118"><a href="#cb17-118" aria-label="118"></a>   scheduler, Python, and data; then your first models (Monte Carlo, linear</span>
@@ -1952,10 +1952,10 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-127"><a href="#cb17-127" aria-label="127"></a>   Transformer + HPC stack applied to genomes, proteins, and molecules.</span>
 <span id="cb17-128"><a href="#cb17-128" aria-label="128"></a></span>
 <span id="cb17-129"><a href="#cb17-129" aria-label="129"></a>::: {.callout-note title="🖥️ Where the code runs" collapse="false"}</span>
-<span id="cb17-130"><a href="#cb17-130" aria-label="130"></a>The lighter notebooks run anywhere (including a laptop or **Google Colab** — look</span>
+<span id="cb17-130"><a href="#cb17-130" aria-label="130"></a>The lighter notebooks run anywhere (including a laptop or **Google Colab**; look</span>
 <span id="cb17-131"><a href="#cb17-131" aria-label="131"></a>for the <span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com)</span></span>
 <span id="cb17-132"><a href="#cb17-132" aria-label="132"></a>badge at the top of each page). The large-scale training examples are meant for an</span>
-<span id="cb17-133"><a href="#cb17-133" aria-label="133"></a>HPC system — the bootcamp uses **Jupyter on [NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**</span>
+<span id="cb17-133"><a href="#cb17-133" aria-label="133"></a>HPC system. The bootcamp uses **Jupyter on [NERSC Perlmutter](https://docs.nersc.gov/systems/perlmutter/)**</span>
 <span id="cb17-134"><a href="#cb17-134" aria-label="134"></a>(project <span class="in">`m4388`</span>), but the commands are scheduler-agnostic and work on ALCF PBS</span>
 <span id="cb17-135"><a href="#cb17-135" aria-label="135"></a>systems too. See <span class="co">[</span><span class="ot">running instructions</span><span class="co">](#running-instructions)</span> below.</span>
 <span id="cb17-136"><a href="#cb17-136" aria-label="136"></a>:::</span>
@@ -2036,8 +2036,8 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-211"><a href="#cb17-211" aria-label="211"></a><span class="fu">## 🌐 Distributed Training Example {#distributed-training-example}</span></span>
 <span id="cb17-212"><a href="#cb17-212" aria-label="212"></a></span>
 <span id="cb17-213"><a href="#cb17-213" aria-label="213"></a>Ready to train a real model across multiple GPUs? The full end-to-end</span>
-<span id="cb17-214"><a href="#cb17-214" aria-label="214"></a>walkthrough — request an interactive job, set up the environment, and launch a</span>
-<span id="cb17-215"><a href="#cb17-215" aria-label="215"></a>multi-node run with <span class="co">[</span><span class="ot">`ezpz launch`</span><span class="co">](https://github.com/saforem2/ezpz)</span> — lives on</span>
+<span id="cb17-214"><a href="#cb17-214" aria-label="214"></a>walkthrough (request an interactive job, set up the environment, and launch a</span>
+<span id="cb17-215"><a href="#cb17-215" aria-label="215"></a>multi-node run with <span class="co">[</span><span class="ot">`ezpz launch`</span><span class="co">](https://github.com/saforem2/ezpz)</span>) lives on</span>
 <span id="cb17-216"><a href="#cb17-216" aria-label="216"></a>the dedicated pages, complete with annotated output:</span>
 <span id="cb17-217"><a href="#cb17-217" aria-label="217"></a></span>
 <span id="cb17-218"><a href="#cb17-218" aria-label="218"></a><span class="ss">- </span>🧠 **[\[1.4\] Distributed Training](./01-neural-networks/4-distributed-training/)** —</span>
@@ -2046,7 +2046,7 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp.”</span> July 15. <a href="
 <span id="cb17-221"><a href="#cb17-221" aria-label="221"></a><span class="ss">- </span>🚀 **[\[2.1\] Parallel Training](./02-llms/1-parallel-training/)** — the same</span>
 <span id="cb17-222"><a href="#cb17-222" aria-label="222"></a>  ideas applied to pretraining a GPT with <span class="co">[</span><span class="ot">`wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span>.</span>
 <span id="cb17-223"><a href="#cb17-223" aria-label="223"></a></span>
-<span id="cb17-224"><a href="#cb17-224" aria-label="224"></a>::: {.callout-tip title="TL;DR — launch a run" collapse="true"}</span>
+<span id="cb17-224"><a href="#cb17-224" aria-label="224"></a>::: {.callout-tip title="TL;DR: launch a run" collapse="true"}</span>
 <span id="cb17-225"><a href="#cb17-225" aria-label="225"></a>On an HPC system with an interactive allocation:</span>
 <span id="cb17-226"><a href="#cb17-226" aria-label="226"></a></span>
 <span id="cb17-227"><a href="#cb17-227" aria-label="227"></a><span class="in">```bash</span></span>

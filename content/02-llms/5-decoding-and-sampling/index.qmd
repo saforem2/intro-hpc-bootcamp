@@ -1,6 +1,6 @@
 ---
 title: "🎲 Decoding & Sampling"
-description: "How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run."
+description: "How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run."
 categories:
   - ai
   - hpc
@@ -24,7 +24,7 @@ Decoding examples adapted from Sebastian Raschka's
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/5-decoding-and-sampling/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/5-decoding-and-sampling/index.qmd)
 
 In [\[2.0\] Intro to LLMs](../0-intro-to-llms/index.qmd) we saw that a GPT maps a
-sequence of tokens to a grid of scores — one **probability distribution over the
+sequence of tokens to a grid of scores: one **probability distribution over the
 whole vocabulary** for each position. But how do we get from that distribution to
 the *next word*? That choice is called **decoding**, and it has a huge effect on
 whether the output is repetitive and safe, or varied and creative (or unhinged).
@@ -35,8 +35,8 @@ whether the output is repetitive and safe, or varied and creative (or unhinged).
 - **Temperature** — one knob that flattens or sharpens the distribution.
 - **Top-p (nucleus) sampling** — keep only the most probable tokens, then sample.
 
-Everything here runs on a **laptop or Colab** (CPU) with the small `gpt2` model —
-no GPU required.
+Everything here runs on a **laptop or Colab** (CPU) with the small `gpt2` model.
+No GPU required.
 :::
 
 ```{python}
@@ -89,13 +89,13 @@ fig.update_layout(height=340, margin=dict(t=40),
 fig.show()
 ```
 
-No single token is close to certain — the model is genuinely *unsure*, and several
+No single token is close to certain: the model is genuinely *unsure*, and several
 completions are reasonable. **How we pick from this distribution is decoding.**
 
 ## 🎯 Greedy vs. sampling
 
 The simplest rule is **greedy**: always take the single most probable token
-(`argmax`). It's deterministic — same prompt, same output, every time — which
+(`argmax`). It's deterministic (same prompt, same output, every time), which
 makes it repetitive and prone to loops.
 
 ```{python}
@@ -107,7 +107,7 @@ print("GREEDY:", tok.decode(greedy[0], skip_special_tokens=True))
 ```
 
 **Sampling** (`do_sample=True`) instead *draws* the next token according to its
-probability — so more probable tokens appear more often, but the output varies run
+probability, so more probable tokens appear more often, but the output varies run
 to run. Here are three independent samples of the same prompt:
 
 ```{python}
@@ -156,8 +156,8 @@ fig.update_layout(height=360, margin=dict(t=40), barmode="group",
 fig.show()
 ```
 
-The same effect in generated text — low temperature is focused and repetitive,
-high temperature is varied and can go off the rails:
+The same effect shows up in generated text: low temperature is focused and
+repetitive, high temperature is varied and can go off the rails:
 
 ```{python}
 for T in (0.5, 1.0, 1.5):
@@ -168,7 +168,7 @@ for T in (0.5, 1.0, 1.5):
 
 ## 🎯 Top-p (nucleus) sampling
 
-Temperature reshapes *all* tokens — including absurd ones in the far tail. **Top-p
+Temperature reshapes *all* tokens, including absurd ones in the far tail. **Top-p
 sampling** (a.k.a. *nucleus* sampling) instead **keeps only the smallest set of
 top tokens whose probabilities sum to `p`**, then samples from just those. It
 adapts to the distribution: when the model is confident, the nucleus is tiny; when
@@ -200,7 +200,7 @@ fig.update_layout(height=360, margin=dict(t=40),
 fig.show()
 ```
 
-So for this prompt the nucleus is tiny — `top_p=0.9` samples from only a handful
+So for this prompt the nucleus is tiny: `top_p=0.9` samples from only a handful
 of tokens and discards the rest of the 50,257-token vocabulary:
 
 ```{python}
@@ -228,6 +228,6 @@ for p in (0.9, 0.5):
 - In practice you combine them — e.g. `temperature≈0.7, top_p≈0.9` is a common
   "sensible default" for chat models.
 
-➡️ **Next:** these knobs aren't just for style — sampling *many* completions and
+➡️ **Next:** these knobs aren't just for style. Sampling *many* completions and
 combining them can make a model measurably **more accurate**. That's
 **self-consistency**, in [\[3.4\] RL & Reasoning](../../03-advanced-llms/4-rl-and-reasoning/index.qmd).

@@ -43,7 +43,7 @@ Tip: this notebook is much faster on the GPU!
 
 The [ImageNet](https://www.image-net.org/) challenge was *the* driver of the deep
 learning revolution in computer vision. When **AlexNet** (a deep CNN) won in 2012,
-error rates fell off a cliff — and by 2015 models had **surpassed human-level**
+error rates fell off a cliff, and by 2015 models had **surpassed human-level**
 accuracy. Today the benchmark is essentially solved (top-5 error ~1%), and the
 frontier has moved on to harder tasks.[^image-net-historical]
 
@@ -220,7 +220,7 @@ _ = plt.imshow(rand_image)
 ```
 
 A *random* kernel just produces noise. But a kernel is only a small grid of
-numbers — and the *right* numbers detect real structure. The classic example is
+numbers, and the *right* numbers detect real structure. The classic example is
 the **Sobel filter**, a hand-designed $3\times3$ kernel that responds to
 horizontal (or vertical) brightness gradients, i.e. **edges**:
 
@@ -263,7 +263,7 @@ plt.tight_layout()
 
 We *chose* those nine numbers by hand and got an edge detector for free. The key
 idea of a CNN is to **stop choosing them by hand**: make the kernel weights
-learnable and let gradient descent discover whatever filters minimize the loss —
+learnable and let gradient descent discover whatever filters minimize the loss:
 edge detectors, texture detectors, and eventually much more abstract features in
 the deeper layers.
 
@@ -574,7 +574,7 @@ ConvNext is an update to the ResNet architecture that outperforms it.
 
 [ConvNext](https://arxiv.org/abs/2201.03545)
 
-The dataset here is [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) —
+The dataset here is [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist):
 28×28 grayscale images of clothing in 10 classes. It's a drop-in, slightly harder
 replacement for MNIST that's still small enough to download and train on a CPU in
 seconds (unlike the heavier CIFAR-10 color images).
@@ -1106,14 +1106,14 @@ In this notebook, we've learned about some basic convolutional networks and
 trained one on Fashion-MNIST images.
 
 `TRAIN_ITERS` scales with the hardware. On a **CPU build** it's only 100 steps
-(~1600 samples) — far less than one pass over the ~48k training images, so the
+(~1600 samples), far less than one pass over the ~48k training images, so the
 model still *underfits* and you won't see overfitting. On a **GPU** (this page was
 rendered on a Polaris A100) it runs 3000 steps, long enough that you can watch the
 **training loss keep dropping while the validation loss flattens and turns back
-up** — that growing gap *is* overfitting.
+up**. That growing gap *is* overfitting.
 
 As an exercise, push it further (or train for several full epochs using the
-`train_one_epoch` loop below) and see how much the curves diverge — then try the
+`train_one_epoch` loop below) and see how much the curves diverge. Then try the
 standard remedies: **data augmentation, weight decay, and dropout**.
 
 Meanwhile, your homework (part 1) for this week is to try to train the model

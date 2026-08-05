@@ -757,7 +757,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -850,7 +850,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 <li><strong>Post-training / SFT</strong> (this lab) — teach the model to follow instructions and speak in a <strong>chat template</strong> using (prompt, completion) pairs.</li>
 <li><strong>Alignment / RL</strong> — DPO / GRPO / PPO on preference data. Covered in the next lab: <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[3.4] RL &amp; Reasoning</a>.</li>
 </ul>
-<p>Throughout we use the HuggingFace <a href="https://huggingface.co/docs/trl">TRL</a> and <a href="https://huggingface.co/docs/peft">PEFT</a> libraries — the standard, batteries-included stack for post-training.</p>
+<p>Throughout we use the HuggingFace <a href="https://huggingface.co/docs/trl">TRL</a> and <a href="https://huggingface.co/docs/peft">PEFT</a> libraries. Together they are the standard, batteries-included stack for post-training.</p>
 <div class="callout callout-style-simple callout-warning callout-titled" title="Render note">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -863,7 +863,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>trl</code>, <code>peft</code>, and <code>deepspeed</code> are <strong>not</strong> installed in the site build environment, and real fine-tuning needs a GPU. Every cell that touches them is marked <code>#| eval: false</code> so it renders as copy-pasteable code without running. The handful of cells that <em>do</em> run use only <code>transformers</code> + <code>torch</code> on CPU with a <code>gpt2</code> tokenizer — flip any <code>eval: false</code> to <code>true</code> on the cluster to run it for real.</p>
+<p><code>trl</code>, <code>peft</code>, and <code>deepspeed</code> are <strong>not</strong> installed in the site build environment, and real fine-tuning needs a GPU. Every cell that touches them is marked <code>#| eval: false</code> so it renders as copy-pasteable code without running. The handful of cells that <em>do</em> run use only <code>transformers</code> + <code>torch</code> on CPU with a <code>gpt2</code> tokenizer. Flip any <code>eval: false</code> to <code>true</code> on the cluster to run it for real.</p>
 </div>
 </div>
 </div>
@@ -913,7 +913,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 <pre><code>53 tokens -&gt; (3, 16) (n_blocks, block_size)</code></pre>
 </div>
 </div>
-<p>That <code>(n_blocks, block_size)</code> tensor is exactly the shape a <code>DataCollator</code> feeds a <code>Trainer</code>. The actual training step loads a <strong>base model</strong> and runs a standard optimizer loop — heavy, so it is display-only here:</p>
+<p>That <code>(n_blocks, block_size)</code> tensor is exactly the shape a <code>DataCollator</code> feeds a <code>Trainer</code>. The actual training step loads a <strong>base model</strong> and runs a standard optimizer loop, which is heavy, so it is display-only here:</p>
 <div id="ab732714" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    AutoModelForCausalLM,</span>
@@ -995,7 +995,7 @@ What is continued pretraining in one sentence?&lt;|im_end|&gt;
 </code></pre>
 </div>
 </div>
-<p>The output is the exact string the model trains on. Note how <code>add_generation_prompt=True</code> leaves a dangling <code>&lt;|im_start|&gt;assistant\n</code> — that is the cue that tells the model <em>“your turn now.”</em></p>
+<p>The output is the exact string the model trains on. Note how <code>add_generation_prompt=True</code> leaves a dangling <code>&lt;|im_start|&gt;assistant\n</code>. That is the cue that tells the model <em>“your turn now.”</em></p>
 <p>Two ideas make SFT work:</p>
 <ul>
 <li><strong>Schema.</strong> Each example is either <code>{"prompt": ..., "completion": ...}</code> or a <code>{"messages": [...]}</code> list. TRL renders <code>messages</code> through the chat template automatically.</li>
@@ -1057,7 +1057,7 @@ loss if prompt NOT masked : 0.987  &lt;- diluted by 'free' prompt tokens</code><
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>What happens to <code>loss_sft</code> if you set every <code>completion_ids</code> position in <code>logits</code> to be confidently correct too (like the prompt)? What does that tell you about a model that has finished SFT?</p>
-<p><strong>Solution.</strong> Add <code>for i, t in enumerate(completion_ids): logits[len(prompt_ids)+i, t] = 10.0</code> before computing the loss — <code>loss_sft</code> drops to ~0. A fully SFT’d model assigns high probability to the target completion tokens, so the (masked) loss it was trained on goes to zero.</p>
+<p><strong>Solution.</strong> Add <code>for i, t in enumerate(completion_ids): logits[len(prompt_ids)+i, t] = 10.0</code> before computing the loss, and <code>loss_sft</code> drops to ~0. A fully SFT’d model assigns high probability to the target completion tokens, so the (masked) loss it was trained on goes to zero.</p>
 </div>
 </div>
 </div>
@@ -1109,21 +1109,21 @@ loss if prompt NOT masked : 0.987  &lt;- diluted by 'free' prompt tokens</code><
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Full fine-tuning updates <strong>all</strong> the weights, so you must hold the model, its gradients, and optimizer states in memory — often several times the model size. <strong>LoRA</strong> (<a href="https://arxiv.org/abs/2106.09685">Hu et al.&nbsp;2021, arXiv:2106.09685</a>) freezes the pretrained weights <span class="math inline">W_0</span> and learns a tiny low-rank update <span class="math inline">\Delta W = BA</span>, where <span class="math inline">B \in \mathbb{R}^{d\times r}</span>, <span class="math inline">A \in \mathbb{R}^{r\times k}</span>, and the rank <span class="math inline">r \ll d,k</span>:</p>
+<p>Full fine-tuning updates <strong>all</strong> the weights, so you must hold the model, its gradients, and optimizer states in memory, often several times the model size. <strong>LoRA</strong> (<a href="https://arxiv.org/abs/2106.09685">Hu et al.&nbsp;2021, arXiv:2106.09685</a>) freezes the pretrained weights <span class="math inline">W_0</span> and learns a tiny low-rank update <span class="math inline">\Delta W = BA</span>, where <span class="math inline">B \in \mathbb{R}^{d\times r}</span>, <span class="math inline">A \in \mathbb{R}^{r\times k}</span>, and the rank <span class="math inline">r \ll d,k</span>:</p>
 <p><span class="math display">
 W = W_0 + \Delta W = W_0 + B A
 </span></p>
-<p>Only <span class="math inline">A</span> and <span class="math inline">B</span> are trained — often <strong>&lt;1%</strong> of the parameters. The optimizer state shrinks with them, so a model that needs multiple nodes to <em>fully</em> fine-tune can be LoRA-tuned on a <strong>single GPU</strong> (or one node), and the resulting adapter is only a few MB.</p>
+<p>Only <span class="math inline">A</span> and <span class="math inline">B</span> are trained (often <strong>&lt;1%</strong> of the parameters). The optimizer state shrinks with them, so a model that needs multiple nodes to <em>fully</em> fine-tune can be LoRA-tuned on a <strong>single GPU</strong> (or one node), and the resulting adapter is only a few MB.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="the-real-thing" class="level2">
 <h2 class="anchored" data-anchor-id="the-real-thing">🏭 ② The real thing</h2>
-<p><em>(display-only — real production configs and schemas)</em></p>
+<p><em>(display-only: real production configs and schemas)</em></p>
 <section id="anatomy-of-a-real-chat-template" class="level3">
 <h3 class="anchored" data-anchor-id="anatomy-of-a-real-chat-template">Anatomy of a real chat template</h3>
-<p>Instruction models are trained on a strict, tokenized conversation format. Here is the ChatML layout used by Qwen and (with variations) most modern chat models. The <code>&lt;|im_start|&gt;</code> / <code>&lt;|im_end|&gt;</code> markers are <strong>special tokens</strong> in the model’s vocabulary — single IDs, not spelled-out text:</p>
+<p>Instruction models are trained on a strict, tokenized conversation format. Here is the ChatML layout used by Qwen and (with variations) most modern chat models. The <code>&lt;|im_start|&gt;</code> / <code>&lt;|im_end|&gt;</code> markers are <strong>special tokens</strong> in the model’s vocabulary (single IDs, not spelled-out text):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a>&lt;|im_start|&gt;system</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a>You are a helpful ALCF assistant.&lt;|im_end|&gt;</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a>&lt;|im_start|&gt;user</span>
@@ -1134,7 +1134,7 @@ W = W_0 + \Delta W = W_0 + B A
 </section>
 <section id="a-real-sft-dataset-schema" class="level3">
 <h3 class="anchored" data-anchor-id="a-real-sft-dataset-schema">A real SFT dataset schema</h3>
-<p>Production SFT datasets store each conversation as a <code>messages</code> list — the exact schema TRL consumes directly:</p>
+<p>Production SFT datasets store each conversation as a <code>messages</code> list, the exact schema TRL consumes directly:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="fu">{</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a>  <span class="dt">"messages"</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a>    <span class="fu">{</span><span class="dt">"role"</span><span class="fu">:</span> <span class="st">"system"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"You are a careful scientific assistant."</span><span class="fu">}</span><span class="ot">,</span></span>
@@ -1146,7 +1146,7 @@ W = W_0 + \Delta W = W_0 + B A
 </section>
 <section id="what-a-production-cpt-data-mix-looks-like" class="level3">
 <h3 class="anchored" data-anchor-id="what-a-production-cpt-data-mix-looks-like">What a production CPT data mix looks like</h3>
-<p>Domain adaptation rarely uses <em>only</em> the new domain — the mix is engineered to add a skill <strong>without forgetting the old ones</strong>:</p>
+<p>Domain adaptation rarely uses <em>only</em> the new domain; the mix is engineered to add a skill <strong>without forgetting the old ones</strong>:</p>
 <div id="tbl-cpt-mix" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cpt-mix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1205,17 +1205,17 @@ Table&nbsp;1: An illustrative continued-pretraining data mix.
 <p>Frontier post-training operates on a completely different order of magnitude:</p>
 <ul>
 <li><strong>SFT data:</strong> <em>millions</em> of curated instructions, heavily filtered and often partly synthetic. Tülu 3 (<a href="https://arxiv.org/abs/2411.15124">arXiv:2411.15124</a>) and OLMo 2 (<a href="https://arxiv.org/abs/2501.00656">arXiv:2501.00656</a>) document the full open recipe — SFT → DPO → RLVR — and the data curation that dominates the final quality.</li>
-<li><strong>Full fine-tuning, multi-node.</strong> At scale, teams do <em>full</em> SFT (not just LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the parallelism strategies from <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a>.</li>
+<li><strong>Full fine-tuning, multi-node.</strong> At scale, teams do <em>full</em> SFT (not just LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP. These are exactly the parallelism strategies from <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a>.</li>
 <li><strong>Staged pipelines.</strong> The Llama 3 report (<a href="https://arxiv.org/abs/2407.21783">arXiv:2407.21783</a>) describes several rounds of SFT interleaved with preference optimization, plus dedicated mid-training phases for long-context and specific capabilities.</li>
 </ul>
-<p>The APIs below are the <em>same</em> ones you just saw — only the scale, data, and node count change.</p>
+<p>The APIs below are the <em>same</em> ones you just saw. Only the scale, data, and node count change.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="scale-it-up" class="level2">
 <h2 class="anchored" data-anchor-id="scale-it-up">🚀 ③ Scale it up</h2>
-<p>On the cluster, run SFT as a plain Python module and let <code>ezpz</code> handle the launch — it auto-detects the scheduler (PBS → <code>mpiexec</code>, SLURM → <code>srun</code>) and wires up the distributed environment for you. No <code>mpirun -n $NGPUS</code> bookkeeping.</p>
+<p>On the cluster, run SFT as a plain Python module and let <code>ezpz</code> handle the launch. It auto-detects the scheduler (PBS → <code>mpiexec</code>, SLURM → <code>srun</code>) and wires up the distributed environment for you. No <code>mpirun -n $NGPUS</code> bookkeeping.</p>
 <ol type="1">
 <li><p>Set up the environment (system-agnostic):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
@@ -1922,15 +1922,15 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-88"><a href="#cb17-88" aria-label="86"></a>  lab: <span class="co">[</span><span class="ot">\[3.4\] RL &amp; Reasoning</span><span class="co">](../4-rl-and-reasoning/index.qmd)</span>.</span>
 <span id="cb17-89"><a href="#cb17-89" aria-label="87"></a></span>
 <span id="cb17-90"><a href="#cb17-90" aria-label="88"></a>Throughout we use the HuggingFace <span class="co">[</span><span class="ot">TRL</span><span class="co">](https://huggingface.co/docs/trl)</span> and</span>
-<span id="cb17-91"><a href="#cb17-91" aria-label="89"></a><span class="co">[</span><span class="ot">PEFT</span><span class="co">](https://huggingface.co/docs/peft)</span> libraries — the standard, batteries-included</span>
-<span id="cb17-92"><a href="#cb17-92" aria-label="90"></a>stack for post-training.</span>
+<span id="cb17-91"><a href="#cb17-91" aria-label="89"></a><span class="co">[</span><span class="ot">PEFT</span><span class="co">](https://huggingface.co/docs/peft)</span> libraries. Together they are the</span>
+<span id="cb17-92"><a href="#cb17-92" aria-label="90"></a>standard, batteries-included stack for post-training.</span>
 <span id="cb17-93"><a href="#cb17-93" aria-label="91"></a></span>
 <span id="cb17-94"><a href="#cb17-94" aria-label="92"></a>::: {.callout-warning title="Render note" collapse="true"}</span>
 <span id="cb17-95"><a href="#cb17-95" aria-label="93"></a><span class="in">`trl`</span>, <span class="in">`peft`</span>, and <span class="in">`deepspeed`</span> are **not** installed in the site build</span>
 <span id="cb17-96"><a href="#cb17-96" aria-label="94"></a>environment, and real fine-tuning needs a GPU. Every cell that touches them is</span>
 <span id="cb17-97"><a href="#cb17-97" aria-label="95"></a>marked <span class="in">`#| eval: false`</span> so it renders as copy-pasteable code without running.</span>
 <span id="cb17-98"><a href="#cb17-98" aria-label="96"></a>The handful of cells that *do* run use only <span class="in">`transformers`</span> + <span class="in">`torch`</span> on CPU with a</span>
-<span id="cb17-99"><a href="#cb17-99" aria-label="97"></a><span class="in">`gpt2`</span> tokenizer — flip any <span class="in">`eval: false`</span> to <span class="in">`true`</span> on the cluster to run it</span>
+<span id="cb17-99"><a href="#cb17-99" aria-label="97"></a><span class="in">`gpt2`</span> tokenizer. Flip any <span class="in">`eval: false`</span> to <span class="in">`true`</span> on the cluster to run it</span>
 <span id="cb17-100"><a href="#cb17-100" aria-label="98"></a>for real.</span>
 <span id="cb17-101"><a href="#cb17-101" aria-label="99"></a>:::</span>
 <span id="cb17-102"><a href="#cb17-102" aria-label="100"></a></span>
@@ -1986,7 +1986,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-154"><a href="#cb17-154" aria-label="150"></a></span>
 <span id="cb17-155"><a href="#cb17-155" aria-label="151"></a>That <span class="in">`(n_blocks, block_size)`</span> tensor is exactly the shape a <span class="in">`DataCollator`</span> feeds</span>
 <span id="cb17-156"><a href="#cb17-156" aria-label="152"></a>a <span class="in">`Trainer`</span>. The actual training step loads a **base model** and runs a standard</span>
-<span id="cb17-157"><a href="#cb17-157" aria-label="153"></a>optimizer loop — heavy, so it is display-only here:</span>
+<span id="cb17-157"><a href="#cb17-157" aria-label="153"></a>optimizer loop, which is heavy, so it is display-only here:</span>
 <span id="cb17-158"><a href="#cb17-158" aria-label="154"></a></span>
 <span id="cb17-161"><a href="#cb17-161" aria-label="155"></a><span class="in">```{python}</span></span>
 <span id="cb17-162"><a href="#cb17-162" aria-label="156"></a><span class="co">#| eval: false</span></span>
@@ -2034,7 +2034,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-204"><a href="#cb17-204" aria-label="198"></a><span class="fu">### (b) Supervised fine-tuning (SFT) with a chat template</span></span>
 <span id="cb17-205"><a href="#cb17-205" aria-label="199"></a></span>
 <span id="cb17-206"><a href="#cb17-206" aria-label="200"></a>SFT teaches the base model to follow instructions. The data is a list of</span>
-<span id="cb17-207"><a href="#cb17-207" aria-label="201"></a>**(prompt, completion)** pairs — most commonly expressed as a <span class="in">`messages`</span> list of</span>
+<span id="cb17-207"><a href="#cb17-207" aria-label="201"></a>**(prompt, completion)** pairs, most commonly expressed as a <span class="in">`messages`</span> list of</span>
 <span id="cb17-208"><a href="#cb17-208" aria-label="202"></a><span class="in">`{"role", "content"}`</span> turns. Before training, every conversation is rendered into</span>
 <span id="cb17-209"><a href="#cb17-209" aria-label="203"></a>a single string with **special tokens** that mark turn boundaries. That rendering</span>
 <span id="cb17-210"><a href="#cb17-210" aria-label="204"></a>is the job of <span class="in">`tokenizer.apply_chat_template`</span>.</span>
@@ -2067,7 +2067,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-239"><a href="#cb17-239" aria-label="231"></a><span class="in">```</span></span>
 <span id="cb17-240"><a href="#cb17-240" aria-label="232"></a></span>
 <span id="cb17-241"><a href="#cb17-241" aria-label="233"></a>The output is the exact string the model trains on. Note how <span class="in">`add_generation_prompt=True`</span></span>
-<span id="cb17-242"><a href="#cb17-242" aria-label="234"></a>leaves a dangling <span class="in">`&lt;|im_start|&gt;assistant\n`</span> — that is the cue that tells the model</span>
+<span id="cb17-242"><a href="#cb17-242" aria-label="234"></a>leaves a dangling <span class="in">`&lt;|im_start|&gt;assistant\n`</span>. That is the cue that tells the model</span>
 <span id="cb17-243"><a href="#cb17-243" aria-label="235"></a>*"your turn now."*</span>
 <span id="cb17-244"><a href="#cb17-244" aria-label="236"></a></span>
 <span id="cb17-245"><a href="#cb17-245" aria-label="237"></a>Two ideas make SFT work:</span>
@@ -2129,7 +2129,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-303"><a href="#cb17-303" aria-label="293"></a>model that has finished SFT?</span>
 <span id="cb17-304"><a href="#cb17-304" aria-label="294"></a></span>
 <span id="cb17-305"><a href="#cb17-305" aria-label="295"></a>**Solution.** Add <span class="in">`for i, t in enumerate(completion_ids): logits[len(prompt_ids)+i, t] = 10.0`</span></span>
-<span id="cb17-306"><a href="#cb17-306" aria-label="296"></a>before computing the loss — <span class="in">`loss_sft`</span> drops to ~0. A fully SFT'd model assigns</span>
+<span id="cb17-306"><a href="#cb17-306" aria-label="296"></a>before computing the loss, and <span class="in">`loss_sft`</span> drops to ~0. A fully SFT'd model assigns</span>
 <span id="cb17-307"><a href="#cb17-307" aria-label="297"></a>high probability to the target completion tokens, so the (masked) loss it was</span>
 <span id="cb17-308"><a href="#cb17-308" aria-label="298"></a>trained on goes to zero.</span>
 <span id="cb17-309"><a href="#cb17-309" aria-label="299"></a>:::</span>
@@ -2178,7 +2178,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-354"><a href="#cb17-354" aria-label="342"></a></span>
 <span id="cb17-355"><a href="#cb17-355" aria-label="343"></a>::: {.callout-note title="🪶 Why LoRA fits on one node"}</span>
 <span id="cb17-356"><a href="#cb17-356" aria-label="344"></a>Full fine-tuning updates **all** the weights, so you must hold the model, its</span>
-<span id="cb17-357"><a href="#cb17-357" aria-label="345"></a>gradients, and optimizer states in memory — often several times the model size.</span>
+<span id="cb17-357"><a href="#cb17-357" aria-label="345"></a>gradients, and optimizer states in memory, often several times the model size.</span>
 <span id="cb17-358"><a href="#cb17-358" aria-label="346"></a>**LoRA** (<span class="co">[</span><span class="ot">Hu et al. 2021, arXiv:2106.09685</span><span class="co">](https://arxiv.org/abs/2106.09685)</span>)</span>
 <span id="cb17-359"><a href="#cb17-359" aria-label="347"></a>freezes the pretrained weights $W_0$ and learns a tiny low-rank update</span>
 <span id="cb17-360"><a href="#cb17-360" aria-label="348"></a>$\Delta W = BA$, where $B \in \mathbb{R}^{d\times r}$, $A \in \mathbb{R}^{r\times k}$,</span>
@@ -2188,7 +2188,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-364"><a href="#cb17-364" aria-label="352"></a>W = W_0 + \Delta W = W_0 + B A</span>
 <span id="cb17-365"><a href="#cb17-365" aria-label="353"></a>$$</span>
 <span id="cb17-366"><a href="#cb17-366" aria-label="354"></a></span>
-<span id="cb17-367"><a href="#cb17-367" aria-label="355"></a>Only $A$ and $B$ are trained — often **&lt;1%** of the parameters. The optimizer</span>
+<span id="cb17-367"><a href="#cb17-367" aria-label="355"></a>Only $A$ and $B$ are trained (often **&lt;1%** of the parameters). The optimizer</span>
 <span id="cb17-368"><a href="#cb17-368" aria-label="356"></a>state shrinks with them, so a model that needs multiple nodes to *fully*</span>
 <span id="cb17-369"><a href="#cb17-369" aria-label="357"></a>fine-tune can be LoRA-tuned on a **single GPU** (or one node), and the resulting</span>
 <span id="cb17-370"><a href="#cb17-370" aria-label="358"></a>adapter is only a few MB.</span>
@@ -2196,14 +2196,14 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-372"><a href="#cb17-372" aria-label="360"></a></span>
 <span id="cb17-373"><a href="#cb17-373" aria-label="361"></a><span class="fu">## 🏭 ② The real thing</span></span>
 <span id="cb17-374"><a href="#cb17-374" aria-label="362"></a></span>
-<span id="cb17-375"><a href="#cb17-375" aria-label="363"></a>*(display-only — real production configs and schemas)*</span>
+<span id="cb17-375"><a href="#cb17-375" aria-label="363"></a>*(display-only: real production configs and schemas)*</span>
 <span id="cb17-376"><a href="#cb17-376" aria-label="364"></a></span>
 <span id="cb17-377"><a href="#cb17-377" aria-label="365"></a><span class="fu">### Anatomy of a real chat template</span></span>
 <span id="cb17-378"><a href="#cb17-378" aria-label="366"></a></span>
 <span id="cb17-379"><a href="#cb17-379" aria-label="367"></a>Instruction models are trained on a strict, tokenized conversation format. Here</span>
 <span id="cb17-380"><a href="#cb17-380" aria-label="368"></a>is the ChatML layout used by Qwen and (with variations) most modern chat models.</span>
 <span id="cb17-381"><a href="#cb17-381" aria-label="369"></a>The <span class="in">`&lt;|im_start|&gt;`</span> / <span class="in">`&lt;|im_end|&gt;`</span> markers are **special tokens** in the model's</span>
-<span id="cb17-382"><a href="#cb17-382" aria-label="370"></a>vocabulary — single IDs, not spelled-out text:</span>
+<span id="cb17-382"><a href="#cb17-382" aria-label="370"></a>vocabulary (single IDs, not spelled-out text):</span>
 <span id="cb17-383"><a href="#cb17-383" aria-label="371"></a></span>
 <span id="cb17-384"><a href="#cb17-384" aria-label="372"></a><span class="in">```text</span></span>
 <span id="cb17-385"><a href="#cb17-385" aria-label="373"></a><span class="in">&lt;|im_start|&gt;system</span></span>
@@ -2222,7 +2222,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-398"><a href="#cb17-398" aria-label="386"></a></span>
 <span id="cb17-399"><a href="#cb17-399" aria-label="387"></a><span class="fu">### A real SFT dataset schema</span></span>
 <span id="cb17-400"><a href="#cb17-400" aria-label="388"></a></span>
-<span id="cb17-401"><a href="#cb17-401" aria-label="389"></a>Production SFT datasets store each conversation as a <span class="in">`messages`</span> list — the exact</span>
+<span id="cb17-401"><a href="#cb17-401" aria-label="389"></a>Production SFT datasets store each conversation as a <span class="in">`messages`</span> list, the exact</span>
 <span id="cb17-402"><a href="#cb17-402" aria-label="390"></a>schema TRL consumes directly:</span>
 <span id="cb17-403"><a href="#cb17-403" aria-label="391"></a></span>
 <span id="cb17-404"><a href="#cb17-404" aria-label="392"></a><span class="in">```json</span></span>
@@ -2240,7 +2240,7 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-416"><a href="#cb17-416" aria-label="404"></a></span>
 <span id="cb17-417"><a href="#cb17-417" aria-label="405"></a><span class="fu">### What a production CPT data mix looks like</span></span>
 <span id="cb17-418"><a href="#cb17-418" aria-label="406"></a></span>
-<span id="cb17-419"><a href="#cb17-419" aria-label="407"></a>Domain adaptation rarely uses *only* the new domain — the mix is engineered to</span>
+<span id="cb17-419"><a href="#cb17-419" aria-label="407"></a>Domain adaptation rarely uses *only* the new domain; the mix is engineered to</span>
 <span id="cb17-420"><a href="#cb17-420" aria-label="408"></a>add a skill **without forgetting the old ones**:</span>
 <span id="cb17-421"><a href="#cb17-421" aria-label="409"></a></span>
 <span id="cb17-422"><a href="#cb17-422" aria-label="410"></a>::: {#tbl-cpt-mix}</span>
@@ -2265,22 +2265,22 @@ Foreman, Sam. 2026. <span>“🍜 Mid- &amp; Post-Training.”</span> July 22.
 <span id="cb17-441"><a href="#cb17-441" aria-label="429"></a>  full open recipe — SFT → DPO → RLVR — and the data curation that dominates the</span>
 <span id="cb17-442"><a href="#cb17-442" aria-label="430"></a>  final quality.</span>
 <span id="cb17-443"><a href="#cb17-443" aria-label="431"></a><span class="ss">- </span>**Full fine-tuning, multi-node.** At scale, teams do *full* SFT (not just</span>
-<span id="cb17-444"><a href="#cb17-444" aria-label="432"></a>  LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP — exactly the</span>
-<span id="cb17-445"><a href="#cb17-445" aria-label="433"></a>  parallelism strategies from</span>
+<span id="cb17-444"><a href="#cb17-444" aria-label="432"></a>  LoRA) across many nodes, sharding optimizer state with ZeRO/FSDP. These are</span>
+<span id="cb17-445"><a href="#cb17-445" aria-label="433"></a>  exactly the parallelism strategies from</span>
 <span id="cb17-446"><a href="#cb17-446" aria-label="434"></a>  <span class="co">[</span><span class="ot">\[1.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>.</span>
 <span id="cb17-447"><a href="#cb17-447" aria-label="435"></a><span class="ss">- </span>**Staged pipelines.** The Llama 3 report</span>
 <span id="cb17-448"><a href="#cb17-448" aria-label="436"></a>  (<span class="co">[</span><span class="ot">arXiv:2407.21783</span><span class="co">](https://arxiv.org/abs/2407.21783)</span>) describes several rounds</span>
 <span id="cb17-449"><a href="#cb17-449" aria-label="437"></a>  of SFT interleaved with preference optimization, plus dedicated mid-training</span>
 <span id="cb17-450"><a href="#cb17-450" aria-label="438"></a>  phases for long-context and specific capabilities.</span>
 <span id="cb17-451"><a href="#cb17-451" aria-label="439"></a></span>
-<span id="cb17-452"><a href="#cb17-452" aria-label="440"></a>The APIs below are the *same* ones you just saw — only the scale, data, and node</span>
+<span id="cb17-452"><a href="#cb17-452" aria-label="440"></a>The APIs below are the *same* ones you just saw. Only the scale, data, and node</span>
 <span id="cb17-453"><a href="#cb17-453" aria-label="441"></a>count change.</span>
 <span id="cb17-454"><a href="#cb17-454" aria-label="442"></a>:::</span>
 <span id="cb17-455"><a href="#cb17-455" aria-label="443"></a></span>
 <span id="cb17-456"><a href="#cb17-456" aria-label="444"></a><span class="fu">## 🚀 ③ Scale it up</span></span>
 <span id="cb17-457"><a href="#cb17-457" aria-label="445"></a></span>
 <span id="cb17-458"><a href="#cb17-458" aria-label="446"></a>On the cluster, run SFT as a plain Python module and let <span class="in">`ezpz`</span> handle the</span>
-<span id="cb17-459"><a href="#cb17-459" aria-label="447"></a>launch — it auto-detects the scheduler (PBS → <span class="in">`mpiexec`</span>, SLURM → <span class="in">`srun`</span>) and</span>
+<span id="cb17-459"><a href="#cb17-459" aria-label="447"></a>launch. It auto-detects the scheduler (PBS → <span class="in">`mpiexec`</span>, SLURM → <span class="in">`srun`</span>) and</span>
 <span id="cb17-460"><a href="#cb17-460" aria-label="448"></a>wires up the distributed environment for you. No <span class="in">`mpirun -n $NGPUS`</span> bookkeeping.</span>
 <span id="cb17-461"><a href="#cb17-461" aria-label="449"></a></span>
 <span id="cb17-462"><a href="#cb17-462" aria-label="450"></a><span class="ss">1. </span>Set up the environment (system-agnostic):</span>

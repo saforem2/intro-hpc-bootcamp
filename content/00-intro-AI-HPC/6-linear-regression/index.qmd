@@ -77,15 +77,16 @@ There are two very different ways to learn a skill like speaking a language:
 
 The second is the essence of AI: rather than being handed the rules, the model
 **infers** them from many examples. Given enough data, pattern-learning is
-remarkably powerful — it's how modern AI, from image classifiers to large
+remarkably powerful: it's how modern AI, from image classifiers to large
 language models, works.
 
 ## How does a large language model work?
 
 Large language models like GPT learn this way at massive scale: **pre-train** on
 enormous text corpora to absorb language patterns, use the **transformer**
-architecture to weigh context, and optionally **fine-tune** for specific tasks —
-so they can generate coherent, contextually relevant text from a prompt.
+architecture to weigh context, and optionally **fine-tune** for specific tasks.
+The result is a model that generates coherent, contextually relevant text from a
+prompt.
 
 ```{mermaid}
 flowchart LR
@@ -183,7 +184,7 @@ data = pd.read_csv('slimmed_realestate_data.csv')
 print(data.columns)
 ```
 
-Let's inspect our data with an **interactive scatter plot** — hover over any
+Let's inspect our data with an **interactive scatter plot**. Hover over any
 point to see its exact square footage and sale price, and drag to zoom:
 
 ```{python}
@@ -206,7 +207,7 @@ fig.show()
 ```
 
 ::: {.callout-tip title="🖱️ It's interactive" collapse="false"}
-These are [Plotly](https://plotly.com/python/) charts, not static images —
+These are [Plotly](https://plotly.com/python/) charts, not static images:
 **hover** to read values, **drag** to zoom, **double-click** to reset, and use
 the toolbar (top-right) to pan or download a PNG.
 :::
@@ -635,7 +636,7 @@ fig.update_layout(
 fig.show()
 ```
 
-The dotted grey line is the exact closed-form fit from earlier — notice how SGD
+The dotted grey line is the exact closed-form fit from earlier. Notice how SGD
 walks the red line toward it, step by step, while the loss on the right falls.
 
 ## Homework

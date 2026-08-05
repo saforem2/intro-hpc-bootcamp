@@ -26,7 +26,7 @@ This is a **hands-on lab**: you’ll launch a real multi-GPU
 [data-parallel](#concepts-recap) training run on a supercomputer. It’s
 the practical counterpart to the [**\[1\] Distributed
 Training**](../../01-neural-networks/4-distributed-training/index.qmd)
-lesson — read that first if the concepts below are new to you.
+lesson. Read that first if the concepts below are new to you.
 
 > [!NOTE]
 >
@@ -47,9 +47,8 @@ lesson — read that first if the concepts below are new to you.
 >   line.
 >
 > Real large-scale LLM training combines all three. For the full
-> treatment — all-reduce/broadcast/gather, ZeRO/FSDP, and
-> pipeline/tensor parallelism with runnable examples — see [**\[1\]
-> Distributed
+> treatment (all-reduce/broadcast/gather, ZeRO/FSDP, and pipeline/tensor
+> parallelism with runnable examples), see [**\[1\] Distributed
 > Training**](../../01-neural-networks/4-distributed-training/index.qmd).
 
 ## 👋 Hands On
@@ -59,8 +58,8 @@ lesson — read that first if the concepts below are new to you.
 > This workshop runs on [NERSC
 > Perlmutter](https://docs.nersc.gov/systems/perlmutter/) (SLURM,
 > project **`m4388`**). The `ezpz launch` command below is
-> scheduler-agnostic — it auto-detects the environment (SLURM → `srun`,
-> PBS → `mpiexec`) — so the same steps also work on ALCF PBS systems if
+> scheduler-agnostic: it auto-detects the environment (SLURM → `srun`,
+> PBS → `mpiexec`), so the same steps also work on ALCF PBS systems if
 > you switch the allocation command.
 
 1.  Log in to Perlmutter and request an interactive GPU node:
@@ -108,7 +107,7 @@ lesson — read that first if the concepts below are new to you.
     See:
     [`ezpz/test_dist.py`](https://github.com/saforem2/ezpz/blob/main/src/ezpz/test_dist.py)
 
-    ::: {.callout-tip title=“✅ What you should see — confirm it’s
+    ::: {.callout-tip title=“✅ What you should see: confirm it’s
     *really* multi-GPU” collapse=“false”} Before launching anything
     expensive, make sure `ezpz` actually discovered **more than one
     GPU**. Early in the output, `ezpz` prints a distributed-setup banner
@@ -122,7 +121,7 @@ lesson — read that first if the concepts below are new to you.
     [2026-07-22 ...][INFO][ezpz.dist] - ['host'][3/3]   # rank 3 of 4
     ```
 
-    The number to check is **`WORLD_SIZE`** — the total number of ranks
+    The number to check is **`WORLD_SIZE`**: the total number of ranks
     (GPUs) across all nodes. Look for the `[i/N]` rank tags above (here
     `N+1 = 4`), or print it directly:
 
@@ -160,7 +159,7 @@ lesson — read that first if the concepts below are new to you.
         train.compile=false
     ```
 
-    ::: {.callout-tip title=“✅ What you should see — a healthy training
+    ::: {.callout-tip title=“✅ What you should see: a healthy training
     run” collapse=“false”} `ezpz launch` first re-prints the distributed
     banner (again, confirm `WORLD_SIZE` matches the number of GPUs you
     requested), then starts logging one line every `log_interval` (=10)
@@ -178,7 +177,7 @@ lesson — read that first if the concepts below are new to you.
     ...
     ```
 
-    (Exact numbers depend on the machine and batch size — don’t worry
+    (Exact numbers depend on the machine and batch size, so don’t worry
     about matching them.) What matters:
 
     - **`loss` is going *down*** over the first ~100 iters (from ~3–4

@@ -1,6 +1,6 @@
 ---
 title: "🗣️ Language Models (LMs)"
-description: "From sequences to Transformers: a hands-on introduction to how language models represent, process, and generate sequential data — for text and for science."
+description: "From sequences to Transformers: a hands-on introduction to how language models represent, process, and generate sequential data, for text and for science."
 categories:
   - ai
   - hpc
@@ -28,7 +28,7 @@ By the end of this session you will be able to:
 
 1. Explain what **sequential data** is and why it shows up across science.
 2. Trace the **evolution** of language models from RNNs to Transformers.
-3. Describe **tokenization** and **embeddings** — how text becomes numbers.
+3. Describe **tokenization** and **embeddings**: how text becomes numbers.
 4. Explain the **attention mechanism** and the anatomy of a Transformer block.
 5. Understand the **training objective** (cross-entropy) and **perplexity**.
 6. Build a **mini-LLM from scratch** and recognize the major Transformer families.
@@ -37,14 +37,14 @@ By the end of this session you will be able to:
 
 > Inspired by Jay Alammar's superb
 > [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
-> and [The Illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/) —
-> highly recommended companion reading.
+> and [The Illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/).
+> Both are highly recommended companion reading.
 
 ## 🧬 Why Sequences? Motivation from Science
 
 Before the math, the motivation. A **sequence** is an ordered list whose
 elements depend on what came before (and sometimes after). Language is the
-obvious example — but so is much of science.
+obvious example, but so is much of science.
 
 ::: {#fig-seq-applications .column-page}
 
@@ -103,7 +103,7 @@ RNA codon structure.
 :::
 
 [GenSLM](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v1), a genomic
-language model developed at Argonne, modeled the evolution of SARS-CoV-2 —
+language model developed at Argonne, modeled the evolution of SARS-CoV-2,
 capturing viral variant dynamics *without* expensive wet-lab experiments.
 
 ::: {#fig-genslm}
@@ -179,7 +179,8 @@ The road to modern LLMs.
 
 RNNs were the traditional tool for temporal dependencies. The hidden state from
 the previous step is fed back into the network, giving it a "memory" of past
-inputs — ideal for short sequences in NLP and time-series prediction.
+inputs. This makes them ideal for short sequences in NLP and time-series
+prediction.
 
 ::: {#fig-rnn}
 
@@ -210,7 +211,7 @@ the next, giving the network a "memory" of past inputs.
 But RNNs have two crippling limitations:
 
 - **Slow to train.** Each step depends on the previous hidden state, so
-  computation is inherently **sequential** — it can't be parallelized across the
+  computation is inherently **sequential** and can't be parallelized across the
   sequence.
 - **Poor with long sequences.** Vanishing/exploding gradients limit how far back
   an RNN can "see." LSTMs and GRUs mitigate this but don't fully solve it.
@@ -357,7 +358,7 @@ print(
 ```
 
 That's the whole black box: **text in, text out**. (`do_sample=True` and friends
-are *decoding* settings — how the model picks each next token; we dig into
+are *decoding* settings, i.e. how the model picks each next token; we dig into
 temperature and top-p in [\[2.5\] Decoding & Sampling](../5-decoding-and-sampling/index.qmd).)
 The rest of this session is about what happens *inside*.
 
@@ -544,7 +545,7 @@ categories. It learned them purely from how the words are used.
 
 ## 🧱 Inside a Transformer
 
-The model we'll dissect is a **GPT** — a *Generative Pre-trained Transformer*.
+The model we'll dissect is a **GPT**, a *Generative Pre-trained Transformer*.
 The name is the three-sentence summary of the whole architecture:
 
 - **Generative** — it *generates* text, one token at a time.
@@ -553,7 +554,7 @@ The name is the three-sentence summary of the whole architecture:
 - **Transformer** — it is a *decoder-only* Transformer neural network.
 
 At its most basic, a GPT is a function from a sequence of integer tokens to a
-grid of scores — one row per input position, one column per vocabulary entry:
+grid of scores: one row per input position, one column per vocabulary entry:
 
 ```python
 def gpt(inputs: list[int]) -> list[list[float]]:
@@ -665,15 +666,15 @@ pretrained BERT for this exact sentence. Each row is a token *attending*; the
 colored cells show how much it attends to each other token.
 
 BERT has 12 layers × 12 heads, and they *specialize*: some heads track syntax,
-some track position, and a few learn **coreference** — linking a pronoun to what
+some track position, and a few learn **coreference**, linking a pronoun to what
 it refers to. In those heads, the **"it"** row lights up strongly on
 **"animal"** (try `layer 3 · head 10` below, where it's ~0.83). Averaged over all
-12 heads the signal washes out — specialization lives in *individual* heads, not
+12 heads the signal washes out: specialization lives in *individual* heads, not
 the average. Use the dropdown to compare a few:
 
 ```{python}
 #| label: fig-attention-viz
-#| fig-cap: "Real BERT self-attention — each row shows what a token attends to. Switch heads with the dropdown."
+#| fig-cap: "Real BERT self-attention: each row shows what a token attends to. Switch heads with the dropdown."
 #| code-fold: true
 #| code-summary: "Show the attention-extraction + plotting code"
 import torch
@@ -857,7 +858,7 @@ model_view(attention, tokens)
 
 ### Positional encoding
 
-Attention alone is **order-blind** — it sees a *set* of tokens, not a sequence.
+Attention alone is **order-blind**: it sees a *set* of tokens, not a sequence.
 But order matters enormously:
 
 > "The man ate the sandwich." vs. "The sandwich ate the man."
@@ -872,7 +873,7 @@ Positional encodings are added to token embeddings. Image credit: [Chen](https:/
 :::
 
 We can implement a (learned) positional embedding with `nn.Embedding`, sized
-`(block_size, n_embd)` — one vector per position:
+`(block_size, n_embd)`, one vector per position:
 
 ```{python}
 vocab_size = 65
@@ -963,7 +964,7 @@ loss = F.cross_entropy(logits, targets)
 print(loss)
 ```
 
-A closely related, more interpretable metric is **perplexity** — intuitively,
+A closely related, more interpretable metric is **perplexity**: intuitively,
 "how surprised" the model is by new data. Lower is better. It's just the
 exponential of the cross-entropy:
 
@@ -1164,7 +1165,7 @@ class LanguageModel(nn.Module):
         return idx
 ```
 
-### Train it — and watch it learn
+### Train it, and watch it learn
 
 An **untrained** model just emits noise. Let's sample from it *before* training so
 we have a baseline, then run the training loop and sample again:
@@ -1195,16 +1196,16 @@ for step in range(max_iters):
 ```
 
 The loss falls from ~4.2 (random over the vocabulary, $\ln$(vocab size)) toward
-~2 as the model learns character statistics. Now sample again — the **same**
-`generate()` call, but from the *trained* weights:
+~2 as the model learns character statistics. Now sample again, using the **same**
+`generate()` call but from the *trained* weights:
 
 ```{python}
 print("--- AFTER training ---")
 print(decode(model.generate(ctx, max_new_tokens=400)[0].tolist()))
 ```
 
-It won't write *Hamlet* — it's a ~200K-parameter character model trained for a few
-hundred steps — but the transformation is unmistakable: the gibberish becomes
+It won't write *Hamlet*; it's a ~200K-parameter character model trained for a few
+hundred steps. But the transformation is unmistakable: the gibberish becomes
 line-broken text with capitalized speaker names, plausible word shapes, and
 Shakespearean punctuation. That is a language model, built from the pieces above,
 learning purely by predicting the next character. Train longer / bigger (as in
@@ -1256,7 +1257,7 @@ input_text = "The panoramic view of the ocean was breathtaking."
 
 **Step 2 — Load a pretrained model.** `from_pretrained()` downloads (and caches)
 the model weights, config, and tokenizer from the HuggingFace Model Hub. We use
-a DistilBERT model fine-tuned for sentiment (SST-2) — a ~270 MB download the
+a DistilBERT model fine-tuned for sentiment (SST-2), a ~270 MB download the
 first time, then cached:
 
 ```{python}
@@ -1305,7 +1306,7 @@ classifier("The panoramic view of the ocean was breathtaking.")
 ### Saving & loading models
 
 A model (pretrained or fine-tuned) can be saved to and loaded from a local
-directory (shown, not run here — it would write a model folder to disk):
+directory (shown, not run here, since it would write a model folder to disk):
 
 ```{python}
 #| eval: false
@@ -1401,7 +1402,7 @@ The three Transformer families and representative models.
 
 ### Encoder-only (BERT)
 
-Encoder-only models use **bidirectional** attention — every token can see the
+Encoder-only models use **bidirectional** attention, so every token can see the
 whole sentence. This makes them excellent for *understanding* tasks (sentiment
 analysis, summarization inputs, disambiguation) but poor at open-ended
 generation.
@@ -1435,8 +1436,8 @@ BERT input construction. Image credit: [Towards Data Science](https://towardsdat
 ### Decoder-only (GPT)
 
 As we saw, decoder-only models use **masked self-attention** so a token attends
-only to earlier positions — essential for learning generation without "peeking"
-at the answer.
+only to earlier positions. That is essential for learning generation without
+"peeking" at the answer.
 
 ::: {#fig-masked-attention}
 ![](images/self-attention-and-masked-self-attention.png)
@@ -1470,7 +1471,7 @@ A Graph Transformer.
 ::: {.callout-tip title="Recap" collapse="false"}
 - **Sequences are everywhere** — text, DNA, proteins, molecules, time series.
 - **Attention replaced recurrence**, enabling parallel training and long-range
-  context — the breakthrough behind LLMs.
+  context. This was the breakthrough behind LLMs.
 - Text becomes numbers via **tokenization** → **embeddings** (learned geometry).
 - A Transformer block = **masked self-attention** + **feed-forward**, with
   residuals and layer-norm, repeated `N` times.

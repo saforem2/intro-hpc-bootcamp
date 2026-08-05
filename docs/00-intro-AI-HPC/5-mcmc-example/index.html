@@ -4652,7 +4652,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -4704,7 +4704,7 @@ window.Quarto = {
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>This is <strong>plain Monte Carlo</strong>: every dart is drawn <em>independently</em> from the same uniform distribution. <strong>MCMC</strong> is different — it builds a <em>correlated chain</em> of samples, where each new sample is proposed from the current one via a transition kernel (e.g.&nbsp;Metropolis-Hastings). We use the simpler independent-sampling approach here.</p>
+<p>This is <strong>plain Monte Carlo</strong>: every dart is drawn <em>independently</em> from the same uniform distribution. <strong>MCMC</strong> is different: it builds a <em>correlated chain</em> of samples, where each new sample is proposed from the current one via a transition kernel (e.g.&nbsp;Metropolis-Hastings). We use the simpler independent-sampling approach here.</p>
 </div>
 </div>
 </div>
@@ -4810,9 +4810,9 @@ if (outputEl) {{
 </div>
 <section id="why-parallelize-sequential-vs.-parallel-side-by-side" class="level3">
 <h3 class="anchored" data-anchor-id="why-parallelize-sequential-vs.-parallel-side-by-side">Why parallelize? Sequential vs.&nbsp;parallel, side by side</h3>
-<p>The estimate gets better with more samples — but generating millions of points <em>one at a time</em> is slow. The fix: split the work across <strong><code>P</code> workers</strong> that sample <strong>simultaneously</strong>. Each worker handles every <code>P</code>-th point (exactly what the <code>mpi4py</code> code below does with <code>range(comm.rank, N, comm.size)</code>), so together they finish in roughly <code>1/P</code> the time.</p>
+<p>The estimate gets better with more samples, but generating millions of points <em>one at a time</em> is slow. The fix: split the work across <strong><code>P</code> workers</strong> that sample <strong>simultaneously</strong>. Each worker handles every <code>P</code>-th point (exactly what the <code>mpi4py</code> code below does with <code>range(comm.rank, N, comm.size)</code>), so together they finish in roughly <code>1/P</code> the time.</p>
 <p>Drag the shared <strong>wall-clock</strong> slider (or hit ▶): both panels draw the <em>same</em> points and converge to the same π, but the parallel side (8 workers) races ahead and finishes while the sequential side is still plodding along. That time gap <strong>is</strong> the speedup.</p>
-<p><strong>The setup.</strong> Both panels draw the <em>same</em> points; the only difference is how many get processed per unit of wall-clock time — 1 for sequential, <code>P</code> for parallel. The strided assignment <code>worker = arange(N) % P</code> mirrors exactly what the <code>mpi4py</code> code does with <code>range(comm.rank, N, comm.size)</code>.</p>
+<p><strong>The setup.</strong> Both panels draw the <em>same</em> points; the only difference is how many get processed per unit of wall-clock time: 1 for sequential, <code>P</code> for parallel. The strided assignment <code>worker = arange(N) % P</code> mirrors exactly what the <code>mpi4py</code> code does with <code>range(comm.rank, N, comm.size)</code>.</p>
 <div id="a9d20d29" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
@@ -4826,7 +4826,7 @@ if (outputEl) {{
 <span id="cb4-10"><a href="#cb4-10" aria-label="10"></a>    <span class="co">"""π estimate after the first n points."""</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-label="11"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>The plotting.</strong> Everything below builds the two-panel animation (folded — expand if you’re curious). A non-linear wall-clock schedule spends more frames while the parallel side is filling, so the speed difference is easy to see.</p>
+<p><strong>The plotting.</strong> Everything below builds the two-panel animation (folded; expand if you’re curious). A non-linear wall-clock schedule spends more frames while the parallel side is filling, so the speed difference is easy to see.</p>
 <div id="997ccc80" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -4945,7 +4945,7 @@ if (outputEl) {{
 </section>
 <section id="how-fast-does-the-error-shrink" class="level3">
 <h3 class="anchored" data-anchor-id="how-fast-does-the-error-shrink">How fast does the error shrink?</h3>
-<p>More samples → a better estimate, but <em>how much</em> better? Below we plot the <strong>absolute error</strong> <span class="math inline">|\hat\pi - \pi|</span> as we add samples. Monte Carlo error falls off like <span class="math inline">1/\sqrt{N}</span> — so on <strong>log-log axes</strong> it’s a straight line with slope <span class="math inline">-\tfrac12</span>. The practical catch: to get one more decimal digit (10× less error) you need <strong>100× more samples</strong> — which is exactly why you reach for parallelism.</p>
+<p>More samples → a better estimate, but <em>how much</em> better? Below we plot the <strong>absolute error</strong> <span class="math inline">|\hat\pi - \pi|</span> as we add samples. Monte Carlo error falls off like <span class="math inline">1/\sqrt{N}</span>, so on <strong>log-log axes</strong> it’s a straight line with slope <span class="math inline">-\tfrac12</span>. The practical catch: to get one more decimal digit (10× less error) you need <strong>100× more samples</strong>. That is exactly why you reach for parallelism.</p>
 <div id="06a0f40f" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -5023,7 +5023,7 @@ if (outputEl) {{
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>This animation shows <strong>ideal linear speedup</strong> (<code>P</code> workers → <code>P</code>× faster). Real runs fall a little short: the workers must combine their counts at the end (the <code>comm.Allreduce</code> below), and that communication adds overhead — which is exactly why the Polaris timings below aren’t a perfect <code>P</code>× as you add ranks.</p>
+<p>This animation shows <strong>ideal linear speedup</strong> (<code>P</code> workers → <code>P</code>× faster). Real runs fall a little short: the workers must combine their counts at the end (the <code>comm.Allreduce</code> below), and that communication adds overhead. That is why the Polaris timings below aren’t a perfect <code>P</code>× as you add ranks.</p>
 </div>
 </div>
 </div>
@@ -5764,7 +5764,7 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-66"><a href="#cb16-66" aria-label="66"></a></span>
 <span id="cb16-67"><a href="#cb16-67" aria-label="67"></a>::: {.callout-note title="Monte Carlo vs. Markov Chain Monte Carlo (MCMC)" collapse="false"}</span>
 <span id="cb16-68"><a href="#cb16-68" aria-label="68"></a>This is **plain Monte Carlo**: every dart is drawn *independently* from the same</span>
-<span id="cb16-69"><a href="#cb16-69" aria-label="69"></a>uniform distribution. **MCMC** is different — it builds a *correlated chain* of</span>
+<span id="cb16-69"><a href="#cb16-69" aria-label="69"></a>uniform distribution. **MCMC** is different: it builds a *correlated chain* of</span>
 <span id="cb16-70"><a href="#cb16-70" aria-label="70"></a>samples, where each new sample is proposed from the current one via a transition</span>
 <span id="cb16-71"><a href="#cb16-71" aria-label="71"></a>kernel (e.g. Metropolis-Hastings). We use the simpler independent-sampling</span>
 <span id="cb16-72"><a href="#cb16-72" aria-label="72"></a>approach here.</span>
@@ -5848,7 +5848,7 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-156"><a href="#cb16-156" aria-label="150"></a></span>
 <span id="cb16-157"><a href="#cb16-157" aria-label="151"></a><span class="fu">### Why parallelize? Sequential vs. parallel, side by side</span></span>
 <span id="cb16-158"><a href="#cb16-158" aria-label="152"></a></span>
-<span id="cb16-159"><a href="#cb16-159" aria-label="153"></a>The estimate gets better with more samples — but generating millions of points</span>
+<span id="cb16-159"><a href="#cb16-159" aria-label="153"></a>The estimate gets better with more samples, but generating millions of points</span>
 <span id="cb16-160"><a href="#cb16-160" aria-label="154"></a>*one at a time* is slow. The fix: split the work across **`P` workers** that</span>
 <span id="cb16-161"><a href="#cb16-161" aria-label="155"></a>sample **simultaneously**. Each worker handles every <span class="in">`P`</span>-th point (exactly what</span>
 <span id="cb16-162"><a href="#cb16-162" aria-label="156"></a>the <span class="in">`mpi4py`</span> code below does with <span class="in">`range(comm.rank, N, comm.size)`</span>), so together</span>
@@ -5860,7 +5860,7 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-168"><a href="#cb16-168" aria-label="162"></a>**is** the speedup.</span>
 <span id="cb16-169"><a href="#cb16-169" aria-label="163"></a></span>
 <span id="cb16-170"><a href="#cb16-170" aria-label="164"></a>**The setup.** Both panels draw the *same* points; the only difference is how many</span>
-<span id="cb16-171"><a href="#cb16-171" aria-label="165"></a>get processed per unit of wall-clock time — 1 for sequential, <span class="in">`P`</span> for parallel.</span>
+<span id="cb16-171"><a href="#cb16-171" aria-label="165"></a>get processed per unit of wall-clock time: 1 for sequential, <span class="in">`P`</span> for parallel.</span>
 <span id="cb16-172"><a href="#cb16-172" aria-label="166"></a>The strided assignment <span class="in">`worker = arange(N) % P`</span> mirrors exactly what the <span class="in">`mpi4py`</span></span>
 <span id="cb16-173"><a href="#cb16-173" aria-label="167"></a>code does with <span class="in">`range(comm.rank, N, comm.size)`</span>.</span>
 <span id="cb16-174"><a href="#cb16-174" aria-label="168"></a></span>
@@ -5878,7 +5878,7 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-188"><a href="#cb16-188" aria-label="180"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span>
 <span id="cb16-189"><a href="#cb16-189" aria-label="181"></a><span class="in">```</span></span>
 <span id="cb16-190"><a href="#cb16-190" aria-label="182"></a></span>
-<span id="cb16-191"><a href="#cb16-191" aria-label="183"></a>**The plotting.** Everything below builds the two-panel animation (folded — expand</span>
+<span id="cb16-191"><a href="#cb16-191" aria-label="183"></a>**The plotting.** Everything below builds the two-panel animation (folded; expand</span>
 <span id="cb16-192"><a href="#cb16-192" aria-label="184"></a>if you're curious). A non-linear wall-clock schedule spends more frames while the</span>
 <span id="cb16-193"><a href="#cb16-193" aria-label="185"></a>parallel side is filling, so the speed difference is easy to see.</span>
 <span id="cb16-194"><a href="#cb16-194" aria-label="186"></a></span>
@@ -5972,9 +5972,9 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-284"><a href="#cb16-284" aria-label="274"></a></span>
 <span id="cb16-285"><a href="#cb16-285" aria-label="275"></a>More samples → a better estimate, but *how much* better? Below we plot the</span>
 <span id="cb16-286"><a href="#cb16-286" aria-label="276"></a>**absolute error** $|\hat\pi - \pi|$ as we add samples. Monte Carlo error falls</span>
-<span id="cb16-287"><a href="#cb16-287" aria-label="277"></a>off like $1/\sqrt{N}$ — so on **log-log axes** it's a straight line with slope</span>
+<span id="cb16-287"><a href="#cb16-287" aria-label="277"></a>off like $1/\sqrt{N}$, so on **log-log axes** it's a straight line with slope</span>
 <span id="cb16-288"><a href="#cb16-288" aria-label="278"></a>$-\tfrac12$. The practical catch: to get one more decimal digit (10× less error)</span>
-<span id="cb16-289"><a href="#cb16-289" aria-label="279"></a>you need **100× more samples** — which is exactly why you reach for parallelism.</span>
+<span id="cb16-289"><a href="#cb16-289" aria-label="279"></a>you need **100× more samples**. That is exactly why you reach for parallelism.</span>
 <span id="cb16-290"><a href="#cb16-290" aria-label="280"></a></span>
 <span id="cb16-293"><a href="#cb16-293" aria-label="281"></a><span class="in">```{python}</span></span>
 <span id="cb16-294"><a href="#cb16-294" aria-label="282"></a><span class="co">#| code-fold: true</span></span>
@@ -6017,8 +6017,8 @@ Approximating $\Pi$ Using Monte Carlo.”</span> July 15. <a href="https://safor
 <span id="cb16-331"><a href="#cb16-331" aria-label="319"></a>::: {.callout-note title="📏 Ideal vs. real speedup" collapse="false"}</span>
 <span id="cb16-332"><a href="#cb16-332" aria-label="320"></a>This animation shows **ideal linear speedup** (<span class="in">`P`</span> workers → <span class="in">`P`</span>× faster). Real</span>
 <span id="cb16-333"><a href="#cb16-333" aria-label="321"></a>runs fall a little short: the workers must combine their counts at the end (the</span>
-<span id="cb16-334"><a href="#cb16-334" aria-label="322"></a><span class="in">`comm.Allreduce`</span> below), and that communication adds overhead — which is exactly</span>
-<span id="cb16-335"><a href="#cb16-335" aria-label="323"></a>why the Polaris timings below aren't a perfect <span class="in">`P`</span>× as you add ranks.</span>
+<span id="cb16-334"><a href="#cb16-334" aria-label="322"></a><span class="in">`comm.Allreduce`</span> below), and that communication adds overhead. That is why the</span>
+<span id="cb16-335"><a href="#cb16-335" aria-label="323"></a>Polaris timings below aren't a perfect <span class="in">`P`</span>× as you add ranks.</span>
 <span id="cb16-336"><a href="#cb16-336" aria-label="324"></a>:::</span>
 <span id="cb16-337"><a href="#cb16-337" aria-label="325"></a></span>
 <span id="cb16-338"><a href="#cb16-338" aria-label="326"></a><span class="fu">### MPI example</span></span>

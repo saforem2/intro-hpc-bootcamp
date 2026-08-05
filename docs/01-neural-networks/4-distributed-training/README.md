@@ -79,7 +79,7 @@ Sam Foreman
 >
 > Most of this page is **conceptual**: the diagrams, the
 > collective-communication walk-throughs, and the small NumPy /
-> pure-Python cells below all run fine on a **laptop or in Colab** — no
+> pure-Python cells below all run fine on a **laptop or in Colab**, no
 > GPU required. They *simulate* what happens across ranks so you can
 > build intuition before touching real hardware.
 >
@@ -629,8 +629,8 @@ input values across ranks.
 > That “everyone agrees” property is exactly why DDP keeps model
 > replicas in sync: after each backward pass, one all-reduce makes every
 > GPU apply the *same* averaged gradient. On real hardware this is a
-> single call — `dist.all_reduce(grad)` (PyTorch) or
-> `comm.Allreduce(...)` (`mpi4py`) — run by NCCL/oneCCL over the fast
+> single call: `dist.all_reduce(grad)` (PyTorch) or
+> `comm.Allreduce(...)` (`mpi4py`), run by NCCL/oneCCL over the fast
 > interconnect.
 
 ### Reduce
@@ -872,8 +872,8 @@ Figure 12: Scatters a list of tensors to the whole group
 >
 > The all-reduce sim above showed one collective. The four diagrams in
 > this section (`reduce`, `broadcast`, `all_gather`, `scatter`) are just
-> as easy to simulate on the CPU — we represent “ranks” as a plain
-> Python list, one array per rank, and print the buffers **before** and
+> as easy to simulate on the CPU: we represent “ranks” as a plain Python
+> list, one array per rank, and print the buffers **before** and
 > **after** each op. This mirrors the real `torch.distributed` /
 > `mpi4py` API, minus the network:
 >
@@ -925,7 +925,7 @@ Figure 12: Scatters a list of tensors to the whole group
 > copies one rank out to all, **all_gather** gives everyone the full
 > set, and **scatter** splits one rank’s data out to the group.
 > `all_reduce` (the previous cell) is literally `reduce` followed by
-> `broadcast` — which is why DDP can average gradients with a single
+> `broadcast`, which is why DDP can average gradients with a single
 > fused call.
 
 ## Distributed Data Parallelism (DDP)
@@ -944,7 +944,7 @@ Figure 12: Scatters a list of tensors to the whole group
 >
 > ### ▶️ Try it: a batch-size / LR-scaling calculator
 >
-> Adding GPUs changes more than throughput — it changes the **effective
+> Adding GPUs changes more than throughput. It changes the **effective
 > batch size** your optimizer sees, which in turn changes the learning
 > rate you should use. This is pure arithmetic, so you can explore it on
 > a laptop. Tweak the four inputs and re-run:
@@ -985,7 +985,7 @@ Figure 12: Scatters a list of tensors to the whole group
 > Both LR rules appear in the literature: **linear** scaling (multiply
 > by `world_size`) is the common default from *Accurate, Large Minibatch
 > SGD*, while the **`sqrt`** rule (referenced above) is milder and often
-> more stable for very large batches. Neither is magic — always keep a
+> more stable for very large batches. Neither is magic: always keep a
 > short warmup and watch your validation loss.
 
 > [!NOTE]
@@ -1171,7 +1171,7 @@ with Adam, each rank normally holds the full **16 GB** (params 4 + grads
 4 + optimizer states 8). The **ZeRO** stages progressively shard those
 three across the $N$ data-parallel ranks: ZeRO-1 shards optimizer
 states, ZeRO-2 adds gradients, and ZeRO-3 (PyTorch **FSDP**
-`FULL_SHARD`) shards everything — driving per-GPU memory toward $16/N$
+`FULL_SHARD`) shards everything, driving per-GPU memory toward $16/N$
 GB, at the cost of extra `all-gather` communication to reconstruct each
 layer on the fly.
 
@@ -1565,8 +1565,8 @@ Figure 26: Language Model trained for causal language modeling.
 > ### 🚀 Prefer a self-contained, copy-paste lab?
 >
 > The walkthrough below runs on **ALCF (Polaris, PBS)**. If you’re on
-> **NERSC Perlmutter** — or you just want a clean, standalone recipe
-> without the surrounding lesson — jump to the dedicated hands-on lab:
+> **NERSC Perlmutter** (or you just want a clean, standalone recipe
+> without the surrounding lesson), jump to the dedicated hands-on lab:
 >
 > ➡️ [**\[2\] Hands-On: Launching a Distributed
 > Run**](../../02-llms/1-parallel-training/index.qmd) (SLURM / `salloc`,

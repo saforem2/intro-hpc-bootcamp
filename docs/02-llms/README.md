@@ -26,7 +26,7 @@ Sam Foreman
 This section takes the neural networks from
 [\[1\]](../01-neural-networks/index.qmd) and scales them up to
 **language models**. You’ll see what makes a Transformer tick, then
-train a small GPT from scratch — first in Colab, then with the same
+train a small GPT from scratch: first in Colab, then with the same
 `ezpz` tooling you’ll use at cluster scale in
 [\[3\]](../03-advanced-llms/index.qmd). The conceptual pages run on a
 laptop; the training examples run anywhere from Colab to a

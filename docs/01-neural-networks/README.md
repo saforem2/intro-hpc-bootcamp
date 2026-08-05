@@ -9,7 +9,7 @@ Sam Foreman
 
 ## 👋 Welcome
 
-Neural networks are the engine under everything else in this bootcamp —
+Neural networks are the engine under everything else in this bootcamp:
 the LLMs in [\[2\]](../02-llms/index.qmd) and the science models in
 [\[3\]](../04-ai-for-science/index.qmd) are all neural networks, just
 larger. This section builds them up from the ground: what a single
@@ -17,8 +17,8 @@ neuron does, how a network learns from data, and why the whole
 enterprise eventually needs a supercomputer.
 
 It picks up where [\[0\] Intro to AI &
-HPC](../00-intro-AI-HPC/index.qmd) left off — you should be comfortable
-reading Python and a NumPy array — and takes you from a from-scratch
+HPC](../00-intro-AI-HPC/index.qmd) left off (you should be comfortable
+reading Python and a NumPy array) and takes you from a from-scratch
 classifier to training that spans many GPUs.
 
 ## 🗺️ Map of this section
@@ -27,7 +27,7 @@ The pages are meant to be read in order; each builds on the last:
 
 - 📄 [**\[1.0\] Intro to Neural Networks**](./0-intro/index.qmd) — the
   neuron, layers, activations, and how a network learns via gradient
-  descent — building directly on the linear-regression example from
+  descent, building directly on the linear-regression example from
   [\[0\]](../00-intro-AI-HPC/6-linear-regression/index.qmd).
 - 📗 [**\[1.1\] MNIST Example**](./1-mnist/index.qmd) — train your first
   real classifier on handwritten digits, from a linear model to a

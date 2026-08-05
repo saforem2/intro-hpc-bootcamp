@@ -33,8 +33,8 @@ except ImportError:
 > ### 🎯 What you’ll learn
 >
 > Python is the language of modern AI, and almost every page after this
-> one assumes you can read and write it. This is a **hands-on** warm-up
-> — run each cell, change it, run it again. By the end you’ll be
+> one assumes you can read and write it. This is a **hands-on** warm-up,
+> so run each cell, change it, and run it again. By the end you’ll be
 > comfortable with:
 >
 > - **variables & types** — numbers, strings, booleans
@@ -48,7 +48,7 @@ except ImportError:
 
 ## 🐚 A little shell first
 
-Before Python, a word on the **shell** — the text prompt you type
+Before Python, a word on the **shell**: the text prompt you type
 commands into on a laptop or a supercomputer login node. You’ll use it
 to move around the filesystem, run scripts, and submit jobs. The
 essentials:
@@ -248,7 +248,7 @@ print("a.total =", a.total, "| b.total =", b.total)
 
     a.total = 101 | b.total = 0
 
-A class can also **inherit** from another to extend it — you call the
+A class can also **inherit** from another to extend it, calling the
 parent’s setup with `super().__init__()`. That is precisely the pattern
 you’ll see when we build neural networks: a model subclasses
 `nn.Module`, calls `super().__init__()` in its `__init__`, defines its
@@ -279,18 +279,17 @@ plt.show()
 
 ![](index_files/figure-commonmark/cell-13-output-1.png)
 
-That `np.maximum(0, xs)` applied `relu` to all 200 points **at once** —
-no loop. This *vectorized* style is why NumPy is fast, and it’s the
+That `np.maximum(0, xs)` applied `relu` to all 200 points **at once**,
+with no loop. This *vectorized* style is why NumPy is fast, and it’s the
 subject of the next page, [**Working with Data**](../4-data/index.qmd).
 
 ## Exercises
 
-Try these — each has a hidden solution, but give it a real attempt
-first.
+Try these. Each has a hidden solution, but give it a real attempt first.
 
 > [!NOTE]
 >
-> ### Exercise 1 — a function
+> ### Exercise 1: a function
 >
 > Write a function `mean(values)` that returns the average of a list of
 > numbers, then call it on `[10, 20, 30, 40]` (you should get `25.0`).
@@ -310,7 +309,7 @@ first.
 
 > [!NOTE]
 >
-> ### Exercise 2 — a comprehension
+> ### Exercise 2: a comprehension
 >
 > Given `words = ["hpc", "gpu", "llm"]`, use a list comprehension to
 > build a list of their **uppercased** forms: `["HPC", "GPU", "LLM"]`.
@@ -329,7 +328,7 @@ first.
 
 > [!NOTE]
 >
-> ### Exercise 3 — dicts + a loop
+> ### Exercise 3: dicts + a loop
 >
 > You have per-GPU token counts
 > `counts = {"gpu0": 120, "gpu1": 95, "gpu2": 130}`. Print the **total**
@@ -350,7 +349,7 @@ first.
 
 > [!NOTE]
 >
-> ### Exercise 4 — a class
+> ### Exercise 4: a class
 >
 > Write a class `Accumulator` with an `__init__` that starts an internal
 > list, an `add(x)` method that appends to it, and a `mean()` method
@@ -388,9 +387,9 @@ first.
   containers.
 - **Comprehensions** (`[f(x) for x in xs]`) replace many simple loops.
 - **Functions** (`def … return`) package reusable logic.
-- **Classes** (`class` / `__init__` / `self`) bundle data with behavior
-  — the exact shape of every PyTorch `nn.Module`.
-- **`import`** brings in libraries — `numpy` and `matplotlib` above all.
+- **Classes** (`class` / `__init__` / `self`) bundle data with behavior:
+  the exact shape of every PyTorch `nn.Module`.
+- **`import`** brings in libraries, `numpy` and `matplotlib` above all.
 
 > [!TIP]
 >
@@ -406,5 +405,5 @@ first.
 > - [foundational_hpc_skills/intro_to_python ·
 >   olcf](https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)
 
-➡️ **Next:** [Working with Data](../4-data/index.qmd) — NumPy arrays,
+➡️ **Next:** [Working with Data](../4-data/index.qmd): NumPy arrays,
 pandas, and plotting real data.

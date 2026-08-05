@@ -703,7 +703,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -805,7 +805,7 @@ class FOUND,ADV block
 <span id="cb1-6"><a href="#cb1-6" aria-label="6"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="co"># 3. Smoke-test the distributed setup</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="ex">ezpz</span> test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>A healthy <code>ezpz test</code> will print your detected device, backend, and world size, then run a tiny distributed step — that’s your signal the environment is ready for the labs ahead.</p>
+<p>A healthy <code>ezpz test</code> will print your detected device, backend, and world size, then run a tiny distributed step. That’s your signal the environment is ready for the labs ahead.</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Where these run">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -816,7 +816,7 @@ class FOUND,ADV block
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The bootcamp labs run on <strong>Jupyter @ <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (project <strong><code>m4388</code></strong>, SLURM scheduler, NVIDIA GPUs). But nothing here is Perlmutter-specific: <code>ezpz</code> auto-detects the scheduler and backend (SLURM → <code>srun</code>, PBS → <code>mpiexec</code>; CUDA / XPU / ROCm / CPU), so the exact same commands work unchanged on ALCF, other HPC systems, or a single workstation. When a lab shows an allocation flag, it uses a placeholder like <code>-A &lt;project&gt;</code> — substitute <code>m4388</code> on Perlmutter.</p>
+<p>The bootcamp labs run on <strong>Jupyter @ <a href="https://docs.nersc.gov/systems/perlmutter/">NERSC Perlmutter</a></strong> (project <strong><code>m4388</code></strong>, SLURM scheduler, NVIDIA GPUs). But nothing here is Perlmutter-specific: <code>ezpz</code> auto-detects the scheduler and backend (SLURM → <code>srun</code>, PBS → <code>mpiexec</code>; CUDA / XPU / ROCm / CPU), so the exact same commands work unchanged on ALCF, other HPC systems, or a single workstation. When a lab shows an allocation flag, it uses a placeholder like <code>-A &lt;project&gt;</code>; substitute <code>m4388</code> on Perlmutter.</p>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🧵 Keeping runs alive">
@@ -829,7 +829,7 @@ class FOUND,ADV block
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <code>ezpz</code> helpers you install here (<code>ezpz launch</code>, <code>ezpz yeet</code>, <code>ezpz launch --auto-retry</code>) are exactly the ones the scaling and fault-tolerance labs lean on — so this one setup carries you through all five.</p>
+<p>The <code>ezpz</code> helpers you install here (<code>ezpz launch</code>, <code>ezpz yeet</code>, <code>ezpz launch --auto-retry</code>) are exactly the ones the scaling and fault-tolerance labs lean on, so this one setup carries you through all five.</p>
 </div>
 </div>
 <p>Ready? Start with <strong><a href="../03-advanced-llms/0-moe/index.html">[3.0] Mixture of Experts &amp; Expert Parallelism</a></strong>.</p>
@@ -1481,7 +1481,7 @@ Foreman, Sam. 2026. <span>“🚀 Advanced / Large-Scale LLMs.”</span> July
 <span id="cb2-119"><a href="#cb2-119" aria-label="117"></a><span class="in">```</span></span>
 <span id="cb2-120"><a href="#cb2-120" aria-label="118"></a></span>
 <span id="cb2-121"><a href="#cb2-121" aria-label="119"></a>A healthy <span class="in">`ezpz test`</span> will print your detected device, backend, and world size,</span>
-<span id="cb2-122"><a href="#cb2-122" aria-label="120"></a>then run a tiny distributed step — that's your signal the environment is ready</span>
+<span id="cb2-122"><a href="#cb2-122" aria-label="120"></a>then run a tiny distributed step. That's your signal the environment is ready</span>
 <span id="cb2-123"><a href="#cb2-123" aria-label="121"></a>for the labs ahead.</span>
 <span id="cb2-124"><a href="#cb2-124" aria-label="122"></a></span>
 <span id="cb2-125"><a href="#cb2-125" aria-label="123"></a>::: {.callout-note title="Where these run"}</span>
@@ -1491,13 +1491,13 @@ Foreman, Sam. 2026. <span>“🚀 Advanced / Large-Scale LLMs.”</span> July
 <span id="cb2-129"><a href="#cb2-129" aria-label="127"></a>auto-detects the scheduler and backend (SLURM → <span class="in">`srun`</span>, PBS → <span class="in">`mpiexec`</span>; CUDA /</span>
 <span id="cb2-130"><a href="#cb2-130" aria-label="128"></a>XPU / ROCm / CPU), so the exact same commands work unchanged on ALCF, other</span>
 <span id="cb2-131"><a href="#cb2-131" aria-label="129"></a>HPC systems, or a single workstation. When a lab shows an allocation flag, it</span>
-<span id="cb2-132"><a href="#cb2-132" aria-label="130"></a>uses a placeholder like <span class="in">`-A &lt;project&gt;`</span> — substitute <span class="in">`m4388`</span> on Perlmutter.</span>
+<span id="cb2-132"><a href="#cb2-132" aria-label="130"></a>uses a placeholder like <span class="in">`-A &lt;project&gt;`</span>; substitute <span class="in">`m4388`</span> on Perlmutter.</span>
 <span id="cb2-133"><a href="#cb2-133" aria-label="131"></a>:::</span>
 <span id="cb2-134"><a href="#cb2-134" aria-label="132"></a></span>
 <span id="cb2-135"><a href="#cb2-135" aria-label="133"></a>::: {.callout-tip title="🧵 Keeping runs alive"}</span>
 <span id="cb2-136"><a href="#cb2-136" aria-label="134"></a>The <span class="in">`ezpz`</span> helpers you install here (<span class="in">`ezpz launch`</span>, <span class="in">`ezpz yeet`</span>,</span>
 <span id="cb2-137"><a href="#cb2-137" aria-label="135"></a><span class="in">`ezpz launch --auto-retry`</span>) are exactly the ones the scaling and</span>
-<span id="cb2-138"><a href="#cb2-138" aria-label="136"></a>fault-tolerance labs lean on — so this one setup carries you through all five.</span>
+<span id="cb2-138"><a href="#cb2-138" aria-label="136"></a>fault-tolerance labs lean on, so this one setup carries you through all five.</span>
 <span id="cb2-139"><a href="#cb2-139" aria-label="137"></a>:::</span>
 <span id="cb2-140"><a href="#cb2-140" aria-label="138"></a></span>
 <span id="cb2-141"><a href="#cb2-141" aria-label="139"></a>Ready? Start with **[<span class="sc">\[</span>3.0<span class="sc">\]</span> Mixture of Experts &amp; Expert</span>

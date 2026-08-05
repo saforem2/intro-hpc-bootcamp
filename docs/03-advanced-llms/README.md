@@ -125,7 +125,7 @@ ezpz test
 ```
 
 A healthy `ezpz test` will print your detected device, backend, and
-world size, then run a tiny distributed step — that’s your signal the
+world size, then run a tiny distributed step. That’s your signal the
 environment is ready for the labs ahead.
 
 > [!NOTE]
@@ -139,7 +139,7 @@ environment is ready for the labs ahead.
 > (SLURM → `srun`, PBS → `mpiexec`; CUDA / XPU / ROCm / CPU), so the
 > exact same commands work unchanged on ALCF, other HPC systems, or a
 > single workstation. When a lab shows an allocation flag, it uses a
-> placeholder like `-A <project>` — substitute `m4388` on Perlmutter.
+> placeholder like `-A <project>`; substitute `m4388` on Perlmutter.
 
 > [!TIP]
 >
@@ -147,7 +147,7 @@ environment is ready for the labs ahead.
 >
 > The `ezpz` helpers you install here (`ezpz launch`, `ezpz yeet`,
 > `ezpz launch --auto-retry`) are exactly the ones the scaling and
-> fault-tolerance labs lean on — so this one setup carries you through
+> fault-tolerance labs lean on, so this one setup carries you through
 > all five.
 
 Ready? Start with **[\[3.0\] Mixture of Experts & Expert

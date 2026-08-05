@@ -710,7 +710,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -740,18 +740,18 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/03-advanced-llms/2-fault-tolerant-training/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/03-advanced-llms/2-fault-tolerant-training/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <section id="failures-are-the-norm-not-the-exception" class="level2">
 <h2 class="anchored" data-anchor-id="failures-are-the-norm-not-the-exception">👋 Failures are the norm, not the exception</h2>
-<p>In <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a> you learned that a collective op only completes when <strong>every</strong> rank participates — one silent straggler and the whole job waits <em>indefinitely</em>. That fragility is exactly the problem at scale.</p>
-<p>Do the arithmetic. A single GPU has a mean time between failures (MTBF) measured in years. But a job on <strong>thousands</strong> of GPUs running for <strong>weeks</strong> is a product of thousands of those probabilities — so the <em>job’s</em> MTBF collapses to <strong>hours</strong>. Meta reported <a href="https://arxiv.org/abs/2407.21783">hundreds of interruptions</a> during Llama-3 405B pretraining; roughly 78% were hardware issues, the majority GPU-related. At that scale a network link flapping, a straggler or dead node, a shared-filesystem stall, an ECC memory error, or an out-of-memory (OOM) spike is not an <em>if</em> — it <em>will</em> happen, probably several times before your run finishes.</p>
+<p>In <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a> you learned that a collective op only completes when <strong>every</strong> rank participates. One silent straggler and the whole job waits <em>indefinitely</em>. That fragility is exactly the problem at scale.</p>
+<p>Do the arithmetic. A single GPU has a mean time between failures (MTBF) measured in years. But a job on <strong>thousands</strong> of GPUs running for <strong>weeks</strong> is a product of thousands of those probabilities, so the <em>job’s</em> MTBF collapses to <strong>hours</strong>. Meta reported <a href="https://arxiv.org/abs/2407.21783">hundreds of interruptions</a> during Llama-3 405B pretraining; roughly 78% were hardware issues, the majority GPU-related. At that scale a network link flapping, a straggler or dead node, a shared-filesystem stall, an ECC memory error, or an out-of-memory (OOM) spike is not an <em>if</em>. It <em>will</em> happen, probably several times before your run finishes.</p>
 <p>So “training at scale” is really two jobs: (1) make the model learn, and (2) make the run <strong>survive</strong> the failures that are guaranteed to interrupt it. This lab is about job #2. The contract is simple:</p>
 <blockquote class="blockquote">
-<p><strong>Checkpoint often enough that a crash costs minutes, not days — and make restart automatic so a human doesn’t have to babysit the run at 3am.</strong></p>
+<p><strong>Checkpoint often enough that a crash costs minutes, not days, and make restart automatic so a human doesn’t have to babysit the run at 3am.</strong></p>
 </blockquote>
 <p>We’ll follow the usual <strong>toy → real → scale</strong> path: a checkpoint/restart loop that really runs on your laptop, a taxonomy of real production failure modes with their actual log signatures, then <code>ezpz launch --auto-retry</code>, which turns “babysit-the-run-at-3am” into a flag.</p>
 </section>
 <section id="sec-toy" class="level2">
 <h2 class="anchored" data-anchor-id="sec-toy">① A toy that really runs</h2>
-<p>The whole idea of fault tolerance rests on one primitive: <strong>you can stop a training run at any step and resume it exactly where it left off.</strong> Let’s build that primitive from scratch — small enough to run on a CPU in under a second.</p>
-<p>The run below trains a tiny model, checkpoints every few steps, <strong>crashes on purpose</strong> partway through, and then restarts — picking the step counter up right where the crash left it.</p>
+<p>The whole idea of fault tolerance rests on one primitive: <strong>you can stop a training run at any step and resume it exactly where it left off.</strong> Let’s build that primitive from scratch, small enough to run on a CPU in under a second.</p>
+<p>The run below trains a tiny model, checkpoints every few steps, <strong>crashes on purpose</strong> partway through, and then restarts, picking the step counter up right where the crash left it.</p>
 <div id="5c887659" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="im">import</span> tempfile</span>
@@ -847,7 +847,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 ✅ Training finished. The step counter never restarted from 0.</code></pre>
 </div>
 </div>
-<p>Notice what made the restart <em>seamless</em>: <strong>Run #2 is the exact same call as Run #1.</strong> The code doesn’t know or care that it crashed — it just checks for a checkpoint on startup. That is the whole checkpoint/restart contract, and it’s what every fault-tolerance system below is built on.</p>
+<p>Notice what made the restart <em>seamless</em>: <strong>Run #2 is the exact same call as Run #1.</strong> The code doesn’t know or care that it crashed; it just checks for a checkpoint on startup. That is the whole checkpoint/restart contract, and it’s what every fault-tolerance system below is built on.</p>
 <div class="callout callout-style-simple callout-important callout-titled" title="Save the optimizer and RNG state, not just the weights">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -860,7 +860,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div class="callout-body-container callout-body">
 <p>A checkpoint of <code>model.state_dict()</code> alone is a <strong>subtle bug</strong>. Two things break if you only save weights:</p>
 <ul>
-<li><strong>Optimizer state.</strong> Adam’s first/second moments and SGD’s momentum buffers live in <code>opt.state_dict()</code>. Drop them and the optimizer restarts cold — your loss spikes and effective learning rate is wrong for hundreds of steps after every restart. On a run that restarts a dozen times, that adds up.</li>
+<li><strong>Optimizer state.</strong> Adam’s first/second moments and SGD’s momentum buffers live in <code>opt.state_dict()</code>. Drop them and the optimizer restarts cold: your loss spikes and effective learning rate is wrong for hundreds of steps after every restart. On a run that restarts a dozen times, that adds up.</li>
 <li><strong>RNG state.</strong> Save <code>torch.get_rng_state()</code> (and NumPy/CUDA RNG) so data shuffling, dropout, and augmentation resume <em>identically</em>. Otherwise “resume” silently replays or skips samples.</li>
 </ul>
 </div>
@@ -875,7 +875,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>save_checkpoint</code> writes to <code>latest.pt.tmp</code> and then <code>os.replace()</code>s it into place. <code>os.replace</code> is an <strong>atomic</strong> rename on POSIX filesystems: <code>latest.pt</code> is <em>always</em> either the old complete checkpoint or the new complete one — never a half-written file. Without this, a crash <em>during</em> the save (very possible when the node is dying) leaves a truncated <code>latest.pt</code>, and your restart fails to load the very thing meant to save you. Write-then-rename is the cheapest insurance in all of HPC.</p>
+<p><code>save_checkpoint</code> writes to <code>latest.pt.tmp</code> and then <code>os.replace()</code>s it into place. <code>os.replace</code> is an <strong>atomic</strong> rename on POSIX filesystems: <code>latest.pt</code> is <em>always</em> either the old complete checkpoint or the new complete one, never a half-written file. Without this, a crash <em>during</em> the save (very possible when the node is dying) leaves a truncated <code>latest.pt</code>, and your restart fails to load the very thing meant to save you. Write-then-rename is the cheapest insurance in all of HPC.</p>
 </div>
 </div>
 </section>
@@ -926,7 +926,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </tbody>
 </table>
 </div>
-<p>The failover scraper in <code>ezpz</code> matches these <strong>real</strong> signatures — these are lines pulled from Aurora/Sunspot postmortems, not invented examples:</p>
+<p>The failover scraper in <code>ezpz</code> matches these <strong>real</strong> signatures. These are lines pulled from Aurora/Sunspot postmortems, not invented examples:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># PALS shepherd kill — the node-local daemon went non-responsive.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="co"># Aurora's most common hardware failure. The hostname prefix IS the culprit:</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="ex">x4718c3s2b0n0.hsn.cm.aurora.alcf.anl.gov:</span> shepherd died from signal 9</span>
@@ -950,13 +950,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When a node dies, <code>mpiexec</code> sprays <code>rank N died from signal 11</code> (SIGSEGV) or <code>signal 15</code> (SIGTERM) from <strong>every</strong> rank that was torn down as collateral. The <code>ezpz</code> scraper <strong>deliberately ignores</strong> those cascading <code>signal {11,15}</code> lines — tagging them would swap out an <em>innocent</em> node and leave the real culprit in place. (This is a real postmortem lesson: job 8466848 had rank 1304 die from signal 11 as a downstream effect of a <code>std::bad_alloc</code> on a <em>different</em> node.) The signatures worth acting on are the <em>primary</em> ones above: <code>shepherd died from signal 9</code>, <code>Connection closed by peer</code>, <code>UR_RESULT_ERROR_OUT_OF_RESOURCES</code>, <code>OutOfMemoryError</code>.</p>
+<p>When a node dies, <code>mpiexec</code> sprays <code>rank N died from signal 11</code> (SIGSEGV) or <code>signal 15</code> (SIGTERM) from <strong>every</strong> rank that was torn down as collateral. The <code>ezpz</code> scraper <strong>deliberately ignores</strong> those cascading <code>signal {11,15}</code> lines; tagging them would swap out an <em>innocent</em> node and leave the real culprit in place. (This is a real postmortem lesson: job 8466848 had rank 1304 die from signal 11 as a downstream effect of a <code>std::bad_alloc</code> on a <em>different</em> node.) The signatures worth acting on are the <em>primary</em> ones above: <code>shepherd died from signal 9</code>, <code>Connection closed by peer</code>, <code>UR_RESULT_ERROR_OUT_OF_RESOURCES</code>, <code>OutOfMemoryError</code>.</p>
 </div>
 </div>
 <section id="checkpointing-a-model-that-no-longer-fits-on-one-gpu" class="level3">
 <h3 class="anchored" data-anchor-id="checkpointing-a-model-that-no-longer-fits-on-one-gpu">Checkpointing a model that no longer fits on one GPU</h3>
-<p>The toy saved one <code>.pt</code> file from one process. But once you’re using FSDP or 3D parallelism (from <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4]</a>), model + optimizer state is <strong>sharded across hundreds of ranks</strong> — funneling it all to rank 0 to write one giant file is slow and often OOMs.</p>
-<p>The answer is <strong>Distributed Checkpointing (DCP)</strong> — <a href="https://pytorch.org/docs/stable/distributed.checkpoint.html"><code>torch.distributed.checkpoint</code></a>. Each rank writes <strong>its own shard</strong> in parallel, and DCP can <strong>reshard on load</strong>, so a run saved on 512 GPUs can resume onto 256. <code>torchtitan</code> uses DCP by default (<code>--checkpoint.enable --checkpoint.interval N</code>, see <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html">[3.1] Pretraining at Scale</a>).</p>
+<p>The toy saved one <code>.pt</code> file from one process. But once you’re using FSDP or 3D parallelism (from <a href="../../01-neural-networks/4-distributed-training/index.html">[1.4]</a>), model + optimizer state is <strong>sharded across hundreds of ranks</strong>, and funneling it all to rank 0 to write one giant file is slow and often OOMs.</p>
+<p>The answer is <strong>Distributed Checkpointing (DCP)</strong>, or <a href="https://pytorch.org/docs/stable/distributed.checkpoint.html"><code>torch.distributed.checkpoint</code></a>. Each rank writes <strong>its own shard</strong> in parallel, and DCP can <strong>reshard on load</strong>, so a run saved on 512 GPUs can resume onto 256. <code>torchtitan</code> uses DCP by default (<code>--checkpoint.enable --checkpoint.interval N</code>, see <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html">[3.1] Pretraining at Scale</a>).</p>
 <div id="3ec7baa7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="co"># Sketch of sharded save/load with PyTorch DCP (display-only).</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="im">import</span> torch.distributed.checkpoint <span class="im">as</span> dcp</span>
@@ -978,14 +978,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lustre/GPFS is a <strong>shared, contended</strong> resource. If all N ranks call <code>torch.save</code> to the same directory at the same step, you hammer the metadata server (MDS) and can <em>induce</em> the very stall you’re trying to survive — the job goes silent with no error at all. Mitigations: use <strong>DCP</strong> (parallel shard writes) rather than gather-to-rank-0; <strong>stripe</strong> large checkpoint files across OSTs (<a href="https://wiki.lustre.org/Configuring_Lustre_File_Striping">Lustre striping</a>); stagger or throttle writers; and keep only the last few checkpoints so you don’t DOS your own filesystem. A silent hang with a live W&amp;B heartbeat but <em>frozen</em> training metrics is the classic signature — and it’s why the launcher below has an <strong>idle-output watchdog</strong>.</p>
+<p>Lustre/GPFS is a <strong>shared, contended</strong> resource. If all N ranks call <code>torch.save</code> to the same directory at the same step, you hammer the metadata server (MDS) and can <em>induce</em> the very stall you’re trying to survive: the job goes silent with no error at all. Mitigations: use <strong>DCP</strong> (parallel shard writes) rather than gather-to-rank-0; <strong>stripe</strong> large checkpoint files across OSTs (<a href="https://wiki.lustre.org/Configuring_Lustre_File_Striping">Lustre striping</a>); stagger or throttle writers; and keep only the last few checkpoints so you don’t DOS your own filesystem. A silent hang with a live W&amp;B heartbeat but <em>frozen</em> training metrics is the classic signature, and it’s why the launcher below has an <strong>idle-output watchdog</strong>.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="sec-scale" class="level2">
 <h2 class="anchored" data-anchor-id="sec-scale">③ Scale it up: <code>ezpz launch --auto-retry</code></h2>
-<p>Knowing <em>how</em> to restart is only half the battle — at 3am, someone (or something) has to actually notice the crash, figure out which node was bad, throw it out, and relaunch. <code>ezpz launch --auto-retry</code> does all of that in a loop.</p>
+<p>Knowing <em>how</em> to restart is only half the battle. At 3am, someone (or something) has to actually notice the crash, figure out which node was bad, throw it out, and relaunch. <code>ezpz launch --auto-retry</code> does all of that in a loop.</p>
 <p>First, the usual one-time environment setup (see the <a href="../../03-advanced-llms/index.html#one-time-setup">track intro</a>):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a><span class="ex">uv</span> pip install git+https://github.com/saforem2/ezpz</span>
@@ -1003,7 +1003,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <span id="cb6-10"><a href="#cb6-10" aria-label="10"></a>        <span class="at">--train-iters</span> 50000 <span class="dt">\</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>        <span class="at">--ckpt-dir</span> /path/to/checkpoints <span class="dt">\</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-label="12"></a>        <span class="at">--save-interval</span> 500</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>(We use <code>ezpz.examples.fsdp_tp</code> here, not <code>ezpz.examples.test</code>: <code>fsdp_tp</code> is the example wired for <strong>distributed checkpointing + automatic resume</strong> — it saves every <code>--save-interval</code> steps to <code>--ckpt-dir</code> and, on relaunch, picks up from the latest checkpoint unless you pass <code>--no-resume</code>. That resume-on-restart is exactly what makes fault tolerance work.)</p>
+<p>(We use <code>ezpz.examples.fsdp_tp</code> here, not <code>ezpz.examples.test</code>: <code>fsdp_tp</code> is the example wired for <strong>distributed checkpointing + automatic resume</strong>. It saves every <code>--save-interval</code> steps to <code>--ckpt-dir</code> and, on relaunch, picks up from the latest checkpoint unless you pass <code>--no-resume</code>. That resume-on-restart is exactly what makes fault tolerance work.)</p>
 <p>What each flag does:</p>
 <ul>
 <li><strong><code>--auto-retry</code></strong> — splits your allocation into an <strong>active</strong> training set and a <strong>spare</strong> pool, then runs your command in a loop. On a non-zero exit it <em>scrapes the log</em> for the bad-node signatures from <a href="#sec-real" class="quarto-xref">Section&nbsp;3</a>, <strong>swaps the guilty node(s) out for spares</strong>, and relaunches. It keeps going until the run <strong>succeeds</strong>, hits the <strong>walltime</strong>, or <strong>runs out of spares</strong>.</li>
@@ -1022,7 +1022,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>--auto-retry</code> also bails early on <code>STUCK_PRE_TRAINING</code>: if <strong>two consecutive</strong> attempts produce zero <code>step=</code> progress markers, the problem is a code/config bug (bad dataset path, wrong shapes), not a bad node — and no amount of node-swapping will fix it. This stops the loop from burning your entire spare pool relaunching a run that was never going to train.</p>
+<p><code>--auto-retry</code> also bails early on <code>STUCK_PRE_TRAINING</code>: if <strong>two consecutive</strong> attempts produce zero <code>step=</code> progress markers, the problem is a code/config bug (bad dataset path, wrong shapes), not a bad node, and no amount of node-swapping will fix it. This stops the loop from burning your entire spare pool relaunching a run that was never going to train.</p>
 </div>
 </div>
 <section id="the-failover-loop" class="level3">
@@ -1093,7 +1093,7 @@ class WALL,EXH red
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="ex">ezpz</span> launch <span class="at">-n</span> <span class="op">&lt;</span>N<span class="op">&gt;</span> python3 <span class="at">-m</span> ezpz.examples.fsdp_tp <span class="dt">\</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a>    <span class="at">--train-iters</span> 2000 <span class="at">--ckpt-dir</span> ./ckpts <span class="at">--save-interval</span> 100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Kill it</strong> partway through (Ctrl-C, <code>scancel</code>/<code>qdel</code>, or just let the simulated crash fire) <em>after</em> at least one checkpoint has been written.</p></li>
-<li><p><strong>Relaunch the exact same command</strong> and confirm the run <strong>resumes</strong> — the step counter must continue from the last checkpoint, not restart at 0.</p></li>
+<li><p><strong>Relaunch the exact same command</strong> and confirm the run <strong>resumes</strong>: the step counter must continue from the last checkpoint, not restart at 0.</p></li>
 <li><p>(Optional stretch) Run it under <code>ezpz launch --auto-retry --spare-nodes auto</code> and find the <code>FAILOVER STOP: &lt;reason&gt;</code> line and the <code>attempt-N.log</code> files.</p></li>
 </ol>
 <p>Where <em>proof</em> can be any of:</p>
@@ -1119,7 +1119,7 @@ class WALL,EXH red
 </div>
 </div>
 <hr>
-<p><em>Last updated: August 3, 2026</em></p>
+<p><em>Last updated: August 4, 2026</em></p>
 
 
 
@@ -1670,24 +1670,24 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-19"><a href="#cb9-19" aria-label="19"></a><span class="fu">## 👋 Failures are the norm, not the exception</span></span>
 <span id="cb9-20"><a href="#cb9-20" aria-label="20"></a></span>
 <span id="cb9-21"><a href="#cb9-21" aria-label="21"></a>In <span class="co">[</span><span class="ot">\[1.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a>you learned that a collective op only completes when **every** rank participates</span>
-<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>— one silent straggler and the whole job waits *indefinitely*. That fragility is</span>
-<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a>exactly the problem at scale.</span>
+<span id="cb9-22"><a href="#cb9-22" aria-label="22"></a>you learned that a collective op only completes when **every** rank</span>
+<span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>participates. One silent straggler and the whole job waits *indefinitely*. That</span>
+<span id="cb9-24"><a href="#cb9-24" aria-label="24"></a>fragility is exactly the problem at scale.</span>
 <span id="cb9-25"><a href="#cb9-25" aria-label="25"></a></span>
 <span id="cb9-26"><a href="#cb9-26" aria-label="26"></a>Do the arithmetic. A single GPU has a mean time between failures (MTBF) measured</span>
 <span id="cb9-27"><a href="#cb9-27" aria-label="27"></a>in years. But a job on **thousands** of GPUs running for **weeks** is a product</span>
-<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a>of thousands of those probabilities — so the *job's* MTBF collapses to **hours**.</span>
+<span id="cb9-28"><a href="#cb9-28" aria-label="28"></a>of thousands of those probabilities, so the *job's* MTBF collapses to **hours**.</span>
 <span id="cb9-29"><a href="#cb9-29" aria-label="29"></a>Meta reported <span class="co">[</span><span class="ot">hundreds of interruptions</span><span class="co">](https://arxiv.org/abs/2407.21783)</span></span>
 <span id="cb9-30"><a href="#cb9-30" aria-label="30"></a>during Llama-3 405B pretraining; roughly 78% were hardware issues, the majority</span>
 <span id="cb9-31"><a href="#cb9-31" aria-label="31"></a>GPU-related. At that scale a network link flapping, a straggler or dead node, a</span>
 <span id="cb9-32"><a href="#cb9-32" aria-label="32"></a>shared-filesystem stall, an ECC memory error, or an out-of-memory (OOM) spike is</span>
-<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a>not an *if* — it *will* happen, probably several times before your run finishes.</span>
+<span id="cb9-33"><a href="#cb9-33" aria-label="33"></a>not an *if*. It *will* happen, probably several times before your run finishes.</span>
 <span id="cb9-34"><a href="#cb9-34" aria-label="34"></a></span>
 <span id="cb9-35"><a href="#cb9-35" aria-label="35"></a>So "training at scale" is really two jobs: (1) make the model learn, and (2)</span>
 <span id="cb9-36"><a href="#cb9-36" aria-label="36"></a>make the run **survive** the failures that are guaranteed to interrupt it. This</span>
 <span id="cb9-37"><a href="#cb9-37" aria-label="37"></a>lab is about job #2. The contract is simple:</span>
 <span id="cb9-38"><a href="#cb9-38" aria-label="38"></a></span>
-<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a><span class="at">&gt; **Checkpoint often enough that a crash costs minutes, not days — and make</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-label="39"></a><span class="at">&gt; **Checkpoint often enough that a crash costs minutes, not days, and make</span></span>
 <span id="cb9-40"><a href="#cb9-40" aria-label="40"></a><span class="at">&gt; restart automatic so a human doesn't have to babysit the run at 3am.**</span></span>
 <span id="cb9-41"><a href="#cb9-41" aria-label="41"></a></span>
 <span id="cb9-42"><a href="#cb9-42" aria-label="42"></a>We'll follow the usual **toy → real → scale** path: a checkpoint/restart loop</span>
@@ -1699,10 +1699,10 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-48"><a href="#cb9-48" aria-label="48"></a></span>
 <span id="cb9-49"><a href="#cb9-49" aria-label="49"></a>The whole idea of fault tolerance rests on one primitive: **you can stop a</span>
 <span id="cb9-50"><a href="#cb9-50" aria-label="50"></a>training run at any step and resume it exactly where it left off.** Let's build</span>
-<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a>that primitive from scratch — small enough to run on a CPU in under a second.</span>
+<span id="cb9-51"><a href="#cb9-51" aria-label="51"></a>that primitive from scratch, small enough to run on a CPU in under a second.</span>
 <span id="cb9-52"><a href="#cb9-52" aria-label="52"></a></span>
 <span id="cb9-53"><a href="#cb9-53" aria-label="53"></a>The run below trains a tiny model, checkpoints every few steps, **crashes on</span>
-<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a>purpose** partway through, and then restarts — picking the step counter up right</span>
+<span id="cb9-54"><a href="#cb9-54" aria-label="54"></a>purpose** partway through, and then restarts, picking the step counter up right</span>
 <span id="cb9-55"><a href="#cb9-55" aria-label="55"></a>where the crash left it.</span>
 <span id="cb9-56"><a href="#cb9-56" aria-label="56"></a></span>
 <span id="cb9-59"><a href="#cb9-59" aria-label="57"></a><span class="in">```{python}</span></span>
@@ -1787,7 +1787,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-138"><a href="#cb9-138" aria-label="136"></a><span class="in">```</span></span>
 <span id="cb9-139"><a href="#cb9-139" aria-label="137"></a></span>
 <span id="cb9-140"><a href="#cb9-140" aria-label="138"></a>Notice what made the restart *seamless*: **Run #2 is the exact same call as Run</span>
-<span id="cb9-141"><a href="#cb9-141" aria-label="139"></a>#1.** The code doesn't know or care that it crashed — it just checks for a</span>
+<span id="cb9-141"><a href="#cb9-141" aria-label="139"></a>#1.** The code doesn't know or care that it crashed; it just checks for a</span>
 <span id="cb9-142"><a href="#cb9-142" aria-label="140"></a>checkpoint on startup. That is the whole checkpoint/restart contract, and it's</span>
 <span id="cb9-143"><a href="#cb9-143" aria-label="141"></a>what every fault-tolerance system below is built on.</span>
 <span id="cb9-144"><a href="#cb9-144" aria-label="142"></a></span>
@@ -1796,7 +1796,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-147"><a href="#cb9-147" aria-label="145"></a>if you only save weights:</span>
 <span id="cb9-148"><a href="#cb9-148" aria-label="146"></a></span>
 <span id="cb9-149"><a href="#cb9-149" aria-label="147"></a><span class="ss">- </span>**Optimizer state.** Adam's first/second moments and SGD's momentum buffers</span>
-<span id="cb9-150"><a href="#cb9-150" aria-label="148"></a>  live in <span class="in">`opt.state_dict()`</span>. Drop them and the optimizer restarts cold — your</span>
+<span id="cb9-150"><a href="#cb9-150" aria-label="148"></a>  live in <span class="in">`opt.state_dict()`</span>. Drop them and the optimizer restarts cold: your</span>
 <span id="cb9-151"><a href="#cb9-151" aria-label="149"></a>  loss spikes and effective learning rate is wrong for hundreds of steps after</span>
 <span id="cb9-152"><a href="#cb9-152" aria-label="150"></a>  every restart. On a run that restarts a dozen times, that adds up.</span>
 <span id="cb9-153"><a href="#cb9-153" aria-label="151"></a><span class="ss">- </span>**RNG state.** Save <span class="in">`torch.get_rng_state()`</span> (and NumPy/CUDA RNG) so data</span>
@@ -1807,7 +1807,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-158"><a href="#cb9-158" aria-label="156"></a>::: {.callout-tip title="⚛️ Why the atomic rename matters"}</span>
 <span id="cb9-159"><a href="#cb9-159" aria-label="157"></a><span class="in">`save_checkpoint`</span> writes to <span class="in">`latest.pt.tmp`</span> and then <span class="in">`os.replace()`</span>s it into</span>
 <span id="cb9-160"><a href="#cb9-160" aria-label="158"></a>place. <span class="in">`os.replace`</span> is an **atomic** rename on POSIX filesystems: <span class="in">`latest.pt`</span> is</span>
-<span id="cb9-161"><a href="#cb9-161" aria-label="159"></a>*always* either the old complete checkpoint or the new complete one — never a</span>
+<span id="cb9-161"><a href="#cb9-161" aria-label="159"></a>*always* either the old complete checkpoint or the new complete one, never a</span>
 <span id="cb9-162"><a href="#cb9-162" aria-label="160"></a>half-written file. Without this, a crash *during* the save (very possible when</span>
 <span id="cb9-163"><a href="#cb9-163" aria-label="161"></a>the node is dying) leaves a truncated <span class="in">`latest.pt`</span>, and your restart fails to load</span>
 <span id="cb9-164"><a href="#cb9-164" aria-label="162"></a>the very thing meant to save you. Write-then-rename is the cheapest insurance in</span>
@@ -1831,7 +1831,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-182"><a href="#cb9-182" aria-label="180"></a></span>
 <span id="cb9-183"><a href="#cb9-183" aria-label="181"></a>: Common at-scale failure modes and their log signatures {.responsive .striped .hover}</span>
 <span id="cb9-184"><a href="#cb9-184" aria-label="182"></a></span>
-<span id="cb9-185"><a href="#cb9-185" aria-label="183"></a>The failover scraper in <span class="in">`ezpz`</span> matches these **real** signatures — these are</span>
+<span id="cb9-185"><a href="#cb9-185" aria-label="183"></a>The failover scraper in <span class="in">`ezpz`</span> matches these **real** signatures. These are</span>
 <span id="cb9-186"><a href="#cb9-186" aria-label="184"></a>lines pulled from Aurora/Sunspot postmortems, not invented examples:</span>
 <span id="cb9-187"><a href="#cb9-187" aria-label="185"></a></span>
 <span id="cb9-188"><a href="#cb9-188" aria-label="186"></a><span class="in">```bash</span></span>
@@ -1853,7 +1853,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-204"><a href="#cb9-204" aria-label="202"></a>::: {.callout-warning title="Not every scary line names the guilty node"}</span>
 <span id="cb9-205"><a href="#cb9-205" aria-label="203"></a>When a node dies, <span class="in">`mpiexec`</span> sprays <span class="in">`rank N died from signal 11`</span> (SIGSEGV) or</span>
 <span id="cb9-206"><a href="#cb9-206" aria-label="204"></a><span class="in">`signal 15`</span> (SIGTERM) from **every** rank that was torn down as collateral. The</span>
-<span id="cb9-207"><a href="#cb9-207" aria-label="205"></a><span class="in">`ezpz`</span> scraper **deliberately ignores** those cascading <span class="in">`signal {11,15}`</span> lines —</span>
+<span id="cb9-207"><a href="#cb9-207" aria-label="205"></a><span class="in">`ezpz`</span> scraper **deliberately ignores** those cascading <span class="in">`signal {11,15}`</span> lines;</span>
 <span id="cb9-208"><a href="#cb9-208" aria-label="206"></a>tagging them would swap out an *innocent* node and leave the real culprit in</span>
 <span id="cb9-209"><a href="#cb9-209" aria-label="207"></a>place. (This is a real postmortem lesson: job 8466848 had rank 1304 die from</span>
 <span id="cb9-210"><a href="#cb9-210" aria-label="208"></a>signal 11 as a downstream effect of a <span class="in">`std::bad_alloc`</span> on a *different* node.)</span>
@@ -1866,10 +1866,10 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-217"><a href="#cb9-217" aria-label="215"></a></span>
 <span id="cb9-218"><a href="#cb9-218" aria-label="216"></a>The toy saved one <span class="in">`.pt`</span> file from one process. But once you're using FSDP or</span>
 <span id="cb9-219"><a href="#cb9-219" aria-label="217"></a>3D parallelism (from <span class="co">[</span><span class="ot">\[1.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>),</span>
-<span id="cb9-220"><a href="#cb9-220" aria-label="218"></a>model + optimizer state is **sharded across hundreds of ranks** — funneling it</span>
-<span id="cb9-221"><a href="#cb9-221" aria-label="219"></a>all to rank 0 to write one giant file is slow and often OOMs.</span>
+<span id="cb9-220"><a href="#cb9-220" aria-label="218"></a>model + optimizer state is **sharded across hundreds of ranks**, and funneling</span>
+<span id="cb9-221"><a href="#cb9-221" aria-label="219"></a>it all to rank 0 to write one giant file is slow and often OOMs.</span>
 <span id="cb9-222"><a href="#cb9-222" aria-label="220"></a></span>
-<span id="cb9-223"><a href="#cb9-223" aria-label="221"></a>The answer is **Distributed Checkpointing (DCP)** — <span class="co">[</span><span class="ot">`torch.distributed.checkpoint`</span><span class="co">](https://pytorch.org/docs/stable/distributed.checkpoint.html)</span>.</span>
+<span id="cb9-223"><a href="#cb9-223" aria-label="221"></a>The answer is **Distributed Checkpointing (DCP)**, or <span class="co">[</span><span class="ot">`torch.distributed.checkpoint`</span><span class="co">](https://pytorch.org/docs/stable/distributed.checkpoint.html)</span>.</span>
 <span id="cb9-224"><a href="#cb9-224" aria-label="222"></a>Each rank writes **its own shard** in parallel, and DCP can **reshard on load**,</span>
 <span id="cb9-225"><a href="#cb9-225" aria-label="223"></a>so a run saved on 512 GPUs can resume onto 256. <span class="in">`torchtitan`</span> uses DCP by default</span>
 <span id="cb9-226"><a href="#cb9-226" aria-label="224"></a>(<span class="in">`--checkpoint.enable --checkpoint.interval N`</span>, see</span>
@@ -1891,19 +1891,19 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-244"><a href="#cb9-244" aria-label="240"></a>::: {.callout-warning title="⚠️ The shared filesystem is a failure mode too"}</span>
 <span id="cb9-245"><a href="#cb9-245" aria-label="241"></a>Lustre/GPFS is a **shared, contended** resource. If all N ranks call</span>
 <span id="cb9-246"><a href="#cb9-246" aria-label="242"></a><span class="in">`torch.save`</span> to the same directory at the same step, you hammer the metadata</span>
-<span id="cb9-247"><a href="#cb9-247" aria-label="243"></a>server (MDS) and can *induce* the very stall you're trying to survive — the job</span>
+<span id="cb9-247"><a href="#cb9-247" aria-label="243"></a>server (MDS) and can *induce* the very stall you're trying to survive: the job</span>
 <span id="cb9-248"><a href="#cb9-248" aria-label="244"></a>goes silent with no error at all. Mitigations: use **DCP** (parallel shard</span>
 <span id="cb9-249"><a href="#cb9-249" aria-label="245"></a>writes) rather than gather-to-rank-0; **stripe** large checkpoint files across</span>
 <span id="cb9-250"><a href="#cb9-250" aria-label="246"></a>OSTs (<span class="co">[</span><span class="ot">Lustre striping</span><span class="co">](https://wiki.lustre.org/Configuring_Lustre_File_Striping)</span>);</span>
 <span id="cb9-251"><a href="#cb9-251" aria-label="247"></a>stagger or throttle writers; and keep only the last few checkpoints so you don't</span>
 <span id="cb9-252"><a href="#cb9-252" aria-label="248"></a>DOS your own filesystem. A silent hang with a live W&amp;B heartbeat but *frozen*</span>
-<span id="cb9-253"><a href="#cb9-253" aria-label="249"></a>training metrics is the classic signature — and it's why the launcher below has</span>
+<span id="cb9-253"><a href="#cb9-253" aria-label="249"></a>training metrics is the classic signature, and it's why the launcher below has</span>
 <span id="cb9-254"><a href="#cb9-254" aria-label="250"></a>an **idle-output watchdog**.</span>
 <span id="cb9-255"><a href="#cb9-255" aria-label="251"></a>:::</span>
 <span id="cb9-256"><a href="#cb9-256" aria-label="252"></a></span>
 <span id="cb9-257"><a href="#cb9-257" aria-label="253"></a><span class="fu">## ③ Scale it up: `ezpz launch --auto-retry` {#sec-scale}</span></span>
 <span id="cb9-258"><a href="#cb9-258" aria-label="254"></a></span>
-<span id="cb9-259"><a href="#cb9-259" aria-label="255"></a>Knowing *how* to restart is only half the battle — at 3am, someone (or</span>
+<span id="cb9-259"><a href="#cb9-259" aria-label="255"></a>Knowing *how* to restart is only half the battle. At 3am, someone (or</span>
 <span id="cb9-260"><a href="#cb9-260" aria-label="256"></a>something) has to actually notice the crash, figure out which node was bad, throw</span>
 <span id="cb9-261"><a href="#cb9-261" aria-label="257"></a>it out, and relaunch. <span class="in">`ezpz launch --auto-retry`</span> does all of that in a loop.</span>
 <span id="cb9-262"><a href="#cb9-262" aria-label="258"></a></span>
@@ -1936,9 +1936,9 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-289"><a href="#cb9-289" aria-label="285"></a><span class="in">```</span></span>
 <span id="cb9-290"><a href="#cb9-290" aria-label="286"></a></span>
 <span id="cb9-291"><a href="#cb9-291" aria-label="287"></a>(We use <span class="in">`ezpz.examples.fsdp_tp`</span> here, not <span class="in">`ezpz.examples.test`</span>: <span class="in">`fsdp_tp`</span> is the</span>
-<span id="cb9-292"><a href="#cb9-292" aria-label="288"></a>example wired for **distributed checkpointing + automatic resume** — it saves every</span>
-<span id="cb9-293"><a href="#cb9-293" aria-label="289"></a><span class="in">`--save-interval`</span> steps to <span class="in">`--ckpt-dir`</span> and, on relaunch, picks up from the latest</span>
-<span id="cb9-294"><a href="#cb9-294" aria-label="290"></a>checkpoint unless you pass <span class="in">`--no-resume`</span>. That resume-on-restart is exactly what</span>
+<span id="cb9-292"><a href="#cb9-292" aria-label="288"></a>example wired for **distributed checkpointing + automatic resume**. It saves</span>
+<span id="cb9-293"><a href="#cb9-293" aria-label="289"></a>every <span class="in">`--save-interval`</span> steps to <span class="in">`--ckpt-dir`</span> and, on relaunch, picks up from the</span>
+<span id="cb9-294"><a href="#cb9-294" aria-label="290"></a>latest checkpoint unless you pass <span class="in">`--no-resume`</span>. That resume-on-restart is exactly what</span>
 <span id="cb9-295"><a href="#cb9-295" aria-label="291"></a>makes fault tolerance work.)</span>
 <span id="cb9-296"><a href="#cb9-296" aria-label="292"></a></span>
 <span id="cb9-297"><a href="#cb9-297" aria-label="293"></a>What each flag does:</span>
@@ -1964,7 +1964,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-317"><a href="#cb9-317" aria-label="313"></a>::: {.callout-tip title="🧠 A smarter guard than a retry counter"}</span>
 <span id="cb9-318"><a href="#cb9-318" aria-label="314"></a><span class="in">`--auto-retry`</span> also bails early on <span class="in">`STUCK_PRE_TRAINING`</span>: if **two consecutive**</span>
 <span id="cb9-319"><a href="#cb9-319" aria-label="315"></a>attempts produce zero <span class="in">`step=`</span> progress markers, the problem is a code/config bug</span>
-<span id="cb9-320"><a href="#cb9-320" aria-label="316"></a>(bad dataset path, wrong shapes), not a bad node — and no amount of node-swapping</span>
+<span id="cb9-320"><a href="#cb9-320" aria-label="316"></a>(bad dataset path, wrong shapes), not a bad node, and no amount of node-swapping</span>
 <span id="cb9-321"><a href="#cb9-321" aria-label="317"></a>will fix it. This stops the loop from burning your entire spare pool relaunching</span>
 <span id="cb9-322"><a href="#cb9-322" aria-label="318"></a>a run that was never going to train.</span>
 <span id="cb9-323"><a href="#cb9-323" aria-label="319"></a>:::</span>
@@ -2038,7 +2038,7 @@ July 22. <a href="https://saforem2.github.io/intro-hpc-bootcamp/03-advanced-llms
 <span id="cb9-393"><a href="#cb9-393" aria-label="387"></a><span class="ss">2. </span>**Kill it** partway through (Ctrl-C, <span class="in">`scancel`</span>/<span class="in">`qdel`</span>, or just let the</span>
 <span id="cb9-394"><a href="#cb9-394" aria-label="388"></a>   simulated crash fire) *after* at least one checkpoint has been written.</span>
 <span id="cb9-395"><a href="#cb9-395" aria-label="389"></a></span>
-<span id="cb9-396"><a href="#cb9-396" aria-label="390"></a><span class="ss">3. </span>**Relaunch the exact same command** and confirm the run **resumes** — the step</span>
+<span id="cb9-396"><a href="#cb9-396" aria-label="390"></a><span class="ss">3. </span>**Relaunch the exact same command** and confirm the run **resumes**: the step</span>
 <span id="cb9-397"><a href="#cb9-397" aria-label="391"></a>   counter must continue from the last checkpoint, not restart at 0.</span>
 <span id="cb9-398"><a href="#cb9-398" aria-label="392"></a></span>
 <span id="cb9-399"><a href="#cb9-399" aria-label="393"></a><span class="ss">4. </span>(Optional stretch) Run it under <span class="in">`ezpz launch --auto-retry --spare-nodes auto`</span></span>

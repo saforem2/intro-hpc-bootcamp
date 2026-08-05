@@ -28,8 +28,8 @@ Sam Foreman
 The [Shakespeare example](../2-shakespeare-example-colab/index.ipynb)
 trains a small GPT with the
 [`wordplay`](https://github.com/saforem2/wordplay) package. Here we do
-the **same thing from scratch** — the model, the data pipeline, the
-training loop, and the text generation are all written inline — using
+the **same thing from scratch** (the model, the data pipeline, the
+training loop, and the text generation are all written inline) using
 only [`ezpz`](https://github.com/saforem2/ezpz) +
 [PyTorch](https://pytorch.org).
 
@@ -46,7 +46,7 @@ only [`ezpz`](https://github.com/saforem2/ezpz) +
 >   `ezpz.History` and launch at scale with `ezpz launch`.
 >
 > This page assumes you’ve seen the attention/transformer mechanics from
-> [**\[2.0\] Intro to LLMs**](../0-intro-to-llms/index.qmd) — here we
+> [**\[2.0\] Intro to LLMs**](../0-intro-to-llms/index.qmd). Here we
 > focus on the *training* side.
 
 ## 🎯 Setup
@@ -168,7 +168,7 @@ def get_batch(split, batch_size, block_size):
 
 ## 🧱 The Model: a small GPT
 
-A compact decoder-only Transformer — the same architecture as the
+A compact decoder-only Transformer: the same architecture as the
 `wordplay` model, written inline. (For the *why* behind attention, see
 [Intro to LLMs](../0-intro-to-llms/index.qmd).)
 
@@ -253,7 +253,7 @@ class GPT(nn.Module):
 ## ⚡ Going distributed with `ezpz`
 
 On multiple GPUs, wrapping the model for **Distributed Data Parallel**
-is where `ezpz` shines — but the beauty is that the *training loop below
+is where `ezpz` shines, but the beauty is that the *training loop below
 doesn’t change*. On a cluster you’d add:
 
 ``` python
@@ -265,7 +265,7 @@ if ezpz.get_world_size() > 1:
 ```
 
 `ezpz` handles the process-group setup (from `setup_torch()`), device
-placement, and the correct backend (NCCL / oneCCL / gloo) for you — so
+placement, and the correct backend (NCCL / oneCCL / gloo) for you, so
 the *same script* runs on 1 GPU, 8 GPUs, or 100 nodes.
 
 ## 🔁 The Training Loop + Metrics
@@ -371,7 +371,7 @@ for step in range(max_iters):
 ## 💬 Generating Text
 
 The `generate()` method samples one character at a time. Let’s compare
-**before** and **after** training — a few dozen CPU steps won’t produce
+**before** and **after** training. A few dozen CPU steps won’t produce
 Shakespeare, but the shift from pure noise toward text-like structure is
 already visible (train for 1000+ steps on a GPU for the real thing):
 
@@ -391,7 +391,7 @@ logger.info("--- sample after tiny training run ---\n" + sample)
 ## 📊 Plots & Report, for free
 
 `ezpz.History` can turn the metrics you logged into plots and a report
-with a single call — it writes loss curves (matplotlib **and** terminal
+with a single call. It writes loss curves (matplotlib **and** terminal
 plots), an `xarray` dataset, and a `report.md`:
 
 ``` python
@@ -418,8 +418,8 @@ logger.info("wrote: " + ", ".join(sorted(p.name for p in outdir.iterdir())))
 
 `finalize()` also saves each metric as a PNG, a `report.md`, and an
 `xarray` dataset. The per-step numbers live in `history.data` (a dict of
-lists), so we can plot the four headline metrics ourselves — **loss**
-(is it learning?), **mfu** (how well are we using the hardware?), and
+lists), so we can plot the four headline metrics ourselves: **loss** (is
+it learning?), **mfu** (how well are we using the hardware?), and
 **sps** / **mtps** (throughput):
 
 <details class="code-fold">
@@ -3811,14 +3811,14 @@ Figure 1
 >
 > Point `ezpz.History(backends="wandb")` at [Weights &
 > Biases](https://wandb.ai) (or `"mlflow"`) and every metric streams to
-> your dashboard live — no code changes beyond that one argument.
+> your dashboard live, with no code changes beyond that one argument.
 
 ## 🚀 Scaling Up
 
 To train the **full ~10M-parameter model** (like the `wordplay` example)
 across multiple GPUs, drop the loop above into a `train.py` that starts
 with `ezpz.setup_torch()` + DDP, bump the config to the real size, and
-launch with `ezpz launch` — which auto-detects PBS (`mpiexec`) / SLURM
+launch with `ezpz launch`, which auto-detects PBS (`mpiexec`) / SLURM
 (`srun`):
 
 ``` bash
@@ -3827,8 +3827,7 @@ ezpz launch python3 train.py
 ```
 
 That’s the whole point: **the training code you wrote above doesn’t
-change** — `ezpz` handles going from your laptop’s CPU to a rack of
-GPUs.
+change**. `ezpz` handles going from your laptop’s CPU to a rack of GPUs.
 
 ## 🎒 Homework
 

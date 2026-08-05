@@ -27,7 +27,7 @@ environment**.
 > ### 🧭 You do NOT need a cluster account for most of this course
 >
 > The majority of the material runs on a **laptop or [Google
-> Colab](https://colab.research.google.com)** — look for the Colab badge
+> Colab](https://colab.research.google.com)**; look for the Colab badge
 > at the top of each notebook. Sections **\[0\]–\[2.0\]** (Python, data,
 > first models, neural-network basics, intro to LLMs) need nothing but a
 > browser.
@@ -46,7 +46,7 @@ environment**.
 The bootcamp’s reference machine is **[NERSC
 Perlmutter](https://docs.nersc.gov/systems/perlmutter/)** (a SLURM
 system, project `m4388`). The workflow is the same on ALCF PBS systems
-(Polaris, Sophia) — only the scheduler commands differ, and there’s a
+(Polaris, Sophia); only the scheduler commands differ, and there’s a
 [translation table](#pbs-slurm) below.
 
 ## 🔑 Getting an account & logging in
@@ -107,7 +107,7 @@ runs. The choices fall into two families:
 >
 > ### ⚠️ Shut down your server when you’re done
 >
-> A compute-node Jupyter server is a real scheduled job — it holds those
+> A compute-node Jupyter server is a real scheduled job: it holds those
 > nodes (and burns allocation) until it stops. Closing the browser tab
 > does **not** free the node. Use **File → Hub Control Panel → Stop My
 > Server** when you finish.
@@ -120,14 +120,14 @@ rather than memorizing menu items, follow the authoritative walkthrough:
 ## 🐍 Kernels & environments (the \#1 gotcha)
 
 Here’s the failure mode that catches almost every newcomer: you open a
-notebook, run `import torch`, and get `ModuleNotFoundError` — even
-though you *know* you installed it. The culprit is almost always the
+notebook, run `import torch`, and get `ModuleNotFoundError`, even though
+you *know* you installed it. The culprit is almost always the
 **kernel**.
 
 A **kernel** is the specific Python interpreter (and its installed
 packages) that executes your cells. The dropdown in the top-right of a
 notebook (or the tiles in the Launcher) lets you choose it. **A conda
-environment or a `venv` is not automatically a kernel** — you have to
+environment or a `venv` is not automatically a kernel.** You have to
 register it first. Once registered, it shows up as a selectable kernel
 in Jupyter.
 
@@ -163,7 +163,7 @@ jupyter kernelspec uninstall myenv      # remove one
 >
 > ### ✅ Sanity-check which Python you’re actually running
 >
-> Run this in a notebook cell — it tells you exactly which interpreter
+> Run this in a notebook cell. It tells you exactly which interpreter
 > the kernel is using and whether your package is visible:
 >
 > ``` python
@@ -172,7 +172,7 @@ jupyter kernelspec uninstall myenv      # remove one
 > ```
 >
 > If `sys.executable` isn’t the environment you expected, you picked the
-> wrong kernel — switch it in the top-right dropdown.
+> wrong kernel. Switch it in the top-right dropdown.
 
 > [!NOTE]
 >
@@ -189,9 +189,9 @@ jupyter kernelspec uninstall myenv      # remove one
 ## 🔁 PBS ↔ SLURM cheatsheet
 
 You’ll meet two schedulers in the wild: **PBS Pro** (ALCF: Polaris,
-Sophia) and **SLURM** (NERSC: Perlmutter). The concepts are identical —
-see [\[0.1\] Shared Resources](../1-shared-resources/) for the full
-walkthrough — only the commands differ. If you know one, this table gets
+Sophia) and **SLURM** (NERSC: Perlmutter). The concepts are identical
+(see [\[0.1\] Shared Resources](../1-shared-resources/) for the full
+walkthrough); only the commands differ. If you know one, this table gets
 you the other:
 
 | Task | PBS (Polaris @ ALCF) | SLURM (Perlmutter @ NERSC) |
@@ -238,8 +238,8 @@ Parallel Training](../../02-llms/1-parallel-training/) walks through):
     git clone https://github.com/saforem2/wordplay && cd wordplay
     ```
 
-3.  **Set up Python** — this creates/activates a `.venv` and detects the
-    job:
+3.  **Set up Python** (this creates/activates a `.venv` and detects the
+    job):
 
     ``` bash
     source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
@@ -252,7 +252,7 @@ Parallel Training](../../02-llms/1-parallel-training/) walks through):
     ezpz test
     ```
 
-5.  **Launch** — `ezpz launch` figures out `srun`/`mpiexec` for you:
+5.  **Launch.** `ezpz launch` figures out `srun`/`mpiexec` for you:
 
     ``` bash
     ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
@@ -273,10 +273,10 @@ Parallel Training](../../02-llms/1-parallel-training/) pages.
 
 ## 🧪 ALCF Jupyter (Polaris / Sophia)
 
-If you’re on an ALCF machine instead of NERSC, the flow is analogous — a
+If you’re on an ALCF machine instead of NERSC, the flow is analogous: a
 hosted JupyterHub that spawns a notebook server as a PBS job:
 
-➡️ **[jupyter.alcf.anl.gov](https://jupyter.alcf.anl.gov/)** — log in
+➡️ **[jupyter.alcf.anl.gov](https://jupyter.alcf.anl.gov/)**. Log in
 with your ALCF credentials + MFA and select the target system
 (**Polaris** or **Sophia**), your project, a queue, and a runtime.
 
@@ -289,8 +289,8 @@ you finish** so you’re not holding a node.
 ![Shutting down your ALCF Jupyter
 server](../img/jupyter_shutdown_01.gif)
 
-Everything else — registering a conda/venv as a kernel with `ipykernel`,
-the `import` sanity-check — works identically. For current queue names,
+Everything else works identically: registering a conda/venv as a kernel
+with `ipykernel`, the `import` sanity-check. For current queue names,
 project flags, and portal specifics, see the **[ALCF Jupyter Hub
 docs](https://docs.alcf.anl.gov/services/jupyter-hub/)**.
 
@@ -306,7 +306,7 @@ docs](https://docs.alcf.anl.gov/services/jupyter-hub/)**.
 > > ### Show answer
 > >
 > > The server is a scheduled job holding a GPU node (and burning
-> > allocation) until it stops. Closing the tab doesn’t stop it — use
+> > allocation) until it stops. Closing the tab doesn’t stop it. Use
 > > **Hub Control Panel → Stop My Server**.
 >
 > **Q2.** `import torch` fails in your notebook even though
@@ -329,5 +329,5 @@ docs](https://docs.alcf.anl.gov/services/jupyter-hub/)**.
 > >
 > > ### Show answer
 > >
-> > `qsub` — PBS’s batch submit command. See the
-> > [cheatsheet](#pbs-slurm) above.
+> > `qsub`, PBS’s batch submit command. See the [cheatsheet](#pbs-slurm)
+> > above.

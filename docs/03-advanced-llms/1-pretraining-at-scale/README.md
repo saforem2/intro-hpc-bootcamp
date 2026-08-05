@@ -51,7 +51,7 @@ thousand-GPU pretraining run is fast or a thousand-GPU space heater:
   **MFU** (Model FLOPs Utilization) are the numbers that matter.
 - **Theme C — Keeping the GPUs busy.** Efficient collectives and
   communication/computation overlap.
-- **Theme D — Feeding the model.** Data mixtures and synthetic data —
+- **Theme D — Feeding the model.** Data mixtures and synthetic data:
   quality vs quantity.
 
 We use [`ezpz`](https://github.com/saforem2/ezpz) for the plumbing and
@@ -65,8 +65,8 @@ Here is a problem you never hit on a laptop and never forget once you
 hit it at scale.
 
 Your Python environment (`.venv/` or a conda env) lives on a **shared
-parallel filesystem** — Lustre on Aurora/Polaris, NFS elsewhere. A
-modern ML env is *millions* of small files (`torch` alone is tens of
+parallel filesystem**: Lustre on Aurora/Polaris, NFS elsewhere. A modern
+ML env is *millions* of small files (`torch` alone is tens of
 thousands). When a single `python3 -m torchtitan.train` starts,
 `import torch` triggers a storm of `open()` / `stat()` / `read()` calls
 against that shared filesystem.
@@ -74,7 +74,7 @@ against that shared filesystem.
 On **one** node this is a minor startup tax. On **hundreds or
 thousands** of nodes, every rank does it *at the same time*. The
 metadata servers (MDS) that serve those `stat()`s are a shared, finite
-resource — and thousands of nodes hammering them simultaneously is a
+resource, and thousands of nodes hammering them simultaneously is a
 self-inflicted denial-of-service. This is the **import storm**, and it
 can turn a 30-second startup into 20+ minutes of dead time (or crash the
 filesystem for everyone else on the machine).
@@ -108,7 +108,7 @@ class FS,Nodes block
 ```
 
 Figure 1: Every rank importing from the same shared filesystem at once
-overwhelms the metadata servers — the *import storm*.
+overwhelms the metadata servers: the *import storm*.
 
 </div>
 
@@ -121,7 +121,7 @@ Instead:
     into *one* sequential read for the filesystem.
 2.  **Broadcast the tarball to node-local `/tmp/`** on every worker
     (`ezpz yeet`), then extract it there.
-3.  Activate `/tmp/.venv` — now every `import` hits fast **node-local
+3.  Activate `/tmp/.venv`. Now every `import` hits fast **node-local
     SSD**, not the shared filesystem.
 
 The clever part is *how* `yeet` distributes the tarball. A naive “copy
@@ -159,7 +159,7 @@ bandwidth grows with `N` instead of bottlenecking on one NIC.
 
 </div>
 
-The commands (display-only — run these *inside an interactive
+The commands (display-only; run these *inside an interactive
 allocation*):
 
 ``` bash
@@ -182,13 +182,13 @@ source /tmp/.venv/bin/activate
 >
 > Why is the tarball broadcast **~10× faster** than per-file `rsync` at
 > scale? Per-file `rsync` re-`stat()`s every one of the millions of
-> files on the *source* (Lustre) side — the exact metadata pressure
-> we’re trying to avoid. The tarball turns that into a single sequential
-> read, and `yeet`’s tree fan-out handles the network side. Measured on
-> Aurora, per-file mode was projected at **1–2 hours** for 256+ nodes;
-> the tarball broadcast stays **under 13 minutes even at 4096 nodes**,
-> with the per-node amortized cost dropping from 8.7 s/node at N=8 to
-> 0.18 s/node at N=4096 (a ~48× efficiency gain).
+> files on the *source* (Lustre) side, which is the exact metadata
+> pressure we’re trying to avoid. The tarball turns that into a single
+> sequential read, and `yeet`’s tree fan-out handles the network side.
+> Measured on Aurora, per-file mode was projected at **1–2 hours** for
+> 256+ nodes; the tarball broadcast stays **under 13 minutes even at
+> 4096 nodes**, with the per-node amortized cost dropping from 8.7
+> s/node at N=8 to 0.18 s/node at N=4096 (a ~48× efficiency gain).
 
 At scale, a node or two will inevitably fail an SSH/`rsync` step. Rather
 than failing the whole job for a spare node, tell `yeet` how many nodes
@@ -329,7 +329,7 @@ print(f"toy MFU          : {toy_mfu:.1f}%")
     achieved         : 481.09 GFLOP/s
     toy MFU          : 27.2%
 
-The toy MFU comes out well under 100% — the tiny step is dominated by
+The toy MFU comes out well under 100%. The tiny step is dominated by
 Python / kernel-launch overhead relative to a big dense matmul, which is
 *exactly* the intuition MFU is meant to capture: small, comm-heavy, or
 overhead-bound work wastes the hardware.
@@ -382,7 +382,7 @@ of gradients; sharded strategies add
 [**all-gather**](../../01-neural-networks/4-distributed-training/index.qmd#allgather)
 of parameters (FSDP) and reduce-scatter of gradients. You saw these
 collectives in
-[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd) —
+[\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd);
 here we care about their *cost*.
 
 That cost is paid over the interconnect (NVLink within a node,
@@ -404,16 +404,16 @@ set it by hand.
 The number that decides whether scaling works is the **comm : compute
 ratio**. Each step you do some compute (the FLOPs from Theme B) and some
 communication (moving gradients/params). If communication can’t be
-hidden behind compute, the GPUs stall — and MFU tanks.
+hidden behind compute, the GPUs stall and MFU tanks.
 
 The escape hatch is **communication/computation overlap**: start the
 gradient all-reduce for layer $\ell$ *while* still computing the
 backward pass for layer $\ell-1$, so the comm is *hidden* behind compute
 instead of stacking after it. Modern frameworks (DDP’s gradient
-bucketing, FSDP’s prefetching, torchtitan) do this automatically — but
-it only helps if there’s enough compute per step to hide the comm
-behind. That’s why **bigger per-GPU batches and larger models generally
-scale better**: more compute per unit of communication.
+bucketing, FSDP’s prefetching, torchtitan) do this automatically, but it
+only helps if there’s enough compute per step to hide the comm behind.
+That’s why **bigger per-GPU batches and larger models generally scale
+better**: more compute per unit of communication.
 
 > [!IMPORTANT]
 >
@@ -423,7 +423,7 @@ scale better**: more compute per unit of communication.
 > *blocking*: every rank must call the same collective, in the same
 > order, or the ranks that arrive first wait **indefinitely** for the
 > stragglers. Keeping the **communication-to-computation ratio small**
-> is what makes scaling actually work — it’s the single biggest lever
+> is what makes scaling actually work. It’s the single biggest lever
 > between “10% MFU” and “45% MFU” at scale.
 
 ## 🍱 Theme D: Data Mixes & Synthetic Data
@@ -466,17 +466,17 @@ evals — before committing to a full-scale run.
 Chinchilla ([arXiv:2203.15556](https://arxiv.org/abs/2203.15556)) told
 us *how many* tokens to use: compute-optimally, tokens and parameters
 should scale together (~20 tokens per parameter). But its budget assumes
-*tokens are interchangeable* — and they aren’t. **A smaller corpus of
+*tokens are interchangeable*, and they aren’t. **A smaller corpus of
 high-quality, deduplicated, well-filtered tokens routinely beats a
 larger corpus of noisy ones.** In practice, aggressive quality filtering
 and dedup (removing near-duplicate documents) is one of the
-highest-leverage things you can do — often worth more than adding raw
+highest-leverage things you can do, often worth more than adding raw
 tokens.
 
 ### Synthetic data (conceptual recipe)
 
 When high-quality human data runs out for a domain, teams **generate**
-more with a strong existing model — this is how much of the recent gain
+more with a strong existing model. This is how much of the recent gain
 in math/code/reasoning data was produced. The core loop (display-only
 pseudo-code):
 
@@ -518,8 +518,8 @@ synthetic = dedup(synthetic)
 
 Put Themes B and C together and this is what a healthy
 `torchtitan`-style pretraining log looks like on a GPU cluster
-(display-only excerpt). Watch `tps` and `mfu` — they’re your live
-scaling report card:
+(display-only excerpt). Watch `tps` and `mfu`; they’re your live scaling
+report card:
 
 ``` bash
 [rank0] step=  10  loss=8.214  lr=1.20e-04  dt=0.842s  tps=311,900  tflops=402.1  mfu=40.7%
@@ -535,15 +535,15 @@ Reading it:
 - **`tps` and `mfu` flat and high (~40%)** → compute-bound, comm
   well-hidden. This is what “good” looks like.
 - If instead `mfu` were ~12% and `dt` jumped around, you’d suspect a
-  **comm:compute** problem (Theme C) or data-loading stalls — not a
-  model bug.
+  **comm:compute** problem (Theme C) or data-loading stalls, not a model
+  bug.
 
 > [!TIP]
 >
 > ### 🔬 At DeepSeek-v3 scale…
 >
 > `mfu` is the metric that pays for itself. Going from 25% → 40% MFU on
-> a run that would take 60 days is ~22 days saved — pure wall-clock (and
+> a run that would take 60 days is ~22 days saved: pure wall-clock (and
 > dollars, and carbon). At frontier scale, a few points of MFU is worth
 > an entire engineering team’s quarter.
 
@@ -551,8 +551,8 @@ Reading it:
 
 Now the full picture: distribute the env with `yeet`, then launch a
 `torchtitan` pretraining run across `N` nodes with `ezpz launch`. All
-commands are display-only — run them inside an interactive allocation
-(or a job script).
+commands are display-only; run them inside an interactive allocation (or
+a job script).
 
 ``` bash
 # --- 0. Inside an interactive allocation (PBS shown; ezpz also handles SLURM) ---
@@ -605,10 +605,10 @@ whole story:
     *weak scaling*). Bending below the line = your comm:compute ratio
     (Theme C) is catching up with you.
 2.  **`MFU` vs node count** — ideally flat. A downward slope means each
-    added node buys less useful compute — the classic scaling wall.
+    added node buys less useful compute: the classic scaling wall.
 
 A quick sketch of the plot you’re aiming for (runs at build time with
-dummy numbers — replace with your measured sweep):
+dummy numbers; replace with your measured sweep):
 
 <details class="code-fold">
 <summary>Show the plotting code</summary>

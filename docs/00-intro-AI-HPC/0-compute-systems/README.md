@@ -22,7 +22,7 @@ Sam Foreman
 >
 > ### 🧭 No account needed
 >
-> You do **not** need an HPC account to follow this page — it’s
+> You do **not** need an HPC account to follow this page; it’s
 > conceptual. This page is reading, not hands-on: it explains what a
 > supercomputer is and how ALCF’s systems are put together. You’ll set
 > up access and run real jobs in later pages.
@@ -133,8 +133,8 @@ Figure 4: ALCF Staff
 
 > Aurora is a supercomputer at Argonne National Laboratory, housed in
 > the Argonne Leadership Computing Facility (ALCF). It is one of the
-> first **exascale** supercomputers in the United States — capable of
-> more than a **billion billion** ($10^{18}$) calculations per second —
+> first **exascale** supercomputers in the United States, capable of
+> more than a **billion billion** ($10^{18}$) calculations per second,
 > and is designed to deliver unprecedented performance for scientific
 > research and simulations. See
 > [Aurora](https://www.alcf.anl.gov/aurora) for more information.
@@ -245,7 +245,7 @@ current, authoritative lineup and specs.
 > (~1{,}000{,}000 PF = 1 EF), with the newest systems purpose-built for
 > AI. Each generation is many times faster than the last: Polaris is
 > roughly **10×** Sophia, and the jump to exascale, AI-era Aurora is
-> dramatic — **thousands of ×** over Polaris. This explosive growth in
+> dramatic, **thousands of ×** over Polaris. This explosive growth in
 > compute is exactly what makes training today’s largest models
 > possible.
 
@@ -253,7 +253,7 @@ current, authoritative lineup and specs.
 >
 > ### 🧠 Check your understanding
 >
-> Test yourself — think it through, then reveal the answer.
+> Test yourself: think it through, then reveal the answer.
 >
 > **Q1.** What is a “node” in a supercomputer, and how do nodes work
 > together?
@@ -268,7 +268,7 @@ current, authoritative lineup and specs.
 > > computer.
 >
 > **Q2.** You `ssh` into a supercomputer. Are you on a login node or a
-> compute node — and where does your training job actually run?
+> compute node, and where does your training job actually run?
 >
 > > [!NOTE]
 > >

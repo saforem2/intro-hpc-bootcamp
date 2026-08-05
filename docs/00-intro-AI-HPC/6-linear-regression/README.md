@@ -83,7 +83,7 @@ language:
 
 The second is the essence of AI: rather than being handed the rules, the
 model **infers** them from many examples. Given enough data,
-pattern-learning is remarkably powerful — it’s how modern AI, from image
+pattern-learning is remarkably powerful: it’s how modern AI, from image
 classifiers to large language models, works.
 
 ## How does a large language model work?
@@ -91,8 +91,8 @@ classifiers to large language models, works.
 Large language models like GPT learn this way at massive scale:
 **pre-train** on enormous text corpora to absorb language patterns, use
 the **transformer** architecture to weigh context, and optionally
-**fine-tune** for specific tasks — so they can generate coherent,
-contextually relevant text from a prompt.
+**fine-tune** for specific tasks. The result is a model that generates
+coherent, contextually relevant text from a prompt.
 
 ``` mermaid
 flowchart LR
@@ -196,7 +196,7 @@ print(data.columns)
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Index</span><span style="font-weight: bold">([</span><span style="color: #008000; text-decoration-color: #008000">'Unnamed: 0'</span>, <span style="color: #008000; text-decoration-color: #008000">'SalePrice'</span>, <span style="color: #008000; text-decoration-color: #008000">'GrLivArea'</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'object'</span><span style="font-weight: bold">)</span>
 </pre>
 
-Let’s inspect our data with an **interactive scatter plot** — hover over
+Let’s inspect our data with an **interactive scatter plot**. Hover over
 any point to see its exact square footage and sale price, and drag to
 zoom:
 
@@ -3566,7 +3566,7 @@ if (outputEl) {{
 > ### 🖱️ It’s interactive
 >
 > These are [Plotly](https://plotly.com/python/) charts, not static
-> images — **hover** to read values, **drag** to zoom, **double-click**
+> images: **hover** to read values, **drag** to zoom, **double-click**
 > to reset, and use the toolbar (top-right) to pan or download a PNG.
 
 ### Theory of linear regression
@@ -4312,7 +4312,7 @@ if (outputEl) {{
 }}
 &#10;                        })                };            </script>        </div>
 
-The dotted grey line is the exact closed-form fit from earlier — notice
+The dotted grey line is the exact closed-form fit from earlier. Notice
 how SGD walks the red line toward it, step by step, while the loss on
 the right falls.
 

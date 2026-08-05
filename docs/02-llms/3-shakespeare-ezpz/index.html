@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2026-07-24">
-<meta name="description" content="Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
+<meta name="description" content="Train a small char-level GPT on tiny-Shakespeare: the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
 
 <title>🪶 Shakespeare from Scratch (with ezpz) – Intro to HPC Bootcamp</title>
 <style>
@@ -4023,11 +4023,11 @@ return Plotly;
 
 
 <meta property="og:title" content="🪶 Shakespeare from Scratch (with ezpz) – Intro to HPC Bootcamp">
-<meta property="og:description" content="Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
+<meta property="og:description" content="Train a small char-level GPT on tiny-Shakespeare: the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/3-shakespeare-ezpz/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta name="twitter:title" content="🪶 Shakespeare from Scratch (with ezpz) – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
+<meta name="twitter:description" content="Train a small char-level GPT on tiny-Shakespeare: the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/3-shakespeare-ezpz/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
@@ -4559,7 +4559,7 @@ return Plotly;
 
 <div>
   <div class="description">
-    Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.
+    Train a small char-level GPT on tiny-Shakespeare: the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer.
   </div>
 </div>
 
@@ -4592,7 +4592,7 @@ return Plotly;
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 3, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -4620,7 +4620,7 @@ return Plotly;
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/3-shakespeare-ezpz/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/3-shakespeare-ezpz/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>The <a href="../../02-llms/2-shakespeare-example-colab/index.html">Shakespeare example</a> trains a small GPT with the <a href="https://github.com/saforem2/wordplay"><code>wordplay</code></a> package. Here we do the <strong>same thing from scratch</strong> — the model, the data pipeline, the training loop, and the text generation are all written inline — using only <a href="https://github.com/saforem2/ezpz"><code>ezpz</code></a> + <a href="https://pytorch.org">PyTorch</a>.</p>
+<p>The <a href="../../02-llms/2-shakespeare-example-colab/index.html">Shakespeare example</a> trains a small GPT with the <a href="https://github.com/saforem2/wordplay"><code>wordplay</code></a> package. Here we do the <strong>same thing from scratch</strong> (the model, the data pipeline, the training loop, and the text generation are all written inline) using only <a href="https://github.com/saforem2/ezpz"><code>ezpz</code></a> + <a href="https://pytorch.org">PyTorch</a>.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🎯 What you'll learn">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -4638,7 +4638,7 @@ return Plotly;
 <li>The pieces of a GPT training program: <strong>config → model → data → loop → metrics → generation</strong>.</li>
 <li>How to track metrics (<code>loss</code>, <code>dt</code>, <code>sps</code>, <code>mtps</code>, <code>mfu</code>) with <code>ezpz.History</code> and launch at scale with <code>ezpz launch</code>.</li>
 </ul>
-<p>This page assumes you’ve seen the attention/transformer mechanics from <a href="../../02-llms/0-intro-to-llms/index.html"><strong>[2.0] Intro to LLMs</strong></a> — here we focus on the <em>training</em> side.</p>
+<p>This page assumes you’ve seen the attention/transformer mechanics from <a href="../../02-llms/0-intro-to-llms/index.html"><strong>[2.0] Intro to LLMs</strong></a>. Here we focus on the <em>training</em> side.</p>
 </div>
 </div>
 </div>
@@ -4755,7 +4755,7 @@ return Plotly;
 </section>
 <section id="the-model-a-small-gpt" class="level2">
 <h2 class="anchored" data-anchor-id="the-model-a-small-gpt">🧱 The Model: a small GPT</h2>
-<p>A compact decoder-only Transformer — the same architecture as the <code>wordplay</code> model, written inline. (For the <em>why</em> behind attention, see <a href="../../02-llms/0-intro-to-llms/index.html">Intro to LLMs</a>.)</p>
+<p>A compact decoder-only Transformer: the same architecture as the <code>wordplay</code> model, written inline. (For the <em>why</em> behind attention, see <a href="../../02-llms/0-intro-to-llms/index.html">Intro to LLMs</a>.)</p>
 <div id="e7a977fe" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a></span>
@@ -4836,7 +4836,7 @@ return Plotly;
 </section>
 <section id="going-distributed-with-ezpz" class="level2">
 <h2 class="anchored" data-anchor-id="going-distributed-with-ezpz">⚡ Going distributed with <code>ezpz</code></h2>
-<p>On multiple GPUs, wrapping the model for <strong>Distributed Data Parallel</strong> is where <code>ezpz</code> shines — but the beauty is that the <em>training loop below doesn’t change</em>. On a cluster you’d add:</p>
+<p>On multiple GPUs, wrapping the model for <strong>Distributed Data Parallel</strong> is where <code>ezpz</code> shines, but the beauty is that the <em>training loop below doesn’t change</em>. On a cluster you’d add:</p>
 <div id="c240ab79" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># after `model = GPT(cfg).to(device)` on a real multi-GPU run:</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
@@ -4844,7 +4844,7 @@ return Plotly;
 <span id="cb8-4"><a href="#cb8-4" aria-label="4"></a><span class="cf">if</span> ezpz.get_world_size() <span class="op">&gt;</span> <span class="dv">1</span>:</span>
 <span id="cb8-5"><a href="#cb8-5" aria-label="5"></a>    model <span class="op">=</span> DDP(model, device_ids<span class="op">=</span>[ezpz.get_local_rank()])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>ezpz</code> handles the process-group setup (from <code>setup_torch()</code>), device placement, and the correct backend (NCCL / oneCCL / gloo) for you — so the <em>same script</em> runs on 1 GPU, 8 GPUs, or 100 nodes.</p>
+<p><code>ezpz</code> handles the process-group setup (from <code>setup_torch()</code>), device placement, and the correct backend (NCCL / oneCCL / gloo) for you, so the <em>same script</em> runs on 1 GPU, 8 GPUs, or 100 nodes.</p>
 </section>
 <section id="the-training-loop-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="the-training-loop-metrics">🔁 The Training Loop + Metrics</h2>
@@ -4987,7 +4987,7 @@ Table&nbsp;1: Training metrics legend
 </section>
 <section id="generating-text" class="level2">
 <h2 class="anchored" data-anchor-id="generating-text">💬 Generating Text</h2>
-<p>The <code>generate()</code> method samples one character at a time. Let’s compare <strong>before</strong> and <strong>after</strong> training — a few dozen CPU steps won’t produce Shakespeare, but the shift from pure noise toward text-like structure is already visible (train for 1000+ steps on a GPU for the real thing):</p>
+<p>The <code>generate()</code> method samples one character at a time. Let’s compare <strong>before</strong> and <strong>after</strong> training. A few dozen CPU steps won’t produce Shakespeare, but the shift from pure noise toward text-like structure is already visible (train for 1000+ steps on a GPU for the real thing):</p>
 <div id="ddf53964" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>prompt <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>ctx <span class="op">=</span> torch.tensor([encode(prompt)], dtype<span class="op">=</span>torch.<span class="bu">long</span>, device<span class="op">=</span>device)</span>
@@ -5011,7 +5011,7 @@ The wo and ind t sy ter toforlllllin bers ss ages mine and hal mer,r to indis le
 </section>
 <section id="plots-report-for-free" class="level2">
 <h2 class="anchored" data-anchor-id="plots-report-for-free">📊 Plots &amp; Report, for free</h2>
-<p><code>ezpz.History</code> can turn the metrics you logged into plots and a report with a single call — it writes loss curves (matplotlib <strong>and</strong> terminal plots), an <code>xarray</code> dataset, and a <code>report.md</code>:</p>
+<p><code>ezpz.History</code> can turn the metrics you logged into plots and a report with a single call. It writes loss curves (matplotlib <strong>and</strong> terminal plots), an <code>xarray</code> dataset, and a <code>report.md</code>:</p>
 <div id="c0faa62e" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="im">import</span> io</span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="im">import</span> contextlib</span>
@@ -5039,7 +5039,7 @@ invalid value encountered in cast
 </code></pre>
 </div>
 </div>
-<p><code>finalize()</code> also saves each metric as a PNG, a <code>report.md</code>, and an <code>xarray</code> dataset. The per-step numbers live in <code>history.data</code> (a dict of lists), so we can plot the four headline metrics ourselves — <strong>loss</strong> (is it learning?), <strong>mfu</strong> (how well are we using the hardware?), and <strong>sps</strong> / <strong>mtps</strong> (throughput):</p>
+<p><code>finalize()</code> also saves each metric as a PNG, a <code>report.md</code>, and an <code>xarray</code> dataset. The per-step numbers live in <code>history.data</code> (a dict of lists), so we can plot the four headline metrics ourselves: <strong>loss</strong> (is it learning?), <strong>mfu</strong> (how well are we using the hardware?), and <strong>sps</strong> / <strong>mtps</strong> (throughput):</p>
 <div id="cell-fig-ezpz-metrics" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -5106,16 +5106,16 @@ Figure&nbsp;1: Training metrics from ezpz.History: loss, MFU, and throughput (sa
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Point <code>ezpz.History(backends="wandb")</code> at <a href="https://wandb.ai">Weights &amp; Biases</a> (or <code>"mlflow"</code>) and every metric streams to your dashboard live — no code changes beyond that one argument.</p>
+<p>Point <code>ezpz.History(backends="wandb")</code> at <a href="https://wandb.ai">Weights &amp; Biases</a> (or <code>"mlflow"</code>) and every metric streams to your dashboard live, with no code changes beyond that one argument.</p>
 </div>
 </div>
 </section>
 <section id="scaling-up" class="level2">
 <h2 class="anchored" data-anchor-id="scaling-up">🚀 Scaling Up</h2>
-<p>To train the <strong>full ~10M-parameter model</strong> (like the <code>wordplay</code> example) across multiple GPUs, drop the loop above into a <code>train.py</code> that starts with <code>ezpz.setup_torch()</code> + DDP, bump the config to the real size, and launch with <code>ezpz launch</code> — which auto-detects PBS (<code>mpiexec</code>) / SLURM (<code>srun</code>):</p>
+<p>To train the <strong>full ~10M-parameter model</strong> (like the <code>wordplay</code> example) across multiple GPUs, drop the loop above into a <code>train.py</code> that starts with <code>ezpz.setup_torch()</code> + DDP, bump the config to the real size, and launch with <code>ezpz launch</code>, which auto-detects PBS (<code>mpiexec</code>) / SLURM (<code>srun</code>):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="ex">ezpz</span> launch python3 train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>That’s the whole point: <strong>the training code you wrote above doesn’t change</strong> — <code>ezpz</code> handles going from your laptop’s CPU to a rack of GPUs.</p>
+<p>That’s the whole point: <strong>the training code you wrote above doesn’t change</strong>. <code>ezpz</code> handles going from your laptop’s CPU to a rack of GPUs.</p>
 </section>
 <section id="homework" class="level2">
 <h2 class="anchored" data-anchor-id="homework">🎒 Homework</h2>
@@ -5664,7 +5664,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-label="1"></a><span class="co">---</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🪶 Shakespeare from Scratch (with `ezpz`)"</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Train a small char-level GPT on tiny-Shakespeare — the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer."</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Train a small char-level GPT on tiny-Shakespeare: the wordplay example reproduced from scratch using only ezpz + PyTorch, no external trainer."</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-label="4"></a><span class="an">categories:</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-label="5"></a><span class="co">  - ai</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-label="6"></a><span class="co">  - hpc</span></span>
@@ -5682,8 +5682,8 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-18"><a href="#cb16-18" aria-label="18"></a></span>
 <span id="cb16-19"><a href="#cb16-19" aria-label="19"></a>The <span class="co">[</span><span class="ot">Shakespeare example</span><span class="co">](../2-shakespeare-example-colab/index.ipynb)</span> trains a</span>
 <span id="cb16-20"><a href="#cb16-20" aria-label="20"></a>small GPT with the <span class="co">[</span><span class="ot">`wordplay`</span><span class="co">](https://github.com/saforem2/wordplay)</span> package.</span>
-<span id="cb16-21"><a href="#cb16-21" aria-label="21"></a>Here we do the **same thing from scratch** — the model, the data pipeline, the</span>
-<span id="cb16-22"><a href="#cb16-22" aria-label="22"></a>training loop, and the text generation are all written inline — using only</span>
+<span id="cb16-21"><a href="#cb16-21" aria-label="21"></a>Here we do the **same thing from scratch** (the model, the data pipeline, the</span>
+<span id="cb16-22"><a href="#cb16-22" aria-label="22"></a>training loop, and the text generation are all written inline) using only</span>
 <span id="cb16-23"><a href="#cb16-23" aria-label="23"></a><span class="co">[</span><span class="ot">`ezpz`</span><span class="co">](https://github.com/saforem2/ezpz)</span> + <span class="co">[</span><span class="ot">PyTorch</span><span class="co">](https://pytorch.org)</span>.</span>
 <span id="cb16-24"><a href="#cb16-24" aria-label="24"></a></span>
 <span id="cb16-25"><a href="#cb16-25" aria-label="25"></a>::: {.callout-tip title="🎯 What you'll learn" collapse="false"}</span>
@@ -5695,7 +5695,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-31"><a href="#cb16-31" aria-label="31"></a>  <span class="in">`ezpz.History`</span> and launch at scale with <span class="in">`ezpz launch`</span>.</span>
 <span id="cb16-32"><a href="#cb16-32" aria-label="32"></a></span>
 <span id="cb16-33"><a href="#cb16-33" aria-label="33"></a>This page assumes you've seen the attention/transformer mechanics from</span>
-<span id="cb16-34"><a href="#cb16-34" aria-label="34"></a><span class="co">[</span><span class="ot">**\[2.0\] Intro to LLMs**</span><span class="co">](../0-intro-to-llms/index.qmd)</span> — here we focus on</span>
+<span id="cb16-34"><a href="#cb16-34" aria-label="34"></a><span class="co">[</span><span class="ot">**\[2.0\] Intro to LLMs**</span><span class="co">](../0-intro-to-llms/index.qmd)</span>. Here we focus on</span>
 <span id="cb16-35"><a href="#cb16-35" aria-label="35"></a>the *training* side.</span>
 <span id="cb16-36"><a href="#cb16-36" aria-label="36"></a>:::</span>
 <span id="cb16-37"><a href="#cb16-37" aria-label="37"></a></span>
@@ -5811,7 +5811,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-155"><a href="#cb16-155" aria-label="147"></a></span>
 <span id="cb16-156"><a href="#cb16-156" aria-label="148"></a><span class="fu">## 🧱 The Model: a small GPT</span></span>
 <span id="cb16-157"><a href="#cb16-157" aria-label="149"></a></span>
-<span id="cb16-158"><a href="#cb16-158" aria-label="150"></a>A compact decoder-only Transformer — the same architecture as the <span class="in">`wordplay`</span></span>
+<span id="cb16-158"><a href="#cb16-158" aria-label="150"></a>A compact decoder-only Transformer: the same architecture as the <span class="in">`wordplay`</span></span>
 <span id="cb16-159"><a href="#cb16-159" aria-label="151"></a>model, written inline. (For the *why* behind attention, see</span>
 <span id="cb16-160"><a href="#cb16-160" aria-label="152"></a><span class="co">[</span><span class="ot">Intro to LLMs</span><span class="co">](../0-intro-to-llms/index.qmd)</span>.)</span>
 <span id="cb16-161"><a href="#cb16-161" aria-label="153"></a></span>
@@ -5896,7 +5896,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-242"><a href="#cb16-242" aria-label="232"></a><span class="fu">## ⚡ Going distributed with `ezpz`</span></span>
 <span id="cb16-243"><a href="#cb16-243" aria-label="233"></a></span>
 <span id="cb16-244"><a href="#cb16-244" aria-label="234"></a>On multiple GPUs, wrapping the model for **Distributed Data Parallel** is where</span>
-<span id="cb16-245"><a href="#cb16-245" aria-label="235"></a><span class="in">`ezpz`</span> shines — but the beauty is that the *training loop below doesn't change*.</span>
+<span id="cb16-245"><a href="#cb16-245" aria-label="235"></a><span class="in">`ezpz`</span> shines, but the beauty is that the *training loop below doesn't change*.</span>
 <span id="cb16-246"><a href="#cb16-246" aria-label="236"></a>On a cluster you'd add:</span>
 <span id="cb16-247"><a href="#cb16-247" aria-label="237"></a></span>
 <span id="cb16-250"><a href="#cb16-250" aria-label="238"></a><span class="in">```{python}</span></span>
@@ -5909,7 +5909,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-257"><a href="#cb16-257" aria-label="245"></a><span class="in">```</span></span>
 <span id="cb16-258"><a href="#cb16-258" aria-label="246"></a></span>
 <span id="cb16-259"><a href="#cb16-259" aria-label="247"></a><span class="in">`ezpz`</span> handles the process-group setup (from <span class="in">`setup_torch()`</span>), device placement,</span>
-<span id="cb16-260"><a href="#cb16-260" aria-label="248"></a>and the correct backend (NCCL / oneCCL / gloo) for you — so the *same script*</span>
+<span id="cb16-260"><a href="#cb16-260" aria-label="248"></a>and the correct backend (NCCL / oneCCL / gloo) for you, so the *same script*</span>
 <span id="cb16-261"><a href="#cb16-261" aria-label="249"></a>runs on 1 GPU, 8 GPUs, or 100 nodes.</span>
 <span id="cb16-262"><a href="#cb16-262" aria-label="250"></a></span>
 <span id="cb16-263"><a href="#cb16-263" aria-label="251"></a><span class="fu">## 🔁 The Training Loop + Metrics</span></span>
@@ -5999,7 +5999,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-351"><a href="#cb16-351" aria-label="335"></a><span class="fu">## 💬 Generating Text</span></span>
 <span id="cb16-352"><a href="#cb16-352" aria-label="336"></a></span>
 <span id="cb16-353"><a href="#cb16-353" aria-label="337"></a>The <span class="in">`generate()`</span> method samples one character at a time. Let's compare</span>
-<span id="cb16-354"><a href="#cb16-354" aria-label="338"></a>**before** and **after** training — a few dozen CPU steps won't produce</span>
+<span id="cb16-354"><a href="#cb16-354" aria-label="338"></a>**before** and **after** training. A few dozen CPU steps won't produce</span>
 <span id="cb16-355"><a href="#cb16-355" aria-label="339"></a>Shakespeare, but the shift from pure noise toward text-like structure is</span>
 <span id="cb16-356"><a href="#cb16-356" aria-label="340"></a>already visible (train for 1000+ steps on a GPU for the real thing):</span>
 <span id="cb16-357"><a href="#cb16-357" aria-label="341"></a></span>
@@ -6013,7 +6013,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-367"><a href="#cb16-367" aria-label="349"></a><span class="fu">## 📊 Plots &amp; Report, for free</span></span>
 <span id="cb16-368"><a href="#cb16-368" aria-label="350"></a></span>
 <span id="cb16-369"><a href="#cb16-369" aria-label="351"></a><span class="in">`ezpz.History`</span> can turn the metrics you logged into plots and a report with a</span>
-<span id="cb16-370"><a href="#cb16-370" aria-label="352"></a>single call — it writes loss curves (matplotlib **and** terminal plots), an</span>
+<span id="cb16-370"><a href="#cb16-370" aria-label="352"></a>single call. It writes loss curves (matplotlib **and** terminal plots), an</span>
 <span id="cb16-371"><a href="#cb16-371" aria-label="353"></a><span class="in">`xarray`</span> dataset, and a <span class="in">`report.md`</span>:</span>
 <span id="cb16-372"><a href="#cb16-372" aria-label="354"></a></span>
 <span id="cb16-375"><a href="#cb16-375" aria-label="355"></a><span class="in">```{python}</span></span>
@@ -6034,7 +6034,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-390"><a href="#cb16-390" aria-label="370"></a></span>
 <span id="cb16-391"><a href="#cb16-391" aria-label="371"></a><span class="in">`finalize()`</span> also saves each metric as a PNG, a <span class="in">`report.md`</span>, and an <span class="in">`xarray`</span></span>
 <span id="cb16-392"><a href="#cb16-392" aria-label="372"></a>dataset. The per-step numbers live in <span class="in">`history.data`</span> (a dict of lists), so we can</span>
-<span id="cb16-393"><a href="#cb16-393" aria-label="373"></a>plot the four headline metrics ourselves — **loss** (is it learning?), **mfu** (how</span>
+<span id="cb16-393"><a href="#cb16-393" aria-label="373"></a>plot the four headline metrics ourselves: **loss** (is it learning?), **mfu** (how</span>
 <span id="cb16-394"><a href="#cb16-394" aria-label="374"></a>well are we using the hardware?), and **sps** / **mtps** (throughput):</span>
 <span id="cb16-395"><a href="#cb16-395" aria-label="375"></a></span>
 <span id="cb16-398"><a href="#cb16-398" aria-label="376"></a><span class="in">```{python}</span></span>
@@ -6063,7 +6063,7 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-421"><a href="#cb16-421" aria-label="399"></a></span>
 <span id="cb16-422"><a href="#cb16-422" aria-label="400"></a>::: {.callout-tip title="🔬 On a real run"}</span>
 <span id="cb16-423"><a href="#cb16-423" aria-label="401"></a>Point <span class="in">`ezpz.History(backends="wandb")`</span> at <span class="co">[</span><span class="ot">Weights &amp; Biases</span><span class="co">](https://wandb.ai)</span></span>
-<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a>(or <span class="in">`"mlflow"`</span>) and every metric streams to your dashboard live — no code</span>
+<span id="cb16-424"><a href="#cb16-424" aria-label="402"></a>(or <span class="in">`"mlflow"`</span>) and every metric streams to your dashboard live, with no code</span>
 <span id="cb16-425"><a href="#cb16-425" aria-label="403"></a>changes beyond that one argument.</span>
 <span id="cb16-426"><a href="#cb16-426" aria-label="404"></a>:::</span>
 <span id="cb16-427"><a href="#cb16-427" aria-label="405"></a></span>
@@ -6072,14 +6072,14 @@ Foreman, Sam. 2026. <span>“🪶 Shakespeare from Scratch (with
 <span id="cb16-430"><a href="#cb16-430" aria-label="408"></a>To train the **full ~10M-parameter model** (like the <span class="in">`wordplay`</span> example) across</span>
 <span id="cb16-431"><a href="#cb16-431" aria-label="409"></a>multiple GPUs, drop the loop above into a <span class="in">`train.py`</span> that starts with</span>
 <span id="cb16-432"><a href="#cb16-432" aria-label="410"></a><span class="in">`ezpz.setup_torch()`</span> + DDP, bump the config to the real size, and launch with</span>
-<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a><span class="in">`ezpz launch`</span> — which auto-detects PBS (<span class="in">`mpiexec`</span>) / SLURM (<span class="in">`srun`</span>):</span>
+<span id="cb16-433"><a href="#cb16-433" aria-label="411"></a><span class="in">`ezpz launch`</span>, which auto-detects PBS (<span class="in">`mpiexec`</span>) / SLURM (<span class="in">`srun`</span>):</span>
 <span id="cb16-434"><a href="#cb16-434" aria-label="412"></a></span>
 <span id="cb16-435"><a href="#cb16-435" aria-label="413"></a><span class="in">```bash</span></span>
 <span id="cb16-436"><a href="#cb16-436" aria-label="414"></a><span class="co"># full config: block_size=256, n_layer=6, n_head=6, n_embd=384, max_iters=1000</span></span>
 <span id="cb16-437"><a href="#cb16-437" aria-label="415"></a><span class="ex">ezpz</span> launch python3 train.py</span>
 <span id="cb16-438"><a href="#cb16-438" aria-label="416"></a><span class="in">```</span></span>
 <span id="cb16-439"><a href="#cb16-439" aria-label="417"></a></span>
-<span id="cb16-440"><a href="#cb16-440" aria-label="418"></a>That's the whole point: **the training code you wrote above doesn't change** —</span>
+<span id="cb16-440"><a href="#cb16-440" aria-label="418"></a>That's the whole point: **the training code you wrote above doesn't change**.</span>
 <span id="cb16-441"><a href="#cb16-441" aria-label="419"></a><span class="in">`ezpz`</span> handles going from your laptop's CPU to a rack of GPUs.</span>
 <span id="cb16-442"><a href="#cb16-442" aria-label="420"></a></span>
 <span id="cb16-443"><a href="#cb16-443" aria-label="421"></a><span class="fu">## 🎒 Homework</span></span>

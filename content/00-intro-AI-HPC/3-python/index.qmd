@@ -1,6 +1,6 @@
 ---
 title: "Using Python"
-description: "A hands-on primer on the shell and Python — variables, data structures, functions, and imports — the fluency every later notebook assumes."
+description: "A hands-on primer on the shell and Python (variables, data structures, functions, and imports): the fluency every later notebook assumes."
 categories:
   - hpc
   - python
@@ -37,8 +37,8 @@ except ImportError:
 
 ::: {.callout-tip title="🎯 What you'll learn" collapse="false"}
 Python is the language of modern AI, and almost every page after this one assumes
-you can read and write it. This is a **hands-on** warm-up — run each cell, change
-it, run it again. By the end you'll be comfortable with:
+you can read and write it. This is a **hands-on** warm-up, so run each cell,
+change it, and run it again. By the end you'll be comfortable with:
 
 - **variables & types** — numbers, strings, booleans
 - **data structures** — lists, dictionaries, and how to loop over them
@@ -51,7 +51,7 @@ No prior Python needed. If you already know this, skim to the
 
 ## 🐚 A little shell first
 
-Before Python, a word on the **shell** — the text prompt you type commands into
+Before Python, a word on the **shell**: the text prompt you type commands into
 on a laptop or a supercomputer login node. You'll use it to move around the
 filesystem, run scripts, and submit jobs. The essentials:
 
@@ -211,7 +211,7 @@ a.add(1)
 print("a.total =", a.total, "| b.total =", b.total)
 ```
 
-A class can also **inherit** from another to extend it — you call the parent's
+A class can also **inherit** from another to extend it, calling the parent's
 setup with `super().__init__()`. That is precisely the pattern you'll see when we
 build neural networks: a model subclasses `nn.Module`, calls `super().__init__()`
 in its `__init__`, defines its layers there, and puts the computation in a
@@ -240,15 +240,15 @@ ax.grid(True, alpha=0.3)
 plt.show()
 ```
 
-That `np.maximum(0, xs)` applied `relu` to all 200 points **at once** — no loop.
-This *vectorized* style is why NumPy is fast, and it's the subject of the next
+That `np.maximum(0, xs)` applied `relu` to all 200 points **at once**, with no
+loop. This *vectorized* style is why NumPy is fast, and it's the subject of the next
 page, [**Working with Data**](../4-data/index.qmd).
 
 ## Exercises {#exercises}
 
-Try these — each has a hidden solution, but give it a real attempt first.
+Try these. Each has a hidden solution, but give it a real attempt first.
 
-::: {.callout-note title="Exercise 1 — a function" collapse="false"}
+::: {.callout-note title="Exercise 1: a function" collapse="false"}
 Write a function `mean(values)` that returns the average of a list of numbers,
 then call it on `[10, 20, 30, 40]` (you should get `25.0`).
 
@@ -262,7 +262,7 @@ print(mean([10, 20, 30, 40]))
 :::
 :::
 
-::: {.callout-note title="Exercise 2 — a comprehension" collapse="false"}
+::: {.callout-note title="Exercise 2: a comprehension" collapse="false"}
 Given `words = ["hpc", "gpu", "llm"]`, use a list comprehension to build a list
 of their **uppercased** forms: `["HPC", "GPU", "LLM"]`. (Hint: strings have an
 `.upper()` method.)
@@ -275,7 +275,7 @@ print([w.upper() for w in words])
 :::
 :::
 
-::: {.callout-note title="Exercise 3 — dicts + a loop" collapse="false"}
+::: {.callout-note title="Exercise 3: dicts + a loop" collapse="false"}
 You have per-GPU token counts `counts = {"gpu0": 120, "gpu1": 95, "gpu2": 130}`.
 Print the **total** across all GPUs and the **name of the busiest** GPU.
 
@@ -288,7 +288,7 @@ print("busiest:", max(counts, key=counts.get))
 :::
 :::
 
-::: {.callout-note title="Exercise 4 — a class" collapse="false"}
+::: {.callout-note title="Exercise 4: a class" collapse="false"}
 Write a class `Accumulator` with an `__init__` that starts an internal list, an
 `add(x)` method that appends to it, and a `mean()` method that returns the
 average. Add `2`, `4`, `6` and print `mean()` (you should get `4.0`).
@@ -319,9 +319,9 @@ print(acc.mean())
 - **Lists** (ordered) and **dicts** (key→value) are your everyday containers.
 - **Comprehensions** (`[f(x) for x in xs]`) replace many simple loops.
 - **Functions** (`def … return`) package reusable logic.
-- **Classes** (`class` / `__init__` / `self`) bundle data with behavior — the
+- **Classes** (`class` / `__init__` / `self`) bundle data with behavior: the
   exact shape of every PyTorch `nn.Module`.
-- **`import`** brings in libraries — `numpy` and `matplotlib` above all.
+- **`import`** brings in libraries, `numpy` and `matplotlib` above all.
 
 ::: {.callout-tip icon="false" title="📓 Go deeper: Python" collapse="true"}
 - [The Python Tutorial](https://docs.python.org/3/tutorial/)
@@ -331,5 +331,5 @@ print(acc.mean())
 - [foundational\_hpc\_skills/intro\_to\_python · olcf](https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)
 :::
 
-➡️ **Next:** [Working with Data](../4-data/index.qmd) — NumPy arrays, pandas, and
+➡️ **Next:** [Working with Data](../4-data/index.qmd): NumPy arrays, pandas, and
 plotting real data.

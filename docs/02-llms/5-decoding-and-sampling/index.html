@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2026-07-29">
-<meta name="description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run.">
+<meta name="description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run.">
 
 <title>🎲 Decoding &amp; Sampling – Intro to HPC Bootcamp</title>
 <style>
@@ -4023,11 +4023,11 @@ return Plotly;
 
 
 <meta property="og:title" content="🎲 Decoding &amp; Sampling – Intro to HPC Bootcamp">
-<meta property="og:description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run.">
+<meta property="og:description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run.">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/5-decoding-and-sampling/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta name="twitter:title" content="🎲 Decoding &amp; Sampling – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run.">
+<meta name="twitter:description" content="How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run.">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/02-llms/5-decoding-and-sampling/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
@@ -4554,7 +4554,7 @@ return Plotly;
 
 <div>
   <div class="description">
-    How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run.
+    How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run.
   </div>
 </div>
 
@@ -4587,7 +4587,7 @@ return Plotly;
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -4615,7 +4615,7 @@ return Plotly;
 </div>
 </div>
 <p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/5-decoding-and-sampling/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/5-decoding-and-sampling/index.qmd"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
-<p>In <a href="../../02-llms/0-intro-to-llms/index.html">[2.0] Intro to LLMs</a> we saw that a GPT maps a sequence of tokens to a grid of scores — one <strong>probability distribution over the whole vocabulary</strong> for each position. But how do we get from that distribution to the <em>next word</em>? That choice is called <strong>decoding</strong>, and it has a huge effect on whether the output is repetitive and safe, or varied and creative (or unhinged).</p>
+<p>In <a href="../../02-llms/0-intro-to-llms/index.html">[2.0] Intro to LLMs</a> we saw that a GPT maps a sequence of tokens to a grid of scores: one <strong>probability distribution over the whole vocabulary</strong> for each position. But how do we get from that distribution to the <em>next word</em>? That choice is called <strong>decoding</strong>, and it has a huge effect on whether the output is repetitive and safe, or varied and creative (or unhinged).</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🎯 What you'll learn">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -4634,7 +4634,7 @@ return Plotly;
 <li><strong>Temperature</strong> — one knob that flattens or sharpens the distribution.</li>
 <li><strong>Top-p (nucleus) sampling</strong> — keep only the most probable tokens, then sample.</li>
 </ul>
-<p>Everything here runs on a <strong>laptop or Colab</strong> (CPU) with the small <code>gpt2</code> model — no GPU required.</p>
+<p>Everything here runs on a <strong>laptop or Colab</strong> (CPU) with the small <code>gpt2</code> model. No GPU required.</p>
 </div>
 </div>
 </div>
@@ -4715,11 +4715,11 @@ Figure&nbsp;1: GPT-2’s probability distribution over the next token after the 
 </figure>
 </div>
 </div>
-<p>No single token is close to certain — the model is genuinely <em>unsure</em>, and several completions are reasonable. <strong>How we pick from this distribution is decoding.</strong></p>
+<p>No single token is close to certain: the model is genuinely <em>unsure</em>, and several completions are reasonable. <strong>How we pick from this distribution is decoding.</strong></p>
 </section>
 <section id="greedy-vs.-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="greedy-vs.-sampling">🎯 Greedy vs.&nbsp;sampling</h2>
-<p>The simplest rule is <strong>greedy</strong>: always take the single most probable token (<code>argmax</code>). It’s deterministic — same prompt, same output, every time — which makes it repetitive and prone to loops.</p>
+<p>The simplest rule is <strong>greedy</strong>: always take the single most probable token (<code>argmax</code>). It’s deterministic (same prompt, same output, every time), which makes it repetitive and prone to loops.</p>
 <div id="82d49715" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>gen_kwargs <span class="op">=</span> <span class="bu">dict</span>(max_new_tokens<span class="op">=</span><span class="dv">20</span>, pad_token_id<span class="op">=</span>tok.eos_token_id)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a></span>
@@ -4733,7 +4733,7 @@ Figure&nbsp;1: GPT-2’s probability distribution over the next token after the 
 <pre><code>GREEDY: The capital of France is the capital of the French Republic, and the capital of the French Republic is the capital of the French</code></pre>
 </div>
 </div>
-<p><strong>Sampling</strong> (<code>do_sample=True</code>) instead <em>draws</em> the next token according to its probability — so more probable tokens appear more often, but the output varies run to run. Here are three independent samples of the same prompt:</p>
+<p><strong>Sampling</strong> (<code>do_sample=True</code>) instead <em>draws</em> the next token according to its probability, so more probable tokens appear more often, but the output varies run to run. Here are three independent samples of the same prompt:</p>
 <div id="d5fb335b" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="cf">with</span> torch.no_grad():</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>    samples <span class="op">=</span> model.generate(ids, do_sample<span class="op">=</span><span class="va">True</span>, num_return_sequences<span class="op">=</span><span class="dv">3</span>,</span>
@@ -4814,7 +4814,7 @@ Figure&nbsp;2: The same GPT-2 next-token distribution at three temperatures. Low
 </figure>
 </div>
 </div>
-<p>The same effect in generated text — low temperature is focused and repetitive, high temperature is varied and can go off the rails:</p>
+<p>The same effect shows up in generated text: low temperature is focused and repetitive, high temperature is varied and can go off the rails:</p>
 <div id="53a79bfb" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="cf">for</span> T <span class="kw">in</span> (<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a>    <span class="cf">with</span> torch.no_grad():</span>
@@ -4829,7 +4829,7 @@ T=1.5: The capital of France is now Paris-Tows. These borders were once maintain
 </section>
 <section id="top-p-nucleus-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="top-p-nucleus-sampling">🎯 Top-p (nucleus) sampling</h2>
-<p>Temperature reshapes <em>all</em> tokens — including absurd ones in the far tail. <strong>Top-p sampling</strong> (a.k.a. <em>nucleus</em> sampling) instead <strong>keeps only the smallest set of top tokens whose probabilities sum to <code>p</code></strong>, then samples from just those. It adapts to the distribution: when the model is confident, the nucleus is tiny; when it’s unsure, the nucleus is larger.</p>
+<p>Temperature reshapes <em>all</em> tokens, including absurd ones in the far tail. <strong>Top-p sampling</strong> (a.k.a. <em>nucleus</em> sampling) instead <strong>keeps only the smallest set of top tokens whose probabilities sum to <code>p</code></strong>, then samples from just those. It adapts to the distribution: when the model is confident, the nucleus is tiny; when it’s unsure, the nucleus is larger.</p>
 <div id="cell-fig-top-p" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -4888,7 +4888,7 @@ Figure&nbsp;3: Sorted next-token probabilities and their cumulative sum. Top-p k
 </figure>
 </div>
 </div>
-<p>So for this prompt the nucleus is tiny — <code>top_p=0.9</code> samples from only a handful of tokens and discards the rest of the 50,257-token vocabulary:</p>
+<p>So for this prompt the nucleus is tiny: <code>top_p=0.9</code> samples from only a handful of tokens and discards the rest of the 50,257-token vocabulary:</p>
 <div id="c5ab8224" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="bu">print</span>(<span class="ss">f"top_p=</span><span class="sc">{</span>top_p<span class="sc">}</span><span class="ss">: nucleus = </span><span class="sc">{</span>n_kept<span class="sc">}</span><span class="ss"> tokens "</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-label="2"></a>      <span class="ss">f"(out of </span><span class="sc">{</span><span class="bu">len</span>(probs)<span class="sc">:,}</span><span class="ss">); the other </span><span class="sc">{</span><span class="bu">len</span>(probs) <span class="op">-</span> n_kept<span class="sc">:,}</span><span class="ss"> are never sampled"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -4917,7 +4917,7 @@ top_p=0.5: The capital of France is now the capital of the European Union. The E
 <li><strong>Top-p</strong> keeps only the most-probable <em>nucleus</em> and samples from it, adapting to how confident the model is.</li>
 <li>In practice you combine them — e.g.&nbsp;<code>temperature≈0.7, top_p≈0.9</code> is a common “sensible default” for chat models.</li>
 </ul>
-<p>➡️ <strong>Next:</strong> these knobs aren’t just for style — sampling <em>many</em> completions and combining them can make a model measurably <strong>more accurate</strong>. That’s <strong>self-consistency</strong>, in <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[3.4] RL &amp; Reasoning</a>.</p>
+<p>➡️ <strong>Next:</strong> these knobs aren’t just for style. Sampling <em>many</em> completions and combining them can make a model measurably <strong>more accurate</strong>. That’s <strong>self-consistency</strong>, in <a href="../../03-advanced-llms/4-rl-and-reasoning/index.html">[3.4] RL &amp; Reasoning</a>.</p>
 
 
 
@@ -5449,7 +5449,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="co">---</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🎲 Decoding &amp; Sampling"</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling — with interactive plots you can run."</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "How an LLM actually turns logits into text: greedy vs sampling, temperature, and top-p (nucleus) sampling, with interactive plots you can run."</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-label="4"></a><span class="an">categories:</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-label="5"></a><span class="co">  - ai</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-label="6"></a><span class="co">  - hpc</span></span>
@@ -5473,7 +5473,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-24"><a href="#cb18-24" aria-label="24"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/02-llms/5-decoding-and-sampling/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/02-llms/5-decoding-and-sampling/index.qmd)</span></span>
 <span id="cb18-25"><a href="#cb18-25" aria-label="25"></a></span>
 <span id="cb18-26"><a href="#cb18-26" aria-label="26"></a>In <span class="co">[</span><span class="ot">\[2.0\] Intro to LLMs</span><span class="co">](../0-intro-to-llms/index.qmd)</span> we saw that a GPT maps a</span>
-<span id="cb18-27"><a href="#cb18-27" aria-label="27"></a>sequence of tokens to a grid of scores — one **probability distribution over the</span>
+<span id="cb18-27"><a href="#cb18-27" aria-label="27"></a>sequence of tokens to a grid of scores: one **probability distribution over the</span>
 <span id="cb18-28"><a href="#cb18-28" aria-label="28"></a>whole vocabulary** for each position. But how do we get from that distribution to</span>
 <span id="cb18-29"><a href="#cb18-29" aria-label="29"></a>the *next word*? That choice is called **decoding**, and it has a huge effect on</span>
 <span id="cb18-30"><a href="#cb18-30" aria-label="30"></a>whether the output is repetitive and safe, or varied and creative (or unhinged).</span>
@@ -5484,8 +5484,8 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-35"><a href="#cb18-35" aria-label="35"></a><span class="ss">- </span>**Temperature** — one knob that flattens or sharpens the distribution.</span>
 <span id="cb18-36"><a href="#cb18-36" aria-label="36"></a><span class="ss">- </span>**Top-p (nucleus) sampling** — keep only the most probable tokens, then sample.</span>
 <span id="cb18-37"><a href="#cb18-37" aria-label="37"></a></span>
-<span id="cb18-38"><a href="#cb18-38" aria-label="38"></a>Everything here runs on a **laptop or Colab** (CPU) with the small <span class="in">`gpt2`</span> model —</span>
-<span id="cb18-39"><a href="#cb18-39" aria-label="39"></a>no GPU required.</span>
+<span id="cb18-38"><a href="#cb18-38" aria-label="38"></a>Everything here runs on a **laptop or Colab** (CPU) with the small <span class="in">`gpt2`</span> model.</span>
+<span id="cb18-39"><a href="#cb18-39" aria-label="39"></a>No GPU required.</span>
 <span id="cb18-40"><a href="#cb18-40" aria-label="40"></a>:::</span>
 <span id="cb18-41"><a href="#cb18-41" aria-label="41"></a></span>
 <span id="cb18-44"><a href="#cb18-44" aria-label="42"></a><span class="in">```{python}</span></span>
@@ -5538,13 +5538,13 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-95"><a href="#cb18-95" aria-label="89"></a>fig.show()</span>
 <span id="cb18-96"><a href="#cb18-96" aria-label="90"></a><span class="in">```</span></span>
 <span id="cb18-97"><a href="#cb18-97" aria-label="91"></a></span>
-<span id="cb18-98"><a href="#cb18-98" aria-label="92"></a>No single token is close to certain — the model is genuinely *unsure*, and several</span>
+<span id="cb18-98"><a href="#cb18-98" aria-label="92"></a>No single token is close to certain: the model is genuinely *unsure*, and several</span>
 <span id="cb18-99"><a href="#cb18-99" aria-label="93"></a>completions are reasonable. **How we pick from this distribution is decoding.**</span>
 <span id="cb18-100"><a href="#cb18-100" aria-label="94"></a></span>
 <span id="cb18-101"><a href="#cb18-101" aria-label="95"></a><span class="fu">## 🎯 Greedy vs. sampling</span></span>
 <span id="cb18-102"><a href="#cb18-102" aria-label="96"></a></span>
 <span id="cb18-103"><a href="#cb18-103" aria-label="97"></a>The simplest rule is **greedy**: always take the single most probable token</span>
-<span id="cb18-104"><a href="#cb18-104" aria-label="98"></a>(<span class="in">`argmax`</span>). It's deterministic — same prompt, same output, every time — which</span>
+<span id="cb18-104"><a href="#cb18-104" aria-label="98"></a>(<span class="in">`argmax`</span>). It's deterministic (same prompt, same output, every time), which</span>
 <span id="cb18-105"><a href="#cb18-105" aria-label="99"></a>makes it repetitive and prone to loops.</span>
 <span id="cb18-106"><a href="#cb18-106" aria-label="100"></a></span>
 <span id="cb18-109"><a href="#cb18-109" aria-label="101"></a><span class="in">```{python}</span></span>
@@ -5556,7 +5556,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-115"><a href="#cb18-115" aria-label="107"></a><span class="in">```</span></span>
 <span id="cb18-116"><a href="#cb18-116" aria-label="108"></a></span>
 <span id="cb18-117"><a href="#cb18-117" aria-label="109"></a>**Sampling** (<span class="in">`do_sample=True`</span>) instead *draws* the next token according to its</span>
-<span id="cb18-118"><a href="#cb18-118" aria-label="110"></a>probability — so more probable tokens appear more often, but the output varies run</span>
+<span id="cb18-118"><a href="#cb18-118" aria-label="110"></a>probability, so more probable tokens appear more often, but the output varies run</span>
 <span id="cb18-119"><a href="#cb18-119" aria-label="111"></a>to run. Here are three independent samples of the same prompt:</span>
 <span id="cb18-120"><a href="#cb18-120" aria-label="112"></a></span>
 <span id="cb18-123"><a href="#cb18-123" aria-label="113"></a><span class="in">```{python}</span></span>
@@ -5605,8 +5605,8 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-170"><a href="#cb18-170" aria-label="156"></a>fig.show()</span>
 <span id="cb18-171"><a href="#cb18-171" aria-label="157"></a><span class="in">```</span></span>
 <span id="cb18-172"><a href="#cb18-172" aria-label="158"></a></span>
-<span id="cb18-173"><a href="#cb18-173" aria-label="159"></a>The same effect in generated text — low temperature is focused and repetitive,</span>
-<span id="cb18-174"><a href="#cb18-174" aria-label="160"></a>high temperature is varied and can go off the rails:</span>
+<span id="cb18-173"><a href="#cb18-173" aria-label="159"></a>The same effect shows up in generated text: low temperature is focused and</span>
+<span id="cb18-174"><a href="#cb18-174" aria-label="160"></a>repetitive, high temperature is varied and can go off the rails:</span>
 <span id="cb18-175"><a href="#cb18-175" aria-label="161"></a></span>
 <span id="cb18-178"><a href="#cb18-178" aria-label="162"></a><span class="in">```{python}</span></span>
 <span id="cb18-179"><a href="#cb18-179" aria-label="163"></a><span class="cf">for</span> T <span class="kw">in</span> (<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>):</span>
@@ -5617,7 +5617,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-184"><a href="#cb18-184" aria-label="168"></a></span>
 <span id="cb18-185"><a href="#cb18-185" aria-label="169"></a><span class="fu">## 🎯 Top-p (nucleus) sampling</span></span>
 <span id="cb18-186"><a href="#cb18-186" aria-label="170"></a></span>
-<span id="cb18-187"><a href="#cb18-187" aria-label="171"></a>Temperature reshapes *all* tokens — including absurd ones in the far tail. **Top-p</span>
+<span id="cb18-187"><a href="#cb18-187" aria-label="171"></a>Temperature reshapes *all* tokens, including absurd ones in the far tail. **Top-p</span>
 <span id="cb18-188"><a href="#cb18-188" aria-label="172"></a>sampling** (a.k.a. *nucleus* sampling) instead **keeps only the smallest set of</span>
 <span id="cb18-189"><a href="#cb18-189" aria-label="173"></a>top tokens whose probabilities sum to <span class="in">`p`</span>**, then samples from just those. It</span>
 <span id="cb18-190"><a href="#cb18-190" aria-label="174"></a>adapts to the distribution: when the model is confident, the nucleus is tiny; when</span>
@@ -5649,7 +5649,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-218"><a href="#cb18-218" aria-label="200"></a>fig.show()</span>
 <span id="cb18-219"><a href="#cb18-219" aria-label="201"></a><span class="in">```</span></span>
 <span id="cb18-220"><a href="#cb18-220" aria-label="202"></a></span>
-<span id="cb18-221"><a href="#cb18-221" aria-label="203"></a>So for this prompt the nucleus is tiny — <span class="in">`top_p=0.9`</span> samples from only a handful</span>
+<span id="cb18-221"><a href="#cb18-221" aria-label="203"></a>So for this prompt the nucleus is tiny: <span class="in">`top_p=0.9`</span> samples from only a handful</span>
 <span id="cb18-222"><a href="#cb18-222" aria-label="204"></a>of tokens and discards the rest of the 50,257-token vocabulary:</span>
 <span id="cb18-223"><a href="#cb18-223" aria-label="205"></a></span>
 <span id="cb18-226"><a href="#cb18-226" aria-label="206"></a><span class="in">```{python}</span></span>
@@ -5677,7 +5677,7 @@ Foreman, Sam. 2026. <span>“🎲 Decoding &amp; Sampling.”</span> July 29.
 <span id="cb18-250"><a href="#cb18-250" aria-label="228"></a><span class="ss">- </span>In practice you combine them — e.g. <span class="in">`temperature≈0.7, top_p≈0.9`</span> is a common</span>
 <span id="cb18-251"><a href="#cb18-251" aria-label="229"></a>  "sensible default" for chat models.</span>
 <span id="cb18-252"><a href="#cb18-252" aria-label="230"></a></span>
-<span id="cb18-253"><a href="#cb18-253" aria-label="231"></a>➡️ **Next:** these knobs aren't just for style — sampling *many* completions and</span>
+<span id="cb18-253"><a href="#cb18-253" aria-label="231"></a>➡️ **Next:** these knobs aren't just for style. Sampling *many* completions and</span>
 <span id="cb18-254"><a href="#cb18-254" aria-label="232"></a>combining them can make a model measurably **more accurate**. That's</span>
 <span id="cb18-255"><a href="#cb18-255" aria-label="233"></a>**self-consistency**, in <span class="co">[</span><span class="ot">\[3.4\] RL &amp; Reasoning</span><span class="co">](../../03-advanced-llms/4-rl-and-reasoning/index.qmd)</span>.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>

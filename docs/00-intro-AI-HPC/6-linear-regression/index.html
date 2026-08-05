@@ -4663,7 +4663,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 29, 2026</p>
+      <p class="date-modified">August 4, 2026</p>
     </div>
   </div>
     
@@ -4725,11 +4725,11 @@ Figure&nbsp;1
 <li><strong>learning the rules</strong> — memorize grammar, then apply it (traditional programming), or</li>
 <li><strong>learning from examples</strong> — hear enough speech that the patterns sink in (data-driven learning).</li>
 </ul>
-<p>The second is the essence of AI: rather than being handed the rules, the model <strong>infers</strong> them from many examples. Given enough data, pattern-learning is remarkably powerful — it’s how modern AI, from image classifiers to large language models, works.</p>
+<p>The second is the essence of AI: rather than being handed the rules, the model <strong>infers</strong> them from many examples. Given enough data, pattern-learning is remarkably powerful: it’s how modern AI, from image classifiers to large language models, works.</p>
 </section>
 <section id="how-does-a-large-language-model-work" class="level2">
 <h2 class="anchored" data-anchor-id="how-does-a-large-language-model-work">How does a large language model work?</h2>
-<p>Large language models like GPT learn this way at massive scale: <strong>pre-train</strong> on enormous text corpora to absorb language patterns, use the <strong>transformer</strong> architecture to weigh context, and optionally <strong>fine-tune</strong> for specific tasks — so they can generate coherent, contextually relevant text from a prompt.</p>
+<p>Large language models like GPT learn this way at massive scale: <strong>pre-train</strong> on enormous text corpora to absorb language patterns, use the <strong>transformer</strong> architecture to weigh context, and optionally <strong>fine-tune</strong> for specific tasks. The result is a model that generates coherent, contextually relevant text from a prompt.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div>
@@ -4815,7 +4815,7 @@ class R yellow
 </pre>
 </div>
 </div>
-<p>Let’s inspect our data with an <strong>interactive scatter plot</strong> — hover over any point to see its exact square footage and sale price, and drag to zoom:</p>
+<p>Let’s inspect our data with an <strong>interactive scatter plot</strong>. Hover over any point to see its exact square footage and sale price, and drag to zoom:</p>
 <div id="32b22e5e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
@@ -4874,7 +4874,7 @@ if (outputEl) {{
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>These are <a href="https://plotly.com/python/">Plotly</a> charts, not static images — <strong>hover</strong> to read values, <strong>drag</strong> to zoom, <strong>double-click</strong> to reset, and use the toolbar (top-right) to pan or download a PNG.</p>
+<p>These are <a href="https://plotly.com/python/">Plotly</a> charts, not static images: <strong>hover</strong> to read values, <strong>drag</strong> to zoom, <strong>double-click</strong> to reset, and use the toolbar (top-right) to pan or download a PNG.</p>
 </div>
 </div>
 </div>
@@ -5568,7 +5568,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<p>The dotted grey line is the exact closed-form fit from earlier — notice how SGD walks the red line toward it, step by step, while the loss on the right falls.</p>
+<p>The dotted grey line is the exact closed-form fit from earlier. Notice how SGD walks the red line toward it, step by step, while the loss on the right falls.</p>
 </section>
 <section id="homework" class="level2">
 <h2 class="anchored" data-anchor-id="homework">Homework</h2>
@@ -6300,682 +6300,683 @@ Linear Regression.”</span> July 15. <a href="https://saforem2.github.io/intro-
 <span id="cb31-77"><a href="#cb31-77" aria-label="77"></a></span>
 <span id="cb31-78"><a href="#cb31-78" aria-label="78"></a>The second is the essence of AI: rather than being handed the rules, the model</span>
 <span id="cb31-79"><a href="#cb31-79" aria-label="79"></a>**infers** them from many examples. Given enough data, pattern-learning is</span>
-<span id="cb31-80"><a href="#cb31-80" aria-label="80"></a>remarkably powerful — it's how modern AI, from image classifiers to large</span>
+<span id="cb31-80"><a href="#cb31-80" aria-label="80"></a>remarkably powerful: it's how modern AI, from image classifiers to large</span>
 <span id="cb31-81"><a href="#cb31-81" aria-label="81"></a>language models, works.</span>
 <span id="cb31-82"><a href="#cb31-82" aria-label="82"></a></span>
 <span id="cb31-83"><a href="#cb31-83" aria-label="83"></a><span class="fu">## How does a large language model work?</span></span>
 <span id="cb31-84"><a href="#cb31-84" aria-label="84"></a></span>
 <span id="cb31-85"><a href="#cb31-85" aria-label="85"></a>Large language models like GPT learn this way at massive scale: **pre-train** on</span>
 <span id="cb31-86"><a href="#cb31-86" aria-label="86"></a>enormous text corpora to absorb language patterns, use the **transformer**</span>
-<span id="cb31-87"><a href="#cb31-87" aria-label="87"></a>architecture to weigh context, and optionally **fine-tune** for specific tasks —</span>
-<span id="cb31-88"><a href="#cb31-88" aria-label="88"></a>so they can generate coherent, contextually relevant text from a prompt.</span>
-<span id="cb31-89"><a href="#cb31-89" aria-label="89"></a></span>
-<span id="cb31-92"><a href="#cb31-92" aria-label="90"></a><span class="in">```{mermaid}</span></span>
-<span id="cb31-93"><a href="#cb31-93" aria-label="91"></a>flowchart LR</span>
-<span id="cb31-94"><a href="#cb31-94" aria-label="92"></a>    A[<span class="ot">"</span><span class="st">`Massive text&lt;br/&gt;corpus`</span><span class="ot">"</span>] --&gt;|<span class="ot">"</span><span class="st">`pre-training`</span><span class="ot">"</span>| B[<span class="ot">"</span><span class="st">`Base model&lt;br/&gt;(learns patterns)`</span><span class="ot">"</span>]</span>
-<span id="cb31-95"><a href="#cb31-95" aria-label="93"></a>    B --&gt;|<span class="ot">"</span><span class="st">`fine-tuning`</span><span class="ot">"</span>| C[<span class="ot">"</span><span class="st">`Task-tuned&lt;br/&gt;model`</span><span class="ot">"</span>]</span>
-<span id="cb31-96"><a href="#cb31-96" aria-label="94"></a>    P[<span class="ot">"</span><span class="st">`Your prompt`</span><span class="ot">"</span>] --&gt; C</span>
-<span id="cb31-97"><a href="#cb31-97" aria-label="95"></a>    C --&gt; R[<span class="ot">"</span><span class="st">`Generated&lt;br/&gt;response`</span><span class="ot">"</span>]</span>
-<span id="cb31-98"><a href="#cb31-98" aria-label="96"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
-<span id="cb31-99"><a href="#cb31-99" aria-label="97"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb31-100"><a href="#cb31-100" aria-label="98"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb31-101"><a href="#cb31-101" aria-label="99"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
-<span id="cb31-102"><a href="#cb31-102" aria-label="100"></a>class A,P block</span>
-<span id="cb31-103"><a href="#cb31-103" aria-label="101"></a>class B blue</span>
-<span id="cb31-104"><a href="#cb31-104" aria-label="102"></a>class C green</span>
-<span id="cb31-105"><a href="#cb31-105" aria-label="103"></a>class R yellow</span>
-<span id="cb31-106"><a href="#cb31-106" aria-label="104"></a><span class="in">```</span></span>
-<span id="cb31-107"><a href="#cb31-107" aria-label="105"></a></span>
-<span id="cb31-108"><a href="#cb31-108" aria-label="106"></a>The huge models are exciting, but the *core idea* — fit a function to data so it</span>
-<span id="cb31-109"><a href="#cb31-109" aria-label="107"></a>can predict on new inputs — is easiest to see in the simplest possible model.</span>
-<span id="cb31-110"><a href="#cb31-110" aria-label="108"></a></span>
-<span id="cb31-111"><a href="#cb31-111" aria-label="109"></a><span class="fu">## Simplest AI model example: linear regression</span></span>
-<span id="cb31-112"><a href="#cb31-112" aria-label="110"></a></span>
-<span id="cb31-113"><a href="#cb31-113" aria-label="111"></a>This example is adapted from Bethany Lusch, ALCF.</span>
-<span id="cb31-114"><a href="#cb31-114" aria-label="112"></a></span>
-<span id="cb31-115"><a href="#cb31-115" aria-label="113"></a>Linear regression is the simplest example of learning from existing data to make</span>
-<span id="cb31-116"><a href="#cb31-116" aria-label="114"></a>future predictions: we fit a straight line $y = mx + b$ through a cloud of points</span>
-<span id="cb31-117"><a href="#cb31-117" aria-label="115"></a>so we can predict $y$ for a new $x$. Everything else in this course — neural</span>
-<span id="cb31-118"><a href="#cb31-118" aria-label="116"></a>networks, LLMs — is a more elaborate version of this same idea.</span>
-<span id="cb31-119"><a href="#cb31-119" aria-label="117"></a></span>
-<span id="cb31-120"><a href="#cb31-120" aria-label="118"></a>We're going to review the math involved in this process to help understand how</span>
-<span id="cb31-121"><a href="#cb31-121" aria-label="119"></a>training an AI works.</span>
-<span id="cb31-122"><a href="#cb31-122" aria-label="120"></a></span>
-<span id="cb31-123"><a href="#cb31-123" aria-label="121"></a>First we will load some tools that others wrote and we can use to help us work.</span>
-<span id="cb31-124"><a href="#cb31-124" aria-label="122"></a></span>
-<span id="cb31-125"><a href="#cb31-125" aria-label="123"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span>: a toolkit for working with row vs.</span>
-<span id="cb31-126"><a href="#cb31-126" aria-label="124"></a>  column data, like excel sheets, and CSV (Comma Separated Values) files.</span>
-<span id="cb31-127"><a href="#cb31-127" aria-label="125"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Numpy</span><span class="co">](https://numpy.org/doc/)</span>: a toolkit for managing arrays, vectors,</span>
-<span id="cb31-128"><a href="#cb31-128" aria-label="126"></a>  matrices, etc, doing math with them, slicing them up, and many other handy</span>
-<span id="cb31-129"><a href="#cb31-129" aria-label="127"></a>  things.</span>
-<span id="cb31-130"><a href="#cb31-130" aria-label="128"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Matplotlib</span><span class="co">](https://matplotlib.org/stable/index.html)</span>: a toolkit for</span>
-<span id="cb31-131"><a href="#cb31-131" aria-label="129"></a>  plotting data</span>
-<span id="cb31-132"><a href="#cb31-132" aria-label="130"></a></span>
+<span id="cb31-87"><a href="#cb31-87" aria-label="87"></a>architecture to weigh context, and optionally **fine-tune** for specific tasks.</span>
+<span id="cb31-88"><a href="#cb31-88" aria-label="88"></a>The result is a model that generates coherent, contextually relevant text from a</span>
+<span id="cb31-89"><a href="#cb31-89" aria-label="89"></a>prompt.</span>
+<span id="cb31-90"><a href="#cb31-90" aria-label="90"></a></span>
+<span id="cb31-93"><a href="#cb31-93" aria-label="91"></a><span class="in">```{mermaid}</span></span>
+<span id="cb31-94"><a href="#cb31-94" aria-label="92"></a>flowchart LR</span>
+<span id="cb31-95"><a href="#cb31-95" aria-label="93"></a>    A[<span class="ot">"</span><span class="st">`Massive text&lt;br/&gt;corpus`</span><span class="ot">"</span>] --&gt;|<span class="ot">"</span><span class="st">`pre-training`</span><span class="ot">"</span>| B[<span class="ot">"</span><span class="st">`Base model&lt;br/&gt;(learns patterns)`</span><span class="ot">"</span>]</span>
+<span id="cb31-96"><a href="#cb31-96" aria-label="94"></a>    B --&gt;|<span class="ot">"</span><span class="st">`fine-tuning`</span><span class="ot">"</span>| C[<span class="ot">"</span><span class="st">`Task-tuned&lt;br/&gt;model`</span><span class="ot">"</span>]</span>
+<span id="cb31-97"><a href="#cb31-97" aria-label="95"></a>    P[<span class="ot">"</span><span class="st">`Your prompt`</span><span class="ot">"</span>] --&gt; C</span>
+<span id="cb31-98"><a href="#cb31-98" aria-label="96"></a>    C --&gt; R[<span class="ot">"</span><span class="st">`Generated&lt;br/&gt;response`</span><span class="ot">"</span>]</span>
+<span id="cb31-99"><a href="#cb31-99" aria-label="97"></a>classDef block fill:<span class="co">#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383</span></span>
+<span id="cb31-100"><a href="#cb31-100" aria-label="98"></a>classDef blue fill:<span class="co">#7DCAFF,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb31-101"><a href="#cb31-101" aria-label="99"></a>classDef green fill:<span class="co">#98E6A5,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb31-102"><a href="#cb31-102" aria-label="100"></a>classDef yellow fill:<span class="co">#FFFF7F,stroke:#333,stroke-width:1px,color:#000</span></span>
+<span id="cb31-103"><a href="#cb31-103" aria-label="101"></a>class A,P block</span>
+<span id="cb31-104"><a href="#cb31-104" aria-label="102"></a>class B blue</span>
+<span id="cb31-105"><a href="#cb31-105" aria-label="103"></a>class C green</span>
+<span id="cb31-106"><a href="#cb31-106" aria-label="104"></a>class R yellow</span>
+<span id="cb31-107"><a href="#cb31-107" aria-label="105"></a><span class="in">```</span></span>
+<span id="cb31-108"><a href="#cb31-108" aria-label="106"></a></span>
+<span id="cb31-109"><a href="#cb31-109" aria-label="107"></a>The huge models are exciting, but the *core idea* — fit a function to data so it</span>
+<span id="cb31-110"><a href="#cb31-110" aria-label="108"></a>can predict on new inputs — is easiest to see in the simplest possible model.</span>
+<span id="cb31-111"><a href="#cb31-111" aria-label="109"></a></span>
+<span id="cb31-112"><a href="#cb31-112" aria-label="110"></a><span class="fu">## Simplest AI model example: linear regression</span></span>
+<span id="cb31-113"><a href="#cb31-113" aria-label="111"></a></span>
+<span id="cb31-114"><a href="#cb31-114" aria-label="112"></a>This example is adapted from Bethany Lusch, ALCF.</span>
+<span id="cb31-115"><a href="#cb31-115" aria-label="113"></a></span>
+<span id="cb31-116"><a href="#cb31-116" aria-label="114"></a>Linear regression is the simplest example of learning from existing data to make</span>
+<span id="cb31-117"><a href="#cb31-117" aria-label="115"></a>future predictions: we fit a straight line $y = mx + b$ through a cloud of points</span>
+<span id="cb31-118"><a href="#cb31-118" aria-label="116"></a>so we can predict $y$ for a new $x$. Everything else in this course — neural</span>
+<span id="cb31-119"><a href="#cb31-119" aria-label="117"></a>networks, LLMs — is a more elaborate version of this same idea.</span>
+<span id="cb31-120"><a href="#cb31-120" aria-label="118"></a></span>
+<span id="cb31-121"><a href="#cb31-121" aria-label="119"></a>We're going to review the math involved in this process to help understand how</span>
+<span id="cb31-122"><a href="#cb31-122" aria-label="120"></a>training an AI works.</span>
+<span id="cb31-123"><a href="#cb31-123" aria-label="121"></a></span>
+<span id="cb31-124"><a href="#cb31-124" aria-label="122"></a>First we will load some tools that others wrote and we can use to help us work.</span>
+<span id="cb31-125"><a href="#cb31-125" aria-label="123"></a></span>
+<span id="cb31-126"><a href="#cb31-126" aria-label="124"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span>: a toolkit for working with row vs.</span>
+<span id="cb31-127"><a href="#cb31-127" aria-label="125"></a>  column data, like excel sheets, and CSV (Comma Separated Values) files.</span>
+<span id="cb31-128"><a href="#cb31-128" aria-label="126"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Numpy</span><span class="co">](https://numpy.org/doc/)</span>: a toolkit for managing arrays, vectors,</span>
+<span id="cb31-129"><a href="#cb31-129" aria-label="127"></a>  matrices, etc, doing math with them, slicing them up, and many other handy</span>
+<span id="cb31-130"><a href="#cb31-130" aria-label="128"></a>  things.</span>
+<span id="cb31-131"><a href="#cb31-131" aria-label="129"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Matplotlib</span><span class="co">](https://matplotlib.org/stable/index.html)</span>: a toolkit for</span>
+<span id="cb31-132"><a href="#cb31-132" aria-label="130"></a>  plotting data</span>
 <span id="cb31-133"><a href="#cb31-133" aria-label="131"></a></span>
-<span id="cb31-136"><a href="#cb31-136" aria-label="132"></a><span class="in">```{python}</span></span>
-<span id="cb31-137"><a href="#cb31-137" aria-label="133"></a><span class="co"># This page uses the `bootcamp` helper package. On Colab (or any fresh</span></span>
-<span id="cb31-138"><a href="#cb31-138" aria-label="134"></a><span class="co"># environment) install it + its dependencies; locally this is a no-op.</span></span>
-<span id="cb31-139"><a href="#cb31-139" aria-label="135"></a><span class="cf">try</span>:</span>
-<span id="cb31-140"><a href="#cb31-140" aria-label="136"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
-<span id="cb31-141"><a href="#cb31-141" aria-label="137"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb31-142"><a href="#cb31-142" aria-label="138"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
-<span id="cb31-143"><a href="#cb31-143" aria-label="139"></a><span class="in">```</span></span>
-<span id="cb31-144"><a href="#cb31-144" aria-label="140"></a></span>
-<span id="cb31-147"><a href="#cb31-147" aria-label="141"></a><span class="in">```{python}</span></span>
-<span id="cb31-148"><a href="#cb31-148" aria-label="142"></a><span class="im">import</span> os</span>
-<span id="cb31-149"><a href="#cb31-149" aria-label="143"></a>os.environ[<span class="st">"FORCE_COLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
-<span id="cb31-150"><a href="#cb31-150" aria-label="144"></a>os.environ[<span class="st">"TTY_INTERACTIVE"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
-<span id="cb31-151"><a href="#cb31-151" aria-label="145"></a><span class="im">import</span> ambivalent</span>
-<span id="cb31-152"><a href="#cb31-152" aria-label="146"></a></span>
-<span id="cb31-153"><a href="#cb31-153" aria-label="147"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb31-154"><a href="#cb31-154" aria-label="148"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb31-155"><a href="#cb31-155" aria-label="149"></a></span>
-<span id="cb31-156"><a href="#cb31-156" aria-label="150"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
-<span id="cb31-157"><a href="#cb31-157" aria-label="151"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb31-158"><a href="#cb31-158" aria-label="152"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
-<span id="cb31-159"><a href="#cb31-159" aria-label="153"></a></span>
-<span id="cb31-160"><a href="#cb31-160" aria-label="154"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb31-161"><a href="#cb31-161" aria-label="155"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb31-162"><a href="#cb31-162" aria-label="156"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb31-163"><a href="#cb31-163" aria-label="157"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
-<span id="cb31-164"><a href="#cb31-164" aria-label="158"></a><span class="im">import</span> time</span>
-<span id="cb31-165"><a href="#cb31-165" aria-label="159"></a></span>
-<span id="cb31-166"><a href="#cb31-166" aria-label="160"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go   <span class="co"># interactive charts</span></span>
-<span id="cb31-167"><a href="#cb31-167" aria-label="161"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
-<span id="cb31-168"><a href="#cb31-168" aria-label="162"></a>apply_theme()   <span class="co"># house style + self-contained (inlines plotly.js, no CDN)</span></span>
-<span id="cb31-169"><a href="#cb31-169" aria-label="163"></a></span>
-<span id="cb31-170"><a href="#cb31-170" aria-label="164"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb31-171"><a href="#cb31-171" aria-label="165"></a><span class="in">```</span></span>
-<span id="cb31-172"><a href="#cb31-172" aria-label="166"></a></span>
-<span id="cb31-173"><a href="#cb31-173" aria-label="167"></a><span class="fu">### Dataset</span></span>
-<span id="cb31-174"><a href="#cb31-174" aria-label="168"></a></span>
-<span id="cb31-175"><a href="#cb31-175" aria-label="169"></a>We used a realestate dataset from Kaggle to produce this reduced dataset.</span>
-<span id="cb31-176"><a href="#cb31-176" aria-label="170"></a></span>
-<span id="cb31-177"><a href="#cb31-177" aria-label="171"></a>This dataset contains the _sale price_ and _above ground square feet_ of many</span>
-<span id="cb31-178"><a href="#cb31-178" aria-label="172"></a>houses.</span>
-<span id="cb31-179"><a href="#cb31-179" aria-label="173"></a>We can use this data for our linear regression.</span>
-<span id="cb31-180"><a href="#cb31-180" aria-label="174"></a></span>
-<span id="cb31-181"><a href="#cb31-181" aria-label="175"></a>We use Pandas to read the data file which is stored as Comma Separated Values</span>
-<span id="cb31-182"><a href="#cb31-182" aria-label="176"></a>(CSV) and print the column labels.</span>
-<span id="cb31-183"><a href="#cb31-183" aria-label="177"></a></span>
-<span id="cb31-184"><a href="#cb31-184" aria-label="178"></a>CSV files are similar to excel sheets.</span>
-<span id="cb31-185"><a href="#cb31-185" aria-label="179"></a></span>
-<span id="cb31-188"><a href="#cb31-188" aria-label="180"></a><span class="in">```{python}</span></span>
-<span id="cb31-189"><a href="#cb31-189" aria-label="181"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>master<span class="op">/</span>old<span class="op">/</span><span class="dv">2024</span><span class="op">-</span>Spring<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
-<span id="cb31-190"><a href="#cb31-190" aria-label="182"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
-<span id="cb31-191"><a href="#cb31-191" aria-label="183"></a><span class="bu">print</span>(data.columns)</span>
-<span id="cb31-192"><a href="#cb31-192" aria-label="184"></a><span class="in">```</span></span>
-<span id="cb31-193"><a href="#cb31-193" aria-label="185"></a></span>
-<span id="cb31-194"><a href="#cb31-194" aria-label="186"></a>Let's inspect our data with an **interactive scatter plot** — hover over any</span>
-<span id="cb31-195"><a href="#cb31-195" aria-label="187"></a>point to see its exact square footage and sale price, and drag to zoom:</span>
-<span id="cb31-196"><a href="#cb31-196" aria-label="188"></a></span>
-<span id="cb31-199"><a href="#cb31-199" aria-label="189"></a><span class="in">```{python}</span></span>
-<span id="cb31-200"><a href="#cb31-200" aria-label="190"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb31-201"><a href="#cb31-201" aria-label="191"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb31-202"><a href="#cb31-202" aria-label="192"></a>fig <span class="op">=</span> go.Figure()</span>
-<span id="cb31-203"><a href="#cb31-203" aria-label="193"></a>fig.add_scatter(</span>
-<span id="cb31-204"><a href="#cb31-204" aria-label="194"></a>    x<span class="op">=</span>data[<span class="st">"GrLivArea"</span>], y<span class="op">=</span>data[<span class="st">"SalePrice"</span>],</span>
-<span id="cb31-205"><a href="#cb31-205" aria-label="195"></a>    mode<span class="op">=</span><span class="st">"markers"</span>,</span>
-<span id="cb31-206"><a href="#cb31-206" aria-label="196"></a>    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>),</span>
-<span id="cb31-207"><a href="#cb31-207" aria-label="197"></a>    hovertemplate<span class="op">=</span><span class="st">"%</span><span class="sc">{x:,.0f}</span><span class="st"> sq ft&lt;br&gt;$%</span><span class="sc">{y:,.0f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>,</span>
-<span id="cb31-208"><a href="#cb31-208" aria-label="198"></a>    name<span class="op">=</span><span class="st">"homes"</span>,</span>
-<span id="cb31-209"><a href="#cb31-209" aria-label="199"></a>)</span>
-<span id="cb31-210"><a href="#cb31-210" aria-label="200"></a>fig.update_layout(</span>
-<span id="cb31-211"><a href="#cb31-211" aria-label="201"></a>    xaxis_title<span class="op">=</span><span class="st">"Above-ground living area (sq ft)"</span>,</span>
-<span id="cb31-212"><a href="#cb31-212" aria-label="202"></a>    yaxis_title<span class="op">=</span><span class="st">"Sale price ($)"</span>,</span>
-<span id="cb31-213"><a href="#cb31-213" aria-label="203"></a>    height<span class="op">=</span><span class="dv">420</span>,</span>
-<span id="cb31-214"><a href="#cb31-214" aria-label="204"></a>)</span>
-<span id="cb31-215"><a href="#cb31-215" aria-label="205"></a>fig.show()</span>
-<span id="cb31-216"><a href="#cb31-216" aria-label="206"></a><span class="in">```</span></span>
-<span id="cb31-217"><a href="#cb31-217" aria-label="207"></a></span>
-<span id="cb31-218"><a href="#cb31-218" aria-label="208"></a>::: {.callout-tip title="🖱️ It's interactive" collapse="false"}</span>
-<span id="cb31-219"><a href="#cb31-219" aria-label="209"></a>These are <span class="co">[</span><span class="ot">Plotly</span><span class="co">](https://plotly.com/python/)</span> charts, not static images —</span>
-<span id="cb31-220"><a href="#cb31-220" aria-label="210"></a>**hover** to read values, **drag** to zoom, **double-click** to reset, and use</span>
-<span id="cb31-221"><a href="#cb31-221" aria-label="211"></a>the toolbar (top-right) to pan or download a PNG.</span>
-<span id="cb31-222"><a href="#cb31-222" aria-label="212"></a>:::</span>
-<span id="cb31-223"><a href="#cb31-223" aria-label="213"></a></span>
-<span id="cb31-224"><a href="#cb31-224" aria-label="214"></a><span class="fu">### Theory of linear regression</span></span>
-<span id="cb31-225"><a href="#cb31-225" aria-label="215"></a></span>
-<span id="cb31-226"><a href="#cb31-226" aria-label="216"></a>The goal of learning regression is to find a line that is closest to all the points. </span>
-<span id="cb31-227"><a href="#cb31-227" aria-label="217"></a></span>
-<span id="cb31-228"><a href="#cb31-228" aria-label="218"></a>The slope and intercept of such a line $y = m x + b$ can be found as: </span>
-<span id="cb31-229"><a href="#cb31-229" aria-label="219"></a></span>
-<span id="cb31-230"><a href="#cb31-230" aria-label="220"></a>$$m = { n (\Sigma xy) - (\Sigma x) (\Sigma y) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
-<span id="cb31-231"><a href="#cb31-231" aria-label="221"></a></span>
-<span id="cb31-232"><a href="#cb31-232" aria-label="222"></a>$$b = { (\Sigma y) (\Sigma x^2) - (\Sigma x) (\Sigma xy) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
-<span id="cb31-233"><a href="#cb31-233" aria-label="223"></a></span>
-<span id="cb31-234"><a href="#cb31-234" aria-label="224"></a>Details derivation of this can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://en.wikipedia.org/wiki/Simple_linear_regression)</span>.</span>
-<span id="cb31-235"><a href="#cb31-235" aria-label="225"></a></span>
-<span id="cb31-236"><a href="#cb31-236" aria-label="226"></a>We'll break this calculation into a few steps to help make it easier.</span>
-<span id="cb31-237"><a href="#cb31-237" aria-label="227"></a></span>
-<span id="cb31-238"><a href="#cb31-238" aria-label="228"></a>First lets define $x$ and $y$. $x$ will be our _above ground square footage_</span>
-<span id="cb31-239"><a href="#cb31-239" aria-label="229"></a>and $y$ will be _sale price_.</span>
-<span id="cb31-240"><a href="#cb31-240" aria-label="230"></a>In our equations we have a few different values</span>
-<span id="cb31-241"><a href="#cb31-241" aria-label="231"></a>we need, such as $n$ which is just the number of points we have:</span>
-<span id="cb31-242"><a href="#cb31-242" aria-label="232"></a></span>
-<span id="cb31-245"><a href="#cb31-245" aria-label="233"></a><span class="in">```{python}</span></span>
-<span id="cb31-246"><a href="#cb31-246" aria-label="234"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
-<span id="cb31-247"><a href="#cb31-247" aria-label="235"></a><span class="in">```</span></span>
-<span id="cb31-248"><a href="#cb31-248" aria-label="236"></a></span>
-<span id="cb31-249"><a href="#cb31-249" aria-label="237"></a>Then we need our $x$ and $y$ by selecting only the column we care about for</span>
-<span id="cb31-250"><a href="#cb31-250" aria-label="238"></a>each one.</span>
-<span id="cb31-251"><a href="#cb31-251" aria-label="239"></a>Note about data formats: <span class="in">`data`</span> is a Pandas</span>
-<span id="cb31-252"><a href="#cb31-252" aria-label="240"></a><span class="co">[</span><span class="ot">DataFrame</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame)</span></span>
-<span id="cb31-253"><a href="#cb31-253" aria-label="241"></a>object which has rows and columns; <span class="in">`data['GrLivArea']`</span> is a Pandas</span>
-<span id="cb31-254"><a href="#cb31-254" aria-label="242"></a><span class="co">[</span><span class="ot">Series</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.Series.html)</span></span>
-<span id="cb31-255"><a href="#cb31-255" aria-label="243"></a>object which only has rows; then we also convert from _Pandas_ data formats (in</span>
-<span id="cb31-256"><a href="#cb31-256" aria-label="244"></a>this case a _Series_) to _Numpy_ data formats using the <span class="in">`to_numpy()`</span> function</span>
-<span id="cb31-257"><a href="#cb31-257" aria-label="245"></a>which is part of the Pandas _Series_ object.</span>
-<span id="cb31-258"><a href="#cb31-258" aria-label="246"></a></span>
-<span id="cb31-261"><a href="#cb31-261" aria-label="247"></a><span class="in">```{python}</span></span>
-<span id="cb31-262"><a href="#cb31-262" aria-label="248"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-263"><a href="#cb31-263" aria-label="249"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-264"><a href="#cb31-264" aria-label="250"></a><span class="in">```</span></span>
-<span id="cb31-265"><a href="#cb31-265" aria-label="251"></a></span>
-<span id="cb31-266"><a href="#cb31-266" aria-label="252"></a>Now we will calculate $\Sigma xy$, $\Sigma x$, $\Sigma y$, and $\Sigma x^2$:</span>
-<span id="cb31-267"><a href="#cb31-267" aria-label="253"></a></span>
-<span id="cb31-270"><a href="#cb31-270" aria-label="254"></a><span class="in">```{python}</span></span>
-<span id="cb31-271"><a href="#cb31-271" aria-label="255"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
-<span id="cb31-272"><a href="#cb31-272" aria-label="256"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
-<span id="cb31-273"><a href="#cb31-273" aria-label="257"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
-<span id="cb31-274"><a href="#cb31-274" aria-label="258"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span>
-<span id="cb31-275"><a href="#cb31-275" aria-label="259"></a><span class="in">```</span></span>
-<span id="cb31-276"><a href="#cb31-276" aria-label="260"></a></span>
-<span id="cb31-277"><a href="#cb31-277" aria-label="261"></a>The denominator in the equation for $m$ and $b$ are the same so we can</span>
-<span id="cb31-278"><a href="#cb31-278" aria-label="262"></a>calculate that once:</span>
-<span id="cb31-279"><a href="#cb31-279" aria-label="263"></a></span>
-<span id="cb31-282"><a href="#cb31-282" aria-label="264"></a><span class="in">```{python}</span></span>
-<span id="cb31-283"><a href="#cb31-283" aria-label="265"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span>
-<span id="cb31-284"><a href="#cb31-284" aria-label="266"></a><span class="in">```</span></span>
-<span id="cb31-285"><a href="#cb31-285" aria-label="267"></a></span>
-<span id="cb31-286"><a href="#cb31-286" aria-label="268"></a>Then we can calculate our fit values:</span>
-<span id="cb31-287"><a href="#cb31-287" aria-label="269"></a></span>
-<span id="cb31-290"><a href="#cb31-290" aria-label="270"></a><span class="in">```{python}</span></span>
-<span id="cb31-291"><a href="#cb31-291" aria-label="271"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
-<span id="cb31-292"><a href="#cb31-292" aria-label="272"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
-<span id="cb31-293"><a href="#cb31-293" aria-label="273"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
-<span id="cb31-294"><a href="#cb31-294" aria-label="274"></a></span>
-<span id="cb31-295"><a href="#cb31-295" aria-label="275"></a><span class="co"># saving these for later comparison</span></span>
-<span id="cb31-296"><a href="#cb31-296" aria-label="276"></a>m_calc <span class="op">=</span> m</span>
-<span id="cb31-297"><a href="#cb31-297" aria-label="277"></a>b_calc <span class="op">=</span> b</span>
-<span id="cb31-298"><a href="#cb31-298" aria-label="278"></a><span class="in">```</span></span>
-<span id="cb31-299"><a href="#cb31-299" aria-label="279"></a></span>
-<span id="cb31-300"><a href="#cb31-300" aria-label="280"></a>Now we can plot the fit results with our data to see how we did.</span>
-<span id="cb31-301"><a href="#cb31-301" aria-label="281"></a></span>
-<span id="cb31-302"><a href="#cb31-302" aria-label="282"></a>First we define a plotting function because we're going to do this often and we</span>
-<span id="cb31-303"><a href="#cb31-303" aria-label="283"></a>want to reuse our code:</span>
-<span id="cb31-304"><a href="#cb31-304" aria-label="284"></a></span>
-<span id="cb31-307"><a href="#cb31-307" aria-label="285"></a><span class="in">```{python}</span></span>
-<span id="cb31-308"><a href="#cb31-308" aria-label="286"></a><span class="kw">def</span> plot_data(x, y, m, b, fig<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb31-309"><a href="#cb31-309" aria-label="287"></a>    <span class="co">"""Scatter the data points and overlay the fitted line y = m*x + b (interactive)."""</span></span>
-<span id="cb31-310"><a href="#cb31-310" aria-label="288"></a>    <span class="cf">if</span> fig <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb31-311"><a href="#cb31-311" aria-label="289"></a>        fig <span class="op">=</span> go.Figure()</span>
-<span id="cb31-312"><a href="#cb31-312" aria-label="290"></a>    <span class="co"># our data points</span></span>
-<span id="cb31-313"><a href="#cb31-313" aria-label="291"></a>    fig.add_scatter(</span>
-<span id="cb31-314"><a href="#cb31-314" aria-label="292"></a>        x<span class="op">=</span>x, y<span class="op">=</span>y, mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"data"</span>,</span>
-<span id="cb31-315"><a href="#cb31-315" aria-label="293"></a>        marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>),</span>
-<span id="cb31-316"><a href="#cb31-316" aria-label="294"></a>        hovertemplate<span class="op">=</span><span class="st">"%</span><span class="sc">{x:,.0f}</span><span class="st"> sq ft&lt;br&gt;$%</span><span class="sc">{y:,.0f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>,</span>
-<span id="cb31-317"><a href="#cb31-317" aria-label="295"></a>    )</span>
-<span id="cb31-318"><a href="#cb31-318" aria-label="296"></a>    <span class="co"># the fitted line, evaluated across the x-range</span></span>
-<span id="cb31-319"><a href="#cb31-319" aria-label="297"></a>    linear_x <span class="op">=</span> np.arange(x.<span class="bu">min</span>(), x.<span class="bu">max</span>())</span>
-<span id="cb31-320"><a href="#cb31-320" aria-label="298"></a>    linear_y <span class="op">=</span> linear_x <span class="op">*</span> m <span class="op">+</span> b</span>
-<span id="cb31-321"><a href="#cb31-321" aria-label="299"></a>    fig.add_scatter(</span>
-<span id="cb31-322"><a href="#cb31-322" aria-label="300"></a>        x<span class="op">=</span>linear_x, y<span class="op">=</span>linear_y, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"fit"</span>,</span>
-<span id="cb31-323"><a href="#cb31-323" aria-label="301"></a>        line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="dv">3</span>),</span>
-<span id="cb31-324"><a href="#cb31-324" aria-label="302"></a>    )</span>
-<span id="cb31-325"><a href="#cb31-325" aria-label="303"></a>    fig.update_layout(</span>
-<span id="cb31-326"><a href="#cb31-326" aria-label="304"></a>        xaxis_title<span class="op">=</span><span class="st">"square footage"</span>, yaxis_title<span class="op">=</span><span class="st">"sale price"</span>, height<span class="op">=</span><span class="dv">420</span>,</span>
-<span id="cb31-327"><a href="#cb31-327" aria-label="305"></a>    )</span>
-<span id="cb31-328"><a href="#cb31-328" aria-label="306"></a>    <span class="cf">return</span> fig</span>
-<span id="cb31-329"><a href="#cb31-329" aria-label="307"></a><span class="in">```</span></span>
-<span id="cb31-330"><a href="#cb31-330" aria-label="308"></a></span>
-<span id="cb31-331"><a href="#cb31-331" aria-label="309"></a>Now we can use this function to plot our results:</span>
-<span id="cb31-332"><a href="#cb31-332" aria-label="310"></a></span>
-<span id="cb31-335"><a href="#cb31-335" aria-label="311"></a><span class="in">```{python}</span></span>
-<span id="cb31-336"><a href="#cb31-336" aria-label="312"></a>plot_data(x, y, m, b).show()</span>
-<span id="cb31-337"><a href="#cb31-337" aria-label="313"></a><span class="in">```</span></span>
-<span id="cb31-338"><a href="#cb31-338" aria-label="314"></a></span>
-<span id="cb31-339"><a href="#cb31-339" aria-label="315"></a><span class="fu">### Training through Stochastic Gradient Descent (SGD)</span></span>
-<span id="cb31-340"><a href="#cb31-340" aria-label="316"></a></span>
-<span id="cb31-341"><a href="#cb31-341" aria-label="317"></a>SGD is a common method in AI for training deep neural networks on large</span>
-<span id="cb31-342"><a href="#cb31-342" aria-label="318"></a>datasets.</span>
-<span id="cb31-343"><a href="#cb31-343" aria-label="319"></a>It is an iterative method for optimizing a loss function that we get</span>
-<span id="cb31-344"><a href="#cb31-344" aria-label="320"></a>to define.</span>
-<span id="cb31-345"><a href="#cb31-345" aria-label="321"></a>The "stochastic" part is what sets it apart from plain gradient descent: **each</span>
-<span id="cb31-346"><a href="#cb31-346" aria-label="322"></a>step uses a random mini-batch of the data instead of the full dataset**, which is</span>
-<span id="cb31-347"><a href="#cb31-347" aria-label="323"></a>what makes it practical when the dataset is far too large to process all at once.</span>
-<span id="cb31-348"><a href="#cb31-348" aria-label="324"></a>We will use this simple linear regression to demonstrate how it</span>
-<span id="cb31-349"><a href="#cb31-349" aria-label="325"></a>works.</span>
-<span id="cb31-350"><a href="#cb31-350" aria-label="326"></a></span>
-<span id="cb31-351"><a href="#cb31-351" aria-label="327"></a><span class="fu">#### The model</span></span>
-<span id="cb31-352"><a href="#cb31-352" aria-label="328"></a></span>
-<span id="cb31-353"><a href="#cb31-353" aria-label="329"></a>In AI, neural networks are often referred to as a _model_ because, once fully</span>
-<span id="cb31-354"><a href="#cb31-354" aria-label="330"></a>trained, they should model (AKA predict) the behavior of our system.</span>
-<span id="cb31-355"><a href="#cb31-355" aria-label="331"></a>In our example, the system is how house prices vary based on house size.</span>
-<span id="cb31-356"><a href="#cb31-356" aria-label="332"></a>We know our system is roughly driven by a linear function:</span>
-<span id="cb31-357"><a href="#cb31-357" aria-label="333"></a></span>
-<span id="cb31-358"><a href="#cb31-358" aria-label="334"></a>$$\hat{y_i}(x_i) = m * x_i + b $$</span>
-<span id="cb31-359"><a href="#cb31-359" aria-label="335"></a></span>
-<span id="cb31-360"><a href="#cb31-360" aria-label="336"></a>We just need to figure out $m$ and $b$. Let's create a function that calculates</span>
-<span id="cb31-361"><a href="#cb31-361" aria-label="337"></a>our model given $x$, $m$, and $b$.</span>
-<span id="cb31-362"><a href="#cb31-362" aria-label="338"></a></span>
-<span id="cb31-365"><a href="#cb31-365" aria-label="339"></a><span class="in">```{python}</span></span>
-<span id="cb31-366"><a href="#cb31-366" aria-label="340"></a><span class="kw">def</span> model(x,m,b):</span>
-<span id="cb31-367"><a href="#cb31-367" aria-label="341"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span>
-<span id="cb31-368"><a href="#cb31-368" aria-label="342"></a><span class="in">```</span></span>
-<span id="cb31-369"><a href="#cb31-369" aria-label="343"></a></span>
-<span id="cb31-370"><a href="#cb31-370" aria-label="344"></a><span class="fu">#### The Loss Function</span></span>
-<span id="cb31-371"><a href="#cb31-371" aria-label="345"></a></span>
-<span id="cb31-372"><a href="#cb31-372" aria-label="346"></a>A _loss function_, or _objective function_, is something we define and is based</span>
-<span id="cb31-373"><a href="#cb31-373" aria-label="347"></a>on what we want to achieve.</span>
-<span id="cb31-374"><a href="#cb31-374" aria-label="348"></a>In the method of SGD, it is our goal to minimize (or make close to zero) the</span>
-<span id="cb31-375"><a href="#cb31-375" aria-label="349"></a>values calculated from the _loss function_.</span>
-<span id="cb31-376"><a href="#cb31-376" aria-label="350"></a>In our example, we ideally want the prediction of our _model_ to be equal to</span>
-<span id="cb31-377"><a href="#cb31-377" aria-label="351"></a>the actual data, though we will settle for "as close as possible".</span>
-<span id="cb31-378"><a href="#cb31-378" aria-label="352"></a></span>
-<span id="cb31-379"><a href="#cb31-379" aria-label="353"></a>So we will select our _loss function_ to be the <span class="co">[</span><span class="ot">Mean Squared Error</span><span class="co">](https://en.wikipedia.org/wiki/Mean_squared_error)</span> function:</span>
-<span id="cb31-380"><a href="#cb31-380" aria-label="354"></a></span>
-<span id="cb31-381"><a href="#cb31-381" aria-label="355"></a>$$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$</span>
-<span id="cb31-382"><a href="#cb31-382" aria-label="356"></a></span>
-<span id="cb31-383"><a href="#cb31-383" aria-label="357"></a>where $y_i$ is our $i^{th}$ entry in the <span class="in">`data['SalePrice']`</span> vector and</span>
-<span id="cb31-384"><a href="#cb31-384" aria-label="358"></a>$\hat{y_i}$ is the prediction based on evaluating $m * x_i + b$.</span>
-<span id="cb31-385"><a href="#cb31-385" aria-label="359"></a></span>
-<span id="cb31-386"><a href="#cb31-386" aria-label="360"></a>This function looks like the figure below when we plot it with </span>
-<span id="cb31-387"><a href="#cb31-387" aria-label="361"></a>$x=y_i - \hat{y_i}(x_i)$</span>
-<span id="cb31-388"><a href="#cb31-388" aria-label="362"></a>and we we want to be down near </span>
-<span id="cb31-389"><a href="#cb31-389" aria-label="363"></a>$y_i - \hat{y_i}(x_i) = 0$</span>
-<span id="cb31-390"><a href="#cb31-390" aria-label="364"></a>which indicates that our $y_i$ is as close as possible to $\hat{y_i}$.</span>
-<span id="cb31-391"><a href="#cb31-391" aria-label="365"></a></span>
-<span id="cb31-394"><a href="#cb31-394" aria-label="366"></a><span class="in">```{python}</span></span>
-<span id="cb31-395"><a href="#cb31-395" aria-label="367"></a><span class="co">#| label: fig-loss-func</span></span>
-<span id="cb31-396"><a href="#cb31-396" aria-label="368"></a><span class="co">#| fig-cap: "Loss function for linear regression: the squared error is a parabola in the residual, minimized where the prediction matches the data (∂L/∂m = 0)."</span></span>
-<span id="cb31-397"><a href="#cb31-397" aria-label="369"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb31-398"><a href="#cb31-398" aria-label="370"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb31-399"><a href="#cb31-399" aria-label="371"></a>resid <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.3</span>, <span class="fl">1.3</span>, <span class="dv">400</span>)   <span class="co"># x = y_i - ŷ_i(x_i)</span></span>
-<span id="cb31-400"><a href="#cb31-400" aria-label="372"></a>L <span class="op">=</span> resid<span class="op">**</span><span class="dv">2</span>                          <span class="co"># L = (y_i - ŷ_i)^2</span></span>
-<span id="cb31-401"><a href="#cb31-401" aria-label="373"></a></span>
-<span id="cb31-402"><a href="#cb31-402" aria-label="374"></a>fig <span class="op">=</span> go.Figure()</span>
-<span id="cb31-403"><a href="#cb31-403" aria-label="375"></a>fig.add_scatter(x<span class="op">=</span>resid, y<span class="op">=</span>L, mode<span class="op">=</span><span class="st">"lines"</span>,</span>
-<span id="cb31-404"><a href="#cb31-404" aria-label="376"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="fl">2.5</span>), showlegend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb31-405"><a href="#cb31-405" aria-label="377"></a>                hovertemplate<span class="op">=</span><span class="st">"residual=%</span><span class="sc">{x:.2f}</span><span class="st">&lt;br&gt;loss=%</span><span class="sc">{y:.3f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>)</span>
-<span id="cb31-406"><a href="#cb31-406" aria-label="378"></a><span class="co"># mark + annotate the minimum, where the gradient vanishes</span></span>
-<span id="cb31-407"><a href="#cb31-407" aria-label="379"></a>fig.add_scatter(x<span class="op">=</span>[<span class="dv">0</span>], y<span class="op">=</span>[<span class="dv">0</span>], mode<span class="op">=</span><span class="st">"markers"</span>,</span>
-<span id="cb31-408"><a href="#cb31-408" aria-label="380"></a>                marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), showlegend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb31-409"><a href="#cb31-409" aria-label="381"></a>                hovertemplate<span class="op">=</span><span class="st">"minimum: ∂L/∂m = 0&lt;extra&gt;&lt;/extra&gt;"</span>)</span>
-<span id="cb31-410"><a href="#cb31-410" aria-label="382"></a>fig.add_annotation(x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=</span><span class="dv">0</span>, ax<span class="op">=</span><span class="dv">70</span>, ay<span class="op">=</span><span class="dv">70</span>, xref<span class="op">=</span><span class="st">"x"</span>, yref<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb31-411"><a href="#cb31-411" aria-label="383"></a>                   axref<span class="op">=</span><span class="st">"pixel"</span>, ayref<span class="op">=</span><span class="st">"pixel"</span>, showarrow<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb31-412"><a href="#cb31-412" aria-label="384"></a>                   arrowhead<span class="op">=</span><span class="dv">2</span>, arrowsize<span class="op">=</span><span class="fl">1.2</span>, arrowwidth<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb31-413"><a href="#cb31-413" aria-label="385"></a>                   arrowcolor<span class="op">=</span>COLORS[<span class="st">"red"</span>],</span>
-<span id="cb31-414"><a href="#cb31-414" aria-label="386"></a>                   text<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="ch">\f</span><span class="vs">rac{</span><span class="er">\</span><span class="vs">partial L}{</span><span class="er">\</span><span class="vs">partial m} = 0</span><span class="dv">$</span><span class="vs">"</span>,</span>
-<span id="cb31-415"><a href="#cb31-415" aria-label="387"></a>                   font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">16</span>), bgcolor<span class="op">=</span><span class="st">"rgba(131,131,131,0.12)"</span>,</span>
-<span id="cb31-416"><a href="#cb31-416" aria-label="388"></a>                   borderpad<span class="op">=</span><span class="dv">6</span>)</span>
-<span id="cb31-417"><a href="#cb31-417" aria-label="389"></a>fig.update_layout(title<span class="op">=</span><span class="st">"Example Loss Function"</span>, height<span class="op">=</span><span class="dv">440</span>,</span>
-<span id="cb31-418"><a href="#cb31-418" aria-label="390"></a>                  margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>, b<span class="op">=</span><span class="dv">40</span>))</span>
-<span id="cb31-419"><a href="#cb31-419" aria-label="391"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="vs">y_i - </span><span class="er">\</span><span class="vs">hat{y}_i</span><span class="kw">(</span><span class="vs">x_i</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>, zeroline<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb31-420"><a href="#cb31-420" aria-label="392"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"loss  $L$"</span>, zeroline<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb31-421"><a href="#cb31-421" aria-label="393"></a>fig.show()</span>
-<span id="cb31-422"><a href="#cb31-422" aria-label="394"></a><span class="in">```</span></span>
-<span id="cb31-423"><a href="#cb31-423" aria-label="395"></a></span>
-<span id="cb31-424"><a href="#cb31-424" aria-label="396"></a>Here we crate a function that calculates this for us.</span>
-<span id="cb31-425"><a href="#cb31-425" aria-label="397"></a></span>
-<span id="cb31-428"><a href="#cb31-428" aria-label="398"></a><span class="in">```{python}</span></span>
-<span id="cb31-429"><a href="#cb31-429" aria-label="399"></a><span class="kw">def</span> loss(x,y,m,b):</span>
-<span id="cb31-430"><a href="#cb31-430" aria-label="400"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
-<span id="cb31-431"><a href="#cb31-431" aria-label="401"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span>
-<span id="cb31-432"><a href="#cb31-432" aria-label="402"></a><span class="in">```</span></span>
-<span id="cb31-433"><a href="#cb31-433" aria-label="403"></a></span>
-<span id="cb31-434"><a href="#cb31-434" aria-label="404"></a><span class="fu">#### Minimizing the Loss Function</span></span>
-<span id="cb31-435"><a href="#cb31-435" aria-label="405"></a></span>
-<span id="cb31-436"><a href="#cb31-436" aria-label="406"></a>We want to use the loss function in order to guide how to update $m$ and $b$ to</span>
-<span id="cb31-437"><a href="#cb31-437" aria-label="407"></a>better model our system.</span>
-<span id="cb31-438"><a href="#cb31-438" aria-label="408"></a>In calculus we learn to minimize a function with</span>
-<span id="cb31-439"><a href="#cb31-439" aria-label="409"></a>respect to a variable you calculate the _partial derivative_ with respect to</span>
-<span id="cb31-440"><a href="#cb31-440" aria-label="410"></a>the variable you want to vary.</span>
-<span id="cb31-441"><a href="#cb31-441" aria-label="411"></a></span>
-<span id="cb31-442"><a href="#cb31-442" aria-label="412"></a>$$ { \partial L \over \partial m } = 0 $$</span>
-<span id="cb31-443"><a href="#cb31-443" aria-label="413"></a></span>
-<span id="cb31-444"><a href="#cb31-444" aria-label="414"></a>The location of the solution to this is the minimum as shown in the figure</span>
-<span id="cb31-445"><a href="#cb31-445" aria-label="415"></a>above.</span>
-<span id="cb31-446"><a href="#cb31-446" aria-label="416"></a>We can write down the partial derivative of the loss function as:</span>
-<span id="cb31-447"><a href="#cb31-447" aria-label="417"></a></span>
-<span id="cb31-448"><a href="#cb31-448" aria-label="418"></a>$$ { \partial L \over \partial m } = -2 x_i (y_i - \hat{y_i}(x_i)) $$</span>
-<span id="cb31-449"><a href="#cb31-449" aria-label="419"></a>$$ { \partial L \over \partial b } = -2 (y_i - \hat{y_i}(x_i)) $$</span>
-<span id="cb31-450"><a href="#cb31-450" aria-label="420"></a></span>
-<span id="cb31-451"><a href="#cb31-451" aria-label="421"></a>We can use this to calculate an adjustment to $m$ and $b$ that will reduce the</span>
-<span id="cb31-452"><a href="#cb31-452" aria-label="422"></a>loss function, effectively improving our fitting parameters.</span>
-<span id="cb31-453"><a href="#cb31-453" aria-label="423"></a>This is done using this equation:</span>
-<span id="cb31-454"><a href="#cb31-454" aria-label="424"></a></span>
-<span id="cb31-455"><a href="#cb31-455" aria-label="425"></a>$$ m' = m - \eta { \partial L \over \partial m }$$</span>
-<span id="cb31-456"><a href="#cb31-456" aria-label="426"></a>$$ b' = b - \eta { \partial L \over \partial b }$$</span>
-<span id="cb31-457"><a href="#cb31-457" aria-label="427"></a></span>
-<span id="cb31-458"><a href="#cb31-458" aria-label="428"></a>Here our original $m$ and $b$ are adjusted by the partial derivative multiplied</span>
-<span id="cb31-459"><a href="#cb31-459" aria-label="429"></a>by some small factor, $\eta$, called the _learning rate_. This learning rate is</span>
-<span id="cb31-460"><a href="#cb31-460" aria-label="430"></a>very important in our process and must be tuned for every problem.</span>
-<span id="cb31-461"><a href="#cb31-461" aria-label="431"></a></span>
-<span id="cb31-462"><a href="#cb31-462" aria-label="432"></a>In our example, the selection of the learning rate essentially defines how</span>
-<span id="cb31-463"><a href="#cb31-463" aria-label="433"></a>close we can get to the minimum, AKA the best fit solution.</span>
-<span id="cb31-464"><a href="#cb31-464" aria-label="434"></a>We first select a starting point in our loss function (typically randomly), then</span>
-<span id="cb31-465"><a href="#cb31-465" aria-label="435"></a>every update from $m$/$b$ to $m'$/$b'$ shifts us to somewhere else on the loss</span>
-<span id="cb31-466"><a href="#cb31-466" aria-label="436"></a>curve. If the learning rate ($\eta$) is too large, each step overshoots and we</span>
-<span id="cb31-467"><a href="#cb31-467" aria-label="437"></a>bounce back and forth around the minimum, never reaching it; if it's too small,</span>
-<span id="cb31-468"><a href="#cb31-468" aria-label="438"></a>we crawl toward it agonizingly slowly. The interactive demos just below let you</span>
-<span id="cb31-469"><a href="#cb31-469" aria-label="439"></a>**see this trade-off in action** — watch the descent path change as we vary</span>
-<span id="cb31-470"><a href="#cb31-470" aria-label="440"></a>$\eta$.</span>
-<span id="cb31-471"><a href="#cb31-471" aria-label="441"></a></span>
-<span id="cb31-472"><a href="#cb31-472" aria-label="442"></a>Rather than describe this in the abstract, let's **actually run gradient descent** on a</span>
-<span id="cb31-473"><a href="#cb31-473" aria-label="443"></a>loss curve and plot the path it takes. This helper does one thing: start at a</span>
-<span id="cb31-474"><a href="#cb31-474" aria-label="444"></a>point, repeatedly step *downhill* by <span class="in">`-lr · gradient`</span>, and record every step.</span>
-<span id="cb31-475"><a href="#cb31-475" aria-label="445"></a></span>
-<span id="cb31-478"><a href="#cb31-478" aria-label="446"></a><span class="in">```{python}</span></span>
-<span id="cb31-479"><a href="#cb31-479" aria-label="447"></a><span class="kw">def</span> gradient_descent(grad, x0, lr, steps<span class="op">=</span><span class="dv">12</span>, lr_decay<span class="op">=</span><span class="fl">1.0</span>):</span>
-<span id="cb31-480"><a href="#cb31-480" aria-label="448"></a>    <span class="co">"""Run GD on a 1-D loss; return the visited x positions.</span></span>
-<span id="cb31-481"><a href="#cb31-481" aria-label="449"></a><span class="co">    lr_decay&lt;1 shrinks the step each iteration (a simple LR schedule)."""</span></span>
-<span id="cb31-482"><a href="#cb31-482" aria-label="450"></a>    xs, x, eta <span class="op">=</span> [x0], x0, lr</span>
-<span id="cb31-483"><a href="#cb31-483" aria-label="451"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(steps):</span>
-<span id="cb31-484"><a href="#cb31-484" aria-label="452"></a>        x <span class="op">=</span> x <span class="op">-</span> eta <span class="op">*</span> grad(x)</span>
-<span id="cb31-485"><a href="#cb31-485" aria-label="453"></a>        eta <span class="op">*=</span> lr_decay</span>
-<span id="cb31-486"><a href="#cb31-486" aria-label="454"></a>        xs.append(x)</span>
-<span id="cb31-487"><a href="#cb31-487" aria-label="455"></a>    <span class="cf">return</span> np.array(xs)</span>
-<span id="cb31-488"><a href="#cb31-488" aria-label="456"></a></span>
-<span id="cb31-489"><a href="#cb31-489" aria-label="457"></a><span class="kw">def</span> descent_figure(f, grad, x0, lr, xr, steps<span class="op">=</span><span class="dv">12</span>, lr_decay<span class="op">=</span><span class="fl">1.0</span>, title<span class="op">=</span><span class="st">""</span>):</span>
-<span id="cb31-490"><a href="#cb31-490" aria-label="458"></a>    <span class="co">"""Plot the loss curve f over range xr and overlay the GD trajectory."""</span></span>
-<span id="cb31-491"><a href="#cb31-491" aria-label="459"></a>    xg <span class="op">=</span> np.linspace(<span class="op">*</span>xr, <span class="dv">400</span>)</span>
-<span id="cb31-492"><a href="#cb31-492" aria-label="460"></a>    path <span class="op">=</span> gradient_descent(grad, x0, lr, steps, lr_decay)</span>
-<span id="cb31-493"><a href="#cb31-493" aria-label="461"></a>    fig <span class="op">=</span> go.Figure()</span>
-<span id="cb31-494"><a href="#cb31-494" aria-label="462"></a>    fig.add_scatter(x<span class="op">=</span>xg, y<span class="op">=</span>f(xg), mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"loss"</span>,</span>
-<span id="cb31-495"><a href="#cb31-495" aria-label="463"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], width<span class="op">=</span><span class="dv">2</span>), hoverinfo<span class="op">=</span><span class="st">"skip"</span>)</span>
-<span id="cb31-496"><a href="#cb31-496" aria-label="464"></a>    fig.add_scatter(x<span class="op">=</span>path, y<span class="op">=</span>f(path), mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"GD path"</span>,</span>
-<span id="cb31-497"><a href="#cb31-497" aria-label="465"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="fl">1.5</span>),</span>
-<span id="cb31-498"><a href="#cb31-498" aria-label="466"></a>                    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>],</span>
-<span id="cb31-499"><a href="#cb31-499" aria-label="467"></a>                                line<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"#fff"</span>)))</span>
-<span id="cb31-500"><a href="#cb31-500" aria-label="468"></a>    fig.add_scatter(x<span class="op">=</span>[path[<span class="dv">0</span>]], y<span class="op">=</span>[f(path[<span class="dv">0</span>])], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"start"</span>,</span>
-<span id="cb31-501"><a href="#cb31-501" aria-label="469"></a>                    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span>COLORS[<span class="st">"green"</span>], symbol<span class="op">=</span><span class="st">"star"</span>))</span>
-<span id="cb31-502"><a href="#cb31-502" aria-label="470"></a>    fig.update_layout(title<span class="op">=</span>title, xaxis_title<span class="op">=</span><span class="st">"parameter"</span>, yaxis_title<span class="op">=</span><span class="st">"loss"</span>,</span>
-<span id="cb31-503"><a href="#cb31-503" aria-label="471"></a>                      height<span class="op">=</span><span class="dv">340</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">40</span>), showlegend<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb31-504"><a href="#cb31-504" aria-label="472"></a>    <span class="cf">return</span> fig</span>
-<span id="cb31-505"><a href="#cb31-505" aria-label="473"></a><span class="in">```</span></span>
-<span id="cb31-506"><a href="#cb31-506" aria-label="474"></a></span>
-<span id="cb31-507"><a href="#cb31-507" aria-label="475"></a>**On a simple bowl-shaped loss** (one minimum), the learning rate controls how we</span>
-<span id="cb31-508"><a href="#cb31-508" aria-label="476"></a>approach the bottom. Too large and we **overshoot and bounce** across the minimum;</span>
-<span id="cb31-509"><a href="#cb31-509" aria-label="477"></a>just right and we **descend smoothly**:</span>
-<span id="cb31-510"><a href="#cb31-510" aria-label="478"></a></span>
-<span id="cb31-513"><a href="#cb31-513" aria-label="479"></a><span class="in">```{python}</span></span>
-<span id="cb31-514"><a href="#cb31-514" aria-label="480"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span>                <span class="co"># parabola loss</span></span>
-<span id="cb31-515"><a href="#cb31-515" aria-label="481"></a>g <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span><span class="op">*</span>x                 <span class="co"># its gradient</span></span>
-<span id="cb31-516"><a href="#cb31-516" aria-label="482"></a>descent_figure(f, g, x0<span class="op">=-</span><span class="dv">9</span>, lr<span class="op">=</span><span class="fl">0.9</span>,  xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Large LR — overshoots and bounces"</span>).show()</span>
-<span id="cb31-517"><a href="#cb31-517" aria-label="483"></a>descent_figure(f, g, x0<span class="op">=-</span><span class="dv">9</span>, lr<span class="op">=</span><span class="fl">0.1</span>,  xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Small LR — steady descent"</span>).show()</span>
-<span id="cb31-518"><a href="#cb31-518" aria-label="484"></a><span class="in">```</span></span>
-<span id="cb31-519"><a href="#cb31-519" aria-label="485"></a></span>
-<span id="cb31-520"><a href="#cb31-520" aria-label="486"></a>Too *small*, though, and you crawl so slowly you may never arrive in a reasonable</span>
-<span id="cb31-521"><a href="#cb31-521" aria-label="487"></a>number of steps. So the LR is a genuine trade-off.</span>
-<span id="cb31-522"><a href="#cb31-522" aria-label="488"></a></span>
-<span id="cb31-523"><a href="#cb31-523" aria-label="489"></a>**On a bumpy loss with several minima**, a new hazard appears: gradient descent</span>
-<span id="cb31-524"><a href="#cb31-524" aria-label="490"></a>only ever goes *downhill from where it is*, so it can get **trapped in a local</span>
-<span id="cb31-525"><a href="#cb31-525" aria-label="491"></a>minimum** that isn't the best one. A small LR settles into whatever valley it</span>
-<span id="cb31-526"><a href="#cb31-526" aria-label="492"></a>starts near; too large a LR bounces chaotically:</span>
-<span id="cb31-527"><a href="#cb31-527" aria-label="493"></a></span>
-<span id="cb31-530"><a href="#cb31-530" aria-label="494"></a><span class="in">```{python}</span></span>
-<span id="cb31-531"><a href="#cb31-531" aria-label="495"></a><span class="co"># a wavy loss: parabola + ripples -&gt; several local minima</span></span>
-<span id="cb31-532"><a href="#cb31-532" aria-label="496"></a>fw  <span class="op">=</span> <span class="kw">lambda</span> x: <span class="fl">0.05</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.sin(x)</span>
-<span id="cb31-533"><a href="#cb31-533" aria-label="497"></a>gw  <span class="op">=</span> <span class="kw">lambda</span> x: <span class="fl">0.10</span><span class="op">*</span>x    <span class="op">+</span> np.cos(x)</span>
-<span id="cb31-534"><a href="#cb31-534" aria-label="498"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">0.6</span>, xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Small LR — stuck in a local minimum"</span>).show()</span>
-<span id="cb31-535"><a href="#cb31-535" aria-label="499"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">3.5</span>, xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Large LR — bounces around"</span>).show()</span>
-<span id="cb31-536"><a href="#cb31-536" aria-label="500"></a><span class="in">```</span></span>
-<span id="cb31-537"><a href="#cb31-537" aria-label="501"></a></span>
-<span id="cb31-538"><a href="#cb31-538" aria-label="502"></a>The fix is a **learning-rate schedule**: start large to explore and escape shallow</span>
-<span id="cb31-539"><a href="#cb31-539" aria-label="503"></a>valleys, then shrink the step to settle into a good minimum:</span>
-<span id="cb31-540"><a href="#cb31-540" aria-label="504"></a></span>
-<span id="cb31-543"><a href="#cb31-543" aria-label="505"></a><span class="in">```{python}</span></span>
-<span id="cb31-544"><a href="#cb31-544" aria-label="506"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">2.5</span>, lr_decay<span class="op">=</span><span class="fl">0.8</span>, steps<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="cb31-545"><a href="#cb31-545" aria-label="507"></a>               xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Decaying LR — explores, then settles"</span>).show()</span>
-<span id="cb31-546"><a href="#cb31-546" aria-label="508"></a><span class="in">```</span></span>
-<span id="cb31-547"><a href="#cb31-547" aria-label="509"></a></span>
-<span id="cb31-548"><a href="#cb31-548" aria-label="510"></a>As you can see, this process isn't perfect and could still land in a local</span>
-<span id="cb31-549"><a href="#cb31-549" aria-label="511"></a>minimum, but it is important to be aware of these behaviors as you utilize SGD</span>
-<span id="cb31-550"><a href="#cb31-550" aria-label="512"></a>in machine learning.</span>
-<span id="cb31-551"><a href="#cb31-551" aria-label="513"></a></span>
-<span id="cb31-552"><a href="#cb31-552" aria-label="514"></a>So let's continue, we'll build functions we can use to update our fit</span>
-<span id="cb31-553"><a href="#cb31-553" aria-label="515"></a>parameters, $m$ and $b$.</span>
-<span id="cb31-554"><a href="#cb31-554" aria-label="516"></a></span>
-<span id="cb31-557"><a href="#cb31-557" aria-label="517"></a><span class="in">```{python}</span></span>
-<span id="cb31-558"><a href="#cb31-558" aria-label="518"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
-<span id="cb31-559"><a href="#cb31-559" aria-label="519"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb31-560"><a href="#cb31-560" aria-label="520"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
-<span id="cb31-561"><a href="#cb31-561" aria-label="521"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
-<span id="cb31-562"><a href="#cb31-562" aria-label="522"></a></span>
-<span id="cb31-563"><a href="#cb31-563" aria-label="523"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
-<span id="cb31-564"><a href="#cb31-564" aria-label="524"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb31-565"><a href="#cb31-565" aria-label="525"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
-<span id="cb31-566"><a href="#cb31-566" aria-label="526"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
-<span id="cb31-567"><a href="#cb31-567" aria-label="527"></a><span class="in">```</span></span>
-<span id="cb31-568"><a href="#cb31-568" aria-label="528"></a></span>
-<span id="cb31-569"><a href="#cb31-569" aria-label="529"></a><span class="fu">## Putting it together</span></span>
-<span id="cb31-570"><a href="#cb31-570" aria-label="530"></a></span>
-<span id="cb31-571"><a href="#cb31-571" aria-label="531"></a>We can now randomly select our initial slope and intercept:</span>
-<span id="cb31-572"><a href="#cb31-572" aria-label="532"></a></span>
-<span id="cb31-575"><a href="#cb31-575" aria-label="533"></a><span class="in">```{python}</span></span>
-<span id="cb31-576"><a href="#cb31-576" aria-label="534"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb31-577"><a href="#cb31-577" aria-label="535"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb31-578"><a href="#cb31-578" aria-label="536"></a><span class="bu">print</span>(<span class="ss">f"y_i = </span><span class="sc">{</span>m<span class="sc">:.2f}</span><span class="ss"> * x + </span><span class="sc">{</span>b<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb31-579"><a href="#cb31-579" aria-label="537"></a><span class="co"># print('y_i = %.2f * x + %.2f' % (m,b))</span></span>
-<span id="cb31-580"><a href="#cb31-580" aria-label="538"></a><span class="in">```</span></span>
-<span id="cb31-581"><a href="#cb31-581" aria-label="539"></a></span>
-<span id="cb31-582"><a href="#cb31-582" aria-label="540"></a>Then we can calculate our Loss function:</span>
-<span id="cb31-583"><a href="#cb31-583" aria-label="541"></a></span>
-<span id="cb31-586"><a href="#cb31-586" aria-label="542"></a><span class="in">```{python}</span></span>
-<span id="cb31-587"><a href="#cb31-587" aria-label="543"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
-<span id="cb31-588"><a href="#cb31-588" aria-label="544"></a><span class="bu">print</span>(<span class="ss">f'first 10 loss values: </span><span class="sc">{</span>l[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb31-589"><a href="#cb31-589" aria-label="545"></a><span class="in">```</span></span>
-<span id="cb31-590"><a href="#cb31-590" aria-label="546"></a></span>
-<span id="cb31-593"><a href="#cb31-593" aria-label="547"></a><span class="in">```{python}</span></span>
-<span id="cb31-594"><a href="#cb31-594" aria-label="548"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
-<span id="cb31-595"><a href="#cb31-595" aria-label="549"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
-<span id="cb31-596"><a href="#cb31-596" aria-label="550"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
-<span id="cb31-597"><a href="#cb31-597" aria-label="551"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
-<span id="cb31-598"><a href="#cb31-598" aria-label="552"></a>plot_data(x,y,m,b).show()</span>
-<span id="cb31-599"><a href="#cb31-599" aria-label="553"></a><span class="in">```</span></span>
-<span id="cb31-600"><a href="#cb31-600" aria-label="554"></a></span>
-<span id="cb31-603"><a href="#cb31-603" aria-label="555"></a><span class="in">```{python}</span></span>
-<span id="cb31-604"><a href="#cb31-604" aria-label="556"></a><span class="co"># set our initial slope and intercept</span></span>
-<span id="cb31-605"><a href="#cb31-605" aria-label="557"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb31-606"><a href="#cb31-606" aria-label="558"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb31-607"><a href="#cb31-607" aria-label="559"></a><span class="co"># each SGD step trains on a random mini-batch of this many points, not the whole dataset</span></span>
-<span id="cb31-608"><a href="#cb31-608" aria-label="560"></a>batch_size <span class="op">=</span> <span class="dv">60</span></span>
-<span id="cb31-609"><a href="#cb31-609" aria-label="561"></a><span class="co"># set a learning rate for each parameter</span></span>
-<span id="cb31-610"><a href="#cb31-610" aria-label="562"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb31-611"><a href="#cb31-611" aria-label="563"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
-<span id="cb31-612"><a href="#cb31-612" aria-label="564"></a><span class="co"># use these to plot our progress over time</span></span>
-<span id="cb31-613"><a href="#cb31-613" aria-label="565"></a>loss_history <span class="op">=</span> []</span>
-<span id="cb31-614"><a href="#cb31-614" aria-label="566"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
-<span id="cb31-615"><a href="#cb31-615" aria-label="567"></a><span class="co"># (we keep the full arrays around only for plotting the final fit against all the data)</span></span>
-<span id="cb31-616"><a href="#cb31-616" aria-label="568"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-617"><a href="#cb31-617" aria-label="569"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-618"><a href="#cb31-618" aria-label="570"></a><span class="co"># we run our loop N times, recording (m, b, loss) at each step</span></span>
-<span id="cb31-619"><a href="#cb31-619" aria-label="571"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb31-620"><a href="#cb31-620" aria-label="572"></a>m_history, b_history <span class="op">=</span> [], []</span>
-<span id="cb31-621"><a href="#cb31-621" aria-label="573"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb31-622"><a href="#cb31-622" aria-label="574"></a>    <span class="co"># draw a fresh random mini-batch -- this sampling is the "stochastic" in SGD</span></span>
-<span id="cb31-623"><a href="#cb31-623" aria-label="575"></a>    data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb31-624"><a href="#cb31-624" aria-label="576"></a>    batch_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-625"><a href="#cb31-625" aria-label="577"></a>    batch_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-626"><a href="#cb31-626" aria-label="578"></a></span>
-<span id="cb31-627"><a href="#cb31-627" aria-label="579"></a>    <span class="co"># update our slope and intercept based on this batch</span></span>
-<span id="cb31-628"><a href="#cb31-628" aria-label="580"></a>    m <span class="op">=</span> updated_m(batch_x,batch_y,m,b,learning_rate_m)</span>
-<span id="cb31-629"><a href="#cb31-629" aria-label="581"></a>    b <span class="op">=</span> updated_b(batch_x,batch_y,m,b,learning_rate_b)</span>
-<span id="cb31-630"><a href="#cb31-630" aria-label="582"></a></span>
-<span id="cb31-631"><a href="#cb31-631" aria-label="583"></a>    <span class="co"># calculate the loss value (on this batch) and keep a history</span></span>
-<span id="cb31-632"><a href="#cb31-632" aria-label="584"></a>    loss_value <span class="op">=</span> np.mean(loss(batch_x,batch_y,m,b))</span>
-<span id="cb31-633"><a href="#cb31-633" aria-label="585"></a>    loss_history.append(loss_value)</span>
-<span id="cb31-634"><a href="#cb31-634" aria-label="586"></a>    m_history.append(m)</span>
-<span id="cb31-635"><a href="#cb31-635" aria-label="587"></a>    b_history.append(b)</span>
-<span id="cb31-636"><a href="#cb31-636" aria-label="588"></a></span>
-<span id="cb31-637"><a href="#cb31-637" aria-label="589"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">] dy_i = </span><span class="sc">{</span>m<span class="sc">:.2f}</span><span class="ss"> * x + </span><span class="sc">{</span>b<span class="sc">:.2f}</span><span class="ss">   loss: </span><span class="sc">{</span>loss_value<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb31-638"><a href="#cb31-638" aria-label="590"></a><span class="in">```</span></span>
-<span id="cb31-639"><a href="#cb31-639" aria-label="591"></a></span>
-<span id="cb31-640"><a href="#cb31-640" aria-label="592"></a>Instead of flashing 30 plots by, let's build **one interactive animation**: drag</span>
-<span id="cb31-641"><a href="#cb31-641" aria-label="593"></a>the slider (or hit ▶) to watch the fit line rotate into place on the left while</span>
-<span id="cb31-642"><a href="#cb31-642" aria-label="594"></a>the loss drops on the right.</span>
-<span id="cb31-643"><a href="#cb31-643" aria-label="595"></a></span>
-<span id="cb31-646"><a href="#cb31-646" aria-label="596"></a><span class="in">```{python}</span></span>
-<span id="cb31-647"><a href="#cb31-647" aria-label="597"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb31-648"><a href="#cb31-648" aria-label="598"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb31-649"><a href="#cb31-649" aria-label="599"></a>line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(), data_x.<span class="bu">max</span>())</span>
-<span id="cb31-650"><a href="#cb31-650" aria-label="600"></a>calc_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc   <span class="co"># the closed-form fit, for comparison</span></span>
-<span id="cb31-651"><a href="#cb31-651" aria-label="601"></a></span>
-<span id="cb31-652"><a href="#cb31-652" aria-label="602"></a><span class="co"># one animation frame per SGD step</span></span>
-<span id="cb31-653"><a href="#cb31-653" aria-label="603"></a>frames <span class="op">=</span> []</span>
-<span id="cb31-654"><a href="#cb31-654" aria-label="604"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb31-655"><a href="#cb31-655" aria-label="605"></a>    fit_y <span class="op">=</span> line_x <span class="op">*</span> m_history[i] <span class="op">+</span> b_history[i]</span>
-<span id="cb31-656"><a href="#cb31-656" aria-label="606"></a>    frames.append(go.Frame(name<span class="op">=</span><span class="bu">str</span>(i), data<span class="op">=</span>[</span>
-<span id="cb31-657"><a href="#cb31-657" aria-label="607"></a>        go.Scatter(x<span class="op">=</span>data_x, y<span class="op">=</span>data_y, mode<span class="op">=</span><span class="st">"markers"</span>,</span>
-<span id="cb31-658"><a href="#cb31-658" aria-label="608"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.6</span>)),</span>
-<span id="cb31-659"><a href="#cb31-659" aria-label="609"></a>        go.Scatter(x<span class="op">=</span>line_x, y<span class="op">=</span>fit_y, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="dv">3</span>)),</span>
-<span id="cb31-660"><a href="#cb31-660" aria-label="610"></a>        go.Scatter(x<span class="op">=</span>line_x, y<span class="op">=</span>calc_y, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], dash<span class="op">=</span><span class="st">"dot"</span>)),</span>
-<span id="cb31-661"><a href="#cb31-661" aria-label="611"></a>        go.Scatter(x<span class="op">=</span>np.arange(i <span class="op">+</span> <span class="dv">1</span>), y<span class="op">=</span>loss_history[:i <span class="op">+</span> <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"lines+markers"</span>,</span>
-<span id="cb31-662"><a href="#cb31-662" aria-label="612"></a>                   line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"green"</span>]), xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>),</span>
-<span id="cb31-663"><a href="#cb31-663" aria-label="613"></a>    ]))</span>
-<span id="cb31-664"><a href="#cb31-664" aria-label="614"></a></span>
-<span id="cb31-665"><a href="#cb31-665" aria-label="615"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
-<span id="cb31-666"><a href="#cb31-666" aria-label="616"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>, subplot_titles<span class="op">=</span>(<span class="st">"fit vs. data"</span>, <span class="st">"loss (log scale)"</span>))</span>
-<span id="cb31-667"><a href="#cb31-667" aria-label="617"></a><span class="co"># initialize with the first frame's traces</span></span>
-<span id="cb31-668"><a href="#cb31-668" aria-label="618"></a><span class="cf">for</span> tr <span class="kw">in</span> frames[<span class="dv">0</span>].data:</span>
-<span id="cb31-669"><a href="#cb31-669" aria-label="619"></a>    fig.add_trace(tr, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span>(<span class="dv">2</span> <span class="cf">if</span> tr.yaxis <span class="op">==</span> <span class="st">"y2"</span> <span class="cf">else</span> <span class="dv">1</span>))</span>
-<span id="cb31-670"><a href="#cb31-670" aria-label="620"></a>fig.frames <span class="op">=</span> frames</span>
-<span id="cb31-671"><a href="#cb31-671" aria-label="621"></a>fig.update_yaxes(<span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb31-672"><a href="#cb31-672" aria-label="622"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"square footage"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb31-673"><a href="#cb31-673" aria-label="623"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"loop step"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb31-674"><a href="#cb31-674" aria-label="624"></a>fig.update_layout(</span>
-<span id="cb31-675"><a href="#cb31-675" aria-label="625"></a>    height<span class="op">=</span><span class="dv">420</span>, showlegend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb31-676"><a href="#cb31-676" aria-label="626"></a>    margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">0</span>, r<span class="op">=</span><span class="dv">0</span>, t<span class="op">=</span><span class="dv">40</span>, b<span class="op">=</span><span class="dv">0</span>),</span>
-<span id="cb31-677"><a href="#cb31-677" aria-label="627"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.15</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
-<span id="cb31-678"><a href="#cb31-678" aria-label="628"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
-<span id="cb31-679"><a href="#cb31-679" aria-label="629"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">300</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
-<span id="cb31-680"><a href="#cb31-680" aria-label="630"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"step "</span>),</span>
-<span id="cb31-681"><a href="#cb31-681" aria-label="631"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(i),</span>
-<span id="cb31-682"><a href="#cb31-682" aria-label="632"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(i)], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
-<span id="cb31-683"><a href="#cb31-683" aria-label="633"></a>               <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N)])],</span>
-<span id="cb31-684"><a href="#cb31-684" aria-label="634"></a>)</span>
-<span id="cb31-685"><a href="#cb31-685" aria-label="635"></a>fig.show()</span>
-<span id="cb31-686"><a href="#cb31-686" aria-label="636"></a><span class="in">```</span></span>
-<span id="cb31-687"><a href="#cb31-687" aria-label="637"></a></span>
-<span id="cb31-688"><a href="#cb31-688" aria-label="638"></a>The dotted grey line is the exact closed-form fit from earlier — notice how SGD</span>
-<span id="cb31-689"><a href="#cb31-689" aria-label="639"></a>walks the red line toward it, step by step, while the loss on the right falls.</span>
-<span id="cb31-690"><a href="#cb31-690" aria-label="640"></a></span>
-<span id="cb31-691"><a href="#cb31-691" aria-label="641"></a><span class="fu">## Homework</span></span>
-<span id="cb31-692"><a href="#cb31-692" aria-label="642"></a></span>
-<span id="cb31-693"><a href="#cb31-693" aria-label="643"></a><span class="fu">### Mini Batch Training</span></span>
-<span id="cb31-694"><a href="#cb31-694" aria-label="644"></a></span>
-<span id="cb31-695"><a href="#cb31-695" aria-label="645"></a>In AI, datasets are often very large and cannot be processed all at once.</span>
-<span id="cb31-696"><a href="#cb31-696" aria-label="646"></a>This is exactly why the training loop above trains on a random mini-batch of</span>
-<span id="cb31-697"><a href="#cb31-697" aria-label="647"></a><span class="in">`batch_size`</span> inputs at each step:</span>
-<span id="cb31-698"><a href="#cb31-698" aria-label="648"></a></span>
-<span id="cb31-699"><a href="#cb31-699" aria-label="649"></a><span class="in">```python</span></span>
-<span id="cb31-700"><a href="#cb31-700" aria-label="650"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb31-701"><a href="#cb31-701" aria-label="651"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-702"><a href="#cb31-702" aria-label="652"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-703"><a href="#cb31-703" aria-label="653"></a><span class="in">```</span></span>
-<span id="cb31-704"><a href="#cb31-704" aria-label="654"></a></span>
-<span id="cb31-705"><a href="#cb31-705" aria-label="655"></a>rather than the entire dataset (<span class="in">`data['GrLivArea'].to_numpy()`</span>).</span>
-<span id="cb31-706"><a href="#cb31-706" aria-label="656"></a></span>
-<span id="cb31-707"><a href="#cb31-707" aria-label="657"></a>So far we fixed <span class="in">`batch_size = 60`</span> and ran a fixed <span class="in">`loop_N = 30`</span>. Your task is to</span>
-<span id="cb31-708"><a href="#cb31-708" aria-label="658"></a>turn the loop into a reusable function and explore how the **batch size** affects</span>
-<span id="cb31-709"><a href="#cb31-709" aria-label="659"></a>training. Note that a smaller batch size means more (and noisier) steps per pass</span>
-<span id="cb31-710"><a href="#cb31-710" aria-label="660"></a>over the data, so you should scale <span class="in">`loop_N`</span> with the batch size to keep the number</span>
-<span id="cb31-711"><a href="#cb31-711" aria-label="661"></a>of passes over the full dataset (the number of _epochs_) constant:</span>
-<span id="cb31-712"><a href="#cb31-712" aria-label="662"></a></span>
-<span id="cb31-713"><a href="#cb31-713" aria-label="663"></a><span class="in">```python</span></span>
-<span id="cb31-714"><a href="#cb31-714" aria-label="664"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb31-715"><a href="#cb31-715" aria-label="665"></a><span class="in">```</span></span>
-<span id="cb31-716"><a href="#cb31-716" aria-label="666"></a></span>
-<span id="cb31-717"><a href="#cb31-717" aria-label="667"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512.</span>
-<span id="cb31-718"><a href="#cb31-718" aria-label="668"></a></span>
-<span id="cb31-719"><a href="#cb31-719" aria-label="669"></a><span class="fu">### Learning rate issue (Bonus)</span></span>
-<span id="cb31-720"><a href="#cb31-720" aria-label="670"></a></span>
-<span id="cb31-721"><a href="#cb31-721" aria-label="671"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
-<span id="cb31-722"><a href="#cb31-722" aria-label="672"></a></span>
-<span id="cb31-723"><a href="#cb31-723" aria-label="673"></a><span class="in">```</span></span>
-<span id="cb31-724"><a href="#cb31-724" aria-label="674"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
-<span id="cb31-725"><a href="#cb31-725" aria-label="675"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
-<span id="cb31-726"><a href="#cb31-726" aria-label="676"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
-<span id="cb31-727"><a href="#cb31-727" aria-label="677"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
-<span id="cb31-728"><a href="#cb31-728" aria-label="678"></a><span class="in">...</span></span>
-<span id="cb31-729"><a href="#cb31-729" aria-label="679"></a><span class="in">```</span></span>
-<span id="cb31-730"><a href="#cb31-730" aria-label="680"></a></span>
-<span id="cb31-731"><a href="#cb31-731" aria-label="681"></a>**How to submit your homework**</span>
-<span id="cb31-732"><a href="#cb31-732" aria-label="682"></a></span>
-<span id="cb31-733"><a href="#cb31-733" aria-label="683"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
-<span id="cb31-734"><a href="#cb31-734" aria-label="684"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
-<span id="cb31-735"><a href="#cb31-735" aria-label="685"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
-<span id="cb31-736"><a href="#cb31-736" aria-label="686"></a></span>
-<span id="cb31-737"><a href="#cb31-737" aria-label="687"></a><span class="co">&lt;!--</span></span>
-<span id="cb31-738"><a href="#cb31-738" aria-label="688"></a><span class="co">Follow the below instruction on how to do this: </span></span>
-<span id="cb31-739"><a href="#cb31-739" aria-label="689"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
-<span id="cb31-740"><a href="#cb31-740" aria-label="690"></a><span class="co">--&gt;</span></span>
-<span id="cb31-741"><a href="#cb31-741" aria-label="691"></a></span>
-<span id="cb31-742"><a href="#cb31-742" aria-label="692"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>Homework Answer<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb31-743"><a href="#cb31-743" aria-label="693"></a></span>
-<span id="cb31-744"><a href="#cb31-744" aria-label="694"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
-<span id="cb31-745"><a href="#cb31-745" aria-label="695"></a></span>
-<span id="cb31-748"><a href="#cb31-748" aria-label="696"></a><span class="in">```{python}</span></span>
-<span id="cb31-749"><a href="#cb31-749" aria-label="697"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-750"><a href="#cb31-750" aria-label="698"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-751"><a href="#cb31-751" aria-label="699"></a></span>
-<span id="cb31-752"><a href="#cb31-752" aria-label="700"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
-<span id="cb31-753"><a href="#cb31-753" aria-label="701"></a>    loss_history <span class="op">=</span> []</span>
-<span id="cb31-754"><a href="#cb31-754" aria-label="702"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb31-755"><a href="#cb31-755" aria-label="703"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
-<span id="cb31-756"><a href="#cb31-756" aria-label="704"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb31-757"><a href="#cb31-757" aria-label="705"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb31-758"><a href="#cb31-758" aria-label="706"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb31-759"><a href="#cb31-759" aria-label="707"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb31-760"><a href="#cb31-760" aria-label="708"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb31-761"><a href="#cb31-761" aria-label="709"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb31-762"><a href="#cb31-762" aria-label="710"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
-<span id="cb31-763"><a href="#cb31-763" aria-label="711"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
-<span id="cb31-764"><a href="#cb31-764" aria-label="712"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb31-765"><a href="#cb31-765" aria-label="713"></a></span>
-<span id="cb31-766"><a href="#cb31-766" aria-label="714"></a>        <span class="co"># calculate the loss value</span></span>
-<span id="cb31-767"><a href="#cb31-767" aria-label="715"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb31-768"><a href="#cb31-768" aria-label="716"></a></span>
-<span id="cb31-769"><a href="#cb31-769" aria-label="717"></a>        <span class="co"># keep a history of our loss values</span></span>
-<span id="cb31-770"><a href="#cb31-770" aria-label="718"></a>        loss_history.append(loss_value)</span>
-<span id="cb31-771"><a href="#cb31-771" aria-label="719"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
-<span id="cb31-772"><a href="#cb31-772" aria-label="720"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
-<span id="cb31-773"><a href="#cb31-773" aria-label="721"></a><span class="in">```</span></span>
-<span id="cb31-774"><a href="#cb31-774" aria-label="722"></a></span>
-<span id="cb31-775"><a href="#cb31-775" aria-label="723"></a><span class="fu">## Minibatch training</span></span>
-<span id="cb31-776"><a href="#cb31-776" aria-label="724"></a></span>
-<span id="cb31-779"><a href="#cb31-779" aria-label="725"></a><span class="in">```{python}</span></span>
-<span id="cb31-780"><a href="#cb31-780" aria-label="726"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
-<span id="cb31-781"><a href="#cb31-781" aria-label="727"></a></span>
+<span id="cb31-134"><a href="#cb31-134" aria-label="132"></a></span>
+<span id="cb31-137"><a href="#cb31-137" aria-label="133"></a><span class="in">```{python}</span></span>
+<span id="cb31-138"><a href="#cb31-138" aria-label="134"></a><span class="co"># This page uses the `bootcamp` helper package. On Colab (or any fresh</span></span>
+<span id="cb31-139"><a href="#cb31-139" aria-label="135"></a><span class="co"># environment) install it + its dependencies; locally this is a no-op.</span></span>
+<span id="cb31-140"><a href="#cb31-140" aria-label="136"></a><span class="cf">try</span>:</span>
+<span id="cb31-141"><a href="#cb31-141" aria-label="137"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
+<span id="cb31-142"><a href="#cb31-142" aria-label="138"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb31-143"><a href="#cb31-143" aria-label="139"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
+<span id="cb31-144"><a href="#cb31-144" aria-label="140"></a><span class="in">```</span></span>
+<span id="cb31-145"><a href="#cb31-145" aria-label="141"></a></span>
+<span id="cb31-148"><a href="#cb31-148" aria-label="142"></a><span class="in">```{python}</span></span>
+<span id="cb31-149"><a href="#cb31-149" aria-label="143"></a><span class="im">import</span> os</span>
+<span id="cb31-150"><a href="#cb31-150" aria-label="144"></a>os.environ[<span class="st">"FORCE_COLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
+<span id="cb31-151"><a href="#cb31-151" aria-label="145"></a>os.environ[<span class="st">"TTY_INTERACTIVE"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
+<span id="cb31-152"><a href="#cb31-152" aria-label="146"></a><span class="im">import</span> ambivalent</span>
+<span id="cb31-153"><a href="#cb31-153" aria-label="147"></a></span>
+<span id="cb31-154"><a href="#cb31-154" aria-label="148"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb31-155"><a href="#cb31-155" aria-label="149"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb31-156"><a href="#cb31-156" aria-label="150"></a></span>
+<span id="cb31-157"><a href="#cb31-157" aria-label="151"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
+<span id="cb31-158"><a href="#cb31-158" aria-label="152"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb31-159"><a href="#cb31-159" aria-label="153"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
+<span id="cb31-160"><a href="#cb31-160" aria-label="154"></a></span>
+<span id="cb31-161"><a href="#cb31-161" aria-label="155"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb31-162"><a href="#cb31-162" aria-label="156"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb31-163"><a href="#cb31-163" aria-label="157"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb31-164"><a href="#cb31-164" aria-label="158"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
+<span id="cb31-165"><a href="#cb31-165" aria-label="159"></a><span class="im">import</span> time</span>
+<span id="cb31-166"><a href="#cb31-166" aria-label="160"></a></span>
+<span id="cb31-167"><a href="#cb31-167" aria-label="161"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go   <span class="co"># interactive charts</span></span>
+<span id="cb31-168"><a href="#cb31-168" aria-label="162"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
+<span id="cb31-169"><a href="#cb31-169" aria-label="163"></a>apply_theme()   <span class="co"># house style + self-contained (inlines plotly.js, no CDN)</span></span>
+<span id="cb31-170"><a href="#cb31-170" aria-label="164"></a></span>
+<span id="cb31-171"><a href="#cb31-171" aria-label="165"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb31-172"><a href="#cb31-172" aria-label="166"></a><span class="in">```</span></span>
+<span id="cb31-173"><a href="#cb31-173" aria-label="167"></a></span>
+<span id="cb31-174"><a href="#cb31-174" aria-label="168"></a><span class="fu">### Dataset</span></span>
+<span id="cb31-175"><a href="#cb31-175" aria-label="169"></a></span>
+<span id="cb31-176"><a href="#cb31-176" aria-label="170"></a>We used a realestate dataset from Kaggle to produce this reduced dataset.</span>
+<span id="cb31-177"><a href="#cb31-177" aria-label="171"></a></span>
+<span id="cb31-178"><a href="#cb31-178" aria-label="172"></a>This dataset contains the _sale price_ and _above ground square feet_ of many</span>
+<span id="cb31-179"><a href="#cb31-179" aria-label="173"></a>houses.</span>
+<span id="cb31-180"><a href="#cb31-180" aria-label="174"></a>We can use this data for our linear regression.</span>
+<span id="cb31-181"><a href="#cb31-181" aria-label="175"></a></span>
+<span id="cb31-182"><a href="#cb31-182" aria-label="176"></a>We use Pandas to read the data file which is stored as Comma Separated Values</span>
+<span id="cb31-183"><a href="#cb31-183" aria-label="177"></a>(CSV) and print the column labels.</span>
+<span id="cb31-184"><a href="#cb31-184" aria-label="178"></a></span>
+<span id="cb31-185"><a href="#cb31-185" aria-label="179"></a>CSV files are similar to excel sheets.</span>
+<span id="cb31-186"><a href="#cb31-186" aria-label="180"></a></span>
+<span id="cb31-189"><a href="#cb31-189" aria-label="181"></a><span class="in">```{python}</span></span>
+<span id="cb31-190"><a href="#cb31-190" aria-label="182"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>master<span class="op">/</span>old<span class="op">/</span><span class="dv">2024</span><span class="op">-</span>Spring<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
+<span id="cb31-191"><a href="#cb31-191" aria-label="183"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
+<span id="cb31-192"><a href="#cb31-192" aria-label="184"></a><span class="bu">print</span>(data.columns)</span>
+<span id="cb31-193"><a href="#cb31-193" aria-label="185"></a><span class="in">```</span></span>
+<span id="cb31-194"><a href="#cb31-194" aria-label="186"></a></span>
+<span id="cb31-195"><a href="#cb31-195" aria-label="187"></a>Let's inspect our data with an **interactive scatter plot**. Hover over any</span>
+<span id="cb31-196"><a href="#cb31-196" aria-label="188"></a>point to see its exact square footage and sale price, and drag to zoom:</span>
+<span id="cb31-197"><a href="#cb31-197" aria-label="189"></a></span>
+<span id="cb31-200"><a href="#cb31-200" aria-label="190"></a><span class="in">```{python}</span></span>
+<span id="cb31-201"><a href="#cb31-201" aria-label="191"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb31-202"><a href="#cb31-202" aria-label="192"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb31-203"><a href="#cb31-203" aria-label="193"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb31-204"><a href="#cb31-204" aria-label="194"></a>fig.add_scatter(</span>
+<span id="cb31-205"><a href="#cb31-205" aria-label="195"></a>    x<span class="op">=</span>data[<span class="st">"GrLivArea"</span>], y<span class="op">=</span>data[<span class="st">"SalePrice"</span>],</span>
+<span id="cb31-206"><a href="#cb31-206" aria-label="196"></a>    mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span id="cb31-207"><a href="#cb31-207" aria-label="197"></a>    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>),</span>
+<span id="cb31-208"><a href="#cb31-208" aria-label="198"></a>    hovertemplate<span class="op">=</span><span class="st">"%</span><span class="sc">{x:,.0f}</span><span class="st"> sq ft&lt;br&gt;$%</span><span class="sc">{y:,.0f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>,</span>
+<span id="cb31-209"><a href="#cb31-209" aria-label="199"></a>    name<span class="op">=</span><span class="st">"homes"</span>,</span>
+<span id="cb31-210"><a href="#cb31-210" aria-label="200"></a>)</span>
+<span id="cb31-211"><a href="#cb31-211" aria-label="201"></a>fig.update_layout(</span>
+<span id="cb31-212"><a href="#cb31-212" aria-label="202"></a>    xaxis_title<span class="op">=</span><span class="st">"Above-ground living area (sq ft)"</span>,</span>
+<span id="cb31-213"><a href="#cb31-213" aria-label="203"></a>    yaxis_title<span class="op">=</span><span class="st">"Sale price ($)"</span>,</span>
+<span id="cb31-214"><a href="#cb31-214" aria-label="204"></a>    height<span class="op">=</span><span class="dv">420</span>,</span>
+<span id="cb31-215"><a href="#cb31-215" aria-label="205"></a>)</span>
+<span id="cb31-216"><a href="#cb31-216" aria-label="206"></a>fig.show()</span>
+<span id="cb31-217"><a href="#cb31-217" aria-label="207"></a><span class="in">```</span></span>
+<span id="cb31-218"><a href="#cb31-218" aria-label="208"></a></span>
+<span id="cb31-219"><a href="#cb31-219" aria-label="209"></a>::: {.callout-tip title="🖱️ It's interactive" collapse="false"}</span>
+<span id="cb31-220"><a href="#cb31-220" aria-label="210"></a>These are <span class="co">[</span><span class="ot">Plotly</span><span class="co">](https://plotly.com/python/)</span> charts, not static images:</span>
+<span id="cb31-221"><a href="#cb31-221" aria-label="211"></a>**hover** to read values, **drag** to zoom, **double-click** to reset, and use</span>
+<span id="cb31-222"><a href="#cb31-222" aria-label="212"></a>the toolbar (top-right) to pan or download a PNG.</span>
+<span id="cb31-223"><a href="#cb31-223" aria-label="213"></a>:::</span>
+<span id="cb31-224"><a href="#cb31-224" aria-label="214"></a></span>
+<span id="cb31-225"><a href="#cb31-225" aria-label="215"></a><span class="fu">### Theory of linear regression</span></span>
+<span id="cb31-226"><a href="#cb31-226" aria-label="216"></a></span>
+<span id="cb31-227"><a href="#cb31-227" aria-label="217"></a>The goal of learning regression is to find a line that is closest to all the points. </span>
+<span id="cb31-228"><a href="#cb31-228" aria-label="218"></a></span>
+<span id="cb31-229"><a href="#cb31-229" aria-label="219"></a>The slope and intercept of such a line $y = m x + b$ can be found as: </span>
+<span id="cb31-230"><a href="#cb31-230" aria-label="220"></a></span>
+<span id="cb31-231"><a href="#cb31-231" aria-label="221"></a>$$m = { n (\Sigma xy) - (\Sigma x) (\Sigma y) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
+<span id="cb31-232"><a href="#cb31-232" aria-label="222"></a></span>
+<span id="cb31-233"><a href="#cb31-233" aria-label="223"></a>$$b = { (\Sigma y) (\Sigma x^2) - (\Sigma x) (\Sigma xy) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
+<span id="cb31-234"><a href="#cb31-234" aria-label="224"></a></span>
+<span id="cb31-235"><a href="#cb31-235" aria-label="225"></a>Details derivation of this can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://en.wikipedia.org/wiki/Simple_linear_regression)</span>.</span>
+<span id="cb31-236"><a href="#cb31-236" aria-label="226"></a></span>
+<span id="cb31-237"><a href="#cb31-237" aria-label="227"></a>We'll break this calculation into a few steps to help make it easier.</span>
+<span id="cb31-238"><a href="#cb31-238" aria-label="228"></a></span>
+<span id="cb31-239"><a href="#cb31-239" aria-label="229"></a>First lets define $x$ and $y$. $x$ will be our _above ground square footage_</span>
+<span id="cb31-240"><a href="#cb31-240" aria-label="230"></a>and $y$ will be _sale price_.</span>
+<span id="cb31-241"><a href="#cb31-241" aria-label="231"></a>In our equations we have a few different values</span>
+<span id="cb31-242"><a href="#cb31-242" aria-label="232"></a>we need, such as $n$ which is just the number of points we have:</span>
+<span id="cb31-243"><a href="#cb31-243" aria-label="233"></a></span>
+<span id="cb31-246"><a href="#cb31-246" aria-label="234"></a><span class="in">```{python}</span></span>
+<span id="cb31-247"><a href="#cb31-247" aria-label="235"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb31-248"><a href="#cb31-248" aria-label="236"></a><span class="in">```</span></span>
+<span id="cb31-249"><a href="#cb31-249" aria-label="237"></a></span>
+<span id="cb31-250"><a href="#cb31-250" aria-label="238"></a>Then we need our $x$ and $y$ by selecting only the column we care about for</span>
+<span id="cb31-251"><a href="#cb31-251" aria-label="239"></a>each one.</span>
+<span id="cb31-252"><a href="#cb31-252" aria-label="240"></a>Note about data formats: <span class="in">`data`</span> is a Pandas</span>
+<span id="cb31-253"><a href="#cb31-253" aria-label="241"></a><span class="co">[</span><span class="ot">DataFrame</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame)</span></span>
+<span id="cb31-254"><a href="#cb31-254" aria-label="242"></a>object which has rows and columns; <span class="in">`data['GrLivArea']`</span> is a Pandas</span>
+<span id="cb31-255"><a href="#cb31-255" aria-label="243"></a><span class="co">[</span><span class="ot">Series</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.Series.html)</span></span>
+<span id="cb31-256"><a href="#cb31-256" aria-label="244"></a>object which only has rows; then we also convert from _Pandas_ data formats (in</span>
+<span id="cb31-257"><a href="#cb31-257" aria-label="245"></a>this case a _Series_) to _Numpy_ data formats using the <span class="in">`to_numpy()`</span> function</span>
+<span id="cb31-258"><a href="#cb31-258" aria-label="246"></a>which is part of the Pandas _Series_ object.</span>
+<span id="cb31-259"><a href="#cb31-259" aria-label="247"></a></span>
+<span id="cb31-262"><a href="#cb31-262" aria-label="248"></a><span class="in">```{python}</span></span>
+<span id="cb31-263"><a href="#cb31-263" aria-label="249"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-264"><a href="#cb31-264" aria-label="250"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-265"><a href="#cb31-265" aria-label="251"></a><span class="in">```</span></span>
+<span id="cb31-266"><a href="#cb31-266" aria-label="252"></a></span>
+<span id="cb31-267"><a href="#cb31-267" aria-label="253"></a>Now we will calculate $\Sigma xy$, $\Sigma x$, $\Sigma y$, and $\Sigma x^2$:</span>
+<span id="cb31-268"><a href="#cb31-268" aria-label="254"></a></span>
+<span id="cb31-271"><a href="#cb31-271" aria-label="255"></a><span class="in">```{python}</span></span>
+<span id="cb31-272"><a href="#cb31-272" aria-label="256"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
+<span id="cb31-273"><a href="#cb31-273" aria-label="257"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
+<span id="cb31-274"><a href="#cb31-274" aria-label="258"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
+<span id="cb31-275"><a href="#cb31-275" aria-label="259"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span>
+<span id="cb31-276"><a href="#cb31-276" aria-label="260"></a><span class="in">```</span></span>
+<span id="cb31-277"><a href="#cb31-277" aria-label="261"></a></span>
+<span id="cb31-278"><a href="#cb31-278" aria-label="262"></a>The denominator in the equation for $m$ and $b$ are the same so we can</span>
+<span id="cb31-279"><a href="#cb31-279" aria-label="263"></a>calculate that once:</span>
+<span id="cb31-280"><a href="#cb31-280" aria-label="264"></a></span>
+<span id="cb31-283"><a href="#cb31-283" aria-label="265"></a><span class="in">```{python}</span></span>
+<span id="cb31-284"><a href="#cb31-284" aria-label="266"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span>
+<span id="cb31-285"><a href="#cb31-285" aria-label="267"></a><span class="in">```</span></span>
+<span id="cb31-286"><a href="#cb31-286" aria-label="268"></a></span>
+<span id="cb31-287"><a href="#cb31-287" aria-label="269"></a>Then we can calculate our fit values:</span>
+<span id="cb31-288"><a href="#cb31-288" aria-label="270"></a></span>
+<span id="cb31-291"><a href="#cb31-291" aria-label="271"></a><span class="in">```{python}</span></span>
+<span id="cb31-292"><a href="#cb31-292" aria-label="272"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
+<span id="cb31-293"><a href="#cb31-293" aria-label="273"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
+<span id="cb31-294"><a href="#cb31-294" aria-label="274"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
+<span id="cb31-295"><a href="#cb31-295" aria-label="275"></a></span>
+<span id="cb31-296"><a href="#cb31-296" aria-label="276"></a><span class="co"># saving these for later comparison</span></span>
+<span id="cb31-297"><a href="#cb31-297" aria-label="277"></a>m_calc <span class="op">=</span> m</span>
+<span id="cb31-298"><a href="#cb31-298" aria-label="278"></a>b_calc <span class="op">=</span> b</span>
+<span id="cb31-299"><a href="#cb31-299" aria-label="279"></a><span class="in">```</span></span>
+<span id="cb31-300"><a href="#cb31-300" aria-label="280"></a></span>
+<span id="cb31-301"><a href="#cb31-301" aria-label="281"></a>Now we can plot the fit results with our data to see how we did.</span>
+<span id="cb31-302"><a href="#cb31-302" aria-label="282"></a></span>
+<span id="cb31-303"><a href="#cb31-303" aria-label="283"></a>First we define a plotting function because we're going to do this often and we</span>
+<span id="cb31-304"><a href="#cb31-304" aria-label="284"></a>want to reuse our code:</span>
+<span id="cb31-305"><a href="#cb31-305" aria-label="285"></a></span>
+<span id="cb31-308"><a href="#cb31-308" aria-label="286"></a><span class="in">```{python}</span></span>
+<span id="cb31-309"><a href="#cb31-309" aria-label="287"></a><span class="kw">def</span> plot_data(x, y, m, b, fig<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb31-310"><a href="#cb31-310" aria-label="288"></a>    <span class="co">"""Scatter the data points and overlay the fitted line y = m*x + b (interactive)."""</span></span>
+<span id="cb31-311"><a href="#cb31-311" aria-label="289"></a>    <span class="cf">if</span> fig <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb31-312"><a href="#cb31-312" aria-label="290"></a>        fig <span class="op">=</span> go.Figure()</span>
+<span id="cb31-313"><a href="#cb31-313" aria-label="291"></a>    <span class="co"># our data points</span></span>
+<span id="cb31-314"><a href="#cb31-314" aria-label="292"></a>    fig.add_scatter(</span>
+<span id="cb31-315"><a href="#cb31-315" aria-label="293"></a>        x<span class="op">=</span>x, y<span class="op">=</span>y, mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"data"</span>,</span>
+<span id="cb31-316"><a href="#cb31-316" aria-label="294"></a>        marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.7</span>),</span>
+<span id="cb31-317"><a href="#cb31-317" aria-label="295"></a>        hovertemplate<span class="op">=</span><span class="st">"%</span><span class="sc">{x:,.0f}</span><span class="st"> sq ft&lt;br&gt;$%</span><span class="sc">{y:,.0f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>,</span>
+<span id="cb31-318"><a href="#cb31-318" aria-label="296"></a>    )</span>
+<span id="cb31-319"><a href="#cb31-319" aria-label="297"></a>    <span class="co"># the fitted line, evaluated across the x-range</span></span>
+<span id="cb31-320"><a href="#cb31-320" aria-label="298"></a>    linear_x <span class="op">=</span> np.arange(x.<span class="bu">min</span>(), x.<span class="bu">max</span>())</span>
+<span id="cb31-321"><a href="#cb31-321" aria-label="299"></a>    linear_y <span class="op">=</span> linear_x <span class="op">*</span> m <span class="op">+</span> b</span>
+<span id="cb31-322"><a href="#cb31-322" aria-label="300"></a>    fig.add_scatter(</span>
+<span id="cb31-323"><a href="#cb31-323" aria-label="301"></a>        x<span class="op">=</span>linear_x, y<span class="op">=</span>linear_y, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"fit"</span>,</span>
+<span id="cb31-324"><a href="#cb31-324" aria-label="302"></a>        line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="dv">3</span>),</span>
+<span id="cb31-325"><a href="#cb31-325" aria-label="303"></a>    )</span>
+<span id="cb31-326"><a href="#cb31-326" aria-label="304"></a>    fig.update_layout(</span>
+<span id="cb31-327"><a href="#cb31-327" aria-label="305"></a>        xaxis_title<span class="op">=</span><span class="st">"square footage"</span>, yaxis_title<span class="op">=</span><span class="st">"sale price"</span>, height<span class="op">=</span><span class="dv">420</span>,</span>
+<span id="cb31-328"><a href="#cb31-328" aria-label="306"></a>    )</span>
+<span id="cb31-329"><a href="#cb31-329" aria-label="307"></a>    <span class="cf">return</span> fig</span>
+<span id="cb31-330"><a href="#cb31-330" aria-label="308"></a><span class="in">```</span></span>
+<span id="cb31-331"><a href="#cb31-331" aria-label="309"></a></span>
+<span id="cb31-332"><a href="#cb31-332" aria-label="310"></a>Now we can use this function to plot our results:</span>
+<span id="cb31-333"><a href="#cb31-333" aria-label="311"></a></span>
+<span id="cb31-336"><a href="#cb31-336" aria-label="312"></a><span class="in">```{python}</span></span>
+<span id="cb31-337"><a href="#cb31-337" aria-label="313"></a>plot_data(x, y, m, b).show()</span>
+<span id="cb31-338"><a href="#cb31-338" aria-label="314"></a><span class="in">```</span></span>
+<span id="cb31-339"><a href="#cb31-339" aria-label="315"></a></span>
+<span id="cb31-340"><a href="#cb31-340" aria-label="316"></a><span class="fu">### Training through Stochastic Gradient Descent (SGD)</span></span>
+<span id="cb31-341"><a href="#cb31-341" aria-label="317"></a></span>
+<span id="cb31-342"><a href="#cb31-342" aria-label="318"></a>SGD is a common method in AI for training deep neural networks on large</span>
+<span id="cb31-343"><a href="#cb31-343" aria-label="319"></a>datasets.</span>
+<span id="cb31-344"><a href="#cb31-344" aria-label="320"></a>It is an iterative method for optimizing a loss function that we get</span>
+<span id="cb31-345"><a href="#cb31-345" aria-label="321"></a>to define.</span>
+<span id="cb31-346"><a href="#cb31-346" aria-label="322"></a>The "stochastic" part is what sets it apart from plain gradient descent: **each</span>
+<span id="cb31-347"><a href="#cb31-347" aria-label="323"></a>step uses a random mini-batch of the data instead of the full dataset**, which is</span>
+<span id="cb31-348"><a href="#cb31-348" aria-label="324"></a>what makes it practical when the dataset is far too large to process all at once.</span>
+<span id="cb31-349"><a href="#cb31-349" aria-label="325"></a>We will use this simple linear regression to demonstrate how it</span>
+<span id="cb31-350"><a href="#cb31-350" aria-label="326"></a>works.</span>
+<span id="cb31-351"><a href="#cb31-351" aria-label="327"></a></span>
+<span id="cb31-352"><a href="#cb31-352" aria-label="328"></a><span class="fu">#### The model</span></span>
+<span id="cb31-353"><a href="#cb31-353" aria-label="329"></a></span>
+<span id="cb31-354"><a href="#cb31-354" aria-label="330"></a>In AI, neural networks are often referred to as a _model_ because, once fully</span>
+<span id="cb31-355"><a href="#cb31-355" aria-label="331"></a>trained, they should model (AKA predict) the behavior of our system.</span>
+<span id="cb31-356"><a href="#cb31-356" aria-label="332"></a>In our example, the system is how house prices vary based on house size.</span>
+<span id="cb31-357"><a href="#cb31-357" aria-label="333"></a>We know our system is roughly driven by a linear function:</span>
+<span id="cb31-358"><a href="#cb31-358" aria-label="334"></a></span>
+<span id="cb31-359"><a href="#cb31-359" aria-label="335"></a>$$\hat{y_i}(x_i) = m * x_i + b $$</span>
+<span id="cb31-360"><a href="#cb31-360" aria-label="336"></a></span>
+<span id="cb31-361"><a href="#cb31-361" aria-label="337"></a>We just need to figure out $m$ and $b$. Let's create a function that calculates</span>
+<span id="cb31-362"><a href="#cb31-362" aria-label="338"></a>our model given $x$, $m$, and $b$.</span>
+<span id="cb31-363"><a href="#cb31-363" aria-label="339"></a></span>
+<span id="cb31-366"><a href="#cb31-366" aria-label="340"></a><span class="in">```{python}</span></span>
+<span id="cb31-367"><a href="#cb31-367" aria-label="341"></a><span class="kw">def</span> model(x,m,b):</span>
+<span id="cb31-368"><a href="#cb31-368" aria-label="342"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span>
+<span id="cb31-369"><a href="#cb31-369" aria-label="343"></a><span class="in">```</span></span>
+<span id="cb31-370"><a href="#cb31-370" aria-label="344"></a></span>
+<span id="cb31-371"><a href="#cb31-371" aria-label="345"></a><span class="fu">#### The Loss Function</span></span>
+<span id="cb31-372"><a href="#cb31-372" aria-label="346"></a></span>
+<span id="cb31-373"><a href="#cb31-373" aria-label="347"></a>A _loss function_, or _objective function_, is something we define and is based</span>
+<span id="cb31-374"><a href="#cb31-374" aria-label="348"></a>on what we want to achieve.</span>
+<span id="cb31-375"><a href="#cb31-375" aria-label="349"></a>In the method of SGD, it is our goal to minimize (or make close to zero) the</span>
+<span id="cb31-376"><a href="#cb31-376" aria-label="350"></a>values calculated from the _loss function_.</span>
+<span id="cb31-377"><a href="#cb31-377" aria-label="351"></a>In our example, we ideally want the prediction of our _model_ to be equal to</span>
+<span id="cb31-378"><a href="#cb31-378" aria-label="352"></a>the actual data, though we will settle for "as close as possible".</span>
+<span id="cb31-379"><a href="#cb31-379" aria-label="353"></a></span>
+<span id="cb31-380"><a href="#cb31-380" aria-label="354"></a>So we will select our _loss function_ to be the <span class="co">[</span><span class="ot">Mean Squared Error</span><span class="co">](https://en.wikipedia.org/wiki/Mean_squared_error)</span> function:</span>
+<span id="cb31-381"><a href="#cb31-381" aria-label="355"></a></span>
+<span id="cb31-382"><a href="#cb31-382" aria-label="356"></a>$$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$</span>
+<span id="cb31-383"><a href="#cb31-383" aria-label="357"></a></span>
+<span id="cb31-384"><a href="#cb31-384" aria-label="358"></a>where $y_i$ is our $i^{th}$ entry in the <span class="in">`data['SalePrice']`</span> vector and</span>
+<span id="cb31-385"><a href="#cb31-385" aria-label="359"></a>$\hat{y_i}$ is the prediction based on evaluating $m * x_i + b$.</span>
+<span id="cb31-386"><a href="#cb31-386" aria-label="360"></a></span>
+<span id="cb31-387"><a href="#cb31-387" aria-label="361"></a>This function looks like the figure below when we plot it with </span>
+<span id="cb31-388"><a href="#cb31-388" aria-label="362"></a>$x=y_i - \hat{y_i}(x_i)$</span>
+<span id="cb31-389"><a href="#cb31-389" aria-label="363"></a>and we we want to be down near </span>
+<span id="cb31-390"><a href="#cb31-390" aria-label="364"></a>$y_i - \hat{y_i}(x_i) = 0$</span>
+<span id="cb31-391"><a href="#cb31-391" aria-label="365"></a>which indicates that our $y_i$ is as close as possible to $\hat{y_i}$.</span>
+<span id="cb31-392"><a href="#cb31-392" aria-label="366"></a></span>
+<span id="cb31-395"><a href="#cb31-395" aria-label="367"></a><span class="in">```{python}</span></span>
+<span id="cb31-396"><a href="#cb31-396" aria-label="368"></a><span class="co">#| label: fig-loss-func</span></span>
+<span id="cb31-397"><a href="#cb31-397" aria-label="369"></a><span class="co">#| fig-cap: "Loss function for linear regression: the squared error is a parabola in the residual, minimized where the prediction matches the data (∂L/∂m = 0)."</span></span>
+<span id="cb31-398"><a href="#cb31-398" aria-label="370"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb31-399"><a href="#cb31-399" aria-label="371"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb31-400"><a href="#cb31-400" aria-label="372"></a>resid <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">1.3</span>, <span class="fl">1.3</span>, <span class="dv">400</span>)   <span class="co"># x = y_i - ŷ_i(x_i)</span></span>
+<span id="cb31-401"><a href="#cb31-401" aria-label="373"></a>L <span class="op">=</span> resid<span class="op">**</span><span class="dv">2</span>                          <span class="co"># L = (y_i - ŷ_i)^2</span></span>
+<span id="cb31-402"><a href="#cb31-402" aria-label="374"></a></span>
+<span id="cb31-403"><a href="#cb31-403" aria-label="375"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb31-404"><a href="#cb31-404" aria-label="376"></a>fig.add_scatter(x<span class="op">=</span>resid, y<span class="op">=</span>L, mode<span class="op">=</span><span class="st">"lines"</span>,</span>
+<span id="cb31-405"><a href="#cb31-405" aria-label="377"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="fl">2.5</span>), showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-406"><a href="#cb31-406" aria-label="378"></a>                hovertemplate<span class="op">=</span><span class="st">"residual=%</span><span class="sc">{x:.2f}</span><span class="st">&lt;br&gt;loss=%</span><span class="sc">{y:.3f}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;"</span>)</span>
+<span id="cb31-407"><a href="#cb31-407" aria-label="379"></a><span class="co"># mark + annotate the minimum, where the gradient vanishes</span></span>
+<span id="cb31-408"><a href="#cb31-408" aria-label="380"></a>fig.add_scatter(x<span class="op">=</span>[<span class="dv">0</span>], y<span class="op">=</span>[<span class="dv">0</span>], mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span id="cb31-409"><a href="#cb31-409" aria-label="381"></a>                marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-410"><a href="#cb31-410" aria-label="382"></a>                hovertemplate<span class="op">=</span><span class="st">"minimum: ∂L/∂m = 0&lt;extra&gt;&lt;/extra&gt;"</span>)</span>
+<span id="cb31-411"><a href="#cb31-411" aria-label="383"></a>fig.add_annotation(x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=</span><span class="dv">0</span>, ax<span class="op">=</span><span class="dv">70</span>, ay<span class="op">=</span><span class="dv">70</span>, xref<span class="op">=</span><span class="st">"x"</span>, yref<span class="op">=</span><span class="st">"y"</span>,</span>
+<span id="cb31-412"><a href="#cb31-412" aria-label="384"></a>                   axref<span class="op">=</span><span class="st">"pixel"</span>, ayref<span class="op">=</span><span class="st">"pixel"</span>, showarrow<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb31-413"><a href="#cb31-413" aria-label="385"></a>                   arrowhead<span class="op">=</span><span class="dv">2</span>, arrowsize<span class="op">=</span><span class="fl">1.2</span>, arrowwidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb31-414"><a href="#cb31-414" aria-label="386"></a>                   arrowcolor<span class="op">=</span>COLORS[<span class="st">"red"</span>],</span>
+<span id="cb31-415"><a href="#cb31-415" aria-label="387"></a>                   text<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="ch">\f</span><span class="vs">rac{</span><span class="er">\</span><span class="vs">partial L}{</span><span class="er">\</span><span class="vs">partial m} = 0</span><span class="dv">$</span><span class="vs">"</span>,</span>
+<span id="cb31-416"><a href="#cb31-416" aria-label="388"></a>                   font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">16</span>), bgcolor<span class="op">=</span><span class="st">"rgba(131,131,131,0.12)"</span>,</span>
+<span id="cb31-417"><a href="#cb31-417" aria-label="389"></a>                   borderpad<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb31-418"><a href="#cb31-418" aria-label="390"></a>fig.update_layout(title<span class="op">=</span><span class="st">"Example Loss Function"</span>, height<span class="op">=</span><span class="dv">440</span>,</span>
+<span id="cb31-419"><a href="#cb31-419" aria-label="391"></a>                  margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>, b<span class="op">=</span><span class="dv">40</span>))</span>
+<span id="cb31-420"><a href="#cb31-420" aria-label="392"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="vs">y_i - </span><span class="er">\</span><span class="vs">hat{y}_i</span><span class="kw">(</span><span class="vs">x_i</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>, zeroline<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-421"><a href="#cb31-421" aria-label="393"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"loss  $L$"</span>, zeroline<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-422"><a href="#cb31-422" aria-label="394"></a>fig.show()</span>
+<span id="cb31-423"><a href="#cb31-423" aria-label="395"></a><span class="in">```</span></span>
+<span id="cb31-424"><a href="#cb31-424" aria-label="396"></a></span>
+<span id="cb31-425"><a href="#cb31-425" aria-label="397"></a>Here we crate a function that calculates this for us.</span>
+<span id="cb31-426"><a href="#cb31-426" aria-label="398"></a></span>
+<span id="cb31-429"><a href="#cb31-429" aria-label="399"></a><span class="in">```{python}</span></span>
+<span id="cb31-430"><a href="#cb31-430" aria-label="400"></a><span class="kw">def</span> loss(x,y,m,b):</span>
+<span id="cb31-431"><a href="#cb31-431" aria-label="401"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
+<span id="cb31-432"><a href="#cb31-432" aria-label="402"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span>
+<span id="cb31-433"><a href="#cb31-433" aria-label="403"></a><span class="in">```</span></span>
+<span id="cb31-434"><a href="#cb31-434" aria-label="404"></a></span>
+<span id="cb31-435"><a href="#cb31-435" aria-label="405"></a><span class="fu">#### Minimizing the Loss Function</span></span>
+<span id="cb31-436"><a href="#cb31-436" aria-label="406"></a></span>
+<span id="cb31-437"><a href="#cb31-437" aria-label="407"></a>We want to use the loss function in order to guide how to update $m$ and $b$ to</span>
+<span id="cb31-438"><a href="#cb31-438" aria-label="408"></a>better model our system.</span>
+<span id="cb31-439"><a href="#cb31-439" aria-label="409"></a>In calculus we learn to minimize a function with</span>
+<span id="cb31-440"><a href="#cb31-440" aria-label="410"></a>respect to a variable you calculate the _partial derivative_ with respect to</span>
+<span id="cb31-441"><a href="#cb31-441" aria-label="411"></a>the variable you want to vary.</span>
+<span id="cb31-442"><a href="#cb31-442" aria-label="412"></a></span>
+<span id="cb31-443"><a href="#cb31-443" aria-label="413"></a>$$ { \partial L \over \partial m } = 0 $$</span>
+<span id="cb31-444"><a href="#cb31-444" aria-label="414"></a></span>
+<span id="cb31-445"><a href="#cb31-445" aria-label="415"></a>The location of the solution to this is the minimum as shown in the figure</span>
+<span id="cb31-446"><a href="#cb31-446" aria-label="416"></a>above.</span>
+<span id="cb31-447"><a href="#cb31-447" aria-label="417"></a>We can write down the partial derivative of the loss function as:</span>
+<span id="cb31-448"><a href="#cb31-448" aria-label="418"></a></span>
+<span id="cb31-449"><a href="#cb31-449" aria-label="419"></a>$$ { \partial L \over \partial m } = -2 x_i (y_i - \hat{y_i}(x_i)) $$</span>
+<span id="cb31-450"><a href="#cb31-450" aria-label="420"></a>$$ { \partial L \over \partial b } = -2 (y_i - \hat{y_i}(x_i)) $$</span>
+<span id="cb31-451"><a href="#cb31-451" aria-label="421"></a></span>
+<span id="cb31-452"><a href="#cb31-452" aria-label="422"></a>We can use this to calculate an adjustment to $m$ and $b$ that will reduce the</span>
+<span id="cb31-453"><a href="#cb31-453" aria-label="423"></a>loss function, effectively improving our fitting parameters.</span>
+<span id="cb31-454"><a href="#cb31-454" aria-label="424"></a>This is done using this equation:</span>
+<span id="cb31-455"><a href="#cb31-455" aria-label="425"></a></span>
+<span id="cb31-456"><a href="#cb31-456" aria-label="426"></a>$$ m' = m - \eta { \partial L \over \partial m }$$</span>
+<span id="cb31-457"><a href="#cb31-457" aria-label="427"></a>$$ b' = b - \eta { \partial L \over \partial b }$$</span>
+<span id="cb31-458"><a href="#cb31-458" aria-label="428"></a></span>
+<span id="cb31-459"><a href="#cb31-459" aria-label="429"></a>Here our original $m$ and $b$ are adjusted by the partial derivative multiplied</span>
+<span id="cb31-460"><a href="#cb31-460" aria-label="430"></a>by some small factor, $\eta$, called the _learning rate_. This learning rate is</span>
+<span id="cb31-461"><a href="#cb31-461" aria-label="431"></a>very important in our process and must be tuned for every problem.</span>
+<span id="cb31-462"><a href="#cb31-462" aria-label="432"></a></span>
+<span id="cb31-463"><a href="#cb31-463" aria-label="433"></a>In our example, the selection of the learning rate essentially defines how</span>
+<span id="cb31-464"><a href="#cb31-464" aria-label="434"></a>close we can get to the minimum, AKA the best fit solution.</span>
+<span id="cb31-465"><a href="#cb31-465" aria-label="435"></a>We first select a starting point in our loss function (typically randomly), then</span>
+<span id="cb31-466"><a href="#cb31-466" aria-label="436"></a>every update from $m$/$b$ to $m'$/$b'$ shifts us to somewhere else on the loss</span>
+<span id="cb31-467"><a href="#cb31-467" aria-label="437"></a>curve. If the learning rate ($\eta$) is too large, each step overshoots and we</span>
+<span id="cb31-468"><a href="#cb31-468" aria-label="438"></a>bounce back and forth around the minimum, never reaching it; if it's too small,</span>
+<span id="cb31-469"><a href="#cb31-469" aria-label="439"></a>we crawl toward it agonizingly slowly. The interactive demos just below let you</span>
+<span id="cb31-470"><a href="#cb31-470" aria-label="440"></a>**see this trade-off in action** — watch the descent path change as we vary</span>
+<span id="cb31-471"><a href="#cb31-471" aria-label="441"></a>$\eta$.</span>
+<span id="cb31-472"><a href="#cb31-472" aria-label="442"></a></span>
+<span id="cb31-473"><a href="#cb31-473" aria-label="443"></a>Rather than describe this in the abstract, let's **actually run gradient descent** on a</span>
+<span id="cb31-474"><a href="#cb31-474" aria-label="444"></a>loss curve and plot the path it takes. This helper does one thing: start at a</span>
+<span id="cb31-475"><a href="#cb31-475" aria-label="445"></a>point, repeatedly step *downhill* by <span class="in">`-lr · gradient`</span>, and record every step.</span>
+<span id="cb31-476"><a href="#cb31-476" aria-label="446"></a></span>
+<span id="cb31-479"><a href="#cb31-479" aria-label="447"></a><span class="in">```{python}</span></span>
+<span id="cb31-480"><a href="#cb31-480" aria-label="448"></a><span class="kw">def</span> gradient_descent(grad, x0, lr, steps<span class="op">=</span><span class="dv">12</span>, lr_decay<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb31-481"><a href="#cb31-481" aria-label="449"></a>    <span class="co">"""Run GD on a 1-D loss; return the visited x positions.</span></span>
+<span id="cb31-482"><a href="#cb31-482" aria-label="450"></a><span class="co">    lr_decay&lt;1 shrinks the step each iteration (a simple LR schedule)."""</span></span>
+<span id="cb31-483"><a href="#cb31-483" aria-label="451"></a>    xs, x, eta <span class="op">=</span> [x0], x0, lr</span>
+<span id="cb31-484"><a href="#cb31-484" aria-label="452"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(steps):</span>
+<span id="cb31-485"><a href="#cb31-485" aria-label="453"></a>        x <span class="op">=</span> x <span class="op">-</span> eta <span class="op">*</span> grad(x)</span>
+<span id="cb31-486"><a href="#cb31-486" aria-label="454"></a>        eta <span class="op">*=</span> lr_decay</span>
+<span id="cb31-487"><a href="#cb31-487" aria-label="455"></a>        xs.append(x)</span>
+<span id="cb31-488"><a href="#cb31-488" aria-label="456"></a>    <span class="cf">return</span> np.array(xs)</span>
+<span id="cb31-489"><a href="#cb31-489" aria-label="457"></a></span>
+<span id="cb31-490"><a href="#cb31-490" aria-label="458"></a><span class="kw">def</span> descent_figure(f, grad, x0, lr, xr, steps<span class="op">=</span><span class="dv">12</span>, lr_decay<span class="op">=</span><span class="fl">1.0</span>, title<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb31-491"><a href="#cb31-491" aria-label="459"></a>    <span class="co">"""Plot the loss curve f over range xr and overlay the GD trajectory."""</span></span>
+<span id="cb31-492"><a href="#cb31-492" aria-label="460"></a>    xg <span class="op">=</span> np.linspace(<span class="op">*</span>xr, <span class="dv">400</span>)</span>
+<span id="cb31-493"><a href="#cb31-493" aria-label="461"></a>    path <span class="op">=</span> gradient_descent(grad, x0, lr, steps, lr_decay)</span>
+<span id="cb31-494"><a href="#cb31-494" aria-label="462"></a>    fig <span class="op">=</span> go.Figure()</span>
+<span id="cb31-495"><a href="#cb31-495" aria-label="463"></a>    fig.add_scatter(x<span class="op">=</span>xg, y<span class="op">=</span>f(xg), mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"loss"</span>,</span>
+<span id="cb31-496"><a href="#cb31-496" aria-label="464"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], width<span class="op">=</span><span class="dv">2</span>), hoverinfo<span class="op">=</span><span class="st">"skip"</span>)</span>
+<span id="cb31-497"><a href="#cb31-497" aria-label="465"></a>    fig.add_scatter(x<span class="op">=</span>path, y<span class="op">=</span>f(path), mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"GD path"</span>,</span>
+<span id="cb31-498"><a href="#cb31-498" aria-label="466"></a>                    line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="fl">1.5</span>),</span>
+<span id="cb31-499"><a href="#cb31-499" aria-label="467"></a>                    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span>COLORS[<span class="st">"red"</span>],</span>
+<span id="cb31-500"><a href="#cb31-500" aria-label="468"></a>                                line<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"#fff"</span>)))</span>
+<span id="cb31-501"><a href="#cb31-501" aria-label="469"></a>    fig.add_scatter(x<span class="op">=</span>[path[<span class="dv">0</span>]], y<span class="op">=</span>[f(path[<span class="dv">0</span>])], mode<span class="op">=</span><span class="st">"markers"</span>, name<span class="op">=</span><span class="st">"start"</span>,</span>
+<span id="cb31-502"><a href="#cb31-502" aria-label="470"></a>                    marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span>COLORS[<span class="st">"green"</span>], symbol<span class="op">=</span><span class="st">"star"</span>))</span>
+<span id="cb31-503"><a href="#cb31-503" aria-label="471"></a>    fig.update_layout(title<span class="op">=</span>title, xaxis_title<span class="op">=</span><span class="st">"parameter"</span>, yaxis_title<span class="op">=</span><span class="st">"loss"</span>,</span>
+<span id="cb31-504"><a href="#cb31-504" aria-label="472"></a>                      height<span class="op">=</span><span class="dv">340</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">40</span>), showlegend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb31-505"><a href="#cb31-505" aria-label="473"></a>    <span class="cf">return</span> fig</span>
+<span id="cb31-506"><a href="#cb31-506" aria-label="474"></a><span class="in">```</span></span>
+<span id="cb31-507"><a href="#cb31-507" aria-label="475"></a></span>
+<span id="cb31-508"><a href="#cb31-508" aria-label="476"></a>**On a simple bowl-shaped loss** (one minimum), the learning rate controls how we</span>
+<span id="cb31-509"><a href="#cb31-509" aria-label="477"></a>approach the bottom. Too large and we **overshoot and bounce** across the minimum;</span>
+<span id="cb31-510"><a href="#cb31-510" aria-label="478"></a>just right and we **descend smoothly**:</span>
+<span id="cb31-511"><a href="#cb31-511" aria-label="479"></a></span>
+<span id="cb31-514"><a href="#cb31-514" aria-label="480"></a><span class="in">```{python}</span></span>
+<span id="cb31-515"><a href="#cb31-515" aria-label="481"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span>                <span class="co"># parabola loss</span></span>
+<span id="cb31-516"><a href="#cb31-516" aria-label="482"></a>g <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">2</span><span class="op">*</span>x                 <span class="co"># its gradient</span></span>
+<span id="cb31-517"><a href="#cb31-517" aria-label="483"></a>descent_figure(f, g, x0<span class="op">=-</span><span class="dv">9</span>, lr<span class="op">=</span><span class="fl">0.9</span>,  xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Large LR — overshoots and bounces"</span>).show()</span>
+<span id="cb31-518"><a href="#cb31-518" aria-label="484"></a>descent_figure(f, g, x0<span class="op">=-</span><span class="dv">9</span>, lr<span class="op">=</span><span class="fl">0.1</span>,  xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Small LR — steady descent"</span>).show()</span>
+<span id="cb31-519"><a href="#cb31-519" aria-label="485"></a><span class="in">```</span></span>
+<span id="cb31-520"><a href="#cb31-520" aria-label="486"></a></span>
+<span id="cb31-521"><a href="#cb31-521" aria-label="487"></a>Too *small*, though, and you crawl so slowly you may never arrive in a reasonable</span>
+<span id="cb31-522"><a href="#cb31-522" aria-label="488"></a>number of steps. So the LR is a genuine trade-off.</span>
+<span id="cb31-523"><a href="#cb31-523" aria-label="489"></a></span>
+<span id="cb31-524"><a href="#cb31-524" aria-label="490"></a>**On a bumpy loss with several minima**, a new hazard appears: gradient descent</span>
+<span id="cb31-525"><a href="#cb31-525" aria-label="491"></a>only ever goes *downhill from where it is*, so it can get **trapped in a local</span>
+<span id="cb31-526"><a href="#cb31-526" aria-label="492"></a>minimum** that isn't the best one. A small LR settles into whatever valley it</span>
+<span id="cb31-527"><a href="#cb31-527" aria-label="493"></a>starts near; too large a LR bounces chaotically:</span>
+<span id="cb31-528"><a href="#cb31-528" aria-label="494"></a></span>
+<span id="cb31-531"><a href="#cb31-531" aria-label="495"></a><span class="in">```{python}</span></span>
+<span id="cb31-532"><a href="#cb31-532" aria-label="496"></a><span class="co"># a wavy loss: parabola + ripples -&gt; several local minima</span></span>
+<span id="cb31-533"><a href="#cb31-533" aria-label="497"></a>fw  <span class="op">=</span> <span class="kw">lambda</span> x: <span class="fl">0.05</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.sin(x)</span>
+<span id="cb31-534"><a href="#cb31-534" aria-label="498"></a>gw  <span class="op">=</span> <span class="kw">lambda</span> x: <span class="fl">0.10</span><span class="op">*</span>x    <span class="op">+</span> np.cos(x)</span>
+<span id="cb31-535"><a href="#cb31-535" aria-label="499"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">0.6</span>, xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Small LR — stuck in a local minimum"</span>).show()</span>
+<span id="cb31-536"><a href="#cb31-536" aria-label="500"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">3.5</span>, xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Large LR — bounces around"</span>).show()</span>
+<span id="cb31-537"><a href="#cb31-537" aria-label="501"></a><span class="in">```</span></span>
+<span id="cb31-538"><a href="#cb31-538" aria-label="502"></a></span>
+<span id="cb31-539"><a href="#cb31-539" aria-label="503"></a>The fix is a **learning-rate schedule**: start large to explore and escape shallow</span>
+<span id="cb31-540"><a href="#cb31-540" aria-label="504"></a>valleys, then shrink the step to settle into a good minimum:</span>
+<span id="cb31-541"><a href="#cb31-541" aria-label="505"></a></span>
+<span id="cb31-544"><a href="#cb31-544" aria-label="506"></a><span class="in">```{python}</span></span>
+<span id="cb31-545"><a href="#cb31-545" aria-label="507"></a>descent_figure(fw, gw, x0<span class="op">=-</span><span class="fl">7.5</span>, lr<span class="op">=</span><span class="fl">2.5</span>, lr_decay<span class="op">=</span><span class="fl">0.8</span>, steps<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb31-546"><a href="#cb31-546" aria-label="508"></a>               xr<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), title<span class="op">=</span><span class="st">"Decaying LR — explores, then settles"</span>).show()</span>
+<span id="cb31-547"><a href="#cb31-547" aria-label="509"></a><span class="in">```</span></span>
+<span id="cb31-548"><a href="#cb31-548" aria-label="510"></a></span>
+<span id="cb31-549"><a href="#cb31-549" aria-label="511"></a>As you can see, this process isn't perfect and could still land in a local</span>
+<span id="cb31-550"><a href="#cb31-550" aria-label="512"></a>minimum, but it is important to be aware of these behaviors as you utilize SGD</span>
+<span id="cb31-551"><a href="#cb31-551" aria-label="513"></a>in machine learning.</span>
+<span id="cb31-552"><a href="#cb31-552" aria-label="514"></a></span>
+<span id="cb31-553"><a href="#cb31-553" aria-label="515"></a>So let's continue, we'll build functions we can use to update our fit</span>
+<span id="cb31-554"><a href="#cb31-554" aria-label="516"></a>parameters, $m$ and $b$.</span>
+<span id="cb31-555"><a href="#cb31-555" aria-label="517"></a></span>
+<span id="cb31-558"><a href="#cb31-558" aria-label="518"></a><span class="in">```{python}</span></span>
+<span id="cb31-559"><a href="#cb31-559" aria-label="519"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
+<span id="cb31-560"><a href="#cb31-560" aria-label="520"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb31-561"><a href="#cb31-561" aria-label="521"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
+<span id="cb31-562"><a href="#cb31-562" aria-label="522"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
+<span id="cb31-563"><a href="#cb31-563" aria-label="523"></a></span>
+<span id="cb31-564"><a href="#cb31-564" aria-label="524"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
+<span id="cb31-565"><a href="#cb31-565" aria-label="525"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb31-566"><a href="#cb31-566" aria-label="526"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
+<span id="cb31-567"><a href="#cb31-567" aria-label="527"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
+<span id="cb31-568"><a href="#cb31-568" aria-label="528"></a><span class="in">```</span></span>
+<span id="cb31-569"><a href="#cb31-569" aria-label="529"></a></span>
+<span id="cb31-570"><a href="#cb31-570" aria-label="530"></a><span class="fu">## Putting it together</span></span>
+<span id="cb31-571"><a href="#cb31-571" aria-label="531"></a></span>
+<span id="cb31-572"><a href="#cb31-572" aria-label="532"></a>We can now randomly select our initial slope and intercept:</span>
+<span id="cb31-573"><a href="#cb31-573" aria-label="533"></a></span>
+<span id="cb31-576"><a href="#cb31-576" aria-label="534"></a><span class="in">```{python}</span></span>
+<span id="cb31-577"><a href="#cb31-577" aria-label="535"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb31-578"><a href="#cb31-578" aria-label="536"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb31-579"><a href="#cb31-579" aria-label="537"></a><span class="bu">print</span>(<span class="ss">f"y_i = </span><span class="sc">{</span>m<span class="sc">:.2f}</span><span class="ss"> * x + </span><span class="sc">{</span>b<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb31-580"><a href="#cb31-580" aria-label="538"></a><span class="co"># print('y_i = %.2f * x + %.2f' % (m,b))</span></span>
+<span id="cb31-581"><a href="#cb31-581" aria-label="539"></a><span class="in">```</span></span>
+<span id="cb31-582"><a href="#cb31-582" aria-label="540"></a></span>
+<span id="cb31-583"><a href="#cb31-583" aria-label="541"></a>Then we can calculate our Loss function:</span>
+<span id="cb31-584"><a href="#cb31-584" aria-label="542"></a></span>
+<span id="cb31-587"><a href="#cb31-587" aria-label="543"></a><span class="in">```{python}</span></span>
+<span id="cb31-588"><a href="#cb31-588" aria-label="544"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
+<span id="cb31-589"><a href="#cb31-589" aria-label="545"></a><span class="bu">print</span>(<span class="ss">f'first 10 loss values: </span><span class="sc">{</span>l[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb31-590"><a href="#cb31-590" aria-label="546"></a><span class="in">```</span></span>
+<span id="cb31-591"><a href="#cb31-591" aria-label="547"></a></span>
+<span id="cb31-594"><a href="#cb31-594" aria-label="548"></a><span class="in">```{python}</span></span>
+<span id="cb31-595"><a href="#cb31-595" aria-label="549"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb31-596"><a href="#cb31-596" aria-label="550"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
+<span id="cb31-597"><a href="#cb31-597" aria-label="551"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
+<span id="cb31-598"><a href="#cb31-598" aria-label="552"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
+<span id="cb31-599"><a href="#cb31-599" aria-label="553"></a>plot_data(x,y,m,b).show()</span>
+<span id="cb31-600"><a href="#cb31-600" aria-label="554"></a><span class="in">```</span></span>
+<span id="cb31-601"><a href="#cb31-601" aria-label="555"></a></span>
+<span id="cb31-604"><a href="#cb31-604" aria-label="556"></a><span class="in">```{python}</span></span>
+<span id="cb31-605"><a href="#cb31-605" aria-label="557"></a><span class="co"># set our initial slope and intercept</span></span>
+<span id="cb31-606"><a href="#cb31-606" aria-label="558"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb31-607"><a href="#cb31-607" aria-label="559"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb31-608"><a href="#cb31-608" aria-label="560"></a><span class="co"># each SGD step trains on a random mini-batch of this many points, not the whole dataset</span></span>
+<span id="cb31-609"><a href="#cb31-609" aria-label="561"></a>batch_size <span class="op">=</span> <span class="dv">60</span></span>
+<span id="cb31-610"><a href="#cb31-610" aria-label="562"></a><span class="co"># set a learning rate for each parameter</span></span>
+<span id="cb31-611"><a href="#cb31-611" aria-label="563"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
+<span id="cb31-612"><a href="#cb31-612" aria-label="564"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
+<span id="cb31-613"><a href="#cb31-613" aria-label="565"></a><span class="co"># use these to plot our progress over time</span></span>
+<span id="cb31-614"><a href="#cb31-614" aria-label="566"></a>loss_history <span class="op">=</span> []</span>
+<span id="cb31-615"><a href="#cb31-615" aria-label="567"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
+<span id="cb31-616"><a href="#cb31-616" aria-label="568"></a><span class="co"># (we keep the full arrays around only for plotting the final fit against all the data)</span></span>
+<span id="cb31-617"><a href="#cb31-617" aria-label="569"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-618"><a href="#cb31-618" aria-label="570"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-619"><a href="#cb31-619" aria-label="571"></a><span class="co"># we run our loop N times, recording (m, b, loss) at each step</span></span>
+<span id="cb31-620"><a href="#cb31-620" aria-label="572"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb31-621"><a href="#cb31-621" aria-label="573"></a>m_history, b_history <span class="op">=</span> [], []</span>
+<span id="cb31-622"><a href="#cb31-622" aria-label="574"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb31-623"><a href="#cb31-623" aria-label="575"></a>    <span class="co"># draw a fresh random mini-batch -- this sampling is the "stochastic" in SGD</span></span>
+<span id="cb31-624"><a href="#cb31-624" aria-label="576"></a>    data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb31-625"><a href="#cb31-625" aria-label="577"></a>    batch_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-626"><a href="#cb31-626" aria-label="578"></a>    batch_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-627"><a href="#cb31-627" aria-label="579"></a></span>
+<span id="cb31-628"><a href="#cb31-628" aria-label="580"></a>    <span class="co"># update our slope and intercept based on this batch</span></span>
+<span id="cb31-629"><a href="#cb31-629" aria-label="581"></a>    m <span class="op">=</span> updated_m(batch_x,batch_y,m,b,learning_rate_m)</span>
+<span id="cb31-630"><a href="#cb31-630" aria-label="582"></a>    b <span class="op">=</span> updated_b(batch_x,batch_y,m,b,learning_rate_b)</span>
+<span id="cb31-631"><a href="#cb31-631" aria-label="583"></a></span>
+<span id="cb31-632"><a href="#cb31-632" aria-label="584"></a>    <span class="co"># calculate the loss value (on this batch) and keep a history</span></span>
+<span id="cb31-633"><a href="#cb31-633" aria-label="585"></a>    loss_value <span class="op">=</span> np.mean(loss(batch_x,batch_y,m,b))</span>
+<span id="cb31-634"><a href="#cb31-634" aria-label="586"></a>    loss_history.append(loss_value)</span>
+<span id="cb31-635"><a href="#cb31-635" aria-label="587"></a>    m_history.append(m)</span>
+<span id="cb31-636"><a href="#cb31-636" aria-label="588"></a>    b_history.append(b)</span>
+<span id="cb31-637"><a href="#cb31-637" aria-label="589"></a></span>
+<span id="cb31-638"><a href="#cb31-638" aria-label="590"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>i<span class="sc">:03d}</span><span class="ss">] dy_i = </span><span class="sc">{</span>m<span class="sc">:.2f}</span><span class="ss"> * x + </span><span class="sc">{</span>b<span class="sc">:.2f}</span><span class="ss">   loss: </span><span class="sc">{</span>loss_value<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb31-639"><a href="#cb31-639" aria-label="591"></a><span class="in">```</span></span>
+<span id="cb31-640"><a href="#cb31-640" aria-label="592"></a></span>
+<span id="cb31-641"><a href="#cb31-641" aria-label="593"></a>Instead of flashing 30 plots by, let's build **one interactive animation**: drag</span>
+<span id="cb31-642"><a href="#cb31-642" aria-label="594"></a>the slider (or hit ▶) to watch the fit line rotate into place on the left while</span>
+<span id="cb31-643"><a href="#cb31-643" aria-label="595"></a>the loss drops on the right.</span>
+<span id="cb31-644"><a href="#cb31-644" aria-label="596"></a></span>
+<span id="cb31-647"><a href="#cb31-647" aria-label="597"></a><span class="in">```{python}</span></span>
+<span id="cb31-648"><a href="#cb31-648" aria-label="598"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb31-649"><a href="#cb31-649" aria-label="599"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb31-650"><a href="#cb31-650" aria-label="600"></a>line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(), data_x.<span class="bu">max</span>())</span>
+<span id="cb31-651"><a href="#cb31-651" aria-label="601"></a>calc_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc   <span class="co"># the closed-form fit, for comparison</span></span>
+<span id="cb31-652"><a href="#cb31-652" aria-label="602"></a></span>
+<span id="cb31-653"><a href="#cb31-653" aria-label="603"></a><span class="co"># one animation frame per SGD step</span></span>
+<span id="cb31-654"><a href="#cb31-654" aria-label="604"></a>frames <span class="op">=</span> []</span>
+<span id="cb31-655"><a href="#cb31-655" aria-label="605"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb31-656"><a href="#cb31-656" aria-label="606"></a>    fit_y <span class="op">=</span> line_x <span class="op">*</span> m_history[i] <span class="op">+</span> b_history[i]</span>
+<span id="cb31-657"><a href="#cb31-657" aria-label="607"></a>    frames.append(go.Frame(name<span class="op">=</span><span class="bu">str</span>(i), data<span class="op">=</span>[</span>
+<span id="cb31-658"><a href="#cb31-658" aria-label="608"></a>        go.Scatter(x<span class="op">=</span>data_x, y<span class="op">=</span>data_y, mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span id="cb31-659"><a href="#cb31-659" aria-label="609"></a>                   marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span>COLORS[<span class="st">"blue"</span>], opacity<span class="op">=</span><span class="fl">0.6</span>)),</span>
+<span id="cb31-660"><a href="#cb31-660" aria-label="610"></a>        go.Scatter(x<span class="op">=</span>line_x, y<span class="op">=</span>fit_y, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>], width<span class="op">=</span><span class="dv">3</span>)),</span>
+<span id="cb31-661"><a href="#cb31-661" aria-label="611"></a>        go.Scatter(x<span class="op">=</span>line_x, y<span class="op">=</span>calc_y, mode<span class="op">=</span><span class="st">"lines"</span>, line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], dash<span class="op">=</span><span class="st">"dot"</span>)),</span>
+<span id="cb31-662"><a href="#cb31-662" aria-label="612"></a>        go.Scatter(x<span class="op">=</span>np.arange(i <span class="op">+</span> <span class="dv">1</span>), y<span class="op">=</span>loss_history[:i <span class="op">+</span> <span class="dv">1</span>], mode<span class="op">=</span><span class="st">"lines+markers"</span>,</span>
+<span id="cb31-663"><a href="#cb31-663" aria-label="613"></a>                   line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"green"</span>]), xaxis<span class="op">=</span><span class="st">"x2"</span>, yaxis<span class="op">=</span><span class="st">"y2"</span>),</span>
+<span id="cb31-664"><a href="#cb31-664" aria-label="614"></a>    ]))</span>
+<span id="cb31-665"><a href="#cb31-665" aria-label="615"></a></span>
+<span id="cb31-666"><a href="#cb31-666" aria-label="616"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb31-667"><a href="#cb31-667" aria-label="617"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>, subplot_titles<span class="op">=</span>(<span class="st">"fit vs. data"</span>, <span class="st">"loss (log scale)"</span>))</span>
+<span id="cb31-668"><a href="#cb31-668" aria-label="618"></a><span class="co"># initialize with the first frame's traces</span></span>
+<span id="cb31-669"><a href="#cb31-669" aria-label="619"></a><span class="cf">for</span> tr <span class="kw">in</span> frames[<span class="dv">0</span>].data:</span>
+<span id="cb31-670"><a href="#cb31-670" aria-label="620"></a>    fig.add_trace(tr, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span>(<span class="dv">2</span> <span class="cf">if</span> tr.yaxis <span class="op">==</span> <span class="st">"y2"</span> <span class="cf">else</span> <span class="dv">1</span>))</span>
+<span id="cb31-671"><a href="#cb31-671" aria-label="621"></a>fig.frames <span class="op">=</span> frames</span>
+<span id="cb31-672"><a href="#cb31-672" aria-label="622"></a>fig.update_yaxes(<span class="bu">type</span><span class="op">=</span><span class="st">"log"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb31-673"><a href="#cb31-673" aria-label="623"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"square footage"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb31-674"><a href="#cb31-674" aria-label="624"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"loop step"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb31-675"><a href="#cb31-675" aria-label="625"></a>fig.update_layout(</span>
+<span id="cb31-676"><a href="#cb31-676" aria-label="626"></a>    height<span class="op">=</span><span class="dv">420</span>, showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-677"><a href="#cb31-677" aria-label="627"></a>    margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">0</span>, r<span class="op">=</span><span class="dv">0</span>, t<span class="op">=</span><span class="dv">40</span>, b<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb31-678"><a href="#cb31-678" aria-label="628"></a>    updatemenus<span class="op">=</span>[<span class="bu">dict</span>(<span class="bu">type</span><span class="op">=</span><span class="st">"buttons"</span>, showactive<span class="op">=</span><span class="va">False</span>, x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=-</span><span class="fl">0.15</span>, xanchor<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb31-679"><a href="#cb31-679" aria-label="629"></a>        buttons<span class="op">=</span>[<span class="bu">dict</span>(label<span class="op">=</span><span class="st">"▶ Play"</span>, method<span class="op">=</span><span class="st">"animate"</span>,</span>
+<span id="cb31-680"><a href="#cb31-680" aria-label="630"></a>                      args<span class="op">=</span>[<span class="va">None</span>, <span class="bu">dict</span>(frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">300</span>, redraw<span class="op">=</span><span class="va">True</span>), fromcurrent<span class="op">=</span><span class="va">True</span>)])])],</span>
+<span id="cb31-681"><a href="#cb31-681" aria-label="631"></a>    sliders<span class="op">=</span>[<span class="bu">dict</span>(active<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="fl">0.1</span>, <span class="bu">len</span><span class="op">=</span><span class="fl">0.9</span>, currentvalue<span class="op">=</span><span class="bu">dict</span>(prefix<span class="op">=</span><span class="st">"step "</span>),</span>
+<span id="cb31-682"><a href="#cb31-682" aria-label="632"></a>        steps<span class="op">=</span>[<span class="bu">dict</span>(method<span class="op">=</span><span class="st">"animate"</span>, label<span class="op">=</span><span class="bu">str</span>(i),</span>
+<span id="cb31-683"><a href="#cb31-683" aria-label="633"></a>                    args<span class="op">=</span>[[<span class="bu">str</span>(i)], <span class="bu">dict</span>(mode<span class="op">=</span><span class="st">"immediate"</span>, frame<span class="op">=</span><span class="bu">dict</span>(duration<span class="op">=</span><span class="dv">0</span>, redraw<span class="op">=</span><span class="va">True</span>))])</span>
+<span id="cb31-684"><a href="#cb31-684" aria-label="634"></a>               <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N)])],</span>
+<span id="cb31-685"><a href="#cb31-685" aria-label="635"></a>)</span>
+<span id="cb31-686"><a href="#cb31-686" aria-label="636"></a>fig.show()</span>
+<span id="cb31-687"><a href="#cb31-687" aria-label="637"></a><span class="in">```</span></span>
+<span id="cb31-688"><a href="#cb31-688" aria-label="638"></a></span>
+<span id="cb31-689"><a href="#cb31-689" aria-label="639"></a>The dotted grey line is the exact closed-form fit from earlier. Notice how SGD</span>
+<span id="cb31-690"><a href="#cb31-690" aria-label="640"></a>walks the red line toward it, step by step, while the loss on the right falls.</span>
+<span id="cb31-691"><a href="#cb31-691" aria-label="641"></a></span>
+<span id="cb31-692"><a href="#cb31-692" aria-label="642"></a><span class="fu">## Homework</span></span>
+<span id="cb31-693"><a href="#cb31-693" aria-label="643"></a></span>
+<span id="cb31-694"><a href="#cb31-694" aria-label="644"></a><span class="fu">### Mini Batch Training</span></span>
+<span id="cb31-695"><a href="#cb31-695" aria-label="645"></a></span>
+<span id="cb31-696"><a href="#cb31-696" aria-label="646"></a>In AI, datasets are often very large and cannot be processed all at once.</span>
+<span id="cb31-697"><a href="#cb31-697" aria-label="647"></a>This is exactly why the training loop above trains on a random mini-batch of</span>
+<span id="cb31-698"><a href="#cb31-698" aria-label="648"></a><span class="in">`batch_size`</span> inputs at each step:</span>
+<span id="cb31-699"><a href="#cb31-699" aria-label="649"></a></span>
+<span id="cb31-700"><a href="#cb31-700" aria-label="650"></a><span class="in">```python</span></span>
+<span id="cb31-701"><a href="#cb31-701" aria-label="651"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb31-702"><a href="#cb31-702" aria-label="652"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-703"><a href="#cb31-703" aria-label="653"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-704"><a href="#cb31-704" aria-label="654"></a><span class="in">```</span></span>
+<span id="cb31-705"><a href="#cb31-705" aria-label="655"></a></span>
+<span id="cb31-706"><a href="#cb31-706" aria-label="656"></a>rather than the entire dataset (<span class="in">`data['GrLivArea'].to_numpy()`</span>).</span>
+<span id="cb31-707"><a href="#cb31-707" aria-label="657"></a></span>
+<span id="cb31-708"><a href="#cb31-708" aria-label="658"></a>So far we fixed <span class="in">`batch_size = 60`</span> and ran a fixed <span class="in">`loop_N = 30`</span>. Your task is to</span>
+<span id="cb31-709"><a href="#cb31-709" aria-label="659"></a>turn the loop into a reusable function and explore how the **batch size** affects</span>
+<span id="cb31-710"><a href="#cb31-710" aria-label="660"></a>training. Note that a smaller batch size means more (and noisier) steps per pass</span>
+<span id="cb31-711"><a href="#cb31-711" aria-label="661"></a>over the data, so you should scale <span class="in">`loop_N`</span> with the batch size to keep the number</span>
+<span id="cb31-712"><a href="#cb31-712" aria-label="662"></a>of passes over the full dataset (the number of _epochs_) constant:</span>
+<span id="cb31-713"><a href="#cb31-713" aria-label="663"></a></span>
+<span id="cb31-714"><a href="#cb31-714" aria-label="664"></a><span class="in">```python</span></span>
+<span id="cb31-715"><a href="#cb31-715" aria-label="665"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb31-716"><a href="#cb31-716" aria-label="666"></a><span class="in">```</span></span>
+<span id="cb31-717"><a href="#cb31-717" aria-label="667"></a></span>
+<span id="cb31-718"><a href="#cb31-718" aria-label="668"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512.</span>
+<span id="cb31-719"><a href="#cb31-719" aria-label="669"></a></span>
+<span id="cb31-720"><a href="#cb31-720" aria-label="670"></a><span class="fu">### Learning rate issue (Bonus)</span></span>
+<span id="cb31-721"><a href="#cb31-721" aria-label="671"></a></span>
+<span id="cb31-722"><a href="#cb31-722" aria-label="672"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
+<span id="cb31-723"><a href="#cb31-723" aria-label="673"></a></span>
+<span id="cb31-724"><a href="#cb31-724" aria-label="674"></a><span class="in">```</span></span>
+<span id="cb31-725"><a href="#cb31-725" aria-label="675"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
+<span id="cb31-726"><a href="#cb31-726" aria-label="676"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
+<span id="cb31-727"><a href="#cb31-727" aria-label="677"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
+<span id="cb31-728"><a href="#cb31-728" aria-label="678"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
+<span id="cb31-729"><a href="#cb31-729" aria-label="679"></a><span class="in">...</span></span>
+<span id="cb31-730"><a href="#cb31-730" aria-label="680"></a><span class="in">```</span></span>
+<span id="cb31-731"><a href="#cb31-731" aria-label="681"></a></span>
+<span id="cb31-732"><a href="#cb31-732" aria-label="682"></a>**How to submit your homework**</span>
+<span id="cb31-733"><a href="#cb31-733" aria-label="683"></a></span>
+<span id="cb31-734"><a href="#cb31-734" aria-label="684"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
+<span id="cb31-735"><a href="#cb31-735" aria-label="685"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
+<span id="cb31-736"><a href="#cb31-736" aria-label="686"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
+<span id="cb31-737"><a href="#cb31-737" aria-label="687"></a></span>
+<span id="cb31-738"><a href="#cb31-738" aria-label="688"></a><span class="co">&lt;!--</span></span>
+<span id="cb31-739"><a href="#cb31-739" aria-label="689"></a><span class="co">Follow the below instruction on how to do this: </span></span>
+<span id="cb31-740"><a href="#cb31-740" aria-label="690"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
+<span id="cb31-741"><a href="#cb31-741" aria-label="691"></a><span class="co">--&gt;</span></span>
+<span id="cb31-742"><a href="#cb31-742" aria-label="692"></a></span>
+<span id="cb31-743"><a href="#cb31-743" aria-label="693"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>Homework Answer<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb31-744"><a href="#cb31-744" aria-label="694"></a></span>
+<span id="cb31-745"><a href="#cb31-745" aria-label="695"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
+<span id="cb31-746"><a href="#cb31-746" aria-label="696"></a></span>
+<span id="cb31-749"><a href="#cb31-749" aria-label="697"></a><span class="in">```{python}</span></span>
+<span id="cb31-750"><a href="#cb31-750" aria-label="698"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-751"><a href="#cb31-751" aria-label="699"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-752"><a href="#cb31-752" aria-label="700"></a></span>
+<span id="cb31-753"><a href="#cb31-753" aria-label="701"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
+<span id="cb31-754"><a href="#cb31-754" aria-label="702"></a>    loss_history <span class="op">=</span> []</span>
+<span id="cb31-755"><a href="#cb31-755" aria-label="703"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb31-756"><a href="#cb31-756" aria-label="704"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
+<span id="cb31-757"><a href="#cb31-757" aria-label="705"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb31-758"><a href="#cb31-758" aria-label="706"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb31-759"><a href="#cb31-759" aria-label="707"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb31-760"><a href="#cb31-760" aria-label="708"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb31-761"><a href="#cb31-761" aria-label="709"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb31-762"><a href="#cb31-762" aria-label="710"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb31-763"><a href="#cb31-763" aria-label="711"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
+<span id="cb31-764"><a href="#cb31-764" aria-label="712"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
+<span id="cb31-765"><a href="#cb31-765" aria-label="713"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
+<span id="cb31-766"><a href="#cb31-766" aria-label="714"></a></span>
+<span id="cb31-767"><a href="#cb31-767" aria-label="715"></a>        <span class="co"># calculate the loss value</span></span>
+<span id="cb31-768"><a href="#cb31-768" aria-label="716"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
+<span id="cb31-769"><a href="#cb31-769" aria-label="717"></a></span>
+<span id="cb31-770"><a href="#cb31-770" aria-label="718"></a>        <span class="co"># keep a history of our loss values</span></span>
+<span id="cb31-771"><a href="#cb31-771" aria-label="719"></a>        loss_history.append(loss_value)</span>
+<span id="cb31-772"><a href="#cb31-772" aria-label="720"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
+<span id="cb31-773"><a href="#cb31-773" aria-label="721"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
+<span id="cb31-774"><a href="#cb31-774" aria-label="722"></a><span class="in">```</span></span>
+<span id="cb31-775"><a href="#cb31-775" aria-label="723"></a></span>
+<span id="cb31-776"><a href="#cb31-776" aria-label="724"></a><span class="fu">## Minibatch training</span></span>
+<span id="cb31-777"><a href="#cb31-777" aria-label="725"></a></span>
+<span id="cb31-780"><a href="#cb31-780" aria-label="726"></a><span class="in">```{python}</span></span>
+<span id="cb31-781"><a href="#cb31-781" aria-label="727"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
 <span id="cb31-782"><a href="#cb31-782" aria-label="728"></a></span>
-<span id="cb31-783"><a href="#cb31-783" aria-label="729"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
-<span id="cb31-784"><a href="#cb31-784" aria-label="730"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb31-785"><a href="#cb31-785" aria-label="731"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb31-786"><a href="#cb31-786" aria-label="732"></a><span class="in">```</span></span>
-<span id="cb31-787"><a href="#cb31-787" aria-label="733"></a></span>
-<span id="cb31-788"><a href="#cb31-788" aria-label="734"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
-<span id="cb31-789"><a href="#cb31-789" aria-label="735"></a></span>
-<span id="cb31-790"><a href="#cb31-790" aria-label="736"></a><span class="fu">## Learning rate</span></span>
-<span id="cb31-791"><a href="#cb31-791" aria-label="737"></a></span>
-<span id="cb31-794"><a href="#cb31-794" aria-label="738"></a><span class="in">```{python}</span></span>
-<span id="cb31-795"><a href="#cb31-795" aria-label="739"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
-<span id="cb31-796"><a href="#cb31-796" aria-label="740"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
-<span id="cb31-797"><a href="#cb31-797" aria-label="741"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
-<span id="cb31-798"><a href="#cb31-798" aria-label="742"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
-<span id="cb31-799"><a href="#cb31-799" aria-label="743"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb31-800"><a href="#cb31-800" aria-label="744"></a><span class="in">```</span></span>
-<span id="cb31-801"><a href="#cb31-801" aria-label="745"></a></span>
-<span id="cb31-802"><a href="#cb31-802" aria-label="746"></a>We can see that, if we increase the batch size and the learning rate</span>
-<span id="cb31-803"><a href="#cb31-803" aria-label="747"></a>proportionally, at certain point, it does not converge for example for the case</span>
-<span id="cb31-804"><a href="#cb31-804" aria-label="748"></a>batch size = 512. To increase the learning rate proportional to the batch size</span>
-<span id="cb31-805"><a href="#cb31-805" aria-label="749"></a>is a general practice. However, if the learning rate is too large, it will</span>
-<span id="cb31-806"><a href="#cb31-806" aria-label="750"></a>continue to move around without finding a local minimum. One trick, people can</span>
-<span id="cb31-807"><a href="#cb31-807" aria-label="751"></a>do is to start with a smaller learning rate in the first few steps / epochs,</span>
-<span id="cb31-808"><a href="#cb31-808" aria-label="752"></a>and once the optimization becomes stable, increase the learning rate</span>
-<span id="cb31-809"><a href="#cb31-809" aria-label="753"></a>proportional to the batch size. </span>
-<span id="cb31-810"><a href="#cb31-810" aria-label="754"></a></span>
-<span id="cb31-811"><a href="#cb31-811" aria-label="755"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb31-783"><a href="#cb31-783" aria-label="729"></a></span>
+<span id="cb31-784"><a href="#cb31-784" aria-label="730"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
+<span id="cb31-785"><a href="#cb31-785" aria-label="731"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb31-786"><a href="#cb31-786" aria-label="732"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb31-787"><a href="#cb31-787" aria-label="733"></a><span class="in">```</span></span>
+<span id="cb31-788"><a href="#cb31-788" aria-label="734"></a></span>
+<span id="cb31-789"><a href="#cb31-789" aria-label="735"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
+<span id="cb31-790"><a href="#cb31-790" aria-label="736"></a></span>
+<span id="cb31-791"><a href="#cb31-791" aria-label="737"></a><span class="fu">## Learning rate</span></span>
+<span id="cb31-792"><a href="#cb31-792" aria-label="738"></a></span>
+<span id="cb31-795"><a href="#cb31-795" aria-label="739"></a><span class="in">```{python}</span></span>
+<span id="cb31-796"><a href="#cb31-796" aria-label="740"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
+<span id="cb31-797"><a href="#cb31-797" aria-label="741"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
+<span id="cb31-798"><a href="#cb31-798" aria-label="742"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
+<span id="cb31-799"><a href="#cb31-799" aria-label="743"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
+<span id="cb31-800"><a href="#cb31-800" aria-label="744"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb31-801"><a href="#cb31-801" aria-label="745"></a><span class="in">```</span></span>
+<span id="cb31-802"><a href="#cb31-802" aria-label="746"></a></span>
+<span id="cb31-803"><a href="#cb31-803" aria-label="747"></a>We can see that, if we increase the batch size and the learning rate</span>
+<span id="cb31-804"><a href="#cb31-804" aria-label="748"></a>proportionally, at certain point, it does not converge for example for the case</span>
+<span id="cb31-805"><a href="#cb31-805" aria-label="749"></a>batch size = 512. To increase the learning rate proportional to the batch size</span>
+<span id="cb31-806"><a href="#cb31-806" aria-label="750"></a>is a general practice. However, if the learning rate is too large, it will</span>
+<span id="cb31-807"><a href="#cb31-807" aria-label="751"></a>continue to move around without finding a local minimum. One trick, people can</span>
+<span id="cb31-808"><a href="#cb31-808" aria-label="752"></a>do is to start with a smaller learning rate in the first few steps / epochs,</span>
+<span id="cb31-809"><a href="#cb31-809" aria-label="753"></a>and once the optimization becomes stable, increase the learning rate</span>
+<span id="cb31-810"><a href="#cb31-810" aria-label="754"></a>proportional to the batch size. </span>
+<span id="cb31-811"><a href="#cb31-811" aria-label="755"></a></span>
+<span id="cb31-812"><a href="#cb31-812" aria-label="756"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

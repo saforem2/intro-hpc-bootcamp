@@ -37,7 +37,7 @@ Sam Foreman
 >
 > ### 🧭 No account needed
 >
-> This page runs anywhere — a laptop or [Google
+> This page runs anywhere: a laptop or [Google
 > Colab](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/00-intro-AI-HPC/4-data/index.ipynb)
 > (hit the badge above), no HPC account required. It assumes the
 > [**Python primer**](../3-python/index.qmd) (page 00.3); everything
@@ -55,7 +55,7 @@ except ImportError:
 ## 🔢 NumPy: arrays and vectorized math
 
 A NumPy **array** looks like a list, but math on it happens
-*element-wise* and *fast* — no Python loop:
+*element-wise* and *fast*, with no Python loop:
 
 ``` python
 import numpy as np
@@ -91,7 +91,7 @@ print("row sums:    ", M.sum(axis=1))     # sum across each row
     column means: [4. 5. 6. 7.]
     row sums:     [ 6 22 38]
 
-**Broadcasting** lets arrays of different shapes combine — here we
+**Broadcasting** lets arrays of different shapes combine. Here we
 standardize each column (subtract its mean, divide by its std) in one
 line:
 
@@ -124,8 +124,8 @@ print(np.round(standardized, 2))
 ## 🐼 pandas: tables of real data
 
 NumPy is great for pure numbers, but real datasets have **named
-columns** and mixed types. That’s `pandas`. Let’s load a real dataset —
-house sale prices vs. living area:
+columns** and mixed types. That’s `pandas`. Let’s load a real dataset:
+house sale prices vs. living area.
 
 ``` python
 import pandas as pd
@@ -164,8 +164,8 @@ df.head()
 
 </div>
 
-A few things you’ll do with almost every dataset — inspect its shape,
-summarize it, and select columns:
+A few things you’ll do with almost every dataset: inspect its shape,
+summarize it, and select columns.
 
 ``` python
 print("shape (rows, cols):", df.shape)
@@ -222,8 +222,8 @@ print(f"\nlarge & expensive homes: {len(big_expensive)} of {len(df)}")
 
 ## 📈 Matplotlib: seeing the data
 
-Numbers in a table only tell you so much — plot them. A **scatter plot**
-reveals the relationship between living area and price:
+Numbers in a table only tell you so much, so plot them. A **scatter
+plot** reveals the relationship between living area and price:
 
 ``` python
 import matplotlib.pyplot as plt
@@ -242,7 +242,7 @@ plt.show()
 ![](index_files/figure-commonmark/cell-10-output-1.png)
 
 The upward trend is exactly what a **linear regression** model learns to
-fit — which is the [next example](../6-linear-regression/index.qmd). A
+fit, which is the [next example](../6-linear-regression/index.qmd). A
 **histogram** shows the *distribution* of a single variable:
 
 ``` python
@@ -262,7 +262,7 @@ Attempt each before revealing the solution.
 
 > [!NOTE]
 >
-> ### Exercise 1 — NumPy
+> ### Exercise 1: NumPy
 >
 > Create a NumPy array of the integers 1 through 10, then print the mean
 > of only the **even** numbers. (Hint: boolean indexing,
@@ -281,7 +281,7 @@ Attempt each before revealing the solution.
 
 > [!NOTE]
 >
-> ### Exercise 2 — pandas
+> ### Exercise 2: pandas
 >
 > Add a new column `PricePerSqFt` to `df` equal to
 > `SalePrice / GrLivArea`, then print its average.
@@ -299,7 +299,7 @@ Attempt each before revealing the solution.
 
 > [!NOTE]
 >
-> ### Exercise 3 — plotting
+> ### Exercise 3: plotting
 >
 > Make a histogram of `GrLivArea` with 20 bins. What’s the most common
 > range of house sizes?
@@ -322,7 +322,7 @@ Attempt each before revealing the solution.
 - **NumPy** arrays do fast, vectorized, element-wise math (`a * 10`,
   `M.mean(axis=0)`).
 - **Broadcasting** combines arrays of different shapes without loops.
-- **pandas** `DataFrame`s hold labeled tables — `read_csv`, `.head()`,
+- **pandas** `DataFrame`s hold labeled tables: `read_csv`, `.head()`,
   `.describe()`, column selection, boolean filtering.
 - **Matplotlib** turns arrays/columns into scatter plots and histograms.
 
@@ -339,5 +339,5 @@ Attempt each before revealing the solution.
 > - [MachineLearningStatistics · Visualization
 >   notebook](https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb)
 
-➡️ **Next:** [Linear Regression](../6-linear-regression/index.qmd) —
-train your first model on exactly this dataset.
+➡️ **Next:** [Linear Regression](../6-linear-regression/index.qmd).
+Train your first model on exactly this dataset.

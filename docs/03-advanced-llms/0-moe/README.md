@@ -38,7 +38,7 @@ Distributed
 Training](../../01-neural-networks/4-distributed-training/index.qmd):
 data parallelism (DDP), ZeRO/FSDP, tensor parallelism (TP), pipeline
 parallelism (PP), and sequence parallelism (SP). Every one of those
-strategies keeps the model **dense** — each token flows through *every*
+strategies keeps the model **dense**: each token flows through *every*
 parameter.
 
 **Mixture of Experts (MoE)** breaks that assumption. Instead of one big
@@ -82,7 +82,7 @@ factor** (both below).
 
 ## 👋 ① A toy that really runs
 
-Let’s build a complete MoE layer in a few dozen lines of pure PyTorch —
+Let’s build a complete MoE layer in a few dozen lines of pure PyTorch,
 small enough to run on a laptop CPU. It has all four moving parts: a
 **router**, **sparse dispatch** to expert FFNs, a weighted **combine**,
 and the **load-balancing loss**.
@@ -161,8 +161,8 @@ class MoELayer(nn.Module):
 ```
 
 Run it on a tiny batch of 12 tokens and inspect **per-expert
-utilization** — the single most important thing to watch when training
-an MoE:
+utilization**, the single most important thing to watch when training an
+MoE:
 
 ``` python
 n_tokens, d_model = 12, 8
@@ -216,8 +216,8 @@ A few things to notice:
 - With a *random, untrained* router the load is already lumpy. During
   training, the **aux loss** term pushes the distribution toward uniform
   (loss $\to 1.0$).
-- Each expert runs **once**, batched over only the tokens routed to it —
-  that is the sparsity payoff.
+- Each expert runs **once**, batched over only the tokens routed to it.
+  That is the sparsity payoff.
 
 ### 🔎 Peek inside the router
 
@@ -302,7 +302,7 @@ top-k   dispatches   per-expert load          busiest <span style="color: #80008
 </pre>
 
 - Top-$k$ is nothing fancier than “keep the $k$ largest gate weights per
-  token” — top-1 is the `argmax`, top-2 the two biggest, and so on.
+  token”: top-1 is the `argmax`, top-2 the two biggest, and so on.
 - **Total dispatches $= n_\text{tokens} \times k$**, so per-token cost
   scales with $k$ — exactly the $k/E$ factor in $P_\text{active}$ —
   while the number of experts $E$ never changes.
@@ -315,11 +315,11 @@ top-k   dispatches   per-expert load          busiest <span style="color: #80008
 > ### ✏️ Exercise: which density balances best?
 >
 > The sweep prints `busiest / idlest` load for top-1, top-2, and top-3.
-> Which routing density gives the *most even* spread here — and why
-> isn’t the densest option “free”?
+> Which routing density gives the *most even* spread here, and why isn’t
+> the densest option “free”?
 >
 > Higher $k$ spreads tokens over more experts, so the busiest/idlest gap
-> shrinks — but every extra expert per token is extra FLOPs and extra
+> shrinks, but every extra expert per token is extra FLOPs and extra
 > all-to-all traffic at scale (§③). More experts activate per token, so
 > you pay more compute for that smoother load. The real fix for
 > imbalance is not “route to everyone,” it’s the load-balancing
@@ -394,7 +394,7 @@ dropped <span style="color: #008080; text-decoration-color: #008080; font-weight
 </pre>
 
 Because our untrained router is lumpy, an over-subscribed expert drops
-its overflow while others sit under capacity — wasted work on both ends.
+its overflow while others sit under capacity: wasted work on both ends.
 This is exactly why the **load-balancing aux loss** matters: flatten the
 distribution and the drop rate falls. Try re-running with
 `capacity_factor = 1.0` (tighter → more drops) vs `2.0` (looser → none)
@@ -409,7 +409,7 @@ to feel the trade-off.
 > **top-8**, and streams **millions of tokens per step** across
 > thousands of GPUs. The `for e in range(n_experts)` Python loop becomes
 > a single fused **grouped GEMM**, and the “dispatch tokens to experts”
-> step becomes an **all-to-all** collective across the network — because
+> step becomes an **all-to-all** collective across the network, because
 > the experts no longer live on the same GPU. That is *expert
 > parallelism*, the subject of movement ③.
 
@@ -475,8 +475,8 @@ plus **8 of 256 routed experts**, combined additively.
     fine-grained + shared-expert design.
 2.  **Multi-head Latent Attention (MLA).** Attention keys/values are
     compressed into a small **latent vector** via low-rank projection,
-    shrinking the KV-cache dramatically at inference — orthogonal to MoE
-    but part of the same model.
+    shrinking the KV-cache dramatically at inference (orthogonal to MoE,
+    but part of the same model).
 3.  **Auxiliary-loss-free load balancing.** Instead of the aux loss from
     our toy (which adds gradient noise), DeepSeek-v3 adds a per-expert
     **bias term** to the routing scores and nudges it up/down each step
@@ -490,7 +490,7 @@ plus **8 of 256 routed experts**, combined additively.
 
 [torchtitan](https://github.com/pytorch/torchtitan) ships a
 `deepseek_v3` model with a MoE block controlled from the job’s TOML.
-This is a representative excerpt — **display only** (torchtitan is not
+This is a representative excerpt, **display only** (torchtitan is not
 installed in the build environment):
 
 ``` toml
@@ -554,13 +554,13 @@ up:
 $$\frac{P_\text{active}}{P_\text{total}} \;=\; \frac{37\text{B}}{671\text{B}} \;\approx\; 5.5\%$$
 
 A dense model with 671B parameters would cost **~18×** more FLOPs per
-token than DeepSeek-v3 — which is why nobody trains one.
+token than DeepSeek-v3, which is why nobody trains one.
 
 ## 🚀 ③ Scale it up: expert parallelism
 
 Sparse activation is a *math* trick; **expert parallelism (EP)** is the
 *systems* trick that makes it fast. With 256 experts you cannot fit them
-all on one GPU, so you **shard the experts across GPUs** — e.g. 32
+all on one GPU, so you **shard the experts across GPUs**, e.g. 32
 experts per GPU across 8 ranks (`expert_parallel_degree = 8`).
 
 The consequence: after the router picks each token’s experts, the
@@ -624,7 +624,7 @@ How expert parallelism relates to the parallelism strategies from
 
 - **EP vs. DP/FSDP.** DP/FSDP replicate or shard the *same* dense
   weights; EP gives each rank *different* expert weights. In practice
-  you run **EP inside a data-parallel world** — the attention and
+  you run **EP inside a data-parallel world**: the attention and
   shared-expert params are still FSDP-sharded, only the routed experts
   use EP.
 - **EP vs. TP.** TP splits a *single* weight matrix and needs an
@@ -633,7 +633,7 @@ How expert parallelism relates to the parallelism strategies from
   *tokens*, not weights.
 - **When EP helps.** When (a) the model is MoE, (b) the experts don’t
   fit on one GPU, and (c) your interconnect can absorb the all-to-all.
-  On slow networks the all-to-all becomes the bottleneck — this is
+  On slow networks the all-to-all becomes the bottleneck; this is
   exactly the *communication-vs-computation* tradeoff from
   [\[1.4\]](../../01-neural-networks/4-distributed-training/index.qmd).
 
@@ -641,7 +641,7 @@ How expert parallelism relates to the parallelism strategies from
 
 `ezpz` sets up the distributed environment and launches on any scheduler
 (PBS → `mpiexec`, SLURM → `srun`, auto-detected). All commands below are
-**display-only** — run them on a login node of an ALCF/NERSC system.
+**display-only**: run them on a login node of an ALCF/NERSC system.
 
 1.  Set up a system-agnostic environment and install deps:
 
@@ -678,8 +678,8 @@ How expert parallelism relates to the parallelism strategies from
     ```
 
     `ezpz launch` figures out the node/GPU count and the right launcher
-    for you — no `mpirun -n $NGPUS` needed. Add `-A <project>` to your
-    job submission (e.g. NERSC Perlmutter `m4388`) as usual.
+    for you, so no `mpirun -n $NGPUS` is needed. Add `-A <project>` to
+    your job submission (e.g. NERSC Perlmutter `m4388`) as usual.
 
 5.  For long jobs, run under fault tolerance so a dead node fails over
     to a spare:
@@ -702,7 +702,7 @@ A healthy run prints per-step throughput and MFU, roughly:
 >
 > The \#1 MoE failure mode is **router collapse**: a few experts get all
 > the tokens and the rest die. Watch per-expert token counts (torchtitan
-> logs them) the same way you watched `counts` in the toy — they should
+> logs them) the same way you watched `counts` in the toy. They should
 > stay roughly uniform. If they collapse, your aux-loss coefficient (or
 > DeepSeek’s bias-update speed `load_balance_coeff`) is too small.
 
@@ -717,7 +717,7 @@ Concretely:
 1.  Launch the movement ③ command with a small flavor
     (e.g. `--training.steps 200`, `expert_parallel_degree` matching your
     node’s GPU count).
-2.  Report the **per-expert token counts / utilization** over training —
+2.  Report the **per-expert token counts / utilization** over training:
     do the experts stay balanced, or does the router collapse?
 3.  Report the steady-state **tokens/sec** (and `mfu` if shown).
 

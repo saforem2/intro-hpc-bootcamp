@@ -73,7 +73,7 @@ techniques when dealing with a large amount of data.
 ::: {.callout-note title="📋 Before you start" collapse="false"}
 This section assumes the [0] [Python](../../00-intro-AI-HPC/3-python/index.qmd)
 and [data](../../00-intro-AI-HPC/4-data/index.qmd) primers, and every cell here
-runs on a plain laptop or [Colab](https://colab.research.google.com/) — no GPU
+runs on a plain laptop or [Colab](https://colab.research.google.com/), no GPU
 needed.
 :::
 
@@ -152,7 +152,7 @@ print(f"original w -> sigmoid = {neuron(x, w,     b, sigmoid):.4f}")
 print(f"larger w   -> sigmoid = {neuron(x, w_big, b, sigmoid):.4f}")
 ```
 
-Here is what those three activations actually look like — this is the "shape"
+Here is what those three activations actually look like. This is the "shape"
 each neuron can bend the data into:
 
 ```{python}
@@ -173,10 +173,10 @@ ax.legend()
 plt.show()
 ```
 
-::: {.callout-note title="Exercise — feel the activation" collapse="false"}
+::: {.callout-note title="Exercise: feel the activation" collapse="false"}
 Using the `neuron` function above, keep `x`, `w`, and `b` the same but compare
 `relu` and `sigmoid`. For this input the pre-activation sum $z = w \cdot x + b$
-is **negative** — predict what each activation returns *before* running it, then
+is **negative**. Predict what each activation returns *before* running it, then
 check.
 
 ::: {.callout-tip title="💡 Solution" collapse="true"}
@@ -196,7 +196,7 @@ every input into `(0, 1)`, so a negative `z` gives a small positive number
 
 We claimed nonlinearity is what lets a network "fit curves and categories
 instead of just straight lines." Let's *see* it. Here is a **two-moons**
-dataset — two interleaving crescents that **no straight line can separate**:
+dataset of two interleaving crescents that **no straight line can separate**:
 
 ```{python}
 import numpy as np
@@ -264,7 +264,7 @@ plt.title(f"learned decision boundary ({acc:.0%} accurate)")
 plt.xticks([]); plt.yticks([])
 ```
 
-The boundary is **curved** — it wraps around each crescent. That curvature is
+The boundary is **curved**; it wraps around each crescent. That curvature is
 exactly what the hidden layer + ReLU bought us; delete the hidden layer (go
 straight `Linear(2, 1)`) and the best it can do is a single straight line that
 gets one moon badly wrong. This is the whole reason we stack neurons, and it
@@ -288,7 +288,7 @@ We'll start with the MNIST problem in this notebook:
 Next week, we'll learn about other types of neural networks.
 
 ::: {.callout-tip title="🧠 Check your understanding" collapse="false"}
-Test yourself — think it through, then reveal the answer.
+Test yourself: think it through, then reveal the answer.
 
 **Q1.** How does machine learning differ from traditional programming?
 
