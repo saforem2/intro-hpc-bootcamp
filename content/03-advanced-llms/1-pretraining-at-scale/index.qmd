@@ -213,31 +213,39 @@ communication or data loading, not compute.
 
 ### ① A toy MFU that really runs
 
-Let's make this concrete with a tiny example that runs on a laptop CPU. We
-time a real (tiny) training step, compute `tokens/sec`, and form an
-**MFU-style ratio** by comparing achieved FLOP/s against a _measured_ peak
-(a big dense matmul on the same machine). Flip `eval: false → true` and it runs
-as-is; on a GPU cluster you'd swap the measured peak for
-`ezpz.flops.get_peak_flops()`.
+Let's make this concrete with a tiny example that runs anywhere. We time a real
+(tiny) training step, compute `tokens/sec`, and form an **MFU-style ratio** by
+comparing achieved FLOP/s against a _measured_ peak (a big dense matmul on the
+same machine). `ezpz.get_torch_device_type()` picks whatever accelerator is
+present (`cuda` on Polaris, `xpu` on Aurora, `mps` on a Mac, else `cpu`), so
+the numbers below describe the hardware that actually rendered this page. On a
+GPU cluster you would swap the measured peak for `ezpz.flops.get_peak_flops()`.
 
 ```{python}
 import time
 import torch
+import ezpz
 
 torch.manual_seed(0)
-device = "cuda" if torch.cuda.is_available() else "cpu"
+# 'cuda' (Polaris) | 'xpu' (Aurora) | 'mps' (Apple) | 'cpu'. Asking ezpz beats
+# a hand-rolled `cuda.is_available()` check, which silently falls back to CPU on
+# Aurora's Intel GPUs -- the machine much of this course actually runs on.
+device = ezpz.get_torch_device_type()
 
 # --- (a) Measure a "peak" via a large dense matmul microbenchmark ---
 # 2 * N^3 FLOPs for an (N x N) @ (N x N) matmul.
 M = torch.randn(1024, 1024, device=device)
 for _ in range(3):  # warmup
     _ = M @ M
+ezpz.synchronize()
 n = 20
 t0 = time.perf_counter()
 for _ in range(n):
     _ = M @ M
+ezpz.synchronize()          # GPU kernels are async: wait before stopping the clock
 dt_mm = (time.perf_counter() - t0) / n
 peak_flops = (2 * 1024**3) / dt_mm
+print(f"device: {device}")
 print(f"measured peak (dense matmul): {peak_flops / 1e9:.1f} GFLOP/s")
 ```
 
@@ -266,11 +274,13 @@ def train_step():
 
 for _ in range(2):  # warmup (exclude graph build / allocation)
     train_step()
+ezpz.synchronize()
 
 n_steps = 20
 t0 = time.perf_counter()
 for _ in range(n_steps):
     train_step()
+ezpz.synchronize()          # same reason as above: time finished work, not launches
 dt = (time.perf_counter() - t0) / n_steps
 
 tps = tokens_per_step / dt
