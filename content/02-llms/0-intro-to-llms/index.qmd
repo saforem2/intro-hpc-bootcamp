@@ -322,9 +322,31 @@ reflect our values and is shown for demonstration only.
 ```{python}
 #| eval: false
 # One-time setup (Colab / fresh env). Skip if these are already installed.
+# nbformat is what lets plotly render a figure inside a notebook; without it
+# every fig.show() below raises "Mime type rendering requires nbformat>=4.2.0".
 %pip install transformers torch pandas rich \
-    umap-learn plotly scikit-learn nltk bertviz
+    umap-learn plotly scikit-learn nltk bertviz nbformat
 ```
+
+::: {.callout-warning title="🧩 On a preinstalled HPC kernel, add the missing bits"}
+Site-provided kernels (e.g. NERSC's `pytorch-2.11.0` module) ship torch and
+`transformers` but not the notebook-only extras, so the plotly cells fail with:
+
+```
+ValueError: Mime type rendering requires nbformat>=4.2.0 but it is not installed
+```
+
+Nothing is wrong with the figure code — plotly needs `nbformat` to emit the
+figure as a notebook MIME bundle. Install into your user site-packages, then
+restart the kernel:
+
+```bash
+python3 -m pip install --user nbformat nltk bertviz
+```
+
+If you would rather not install anything, `fig.write_html("plot.html")` saves
+the figure to a file you can open from the Jupyter file browser instead.
+:::
 
 ```{python}
 %load_ext autoreload
