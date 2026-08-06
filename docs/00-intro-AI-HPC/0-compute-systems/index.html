@@ -752,7 +752,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 4, 2026</p>
+      <p class="date-modified">August 5, 2026</p>
     </div>
   </div>
     
@@ -883,7 +883,8 @@ Figure&nbsp;4: ALCF Staff
 <p>Aurora is fully deployed and open for science. It reached <strong>1.01 exaFLOPS</strong> (sustained, HPL) and has ranked among the top few systems on the <a href="https://www.top500.org">Top500</a> since its debut. It is an HPE Cray EX system:</p>
 <p><strong>Aurora Machine Specs</strong></p>
 <ul>
-<li>Sustained speed: ~1.0 exaFLOPS (HPL); ~2 exaFLOPS peak</li>
+<li>Sustained speed: ~1.0 exaFLOPS (HPL, FP64); ~2 exaFLOPS peak</li>
+<li><strong>Mixed precision:</strong> ~340 TFLOP/s BF16 per GPU → ~2.0 PFLOP/s per node, ~<strong>21 exaFLOP/s</strong> BF16 across the machine</li>
 <li><strong>10,624</strong> total nodes, each with:
 <ul>
 <li>6 Intel Data Center GPU Max (“Ponte Vecchio”) GPUs</li>
@@ -903,6 +904,24 @@ Figure&nbsp;4: ALCF Staff
 </div>
 <div class="callout-body-container callout-body">
 <p>An <strong>exaFLOP</strong> is <span class="math inline">10^{18}</span> floating-point operations per second. If every person on Earth (~8 billion) did one calculation per second, it would take them over <strong>4 years</strong> to do what Aurora does in <strong>one second</strong>.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-important callout-titled" title="🎯 Which number matters for AI?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>🎯 Which number matters for AI?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every machine above is quoted twice, and the two numbers differ by a lot. That is not marketing: they measure different hardware.</p>
+<ul>
+<li>The <strong>headline (HPL) number is FP64</strong> — 64-bit floating point, the precision climate and physics codes need. It is what the <a href="https://www.top500.org">Top500</a> ranks.</li>
+<li>The <strong>mixed-precision number is BF16</strong> — 16-bit, computed on dedicated matrix units (NVIDIA <em>Tensor Cores</em>, Intel <em>XMX</em> engines). Neural networks train fine at this precision, so this is the number that predicts <strong>how fast your model trains</strong>.</li>
+</ul>
+<p>For Aurora the gap is roughly <strong>20×</strong> (~1 EF FP64 vs ~21 EF BF16). Quote the FP64 figure for a simulation proposal; quote the BF16 figure when you are estimating training time. In <a href="../../03-advanced-llms/1-pretraining-at-scale/index.html">[3.1] Pretraining at Scale</a> you use exactly this peak to compute <strong>MFU</strong> — what fraction of the machine your run actually keeps busy. <code>ezpz.flops.get_peak_flops()</code> looks these up for you.</p>
 </div>
 </div>
 <p>Here you can see one of the many rows of Aurora <em>nodes</em> with their Red &amp; Blue water cooling conduits visible.</p>
@@ -949,7 +968,8 @@ Figure&nbsp;6: Aurora
 <p>Sophia is an NVIDIA DGX A100-based system. The DGX A100 comprises eight NVIDIA A100 GPUs that provide a total of 320 gigabytes of memory for training AI datasets, as well as high-speed NVIDIA Mellanox ConnectX-6 network interfaces.</p>
 <p><strong>Sophia Machine Specs</strong></p>
 <ul>
-<li>Speed: 3.9 petaflops</li>
+<li>Speed: 3.9 petaflops (FP64)</li>
+<li><strong>Mixed precision:</strong> 312 TFLOP/s BF16 per A100 → ~2.5 PFLOP/s per node, ~<strong>60 PFLOP/s</strong> BF16 across the machine</li>
 <li>Each Node has:
 <ul>
 <li>8 NVIDIA (A100) GPUs each with 40GB onboard memory</li>
@@ -977,7 +997,8 @@ Figure&nbsp;6: Aurora
 <p>Polaris is an NVIDIA A100-based system.</p>
 <p>Polaris Machine Specs</p>
 <ul>
-<li>Speed: 44 petaflops</li>
+<li>Speed: 44 petaflops (FP64)</li>
+<li><strong>Mixed precision:</strong> 312 TFLOP/s BF16 per A100 → ~1.2 PFLOP/s per node, ~<strong>700 PFLOP/s</strong> BF16 across the machine</li>
 <li>Each Node has:
 <ul>
 <li>4 NVIDIA (A100) GPUs</li>
@@ -999,11 +1020,12 @@ Figure&nbsp;6: Aurora
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Notice the trajectory: Sophia (~4 PF) → Polaris (~44 PF) → Aurora (~1{,}000{,}000 PF = 1 EF), with the newest systems purpose-built for AI. Each generation is many times faster than the last: Polaris is roughly <strong>10×</strong> Sophia, and the jump to exascale, AI-era Aurora is dramatic, <strong>thousands of ×</strong> over Polaris. This explosive growth in compute is exactly what makes training today’s largest models possible.</p>
+<p>Notice the trajectory: Sophia (~4 PF) → Polaris (~44 PF) → Aurora (~1{,}000 PF = 1 EF) in FP64, with the newest systems purpose-built for AI. Each generation is roughly <strong>10×</strong> the last: Polaris ~11× Sophia, Aurora ~23× Polaris.</p>
+<p>The AI-relevant trend is steeper still. In BF16 the same three machines go ~60 PF → ~700 PF → ~21{,}700 PF, so Aurora is about <strong>31×</strong> Polaris for training work. That is what makes today’s largest models trainable at all.</p>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🧠 Check your understanding">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1012,27 +1034,10 @@ Figure&nbsp;6: Aurora
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Test yourself: think it through, then reveal the answer.</p>
 <p><strong>Q1.</strong> What is a “node” in a supercomputer, and how do nodes work together?</p>
-<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Show answer
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes are joined by a high-speed network so groups of them can share data quickly and act together as one much larger computer.</p>
-</div>
-</div>
-</div>
-<p><strong>Q2.</strong> You <code>ssh</code> into a supercomputer. Are you on a login node or a compute node, and where does your training job actually run?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1045,11 +1050,11 @@ Figure&nbsp;6: Aurora
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>You land on a <strong>login node</strong> (for editing code and submitting jobs). The heavy work runs on <strong>compute nodes</strong>, which you reach by submitting a job to the scheduler (see <a href="../../00-intro-AI-HPC/1-shared-resources/index.html">Shared Resources</a>).</p>
+<p>A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes are joined by a high-speed network so groups of them can share data quickly and act together as one much larger computer.</p>
 </div>
 </div>
 </div>
-<p><strong>Q3.</strong> Why do the AI-focused nodes (e.g.&nbsp;Polaris) pair a CPU with several GPUs?</p>
+<p><strong>Q2.</strong> You <code>ssh</code> into a supercomputer. Are you on a login node or a compute node, and where does your training job actually run?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1061,6 +1066,23 @@ Figure&nbsp;6: Aurora
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>You land on a <strong>login node</strong> (for editing code and submitting jobs). The heavy work runs on <strong>compute nodes</strong>, which you reach by submitting a job to the scheduler (see <a href="../../00-intro-AI-HPC/1-shared-resources/index.html">Shared Resources</a>).</p>
+</div>
+</div>
+</div>
+<p><strong>Q3.</strong> Why do the AI-focused nodes (e.g.&nbsp;Polaris) pair a CPU with several GPUs?</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The CPU runs the OS and orchestrates work; the GPUs do the massively parallel arithmetic (matrix multiplies) that dominates AI training, which they do far faster than a CPU.</p>
 </div>
@@ -1740,133 +1762,159 @@ Foreman, Sam. 2025. <span>“What Is a Supercomputer?”</span> August 1. <a hre
 <span id="cb1-135"><a href="#cb1-135" aria-label="133"></a></span>
 <span id="cb1-136"><a href="#cb1-136" aria-label="134"></a>**Aurora Machine Specs**</span>
 <span id="cb1-137"><a href="#cb1-137" aria-label="135"></a></span>
-<span id="cb1-138"><a href="#cb1-138" aria-label="136"></a><span class="ss">- </span>Sustained speed: \~1.0 exaFLOPS (HPL); \~2 exaFLOPS peak</span>
-<span id="cb1-139"><a href="#cb1-139" aria-label="137"></a><span class="ss">- </span>**10,624** total nodes, each with:</span>
-<span id="cb1-140"><a href="#cb1-140" aria-label="138"></a><span class="ss">  - </span>6 Intel Data Center GPU Max ("Ponte Vecchio") GPUs</span>
-<span id="cb1-141"><a href="#cb1-141" aria-label="139"></a><span class="ss">  - </span>2 Intel Xeon CPU Max ("Sapphire Rapids") CPUs</span>
-<span id="cb1-142"><a href="#cb1-142" aria-label="140"></a><span class="ss">  - </span>unified CPU+GPU memory</span>
-<span id="cb1-143"><a href="#cb1-143" aria-label="141"></a><span class="ss">- </span>HPE Slingshot-11 interconnect</span>
-<span id="cb1-144"><a href="#cb1-144" aria-label="142"></a></span>
-<span id="cb1-145"><a href="#cb1-145" aria-label="143"></a>::: {.callout-note title="🔢 What does 'exascale' mean?"}</span>
-<span id="cb1-146"><a href="#cb1-146" aria-label="144"></a>An **exaFLOP** is $10^{18}$ floating-point operations per second. If every person</span>
-<span id="cb1-147"><a href="#cb1-147" aria-label="145"></a>on Earth (\~8 billion) did one calculation per second, it would take them over</span>
-<span id="cb1-148"><a href="#cb1-148" aria-label="146"></a>**4 years** to do what Aurora does in **one second**.</span>
-<span id="cb1-149"><a href="#cb1-149" aria-label="147"></a>:::</span>
-<span id="cb1-150"><a href="#cb1-150" aria-label="148"></a></span>
-<span id="cb1-151"><a href="#cb1-151" aria-label="149"></a>Here you can see one of the many rows of Aurora _nodes_ with their Red &amp; Blue</span>
-<span id="cb1-152"><a href="#cb1-152" aria-label="150"></a>water cooling conduits visible.</span>
-<span id="cb1-153"><a href="#cb1-153" aria-label="151"></a></span>
-<span id="cb1-154"><a href="#cb1-154" aria-label="152"></a>::: {#fig-aurora-1}</span>
-<span id="cb1-155"><a href="#cb1-155" aria-label="153"></a></span>
-<span id="cb1-156"><a href="#cb1-156" aria-label="154"></a><span class="al">![](../img/aurora1.jpg)</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-label="155"></a></span>
-<span id="cb1-158"><a href="#cb1-158" aria-label="156"></a>Aurora</span>
-<span id="cb1-159"><a href="#cb1-159" aria-label="157"></a>:::</span>
-<span id="cb1-160"><a href="#cb1-160" aria-label="158"></a></span>
-<span id="cb1-161"><a href="#cb1-161" aria-label="159"></a>In this photo you see a close up of the 16 _nodes_ installed side-by-side:</span>
-<span id="cb1-162"><a href="#cb1-162" aria-label="160"></a></span>
-<span id="cb1-163"><a href="#cb1-163" aria-label="161"></a>::: {#fig-aurora-2}</span>
-<span id="cb1-164"><a href="#cb1-164" aria-label="162"></a><span class="al">![](../img/aurora2.jpg)</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-label="163"></a></span>
-<span id="cb1-166"><a href="#cb1-166" aria-label="164"></a>Aurora</span>
-<span id="cb1-167"><a href="#cb1-167" aria-label="165"></a>:::</span>
-<span id="cb1-168"><a href="#cb1-168" aria-label="166"></a></span>
-<span id="cb1-169"><a href="#cb1-169" aria-label="167"></a><span class="fu">### [Sophia](https://www.alcf.anl.gov/sophia)</span></span>
-<span id="cb1-170"><a href="#cb1-170" aria-label="168"></a></span>
-<span id="cb1-171"><a href="#cb1-171" aria-label="169"></a>Inside Sophia, you'll see repetition, though NVidia placed these fancy plates</span>
-<span id="cb1-172"><a href="#cb1-172" aria-label="170"></a>over the hardware so you only see their logo. </span>
-<span id="cb1-173"><a href="#cb1-173" aria-label="171"></a></span>
-<span id="cb1-174"><a href="#cb1-174" aria-label="172"></a>However, each plate covers 1 computer _node_.</span>
-<span id="cb1-175"><a href="#cb1-175" aria-label="173"></a></span>
-<span id="cb1-176"><a href="#cb1-176" aria-label="174"></a><span class="pp">|</span>          Sophia Racks           <span class="pp">|</span>          Sophia Inside          <span class="pp">|</span></span>
-<span id="cb1-177"><a href="#cb1-177" aria-label="175"></a><span class="pp">| :-----------------------------:</span> <span class="pp">| :-----------------------------:</span> <span class="pp">|</span></span>
-<span id="cb1-178"><a href="#cb1-178" aria-label="176"></a><span class="pp">|</span> <span class="al">![Sophia](../img/thetagpu1.jpg)</span> <span class="pp">|</span> <span class="al">![Sophia](../img/thetagpu2.jpg)</span> <span class="pp">|</span></span>
-<span id="cb1-179"><a href="#cb1-179" aria-label="177"></a></span>
-<span id="cb1-180"><a href="#cb1-180" aria-label="178"></a></span>
-<span id="cb1-181"><a href="#cb1-181" aria-label="179"></a>Sophia is an NVIDIA DGX A100-based system.</span>
-<span id="cb1-182"><a href="#cb1-182" aria-label="180"></a>The DGX A100 comprises eight NVIDIA A100 GPUs that provide a total of 320</span>
-<span id="cb1-183"><a href="#cb1-183" aria-label="181"></a>gigabytes of memory for training AI datasets, as well as high-speed NVIDIA</span>
-<span id="cb1-184"><a href="#cb1-184" aria-label="182"></a>Mellanox ConnectX-6 network interfaces.</span>
-<span id="cb1-185"><a href="#cb1-185" aria-label="183"></a></span>
-<span id="cb1-186"><a href="#cb1-186" aria-label="184"></a>**Sophia Machine Specs**</span>
-<span id="cb1-187"><a href="#cb1-187" aria-label="185"></a></span>
-<span id="cb1-188"><a href="#cb1-188" aria-label="186"></a><span class="ss">- </span>Speed: 3.9 petaflops</span>
-<span id="cb1-189"><a href="#cb1-189" aria-label="187"></a><span class="ss">- </span>Each Node has:</span>
-<span id="cb1-190"><a href="#cb1-190" aria-label="188"></a><span class="ss">  - </span>8 NVIDIA (A100) GPUs each with 40GB onboard memory</span>
-<span id="cb1-191"><a href="#cb1-191" aria-label="189"></a><span class="ss">  - </span>2 AMD EPYC (7742) CPUs</span>
-<span id="cb1-192"><a href="#cb1-192" aria-label="190"></a><span class="ss">  - </span>1 TB DDR4 Memory</span>
-<span id="cb1-193"><a href="#cb1-193" aria-label="191"></a><span class="ss">- </span>24 Total Nodes installed in 7 Racks</span>
+<span id="cb1-138"><a href="#cb1-138" aria-label="136"></a><span class="ss">- </span>Sustained speed: \~1.0 exaFLOPS (HPL, FP64); \~2 exaFLOPS peak</span>
+<span id="cb1-139"><a href="#cb1-139" aria-label="137"></a><span class="ss">- </span>**Mixed precision:** \~340 TFLOP/s BF16 per GPU → \~2.0 PFLOP/s per node,</span>
+<span id="cb1-140"><a href="#cb1-140" aria-label="138"></a>  \~**21 exaFLOP/s** BF16 across the machine</span>
+<span id="cb1-141"><a href="#cb1-141" aria-label="139"></a><span class="ss">- </span>**10,624** total nodes, each with:</span>
+<span id="cb1-142"><a href="#cb1-142" aria-label="140"></a><span class="ss">  - </span>6 Intel Data Center GPU Max ("Ponte Vecchio") GPUs</span>
+<span id="cb1-143"><a href="#cb1-143" aria-label="141"></a><span class="ss">  - </span>2 Intel Xeon CPU Max ("Sapphire Rapids") CPUs</span>
+<span id="cb1-144"><a href="#cb1-144" aria-label="142"></a><span class="ss">  - </span>unified CPU+GPU memory</span>
+<span id="cb1-145"><a href="#cb1-145" aria-label="143"></a><span class="ss">- </span>HPE Slingshot-11 interconnect</span>
+<span id="cb1-146"><a href="#cb1-146" aria-label="144"></a></span>
+<span id="cb1-147"><a href="#cb1-147" aria-label="145"></a>::: {.callout-note title="🔢 What does 'exascale' mean?"}</span>
+<span id="cb1-148"><a href="#cb1-148" aria-label="146"></a>An **exaFLOP** is $10^{18}$ floating-point operations per second. If every person</span>
+<span id="cb1-149"><a href="#cb1-149" aria-label="147"></a>on Earth (\~8 billion) did one calculation per second, it would take them over</span>
+<span id="cb1-150"><a href="#cb1-150" aria-label="148"></a>**4 years** to do what Aurora does in **one second**.</span>
+<span id="cb1-151"><a href="#cb1-151" aria-label="149"></a>:::</span>
+<span id="cb1-152"><a href="#cb1-152" aria-label="150"></a></span>
+<span id="cb1-153"><a href="#cb1-153" aria-label="151"></a>::: {.callout-important title="🎯 Which number matters for AI?"}</span>
+<span id="cb1-154"><a href="#cb1-154" aria-label="152"></a>Every machine above is quoted twice, and the two numbers differ by a lot. That</span>
+<span id="cb1-155"><a href="#cb1-155" aria-label="153"></a>is not marketing: they measure different hardware.</span>
+<span id="cb1-156"><a href="#cb1-156" aria-label="154"></a></span>
+<span id="cb1-157"><a href="#cb1-157" aria-label="155"></a><span class="ss">- </span>The **headline (HPL) number is FP64** — 64-bit floating point, the precision</span>
+<span id="cb1-158"><a href="#cb1-158" aria-label="156"></a>  climate and physics codes need. It is what the <span class="co">[</span><span class="ot">Top500</span><span class="co">](https://www.top500.org)</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-label="157"></a>  ranks.</span>
+<span id="cb1-160"><a href="#cb1-160" aria-label="158"></a><span class="ss">- </span>The **mixed-precision number is BF16** — 16-bit, computed on dedicated matrix</span>
+<span id="cb1-161"><a href="#cb1-161" aria-label="159"></a>  units (NVIDIA *Tensor Cores*, Intel *XMX* engines). Neural networks train fine</span>
+<span id="cb1-162"><a href="#cb1-162" aria-label="160"></a>  at this precision, so this is the number that predicts **how fast your model</span>
+<span id="cb1-163"><a href="#cb1-163" aria-label="161"></a>  trains**.</span>
+<span id="cb1-164"><a href="#cb1-164" aria-label="162"></a></span>
+<span id="cb1-165"><a href="#cb1-165" aria-label="163"></a>For Aurora the gap is roughly **20×** (\~1 EF FP64 vs \~21 EF BF16). Quote the</span>
+<span id="cb1-166"><a href="#cb1-166" aria-label="164"></a>FP64 figure for a simulation proposal; quote the BF16 figure when you are</span>
+<span id="cb1-167"><a href="#cb1-167" aria-label="165"></a>estimating training time. In <span class="co">[</span><span class="ot">\[3.1\] Pretraining at Scale</span><span class="co">](../../03-advanced-llms/1-pretraining-at-scale/index.qmd)</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-label="166"></a>you use exactly this peak to compute **MFU** — what fraction of the machine your</span>
+<span id="cb1-169"><a href="#cb1-169" aria-label="167"></a>run actually keeps busy. <span class="in">`ezpz.flops.get_peak_flops()`</span> looks these up for you.</span>
+<span id="cb1-170"><a href="#cb1-170" aria-label="168"></a>:::</span>
+<span id="cb1-171"><a href="#cb1-171" aria-label="169"></a></span>
+<span id="cb1-172"><a href="#cb1-172" aria-label="170"></a>Here you can see one of the many rows of Aurora _nodes_ with their Red &amp; Blue</span>
+<span id="cb1-173"><a href="#cb1-173" aria-label="171"></a>water cooling conduits visible.</span>
+<span id="cb1-174"><a href="#cb1-174" aria-label="172"></a></span>
+<span id="cb1-175"><a href="#cb1-175" aria-label="173"></a>::: {#fig-aurora-1}</span>
+<span id="cb1-176"><a href="#cb1-176" aria-label="174"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-label="175"></a><span class="al">![](../img/aurora1.jpg)</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-label="176"></a></span>
+<span id="cb1-179"><a href="#cb1-179" aria-label="177"></a>Aurora</span>
+<span id="cb1-180"><a href="#cb1-180" aria-label="178"></a>:::</span>
+<span id="cb1-181"><a href="#cb1-181" aria-label="179"></a></span>
+<span id="cb1-182"><a href="#cb1-182" aria-label="180"></a>In this photo you see a close up of the 16 _nodes_ installed side-by-side:</span>
+<span id="cb1-183"><a href="#cb1-183" aria-label="181"></a></span>
+<span id="cb1-184"><a href="#cb1-184" aria-label="182"></a>::: {#fig-aurora-2}</span>
+<span id="cb1-185"><a href="#cb1-185" aria-label="183"></a><span class="al">![](../img/aurora2.jpg)</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-label="184"></a></span>
+<span id="cb1-187"><a href="#cb1-187" aria-label="185"></a>Aurora</span>
+<span id="cb1-188"><a href="#cb1-188" aria-label="186"></a>:::</span>
+<span id="cb1-189"><a href="#cb1-189" aria-label="187"></a></span>
+<span id="cb1-190"><a href="#cb1-190" aria-label="188"></a><span class="fu">### [Sophia](https://www.alcf.anl.gov/sophia)</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-label="189"></a></span>
+<span id="cb1-192"><a href="#cb1-192" aria-label="190"></a>Inside Sophia, you'll see repetition, though NVidia placed these fancy plates</span>
+<span id="cb1-193"><a href="#cb1-193" aria-label="191"></a>over the hardware so you only see their logo. </span>
 <span id="cb1-194"><a href="#cb1-194" aria-label="192"></a></span>
-<span id="cb1-195"><a href="#cb1-195" aria-label="193"></a><span class="fu">### [Polaris](https://www.alcf.anl.gov/polaris)</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-label="193"></a>However, each plate covers 1 computer _node_.</span>
 <span id="cb1-196"><a href="#cb1-196" aria-label="194"></a></span>
-<span id="cb1-197"><a href="#cb1-197" aria-label="195"></a><span class="al">![Polaris](../img/polaris.jpg)</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-label="196"></a></span>
-<span id="cb1-199"><a href="#cb1-199" aria-label="197"></a>The inside of Polaris again shows the _nodes_ stacked up in a closet.</span>
+<span id="cb1-197"><a href="#cb1-197" aria-label="195"></a><span class="pp">|</span>          Sophia Racks           <span class="pp">|</span>          Sophia Inside          <span class="pp">|</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-label="196"></a><span class="pp">| :-----------------------------:</span> <span class="pp">| :-----------------------------:</span> <span class="pp">|</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-label="197"></a><span class="pp">|</span> <span class="al">![Sophia](../img/thetagpu1.jpg)</span> <span class="pp">|</span> <span class="al">![Sophia](../img/thetagpu2.jpg)</span> <span class="pp">|</span></span>
 <span id="cb1-200"><a href="#cb1-200" aria-label="198"></a></span>
-<span id="cb1-201"><a href="#cb1-201" aria-label="199"></a><span class="al">![Polaris-rack](../img/polaris1.jpg)</span></span>
-<span id="cb1-202"><a href="#cb1-202" aria-label="200"></a></span>
-<span id="cb1-203"><a href="#cb1-203" aria-label="201"></a>Polaris is an NVIDIA A100-based system.</span>
-<span id="cb1-204"><a href="#cb1-204" aria-label="202"></a></span>
-<span id="cb1-205"><a href="#cb1-205" aria-label="203"></a>Polaris Machine Specs</span>
+<span id="cb1-201"><a href="#cb1-201" aria-label="199"></a></span>
+<span id="cb1-202"><a href="#cb1-202" aria-label="200"></a>Sophia is an NVIDIA DGX A100-based system.</span>
+<span id="cb1-203"><a href="#cb1-203" aria-label="201"></a>The DGX A100 comprises eight NVIDIA A100 GPUs that provide a total of 320</span>
+<span id="cb1-204"><a href="#cb1-204" aria-label="202"></a>gigabytes of memory for training AI datasets, as well as high-speed NVIDIA</span>
+<span id="cb1-205"><a href="#cb1-205" aria-label="203"></a>Mellanox ConnectX-6 network interfaces.</span>
 <span id="cb1-206"><a href="#cb1-206" aria-label="204"></a></span>
-<span id="cb1-207"><a href="#cb1-207" aria-label="205"></a><span class="ss">- </span>Speed: 44 petaflops</span>
-<span id="cb1-208"><a href="#cb1-208" aria-label="206"></a><span class="ss">- </span>Each Node has:</span>
-<span id="cb1-209"><a href="#cb1-209" aria-label="207"></a><span class="ss">  - </span>4 NVIDIA (A100) GPUs</span>
-<span id="cb1-210"><a href="#cb1-210" aria-label="208"></a><span class="ss">  - </span>1 AMD EPYC (Milan) CPUs</span>
-<span id="cb1-211"><a href="#cb1-211" aria-label="209"></a><span class="ss">- </span>\~560 Total Nodes</span>
-<span id="cb1-212"><a href="#cb1-212" aria-label="210"></a></span>
-<span id="cb1-213"><a href="#cb1-213" aria-label="211"></a><span class="fu">### 🔭 What's next</span></span>
-<span id="cb1-214"><a href="#cb1-214" aria-label="212"></a></span>
-<span id="cb1-215"><a href="#cb1-215" aria-label="213"></a>ALCF's systems keep evolving toward ever-larger AI + science workloads. Argonne</span>
-<span id="cb1-216"><a href="#cb1-216" aria-label="214"></a>and NVIDIA have announced next-generation, AI-focused supercomputers</span>
-<span id="cb1-217"><a href="#cb1-217" aria-label="215"></a>(**Solstice** and **Equinox**) built on NVIDIA's Blackwell-generation GPUs, aimed</span>
-<span id="cb1-218"><a href="#cb1-218" aria-label="216"></a>at training and running very large AI models for science alongside traditional</span>
-<span id="cb1-219"><a href="#cb1-219" aria-label="217"></a>simulation. See the <span class="co">[</span><span class="ot">ALCF machine overview</span><span class="co">](https://www.alcf.anl.gov/alcf-resources)</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-label="218"></a>for the current, authoritative lineup and specs.</span>
+<span id="cb1-207"><a href="#cb1-207" aria-label="205"></a>**Sophia Machine Specs**</span>
+<span id="cb1-208"><a href="#cb1-208" aria-label="206"></a></span>
+<span id="cb1-209"><a href="#cb1-209" aria-label="207"></a><span class="ss">- </span>Speed: 3.9 petaflops (FP64)</span>
+<span id="cb1-210"><a href="#cb1-210" aria-label="208"></a><span class="ss">- </span>**Mixed precision:** 312 TFLOP/s BF16 per A100 → \~2.5 PFLOP/s per node,</span>
+<span id="cb1-211"><a href="#cb1-211" aria-label="209"></a>  \~**60 PFLOP/s** BF16 across the machine</span>
+<span id="cb1-212"><a href="#cb1-212" aria-label="210"></a><span class="ss">- </span>Each Node has:</span>
+<span id="cb1-213"><a href="#cb1-213" aria-label="211"></a><span class="ss">  - </span>8 NVIDIA (A100) GPUs each with 40GB onboard memory</span>
+<span id="cb1-214"><a href="#cb1-214" aria-label="212"></a><span class="ss">  - </span>2 AMD EPYC (7742) CPUs</span>
+<span id="cb1-215"><a href="#cb1-215" aria-label="213"></a><span class="ss">  - </span>1 TB DDR4 Memory</span>
+<span id="cb1-216"><a href="#cb1-216" aria-label="214"></a><span class="ss">- </span>24 Total Nodes installed in 7 Racks</span>
+<span id="cb1-217"><a href="#cb1-217" aria-label="215"></a></span>
+<span id="cb1-218"><a href="#cb1-218" aria-label="216"></a><span class="fu">### [Polaris](https://www.alcf.anl.gov/polaris)</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-label="217"></a></span>
+<span id="cb1-220"><a href="#cb1-220" aria-label="218"></a><span class="al">![Polaris](../img/polaris.jpg)</span></span>
 <span id="cb1-221"><a href="#cb1-221" aria-label="219"></a></span>
-<span id="cb1-222"><a href="#cb1-222" aria-label="220"></a>::: {.callout-tip title="📈 The trend"}</span>
-<span id="cb1-223"><a href="#cb1-223" aria-label="221"></a>Notice the trajectory: Sophia (\~4 PF) → Polaris (\~44 PF) → Aurora (\~1{,}000{,}000 PF</span>
-<span id="cb1-224"><a href="#cb1-224" aria-label="222"></a>= 1 EF), with the newest systems purpose-built for AI. Each generation is many</span>
-<span id="cb1-225"><a href="#cb1-225" aria-label="223"></a>times faster than the last: Polaris is roughly **10×** Sophia, and the jump to</span>
-<span id="cb1-226"><a href="#cb1-226" aria-label="224"></a>exascale, AI-era Aurora is dramatic, **thousands of ×** over Polaris. This</span>
-<span id="cb1-227"><a href="#cb1-227" aria-label="225"></a>explosive growth in compute is exactly what makes training today's largest</span>
-<span id="cb1-228"><a href="#cb1-228" aria-label="226"></a>models possible.</span>
-<span id="cb1-229"><a href="#cb1-229" aria-label="227"></a>:::</span>
-<span id="cb1-230"><a href="#cb1-230" aria-label="228"></a></span>
-<span id="cb1-231"><a href="#cb1-231" aria-label="229"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
-<span id="cb1-232"><a href="#cb1-232" aria-label="230"></a>Test yourself: think it through, then reveal the answer.</span>
-<span id="cb1-233"><a href="#cb1-233" aria-label="231"></a></span>
-<span id="cb1-234"><a href="#cb1-234" aria-label="232"></a>**Q1.** What is a "node" in a supercomputer, and how do nodes work together?</span>
-<span id="cb1-235"><a href="#cb1-235" aria-label="233"></a></span>
-<span id="cb1-236"><a href="#cb1-236" aria-label="234"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb1-237"><a href="#cb1-237" aria-label="235"></a>A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes</span>
-<span id="cb1-238"><a href="#cb1-238" aria-label="236"></a>are joined by a high-speed network so groups of them can share data quickly and</span>
-<span id="cb1-239"><a href="#cb1-239" aria-label="237"></a>act together as one much larger computer.</span>
-<span id="cb1-240"><a href="#cb1-240" aria-label="238"></a>::::</span>
-<span id="cb1-241"><a href="#cb1-241" aria-label="239"></a></span>
-<span id="cb1-242"><a href="#cb1-242" aria-label="240"></a>**Q2.** You <span class="in">`ssh`</span> into a supercomputer. Are you on a login node or a compute</span>
-<span id="cb1-243"><a href="#cb1-243" aria-label="241"></a>node, and where does your training job actually run?</span>
-<span id="cb1-244"><a href="#cb1-244" aria-label="242"></a></span>
-<span id="cb1-245"><a href="#cb1-245" aria-label="243"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb1-246"><a href="#cb1-246" aria-label="244"></a>You land on a **login node** (for editing code and submitting jobs). The heavy</span>
-<span id="cb1-247"><a href="#cb1-247" aria-label="245"></a>work runs on **compute nodes**, which you reach by submitting a job to the</span>
-<span id="cb1-248"><a href="#cb1-248" aria-label="246"></a>scheduler (see <span class="co">[</span><span class="ot">Shared Resources</span><span class="co">](../1-shared-resources/index.qmd)</span>).</span>
-<span id="cb1-249"><a href="#cb1-249" aria-label="247"></a>::::</span>
-<span id="cb1-250"><a href="#cb1-250" aria-label="248"></a></span>
-<span id="cb1-251"><a href="#cb1-251" aria-label="249"></a>**Q3.** Why do the AI-focused nodes (e.g. Polaris) pair a CPU with several GPUs?</span>
-<span id="cb1-252"><a href="#cb1-252" aria-label="250"></a></span>
-<span id="cb1-253"><a href="#cb1-253" aria-label="251"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
-<span id="cb1-254"><a href="#cb1-254" aria-label="252"></a>The CPU runs the OS and orchestrates work; the GPUs do the massively parallel</span>
-<span id="cb1-255"><a href="#cb1-255" aria-label="253"></a>arithmetic (matrix multiplies) that dominates AI training, which they do far</span>
-<span id="cb1-256"><a href="#cb1-256" aria-label="254"></a>faster than a CPU.</span>
-<span id="cb1-257"><a href="#cb1-257" aria-label="255"></a>::::</span>
-<span id="cb1-258"><a href="#cb1-258" aria-label="256"></a></span>
-<span id="cb1-259"><a href="#cb1-259" aria-label="257"></a>:::</span>
-<span id="cb1-260"><a href="#cb1-260" aria-label="258"></a></span>
-<span id="cb1-261"><a href="#cb1-261" aria-label="259"></a><span class="fu">## 📓 References</span></span>
-<span id="cb1-262"><a href="#cb1-262" aria-label="260"></a></span>
-<span id="cb1-263"><a href="#cb1-263" aria-label="261"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Awesome HPC</span><span class="co">](https://github.com/trevor-vincent/awesome-high-performance-computing)</span></span>
-<span id="cb1-264"><a href="#cb1-264" aria-label="262"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ALCF User Guides</span><span class="co">](https://docs.alcf.anl.gov)</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-label="220"></a>The inside of Polaris again shows the _nodes_ stacked up in a closet.</span>
+<span id="cb1-223"><a href="#cb1-223" aria-label="221"></a></span>
+<span id="cb1-224"><a href="#cb1-224" aria-label="222"></a><span class="al">![Polaris-rack](../img/polaris1.jpg)</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-label="223"></a></span>
+<span id="cb1-226"><a href="#cb1-226" aria-label="224"></a>Polaris is an NVIDIA A100-based system.</span>
+<span id="cb1-227"><a href="#cb1-227" aria-label="225"></a></span>
+<span id="cb1-228"><a href="#cb1-228" aria-label="226"></a>Polaris Machine Specs</span>
+<span id="cb1-229"><a href="#cb1-229" aria-label="227"></a></span>
+<span id="cb1-230"><a href="#cb1-230" aria-label="228"></a><span class="ss">- </span>Speed: 44 petaflops (FP64)</span>
+<span id="cb1-231"><a href="#cb1-231" aria-label="229"></a><span class="ss">- </span>**Mixed precision:** 312 TFLOP/s BF16 per A100 → \~1.2 PFLOP/s per node,</span>
+<span id="cb1-232"><a href="#cb1-232" aria-label="230"></a>  \~**700 PFLOP/s** BF16 across the machine</span>
+<span id="cb1-233"><a href="#cb1-233" aria-label="231"></a><span class="ss">- </span>Each Node has:</span>
+<span id="cb1-234"><a href="#cb1-234" aria-label="232"></a><span class="ss">  - </span>4 NVIDIA (A100) GPUs</span>
+<span id="cb1-235"><a href="#cb1-235" aria-label="233"></a><span class="ss">  - </span>1 AMD EPYC (Milan) CPUs</span>
+<span id="cb1-236"><a href="#cb1-236" aria-label="234"></a><span class="ss">- </span>\~560 Total Nodes</span>
+<span id="cb1-237"><a href="#cb1-237" aria-label="235"></a></span>
+<span id="cb1-238"><a href="#cb1-238" aria-label="236"></a><span class="fu">### 🔭 What's next</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-label="237"></a></span>
+<span id="cb1-240"><a href="#cb1-240" aria-label="238"></a>ALCF's systems keep evolving toward ever-larger AI + science workloads. Argonne</span>
+<span id="cb1-241"><a href="#cb1-241" aria-label="239"></a>and NVIDIA have announced next-generation, AI-focused supercomputers</span>
+<span id="cb1-242"><a href="#cb1-242" aria-label="240"></a>(**Solstice** and **Equinox**) built on NVIDIA's Blackwell-generation GPUs, aimed</span>
+<span id="cb1-243"><a href="#cb1-243" aria-label="241"></a>at training and running very large AI models for science alongside traditional</span>
+<span id="cb1-244"><a href="#cb1-244" aria-label="242"></a>simulation. See the <span class="co">[</span><span class="ot">ALCF machine overview</span><span class="co">](https://www.alcf.anl.gov/alcf-resources)</span></span>
+<span id="cb1-245"><a href="#cb1-245" aria-label="243"></a>for the current, authoritative lineup and specs.</span>
+<span id="cb1-246"><a href="#cb1-246" aria-label="244"></a></span>
+<span id="cb1-247"><a href="#cb1-247" aria-label="245"></a>::: {.callout-tip title="📈 The trend"}</span>
+<span id="cb1-248"><a href="#cb1-248" aria-label="246"></a>Notice the trajectory: Sophia (\~4 PF) → Polaris (\~44 PF) → Aurora (\~1{,}000 PF</span>
+<span id="cb1-249"><a href="#cb1-249" aria-label="247"></a>= 1 EF) in FP64, with the newest systems purpose-built for AI. Each generation is</span>
+<span id="cb1-250"><a href="#cb1-250" aria-label="248"></a>roughly **10×** the last: Polaris \~11× Sophia, Aurora \~23× Polaris.</span>
+<span id="cb1-251"><a href="#cb1-251" aria-label="249"></a></span>
+<span id="cb1-252"><a href="#cb1-252" aria-label="250"></a>The AI-relevant trend is steeper still. In BF16 the same three machines go</span>
+<span id="cb1-253"><a href="#cb1-253" aria-label="251"></a>\~60 PF → \~700 PF → \~21{,}700 PF, so Aurora is about **31×** Polaris for</span>
+<span id="cb1-254"><a href="#cb1-254" aria-label="252"></a>training work. That is what makes today's largest models trainable at all.</span>
+<span id="cb1-255"><a href="#cb1-255" aria-label="253"></a>:::</span>
+<span id="cb1-256"><a href="#cb1-256" aria-label="254"></a></span>
+<span id="cb1-257"><a href="#cb1-257" aria-label="255"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
+<span id="cb1-258"><a href="#cb1-258" aria-label="256"></a>Test yourself: think it through, then reveal the answer.</span>
+<span id="cb1-259"><a href="#cb1-259" aria-label="257"></a></span>
+<span id="cb1-260"><a href="#cb1-260" aria-label="258"></a>**Q1.** What is a "node" in a supercomputer, and how do nodes work together?</span>
+<span id="cb1-261"><a href="#cb1-261" aria-label="259"></a></span>
+<span id="cb1-262"><a href="#cb1-262" aria-label="260"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb1-263"><a href="#cb1-263" aria-label="261"></a>A node is one physical computer (its own CPU(s), memory, often GPUs). Many nodes</span>
+<span id="cb1-264"><a href="#cb1-264" aria-label="262"></a>are joined by a high-speed network so groups of them can share data quickly and</span>
+<span id="cb1-265"><a href="#cb1-265" aria-label="263"></a>act together as one much larger computer.</span>
+<span id="cb1-266"><a href="#cb1-266" aria-label="264"></a>::::</span>
+<span id="cb1-267"><a href="#cb1-267" aria-label="265"></a></span>
+<span id="cb1-268"><a href="#cb1-268" aria-label="266"></a>**Q2.** You <span class="in">`ssh`</span> into a supercomputer. Are you on a login node or a compute</span>
+<span id="cb1-269"><a href="#cb1-269" aria-label="267"></a>node, and where does your training job actually run?</span>
+<span id="cb1-270"><a href="#cb1-270" aria-label="268"></a></span>
+<span id="cb1-271"><a href="#cb1-271" aria-label="269"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb1-272"><a href="#cb1-272" aria-label="270"></a>You land on a **login node** (for editing code and submitting jobs). The heavy</span>
+<span id="cb1-273"><a href="#cb1-273" aria-label="271"></a>work runs on **compute nodes**, which you reach by submitting a job to the</span>
+<span id="cb1-274"><a href="#cb1-274" aria-label="272"></a>scheduler (see <span class="co">[</span><span class="ot">Shared Resources</span><span class="co">](../1-shared-resources/index.qmd)</span>).</span>
+<span id="cb1-275"><a href="#cb1-275" aria-label="273"></a>::::</span>
+<span id="cb1-276"><a href="#cb1-276" aria-label="274"></a></span>
+<span id="cb1-277"><a href="#cb1-277" aria-label="275"></a>**Q3.** Why do the AI-focused nodes (e.g. Polaris) pair a CPU with several GPUs?</span>
+<span id="cb1-278"><a href="#cb1-278" aria-label="276"></a></span>
+<span id="cb1-279"><a href="#cb1-279" aria-label="277"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
+<span id="cb1-280"><a href="#cb1-280" aria-label="278"></a>The CPU runs the OS and orchestrates work; the GPUs do the massively parallel</span>
+<span id="cb1-281"><a href="#cb1-281" aria-label="279"></a>arithmetic (matrix multiplies) that dominates AI training, which they do far</span>
+<span id="cb1-282"><a href="#cb1-282" aria-label="280"></a>faster than a CPU.</span>
+<span id="cb1-283"><a href="#cb1-283" aria-label="281"></a>::::</span>
+<span id="cb1-284"><a href="#cb1-284" aria-label="282"></a></span>
+<span id="cb1-285"><a href="#cb1-285" aria-label="283"></a>:::</span>
+<span id="cb1-286"><a href="#cb1-286" aria-label="284"></a></span>
+<span id="cb1-287"><a href="#cb1-287" aria-label="285"></a><span class="fu">## 📓 References</span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-label="286"></a></span>
+<span id="cb1-289"><a href="#cb1-289" aria-label="287"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Awesome HPC</span><span class="co">](https://github.com/trevor-vincent/awesome-high-performance-computing)</span></span>
+<span id="cb1-290"><a href="#cb1-290" aria-label="288"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ALCF User Guides</span><span class="co">](https://docs.alcf.anl.gov)</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

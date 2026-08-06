@@ -146,7 +146,9 @@ EX system:
 
 **Aurora Machine Specs**
 
-- Sustained speed: ~1.0 exaFLOPS (HPL); ~2 exaFLOPS peak
+- Sustained speed: ~1.0 exaFLOPS (HPL, FP64); ~2 exaFLOPS peak
+- **Mixed precision:** ~340 TFLOP/s BF16 per GPU → ~2.0 PFLOP/s per
+  node, ~**21 exaFLOP/s** BF16 across the machine
 - **10,624** total nodes, each with:
   - 6 Intel Data Center GPU Max (“Ponte Vecchio”) GPUs
   - 2 Intel Xeon CPU Max (“Sapphire Rapids”) CPUs
@@ -161,6 +163,29 @@ EX system:
 > every person on Earth (~8 billion) did one calculation per second, it
 > would take them over **4 years** to do what Aurora does in **one
 > second**.
+
+> [!IMPORTANT]
+>
+> ### 🎯 Which number matters for AI?
+>
+> Every machine above is quoted twice, and the two numbers differ by a
+> lot. That is not marketing: they measure different hardware.
+>
+> - The **headline (HPL) number is FP64** — 64-bit floating point, the
+>   precision climate and physics codes need. It is what the
+>   [Top500](https://www.top500.org) ranks.
+> - The **mixed-precision number is BF16** — 16-bit, computed on
+>   dedicated matrix units (NVIDIA *Tensor Cores*, Intel *XMX* engines).
+>   Neural networks train fine at this precision, so this is the number
+>   that predicts **how fast your model trains**.
+>
+> For Aurora the gap is roughly **20×** (~1 EF FP64 vs ~21 EF BF16).
+> Quote the FP64 figure for a simulation proposal; quote the BF16 figure
+> when you are estimating training time. In [\[3.1\] Pretraining at
+> Scale](../../03-advanced-llms/1-pretraining-at-scale/index.qmd) you
+> use exactly this peak to compute **MFU** — what fraction of the
+> machine your run actually keeps busy. `ezpz.flops.get_peak_flops()`
+> looks these up for you.
 
 Here you can see one of the many rows of Aurora *nodes* with their Red &
 Blue water cooling conduits visible.
@@ -202,7 +227,9 @@ network interfaces.
 
 **Sophia Machine Specs**
 
-- Speed: 3.9 petaflops
+- Speed: 3.9 petaflops (FP64)
+- **Mixed precision:** 312 TFLOP/s BF16 per A100 → ~2.5 PFLOP/s per
+  node, ~**60 PFLOP/s** BF16 across the machine
 - Each Node has:
   - 8 NVIDIA (A100) GPUs each with 40GB onboard memory
   - 2 AMD EPYC (7742) CPUs
@@ -221,7 +248,9 @@ Polaris is an NVIDIA A100-based system.
 
 Polaris Machine Specs
 
-- Speed: 44 petaflops
+- Speed: 44 petaflops (FP64)
+- **Mixed precision:** 312 TFLOP/s BF16 per A100 → ~1.2 PFLOP/s per
+  node, ~**700 PFLOP/s** BF16 across the machine
 - Each Node has:
   - 4 NVIDIA (A100) GPUs
   - 1 AMD EPYC (Milan) CPUs
@@ -242,12 +271,14 @@ current, authoritative lineup and specs.
 > ### 📈 The trend
 >
 > Notice the trajectory: Sophia (~4 PF) → Polaris (~44 PF) → Aurora
-> (~1{,}000{,}000 PF = 1 EF), with the newest systems purpose-built for
-> AI. Each generation is many times faster than the last: Polaris is
-> roughly **10×** Sophia, and the jump to exascale, AI-era Aurora is
-> dramatic, **thousands of ×** over Polaris. This explosive growth in
-> compute is exactly what makes training today’s largest models
-> possible.
+> (~1{,}000 PF = 1 EF) in FP64, with the newest systems purpose-built
+> for AI. Each generation is roughly **10×** the last: Polaris ~11×
+> Sophia, Aurora ~23× Polaris.
+>
+> The AI-relevant trend is steeper still. In BF16 the same three
+> machines go ~60 PF → ~700 PF → ~21{,}700 PF, so Aurora is about
+> **31×** Polaris for training work. That is what makes today’s largest
+> models trainable at all.
 
 > [!TIP]
 >

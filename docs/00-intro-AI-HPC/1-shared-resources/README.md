@@ -90,6 +90,20 @@ qsub -I -A <project> -q debug -l select=1 -l walltime=00:30:00 \
 queue, `-l select=N` = number of nodes, `-l walltime=HH:MM:SS` = time
 limit. When the job starts you land on a compute node.
 
+#### PBS (Aurora @ ALCF)
+
+``` bash
+# request 1 node for 30 minutes from the debug queue
+qsub -I -A <project> -q debug -l select=1 -l walltime=00:30:00 \
+     -l filesystems=home:flare
+```
+
+Same scheduler as Polaris, so the flags are identical. Two differences
+worth knowing: Aurora’s parallel filesystem is **`flare`** (Polaris uses
+`eagle`), and its GPUs are Intel rather than NVIDIA, so torch talks to
+them as `xpu` devices and the collectives backend is `xccl` instead of
+`nccl`. `ezpz` detects both for you.
+
 #### SLURM (Perlmutter @ NERSC)
 
 ``` bash
@@ -119,7 +133,7 @@ comments at the top (`#PBS ...` or `#SBATCH ...`).
 #PBS -q debug
 #PBS -l select=2
 #PBS -l walltime=00:30:00
-#PBS -l filesystems=home:eagle
+#PBS -l filesystems=home:eagle   # on Aurora this is home:flare
 #PBS -N my_first_job
 
 cd "$PBS_O_WORKDIR"          # PBS starts you in $HOME; cd back to where you submitted
