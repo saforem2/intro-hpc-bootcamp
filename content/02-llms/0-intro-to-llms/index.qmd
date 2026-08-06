@@ -349,17 +349,24 @@ OSError: [Errno 524] Unknown error 524
 
 Errno 524 is `ENOTSUPP` ("operation not supported"), and the traceback bottoms
 out in `fcntl.flock(...)` inside `huggingface_hub`. Nothing is wrong with your
-code. Set the cache to a filesystem that supports locking **before** importing
-`transformers`:
+code. Point the cache at a filesystem that *does* support locking:
 
 ```python
 import os
 os.environ["HF_HOME"] = os.path.join(os.environ["SCRATCH"], ".cache", "huggingface")
+os.makedirs(os.environ["HF_HOME"], exist_ok=True)
 ```
 
+**This must run before anything imports `huggingface_hub`.** That library reads
+`HF_HOME` *once*, at import time, and freezes the result in a module constant —
+so setting the variable in a later cell has no effect, and you get the identical
+Errno 524. If you already hit the error in this kernel, the import has happened:
+**`Kernel → Restart Kernel`**, then run the cell above *first*.
+
 On ALCF the same trick applies with `/lus/eagle/...` (Polaris) or
-`/lus/flare/...` (Aurora). If the model is already cached, adding
-`HF_HUB_OFFLINE=1` skips the lock path entirely.
+`/lus/flare/...` (Aurora). Setting `HF_HOME` in your shell before launching
+Jupyter avoids the ordering problem entirely, and `HF_HUB_OFFLINE=1` skips the
+lock path when the model is already cached.
 :::
 
 Generating text is three lines with a `pipeline`:
