@@ -370,8 +370,10 @@ library**:
   scale.
 
 `ezpz` auto-selects the right backend for you
-(`ezpz.get_torch_backend()` → `nccl` / `ccl` / `gloo`), so you rarely set it by
-hand.
+(`ezpz.get_torch_backend()` → `nccl` / `xccl` / `gloo`), so you rarely set it by
+hand. On XPU it prefers **`xccl`**, PyTorch's native Intel backend, and only
+falls back to the older out-of-tree `ccl` plugin when `xccl` isn't built in;
+set `TORCH_BACKEND` to override.
 
 The number that decides whether scaling works is the **comm : compute ratio**.
 Each step you do some compute (the FLOPs from Theme B) and some communication
