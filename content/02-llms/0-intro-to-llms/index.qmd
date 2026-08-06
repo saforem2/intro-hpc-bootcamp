@@ -928,8 +928,13 @@ model = AutoModelForCausalLM.from_pretrained(model_name, output_attentions=True)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 inputs = tokenizer.encode(input_text, return_tensors="pt")
-outputs = model(inputs)
-attention = outputs[-1]
+# use_cache=False drops `past_key_values` from the output. Ask for `.attentions`
+# by NAME rather than `outputs[-1]`: the field order of a ModelOutput is not
+# stable across transformers releases, and on newer versions the last entry is
+# the KV cache, which makes bertviz die with "IndexError: tuple index out of
+# range" deep inside num_heads().
+outputs = model(inputs, use_cache=False)
+attention = outputs.attentions          # tuple: n_layers x [1, heads, seq, seq]
 tokens = tokenizer.convert_ids_to_tokens(inputs[0])
 model_view(attention, tokens)
 ```
