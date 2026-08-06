@@ -337,6 +337,31 @@ import matplotlib as mpl
 from rich import print
 ```
 
+::: {.callout-warning title="🔒 On NERSC: point the HF cache at `$SCRATCH` first"}
+`transformers` takes a **file lock** before it downloads a model, so two
+processes can't corrupt a shared cache. The default cache lives in `$HOME`,
+which on Perlmutter is **GPFS — a filesystem that does not implement
+`flock()`**. The lock call fails before the download even starts:
+
+```
+OSError: [Errno 524] Unknown error 524
+```
+
+Errno 524 is `ENOTSUPP` ("operation not supported"), and the traceback bottoms
+out in `fcntl.flock(...)` inside `huggingface_hub`. Nothing is wrong with your
+code. Set the cache to a filesystem that supports locking **before** importing
+`transformers`:
+
+```python
+import os
+os.environ["HF_HOME"] = os.path.join(os.environ["SCRATCH"], ".cache", "huggingface")
+```
+
+On ALCF the same trick applies with `/lus/eagle/...` (Polaris) or
+`/lus/flare/...` (Aurora). If the model is already cached, adding
+`HF_HUB_OFFLINE=1` skips the lock path entirely.
+:::
+
 Generating text is three lines with a `pipeline`:
 
 ```{python}
