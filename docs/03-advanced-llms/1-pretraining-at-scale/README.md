@@ -569,10 +569,31 @@ Now the full picture: distribute the env with `yeet`, then launch a
 commands are display-only; run them inside an interactive allocation (or
 a job script).
 
-``` bash
-# --- 0. Inside an interactive allocation (PBS shown; ezpz also handles SLURM) ---
-qsub -A <project> -q debug -l select=8 -l walltime=01:00:00 -I
+**0. Grab an 8-node interactive allocation.** This is the only
+scheduler-specific step; everything after it is identical on both
+machines.
 
+<div class="panel-tabset">
+
+#### PBS (Polaris @ ALCF)
+
+``` bash
+qsub -I -A <project> -q debug -l select=8 -l walltime=01:00:00 \
+     -l filesystems=home:eagle
+```
+
+#### SLURM (Perlmutter @ NERSC)
+
+``` bash
+salloc --nodes 8 --qos interactive --time 01:00:00 \
+       --constraint gpu --account <project>
+```
+
+</div>
+
+Then, on the head node of the allocation:
+
+``` bash
 # --- 1. Build env once against a Python that exists on every node ---
 source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
 uv pip install "git+https://github.com/saforem2/ezpz"
@@ -602,7 +623,8 @@ To *see* scaling, run the same config at several node counts and record
 `tps` and `mfu` from the logs:
 
 ``` bash
-# Repeat step 4 for a few node counts (re-qsub or re-yeet as the alloc grows).
+# Repeat step 4 for a few node counts (re-request the allocation with qsub /
+# salloc, and re-yeet, as it grows).
 # Keep the per-GPU batch size FIXED so you're measuring scaling, not batch size.
 for N in 1 2 4 8; do
     ezpz launch --hostfile /tmp/hostfile-${N}nodes \
