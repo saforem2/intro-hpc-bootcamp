@@ -222,6 +222,17 @@ the numbers below describe the hardware that actually rendered this page. On a
 GPU cluster you would swap the measured peak for `ezpz.flops.get_peak_flops()`.
 
 ```{python}
+# `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).
+# It is not on PyPI, so Colab and site-provided HPC kernels won't have it and
+# later cells raise `ModuleNotFoundError: No module named 'bootcamp'`.
+# Installing here is a no-op if it is already present.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 import time
 import torch
 import ezpz

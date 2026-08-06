@@ -328,6 +328,17 @@ reflect our values and is shown for demonstration only.
     umap-learn plotly scikit-learn nltk bertviz nbformat
 ```
 
+```{python}
+# This page uses the `bootcamp` helper package (the shared plotly theme). It
+# lives in this repo, so it is NOT on PyPI and is missing from Colab and from
+# site-provided HPC kernels alike -- hence `ModuleNotFoundError: No module
+# named 'bootcamp'`. Install it if absent; locally this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
 ::: {.callout-warning title="🧩 On a preinstalled HPC kernel, add the missing bits"}
 Site-provided kernels (e.g. NERSC's `pytorch-2.11.0` module) ship torch and
 `transformers` but not the notebook-only extras, so the plotly cells fail with:
@@ -346,6 +357,19 @@ python3 -m pip install --user nbformat nltk bertviz
 
 If you would rather not install anything, `fig.write_html("plot.html")` saves
 the figure to a file you can open from the Jupyter file browser instead.
+
+The same applies to **`bootcamp`** (`No module named 'bootcamp'`): it is this
+repo's own helper package, not a PyPI release, so it is absent from every
+environment except a local `pip install -e .`. The cell above installs it
+straight from GitHub:
+
+```bash
+python3 -m pip install --user "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+It only supplies the shared plotly styling, so if you are blocked from
+installing, deleting the `from bootcamp.plotly_theme import apply_theme` and
+`apply_theme()` lines leaves the figures intact, just unthemed.
 :::
 
 ```{python}
