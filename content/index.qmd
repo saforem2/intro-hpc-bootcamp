@@ -209,14 +209,18 @@ notebooks, point Jupyter at the kernel, and start working.
 **Terminal**, or `ssh <user>@perlmutter.nersc.gov`):
 
 ```bash
-# clone into the shared project space so your work is with the group's
-cd /global/cfs/cdirs/m4388/projects/project8
+# your own directory inside the project space -- do NOT work in a shared clone,
+# and do not edit someone else's
+mkdir -p /global/cfs/cdirs/m4388/projects/project8/$USER
+cd       /global/cfs/cdirs/m4388/projects/project8/$USER
+
 git clone https://github.com/saforem2/intro-hpc-bootcamp
 cd intro-hpc-bootcamp
 ```
 
-Prefer to keep it in your own space? `cd $SCRATCH` (or `$HOME`) first — the
-clone works anywhere, and nothing below depends on where it lives.
+You now have your own copy to edit and break freely. `$SCRATCH` or `$HOME` work
+just as well if you would rather keep it there — nothing below depends on where
+the clone lives.
 
 **2. Make the shared kernel visible.** One-time setup, then log out and back
 into Jupyter so the file is re-read:
