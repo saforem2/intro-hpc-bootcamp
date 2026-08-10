@@ -75,6 +75,17 @@ approach here.
 First, the imports and house plot style:
 
 ```{python}
+# `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).
+# It is not on PyPI, so Colab and site-provided HPC kernels won't have it and
+# the next cell would raise `ModuleNotFoundError: No module named 'bootcamp'`.
+# Installing here is a no-op if it is already present.
+try:
+    import bootcamp  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 import numpy as np
 import plotly.graph_objects as go
 from bootcamp.plotly_theme import apply_theme, COLORS
