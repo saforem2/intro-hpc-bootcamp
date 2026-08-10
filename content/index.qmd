@@ -187,38 +187,97 @@ produced.
 
 ## 🏔️ Running instructions {#running-instructions}
 
-<details closed><summary><h3> Instructions for Running @ NERSC</h3></summary>
+### 🔬 On Perlmutter (NERSC) {#nersc}
 
-1. Start terminal
-1. Create symlink:
+This is the machine we use during the bootcamp.
 
-    ```bash
-    # symlink 
-    ln -s /global/cfs/cdirs/m4388 $HOME/m4388
-    ```
+::: {.callout-important title="📦 Nothing to install"}
+Every package these notebooks need — `torch` (CUDA), `transformers`, `ezpz`,
+`bootcamp`, `plotly`, `nltk`, `bertviz` — is already in a shared conda
+environment that all of `m4388` can read:
 
-1. Navigate to `m4388` directory:
+```
+/global/cfs/cdirs/m4388/envs/intro-hpc-bootcamp
+```
 
-   ```bash
-   cd $HOME/m4388
-   ```
+You **do not** run `pip install`, `conda create`, or `uv` anything. Clone the
+notebooks, point Jupyter at the kernel, and start working.
+:::
 
-1. Clone repo (somewhere) in `$HOME/$USER/`:
+**1. Get the notebooks.** From a Perlmutter terminal
+([jupyter.nersc.gov](https://jupyter.nersc.gov) → *Perlmutter Login Node* →
+**Terminal**, or `ssh <user>@perlmutter.nersc.gov`):
 
-   ```bash
-   mkdir $USER && cd $USER
-   git clone https://github.com/saforem2/intro-hpc-bootcamp
-   ```
+```bash
+# clone into the shared project space so your work is with the group's
+cd /global/cfs/cdirs/m4388/projects/project8
+git clone https://github.com/saforem2/intro-hpc-bootcamp
+cd intro-hpc-bootcamp
+```
 
-1. Find all Jupyter notebooks:
+Prefer to keep it in your own space? `cd $SCRATCH` (or `$HOME`) first — the
+clone works anywhere, and nothing below depends on where it lives.
 
-    ```bash
-    # find all *.ipynb files
-    ls **/**/**.ipynb | grep -v "cache" | sort | uniq
-    ```
+**2. Make the shared kernel visible.** One-time setup, then log out and back
+into Jupyter so the file is re-read:
 
+```bash
+echo 'export JUPYTER_PATH=/global/cfs/cdirs/m4388' >> ~/.bashrc
+```
 
-</details>
+**3. Open a notebook and pick the kernel.** In the Jupyter file browser, open
+any `content/**/index.ipynb`, then choose the kernel:
+
+> **Intro to HPC Bootcamp**
+
+That environment already has `torch` (CUDA), `transformers`, `ezpz`, `bootcamp`,
+`plotly`, `nltk`, `bertviz`, and the rest of the stack these pages import.
+
+::: {.callout-tip title="🐚 Using it from a terminal instead of Jupyter" collapse="true"}
+Same environment, activated by hand — useful for `ezpz test`, batch scripts, or
+anything you want to `srun`:
+
+```bash
+module load conda
+conda activate /global/cfs/cdirs/m4388/envs/intro-hpc-bootcamp
+
+ezpz test          # sanity-check the distributed setup
+```
+
+For a GPU node, grab an allocation first:
+
+```bash
+salloc --nodes 1 --qos interactive --time 01:00:00 \
+       --constraint gpu --account m4388
+```
+:::
+
+::: {.callout-note title="🧯 If something goes wrong" collapse="true"}
+| symptom | fix |
+|:--|:--|
+| Kernel **Intro to HPC Bootcamp** not in the menu | `JUPYTER_PATH` not set, or you have not logged out/in since setting it (step 2) |
+| `ModuleNotFoundError: No module named 'bootcamp'` (or `ezpz`) | You are on a different kernel — check the kernel name in the top-right of the notebook |
+| `CERTIFICATE_VERIFY_FAILED` on a dataset download | The env sets `SSL_CERT_FILE` on activation; if you launched python without activating, run `export SSL_CERT_FILE=$CONDA_PREFIX/ssl/cert.pem` |
+| `OSError: [Errno 524]` from a 🤗 download | `$HOME` is GPFS and does not support file locking. `export HF_HOME=$SCRATCH/.cache/huggingface` **before** importing `transformers` |
+:::
+
+### 💻 Off the cluster (not needed for the bootcamp)
+
+*Bootcamp participants can skip this — the shared environment above covers
+everything.* These pages also run on a laptop or in Colab if you want to keep
+working after the week is over, or you do not have an `m4388` allocation.
+
+Easiest is the
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com)
+badge at the top of any page: those notebooks install what they need in their
+first cell. To run locally instead:
+
+```bash
+git clone https://github.com/saforem2/intro-hpc-bootcamp
+cd intro-hpc-bootcamp
+python3 -m pip install -e .                                   # the `bootcamp` helpers
+python3 -m pip install "git+https://github.com/saforem2/ezpz" # distributed utilities
+```
 
 ## 🌐 Distributed Training Example {#distributed-training-example}
 
