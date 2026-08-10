@@ -322,33 +322,38 @@ ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
 
     ```bash
     ssh <user>@perlmutter.nersc.gov
-    [ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388
     ```
 
-1. Request an interactive job:
+1. Request an interactive job (4 A100s per node, charged to the GPU account
+   `m4388_g`):
 
     ```bash
-    NODES=2 ; HRS=02 ; QUEUE=interactive ; salloc --nodes $NODES --qos $QUEUE --time $HRS:30:00 -C 'gpu' --gpus=$(( 4 * NODES )) -A m4388_g
+    NODES=2 ; HRS=02 ; QUEUE=interactive
+    salloc --nodes $NODES --qos $QUEUE --time $HRS:30:00 \
+           -C 'gpu' --gpus=$(( 4 * NODES )) -A m4388_g
     ```
 
-1. Clone [wordplay](https://github.com/saforem2/wordplay) and navigate into it:
+1. Clone [wordplay](https://github.com/saforem2/wordplay) into **your own**
+   directory and navigate into it:
 
     ```bash
-    mkdir -p "${HOME}/m4388/Project5/${USER}"
-    cd "${HOME}/m4388/Project5/${USER}"
+    mkdir -p "/global/cfs/cdirs/m4388/projects/project8/${USER}"
+    cd       "/global/cfs/cdirs/m4388/projects/project8/${USER}"
     git clone https://github.com/saforem2/wordplay && cd wordplay
-    ``` 
+    ```
 
 1. Setup Python:
 
     ```bash
-	source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
-	```
+    source <(curl -fsSL https://bit.ly/ezpz-utils) && ezpz_setup_env
+    ```
 
-1. Setup [wandb](https://wandb.ai):
+1. Setup [wandb](https://wandb.ai) (optional -- it prompts for an API key;
+   skip it if you would rather not track the run):
 
     ```bash
-    wandb login
+    wandb login            # or, to skip tracking entirely:
+    export WANDB_DISABLED=1
     ```
 
 1. Install [`wordplay`](https://github.com/saforem2/wordplay):
@@ -372,7 +377,7 @@ ezpz launch python3 -m wordplay data=shakespeare train.max_iters=1000
 1. Run distributed training:
 
     ```bash
-	  ezpz launch python3 -m wordplay \
+    ezpz launch python3 -m wordplay \
         train.backend=DDP \
         train.eval_interval=100 \
         data=shakespeare \
