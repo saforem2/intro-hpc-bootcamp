@@ -66,6 +66,19 @@ enough to run on a laptop CPU. It has all four moving parts: a **router**,
 **load-balancing loss**.
 
 ```{python}
+# `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed
+# helpers) are both installed from GitHub, not PyPI, so Colab and site-provided
+# HPC kernels have neither and later cells raise ModuleNotFoundError.
+# Installing here is a no-op if they are already present.
+try:
+    import bootcamp  # noqa: F401
+    import ezpz  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/ezpz" \
+                    "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
 import os
 
 os.environ["EZPZ_LOG_SHOW_PATH"] = "0"   # drop the module:line suffix from log lines

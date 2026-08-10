@@ -52,14 +52,16 @@ Everything in this section uses only `torch` / `numpy` / `matplotlib`, downloads
 one small dataset, and runs on CPU. Let's set the stage:
 
 ```{python}
-# `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).
-# It is not on PyPI, so Colab and site-provided HPC kernels won't have it and
-# later cells raise `ModuleNotFoundError: No module named 'bootcamp'`.
-# Installing here is a no-op if it is already present.
+# `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed
+# helpers) are both installed from GitHub, not PyPI, so Colab and site-provided
+# HPC kernels have neither and later cells raise ModuleNotFoundError.
+# Installing here is a no-op if they are already present.
 try:
     import bootcamp  # noqa: F401
+    import ezpz  # noqa: F401
 except ImportError:
-    %pip install -q "git+https://github.com/saforem2/intro-hpc-bootcamp"
+    %pip install -q "git+https://github.com/saforem2/ezpz" \
+                    "git+https://github.com/saforem2/intro-hpc-bootcamp"
 ```
 
 ```{python}

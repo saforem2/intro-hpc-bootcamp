@@ -4652,7 +4652,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 6, 2026</p>
+      <p class="date-modified">August 10, 2026</p>
     </div>
   </div>
     
@@ -4835,17 +4835,19 @@ C \approx 6 \, N \, D
 <section id="a-toy-mfu-that-really-runs" class="level3">
 <h3 class="anchored" data-anchor-id="a-toy-mfu-that-really-runs">① A toy MFU that really runs</h3>
 <p>Let’s make this concrete with a tiny example that runs anywhere. We time a real (tiny) training step, compute <code>tokens/sec</code>, and form an <strong>MFU-style ratio</strong> by comparing achieved FLOP/s against a <em>measured</em> peak (a big dense matmul on the same machine). <code>ezpz.get_torch_device_type()</code> picks whatever accelerator is present (<code>cuda</code> on Polaris, <code>xpu</code> on Aurora, <code>mps</code> on a Mac, else <code>cpu</code>), so the numbers below describe the hardware that actually rendered this page. On a GPU cluster you would swap the measured peak for <code>ezpz.flops.get_peak_flops()</code>.</p>
-<div id="d9f89ae4" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="co"># It is not on PyPI, so Colab and site-provided HPC kernels won't have it and</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># later cells raise `ModuleNotFoundError: No module named 'bootcamp'`.</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a><span class="co"># Installing here is a no-op if it is already present.</span></span>
+<div id="34a750ed" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="co"># helpers) are both installed from GitHub, not PyPI, so Colab and site-provided</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># HPC kernels have neither and later cells raise ModuleNotFoundError.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a><span class="co"># Installing here is a no-op if they are already present.</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-label="5"></a><span class="cf">try</span>:</span>
 <span id="cb3-6"><a href="#cb3-6" aria-label="6"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-label="7"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb3-8"><a href="#cb3-8" aria-label="8"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-7"><a href="#cb3-7" aria-label="7"></a>    <span class="im">import</span> ezpz  <span class="co"># noqa: F401</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-label="8"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-label="9"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="op">\</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-label="10"></a>                    <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="540d2ae0" class="cell" data-execution_count="2">
+<div id="226a765b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="im">import</span> torch</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="im">import</span> ezpz</span>
@@ -4873,10 +4875,10 @@ C \approx 6 \, N \, D
 <span id="cb4-25"><a href="#cb4-25" aria-label="25"></a><span class="bu">print</span>(<span class="ss">f"measured peak (dense matmul): </span><span class="sc">{</span>peak_flops <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.1f}</span><span class="ss"> GFLOP/s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>device: mps
-measured peak (dense matmul): 3635.4 GFLOP/s</code></pre>
+measured peak (dense matmul): 4784.0 GFLOP/s</code></pre>
 </div>
 </div>
-<div id="3565be38" class="cell" data-execution_count="3">
+<div id="5570b215" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># --- (b) Time a tiny "language-model-shaped" training step ---</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>batch, seq, d_model, vocab <span class="op">=</span> <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">256</span>, <span class="dv">512</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>tokens_per_step <span class="op">=</span> batch <span class="op">*</span> seq</span>
@@ -4914,11 +4916,11 @@ measured peak (dense matmul): 3635.4 GFLOP/s</code></pre>
 <span id="cb6-35"><a href="#cb6-35" aria-label="35"></a><span class="bu">print</span>(<span class="ss">f"step time  : </span><span class="sc">{</span>dt <span class="op">*</span> <span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> ms"</span>)</span>
 <span id="cb6-36"><a href="#cb6-36" aria-label="36"></a><span class="bu">print</span>(<span class="ss">f"throughput : </span><span class="sc">{</span>tps<span class="sc">:,.0f}</span><span class="ss"> tokens/sec"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>step time  : 0.48 ms
-throughput : 1,066,500 tokens/sec</code></pre>
+<pre><code>step time  : 0.42 ms
+throughput : 1,208,979 tokens/sec</code></pre>
 </div>
 </div>
-<div id="b4a04545" class="cell" data-execution_count="4">
+<div id="008f71b1" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># --- (c) Compute a toy MFU-style ratio using the 6*N*D rule ---</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="co"># Count the params that actually do matmuls (the linear head dominates here).</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>N <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> lm_head.parameters())</span>
@@ -4933,8 +4935,8 @@ throughput : 1,066,500 tokens/sec</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>head params (N)  : 131,584
 FLOPs / step     : 4.04e+08
-achieved         : 842.01 GFLOP/s
-toy MFU          : 23.2%</code></pre>
+achieved         : 954.49 GFLOP/s
+toy MFU          : 20.0%</code></pre>
 </div>
 </div>
 <p>The toy MFU comes out well under 100%. The tiny step is dominated by Python / kernel-launch overhead relative to a big dense matmul, which is <em>exactly</em> the intuition MFU is meant to capture: small, comm-heavy, or overhead-bound work wastes the hardware.</p>
@@ -4942,7 +4944,7 @@ toy MFU          : 23.2%</code></pre>
 <section id="the-real-thing-ezpz.flops.compute_mfu" class="level3">
 <h3 class="anchored" data-anchor-id="the-real-thing-ezpz.flops.compute_mfu">The real thing: <code>ezpz.flops.compute_mfu</code></h3>
 <p>In a real run you don’t hand-roll this. <code>ezpz</code> ships <a href="https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py"><code>ezpz.flops</code></a>, which counts FLOPs with PyTorch’s <code>FlopCounterMode</code> and knows the peak BF16 FLOP/s for common accelerators (H100/H200/B200, A100, MI300X, Intel PVC, …):</p>
-<div id="583cea7a" class="cell" data-execution_count="5">
+<div id="f49e3c22" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="im">import</span> ezpz</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="im">from</span> ezpz.flops <span class="im">import</span> try_estimate, compute_mfu</span>
@@ -5061,7 +5063,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <section id="synthetic-data-conceptual-recipe" class="level3">
 <h3 class="anchored" data-anchor-id="synthetic-data-conceptual-recipe">Synthetic data (conceptual recipe)</h3>
 <p>When high-quality human data runs out for a domain, teams <strong>generate</strong> more with a strong existing model. This is how much of the recent gain in math/code/reasoning data was produced. The core loop (display-only pseudo-code):</p>
-<div id="c6e31a49" class="cell" data-execution_count="6">
+<div id="d866840a" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># Conceptual synthetic-data generation loop. NOT runnable here — this is</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="co"># the *shape* of the pipeline, not a drop-in implementation.</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="im">from</span> your_pipeline <span class="im">import</span> teacher_model, seed_prompts, verify</span>
@@ -5183,7 +5185,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <li><strong><code>MFU</code> vs node count</strong> — ideally flat. A downward slope means each added node buys less useful compute: the classic scaling wall.</li>
 </ol>
 <p>A quick sketch of the plot you’re aiming for (runs at build time with dummy numbers; replace with your measured sweep):</p>
-<div id="3acfe963" class="cell" data-execution_count="7">
+<div id="fbcdfff3" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
@@ -5213,9 +5215,9 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <span id="cb18-25"><a href="#cb18-25" aria-label="25"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
-<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                    <div id="2880c117-bd4f-49e7-bbe5-967d5ecfcda4" class="plotly-graph-div" style="height:360px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("2880c117-bd4f-49e7-bbe5-967d5ecfcda4")) {                    Plotly.newPlot(                        "2880c117-bd4f-49e7-bbe5-967d5ecfcda4",                        [{"line":{"color":"#838383","dash":"dash"},"mode":"lines","name":"ideal (linear)","x":[1,2,4,8],"y":[310000.0,620000.0,1240000.0,2480000.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"#2196F3"},"marker":{"size":8},"mode":"lines+markers","name":"measured","x":[1,2,4,8],"y":[310000.0,600000.0,1150000.0,2100000.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"#EF5350"},"marker":{"size":8},"mode":"lines+markers","showlegend":false,"x":[1,2,4,8],"y":[42.0,41.5,40.2,37.8],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"title":{"text":"nodes"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"tokens\u002fsec"}},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"title":{"text":"nodes"}},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"title":{"text":"MFU (%)"},"range":[0,50]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Throughput scaling","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"MFU vs scale","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"margin":{"t":50},"legend":{"x":0.01,"y":0.99,"xanchor":"left","yanchor":"top"},"height":360},                        {"responsive": true}                    ).then(function(){
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                    <div id="c4a23497-d68d-4d06-947d-da757a957ea0" class="plotly-graph-div" style="height:360px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c4a23497-d68d-4d06-947d-da757a957ea0")) {                    Plotly.newPlot(                        "c4a23497-d68d-4d06-947d-da757a957ea0",                        [{"line":{"color":"#838383","dash":"dash"},"mode":"lines","name":"ideal (linear)","x":[1,2,4,8],"y":[310000.0,620000.0,1240000.0,2480000.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"#2196F3"},"marker":{"size":8},"mode":"lines+markers","name":"measured","x":[1,2,4,8],"y":[310000.0,600000.0,1150000.0,2100000.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"#EF5350"},"marker":{"size":8},"mode":"lines+markers","showlegend":false,"x":[1,2,4,8],"y":[42.0,41.5,40.2,37.8],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#2196F3","#EF5350","#4CAF50","#FFA726","#AE81FF","#ffeb3b","#EC407A","#009688","#838383"],"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace","size":13},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left","font":{"family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05,"font":{"color":"#838383","family":"\"Iosevka Web\", ui-monospace, \"Cascadia Code\", monospace"}},"xaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"yaxis":{"automargin":true,"gridcolor":"rgba(131,131,131,0.2)","linecolor":"rgba(131,131,131,0.4)","ticks":"","title":{"standoff":15,"font":{"color":"#838383"}},"zerolinecolor":"rgba(131,131,131,0.3)","zerolinewidth":2,"tickcolor":"rgba(131,131,131,0.4)","tickfont":{"color":"#838383"}},"legend":{"bgcolor":"rgba(0,0,0,0)","font":{"color":"#838383"}}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"title":{"text":"nodes"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"tokens\u002fsec"}},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"title":{"text":"nodes"}},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"title":{"text":"MFU (%)"},"range":[0,50]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Throughput scaling","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"MFU vs scale","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"margin":{"t":50},"legend":{"x":0.01,"y":0.99,"xanchor":"left","yanchor":"top"},"height":360},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('2880c117-bd4f-49e7-bbe5-967d5ecfcda4');
+var gd = document.getElementById('c4a23497-d68d-4d06-947d-da757a957ea0');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -5267,9 +5269,9 @@ if (outputEl) {{
 <li><a href="https://allenai.org/olmo">OLMo</a> and the Dolma data report — open data-mixture and curation details</li>
 <li><a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/index.html">[2.1] Parallel Training</a></li>
 </ul>
-<div id="fba920de" class="cell" data-execution_count="8">
+<div id="0fc2b6b4" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
-<pre><code>Last updated: 2026-08-06 00:39</code></pre>
+<pre><code>Last updated: 2026-08-10 07:15</code></pre>
 </div>
 </div>
 
@@ -6024,459 +6026,461 @@ Foreman, Sam. 2026. <span>“🏗️ Pretraining at Scale.”</span> July 22. <a
 <span id="cb20-226"><a href="#cb20-226" aria-label="222"></a>GPU cluster you would swap the measured peak for <span class="in">`ezpz.flops.get_peak_flops()`</span>.</span>
 <span id="cb20-227"><a href="#cb20-227" aria-label="223"></a></span>
 <span id="cb20-230"><a href="#cb20-230" aria-label="224"></a><span class="in">```{python}</span></span>
-<span id="cb20-231"><a href="#cb20-231" aria-label="225"></a><span class="co"># `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).</span></span>
-<span id="cb20-232"><a href="#cb20-232" aria-label="226"></a><span class="co"># It is not on PyPI, so Colab and site-provided HPC kernels won't have it and</span></span>
-<span id="cb20-233"><a href="#cb20-233" aria-label="227"></a><span class="co"># later cells raise `ModuleNotFoundError: No module named 'bootcamp'`.</span></span>
-<span id="cb20-234"><a href="#cb20-234" aria-label="228"></a><span class="co"># Installing here is a no-op if it is already present.</span></span>
+<span id="cb20-231"><a href="#cb20-231" aria-label="225"></a><span class="co"># `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed</span></span>
+<span id="cb20-232"><a href="#cb20-232" aria-label="226"></a><span class="co"># helpers) are both installed from GitHub, not PyPI, so Colab and site-provided</span></span>
+<span id="cb20-233"><a href="#cb20-233" aria-label="227"></a><span class="co"># HPC kernels have neither and later cells raise ModuleNotFoundError.</span></span>
+<span id="cb20-234"><a href="#cb20-234" aria-label="228"></a><span class="co"># Installing here is a no-op if they are already present.</span></span>
 <span id="cb20-235"><a href="#cb20-235" aria-label="229"></a><span class="cf">try</span>:</span>
 <span id="cb20-236"><a href="#cb20-236" aria-label="230"></a>    <span class="im">import</span> bootcamp  <span class="co"># noqa: F401</span></span>
-<span id="cb20-237"><a href="#cb20-237" aria-label="231"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb20-238"><a href="#cb20-238" aria-label="232"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
-<span id="cb20-239"><a href="#cb20-239" aria-label="233"></a><span class="in">```</span></span>
-<span id="cb20-240"><a href="#cb20-240" aria-label="234"></a></span>
-<span id="cb20-243"><a href="#cb20-243" aria-label="235"></a><span class="in">```{python}</span></span>
-<span id="cb20-244"><a href="#cb20-244" aria-label="236"></a><span class="im">import</span> time</span>
-<span id="cb20-245"><a href="#cb20-245" aria-label="237"></a><span class="im">import</span> torch</span>
-<span id="cb20-246"><a href="#cb20-246" aria-label="238"></a><span class="im">import</span> ezpz</span>
-<span id="cb20-247"><a href="#cb20-247" aria-label="239"></a></span>
-<span id="cb20-248"><a href="#cb20-248" aria-label="240"></a>torch.manual_seed(<span class="dv">0</span>)</span>
-<span id="cb20-249"><a href="#cb20-249" aria-label="241"></a><span class="co"># 'cuda' (Polaris) | 'xpu' (Aurora) | 'mps' (Apple) | 'cpu'. Asking ezpz beats</span></span>
-<span id="cb20-250"><a href="#cb20-250" aria-label="242"></a><span class="co"># a hand-rolled `cuda.is_available()` check, which silently falls back to CPU on</span></span>
-<span id="cb20-251"><a href="#cb20-251" aria-label="243"></a><span class="co"># Aurora's Intel GPUs -- the machine much of this course actually runs on.</span></span>
-<span id="cb20-252"><a href="#cb20-252" aria-label="244"></a>device <span class="op">=</span> ezpz.get_torch_device_type()</span>
-<span id="cb20-253"><a href="#cb20-253" aria-label="245"></a></span>
-<span id="cb20-254"><a href="#cb20-254" aria-label="246"></a><span class="co"># --- (a) Measure a "peak" via a large dense matmul microbenchmark ---</span></span>
-<span id="cb20-255"><a href="#cb20-255" aria-label="247"></a><span class="co"># 2 * N^3 FLOPs for an (N x N) @ (N x N) matmul.</span></span>
-<span id="cb20-256"><a href="#cb20-256" aria-label="248"></a>M <span class="op">=</span> torch.randn(<span class="dv">1024</span>, <span class="dv">1024</span>, device<span class="op">=</span>device)</span>
-<span id="cb20-257"><a href="#cb20-257" aria-label="249"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):  <span class="co"># warmup</span></span>
-<span id="cb20-258"><a href="#cb20-258" aria-label="250"></a>    _ <span class="op">=</span> M <span class="op">@</span> M</span>
-<span id="cb20-259"><a href="#cb20-259" aria-label="251"></a>ezpz.synchronize()</span>
-<span id="cb20-260"><a href="#cb20-260" aria-label="252"></a>n <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb20-261"><a href="#cb20-261" aria-label="253"></a>t0 <span class="op">=</span> time.perf_counter()</span>
-<span id="cb20-262"><a href="#cb20-262" aria-label="254"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb20-263"><a href="#cb20-263" aria-label="255"></a>    _ <span class="op">=</span> M <span class="op">@</span> M</span>
-<span id="cb20-264"><a href="#cb20-264" aria-label="256"></a>ezpz.synchronize()          <span class="co"># GPU kernels are async: wait before stopping the clock</span></span>
-<span id="cb20-265"><a href="#cb20-265" aria-label="257"></a>dt_mm <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">/</span> n</span>
-<span id="cb20-266"><a href="#cb20-266" aria-label="258"></a>peak_flops <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span>) <span class="op">/</span> dt_mm</span>
-<span id="cb20-267"><a href="#cb20-267" aria-label="259"></a><span class="bu">print</span>(<span class="ss">f"device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb20-268"><a href="#cb20-268" aria-label="260"></a><span class="bu">print</span>(<span class="ss">f"measured peak (dense matmul): </span><span class="sc">{</span>peak_flops <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.1f}</span><span class="ss"> GFLOP/s"</span>)</span>
-<span id="cb20-269"><a href="#cb20-269" aria-label="261"></a><span class="in">```</span></span>
-<span id="cb20-270"><a href="#cb20-270" aria-label="262"></a></span>
-<span id="cb20-273"><a href="#cb20-273" aria-label="263"></a><span class="in">```{python}</span></span>
-<span id="cb20-274"><a href="#cb20-274" aria-label="264"></a><span class="co"># --- (b) Time a tiny "language-model-shaped" training step ---</span></span>
-<span id="cb20-275"><a href="#cb20-275" aria-label="265"></a>batch, seq, d_model, vocab <span class="op">=</span> <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">256</span>, <span class="dv">512</span></span>
-<span id="cb20-276"><a href="#cb20-276" aria-label="266"></a>tokens_per_step <span class="op">=</span> batch <span class="op">*</span> seq</span>
-<span id="cb20-277"><a href="#cb20-277" aria-label="267"></a></span>
-<span id="cb20-278"><a href="#cb20-278" aria-label="268"></a>emb <span class="op">=</span> torch.nn.Embedding(vocab, d_model).to(device)</span>
-<span id="cb20-279"><a href="#cb20-279" aria-label="269"></a>lm_head <span class="op">=</span> torch.nn.Linear(d_model, vocab).to(device)</span>
-<span id="cb20-280"><a href="#cb20-280" aria-label="270"></a>params <span class="op">=</span> <span class="bu">list</span>(emb.parameters()) <span class="op">+</span> <span class="bu">list</span>(lm_head.parameters())</span>
-<span id="cb20-281"><a href="#cb20-281" aria-label="271"></a>opt <span class="op">=</span> torch.optim.SGD(params, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
-<span id="cb20-282"><a href="#cb20-282" aria-label="272"></a></span>
-<span id="cb20-283"><a href="#cb20-283" aria-label="273"></a>x <span class="op">=</span> torch.randint(<span class="dv">0</span>, vocab, (batch, seq), device<span class="op">=</span>device)</span>
-<span id="cb20-284"><a href="#cb20-284" aria-label="274"></a>y <span class="op">=</span> torch.randint(<span class="dv">0</span>, vocab, (batch, seq), device<span class="op">=</span>device)</span>
-<span id="cb20-285"><a href="#cb20-285" aria-label="275"></a></span>
-<span id="cb20-286"><a href="#cb20-286" aria-label="276"></a></span>
-<span id="cb20-287"><a href="#cb20-287" aria-label="277"></a><span class="kw">def</span> train_step():</span>
-<span id="cb20-288"><a href="#cb20-288" aria-label="278"></a>    opt.zero_grad()</span>
-<span id="cb20-289"><a href="#cb20-289" aria-label="279"></a>    logits <span class="op">=</span> lm_head(emb(x))</span>
-<span id="cb20-290"><a href="#cb20-290" aria-label="280"></a>    loss <span class="op">=</span> torch.nn.functional.cross_entropy(logits.view(<span class="op">-</span><span class="dv">1</span>, vocab), y.view(<span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb20-291"><a href="#cb20-291" aria-label="281"></a>    loss.backward()</span>
-<span id="cb20-292"><a href="#cb20-292" aria-label="282"></a>    opt.step()</span>
-<span id="cb20-293"><a href="#cb20-293" aria-label="283"></a>    <span class="cf">return</span> loss</span>
-<span id="cb20-294"><a href="#cb20-294" aria-label="284"></a></span>
-<span id="cb20-295"><a href="#cb20-295" aria-label="285"></a></span>
-<span id="cb20-296"><a href="#cb20-296" aria-label="286"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):  <span class="co"># warmup (exclude graph build / allocation)</span></span>
-<span id="cb20-297"><a href="#cb20-297" aria-label="287"></a>    train_step()</span>
-<span id="cb20-298"><a href="#cb20-298" aria-label="288"></a>ezpz.synchronize()</span>
-<span id="cb20-299"><a href="#cb20-299" aria-label="289"></a></span>
-<span id="cb20-300"><a href="#cb20-300" aria-label="290"></a>n_steps <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb20-301"><a href="#cb20-301" aria-label="291"></a>t0 <span class="op">=</span> time.perf_counter()</span>
-<span id="cb20-302"><a href="#cb20-302" aria-label="292"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
-<span id="cb20-303"><a href="#cb20-303" aria-label="293"></a>    train_step()</span>
-<span id="cb20-304"><a href="#cb20-304" aria-label="294"></a>ezpz.synchronize()          <span class="co"># same reason as above: time finished work, not launches</span></span>
-<span id="cb20-305"><a href="#cb20-305" aria-label="295"></a>dt <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">/</span> n_steps</span>
-<span id="cb20-306"><a href="#cb20-306" aria-label="296"></a></span>
-<span id="cb20-307"><a href="#cb20-307" aria-label="297"></a>tps <span class="op">=</span> tokens_per_step <span class="op">/</span> dt</span>
-<span id="cb20-308"><a href="#cb20-308" aria-label="298"></a><span class="bu">print</span>(<span class="ss">f"step time  : </span><span class="sc">{</span>dt <span class="op">*</span> <span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> ms"</span>)</span>
-<span id="cb20-309"><a href="#cb20-309" aria-label="299"></a><span class="bu">print</span>(<span class="ss">f"throughput : </span><span class="sc">{</span>tps<span class="sc">:,.0f}</span><span class="ss"> tokens/sec"</span>)</span>
-<span id="cb20-310"><a href="#cb20-310" aria-label="300"></a><span class="in">```</span></span>
-<span id="cb20-311"><a href="#cb20-311" aria-label="301"></a></span>
-<span id="cb20-314"><a href="#cb20-314" aria-label="302"></a><span class="in">```{python}</span></span>
-<span id="cb20-315"><a href="#cb20-315" aria-label="303"></a><span class="co"># --- (c) Compute a toy MFU-style ratio using the 6*N*D rule ---</span></span>
-<span id="cb20-316"><a href="#cb20-316" aria-label="304"></a><span class="co"># Count the params that actually do matmuls (the linear head dominates here).</span></span>
-<span id="cb20-317"><a href="#cb20-317" aria-label="305"></a>N <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> lm_head.parameters())</span>
-<span id="cb20-318"><a href="#cb20-318" aria-label="306"></a>flops_per_step <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> N <span class="op">*</span> tokens_per_step          <span class="co"># 6 * N * D  (fwd + bwd)</span></span>
-<span id="cb20-319"><a href="#cb20-319" aria-label="307"></a>achieved_flops <span class="op">=</span> flops_per_step <span class="op">/</span> dt</span>
-<span id="cb20-320"><a href="#cb20-320" aria-label="308"></a>toy_mfu <span class="op">=</span> <span class="fl">100.0</span> <span class="op">*</span> achieved_flops <span class="op">/</span> peak_flops</span>
-<span id="cb20-321"><a href="#cb20-321" aria-label="309"></a></span>
-<span id="cb20-322"><a href="#cb20-322" aria-label="310"></a><span class="bu">print</span>(<span class="ss">f"head params (N)  : </span><span class="sc">{</span>N<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb20-323"><a href="#cb20-323" aria-label="311"></a><span class="bu">print</span>(<span class="ss">f"FLOPs / step     : </span><span class="sc">{</span>flops_per_step<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
-<span id="cb20-324"><a href="#cb20-324" aria-label="312"></a><span class="bu">print</span>(<span class="ss">f"achieved         : </span><span class="sc">{</span>achieved_flops <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss"> GFLOP/s"</span>)</span>
-<span id="cb20-325"><a href="#cb20-325" aria-label="313"></a><span class="bu">print</span>(<span class="ss">f"toy MFU          : </span><span class="sc">{</span>toy_mfu<span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb20-326"><a href="#cb20-326" aria-label="314"></a><span class="in">```</span></span>
-<span id="cb20-327"><a href="#cb20-327" aria-label="315"></a></span>
-<span id="cb20-328"><a href="#cb20-328" aria-label="316"></a>The toy MFU comes out well under 100%. The tiny step is dominated by Python /</span>
-<span id="cb20-329"><a href="#cb20-329" aria-label="317"></a>kernel-launch overhead relative to a big dense matmul, which is _exactly_ the</span>
-<span id="cb20-330"><a href="#cb20-330" aria-label="318"></a>intuition MFU is meant to capture: small, comm-heavy, or overhead-bound work</span>
-<span id="cb20-331"><a href="#cb20-331" aria-label="319"></a>wastes the hardware.</span>
-<span id="cb20-332"><a href="#cb20-332" aria-label="320"></a></span>
-<span id="cb20-333"><a href="#cb20-333" aria-label="321"></a><span class="fu">### The real thing: `ezpz.flops.compute_mfu`</span></span>
+<span id="cb20-237"><a href="#cb20-237" aria-label="231"></a>    <span class="im">import</span> ezpz  <span class="co"># noqa: F401</span></span>
+<span id="cb20-238"><a href="#cb20-238" aria-label="232"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb20-239"><a href="#cb20-239" aria-label="233"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="op">\</span></span>
+<span id="cb20-240"><a href="#cb20-240" aria-label="234"></a>                    <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span>
+<span id="cb20-241"><a href="#cb20-241" aria-label="235"></a><span class="in">```</span></span>
+<span id="cb20-242"><a href="#cb20-242" aria-label="236"></a></span>
+<span id="cb20-245"><a href="#cb20-245" aria-label="237"></a><span class="in">```{python}</span></span>
+<span id="cb20-246"><a href="#cb20-246" aria-label="238"></a><span class="im">import</span> time</span>
+<span id="cb20-247"><a href="#cb20-247" aria-label="239"></a><span class="im">import</span> torch</span>
+<span id="cb20-248"><a href="#cb20-248" aria-label="240"></a><span class="im">import</span> ezpz</span>
+<span id="cb20-249"><a href="#cb20-249" aria-label="241"></a></span>
+<span id="cb20-250"><a href="#cb20-250" aria-label="242"></a>torch.manual_seed(<span class="dv">0</span>)</span>
+<span id="cb20-251"><a href="#cb20-251" aria-label="243"></a><span class="co"># 'cuda' (Polaris) | 'xpu' (Aurora) | 'mps' (Apple) | 'cpu'. Asking ezpz beats</span></span>
+<span id="cb20-252"><a href="#cb20-252" aria-label="244"></a><span class="co"># a hand-rolled `cuda.is_available()` check, which silently falls back to CPU on</span></span>
+<span id="cb20-253"><a href="#cb20-253" aria-label="245"></a><span class="co"># Aurora's Intel GPUs -- the machine much of this course actually runs on.</span></span>
+<span id="cb20-254"><a href="#cb20-254" aria-label="246"></a>device <span class="op">=</span> ezpz.get_torch_device_type()</span>
+<span id="cb20-255"><a href="#cb20-255" aria-label="247"></a></span>
+<span id="cb20-256"><a href="#cb20-256" aria-label="248"></a><span class="co"># --- (a) Measure a "peak" via a large dense matmul microbenchmark ---</span></span>
+<span id="cb20-257"><a href="#cb20-257" aria-label="249"></a><span class="co"># 2 * N^3 FLOPs for an (N x N) @ (N x N) matmul.</span></span>
+<span id="cb20-258"><a href="#cb20-258" aria-label="250"></a>M <span class="op">=</span> torch.randn(<span class="dv">1024</span>, <span class="dv">1024</span>, device<span class="op">=</span>device)</span>
+<span id="cb20-259"><a href="#cb20-259" aria-label="251"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):  <span class="co"># warmup</span></span>
+<span id="cb20-260"><a href="#cb20-260" aria-label="252"></a>    _ <span class="op">=</span> M <span class="op">@</span> M</span>
+<span id="cb20-261"><a href="#cb20-261" aria-label="253"></a>ezpz.synchronize()</span>
+<span id="cb20-262"><a href="#cb20-262" aria-label="254"></a>n <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb20-263"><a href="#cb20-263" aria-label="255"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb20-264"><a href="#cb20-264" aria-label="256"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb20-265"><a href="#cb20-265" aria-label="257"></a>    _ <span class="op">=</span> M <span class="op">@</span> M</span>
+<span id="cb20-266"><a href="#cb20-266" aria-label="258"></a>ezpz.synchronize()          <span class="co"># GPU kernels are async: wait before stopping the clock</span></span>
+<span id="cb20-267"><a href="#cb20-267" aria-label="259"></a>dt_mm <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">/</span> n</span>
+<span id="cb20-268"><a href="#cb20-268" aria-label="260"></a>peak_flops <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span>) <span class="op">/</span> dt_mm</span>
+<span id="cb20-269"><a href="#cb20-269" aria-label="261"></a><span class="bu">print</span>(<span class="ss">f"device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-270"><a href="#cb20-270" aria-label="262"></a><span class="bu">print</span>(<span class="ss">f"measured peak (dense matmul): </span><span class="sc">{</span>peak_flops <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.1f}</span><span class="ss"> GFLOP/s"</span>)</span>
+<span id="cb20-271"><a href="#cb20-271" aria-label="263"></a><span class="in">```</span></span>
+<span id="cb20-272"><a href="#cb20-272" aria-label="264"></a></span>
+<span id="cb20-275"><a href="#cb20-275" aria-label="265"></a><span class="in">```{python}</span></span>
+<span id="cb20-276"><a href="#cb20-276" aria-label="266"></a><span class="co"># --- (b) Time a tiny "language-model-shaped" training step ---</span></span>
+<span id="cb20-277"><a href="#cb20-277" aria-label="267"></a>batch, seq, d_model, vocab <span class="op">=</span> <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">256</span>, <span class="dv">512</span></span>
+<span id="cb20-278"><a href="#cb20-278" aria-label="268"></a>tokens_per_step <span class="op">=</span> batch <span class="op">*</span> seq</span>
+<span id="cb20-279"><a href="#cb20-279" aria-label="269"></a></span>
+<span id="cb20-280"><a href="#cb20-280" aria-label="270"></a>emb <span class="op">=</span> torch.nn.Embedding(vocab, d_model).to(device)</span>
+<span id="cb20-281"><a href="#cb20-281" aria-label="271"></a>lm_head <span class="op">=</span> torch.nn.Linear(d_model, vocab).to(device)</span>
+<span id="cb20-282"><a href="#cb20-282" aria-label="272"></a>params <span class="op">=</span> <span class="bu">list</span>(emb.parameters()) <span class="op">+</span> <span class="bu">list</span>(lm_head.parameters())</span>
+<span id="cb20-283"><a href="#cb20-283" aria-label="273"></a>opt <span class="op">=</span> torch.optim.SGD(params, lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb20-284"><a href="#cb20-284" aria-label="274"></a></span>
+<span id="cb20-285"><a href="#cb20-285" aria-label="275"></a>x <span class="op">=</span> torch.randint(<span class="dv">0</span>, vocab, (batch, seq), device<span class="op">=</span>device)</span>
+<span id="cb20-286"><a href="#cb20-286" aria-label="276"></a>y <span class="op">=</span> torch.randint(<span class="dv">0</span>, vocab, (batch, seq), device<span class="op">=</span>device)</span>
+<span id="cb20-287"><a href="#cb20-287" aria-label="277"></a></span>
+<span id="cb20-288"><a href="#cb20-288" aria-label="278"></a></span>
+<span id="cb20-289"><a href="#cb20-289" aria-label="279"></a><span class="kw">def</span> train_step():</span>
+<span id="cb20-290"><a href="#cb20-290" aria-label="280"></a>    opt.zero_grad()</span>
+<span id="cb20-291"><a href="#cb20-291" aria-label="281"></a>    logits <span class="op">=</span> lm_head(emb(x))</span>
+<span id="cb20-292"><a href="#cb20-292" aria-label="282"></a>    loss <span class="op">=</span> torch.nn.functional.cross_entropy(logits.view(<span class="op">-</span><span class="dv">1</span>, vocab), y.view(<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb20-293"><a href="#cb20-293" aria-label="283"></a>    loss.backward()</span>
+<span id="cb20-294"><a href="#cb20-294" aria-label="284"></a>    opt.step()</span>
+<span id="cb20-295"><a href="#cb20-295" aria-label="285"></a>    <span class="cf">return</span> loss</span>
+<span id="cb20-296"><a href="#cb20-296" aria-label="286"></a></span>
+<span id="cb20-297"><a href="#cb20-297" aria-label="287"></a></span>
+<span id="cb20-298"><a href="#cb20-298" aria-label="288"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):  <span class="co"># warmup (exclude graph build / allocation)</span></span>
+<span id="cb20-299"><a href="#cb20-299" aria-label="289"></a>    train_step()</span>
+<span id="cb20-300"><a href="#cb20-300" aria-label="290"></a>ezpz.synchronize()</span>
+<span id="cb20-301"><a href="#cb20-301" aria-label="291"></a></span>
+<span id="cb20-302"><a href="#cb20-302" aria-label="292"></a>n_steps <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb20-303"><a href="#cb20-303" aria-label="293"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb20-304"><a href="#cb20-304" aria-label="294"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
+<span id="cb20-305"><a href="#cb20-305" aria-label="295"></a>    train_step()</span>
+<span id="cb20-306"><a href="#cb20-306" aria-label="296"></a>ezpz.synchronize()          <span class="co"># same reason as above: time finished work, not launches</span></span>
+<span id="cb20-307"><a href="#cb20-307" aria-label="297"></a>dt <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">/</span> n_steps</span>
+<span id="cb20-308"><a href="#cb20-308" aria-label="298"></a></span>
+<span id="cb20-309"><a href="#cb20-309" aria-label="299"></a>tps <span class="op">=</span> tokens_per_step <span class="op">/</span> dt</span>
+<span id="cb20-310"><a href="#cb20-310" aria-label="300"></a><span class="bu">print</span>(<span class="ss">f"step time  : </span><span class="sc">{</span>dt <span class="op">*</span> <span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> ms"</span>)</span>
+<span id="cb20-311"><a href="#cb20-311" aria-label="301"></a><span class="bu">print</span>(<span class="ss">f"throughput : </span><span class="sc">{</span>tps<span class="sc">:,.0f}</span><span class="ss"> tokens/sec"</span>)</span>
+<span id="cb20-312"><a href="#cb20-312" aria-label="302"></a><span class="in">```</span></span>
+<span id="cb20-313"><a href="#cb20-313" aria-label="303"></a></span>
+<span id="cb20-316"><a href="#cb20-316" aria-label="304"></a><span class="in">```{python}</span></span>
+<span id="cb20-317"><a href="#cb20-317" aria-label="305"></a><span class="co"># --- (c) Compute a toy MFU-style ratio using the 6*N*D rule ---</span></span>
+<span id="cb20-318"><a href="#cb20-318" aria-label="306"></a><span class="co"># Count the params that actually do matmuls (the linear head dominates here).</span></span>
+<span id="cb20-319"><a href="#cb20-319" aria-label="307"></a>N <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> lm_head.parameters())</span>
+<span id="cb20-320"><a href="#cb20-320" aria-label="308"></a>flops_per_step <span class="op">=</span> <span class="dv">6</span> <span class="op">*</span> N <span class="op">*</span> tokens_per_step          <span class="co"># 6 * N * D  (fwd + bwd)</span></span>
+<span id="cb20-321"><a href="#cb20-321" aria-label="309"></a>achieved_flops <span class="op">=</span> flops_per_step <span class="op">/</span> dt</span>
+<span id="cb20-322"><a href="#cb20-322" aria-label="310"></a>toy_mfu <span class="op">=</span> <span class="fl">100.0</span> <span class="op">*</span> achieved_flops <span class="op">/</span> peak_flops</span>
+<span id="cb20-323"><a href="#cb20-323" aria-label="311"></a></span>
+<span id="cb20-324"><a href="#cb20-324" aria-label="312"></a><span class="bu">print</span>(<span class="ss">f"head params (N)  : </span><span class="sc">{</span>N<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb20-325"><a href="#cb20-325" aria-label="313"></a><span class="bu">print</span>(<span class="ss">f"FLOPs / step     : </span><span class="sc">{</span>flops_per_step<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb20-326"><a href="#cb20-326" aria-label="314"></a><span class="bu">print</span>(<span class="ss">f"achieved         : </span><span class="sc">{</span>achieved_flops <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss"> GFLOP/s"</span>)</span>
+<span id="cb20-327"><a href="#cb20-327" aria-label="315"></a><span class="bu">print</span>(<span class="ss">f"toy MFU          : </span><span class="sc">{</span>toy_mfu<span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb20-328"><a href="#cb20-328" aria-label="316"></a><span class="in">```</span></span>
+<span id="cb20-329"><a href="#cb20-329" aria-label="317"></a></span>
+<span id="cb20-330"><a href="#cb20-330" aria-label="318"></a>The toy MFU comes out well under 100%. The tiny step is dominated by Python /</span>
+<span id="cb20-331"><a href="#cb20-331" aria-label="319"></a>kernel-launch overhead relative to a big dense matmul, which is _exactly_ the</span>
+<span id="cb20-332"><a href="#cb20-332" aria-label="320"></a>intuition MFU is meant to capture: small, comm-heavy, or overhead-bound work</span>
+<span id="cb20-333"><a href="#cb20-333" aria-label="321"></a>wastes the hardware.</span>
 <span id="cb20-334"><a href="#cb20-334" aria-label="322"></a></span>
-<span id="cb20-335"><a href="#cb20-335" aria-label="323"></a>In a real run you don't hand-roll this. <span class="in">`ezpz`</span> ships</span>
-<span id="cb20-336"><a href="#cb20-336" aria-label="324"></a><span class="co">[</span><span class="ot">`ezpz.flops`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py)</span>,</span>
-<span id="cb20-337"><a href="#cb20-337" aria-label="325"></a>which counts FLOPs with PyTorch's <span class="in">`FlopCounterMode`</span> and knows the peak BF16</span>
-<span id="cb20-338"><a href="#cb20-338" aria-label="326"></a>FLOP/s for common accelerators (H100/H200/B200, A100, MI300X, Intel PVC, …):</span>
-<span id="cb20-339"><a href="#cb20-339" aria-label="327"></a></span>
-<span id="cb20-342"><a href="#cb20-342" aria-label="328"></a><span class="in">```{python}</span></span>
-<span id="cb20-343"><a href="#cb20-343" aria-label="329"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-344"><a href="#cb20-344" aria-label="330"></a><span class="im">import</span> time</span>
-<span id="cb20-345"><a href="#cb20-345" aria-label="331"></a><span class="im">import</span> ezpz</span>
-<span id="cb20-346"><a href="#cb20-346" aria-label="332"></a><span class="im">from</span> ezpz.flops <span class="im">import</span> try_estimate, compute_mfu</span>
-<span id="cb20-347"><a href="#cb20-347" aria-label="333"></a></span>
-<span id="cb20-348"><a href="#cb20-348" aria-label="334"></a>rank <span class="op">=</span> ezpz.setup_torch()                 <span class="co"># returns global rank</span></span>
-<span id="cb20-349"><a href="#cb20-349" aria-label="335"></a>device <span class="op">=</span> ezpz.get_torch_device()</span>
-<span id="cb20-350"><a href="#cb20-350" aria-label="336"></a>model <span class="op">=</span> build_model().to(device)          <span class="co"># your model</span></span>
-<span id="cb20-351"><a href="#cb20-351" aria-label="337"></a></span>
-<span id="cb20-352"><a href="#cb20-352" aria-label="338"></a><span class="co"># Count FLOPs ONCE (fwd + bwd) for the real (batch, seq) shape.</span></span>
-<span id="cb20-353"><a href="#cb20-353" aria-label="339"></a>model_flops <span class="op">=</span> try_estimate(model, input_shape<span class="op">=</span>(batch_size, seq_len))</span>
-<span id="cb20-354"><a href="#cb20-354" aria-label="340"></a></span>
-<span id="cb20-355"><a href="#cb20-355" aria-label="341"></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(num_steps):</span>
-<span id="cb20-356"><a href="#cb20-356" aria-label="342"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
-<span id="cb20-357"><a href="#cb20-357" aria-label="343"></a>    loss <span class="op">=</span> train_step(model, batch)       <span class="co"># fwd + bwd + optimizer.step</span></span>
-<span id="cb20-358"><a href="#cb20-358" aria-label="344"></a>    ezpz.synchronize()                    <span class="co"># don't time async kernels early!</span></span>
-<span id="cb20-359"><a href="#cb20-359" aria-label="345"></a>    dt <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
-<span id="cb20-360"><a href="#cb20-360" aria-label="346"></a></span>
-<span id="cb20-361"><a href="#cb20-361" aria-label="347"></a>    mfu <span class="op">=</span> compute_mfu(model_flops, dt)    <span class="co"># per-device MFU %, auto peak lookup</span></span>
-<span id="cb20-362"><a href="#cb20-362" aria-label="348"></a>    tps <span class="op">=</span> (batch_size <span class="op">*</span> seq_len) <span class="op">/</span> dt</span>
-<span id="cb20-363"><a href="#cb20-363" aria-label="349"></a>    <span class="cf">if</span> rank <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb20-364"><a href="#cb20-364" aria-label="350"></a>        <span class="bu">print</span>(<span class="ss">f"step=</span><span class="sc">{</span>step<span class="sc">}</span><span class="ss"> dt=</span><span class="sc">{</span>dt<span class="sc">:.3f}</span><span class="ss">s tps=</span><span class="sc">{</span>tps<span class="sc">:,.0f}</span><span class="ss"> mfu=</span><span class="sc">{</span>mfu<span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb20-365"><a href="#cb20-365" aria-label="351"></a><span class="in">```</span></span>
-<span id="cb20-366"><a href="#cb20-366" aria-label="352"></a></span>
-<span id="cb20-367"><a href="#cb20-367" aria-label="353"></a>The bundled <span class="in">`ezpz`</span> examples emit <span class="in">`tflops`</span>, <span class="in">`mfu`</span>, and <span class="in">`tokens_per_sec`</span> directly</span>
-<span id="cb20-368"><a href="#cb20-368" aria-label="354"></a>when you pass <span class="in">`--profile`</span>:</span>
-<span id="cb20-369"><a href="#cb20-369" aria-label="355"></a></span>
-<span id="cb20-370"><a href="#cb20-370" aria-label="356"></a><span class="in">```bash</span></span>
-<span id="cb20-371"><a href="#cb20-371" aria-label="357"></a><span class="co"># --profile makes the example estimate model FLOPs and log tflops/mfu/tps.</span></span>
-<span id="cb20-372"><a href="#cb20-372" aria-label="358"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> ezpz.examples.hf <span class="at">--profile</span></span>
-<span id="cb20-373"><a href="#cb20-373" aria-label="359"></a><span class="in">```</span></span>
-<span id="cb20-374"><a href="#cb20-374" aria-label="360"></a></span>
-<span id="cb20-375"><a href="#cb20-375" aria-label="361"></a><span class="fu">## 🗣️ Theme C: Efficient Collectives</span></span>
+<span id="cb20-335"><a href="#cb20-335" aria-label="323"></a><span class="fu">### The real thing: `ezpz.flops.compute_mfu`</span></span>
+<span id="cb20-336"><a href="#cb20-336" aria-label="324"></a></span>
+<span id="cb20-337"><a href="#cb20-337" aria-label="325"></a>In a real run you don't hand-roll this. <span class="in">`ezpz`</span> ships</span>
+<span id="cb20-338"><a href="#cb20-338" aria-label="326"></a><span class="co">[</span><span class="ot">`ezpz.flops`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py)</span>,</span>
+<span id="cb20-339"><a href="#cb20-339" aria-label="327"></a>which counts FLOPs with PyTorch's <span class="in">`FlopCounterMode`</span> and knows the peak BF16</span>
+<span id="cb20-340"><a href="#cb20-340" aria-label="328"></a>FLOP/s for common accelerators (H100/H200/B200, A100, MI300X, Intel PVC, …):</span>
+<span id="cb20-341"><a href="#cb20-341" aria-label="329"></a></span>
+<span id="cb20-344"><a href="#cb20-344" aria-label="330"></a><span class="in">```{python}</span></span>
+<span id="cb20-345"><a href="#cb20-345" aria-label="331"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-346"><a href="#cb20-346" aria-label="332"></a><span class="im">import</span> time</span>
+<span id="cb20-347"><a href="#cb20-347" aria-label="333"></a><span class="im">import</span> ezpz</span>
+<span id="cb20-348"><a href="#cb20-348" aria-label="334"></a><span class="im">from</span> ezpz.flops <span class="im">import</span> try_estimate, compute_mfu</span>
+<span id="cb20-349"><a href="#cb20-349" aria-label="335"></a></span>
+<span id="cb20-350"><a href="#cb20-350" aria-label="336"></a>rank <span class="op">=</span> ezpz.setup_torch()                 <span class="co"># returns global rank</span></span>
+<span id="cb20-351"><a href="#cb20-351" aria-label="337"></a>device <span class="op">=</span> ezpz.get_torch_device()</span>
+<span id="cb20-352"><a href="#cb20-352" aria-label="338"></a>model <span class="op">=</span> build_model().to(device)          <span class="co"># your model</span></span>
+<span id="cb20-353"><a href="#cb20-353" aria-label="339"></a></span>
+<span id="cb20-354"><a href="#cb20-354" aria-label="340"></a><span class="co"># Count FLOPs ONCE (fwd + bwd) for the real (batch, seq) shape.</span></span>
+<span id="cb20-355"><a href="#cb20-355" aria-label="341"></a>model_flops <span class="op">=</span> try_estimate(model, input_shape<span class="op">=</span>(batch_size, seq_len))</span>
+<span id="cb20-356"><a href="#cb20-356" aria-label="342"></a></span>
+<span id="cb20-357"><a href="#cb20-357" aria-label="343"></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(num_steps):</span>
+<span id="cb20-358"><a href="#cb20-358" aria-label="344"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb20-359"><a href="#cb20-359" aria-label="345"></a>    loss <span class="op">=</span> train_step(model, batch)       <span class="co"># fwd + bwd + optimizer.step</span></span>
+<span id="cb20-360"><a href="#cb20-360" aria-label="346"></a>    ezpz.synchronize()                    <span class="co"># don't time async kernels early!</span></span>
+<span id="cb20-361"><a href="#cb20-361" aria-label="347"></a>    dt <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb20-362"><a href="#cb20-362" aria-label="348"></a></span>
+<span id="cb20-363"><a href="#cb20-363" aria-label="349"></a>    mfu <span class="op">=</span> compute_mfu(model_flops, dt)    <span class="co"># per-device MFU %, auto peak lookup</span></span>
+<span id="cb20-364"><a href="#cb20-364" aria-label="350"></a>    tps <span class="op">=</span> (batch_size <span class="op">*</span> seq_len) <span class="op">/</span> dt</span>
+<span id="cb20-365"><a href="#cb20-365" aria-label="351"></a>    <span class="cf">if</span> rank <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-366"><a href="#cb20-366" aria-label="352"></a>        <span class="bu">print</span>(<span class="ss">f"step=</span><span class="sc">{</span>step<span class="sc">}</span><span class="ss"> dt=</span><span class="sc">{</span>dt<span class="sc">:.3f}</span><span class="ss">s tps=</span><span class="sc">{</span>tps<span class="sc">:,.0f}</span><span class="ss"> mfu=</span><span class="sc">{</span>mfu<span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb20-367"><a href="#cb20-367" aria-label="353"></a><span class="in">```</span></span>
+<span id="cb20-368"><a href="#cb20-368" aria-label="354"></a></span>
+<span id="cb20-369"><a href="#cb20-369" aria-label="355"></a>The bundled <span class="in">`ezpz`</span> examples emit <span class="in">`tflops`</span>, <span class="in">`mfu`</span>, and <span class="in">`tokens_per_sec`</span> directly</span>
+<span id="cb20-370"><a href="#cb20-370" aria-label="356"></a>when you pass <span class="in">`--profile`</span>:</span>
+<span id="cb20-371"><a href="#cb20-371" aria-label="357"></a></span>
+<span id="cb20-372"><a href="#cb20-372" aria-label="358"></a><span class="in">```bash</span></span>
+<span id="cb20-373"><a href="#cb20-373" aria-label="359"></a><span class="co"># --profile makes the example estimate model FLOPs and log tflops/mfu/tps.</span></span>
+<span id="cb20-374"><a href="#cb20-374" aria-label="360"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> ezpz.examples.hf <span class="at">--profile</span></span>
+<span id="cb20-375"><a href="#cb20-375" aria-label="361"></a><span class="in">```</span></span>
 <span id="cb20-376"><a href="#cb20-376" aria-label="362"></a></span>
-<span id="cb20-377"><a href="#cb20-377" aria-label="363"></a>Every step of data-parallel training ends with an</span>
-<span id="cb20-378"><a href="#cb20-378" aria-label="364"></a><span class="co">[</span><span class="ot">**all-reduce**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd#allreduce)</span></span>
-<span id="cb20-379"><a href="#cb20-379" aria-label="365"></a>of gradients; sharded strategies add</span>
-<span id="cb20-380"><a href="#cb20-380" aria-label="366"></a><span class="co">[</span><span class="ot">**all-gather**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd#allgather)</span></span>
-<span id="cb20-381"><a href="#cb20-381" aria-label="367"></a>of parameters (FSDP) and reduce-scatter of gradients. You saw these collectives</span>
-<span id="cb20-382"><a href="#cb20-382" aria-label="368"></a>in <span class="co">[</span><span class="ot">\[1.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>; here we</span>
-<span id="cb20-383"><a href="#cb20-383" aria-label="369"></a>care about their _cost_.</span>
-<span id="cb20-384"><a href="#cb20-384" aria-label="370"></a></span>
-<span id="cb20-385"><a href="#cb20-385" aria-label="371"></a>That cost is paid over the interconnect (NVLink within a node, InfiniBand /</span>
-<span id="cb20-386"><a href="#cb20-386" aria-label="372"></a>Slingshot between nodes), and it's implemented by a **collective communication</span>
-<span id="cb20-387"><a href="#cb20-387" aria-label="373"></a>library**:</span>
-<span id="cb20-388"><a href="#cb20-388" aria-label="374"></a></span>
-<span id="cb20-389"><a href="#cb20-389" aria-label="375"></a><span class="ss">- </span>**[NCCL](https://developer.nvidia.com/nccl)** — NVIDIA's library; the default</span>
-<span id="cb20-390"><a href="#cb20-390" aria-label="376"></a>  backend on NVIDIA GPUs.</span>
-<span id="cb20-391"><a href="#cb20-391" aria-label="377"></a><span class="ss">- </span>**[oneCCL](https://www.intel.com/content/www/us/en/developer/tools/oneapi/oneccl.html)** —</span>
-<span id="cb20-392"><a href="#cb20-392" aria-label="378"></a>  Intel's equivalent for XPU (Aurora's PVC GPUs).</span>
-<span id="cb20-393"><a href="#cb20-393" aria-label="379"></a><span class="ss">- </span>**[torchcomms](https://github.com/pytorch/torchcomms)** — a newer PyTorch</span>
-<span id="cb20-394"><a href="#cb20-394" aria-label="380"></a>  communications layer aimed at a unified, backend-agnostic API for very large</span>
-<span id="cb20-395"><a href="#cb20-395" aria-label="381"></a>  scale.</span>
-<span id="cb20-396"><a href="#cb20-396" aria-label="382"></a></span>
-<span id="cb20-397"><a href="#cb20-397" aria-label="383"></a><span class="in">`ezpz`</span> auto-selects the right backend for you</span>
-<span id="cb20-398"><a href="#cb20-398" aria-label="384"></a>(<span class="in">`ezpz.get_torch_backend()`</span> → <span class="in">`nccl`</span> / <span class="in">`xccl`</span> / <span class="in">`gloo`</span>), so you rarely set it by</span>
-<span id="cb20-399"><a href="#cb20-399" aria-label="385"></a>hand. On XPU it prefers **`xccl`**, PyTorch's native Intel backend, and only</span>
-<span id="cb20-400"><a href="#cb20-400" aria-label="386"></a>falls back to the older out-of-tree <span class="in">`ccl`</span> plugin when <span class="in">`xccl`</span> isn't built in;</span>
-<span id="cb20-401"><a href="#cb20-401" aria-label="387"></a>set <span class="in">`TORCH_BACKEND`</span> to override.</span>
-<span id="cb20-402"><a href="#cb20-402" aria-label="388"></a></span>
-<span id="cb20-403"><a href="#cb20-403" aria-label="389"></a>The number that decides whether scaling works is the **comm : compute ratio**.</span>
-<span id="cb20-404"><a href="#cb20-404" aria-label="390"></a>Each step you do some compute (the FLOPs from Theme B) and some communication</span>
-<span id="cb20-405"><a href="#cb20-405" aria-label="391"></a>(moving gradients/params). If communication can't be hidden behind compute, the</span>
-<span id="cb20-406"><a href="#cb20-406" aria-label="392"></a>GPUs stall and MFU tanks.</span>
-<span id="cb20-407"><a href="#cb20-407" aria-label="393"></a></span>
-<span id="cb20-408"><a href="#cb20-408" aria-label="394"></a>The escape hatch is **communication/computation overlap**: start the gradient</span>
-<span id="cb20-409"><a href="#cb20-409" aria-label="395"></a>all-reduce for layer $\ell$ _while_ still computing the backward pass for layer</span>
-<span id="cb20-410"><a href="#cb20-410" aria-label="396"></a>$\ell-1$, so the comm is _hidden_ behind compute instead of stacking after it.</span>
-<span id="cb20-411"><a href="#cb20-411" aria-label="397"></a>Modern frameworks (DDP's gradient bucketing, FSDP's prefetching, torchtitan) do</span>
-<span id="cb20-412"><a href="#cb20-412" aria-label="398"></a>this automatically, but it only helps if there's enough compute per step to</span>
-<span id="cb20-413"><a href="#cb20-413" aria-label="399"></a>hide the comm behind. That's why **bigger per-GPU batches and larger models</span>
-<span id="cb20-414"><a href="#cb20-414" aria-label="400"></a>generally scale better**: more compute per unit of communication.</span>
-<span id="cb20-415"><a href="#cb20-415" aria-label="401"></a></span>
-<span id="cb20-416"><a href="#cb20-416" aria-label="402"></a>::: {.callout-important title="⏰ Keeping things in sync"}</span>
-<span id="cb20-417"><a href="#cb20-417" aria-label="403"></a>**Computation stalls during communication.** Collectives are _blocking_: every</span>
-<span id="cb20-418"><a href="#cb20-418" aria-label="404"></a>rank must call the same collective, in the same order, or the ranks that arrive</span>
-<span id="cb20-419"><a href="#cb20-419" aria-label="405"></a>first wait **indefinitely** for the stragglers. Keeping the</span>
-<span id="cb20-420"><a href="#cb20-420" aria-label="406"></a>**communication-to-computation ratio small** is what makes scaling actually</span>
-<span id="cb20-421"><a href="#cb20-421" aria-label="407"></a>work. It's the single biggest lever between "10% MFU" and "45% MFU" at scale.</span>
-<span id="cb20-422"><a href="#cb20-422" aria-label="408"></a>:::</span>
-<span id="cb20-423"><a href="#cb20-423" aria-label="409"></a></span>
-<span id="cb20-424"><a href="#cb20-424" aria-label="410"></a><span class="fu">## 🍱 Theme D: Data Mixes &amp; Synthetic Data</span></span>
+<span id="cb20-377"><a href="#cb20-377" aria-label="363"></a><span class="fu">## 🗣️ Theme C: Efficient Collectives</span></span>
+<span id="cb20-378"><a href="#cb20-378" aria-label="364"></a></span>
+<span id="cb20-379"><a href="#cb20-379" aria-label="365"></a>Every step of data-parallel training ends with an</span>
+<span id="cb20-380"><a href="#cb20-380" aria-label="366"></a><span class="co">[</span><span class="ot">**all-reduce**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd#allreduce)</span></span>
+<span id="cb20-381"><a href="#cb20-381" aria-label="367"></a>of gradients; sharded strategies add</span>
+<span id="cb20-382"><a href="#cb20-382" aria-label="368"></a><span class="co">[</span><span class="ot">**all-gather**</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd#allgather)</span></span>
+<span id="cb20-383"><a href="#cb20-383" aria-label="369"></a>of parameters (FSDP) and reduce-scatter of gradients. You saw these collectives</span>
+<span id="cb20-384"><a href="#cb20-384" aria-label="370"></a>in <span class="co">[</span><span class="ot">\[1.4\]</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span>; here we</span>
+<span id="cb20-385"><a href="#cb20-385" aria-label="371"></a>care about their _cost_.</span>
+<span id="cb20-386"><a href="#cb20-386" aria-label="372"></a></span>
+<span id="cb20-387"><a href="#cb20-387" aria-label="373"></a>That cost is paid over the interconnect (NVLink within a node, InfiniBand /</span>
+<span id="cb20-388"><a href="#cb20-388" aria-label="374"></a>Slingshot between nodes), and it's implemented by a **collective communication</span>
+<span id="cb20-389"><a href="#cb20-389" aria-label="375"></a>library**:</span>
+<span id="cb20-390"><a href="#cb20-390" aria-label="376"></a></span>
+<span id="cb20-391"><a href="#cb20-391" aria-label="377"></a><span class="ss">- </span>**[NCCL](https://developer.nvidia.com/nccl)** — NVIDIA's library; the default</span>
+<span id="cb20-392"><a href="#cb20-392" aria-label="378"></a>  backend on NVIDIA GPUs.</span>
+<span id="cb20-393"><a href="#cb20-393" aria-label="379"></a><span class="ss">- </span>**[oneCCL](https://www.intel.com/content/www/us/en/developer/tools/oneapi/oneccl.html)** —</span>
+<span id="cb20-394"><a href="#cb20-394" aria-label="380"></a>  Intel's equivalent for XPU (Aurora's PVC GPUs).</span>
+<span id="cb20-395"><a href="#cb20-395" aria-label="381"></a><span class="ss">- </span>**[torchcomms](https://github.com/pytorch/torchcomms)** — a newer PyTorch</span>
+<span id="cb20-396"><a href="#cb20-396" aria-label="382"></a>  communications layer aimed at a unified, backend-agnostic API for very large</span>
+<span id="cb20-397"><a href="#cb20-397" aria-label="383"></a>  scale.</span>
+<span id="cb20-398"><a href="#cb20-398" aria-label="384"></a></span>
+<span id="cb20-399"><a href="#cb20-399" aria-label="385"></a><span class="in">`ezpz`</span> auto-selects the right backend for you</span>
+<span id="cb20-400"><a href="#cb20-400" aria-label="386"></a>(<span class="in">`ezpz.get_torch_backend()`</span> → <span class="in">`nccl`</span> / <span class="in">`xccl`</span> / <span class="in">`gloo`</span>), so you rarely set it by</span>
+<span id="cb20-401"><a href="#cb20-401" aria-label="387"></a>hand. On XPU it prefers **`xccl`**, PyTorch's native Intel backend, and only</span>
+<span id="cb20-402"><a href="#cb20-402" aria-label="388"></a>falls back to the older out-of-tree <span class="in">`ccl`</span> plugin when <span class="in">`xccl`</span> isn't built in;</span>
+<span id="cb20-403"><a href="#cb20-403" aria-label="389"></a>set <span class="in">`TORCH_BACKEND`</span> to override.</span>
+<span id="cb20-404"><a href="#cb20-404" aria-label="390"></a></span>
+<span id="cb20-405"><a href="#cb20-405" aria-label="391"></a>The number that decides whether scaling works is the **comm : compute ratio**.</span>
+<span id="cb20-406"><a href="#cb20-406" aria-label="392"></a>Each step you do some compute (the FLOPs from Theme B) and some communication</span>
+<span id="cb20-407"><a href="#cb20-407" aria-label="393"></a>(moving gradients/params). If communication can't be hidden behind compute, the</span>
+<span id="cb20-408"><a href="#cb20-408" aria-label="394"></a>GPUs stall and MFU tanks.</span>
+<span id="cb20-409"><a href="#cb20-409" aria-label="395"></a></span>
+<span id="cb20-410"><a href="#cb20-410" aria-label="396"></a>The escape hatch is **communication/computation overlap**: start the gradient</span>
+<span id="cb20-411"><a href="#cb20-411" aria-label="397"></a>all-reduce for layer $\ell$ _while_ still computing the backward pass for layer</span>
+<span id="cb20-412"><a href="#cb20-412" aria-label="398"></a>$\ell-1$, so the comm is _hidden_ behind compute instead of stacking after it.</span>
+<span id="cb20-413"><a href="#cb20-413" aria-label="399"></a>Modern frameworks (DDP's gradient bucketing, FSDP's prefetching, torchtitan) do</span>
+<span id="cb20-414"><a href="#cb20-414" aria-label="400"></a>this automatically, but it only helps if there's enough compute per step to</span>
+<span id="cb20-415"><a href="#cb20-415" aria-label="401"></a>hide the comm behind. That's why **bigger per-GPU batches and larger models</span>
+<span id="cb20-416"><a href="#cb20-416" aria-label="402"></a>generally scale better**: more compute per unit of communication.</span>
+<span id="cb20-417"><a href="#cb20-417" aria-label="403"></a></span>
+<span id="cb20-418"><a href="#cb20-418" aria-label="404"></a>::: {.callout-important title="⏰ Keeping things in sync"}</span>
+<span id="cb20-419"><a href="#cb20-419" aria-label="405"></a>**Computation stalls during communication.** Collectives are _blocking_: every</span>
+<span id="cb20-420"><a href="#cb20-420" aria-label="406"></a>rank must call the same collective, in the same order, or the ranks that arrive</span>
+<span id="cb20-421"><a href="#cb20-421" aria-label="407"></a>first wait **indefinitely** for the stragglers. Keeping the</span>
+<span id="cb20-422"><a href="#cb20-422" aria-label="408"></a>**communication-to-computation ratio small** is what makes scaling actually</span>
+<span id="cb20-423"><a href="#cb20-423" aria-label="409"></a>work. It's the single biggest lever between "10% MFU" and "45% MFU" at scale.</span>
+<span id="cb20-424"><a href="#cb20-424" aria-label="410"></a>:::</span>
 <span id="cb20-425"><a href="#cb20-425" aria-label="411"></a></span>
-<span id="cb20-426"><a href="#cb20-426" aria-label="412"></a>A pretraining run is only as good as what you feed it. Two decisions dominate:</span>
-<span id="cb20-427"><a href="#cb20-427" aria-label="413"></a>the **data mixture** (what proportion of each domain) and, increasingly,</span>
-<span id="cb20-428"><a href="#cb20-428" aria-label="414"></a>**synthetic data** (model-generated training data).</span>
-<span id="cb20-429"><a href="#cb20-429" aria-label="415"></a></span>
-<span id="cb20-430"><a href="#cb20-430" aria-label="416"></a><span class="fu">### The data mixture</span></span>
+<span id="cb20-426"><a href="#cb20-426" aria-label="412"></a><span class="fu">## 🍱 Theme D: Data Mixes &amp; Synthetic Data</span></span>
+<span id="cb20-427"><a href="#cb20-427" aria-label="413"></a></span>
+<span id="cb20-428"><a href="#cb20-428" aria-label="414"></a>A pretraining run is only as good as what you feed it. Two decisions dominate:</span>
+<span id="cb20-429"><a href="#cb20-429" aria-label="415"></a>the **data mixture** (what proportion of each domain) and, increasingly,</span>
+<span id="cb20-430"><a href="#cb20-430" aria-label="416"></a>**synthetic data** (model-generated training data).</span>
 <span id="cb20-431"><a href="#cb20-431" aria-label="417"></a></span>
-<span id="cb20-432"><a href="#cb20-432" aria-label="418"></a>You don't train on "the internet" uniformly. You up- or down-weight domains to</span>
-<span id="cb20-433"><a href="#cb20-433" aria-label="419"></a>shape the model's capabilities. A representative mixture (loosely following what</span>
-<span id="cb20-434"><a href="#cb20-434" aria-label="420"></a>Llama, DeepSeek, and <span class="co">[</span><span class="ot">OLMo</span><span class="co">](https://allenai.org/olmo)</span> report):</span>
-<span id="cb20-435"><a href="#cb20-435" aria-label="421"></a></span>
-<span id="cb20-436"><a href="#cb20-436" aria-label="422"></a>::: {#tbl-data-mix}</span>
+<span id="cb20-432"><a href="#cb20-432" aria-label="418"></a><span class="fu">### The data mixture</span></span>
+<span id="cb20-433"><a href="#cb20-433" aria-label="419"></a></span>
+<span id="cb20-434"><a href="#cb20-434" aria-label="420"></a>You don't train on "the internet" uniformly. You up- or down-weight domains to</span>
+<span id="cb20-435"><a href="#cb20-435" aria-label="421"></a>shape the model's capabilities. A representative mixture (loosely following what</span>
+<span id="cb20-436"><a href="#cb20-436" aria-label="422"></a>Llama, DeepSeek, and <span class="co">[</span><span class="ot">OLMo</span><span class="co">](https://allenai.org/olmo)</span> report):</span>
 <span id="cb20-437"><a href="#cb20-437" aria-label="423"></a></span>
-<span id="cb20-438"><a href="#cb20-438" aria-label="424"></a><span class="pp">|</span> Domain             <span class="pp">|</span> Example sources                    <span class="pp">|</span> Weight <span class="pp">|</span></span>
-<span id="cb20-439"><a href="#cb20-439" aria-label="425"></a><span class="pp">| :-----------------</span> <span class="pp">| :---------------------------------</span> <span class="pp">| -----:</span> <span class="pp">|</span></span>
-<span id="cb20-440"><a href="#cb20-440" aria-label="426"></a><span class="pp">|</span> Web / CommonCrawl  <span class="pp">|</span> filtered CommonCrawl, C4, RefinedWeb <span class="pp">|</span>   50%  <span class="pp">|</span></span>
-<span id="cb20-441"><a href="#cb20-441" aria-label="427"></a><span class="pp">|</span> Code               <span class="pp">|</span> GitHub, The Stack                   <span class="pp">|</span>   20%  <span class="pp">|</span></span>
-<span id="cb20-442"><a href="#cb20-442" aria-label="428"></a><span class="pp">|</span> Academic / STEM    <span class="pp">|</span> arXiv, papers, textbooks            <span class="pp">|</span>   12%  <span class="pp">|</span></span>
-<span id="cb20-443"><a href="#cb20-443" aria-label="429"></a><span class="pp">|</span> Books / long-form  <span class="pp">|</span> books, literature                   <span class="pp">|</span>   10%  <span class="pp">|</span></span>
-<span id="cb20-444"><a href="#cb20-444" aria-label="430"></a><span class="pp">|</span> Math               <span class="pp">|</span> math web, proofs, problem sets      <span class="pp">|</span>    5%  <span class="pp">|</span></span>
-<span id="cb20-445"><a href="#cb20-445" aria-label="431"></a><span class="pp">|</span> Reference / Wiki   <span class="pp">|</span> Wikipedia, encyclopedic             <span class="pp">|</span>    3%  <span class="pp">|</span></span>
-<span id="cb20-446"><a href="#cb20-446" aria-label="432"></a></span>
-<span id="cb20-447"><a href="#cb20-447" aria-label="433"></a>A representative pretraining data mixture (domain → weight). {.striped .hover}</span>
+<span id="cb20-438"><a href="#cb20-438" aria-label="424"></a>::: {#tbl-data-mix}</span>
+<span id="cb20-439"><a href="#cb20-439" aria-label="425"></a></span>
+<span id="cb20-440"><a href="#cb20-440" aria-label="426"></a><span class="pp">|</span> Domain             <span class="pp">|</span> Example sources                    <span class="pp">|</span> Weight <span class="pp">|</span></span>
+<span id="cb20-441"><a href="#cb20-441" aria-label="427"></a><span class="pp">| :-----------------</span> <span class="pp">| :---------------------------------</span> <span class="pp">| -----:</span> <span class="pp">|</span></span>
+<span id="cb20-442"><a href="#cb20-442" aria-label="428"></a><span class="pp">|</span> Web / CommonCrawl  <span class="pp">|</span> filtered CommonCrawl, C4, RefinedWeb <span class="pp">|</span>   50%  <span class="pp">|</span></span>
+<span id="cb20-443"><a href="#cb20-443" aria-label="429"></a><span class="pp">|</span> Code               <span class="pp">|</span> GitHub, The Stack                   <span class="pp">|</span>   20%  <span class="pp">|</span></span>
+<span id="cb20-444"><a href="#cb20-444" aria-label="430"></a><span class="pp">|</span> Academic / STEM    <span class="pp">|</span> arXiv, papers, textbooks            <span class="pp">|</span>   12%  <span class="pp">|</span></span>
+<span id="cb20-445"><a href="#cb20-445" aria-label="431"></a><span class="pp">|</span> Books / long-form  <span class="pp">|</span> books, literature                   <span class="pp">|</span>   10%  <span class="pp">|</span></span>
+<span id="cb20-446"><a href="#cb20-446" aria-label="432"></a><span class="pp">|</span> Math               <span class="pp">|</span> math web, proofs, problem sets      <span class="pp">|</span>    5%  <span class="pp">|</span></span>
+<span id="cb20-447"><a href="#cb20-447" aria-label="433"></a><span class="pp">|</span> Reference / Wiki   <span class="pp">|</span> Wikipedia, encyclopedic             <span class="pp">|</span>    3%  <span class="pp">|</span></span>
 <span id="cb20-448"><a href="#cb20-448" aria-label="434"></a></span>
-<span id="cb20-449"><a href="#cb20-449" aria-label="435"></a>:::</span>
+<span id="cb20-449"><a href="#cb20-449" aria-label="435"></a>A representative pretraining data mixture (domain → weight). {.striped .hover}</span>
 <span id="cb20-450"><a href="#cb20-450" aria-label="436"></a></span>
-<span id="cb20-451"><a href="#cb20-451" aria-label="437"></a>Why not just "more web"? Because **domain weights are a design choice about what</span>
-<span id="cb20-452"><a href="#cb20-452" aria-label="438"></a>the model is good at.** Over-weighting code and math measurably improves</span>
-<span id="cb20-453"><a href="#cb20-453" aria-label="439"></a>reasoning; over-weighting raw web dilutes it. Reports like DeepSeek's and OLMo's</span>
-<span id="cb20-454"><a href="#cb20-454" aria-label="440"></a>show teams running _ablations_ — training small models on candidate mixtures and</span>
-<span id="cb20-455"><a href="#cb20-455" aria-label="441"></a>comparing downstream evals — before committing to a full-scale run.</span>
-<span id="cb20-456"><a href="#cb20-456" aria-label="442"></a></span>
-<span id="cb20-457"><a href="#cb20-457" aria-label="443"></a><span class="fu">### Quality vs quantity</span></span>
+<span id="cb20-451"><a href="#cb20-451" aria-label="437"></a>:::</span>
+<span id="cb20-452"><a href="#cb20-452" aria-label="438"></a></span>
+<span id="cb20-453"><a href="#cb20-453" aria-label="439"></a>Why not just "more web"? Because **domain weights are a design choice about what</span>
+<span id="cb20-454"><a href="#cb20-454" aria-label="440"></a>the model is good at.** Over-weighting code and math measurably improves</span>
+<span id="cb20-455"><a href="#cb20-455" aria-label="441"></a>reasoning; over-weighting raw web dilutes it. Reports like DeepSeek's and OLMo's</span>
+<span id="cb20-456"><a href="#cb20-456" aria-label="442"></a>show teams running _ablations_ — training small models on candidate mixtures and</span>
+<span id="cb20-457"><a href="#cb20-457" aria-label="443"></a>comparing downstream evals — before committing to a full-scale run.</span>
 <span id="cb20-458"><a href="#cb20-458" aria-label="444"></a></span>
-<span id="cb20-459"><a href="#cb20-459" aria-label="445"></a>Chinchilla (<span class="co">[</span><span class="ot">arXiv:2203.15556</span><span class="co">](https://arxiv.org/abs/2203.15556)</span>) told us</span>
-<span id="cb20-460"><a href="#cb20-460" aria-label="446"></a>_how many_ tokens to use: compute-optimally, tokens and parameters should scale</span>
-<span id="cb20-461"><a href="#cb20-461" aria-label="447"></a>together (~20 tokens per parameter). But its budget assumes _tokens are</span>
-<span id="cb20-462"><a href="#cb20-462" aria-label="448"></a>interchangeable_, and they aren't. **A smaller corpus of high-quality,</span>
-<span id="cb20-463"><a href="#cb20-463" aria-label="449"></a>deduplicated, well-filtered tokens routinely beats a larger corpus of noisy</span>
-<span id="cb20-464"><a href="#cb20-464" aria-label="450"></a>ones.** In practice, aggressive quality filtering and dedup (removing</span>
-<span id="cb20-465"><a href="#cb20-465" aria-label="451"></a>near-duplicate documents) is one of the highest-leverage things you can do,</span>
-<span id="cb20-466"><a href="#cb20-466" aria-label="452"></a>often worth more than adding raw tokens.</span>
-<span id="cb20-467"><a href="#cb20-467" aria-label="453"></a></span>
-<span id="cb20-468"><a href="#cb20-468" aria-label="454"></a><span class="fu">### Synthetic data (conceptual recipe)</span></span>
+<span id="cb20-459"><a href="#cb20-459" aria-label="445"></a><span class="fu">### Quality vs quantity</span></span>
+<span id="cb20-460"><a href="#cb20-460" aria-label="446"></a></span>
+<span id="cb20-461"><a href="#cb20-461" aria-label="447"></a>Chinchilla (<span class="co">[</span><span class="ot">arXiv:2203.15556</span><span class="co">](https://arxiv.org/abs/2203.15556)</span>) told us</span>
+<span id="cb20-462"><a href="#cb20-462" aria-label="448"></a>_how many_ tokens to use: compute-optimally, tokens and parameters should scale</span>
+<span id="cb20-463"><a href="#cb20-463" aria-label="449"></a>together (~20 tokens per parameter). But its budget assumes _tokens are</span>
+<span id="cb20-464"><a href="#cb20-464" aria-label="450"></a>interchangeable_, and they aren't. **A smaller corpus of high-quality,</span>
+<span id="cb20-465"><a href="#cb20-465" aria-label="451"></a>deduplicated, well-filtered tokens routinely beats a larger corpus of noisy</span>
+<span id="cb20-466"><a href="#cb20-466" aria-label="452"></a>ones.** In practice, aggressive quality filtering and dedup (removing</span>
+<span id="cb20-467"><a href="#cb20-467" aria-label="453"></a>near-duplicate documents) is one of the highest-leverage things you can do,</span>
+<span id="cb20-468"><a href="#cb20-468" aria-label="454"></a>often worth more than adding raw tokens.</span>
 <span id="cb20-469"><a href="#cb20-469" aria-label="455"></a></span>
-<span id="cb20-470"><a href="#cb20-470" aria-label="456"></a>When high-quality human data runs out for a domain, teams **generate** more with</span>
-<span id="cb20-471"><a href="#cb20-471" aria-label="457"></a>a strong existing model. This is how much of the recent gain in</span>
-<span id="cb20-472"><a href="#cb20-472" aria-label="458"></a>math/code/reasoning data was produced. The core loop (display-only</span>
-<span id="cb20-473"><a href="#cb20-473" aria-label="459"></a>pseudo-code):</span>
-<span id="cb20-474"><a href="#cb20-474" aria-label="460"></a></span>
-<span id="cb20-477"><a href="#cb20-477" aria-label="461"></a><span class="in">```{python}</span></span>
-<span id="cb20-478"><a href="#cb20-478" aria-label="462"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-479"><a href="#cb20-479" aria-label="463"></a><span class="co"># Conceptual synthetic-data generation loop. NOT runnable here — this is</span></span>
-<span id="cb20-480"><a href="#cb20-480" aria-label="464"></a><span class="co"># the *shape* of the pipeline, not a drop-in implementation.</span></span>
-<span id="cb20-481"><a href="#cb20-481" aria-label="465"></a><span class="im">from</span> your_pipeline <span class="im">import</span> teacher_model, seed_prompts, verify</span>
-<span id="cb20-482"><a href="#cb20-482" aria-label="466"></a></span>
-<span id="cb20-483"><a href="#cb20-483" aria-label="467"></a>synthetic <span class="op">=</span> []</span>
-<span id="cb20-484"><a href="#cb20-484" aria-label="468"></a><span class="cf">for</span> prompt <span class="kw">in</span> seed_prompts:                      <span class="co"># e.g. seed problems / topics</span></span>
-<span id="cb20-485"><a href="#cb20-485" aria-label="469"></a>    candidates <span class="op">=</span> teacher_model.generate(          <span class="co"># strong model = "teacher"</span></span>
-<span id="cb20-486"><a href="#cb20-486" aria-label="470"></a>        prompt, n<span class="op">=</span><span class="dv">8</span>, temperature<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb20-487"><a href="#cb20-487" aria-label="471"></a>    )</span>
-<span id="cb20-488"><a href="#cb20-488" aria-label="472"></a>    <span class="cf">for</span> c <span class="kw">in</span> candidates:</span>
-<span id="cb20-489"><a href="#cb20-489" aria-label="473"></a>        <span class="co"># QUALITY GATE is the whole game: keep only what passes a check.</span></span>
-<span id="cb20-490"><a href="#cb20-490" aria-label="474"></a>        <span class="co">#   - math/code: execute &amp; test, or verify against ground truth</span></span>
-<span id="cb20-491"><a href="#cb20-491" aria-label="475"></a>        <span class="co">#   - general:   LLM-as-judge, dedup, toxicity/PII filters</span></span>
-<span id="cb20-492"><a href="#cb20-492" aria-label="476"></a>        <span class="cf">if</span> verify(prompt, c):</span>
-<span id="cb20-493"><a href="#cb20-493" aria-label="477"></a>            synthetic.append({<span class="st">"prompt"</span>: prompt, <span class="st">"completion"</span>: c})</span>
-<span id="cb20-494"><a href="#cb20-494" aria-label="478"></a></span>
-<span id="cb20-495"><a href="#cb20-495" aria-label="479"></a><span class="co"># Deduplicate against itself AND against the real corpus before mixing in.</span></span>
-<span id="cb20-496"><a href="#cb20-496" aria-label="480"></a>synthetic <span class="op">=</span> dedup(synthetic)</span>
-<span id="cb20-497"><a href="#cb20-497" aria-label="481"></a><span class="co"># Blend as just another weighted domain in @tbl-data-mix (start small!).</span></span>
-<span id="cb20-498"><a href="#cb20-498" aria-label="482"></a><span class="in">```</span></span>
-<span id="cb20-499"><a href="#cb20-499" aria-label="483"></a></span>
-<span id="cb20-500"><a href="#cb20-500" aria-label="484"></a>::: {.callout-warning title="🧪 Synthetic data is not free tokens"}</span>
-<span id="cb20-501"><a href="#cb20-501" aria-label="485"></a>Synthetic data amplifies whatever the teacher already knows; without a real</span>
-<span id="cb20-502"><a href="#cb20-502" aria-label="486"></a>**verification/filtering** step it degrades diversity and can cause *model</span>
-<span id="cb20-503"><a href="#cb20-503" aria-label="487"></a>collapse* (each generation drifting toward the model's own biases). The</span>
-<span id="cb20-504"><a href="#cb20-504" aria-label="488"></a>verifier — unit tests for code, a checker for math, dedup + judge for prose — is</span>
-<span id="cb20-505"><a href="#cb20-505" aria-label="489"></a>what makes synthetic data _add_ signal instead of noise. Treat it as a small,</span>
-<span id="cb20-506"><a href="#cb20-506" aria-label="490"></a>carefully-gated slice of the mixture, not a firehose.</span>
-<span id="cb20-507"><a href="#cb20-507" aria-label="491"></a>:::</span>
-<span id="cb20-508"><a href="#cb20-508" aria-label="492"></a></span>
-<span id="cb20-509"><a href="#cb20-509" aria-label="493"></a><span class="fu">## ② The Real Thing: Reading a Training Log</span></span>
+<span id="cb20-470"><a href="#cb20-470" aria-label="456"></a><span class="fu">### Synthetic data (conceptual recipe)</span></span>
+<span id="cb20-471"><a href="#cb20-471" aria-label="457"></a></span>
+<span id="cb20-472"><a href="#cb20-472" aria-label="458"></a>When high-quality human data runs out for a domain, teams **generate** more with</span>
+<span id="cb20-473"><a href="#cb20-473" aria-label="459"></a>a strong existing model. This is how much of the recent gain in</span>
+<span id="cb20-474"><a href="#cb20-474" aria-label="460"></a>math/code/reasoning data was produced. The core loop (display-only</span>
+<span id="cb20-475"><a href="#cb20-475" aria-label="461"></a>pseudo-code):</span>
+<span id="cb20-476"><a href="#cb20-476" aria-label="462"></a></span>
+<span id="cb20-479"><a href="#cb20-479" aria-label="463"></a><span class="in">```{python}</span></span>
+<span id="cb20-480"><a href="#cb20-480" aria-label="464"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-481"><a href="#cb20-481" aria-label="465"></a><span class="co"># Conceptual synthetic-data generation loop. NOT runnable here — this is</span></span>
+<span id="cb20-482"><a href="#cb20-482" aria-label="466"></a><span class="co"># the *shape* of the pipeline, not a drop-in implementation.</span></span>
+<span id="cb20-483"><a href="#cb20-483" aria-label="467"></a><span class="im">from</span> your_pipeline <span class="im">import</span> teacher_model, seed_prompts, verify</span>
+<span id="cb20-484"><a href="#cb20-484" aria-label="468"></a></span>
+<span id="cb20-485"><a href="#cb20-485" aria-label="469"></a>synthetic <span class="op">=</span> []</span>
+<span id="cb20-486"><a href="#cb20-486" aria-label="470"></a><span class="cf">for</span> prompt <span class="kw">in</span> seed_prompts:                      <span class="co"># e.g. seed problems / topics</span></span>
+<span id="cb20-487"><a href="#cb20-487" aria-label="471"></a>    candidates <span class="op">=</span> teacher_model.generate(          <span class="co"># strong model = "teacher"</span></span>
+<span id="cb20-488"><a href="#cb20-488" aria-label="472"></a>        prompt, n<span class="op">=</span><span class="dv">8</span>, temperature<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb20-489"><a href="#cb20-489" aria-label="473"></a>    )</span>
+<span id="cb20-490"><a href="#cb20-490" aria-label="474"></a>    <span class="cf">for</span> c <span class="kw">in</span> candidates:</span>
+<span id="cb20-491"><a href="#cb20-491" aria-label="475"></a>        <span class="co"># QUALITY GATE is the whole game: keep only what passes a check.</span></span>
+<span id="cb20-492"><a href="#cb20-492" aria-label="476"></a>        <span class="co">#   - math/code: execute &amp; test, or verify against ground truth</span></span>
+<span id="cb20-493"><a href="#cb20-493" aria-label="477"></a>        <span class="co">#   - general:   LLM-as-judge, dedup, toxicity/PII filters</span></span>
+<span id="cb20-494"><a href="#cb20-494" aria-label="478"></a>        <span class="cf">if</span> verify(prompt, c):</span>
+<span id="cb20-495"><a href="#cb20-495" aria-label="479"></a>            synthetic.append({<span class="st">"prompt"</span>: prompt, <span class="st">"completion"</span>: c})</span>
+<span id="cb20-496"><a href="#cb20-496" aria-label="480"></a></span>
+<span id="cb20-497"><a href="#cb20-497" aria-label="481"></a><span class="co"># Deduplicate against itself AND against the real corpus before mixing in.</span></span>
+<span id="cb20-498"><a href="#cb20-498" aria-label="482"></a>synthetic <span class="op">=</span> dedup(synthetic)</span>
+<span id="cb20-499"><a href="#cb20-499" aria-label="483"></a><span class="co"># Blend as just another weighted domain in @tbl-data-mix (start small!).</span></span>
+<span id="cb20-500"><a href="#cb20-500" aria-label="484"></a><span class="in">```</span></span>
+<span id="cb20-501"><a href="#cb20-501" aria-label="485"></a></span>
+<span id="cb20-502"><a href="#cb20-502" aria-label="486"></a>::: {.callout-warning title="🧪 Synthetic data is not free tokens"}</span>
+<span id="cb20-503"><a href="#cb20-503" aria-label="487"></a>Synthetic data amplifies whatever the teacher already knows; without a real</span>
+<span id="cb20-504"><a href="#cb20-504" aria-label="488"></a>**verification/filtering** step it degrades diversity and can cause *model</span>
+<span id="cb20-505"><a href="#cb20-505" aria-label="489"></a>collapse* (each generation drifting toward the model's own biases). The</span>
+<span id="cb20-506"><a href="#cb20-506" aria-label="490"></a>verifier — unit tests for code, a checker for math, dedup + judge for prose — is</span>
+<span id="cb20-507"><a href="#cb20-507" aria-label="491"></a>what makes synthetic data _add_ signal instead of noise. Treat it as a small,</span>
+<span id="cb20-508"><a href="#cb20-508" aria-label="492"></a>carefully-gated slice of the mixture, not a firehose.</span>
+<span id="cb20-509"><a href="#cb20-509" aria-label="493"></a>:::</span>
 <span id="cb20-510"><a href="#cb20-510" aria-label="494"></a></span>
-<span id="cb20-511"><a href="#cb20-511" aria-label="495"></a>Put Themes B and C together and this is what a healthy <span class="in">`torchtitan`</span>-style</span>
-<span id="cb20-512"><a href="#cb20-512" aria-label="496"></a>pretraining log looks like on a GPU cluster (display-only excerpt). Watch</span>
-<span id="cb20-513"><a href="#cb20-513" aria-label="497"></a><span class="in">`tps`</span> and <span class="in">`mfu`</span>; they're your live scaling report card:</span>
-<span id="cb20-514"><a href="#cb20-514" aria-label="498"></a></span>
-<span id="cb20-515"><a href="#cb20-515" aria-label="499"></a><span class="in">```bash</span></span>
-<span id="cb20-516"><a href="#cb20-516" aria-label="500"></a><span class="ex">[rank0]</span> step=  10  loss=8.214  lr=1.20e-04  dt=0.842s  tps=311,900  tflops=402.1  mfu=40.7%</span>
-<span id="cb20-517"><a href="#cb20-517" aria-label="501"></a><span class="ex">[rank0]</span> step=  20  loss=7.019  lr=2.40e-04  dt=0.839s  tps=312,900  tflops=403.5  mfu=40.8%</span>
-<span id="cb20-518"><a href="#cb20-518" aria-label="502"></a><span class="ex">[rank0]</span> step=  30  loss=6.447  lr=3.60e-04  dt=0.851s  tps=308,600  tflops=397.9  mfu=40.2%</span>
-<span id="cb20-519"><a href="#cb20-519" aria-label="503"></a><span class="ex">[rank0]</span> step=  40  loss=6.088  lr=4.80e-04  dt=0.838s  tps=313,400  tflops=404.1  mfu=40.9%</span>
-<span id="cb20-520"><a href="#cb20-520" aria-label="504"></a><span class="ex">[rank0]</span> step=  50  loss=5.902  lr=6.00e-04  dt=0.844s  tps=311,000  tflops=401.0  mfu=40.6%</span>
-<span id="cb20-521"><a href="#cb20-521" aria-label="505"></a><span class="in">```</span></span>
-<span id="cb20-522"><a href="#cb20-522" aria-label="506"></a></span>
-<span id="cb20-523"><a href="#cb20-523" aria-label="507"></a>Reading it:</span>
+<span id="cb20-511"><a href="#cb20-511" aria-label="495"></a><span class="fu">## ② The Real Thing: Reading a Training Log</span></span>
+<span id="cb20-512"><a href="#cb20-512" aria-label="496"></a></span>
+<span id="cb20-513"><a href="#cb20-513" aria-label="497"></a>Put Themes B and C together and this is what a healthy <span class="in">`torchtitan`</span>-style</span>
+<span id="cb20-514"><a href="#cb20-514" aria-label="498"></a>pretraining log looks like on a GPU cluster (display-only excerpt). Watch</span>
+<span id="cb20-515"><a href="#cb20-515" aria-label="499"></a><span class="in">`tps`</span> and <span class="in">`mfu`</span>; they're your live scaling report card:</span>
+<span id="cb20-516"><a href="#cb20-516" aria-label="500"></a></span>
+<span id="cb20-517"><a href="#cb20-517" aria-label="501"></a><span class="in">```bash</span></span>
+<span id="cb20-518"><a href="#cb20-518" aria-label="502"></a><span class="ex">[rank0]</span> step=  10  loss=8.214  lr=1.20e-04  dt=0.842s  tps=311,900  tflops=402.1  mfu=40.7%</span>
+<span id="cb20-519"><a href="#cb20-519" aria-label="503"></a><span class="ex">[rank0]</span> step=  20  loss=7.019  lr=2.40e-04  dt=0.839s  tps=312,900  tflops=403.5  mfu=40.8%</span>
+<span id="cb20-520"><a href="#cb20-520" aria-label="504"></a><span class="ex">[rank0]</span> step=  30  loss=6.447  lr=3.60e-04  dt=0.851s  tps=308,600  tflops=397.9  mfu=40.2%</span>
+<span id="cb20-521"><a href="#cb20-521" aria-label="505"></a><span class="ex">[rank0]</span> step=  40  loss=6.088  lr=4.80e-04  dt=0.838s  tps=313,400  tflops=404.1  mfu=40.9%</span>
+<span id="cb20-522"><a href="#cb20-522" aria-label="506"></a><span class="ex">[rank0]</span> step=  50  loss=5.902  lr=6.00e-04  dt=0.844s  tps=311,000  tflops=401.0  mfu=40.6%</span>
+<span id="cb20-523"><a href="#cb20-523" aria-label="507"></a><span class="in">```</span></span>
 <span id="cb20-524"><a href="#cb20-524" aria-label="508"></a></span>
-<span id="cb20-525"><a href="#cb20-525" aria-label="509"></a><span class="ss">- </span>**`loss` falling smoothly** → optimization is healthy.</span>
-<span id="cb20-526"><a href="#cb20-526" aria-label="510"></a><span class="ss">- </span>**`tps` and `mfu` flat and high (~40%)** → compute-bound, comm well-hidden.</span>
-<span id="cb20-527"><a href="#cb20-527" aria-label="511"></a>  This is what "good" looks like.</span>
-<span id="cb20-528"><a href="#cb20-528" aria-label="512"></a><span class="ss">- </span>If instead <span class="in">`mfu`</span> were ~12% and <span class="in">`dt`</span> jumped around, you'd suspect a</span>
-<span id="cb20-529"><a href="#cb20-529" aria-label="513"></a>  **comm:compute** problem (Theme C) or data-loading stalls, not a model bug.</span>
-<span id="cb20-530"><a href="#cb20-530" aria-label="514"></a></span>
-<span id="cb20-531"><a href="#cb20-531" aria-label="515"></a>::: {.callout-tip title="🔬 At DeepSeek-v3 scale…"}</span>
-<span id="cb20-532"><a href="#cb20-532" aria-label="516"></a><span class="in">`mfu`</span> is the metric that pays for itself. Going from 25% → 40% MFU on a run that</span>
-<span id="cb20-533"><a href="#cb20-533" aria-label="517"></a>would take 60 days is ~22 days saved: pure wall-clock (and dollars, and</span>
-<span id="cb20-534"><a href="#cb20-534" aria-label="518"></a>carbon). At frontier scale, a few points of MFU is worth an entire engineering</span>
-<span id="cb20-535"><a href="#cb20-535" aria-label="519"></a>team's quarter.</span>
-<span id="cb20-536"><a href="#cb20-536" aria-label="520"></a>:::</span>
-<span id="cb20-537"><a href="#cb20-537" aria-label="521"></a></span>
-<span id="cb20-538"><a href="#cb20-538" aria-label="522"></a><span class="fu">## ③ Scale It Up: Launch a Pretraining Sweep</span></span>
+<span id="cb20-525"><a href="#cb20-525" aria-label="509"></a>Reading it:</span>
+<span id="cb20-526"><a href="#cb20-526" aria-label="510"></a></span>
+<span id="cb20-527"><a href="#cb20-527" aria-label="511"></a><span class="ss">- </span>**`loss` falling smoothly** → optimization is healthy.</span>
+<span id="cb20-528"><a href="#cb20-528" aria-label="512"></a><span class="ss">- </span>**`tps` and `mfu` flat and high (~40%)** → compute-bound, comm well-hidden.</span>
+<span id="cb20-529"><a href="#cb20-529" aria-label="513"></a>  This is what "good" looks like.</span>
+<span id="cb20-530"><a href="#cb20-530" aria-label="514"></a><span class="ss">- </span>If instead <span class="in">`mfu`</span> were ~12% and <span class="in">`dt`</span> jumped around, you'd suspect a</span>
+<span id="cb20-531"><a href="#cb20-531" aria-label="515"></a>  **comm:compute** problem (Theme C) or data-loading stalls, not a model bug.</span>
+<span id="cb20-532"><a href="#cb20-532" aria-label="516"></a></span>
+<span id="cb20-533"><a href="#cb20-533" aria-label="517"></a>::: {.callout-tip title="🔬 At DeepSeek-v3 scale…"}</span>
+<span id="cb20-534"><a href="#cb20-534" aria-label="518"></a><span class="in">`mfu`</span> is the metric that pays for itself. Going from 25% → 40% MFU on a run that</span>
+<span id="cb20-535"><a href="#cb20-535" aria-label="519"></a>would take 60 days is ~22 days saved: pure wall-clock (and dollars, and</span>
+<span id="cb20-536"><a href="#cb20-536" aria-label="520"></a>carbon). At frontier scale, a few points of MFU is worth an entire engineering</span>
+<span id="cb20-537"><a href="#cb20-537" aria-label="521"></a>team's quarter.</span>
+<span id="cb20-538"><a href="#cb20-538" aria-label="522"></a>:::</span>
 <span id="cb20-539"><a href="#cb20-539" aria-label="523"></a></span>
-<span id="cb20-540"><a href="#cb20-540" aria-label="524"></a>Now the full picture: distribute the env with <span class="in">`yeet`</span>, then launch a</span>
-<span id="cb20-541"><a href="#cb20-541" aria-label="525"></a><span class="in">`torchtitan`</span> pretraining run across <span class="in">`N`</span> nodes with <span class="in">`ezpz launch`</span>. All commands</span>
-<span id="cb20-542"><a href="#cb20-542" aria-label="526"></a>are display-only; run them inside an interactive allocation (or a job script).</span>
-<span id="cb20-543"><a href="#cb20-543" aria-label="527"></a></span>
-<span id="cb20-544"><a href="#cb20-544" aria-label="528"></a>**0. Grab an 8-node interactive allocation.** This is the only scheduler-specific</span>
-<span id="cb20-545"><a href="#cb20-545" aria-label="529"></a>step; everything after it is identical on both machines.</span>
-<span id="cb20-546"><a href="#cb20-546" aria-label="530"></a></span>
-<span id="cb20-547"><a href="#cb20-547" aria-label="531"></a>::: {.panel-tabset}</span>
+<span id="cb20-540"><a href="#cb20-540" aria-label="524"></a><span class="fu">## ③ Scale It Up: Launch a Pretraining Sweep</span></span>
+<span id="cb20-541"><a href="#cb20-541" aria-label="525"></a></span>
+<span id="cb20-542"><a href="#cb20-542" aria-label="526"></a>Now the full picture: distribute the env with <span class="in">`yeet`</span>, then launch a</span>
+<span id="cb20-543"><a href="#cb20-543" aria-label="527"></a><span class="in">`torchtitan`</span> pretraining run across <span class="in">`N`</span> nodes with <span class="in">`ezpz launch`</span>. All commands</span>
+<span id="cb20-544"><a href="#cb20-544" aria-label="528"></a>are display-only; run them inside an interactive allocation (or a job script).</span>
+<span id="cb20-545"><a href="#cb20-545" aria-label="529"></a></span>
+<span id="cb20-546"><a href="#cb20-546" aria-label="530"></a>**0. Grab an 8-node interactive allocation.** This is the only scheduler-specific</span>
+<span id="cb20-547"><a href="#cb20-547" aria-label="531"></a>step; everything after it is identical on both machines.</span>
 <span id="cb20-548"><a href="#cb20-548" aria-label="532"></a></span>
-<span id="cb20-549"><a href="#cb20-549" aria-label="533"></a><span class="fu">#### PBS (Polaris @ ALCF)</span></span>
+<span id="cb20-549"><a href="#cb20-549" aria-label="533"></a>::: {.panel-tabset}</span>
 <span id="cb20-550"><a href="#cb20-550" aria-label="534"></a></span>
-<span id="cb20-551"><a href="#cb20-551" aria-label="535"></a><span class="in">```bash</span></span>
-<span id="cb20-552"><a href="#cb20-552" aria-label="536"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=8 <span class="at">-l</span> walltime=01:00:00 <span class="dt">\</span></span>
-<span id="cb20-553"><a href="#cb20-553" aria-label="537"></a>     <span class="at">-l</span> filesystems=home:eagle</span>
-<span id="cb20-554"><a href="#cb20-554" aria-label="538"></a><span class="in">```</span></span>
-<span id="cb20-555"><a href="#cb20-555" aria-label="539"></a></span>
-<span id="cb20-556"><a href="#cb20-556" aria-label="540"></a><span class="fu">#### SLURM (Perlmutter @ NERSC)</span></span>
+<span id="cb20-551"><a href="#cb20-551" aria-label="535"></a><span class="fu">#### PBS (Polaris @ ALCF)</span></span>
+<span id="cb20-552"><a href="#cb20-552" aria-label="536"></a></span>
+<span id="cb20-553"><a href="#cb20-553" aria-label="537"></a><span class="in">```bash</span></span>
+<span id="cb20-554"><a href="#cb20-554" aria-label="538"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-A</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -q debug <span class="at">-l</span> select=8 <span class="at">-l</span> walltime=01:00:00 <span class="dt">\</span></span>
+<span id="cb20-555"><a href="#cb20-555" aria-label="539"></a>     <span class="at">-l</span> filesystems=home:eagle</span>
+<span id="cb20-556"><a href="#cb20-556" aria-label="540"></a><span class="in">```</span></span>
 <span id="cb20-557"><a href="#cb20-557" aria-label="541"></a></span>
-<span id="cb20-558"><a href="#cb20-558" aria-label="542"></a><span class="in">```bash</span></span>
-<span id="cb20-559"><a href="#cb20-559" aria-label="543"></a><span class="ex">salloc</span> <span class="at">--nodes</span> 8 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="dt">\</span></span>
-<span id="cb20-560"><a href="#cb20-560" aria-label="544"></a>       <span class="at">--constraint</span> gpu <span class="at">--account</span> <span class="op">&lt;</span>project<span class="op">&gt;</span></span>
-<span id="cb20-561"><a href="#cb20-561" aria-label="545"></a><span class="in">```</span></span>
-<span id="cb20-562"><a href="#cb20-562" aria-label="546"></a></span>
-<span id="cb20-563"><a href="#cb20-563" aria-label="547"></a>:::</span>
+<span id="cb20-558"><a href="#cb20-558" aria-label="542"></a><span class="fu">#### SLURM (Perlmutter @ NERSC)</span></span>
+<span id="cb20-559"><a href="#cb20-559" aria-label="543"></a></span>
+<span id="cb20-560"><a href="#cb20-560" aria-label="544"></a><span class="in">```bash</span></span>
+<span id="cb20-561"><a href="#cb20-561" aria-label="545"></a><span class="ex">salloc</span> <span class="at">--nodes</span> 8 <span class="at">--qos</span> interactive <span class="at">--time</span> 01:00:00 <span class="dt">\</span></span>
+<span id="cb20-562"><a href="#cb20-562" aria-label="546"></a>       <span class="at">--constraint</span> gpu <span class="at">--account</span> <span class="op">&lt;</span>project<span class="op">&gt;</span></span>
+<span id="cb20-563"><a href="#cb20-563" aria-label="547"></a><span class="in">```</span></span>
 <span id="cb20-564"><a href="#cb20-564" aria-label="548"></a></span>
-<span id="cb20-565"><a href="#cb20-565" aria-label="549"></a>Then, on the head node of the allocation:</span>
+<span id="cb20-565"><a href="#cb20-565" aria-label="549"></a>:::</span>
 <span id="cb20-566"><a href="#cb20-566" aria-label="550"></a></span>
-<span id="cb20-567"><a href="#cb20-567" aria-label="551"></a><span class="in">```bash</span></span>
-<span id="cb20-568"><a href="#cb20-568" aria-label="552"></a><span class="co"># --- 1. Build env once against a Python that exists on every node ---</span></span>
-<span id="cb20-569"><a href="#cb20-569" aria-label="553"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
-<span id="cb20-570"><a href="#cb20-570" aria-label="554"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span>
-<span id="cb20-571"><a href="#cb20-571" aria-label="555"></a><span class="co"># ... plus torchtitan + torch for your system ...</span></span>
-<span id="cb20-572"><a href="#cb20-572" aria-label="556"></a></span>
-<span id="cb20-573"><a href="#cb20-573" aria-label="557"></a><span class="co"># --- 2. Beat the import storm: tarball + broadcast to node-local /tmp ---</span></span>
-<span id="cb20-574"><a href="#cb20-574" aria-label="558"></a><span class="ex">ezpz</span> tar-env</span>
-<span id="cb20-575"><a href="#cb20-575" aria-label="559"></a><span class="ex">ezpz</span> yeet .venv.tar.gz <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 8</span>
-<span id="cb20-576"><a href="#cb20-576" aria-label="560"></a><span class="ex">deactivate</span> <span class="kw">&amp;&amp;</span> <span class="bu">source</span> /tmp/.venv/bin/activate</span>
-<span id="cb20-577"><a href="#cb20-577" aria-label="561"></a></span>
-<span id="cb20-578"><a href="#cb20-578" aria-label="562"></a><span class="co"># --- 3. Sanity-check the distributed setup (NOT python3 -m ezpz.test_dist) ---</span></span>
-<span id="cb20-579"><a href="#cb20-579" aria-label="563"></a><span class="ex">ezpz</span> test</span>
-<span id="cb20-580"><a href="#cb20-580" aria-label="564"></a></span>
-<span id="cb20-581"><a href="#cb20-581" aria-label="565"></a><span class="co"># --- 4. Launch torchtitan pretraining across all nodes in the job ---</span></span>
-<span id="cb20-582"><a href="#cb20-582" aria-label="566"></a><span class="co">#     ezpz auto-detects PBS-&gt;mpiexec / SLURM-&gt;srun; no mpirun -n $NGPUS needed.</span></span>
-<span id="cb20-583"><a href="#cb20-583" aria-label="567"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
-<span id="cb20-584"><a href="#cb20-584" aria-label="568"></a>    <span class="at">--job.config_file</span> ./train_configs/llama3_8b.toml <span class="dt">\</span></span>
-<span id="cb20-585"><a href="#cb20-585" aria-label="569"></a>    <span class="at">--training.steps</span> 100 <span class="dt">\</span></span>
-<span id="cb20-586"><a href="#cb20-586" aria-label="570"></a>    <span class="at">--metrics.log_freq</span> 10 <span class="dt">\</span></span>
-<span id="cb20-587"><a href="#cb20-587" aria-label="571"></a>    <span class="at">--checkpoint.enable</span> <span class="at">--checkpoint.interval</span> 50 <span class="dt">\</span></span>
-<span id="cb20-588"><a href="#cb20-588" aria-label="572"></a>    <span class="at">--profile</span></span>
-<span id="cb20-589"><a href="#cb20-589" aria-label="573"></a><span class="in">```</span></span>
-<span id="cb20-590"><a href="#cb20-590" aria-label="574"></a></span>
-<span id="cb20-591"><a href="#cb20-591" aria-label="575"></a><span class="fu">### 🧭 The node-count sweep</span></span>
+<span id="cb20-567"><a href="#cb20-567" aria-label="551"></a>Then, on the head node of the allocation:</span>
+<span id="cb20-568"><a href="#cb20-568" aria-label="552"></a></span>
+<span id="cb20-569"><a href="#cb20-569" aria-label="553"></a><span class="in">```bash</span></span>
+<span id="cb20-570"><a href="#cb20-570" aria-label="554"></a><span class="co"># --- 1. Build env once against a Python that exists on every node ---</span></span>
+<span id="cb20-571"><a href="#cb20-571" aria-label="555"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
+<span id="cb20-572"><a href="#cb20-572" aria-label="556"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span>
+<span id="cb20-573"><a href="#cb20-573" aria-label="557"></a><span class="co"># ... plus torchtitan + torch for your system ...</span></span>
+<span id="cb20-574"><a href="#cb20-574" aria-label="558"></a></span>
+<span id="cb20-575"><a href="#cb20-575" aria-label="559"></a><span class="co"># --- 2. Beat the import storm: tarball + broadcast to node-local /tmp ---</span></span>
+<span id="cb20-576"><a href="#cb20-576" aria-label="560"></a><span class="ex">ezpz</span> tar-env</span>
+<span id="cb20-577"><a href="#cb20-577" aria-label="561"></a><span class="ex">ezpz</span> yeet .venv.tar.gz <span class="at">--compress</span> <span class="at">--min-success-nodes</span> 8</span>
+<span id="cb20-578"><a href="#cb20-578" aria-label="562"></a><span class="ex">deactivate</span> <span class="kw">&amp;&amp;</span> <span class="bu">source</span> /tmp/.venv/bin/activate</span>
+<span id="cb20-579"><a href="#cb20-579" aria-label="563"></a></span>
+<span id="cb20-580"><a href="#cb20-580" aria-label="564"></a><span class="co"># --- 3. Sanity-check the distributed setup (NOT python3 -m ezpz.test_dist) ---</span></span>
+<span id="cb20-581"><a href="#cb20-581" aria-label="565"></a><span class="ex">ezpz</span> test</span>
+<span id="cb20-582"><a href="#cb20-582" aria-label="566"></a></span>
+<span id="cb20-583"><a href="#cb20-583" aria-label="567"></a><span class="co"># --- 4. Launch torchtitan pretraining across all nodes in the job ---</span></span>
+<span id="cb20-584"><a href="#cb20-584" aria-label="568"></a><span class="co">#     ezpz auto-detects PBS-&gt;mpiexec / SLURM-&gt;srun; no mpirun -n $NGPUS needed.</span></span>
+<span id="cb20-585"><a href="#cb20-585" aria-label="569"></a><span class="ex">ezpz</span> launch python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
+<span id="cb20-586"><a href="#cb20-586" aria-label="570"></a>    <span class="at">--job.config_file</span> ./train_configs/llama3_8b.toml <span class="dt">\</span></span>
+<span id="cb20-587"><a href="#cb20-587" aria-label="571"></a>    <span class="at">--training.steps</span> 100 <span class="dt">\</span></span>
+<span id="cb20-588"><a href="#cb20-588" aria-label="572"></a>    <span class="at">--metrics.log_freq</span> 10 <span class="dt">\</span></span>
+<span id="cb20-589"><a href="#cb20-589" aria-label="573"></a>    <span class="at">--checkpoint.enable</span> <span class="at">--checkpoint.interval</span> 50 <span class="dt">\</span></span>
+<span id="cb20-590"><a href="#cb20-590" aria-label="574"></a>    <span class="at">--profile</span></span>
+<span id="cb20-591"><a href="#cb20-591" aria-label="575"></a><span class="in">```</span></span>
 <span id="cb20-592"><a href="#cb20-592" aria-label="576"></a></span>
-<span id="cb20-593"><a href="#cb20-593" aria-label="577"></a>To _see_ scaling, run the same config at several node counts and record <span class="in">`tps`</span></span>
-<span id="cb20-594"><a href="#cb20-594" aria-label="578"></a>and <span class="in">`mfu`</span> from the logs:</span>
-<span id="cb20-595"><a href="#cb20-595" aria-label="579"></a></span>
-<span id="cb20-596"><a href="#cb20-596" aria-label="580"></a><span class="in">```bash</span></span>
-<span id="cb20-597"><a href="#cb20-597" aria-label="581"></a><span class="co"># Repeat step 4 for a few node counts (re-request the allocation with qsub /</span></span>
-<span id="cb20-598"><a href="#cb20-598" aria-label="582"></a><span class="co"># salloc, and re-yeet, as it grows).</span></span>
-<span id="cb20-599"><a href="#cb20-599" aria-label="583"></a><span class="co"># Keep the per-GPU batch size FIXED so you're measuring scaling, not batch size.</span></span>
-<span id="cb20-600"><a href="#cb20-600" aria-label="584"></a><span class="cf">for</span> N <span class="kw">in</span> 1 2 4 8<span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb20-601"><a href="#cb20-601" aria-label="585"></a>    <span class="ex">ezpz</span> launch <span class="at">--hostfile</span> /tmp/hostfile-<span class="va">${N}</span>nodes <span class="dt">\</span></span>
-<span id="cb20-602"><a href="#cb20-602" aria-label="586"></a>        python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
-<span id="cb20-603"><a href="#cb20-603" aria-label="587"></a>        <span class="at">--job.config_file</span> ./train_configs/llama3_8b.toml <span class="dt">\</span></span>
-<span id="cb20-604"><a href="#cb20-604" aria-label="588"></a>        <span class="at">--training.steps</span> 50 <span class="at">--metrics.log_freq</span> 10 <span class="at">--profile</span> <span class="dt">\</span></span>
-<span id="cb20-605"><a href="#cb20-605" aria-label="589"></a>        <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tee</span> sweep_<span class="va">${N}</span>nodes.log</span>
-<span id="cb20-606"><a href="#cb20-606" aria-label="590"></a><span class="cf">done</span></span>
-<span id="cb20-607"><a href="#cb20-607" aria-label="591"></a><span class="in">```</span></span>
-<span id="cb20-608"><a href="#cb20-608" aria-label="592"></a></span>
-<span id="cb20-609"><a href="#cb20-609" aria-label="593"></a>Then extract the steady-state numbers and plot them. Two curves tell the whole</span>
-<span id="cb20-610"><a href="#cb20-610" aria-label="594"></a>story:</span>
-<span id="cb20-611"><a href="#cb20-611" aria-label="595"></a></span>
-<span id="cb20-612"><a href="#cb20-612" aria-label="596"></a><span class="ss">1. </span>**`tokens/sec` vs node count** — ideally a straight line (perfect *weak</span>
-<span id="cb20-613"><a href="#cb20-613" aria-label="597"></a>   scaling*). Bending below the line = your comm:compute ratio (Theme C) is</span>
-<span id="cb20-614"><a href="#cb20-614" aria-label="598"></a>   catching up with you.</span>
-<span id="cb20-615"><a href="#cb20-615" aria-label="599"></a><span class="ss">2. </span>**`MFU` vs node count** — ideally flat. A downward slope means each added</span>
-<span id="cb20-616"><a href="#cb20-616" aria-label="600"></a>   node buys less useful compute: the classic scaling wall.</span>
-<span id="cb20-617"><a href="#cb20-617" aria-label="601"></a></span>
-<span id="cb20-618"><a href="#cb20-618" aria-label="602"></a>A quick sketch of the plot you're aiming for (runs at build time with dummy</span>
-<span id="cb20-619"><a href="#cb20-619" aria-label="603"></a>numbers; replace with your measured sweep):</span>
-<span id="cb20-620"><a href="#cb20-620" aria-label="604"></a></span>
-<span id="cb20-623"><a href="#cb20-623" aria-label="605"></a><span class="in">```{python}</span></span>
-<span id="cb20-624"><a href="#cb20-624" aria-label="606"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb20-625"><a href="#cb20-625" aria-label="607"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
-<span id="cb20-626"><a href="#cb20-626" aria-label="608"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
-<span id="cb20-627"><a href="#cb20-627" aria-label="609"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
-<span id="cb20-628"><a href="#cb20-628" aria-label="610"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
-<span id="cb20-629"><a href="#cb20-629" aria-label="611"></a>apply_theme()   <span class="co"># house style (transparent bg, Iosevka, grey axes) + inline plotly.js</span></span>
-<span id="cb20-630"><a href="#cb20-630" aria-label="612"></a></span>
-<span id="cb20-631"><a href="#cb20-631" aria-label="613"></a>nodes <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>]</span>
-<span id="cb20-632"><a href="#cb20-632" aria-label="614"></a>tps <span class="op">=</span> [<span class="fl">3.1e5</span>, <span class="fl">6.0e5</span>, <span class="fl">1.15e6</span>, <span class="fl">2.1e6</span>]     <span class="co"># measured tokens/sec (example)</span></span>
-<span id="cb20-633"><a href="#cb20-633" aria-label="615"></a>mfu <span class="op">=</span> [<span class="fl">42.0</span>, <span class="fl">41.5</span>, <span class="fl">40.2</span>, <span class="fl">37.8</span>]          <span class="co"># measured MFU %      (example)</span></span>
-<span id="cb20-634"><a href="#cb20-634" aria-label="616"></a>ideal <span class="op">=</span> [tps[<span class="dv">0</span>] <span class="op">*</span> n <span class="cf">for</span> n <span class="kw">in</span> nodes]     <span class="co"># perfect linear scaling reference</span></span>
-<span id="cb20-635"><a href="#cb20-635" aria-label="617"></a></span>
-<span id="cb20-636"><a href="#cb20-636" aria-label="618"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb20-637"><a href="#cb20-637" aria-label="619"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Throughput scaling"</span>, <span class="st">"MFU vs scale"</span>))</span>
-<span id="cb20-638"><a href="#cb20-638" aria-label="620"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>ideal, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"ideal (linear)"</span>,</span>
-<span id="cb20-639"><a href="#cb20-639" aria-label="621"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], dash<span class="op">=</span><span class="st">"dash"</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-640"><a href="#cb20-640" aria-label="622"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>tps, mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"measured"</span>,</span>
-<span id="cb20-641"><a href="#cb20-641" aria-label="623"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]), marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">8</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-642"><a href="#cb20-642" aria-label="624"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>mfu, mode<span class="op">=</span><span class="st">"lines+markers"</span>, showlegend<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb20-643"><a href="#cb20-643" aria-label="625"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">8</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb20-644"><a href="#cb20-644" aria-label="626"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"nodes"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-645"><a href="#cb20-645" aria-label="627"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"nodes"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb20-646"><a href="#cb20-646" aria-label="628"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"tokens/sec"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-647"><a href="#cb20-647" aria-label="629"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"MFU (%)"</span>, <span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, <span class="dv">50</span>], row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb20-648"><a href="#cb20-648" aria-label="630"></a>fig.update_layout(height<span class="op">=</span><span class="dv">360</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>),</span>
-<span id="cb20-649"><a href="#cb20-649" aria-label="631"></a>                  legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">0.01</span>, y<span class="op">=</span><span class="fl">0.99</span>, xanchor<span class="op">=</span><span class="st">"left"</span>, yanchor<span class="op">=</span><span class="st">"top"</span>))</span>
-<span id="cb20-650"><a href="#cb20-650" aria-label="632"></a>fig.show()</span>
-<span id="cb20-651"><a href="#cb20-651" aria-label="633"></a><span class="in">```</span></span>
-<span id="cb20-652"><a href="#cb20-652" aria-label="634"></a></span>
-<span id="cb20-653"><a href="#cb20-653" aria-label="635"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb20-593"><a href="#cb20-593" aria-label="577"></a><span class="fu">### 🧭 The node-count sweep</span></span>
+<span id="cb20-594"><a href="#cb20-594" aria-label="578"></a></span>
+<span id="cb20-595"><a href="#cb20-595" aria-label="579"></a>To _see_ scaling, run the same config at several node counts and record <span class="in">`tps`</span></span>
+<span id="cb20-596"><a href="#cb20-596" aria-label="580"></a>and <span class="in">`mfu`</span> from the logs:</span>
+<span id="cb20-597"><a href="#cb20-597" aria-label="581"></a></span>
+<span id="cb20-598"><a href="#cb20-598" aria-label="582"></a><span class="in">```bash</span></span>
+<span id="cb20-599"><a href="#cb20-599" aria-label="583"></a><span class="co"># Repeat step 4 for a few node counts (re-request the allocation with qsub /</span></span>
+<span id="cb20-600"><a href="#cb20-600" aria-label="584"></a><span class="co"># salloc, and re-yeet, as it grows).</span></span>
+<span id="cb20-601"><a href="#cb20-601" aria-label="585"></a><span class="co"># Keep the per-GPU batch size FIXED so you're measuring scaling, not batch size.</span></span>
+<span id="cb20-602"><a href="#cb20-602" aria-label="586"></a><span class="cf">for</span> N <span class="kw">in</span> 1 2 4 8<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb20-603"><a href="#cb20-603" aria-label="587"></a>    <span class="ex">ezpz</span> launch <span class="at">--hostfile</span> /tmp/hostfile-<span class="va">${N}</span>nodes <span class="dt">\</span></span>
+<span id="cb20-604"><a href="#cb20-604" aria-label="588"></a>        python3 <span class="at">-m</span> torchtitan.train <span class="dt">\</span></span>
+<span id="cb20-605"><a href="#cb20-605" aria-label="589"></a>        <span class="at">--job.config_file</span> ./train_configs/llama3_8b.toml <span class="dt">\</span></span>
+<span id="cb20-606"><a href="#cb20-606" aria-label="590"></a>        <span class="at">--training.steps</span> 50 <span class="at">--metrics.log_freq</span> 10 <span class="at">--profile</span> <span class="dt">\</span></span>
+<span id="cb20-607"><a href="#cb20-607" aria-label="591"></a>        <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tee</span> sweep_<span class="va">${N}</span>nodes.log</span>
+<span id="cb20-608"><a href="#cb20-608" aria-label="592"></a><span class="cf">done</span></span>
+<span id="cb20-609"><a href="#cb20-609" aria-label="593"></a><span class="in">```</span></span>
+<span id="cb20-610"><a href="#cb20-610" aria-label="594"></a></span>
+<span id="cb20-611"><a href="#cb20-611" aria-label="595"></a>Then extract the steady-state numbers and plot them. Two curves tell the whole</span>
+<span id="cb20-612"><a href="#cb20-612" aria-label="596"></a>story:</span>
+<span id="cb20-613"><a href="#cb20-613" aria-label="597"></a></span>
+<span id="cb20-614"><a href="#cb20-614" aria-label="598"></a><span class="ss">1. </span>**`tokens/sec` vs node count** — ideally a straight line (perfect *weak</span>
+<span id="cb20-615"><a href="#cb20-615" aria-label="599"></a>   scaling*). Bending below the line = your comm:compute ratio (Theme C) is</span>
+<span id="cb20-616"><a href="#cb20-616" aria-label="600"></a>   catching up with you.</span>
+<span id="cb20-617"><a href="#cb20-617" aria-label="601"></a><span class="ss">2. </span>**`MFU` vs node count** — ideally flat. A downward slope means each added</span>
+<span id="cb20-618"><a href="#cb20-618" aria-label="602"></a>   node buys less useful compute: the classic scaling wall.</span>
+<span id="cb20-619"><a href="#cb20-619" aria-label="603"></a></span>
+<span id="cb20-620"><a href="#cb20-620" aria-label="604"></a>A quick sketch of the plot you're aiming for (runs at build time with dummy</span>
+<span id="cb20-621"><a href="#cb20-621" aria-label="605"></a>numbers; replace with your measured sweep):</span>
+<span id="cb20-622"><a href="#cb20-622" aria-label="606"></a></span>
+<span id="cb20-625"><a href="#cb20-625" aria-label="607"></a><span class="in">```{python}</span></span>
+<span id="cb20-626"><a href="#cb20-626" aria-label="608"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb20-627"><a href="#cb20-627" aria-label="609"></a><span class="co">#| code-summary: "Show the plotting code"</span></span>
+<span id="cb20-628"><a href="#cb20-628" aria-label="610"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb20-629"><a href="#cb20-629" aria-label="611"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb20-630"><a href="#cb20-630" aria-label="612"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
+<span id="cb20-631"><a href="#cb20-631" aria-label="613"></a>apply_theme()   <span class="co"># house style (transparent bg, Iosevka, grey axes) + inline plotly.js</span></span>
+<span id="cb20-632"><a href="#cb20-632" aria-label="614"></a></span>
+<span id="cb20-633"><a href="#cb20-633" aria-label="615"></a>nodes <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>]</span>
+<span id="cb20-634"><a href="#cb20-634" aria-label="616"></a>tps <span class="op">=</span> [<span class="fl">3.1e5</span>, <span class="fl">6.0e5</span>, <span class="fl">1.15e6</span>, <span class="fl">2.1e6</span>]     <span class="co"># measured tokens/sec (example)</span></span>
+<span id="cb20-635"><a href="#cb20-635" aria-label="617"></a>mfu <span class="op">=</span> [<span class="fl">42.0</span>, <span class="fl">41.5</span>, <span class="fl">40.2</span>, <span class="fl">37.8</span>]          <span class="co"># measured MFU %      (example)</span></span>
+<span id="cb20-636"><a href="#cb20-636" aria-label="618"></a>ideal <span class="op">=</span> [tps[<span class="dv">0</span>] <span class="op">*</span> n <span class="cf">for</span> n <span class="kw">in</span> nodes]     <span class="co"># perfect linear scaling reference</span></span>
+<span id="cb20-637"><a href="#cb20-637" aria-label="619"></a></span>
+<span id="cb20-638"><a href="#cb20-638" aria-label="620"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb20-639"><a href="#cb20-639" aria-label="621"></a>                    subplot_titles<span class="op">=</span>(<span class="st">"Throughput scaling"</span>, <span class="st">"MFU vs scale"</span>))</span>
+<span id="cb20-640"><a href="#cb20-640" aria-label="622"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>ideal, mode<span class="op">=</span><span class="st">"lines"</span>, name<span class="op">=</span><span class="st">"ideal (linear)"</span>,</span>
+<span id="cb20-641"><a href="#cb20-641" aria-label="623"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"grey"</span>], dash<span class="op">=</span><span class="st">"dash"</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb20-642"><a href="#cb20-642" aria-label="624"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>tps, mode<span class="op">=</span><span class="st">"lines+markers"</span>, name<span class="op">=</span><span class="st">"measured"</span>,</span>
+<span id="cb20-643"><a href="#cb20-643" aria-label="625"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"blue"</span>]), marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">8</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb20-644"><a href="#cb20-644" aria-label="626"></a>fig.add_scatter(x<span class="op">=</span>nodes, y<span class="op">=</span>mfu, mode<span class="op">=</span><span class="st">"lines+markers"</span>, showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb20-645"><a href="#cb20-645" aria-label="627"></a>                line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span>COLORS[<span class="st">"red"</span>]), marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">8</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb20-646"><a href="#cb20-646" aria-label="628"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"nodes"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb20-647"><a href="#cb20-647" aria-label="629"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">"nodes"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb20-648"><a href="#cb20-648" aria-label="630"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"tokens/sec"</span>, row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb20-649"><a href="#cb20-649" aria-label="631"></a>fig.update_yaxes(title_text<span class="op">=</span><span class="st">"MFU (%)"</span>, <span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, <span class="dv">50</span>], row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb20-650"><a href="#cb20-650" aria-label="632"></a>fig.update_layout(height<span class="op">=</span><span class="dv">360</span>, margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">50</span>),</span>
+<span id="cb20-651"><a href="#cb20-651" aria-label="633"></a>                  legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">0.01</span>, y<span class="op">=</span><span class="fl">0.99</span>, xanchor<span class="op">=</span><span class="st">"left"</span>, yanchor<span class="op">=</span><span class="st">"top"</span>))</span>
+<span id="cb20-652"><a href="#cb20-652" aria-label="634"></a>fig.show()</span>
+<span id="cb20-653"><a href="#cb20-653" aria-label="635"></a><span class="in">```</span></span>
 <span id="cb20-654"><a href="#cb20-654" aria-label="636"></a></span>
-<span id="cb20-655"><a href="#cb20-655" aria-label="637"></a>Submit _proof_ that you were able to distribute an environment and run a</span>
-<span id="cb20-656"><a href="#cb20-656" aria-label="638"></a>pretraining sweep, and report what you found.</span>
-<span id="cb20-657"><a href="#cb20-657" aria-label="639"></a></span>
-<span id="cb20-658"><a href="#cb20-658" aria-label="640"></a><span class="ss">1. </span>**Beat the import storm.** Inside an allocation, run <span class="in">`ezpz tar-env`</span> then</span>
-<span id="cb20-659"><a href="#cb20-659" aria-label="641"></a>   <span class="in">`ezpz yeet .venv.tar.gz --compress`</span>. Note the wall-clock reported by <span class="in">`yeet`</span></span>
-<span id="cb20-660"><a href="#cb20-660" aria-label="642"></a>   and the node count.</span>
-<span id="cb20-661"><a href="#cb20-661" aria-label="643"></a><span class="ss">2. </span>**Run a small sweep.** Launch the same (small) <span class="in">`torchtitan`</span> — or</span>
-<span id="cb20-662"><a href="#cb20-662" aria-label="644"></a>   <span class="in">`ezpz.examples.hf --profile`</span> — config at **at least 2 different node counts**</span>
-<span id="cb20-663"><a href="#cb20-663" aria-label="645"></a>   with a fixed per-GPU batch size and <span class="in">`--profile`</span> enabled.</span>
-<span id="cb20-664"><a href="#cb20-664" aria-label="646"></a><span class="ss">3. </span>**Report MFU vs node count.** From your logs, extract steady-state</span>
-<span id="cb20-665"><a href="#cb20-665" aria-label="647"></a>   <span class="in">`tokens/sec`</span> and <span class="in">`mfu`</span> at each node count and either paste the table or plot</span>
-<span id="cb20-666"><a href="#cb20-666" aria-label="648"></a>   the two curves from the sweep section. One or two sentences: is throughput</span>
-<span id="cb20-667"><a href="#cb20-667" aria-label="649"></a>   scaling linearly? Is MFU holding up?</span>
-<span id="cb20-668"><a href="#cb20-668" aria-label="650"></a></span>
-<span id="cb20-669"><a href="#cb20-669" aria-label="651"></a>Where _proof_ can be any of:</span>
+<span id="cb20-655"><a href="#cb20-655" aria-label="637"></a><span class="fu">## 🎒 Homework</span></span>
+<span id="cb20-656"><a href="#cb20-656" aria-label="638"></a></span>
+<span id="cb20-657"><a href="#cb20-657" aria-label="639"></a>Submit _proof_ that you were able to distribute an environment and run a</span>
+<span id="cb20-658"><a href="#cb20-658" aria-label="640"></a>pretraining sweep, and report what you found.</span>
+<span id="cb20-659"><a href="#cb20-659" aria-label="641"></a></span>
+<span id="cb20-660"><a href="#cb20-660" aria-label="642"></a><span class="ss">1. </span>**Beat the import storm.** Inside an allocation, run <span class="in">`ezpz tar-env`</span> then</span>
+<span id="cb20-661"><a href="#cb20-661" aria-label="643"></a>   <span class="in">`ezpz yeet .venv.tar.gz --compress`</span>. Note the wall-clock reported by <span class="in">`yeet`</span></span>
+<span id="cb20-662"><a href="#cb20-662" aria-label="644"></a>   and the node count.</span>
+<span id="cb20-663"><a href="#cb20-663" aria-label="645"></a><span class="ss">2. </span>**Run a small sweep.** Launch the same (small) <span class="in">`torchtitan`</span> — or</span>
+<span id="cb20-664"><a href="#cb20-664" aria-label="646"></a>   <span class="in">`ezpz.examples.hf --profile`</span> — config at **at least 2 different node counts**</span>
+<span id="cb20-665"><a href="#cb20-665" aria-label="647"></a>   with a fixed per-GPU batch size and <span class="in">`--profile`</span> enabled.</span>
+<span id="cb20-666"><a href="#cb20-666" aria-label="648"></a><span class="ss">3. </span>**Report MFU vs node count.** From your logs, extract steady-state</span>
+<span id="cb20-667"><a href="#cb20-667" aria-label="649"></a>   <span class="in">`tokens/sec`</span> and <span class="in">`mfu`</span> at each node count and either paste the table or plot</span>
+<span id="cb20-668"><a href="#cb20-668" aria-label="650"></a>   the two curves from the sweep section. One or two sentences: is throughput</span>
+<span id="cb20-669"><a href="#cb20-669" aria-label="651"></a>   scaling linearly? Is MFU holding up?</span>
 <span id="cb20-670"><a href="#cb20-670" aria-label="652"></a></span>
-<span id="cb20-671"><a href="#cb20-671" aria-label="653"></a><span class="ss">- </span>The contents printed to your terminal during the run (the <span class="in">`tps`</span> / <span class="in">`mfu`</span></span>
-<span id="cb20-672"><a href="#cb20-672" aria-label="654"></a>  lines).</span>
-<span id="cb20-673"><a href="#cb20-673" aria-label="655"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems.</span>
-<span id="cb20-674"><a href="#cb20-674" aria-label="656"></a><span class="ss">- </span>A screenshot of the run output, a plot, or a W&amp;B Run/Report showing</span>
-<span id="cb20-675"><a href="#cb20-675" aria-label="657"></a>  <span class="in">`tokens_per_sec`</span> and <span class="in">`mfu`</span>.</span>
-<span id="cb20-676"><a href="#cb20-676" aria-label="658"></a><span class="ss">- </span>Anything that clearly shows you distributed the env and ran the sweep.</span>
-<span id="cb20-677"><a href="#cb20-677" aria-label="659"></a></span>
-<span id="cb20-678"><a href="#cb20-678" aria-label="660"></a><span class="fu">## 📚 References</span></span>
+<span id="cb20-671"><a href="#cb20-671" aria-label="653"></a>Where _proof_ can be any of:</span>
+<span id="cb20-672"><a href="#cb20-672" aria-label="654"></a></span>
+<span id="cb20-673"><a href="#cb20-673" aria-label="655"></a><span class="ss">- </span>The contents printed to your terminal during the run (the <span class="in">`tps`</span> / <span class="in">`mfu`</span></span>
+<span id="cb20-674"><a href="#cb20-674" aria-label="656"></a>  lines).</span>
+<span id="cb20-675"><a href="#cb20-675" aria-label="657"></a><span class="ss">- </span>A path to a logfile on the ALCF/NERSC filesystems.</span>
+<span id="cb20-676"><a href="#cb20-676" aria-label="658"></a><span class="ss">- </span>A screenshot of the run output, a plot, or a W&amp;B Run/Report showing</span>
+<span id="cb20-677"><a href="#cb20-677" aria-label="659"></a>  <span class="in">`tokens_per_sec`</span> and <span class="in">`mfu`</span>.</span>
+<span id="cb20-678"><a href="#cb20-678" aria-label="660"></a><span class="ss">- </span>Anything that clearly shows you distributed the env and ran the sweep.</span>
 <span id="cb20-679"><a href="#cb20-679" aria-label="661"></a></span>
-<span id="cb20-680"><a href="#cb20-680" aria-label="662"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`ezpz` — `yeet` docs</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/docs/cli/yeet.md)</span></span>
-<span id="cb20-681"><a href="#cb20-681" aria-label="663"></a>  and <span class="co">[</span><span class="ot">`ezpz.flops`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py)</span></span>
-<span id="cb20-682"><a href="#cb20-682" aria-label="664"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`torchtitan`</span><span class="co">](https://github.com/pytorch/torchtitan)</span> — PyTorch-native</span>
-<span id="cb20-683"><a href="#cb20-683" aria-label="665"></a>  pretraining reference</span>
-<span id="cb20-684"><a href="#cb20-684" aria-label="666"></a><span class="ss">- </span>Hoffmann et al., *Training Compute-Optimal Large Language Models* (Chinchilla),</span>
-<span id="cb20-685"><a href="#cb20-685" aria-label="667"></a>  <span class="co">[</span><span class="ot">arXiv:2203.15556</span><span class="co">](https://arxiv.org/abs/2203.15556)</span></span>
-<span id="cb20-686"><a href="#cb20-686" aria-label="668"></a><span class="ss">- </span><span class="co">[</span><span class="ot">OLMo</span><span class="co">](https://allenai.org/olmo)</span> and the Dolma data report — open data-mixture</span>
-<span id="cb20-687"><a href="#cb20-687" aria-label="669"></a>  and curation details</span>
-<span id="cb20-688"><a href="#cb20-688" aria-label="670"></a><span class="ss">- </span><span class="co">[</span><span class="ot">\[1.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
-<span id="cb20-689"><a href="#cb20-689" aria-label="671"></a>  and <span class="co">[</span><span class="ot">\[2.1\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span></span>
-<span id="cb20-690"><a href="#cb20-690" aria-label="672"></a></span>
-<span id="cb20-693"><a href="#cb20-693" aria-label="673"></a><span class="in">```{python}</span></span>
-<span id="cb20-694"><a href="#cb20-694" aria-label="674"></a><span class="co">#| echo: false</span></span>
-<span id="cb20-695"><a href="#cb20-695" aria-label="675"></a><span class="im">import</span> datetime</span>
-<span id="cb20-696"><a href="#cb20-696" aria-label="676"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb20-697"><a href="#cb20-697" aria-label="677"></a><span class="in">```</span></span>
+<span id="cb20-680"><a href="#cb20-680" aria-label="662"></a><span class="fu">## 📚 References</span></span>
+<span id="cb20-681"><a href="#cb20-681" aria-label="663"></a></span>
+<span id="cb20-682"><a href="#cb20-682" aria-label="664"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`ezpz` — `yeet` docs</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/docs/cli/yeet.md)</span></span>
+<span id="cb20-683"><a href="#cb20-683" aria-label="665"></a>  and <span class="co">[</span><span class="ot">`ezpz.flops`</span><span class="co">](https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py)</span></span>
+<span id="cb20-684"><a href="#cb20-684" aria-label="666"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`torchtitan`</span><span class="co">](https://github.com/pytorch/torchtitan)</span> — PyTorch-native</span>
+<span id="cb20-685"><a href="#cb20-685" aria-label="667"></a>  pretraining reference</span>
+<span id="cb20-686"><a href="#cb20-686" aria-label="668"></a><span class="ss">- </span>Hoffmann et al., *Training Compute-Optimal Large Language Models* (Chinchilla),</span>
+<span id="cb20-687"><a href="#cb20-687" aria-label="669"></a>  <span class="co">[</span><span class="ot">arXiv:2203.15556</span><span class="co">](https://arxiv.org/abs/2203.15556)</span></span>
+<span id="cb20-688"><a href="#cb20-688" aria-label="670"></a><span class="ss">- </span><span class="co">[</span><span class="ot">OLMo</span><span class="co">](https://allenai.org/olmo)</span> and the Dolma data report — open data-mixture</span>
+<span id="cb20-689"><a href="#cb20-689" aria-label="671"></a>  and curation details</span>
+<span id="cb20-690"><a href="#cb20-690" aria-label="672"></a><span class="ss">- </span><span class="co">[</span><span class="ot">\[1.4\] Distributed Training</span><span class="co">](../../01-neural-networks/4-distributed-training/index.qmd)</span></span>
+<span id="cb20-691"><a href="#cb20-691" aria-label="673"></a>  and <span class="co">[</span><span class="ot">\[2.1\] Parallel Training</span><span class="co">](../../02-llms/1-parallel-training/index.qmd)</span></span>
+<span id="cb20-692"><a href="#cb20-692" aria-label="674"></a></span>
+<span id="cb20-695"><a href="#cb20-695" aria-label="675"></a><span class="in">```{python}</span></span>
+<span id="cb20-696"><a href="#cb20-696" aria-label="676"></a><span class="co">#| echo: false</span></span>
+<span id="cb20-697"><a href="#cb20-697" aria-label="677"></a><span class="im">import</span> datetime</span>
+<span id="cb20-698"><a href="#cb20-698" aria-label="678"></a><span class="bu">print</span>(<span class="ss">f"Last updated: </span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-699"><a href="#cb20-699" aria-label="679"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
