@@ -104,7 +104,7 @@ DFIGSIZE = plt.rcParamsDefault['figure.figsize']
 ```{python}
 n_samples = 1000  # 1000 2D data points
 n_features = 2  # 2D data
-n_clusters = 3  # 3 unique blobs
+n_clusters = 5  # 5 unique blobs
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html
 # -- Returns --------------------------------------------------------
@@ -412,29 +412,11 @@ def apply_kmeans(
 ## Run Example
 
 ```{python}
-from bootcamp.plots import COLORS
-
-cmap = ListedColormap(list(COLORS.values()))
-
-n_samples = 500  # 500 2D data points
-n_features = 2  # 2D data
-n_clusters_true = 3  # unique blobs
-n_clusters_guess = 3
-SEED = 456
+# Same `x_sc` (1000 points, 5 blobs) we generated and standardized at the top of
+# the page -- no new data here, so what you watched in the scatter above is
+# exactly what the algorithm is clustering now.
+n_clusters_guess = n_clusters   # 5: what we'd guess if we could see the plot
 iterations = 50
-
-# https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html
-# cluster_std=1.6 lets the blobs overlap a bit, so points near the borders get
-# reassigned as the centroids move — that's what makes the animation worth watching.
-x, y = datasets.make_blobs(
-    n_samples=n_samples,
-    n_features=n_features,
-    centers=n_clusters_true,
-    cluster_std=1.6,
-    random_state=SEED,
-)
-
-x_sc = StandardScaler().fit_transform(x)
 
 # init="random" (not k-means++) on purpose: it starts from a bad guess and takes
 # several iterations to untangle, so you can actually SEE the centroids converge.
@@ -501,35 +483,47 @@ fig.show()
 
 k-means never *discovers* the number of clusters — you tell it `k`, and it
 dutifully returns exactly that many, whether or not they mean anything. Use the
-dropdown to force the same 500 points into 2, 3, 4, 5, or 6 clusters and watch
-what it does with a `k` the data does not support:
+buttons to force the same 1000 points into 2, 3, 4, 5, 6 or 8 clusters and
+watch what it does with a `k` the data does not support:
 
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the plotting code"
-k_choices = [2, 3, 4, 5, 6]
+k_choices = [2, 3, 4, 5, 6, 8]
 
 # Re-fit for each k and record how tight the clusters are. Inertia = the total
 # squared distance from every point to its own centroid: lower is "tighter",
 # but it ALWAYS falls as k grows (with k = n_samples it would hit zero), which
 # is exactly why you cannot just minimize it.
+def inertia_of(c, cid):
+    """Total squared distance from every point to its own centroid."""
+    return float(((x_sc - c[cid]) ** 2).sum())
+
 fits, inertias = {}, {}
 for k in k_choices:
-    c_k, cid_k, _ = apply_kmeans(x_sc, k, iterations, seed=0, cmap=cmap, init="kmeans++")
-    fits[k] = (c_k, cid_k)
-    inertias[k] = float(sum(((x_sc - c_k[cid_k]) ** 2).sum(axis=1)))
+    # Best of a few restarts. A single run can land in a bad local minimum --
+    # at k=5 one unlucky seed gives inertia 103 instead of 64, which would put
+    # a fake kink in the curve. Real implementations (sklearn's `n_init`) do
+    # exactly this.
+    best = min(
+        (apply_kmeans(x_sc, k, iterations, seed=sd, cmap=cmap, init="kmeans++")[:2]
+         for sd in range(5)),
+        key=lambda cc: inertia_of(*cc),
+    )
+    fits[k] = best
+    inertias[k] = inertia_of(*best)
 
 def k_traces(k):
     c_k, cid_k = fits[k]
     return kmeans_frame(c_k, cid_k)   # same single-trace-of-points helper as above
 
-fig_k = go.Figure(data=k_traces(3))
+fig_k = go.Figure(data=k_traces(5))
 fig_k.update_layout(
     height=460, showlegend=False,
     yaxis=dict(scaleanchor="x", scaleratio=1),
-    title=f"k = 3 &nbsp;·&nbsp; inertia = {inertias[3]:.0f}",
+    title=f"k = 5 &nbsp;·&nbsp; inertia = {inertias[5]:.0f}",
     updatemenus=[dict(
-        type="buttons", direction="right", showactive=True, active=1,
+        type="buttons", direction="right", showactive=True, active=3,
         x=0.0, y=1.14, xanchor="left",
         buttons=[dict(label=f"k = {k}", method="update",
                       args=[{"x": [t.x for t in k_traces(k)],
@@ -543,15 +537,16 @@ fig_k.show()
 
 Two things to notice:
 
-- **The data has three blobs, but every `k` "works".** At `k = 2` two blobs get
-  merged; at `k = 5` a real blob gets split down the middle by a boundary that
-  means nothing. The algorithm cannot tell you it made a bad choice.
-- **Inertia always improves**, so you cannot just minimize it. Switch between
-  the buttons and watch the number in the title: it falls steeply from `k = 2`
-  to `k = 3`, then only inches down. That knee is the signal — past `k = 3` you
-  are paying for more clusters and getting almost no extra tightness. Plotting
-  inertia against `k` and looking for the bend is the **elbow method**, the same
-  plot we use on the cancer data below, where the elbow is far less obvious.
+- **The data has five blobs, but every `k` "works".** At `k = 2` and `k = 3`
+  whole blobs get lumped together; at `k = 6` and `k = 8` real blobs are split
+  down the middle by boundaries that mean nothing. The algorithm never
+  complains — it cannot tell you that you asked for the wrong number.
+- **Inertia always improves**, so you cannot just minimize it. Watch the number
+  in the title as you step up: it keeps falling hard while each new cluster is
+  still finding a *real* blob (`k = 2 → 3 → 4 → 5`), then flattens out once
+  there are no blobs left to find. That bend at `k = 5` is the signal, and
+  plotting inertia against `k` to look for it is the **elbow method** — the same
+  plot we use on the cancer data below, where the bend is far less obvious.
 
 
 ## K-Means on a Breast Cancer Dataset
