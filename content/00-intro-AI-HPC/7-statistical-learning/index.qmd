@@ -461,15 +461,21 @@ _cats = ["#2196F3", "#EF5350", "#4CAF50", "#FFA726", "#AE81FF",
          "#ffeb3b", "#EC407A", "#009688", "#795548", "#607D8B"]
 
 def kmeans_frame(cents, cid):
-    traces = []
-    for i in range(n_clusters_guess):
-        m = cid == i
-        traces.append(go.Scatter(x=x_sc[m, 0], y=x_sc[m, 1], mode="markers",
-                                 marker=dict(size=5, opacity=0.5, color=_cats[i % len(_cats)])))
-    traces.append(go.Scatter(x=cents[:, 0], y=cents[:, 1], mode="markers",
-                             marker=dict(symbol="star", size=16, color="#111",
-                                         line=dict(width=1, color="#fff"))))
-    return traces
+    # ONE trace holding every point, always in the same order, with only the
+    # per-point COLOR changing between frames. Splitting the points into one
+    # trace per cluster (the obvious approach) makes each trace change length
+    # as points are reassigned -- and because plotly animates trace i to trace
+    # i by interpolating x/y elementwise, the points appear to *slide across
+    # the plot* instead of simply recoloring. The data never moves; only the
+    # centroids (★) should.
+    colors = [_cats[int(c) % len(_cats)] for c in cid]
+    return [
+        go.Scatter(x=x_sc[:, 0], y=x_sc[:, 1], mode="markers",
+                   marker=dict(size=5, opacity=0.5, color=colors)),
+        go.Scatter(x=cents[:, 0], y=cents[:, 1], mode="markers",
+                   marker=dict(symbol="star", size=16, color="#111",
+                               line=dict(width=1, color="#fff"))),
+    ]
 
 frames = [go.Frame(name=str(i), data=kmeans_frame(c, cid),
                    layout=go.Layout(title=f"iteration {i}"))

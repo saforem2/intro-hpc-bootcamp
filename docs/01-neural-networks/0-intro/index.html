@@ -795,7 +795,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 4, 2026</p>
+      <p class="date-modified">August 11, 2026</p>
     </div>
   </div>
     
@@ -834,7 +834,7 @@ window.Quarto = {
 <li><em>Artificial intelligence</em> (AI) is a set of approaches to solving complex problems by imitating the brain’s ability to learn.</li>
 <li><em>Machine learning</em> (ML) is the field of study that gives computers the ability to learn without being explicitly programmed (i.e.&nbsp;learning patterns instead of writing down rules.) Arguably, machine learning is now a subfield of AI.</li>
 </ul></li>
-<li>🤔 <strong>Recap</strong>: Last week, we learned about using linear regression to predict the sale price of a house. We fit a function to the dataset:
+<li>🤔 <strong>Recap</strong>: In <a href="../../00-intro-AI-HPC/6-linear-regression/">[0.6] Linear Regression</a> we used linear regression to predict the sale price of a house. We fit a function to the dataset:
 <ul>
 <li>Input: above ground square feet</li>
 <li>Output: sale price</li>
@@ -846,7 +846,7 @@ This week, we’ll work on a “classification” problem, which means that we h
 </ul>
 <section id="from-a-line-to-a-neuron" class="level2">
 <h2 class="anchored" data-anchor-id="from-a-line-to-a-neuron">From a line to a neuron</h2>
-<p>A neural network is built out of <strong>neurons</strong>, and a single neuron is a small extension of the linear regression you just saw. Last week’s model computed <span class="math inline">w \cdot x + b</span>; a neuron does the same weighted sum and then passes it through a nonlinear <strong>activation function</strong> <span class="math inline">\sigma</span>:</p>
+<p>A neural network is built out of <strong>neurons</strong>, and a single neuron is a small extension of the linear regression you just saw. That model computed <span class="math inline">w \cdot x + b</span>; a neuron does the same weighted sum and then passes it through a nonlinear <strong>activation function</strong> <span class="math inline">\sigma</span>:</p>
 <p><span class="math display"> y = \sigma(w \cdot x + b) </span></p>
 <p>That one nonlinearity is what lets stacks of neurons fit curves and categories instead of just straight lines. Let’s build one with nothing but <code>numpy</code> and poke at it:</p>
 <div id="1dcaa195" class="cell" data-execution_count="2">
@@ -1065,7 +1065,7 @@ Figure&nbsp;2: A digit is just a grid of pixel intensities; the task is to fit a
 </div>
 <p>We’ll start with the MNIST problem in this notebook:</p>
 <p><a href="../../01-neural-networks/1-mnist/index.html">📓 Fitting MNIST with a multi-layer perceptron (MLP)</a></p>
-<p>Next week, we’ll learn about other types of neural networks.</p>
+<p>Next up, we’ll learn about other types of neural networks.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🧠 Check your understanding">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1096,7 +1096,7 @@ Figure&nbsp;2: A digit is just a grid of pixel intensities; the task is to fit a
 </div>
 </div>
 </div>
-<p><strong>Q2.</strong> Last week’s house-price task predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</p>
+<p><strong>Q2.</strong> The house-price task in <a href="../../00-intro-AI-HPC/6-linear-regression/">[0.6]</a> predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="Show answer">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1769,7 +1769,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-86"><a href="#cb13-86" aria-label="86"></a><span class="ss">  - </span>_Machine learning_ (ML) is the field of study that gives computers the ability to learn without being explicitly programmed (i.e. learning patterns instead of writing down rules.) Arguably, machine learning is now a subfield of AI. </span>
 <span id="cb13-87"><a href="#cb13-87" aria-label="87"></a></span>
 <span id="cb13-88"><a href="#cb13-88" aria-label="88"></a><span class="ss">- </span>🤔 **Recap**:</span>
-<span id="cb13-89"><a href="#cb13-89" aria-label="89"></a>  Last week, we learned about using linear regression to predict the sale price of a house. We fit a function to the dataset:</span>
+<span id="cb13-89"><a href="#cb13-89" aria-label="89"></a>  In <span class="co">[</span><span class="ot">\[0.6\] Linear Regression</span><span class="co">](../../00-intro-AI-HPC/6-linear-regression/)</span> we used linear regression to predict the sale price of a house. We fit a function to the dataset:</span>
 <span id="cb13-90"><a href="#cb13-90" aria-label="90"></a><span class="ss">  - </span>Input: above ground square feet</span>
 <span id="cb13-91"><a href="#cb13-91" aria-label="91"></a><span class="ss">  - </span>Output: sale price</span>
 <span id="cb13-92"><a href="#cb13-92" aria-label="92"></a><span class="ss">  - </span>Function type: linear</span>
@@ -1783,7 +1783,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-100"><a href="#cb13-100" aria-label="100"></a><span class="fu">## From a line to a neuron</span></span>
 <span id="cb13-101"><a href="#cb13-101" aria-label="101"></a></span>
 <span id="cb13-102"><a href="#cb13-102" aria-label="102"></a>A neural network is built out of **neurons**, and a single neuron is a small</span>
-<span id="cb13-103"><a href="#cb13-103" aria-label="103"></a>extension of the linear regression you just saw. Last week's model computed</span>
+<span id="cb13-103"><a href="#cb13-103" aria-label="103"></a>extension of the linear regression you just saw. That model computed</span>
 <span id="cb13-104"><a href="#cb13-104" aria-label="104"></a>$w \cdot x + b$; a neuron does the same weighted sum and then passes it through a</span>
 <span id="cb13-105"><a href="#cb13-105" aria-label="105"></a>nonlinear **activation function** $\sigma$:</span>
 <span id="cb13-106"><a href="#cb13-106" aria-label="106"></a></span>
@@ -1968,7 +1968,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-301"><a href="#cb13-301" aria-label="285"></a></span>
 <span id="cb13-302"><a href="#cb13-302" aria-label="286"></a><span class="co">[</span><span class="ot">📓 Fitting MNIST with a multi-layer perceptron (MLP)</span><span class="co">](../1-mnist/index.qmd)</span></span>
 <span id="cb13-303"><a href="#cb13-303" aria-label="287"></a></span>
-<span id="cb13-304"><a href="#cb13-304" aria-label="288"></a>Next week, we'll learn about other types of neural networks.</span>
+<span id="cb13-304"><a href="#cb13-304" aria-label="288"></a>Next up, we'll learn about other types of neural networks.</span>
 <span id="cb13-305"><a href="#cb13-305" aria-label="289"></a></span>
 <span id="cb13-306"><a href="#cb13-306" aria-label="290"></a>::: {.callout-tip title="🧠 Check your understanding" collapse="false"}</span>
 <span id="cb13-307"><a href="#cb13-307" aria-label="291"></a>Test yourself: think it through, then reveal the answer.</span>
@@ -1981,7 +1981,7 @@ Networks.”</span> July 15. <a href="https://saforem2.github.io/intro-hpc-bootc
 <span id="cb13-314"><a href="#cb13-314" aria-label="298"></a>own from the data.</span>
 <span id="cb13-315"><a href="#cb13-315" aria-label="299"></a>::::</span>
 <span id="cb13-316"><a href="#cb13-316" aria-label="300"></a></span>
-<span id="cb13-317"><a href="#cb13-317" aria-label="301"></a>**Q2.** Last week's house-price task predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</span>
+<span id="cb13-317"><a href="#cb13-317" aria-label="301"></a>**Q2.** The house-price task in <span class="co">[</span><span class="ot">\[0.6\]</span><span class="co">](../../00-intro-AI-HPC/6-linear-regression/)</span> predicted a continuous number (a price). The MNIST task predicts one of ten digit labels (0–9). What are these two kinds of problem called?</span>
 <span id="cb13-318"><a href="#cb13-318" aria-label="302"></a></span>
 <span id="cb13-319"><a href="#cb13-319" aria-label="303"></a>:::: {.callout-note title="Show answer" collapse="true"}</span>
 <span id="cb13-320"><a href="#cb13-320" aria-label="304"></a>Predicting a continuous number is **regression**; predicting a category label is</span>

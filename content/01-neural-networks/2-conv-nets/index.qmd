@@ -29,9 +29,9 @@ vision.
 
 In many ways and applications they still are!
 
-Large Language Models, which are what we'll focus on the rest of the series after this lecture, are really good at ordered, *tokenized data.  But there is lots of data that isn't _implicitly_ ordered like `images`, and their more general cousins `graphs`.
+Large Language Models, which are the focus of the later sections, are really good at ordered, *tokenized* data.  But there is lots of data that isn't _implicitly_ ordered like `images`, and their more general cousins `graphs`.
 
-Today's lecture focuses on computer vision models, and particularly on convolutional neural networks.  There are a ton of applications you can do with these, and not nearly enough time to get into them.  Check out the extra references file to see some publications to get you started if you want to learn more.
+This page focuses on computer vision models, and particularly on convolutional neural networks.  There are a ton of applications you can do with these, and not nearly enough room to get into them here.  Check out the extra references file to see some publications to get you started if you want to learn more.
 
 Tip: this notebook is much faster on the GPU!
 

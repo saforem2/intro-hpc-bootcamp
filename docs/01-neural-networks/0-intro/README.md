@@ -33,8 +33,10 @@ outperform other techniques when dealing with a large amount of data.
     the ability to learn without being explicitly programmed
     (i.e. learning patterns instead of writing down rules.) Arguably,
     machine learning is now a subfield of AI.
-- 🤔 **Recap**: Last week, we learned about using linear regression to
-  predict the sale price of a house. We fit a function to the dataset:
+- 🤔 **Recap**: In [\[0.6\] Linear
+  Regression](../../00-intro-AI-HPC/6-linear-regression/) we used linear
+  regression to predict the sale price of a house. We fit a function to
+  the dataset:
   - Input: above ground square feet
   - Output: sale price
   - Function type: linear
@@ -48,7 +50,7 @@ outperform other techniques when dealing with a large amount of data.
 ## From a line to a neuron
 
 A neural network is built out of **neurons**, and a single neuron is a
-small extension of the linear regression you just saw. Last week’s model
+small extension of the linear regression you just saw. That model
 computed $w \cdot x + b$; a neuron does the same weighted sum and then
 passes it through a nonlinear **activation function** $\sigma$:
 
@@ -267,7 +269,7 @@ We’ll start with the MNIST problem in this notebook:
 [📓 Fitting MNIST with a multi-layer perceptron
 (MLP)](../1-mnist/index.qmd)
 
-Next week, we’ll learn about other types of neural networks.
+Next up, we’ll learn about other types of neural networks.
 
 > [!TIP]
 >
@@ -285,9 +287,10 @@ Next week, we’ll learn about other types of neural networks.
 > > learning you show the computer many examples and it **learns the
 > > patterns** (the rules) on its own from the data.
 >
-> **Q2.** Last week’s house-price task predicted a continuous number (a
-> price). The MNIST task predicts one of ten digit labels (0–9). What
-> are these two kinds of problem called?
+> **Q2.** The house-price task in
+> [\[0.6\]](../../00-intro-AI-HPC/6-linear-regression/) predicted a
+> continuous number (a price). The MNIST task predicts one of ten digit
+> labels (0–9). What are these two kinds of problem called?
 >
 > > [!NOTE]
 > >

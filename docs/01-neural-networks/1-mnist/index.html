@@ -4690,7 +4690,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 4, 2026</p>
+      <p class="date-modified">August 11, 2026</p>
     </div>
   </div>
     
@@ -4936,7 +4936,7 @@ Figure&nbsp;1: A digit is a grid of pixel intensities; we fit a function f(image
 </section>
 <section id="linear-model" class="level2">
 <h2 class="anchored" data-anchor-id="linear-model">Linear Model</h2>
-<p>Let’s begin with a simple linear model: linear regression, like last week.</p>
+<p>Let’s begin with a simple linear model: linear regression, as in <a href="../../00-intro-AI-HPC/6-linear-regression/">[0.6]</a>.</p>
 <p>We add one complication: each example is a vector (flattened image), so the “slope” multiplication becomes a dot product. If the target output is a vector as well, then the multiplication becomes matrix multiplication.</p>
 <p>Note, like before, we consider multiple examples at once, adding another dimension to the input.</p>
 <div id="fig-linear-svg" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -4985,13 +4985,13 @@ Figure&nbsp;2: A fully-connected linear layer: every input pixel connects to eve
 <p>We wouldn’t expect a simple linear model <span class="math inline">f(x) = xW+b</span> directly outputting the class label and minimizing mean squared error to work well - the model would output labels like 3.55 and 2.11 instead of skipping to integers.</p>
 <p>We now need:</p>
 <ul>
-<li>A loss function <span class="math inline">J(\theta)</span> where <span class="math inline">\theta</span> is the list of parameters (here W and b). Last week, we used mean squared error (MSE), but this week let’s make two changes that make more sense for classification:
+<li>A loss function <span class="math inline">J(\theta)</span> where <span class="math inline">\theta</span> is the list of parameters (here W and b). Earlier we used mean squared error (MSE), but here let’s make two changes that make more sense for classification:
 <ul>
 <li>Change the output to be a length-10 vector: one score per digit class. Conceptually we want these to become <strong>class probabilities</strong> (10 numbers from 0 to 1 that add to 1); we’ll see below how <code>nn.CrossEntropyLoss</code> handles that conversion for us.</li>
 <li>Cross entropy as the loss function, which is typical for classification. You can read more <a href="https://gombru.github.io/2018/05/23/cross_entropy_loss/">here</a>.</li>
 </ul></li>
-<li>An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s start with stochastic gradient descent (sgd), like last week. For far more information about more advanced optimizers than basic SGD, with some cool animations, see <a href="https://ruder.io/optimizing-gradient-descent/" class="uri">https://ruder.io/optimizing-gradient-descent/</a> or <a href="https://distill.pub/2017/momentum/" class="uri">https://distill.pub/2017/momentum/</a>.</li>
-<li>A learning rate. As we learned last week, the learning rate controls how far we move during each step.</li>
+<li>An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s start with stochastic gradient descent (sgd), as before. For far more information about more advanced optimizers than basic SGD, with some cool animations, see <a href="https://ruder.io/optimizing-gradient-descent/" class="uri">https://ruder.io/optimizing-gradient-descent/</a> or <a href="https://distill.pub/2017/momentum/" class="uri">https://distill.pub/2017/momentum/</a>.</li>
+<li>A learning rate. As we saw earlier, the learning rate controls how far we move during each step.</li>
 </ul>
 <div class="callout callout-style-simple callout-note callout-titled" title="Anatomy of an `nn.Module`">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
@@ -6827,7 +6827,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-289"><a href="#cb37-289" aria-label="273"></a></span>
 <span id="cb37-290"><a href="#cb37-290" aria-label="274"></a><span class="fu">## Linear Model</span></span>
 <span id="cb37-291"><a href="#cb37-291" aria-label="275"></a></span>
-<span id="cb37-292"><a href="#cb37-292" aria-label="276"></a>Let's begin with a simple linear model: linear regression, like last week. </span>
+<span id="cb37-292"><a href="#cb37-292" aria-label="276"></a>Let's begin with a simple linear model: linear regression, as in <span class="co">[</span><span class="ot">\[0.6\]</span><span class="co">](../../00-intro-AI-HPC/6-linear-regression/)</span>. </span>
 <span id="cb37-293"><a href="#cb37-293" aria-label="277"></a></span>
 <span id="cb37-294"><a href="#cb37-294" aria-label="278"></a>We add one complication: each example is a vector (flattened image), so the</span>
 <span id="cb37-295"><a href="#cb37-295" aria-label="279"></a>"slope" multiplication becomes a dot product.</span>
@@ -6889,7 +6889,7 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-353"><a href="#cb37-353" aria-label="335"></a></span>
 <span id="cb37-354"><a href="#cb37-354" aria-label="336"></a><span class="ss">- </span>A loss function $J(\theta)$ where $\theta$ is the list of parameters (here W</span>
 <span id="cb37-355"><a href="#cb37-355" aria-label="337"></a>  and b).</span>
-<span id="cb37-356"><a href="#cb37-356" aria-label="338"></a>  Last week, we used mean squared error (MSE), but this week let's make two</span>
+<span id="cb37-356"><a href="#cb37-356" aria-label="338"></a>  Earlier we used mean squared error (MSE), but here let's make two</span>
 <span id="cb37-357"><a href="#cb37-357" aria-label="339"></a>  changes that make more sense for classification:</span>
 <span id="cb37-358"><a href="#cb37-358" aria-label="340"></a><span class="ss">  - </span>Change the output to be a length-10 vector: one score per digit class.</span>
 <span id="cb37-359"><a href="#cb37-359" aria-label="341"></a>    Conceptually we want these to become **class probabilities** (10 numbers</span>
@@ -6900,12 +6900,12 @@ and Taylor Childers. 2025. <span>“Intro to NNs: MNIST.”</span> July 17.
 <span id="cb37-364"><a href="#cb37-364" aria-label="346"></a>    <span class="co">[</span><span class="ot">here</span><span class="co">](https://gombru.github.io/2018/05/23/cross_entropy_loss/)</span>.</span>
 <span id="cb37-365"><a href="#cb37-365" aria-label="347"></a><span class="ss">- </span>An optimization method or optimizer such as the stochastic gradient descent</span>
 <span id="cb37-366"><a href="#cb37-366" aria-label="348"></a>  (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let's start with</span>
-<span id="cb37-367"><a href="#cb37-367" aria-label="349"></a>  stochastic gradient descent (sgd), like last week. For far more information</span>
+<span id="cb37-367"><a href="#cb37-367" aria-label="349"></a>  stochastic gradient descent (sgd), as before. For far more information</span>
 <span id="cb37-368"><a href="#cb37-368" aria-label="350"></a>  about more advanced optimizers than basic SGD, with some cool animations, see</span>
 <span id="cb37-369"><a href="#cb37-369" aria-label="351"></a>  <span class="ot">&lt;https://ruder.io/optimizing-gradient-descent/&gt;</span> or</span>
 <span id="cb37-370"><a href="#cb37-370" aria-label="352"></a>  <span class="ot">&lt;https://distill.pub/2017/momentum/&gt;</span>.</span>
 <span id="cb37-371"><a href="#cb37-371" aria-label="353"></a><span class="ss">- </span>A learning rate.</span>
-<span id="cb37-372"><a href="#cb37-372" aria-label="354"></a>  As we learned last week, the learning rate controls how far we move during</span>
+<span id="cb37-372"><a href="#cb37-372" aria-label="354"></a>  As we saw earlier, the learning rate controls how far we move during</span>
 <span id="cb37-373"><a href="#cb37-373" aria-label="355"></a>  each step.</span>
 <span id="cb37-374"><a href="#cb37-374" aria-label="356"></a></span>
 <span id="cb37-375"><a href="#cb37-375" aria-label="357"></a>::: {.callout-note title="Anatomy of an <span class="in">`nn.Module`</span>" collapse="false"}</span>

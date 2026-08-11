@@ -264,8 +264,8 @@ To train our classifier, we need (besides the data):
 
 ## Linear Model
 
-Let’s begin with a simple linear model: linear regression, like last
-week.
+Let’s begin with a simple linear model: linear regression, as in
+[\[0.6\]](../../00-intro-AI-HPC/6-linear-regression/).
 
 We add one complication: each example is a vector (flattened image), so
 the “slope” multiplication becomes a dot product. If the target output
@@ -319,8 +319,8 @@ skipping to integers.
 We now need:
 
 - A loss function $J(\theta)$ where $\theta$ is the list of parameters
-  (here W and b). Last week, we used mean squared error (MSE), but this
-  week let’s make two changes that make more sense for classification:
+  (here W and b). Earlier we used mean squared error (MSE), but here
+  let’s make two changes that make more sense for classification:
   - Change the output to be a length-10 vector: one score per digit
     class. Conceptually we want these to become **class probabilities**
     (10 numbers from 0 to 1 that add to 1); we’ll see below how
@@ -330,13 +330,12 @@ We now need:
     [here](https://gombru.github.io/2018/05/23/cross_entropy_loss/).
 - An optimization method or optimizer such as the stochastic gradient
   descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s
-  start with stochastic gradient descent (sgd), like last week. For far
-  more information about more advanced optimizers than basic SGD, with
-  some cool animations, see
-  <https://ruder.io/optimizing-gradient-descent/> or
-  <https://distill.pub/2017/momentum/>.
-- A learning rate. As we learned last week, the learning rate controls
-  how far we move during each step.
+  start with stochastic gradient descent (sgd), as before. For far more
+  information about more advanced optimizers than basic SGD, with some
+  cool animations, see <https://ruder.io/optimizing-gradient-descent/>
+  or <https://distill.pub/2017/momentum/>.
+- A learning rate. As we saw earlier, the learning rate controls how far
+  we move during each step.
 
 > [!NOTE]
 >
