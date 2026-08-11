@@ -497,6 +497,62 @@ fig.update_layout(
 fig.show()
 ```
 
+### 🎛️ How many clusters should you ask for?
+
+k-means never *discovers* the number of clusters — you tell it `k`, and it
+dutifully returns exactly that many, whether or not they mean anything. Use the
+dropdown to force the same 500 points into 2, 3, 4, 5, or 6 clusters and watch
+what it does with a `k` the data does not support:
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+k_choices = [2, 3, 4, 5, 6]
+
+# Re-fit for each k and record how tight the clusters are. Inertia = the total
+# squared distance from every point to its own centroid: lower is "tighter",
+# but it ALWAYS falls as k grows (with k = n_samples it would hit zero), which
+# is exactly why you cannot just minimize it.
+fits, inertias = {}, {}
+for k in k_choices:
+    c_k, cid_k, _ = apply_kmeans(x_sc, k, iterations, seed=0, cmap=cmap, init="kmeans++")
+    fits[k] = (c_k, cid_k)
+    inertias[k] = float(sum(((x_sc - c_k[cid_k]) ** 2).sum(axis=1)))
+
+def k_traces(k):
+    c_k, cid_k = fits[k]
+    return kmeans_frame(c_k, cid_k)   # same single-trace-of-points helper as above
+
+fig_k = go.Figure(data=k_traces(3))
+fig_k.update_layout(
+    height=460, showlegend=False,
+    yaxis=dict(scaleanchor="x", scaleratio=1),
+    title=f"k = 3 &nbsp;·&nbsp; inertia = {inertias[3]:.0f}",
+    updatemenus=[dict(
+        type="buttons", direction="right", showactive=True, active=1,
+        x=0.0, y=1.14, xanchor="left",
+        buttons=[dict(label=f"k = {k}", method="update",
+                      args=[{"x": [t.x for t in k_traces(k)],
+                             "y": [t.y for t in k_traces(k)],
+                             "marker": [t.marker for t in k_traces(k)]},
+                            {"title": f"k = {k} &nbsp;·&nbsp; inertia = {inertias[k]:.0f}"}])
+                 for k in k_choices])],
+)
+fig_k.show()
+```
+
+Two things to notice:
+
+- **The data has three blobs, but every `k` "works".** At `k = 2` two blobs get
+  merged; at `k = 5` a real blob gets split down the middle by a boundary that
+  means nothing. The algorithm cannot tell you it made a bad choice.
+- **Inertia always improves**, so you cannot just minimize it. Switch between
+  the buttons and watch the number in the title: it falls steeply from `k = 2`
+  to `k = 3`, then only inches down. That knee is the signal — past `k = 3` you
+  are paying for more clusters and getting almost no extra tightness. Plotting
+  inertia against `k` and looking for the bend is the **elbow method**, the same
+  plot we use on the cancer data below, where the elbow is far less obvious.
+
 
 ## K-Means on a Breast Cancer Dataset
 
