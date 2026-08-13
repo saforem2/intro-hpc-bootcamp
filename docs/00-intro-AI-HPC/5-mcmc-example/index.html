@@ -4567,6 +4567,29 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../05-capstone/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5] Capstone Projects</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/0-chess-gpt/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.0] Chess GPT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/1-arithmetic-grpo/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.1] Arithmetic by RL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -4709,7 +4732,7 @@ window.Quarto = {
 </div>
 </div>
 <p>First, the imports and house plot style:</p>
-<div id="1033044c" class="cell" data-execution_count="1">
+<div id="1033044c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co"># `bootcamp` is this repo's helper package (shared plotly/matplotlib theming).</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="co"># It is not on PyPI, so Colab and site-provided HPC kernels won't have it and</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co"># the next cell would raise `ModuleNotFoundError: No module named 'bootcamp'`.</span></span>
@@ -4719,7 +4742,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-8"><a href="#cb1-8" aria-label="8"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ff73eb77" class="cell" data-execution_count="2">
+<div id="ff73eb77" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="im">from</span> bootcamp.plotly_theme <span class="im">import</span> apply_theme, COLORS</span>
@@ -4728,7 +4751,7 @@ window.Quarto = {
 <span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The simulation.</strong> This is the whole idea — throw <code>N</code> random darts at the square, count how many land inside the circle, and turn that ratio into an estimate of π. It’s just a few lines:</p>
-<div id="838598f6" class="cell" data-execution_count="3">
+<div id="838598f6" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="kw">def</span> estimate_pi(n, seed<span class="op">=</span><span class="dv">1234</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    <span class="co">"""Estimate π by Monte Carlo: sample n points in the unit square and</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co">    count the fraction inside the inscribed circle. Returns (pi, points, inside)."""</span></span>
@@ -4746,7 +4769,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Visualizing it.</strong> Everything below is just plotting — an interactive scatter with a fill-in slider: drag (or hit ▶) to watch the points accumulate and the estimate of π converge as more samples land.</p>
-<div id="0177ff00" class="cell" data-execution_count="4">
+<div id="0177ff00" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>N <span class="op">=</span> <span class="bu">len</span>(pts)</span>
@@ -4823,7 +4846,7 @@ if (outputEl) {{
 <p>The estimate gets better with more samples, but generating millions of points <em>one at a time</em> is slow. The fix: split the work across <strong><code>P</code> workers</strong> that sample <strong>simultaneously</strong>. Each worker handles every <code>P</code>-th point (exactly what the <code>mpi4py</code> code below does with <code>range(comm.rank, N, comm.size)</code>), so together they finish in roughly <code>1/P</code> the time.</p>
 <p>Drag the shared <strong>wall-clock</strong> slider (or hit ▶): both panels draw the <em>same</em> points and converge to the same π, but the parallel side (8 workers) races ahead and finishes while the sequential side is still plodding along. That time gap <strong>is</strong> the speedup.</p>
 <p><strong>The setup.</strong> Both panels draw the <em>same</em> points; the only difference is how many get processed per unit of wall-clock time: 1 for sequential, <code>P</code> for parallel. The strided assignment <code>worker = arange(N) % P</code> mirrors exactly what the <code>mpi4py</code> code does with <code>range(comm.rank, N, comm.size)</code>.</p>
-<div id="02e75a16" class="cell" data-execution_count="5">
+<div id="02e75a16" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>N <span class="op">=</span> <span class="dv">4000</span>        <span class="co"># total samples (enough to fill gradually, light enough to embed)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>P <span class="op">=</span> <span class="dv">8</span>           <span class="co"># parallel workers</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>rng2 <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
@@ -4837,7 +4860,7 @@ if (outputEl) {{
 <span id="cb5-11"><a href="#cb5-11" aria-label="11"></a>    <span class="cf">return</span> <span class="dv">4</span> <span class="op">*</span> n_inside_running[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">/</span> n <span class="cf">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>The plotting.</strong> Everything below builds the two-panel animation (folded; expand if you’re curious). A non-linear wall-clock schedule spends more frames while the parallel side is filling, so the speed difference is easy to see.</p>
-<div id="2c2a3c34" class="cell" data-execution_count="6">
+<div id="2c2a3c34" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
@@ -4956,7 +4979,7 @@ if (outputEl) {{
 <section id="how-fast-does-the-error-shrink" class="level3">
 <h3 class="anchored" data-anchor-id="how-fast-does-the-error-shrink">How fast does the error shrink?</h3>
 <p>More samples → a better estimate, but <em>how much</em> better? Below we plot the <strong>absolute error</strong> <span class="math inline">|\hat\pi - \pi|</span> as we add samples. Monte Carlo error falls off like <span class="math inline">1/\sqrt{N}</span>, so on <strong>log-log axes</strong> it’s a straight line with slope <span class="math inline">-\tfrac12</span>. The practical catch: to get one more decimal digit (10× less error) you need <strong>100× more samples</strong>. That is exactly why you reach for parallelism.</p>
-<div id="9e633588" class="cell" data-execution_count="7">
+<div id="9e633588" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="im">import</span> math</span>
@@ -5056,7 +5079,7 @@ if (outputEl) {{
 </div>
 </div>
 </div>
-<div id="70d295a7" class="cell" data-execution_count="8">
+<div id="70d295a7" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="im">import</span> random</span>
@@ -5095,7 +5118,7 @@ if (outputEl) {{
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="f7447990" class="cell" data-execution_count="9">
+<div id="f7447990" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="im">import</span> shutil</span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="im">import</span> subprocess</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a><span class="im">import</span> sys</span>
@@ -5121,7 +5144,7 @@ if (outputEl) {{
 <span id="cb9-23"><a href="#cb9-23" aria-label="23"></a>PY <span class="op">=</span> sys.executable</span>
 <span id="cb9-24"><a href="#cb9-24" aria-label="24"></a>MPIRUN <span class="op">=</span> shutil.which(<span class="st">"mpirun"</span>) <span class="kw">or</span> shutil.which(<span class="st">"mpiexec"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="595531ed" class="cell" data-execution_count="10">
+<div id="595531ed" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="op">!</span> {MPIRUN} <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root {PY} mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 1
@@ -5129,7 +5152,7 @@ Pi = 3.1414008
 Time: 1.735211</code></pre>
 </div>
 </div>
-<div id="4be20820" class="cell" data-execution_count="11">
+<div id="4be20820" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="op">!</span> {MPIRUN} <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe {PY} mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 2
@@ -5137,7 +5160,7 @@ Pi = 3.1417112
 Time: 0.950255</code></pre>
 </div>
 </div>
-<div id="a32e2105" class="cell" data-execution_count="12">
+<div id="a32e2105" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-label="1"></a><span class="op">!</span> {MPIRUN} <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe {PY} mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of processes: 4

@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sam Foreman">
-<meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="A beginner’s guide to understanding neural networks, their architecture, and how they function.">
+<meta name="dcterms.date" content="2026-08-13">
+<meta name="description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
 
-<title>Introduction to Neural Networks – Intro to HPC Bootcamp</title>
+<title>🎓 Capstone Projects – Intro to HPC Bootcamp</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -70,8 +70,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../01-neural-networks/0-intro/index.html" rel="next">
-<link href="../00-intro-AI-HPC/7-statistical-learning/index.html" rel="prev">
+<link href="../05-capstone/0-chess-gpt/index.html" rel="next">
+<link href="../04-ai-for-science/0-genslm/index.html" rel="prev">
 <link href="../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -135,22 +135,22 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Introduction to Neural Networks – Intro to HPC Bootcamp">
-<meta property="og:description" content="A beginner’s guide to understanding neural networks, their architecture, and how they function.">
-<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/assets/thumbnail.png">
+<meta property="og:title" content="🎓 Capstone Projects – Intro to HPC Bootcamp">
+<meta property="og:description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
+<meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
-<meta name="twitter:title" content="Introduction to Neural Networks – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="A beginner’s guide to understanding neural networks, their architecture, and how they function.">
-<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/assets/thumbnail.png">
+<meta name="twitter:title" content="🎓 Capstone Projects – Intro to HPC Bootcamp">
+<meta name="twitter:description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
+<meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="citation_title" content="Introduction to Neural Networks">
+<meta name="citation_title" content="🎓 Capstone Projects">
 <meta name="citation_author" content="Sam Foreman">
-<meta name="citation_publication_date" content="2025-07-15">
-<meta name="citation_cover_date" content="2025-07-15">
-<meta name="citation_year" content="2025">
-<meta name="citation_online_date" content="2025-07-15">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/">
+<meta name="citation_publication_date" content="2026-08-13">
+<meta name="citation_cover_date" content="2026-08-13">
+<meta name="citation_year" content="2026">
+<meta name="citation_online_date" content="2026-08-13">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
@@ -395,7 +395,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-neural-networks/index.html">[1] Neural Networks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../05-capstone/index.html">[5] Capstone Projects</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -486,13 +486,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../01-neural-networks/index.html" class="sidebar-item-text sidebar-link active">
+            <a href="../01-neural-networks/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[1] Neural Networks</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
@@ -632,13 +632,13 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../05-capstone/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../05-capstone/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">[5] Capstone Projects</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../05-capstone/0-chess-gpt/index.html" class="sidebar-item-text sidebar-link">
@@ -663,10 +663,11 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">👋 Welcome</a></li>
-  <li><a href="#map-of-this-section" id="toc-map-of-this-section" class="nav-link" data-scroll-target="#map-of-this-section">🗺️ Map of this section</a></li>
+  <li><a href="#the-two-starters" id="toc-the-two-starters" class="nav-link active" data-scroll-target="#the-two-starters">The two starters</a></li>
+  <li><a href="#getting-the-code" id="toc-getting-the-code" class="nav-link" data-scroll-target="#getting-the-code">Getting the code</a></li>
+  <li><a href="#other-directions" id="toc-other-directions" class="nav-link" data-scroll-target="#other-directions">Other directions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/01-neural-networks/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/05-capstone/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/05-capstone/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -677,16 +678,17 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Introduction to Neural Networks</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">🎓 Capstone Projects</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">ai</div>
     <div class="quarto-category">hpc</div>
+    <div class="quarto-category">llm</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    A beginner’s guide to understanding neural networks, their architecture, and how they function.
+    Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.
   </div>
 </div>
 
@@ -712,14 +714,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 15, 2025</p>
+      <p class="date">August 13, 2026</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 4, 2026</p>
+      <p class="date-modified">August 13, 2026</p>
     </div>
   </div>
     
@@ -730,37 +732,92 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
-<section id="welcome" class="level2">
-<h2 class="anchored" data-anchor-id="welcome">👋 Welcome</h2>
-<p>Neural networks are the engine under everything else in this bootcamp: the LLMs in <a href="../02-llms/index.html">[2]</a> and the science models in <a href="../04-ai-for-science/index.html">[3]</a> are all neural networks, just larger. This section builds them up from the ground: what a single neuron does, how a network learns from data, and why the whole enterprise eventually needs a supercomputer.</p>
-<p>It picks up where <a href="../00-intro-AI-HPC/index.html">[0] Intro to AI &amp; HPC</a> left off (you should be comfortable reading Python and a NumPy array) and takes you from a from-scratch classifier to training that spans many GPUs.</p>
-</section>
-<section id="map-of-this-section" class="level2">
-<h2 class="anchored" data-anchor-id="map-of-this-section">🗺️ Map of this section</h2>
-<p>The pages are meant to be read in order; each builds on the last:</p>
+<p>Everything up to here was a guided tour. These are the projects where <strong>you</strong> drive: pick one, run it, break it, and present what you found.</p>
+<p>Both were chosen for the same reason — they produce an <strong>objective metric</strong>, not a vibe check. “Does this sound Shakespearean?” is a matter of taste; “how many moves before it plays something illegal?” is a number a referee computes for you, and it either goes up or it does not.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="🎯 What makes a good presentation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>🎯 What makes a good presentation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Not “we ran the code and it worked.” The interesting talks are the ones with a <strong>comparison</strong> and a <strong>surprise</strong>:</p>
+<ol type="1">
+<li>A plot with your metric on the y-axis and training step on the x-axis.</li>
+<li>Two curves on that plot, differing by <em>one</em> decision you made.</li>
+<li>An honest account of what you expected and what actually happened.</li>
+</ol>
+<p>Both starters below already contain a built-in surprise. Reproduce it first, then go find your own.</p>
+</div>
+</div>
+<section id="the-two-starters" class="level2">
+<h2 class="anchored" data-anchor-id="the-two-starters">The two starters</h2>
 <ul>
-<li>📄 <a href="../01-neural-networks/0-intro/index.html"><strong>[1.0] Intro to Neural Networks</strong></a> — the neuron, layers, activations, and how a network learns via gradient descent, building directly on the linear-regression example from <a href="../00-intro-AI-HPC/6-linear-regression/index.html">[0]</a>.</li>
-<li>📗 <a href="../01-neural-networks/1-mnist/index.html"><strong>[1.1] MNIST Example</strong></a> — train your first real classifier on handwritten digits, from a linear model to a multi-layer network.</li>
-<li>📗 <a href="../01-neural-networks/2-conv-nets/index.html"><strong>[1.2] Convolutional Networks</strong></a> — the architecture that made computer vision work, applied to image classification.</li>
-<li>📗 <a href="../01-neural-networks/3-representation-learning/index.html"><strong>[1.3] Representation Learning</strong></a> — how networks <em>learn features</em>, and a contrastive method that only pays off at scale (a preview of <em>why</em> we distribute training).</li>
-<li>📗 <a href="../01-neural-networks/4-distributed-training/index.html"><strong>[1.4] Distributed Training</strong></a> — the bridge to HPC: <code>DDP</code>, collective communication, and the parallelism strategies that let a model train across many GPUs.</li>
+<li><p>🏆 <strong><a href="./0-chess-gpt/">[5.0] Chess GPT</a></strong> — train the <a href="../02-llms/3-shakespeare-ezpz/">[2.3]</a> model from scratch on real tournament games. The metric is <em>legal moves before a blunder</em>, and the built-in surprise is that the tokenization with the <strong>lower loss</strong> plays <strong>much worse chess</strong>.</p></li>
+<li><p>🧮 <strong><a href="./1-arithmetic-grpo/">[5.1] Arithmetic by RL</a></strong> — the <a href="../03-advanced-llms/4-rl-and-reasoning/">[3.4]</a> GRPO recipe where the entire reward is a one-line Python check. The built-in surprise is <strong>diversity collapse</strong>: the policy learns to give the <em>same</em> answer to every question, and one extra term brings it back.</p></li>
 </ul>
-<p>Ready? Start with <strong><a href="../01-neural-networks/0-intro/index.html">[1.0] Intro to Neural Networks</a></strong>.</p>
+<p>Both run in a few minutes on a laptop CPU, and both scale to many GPUs with <code>ezpz launch</code> and no code changes.</p>
+</section>
+<section id="getting-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="getting-the-code">Getting the code</h2>
+<p>The scripts live in the repo under <code>capstone/</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="bu">cd</span> intro-hpc-bootcamp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="ex">python3</span> capstone/chess_gpt.py <span class="at">--help</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="ex">python3</span> capstone/arithmetic_grpo.py <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On Perlmutter, everything is already installed in the shared environment — see the <a href="../#running-instructions">running instructions</a>.</p>
+</section>
+<section id="other-directions" class="level2">
+<h2 class="anchored" data-anchor-id="other-directions">Other directions</h2>
+<p>If neither of these grabs you, the same “train from scratch on a weird corpus, then measure something objective” shape works for a lot of data:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">corpus</th>
+<th style="text-align: left;">the metric that makes it a project</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>SMILES molecules</strong> (ChEMBL/ZINC)</td>
+<td style="text-align: left;">% of generated strings that RDKit says are valid molecules</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Protein sequences</strong> (UniProt)</td>
+<td style="text-align: left;">amino-acid composition vs.&nbsp;real proteins</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>ArXiv abstracts</strong> in one field</td>
+<td style="text-align: left;">perplexity on held-out abstracts from the same vs.&nbsp;a different field</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Sheet music</strong> (ABC notation)</td>
+<td style="text-align: left;">% that parse as valid music; do the key signatures stay consistent?</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern is always the same: swap the corpus, keep the model, and find a <strong>verifier</strong> — a piece of code that scores the output without you in the loop. That is the single most transferable idea in this bootcamp.</p>
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2026,
   author = {Foreman, Sam},
-  title = {Introduction to {Neural} {Networks}},
-  date = {2025-07-15},
-  url = {https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/},
+  title = {🎓 {Capstone} {Projects}},
+  date = {2026-08-13},
+  url = {https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Introduction to Neural Networks.”</span> July
-15. <a href="https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/">https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/</a>.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a href="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/">https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1265,129 +1322,93 @@ Foreman, Sam. 2025. <span>“Introduction to Neural Networks.”</span> July
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../00-intro-AI-HPC/7-statistical-learning/index.html" class="pagination-link" aria-label="[0.7] Statistical Learning">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[0.7] Statistical Learning</span>
+      <a href="../04-ai-for-science/0-genslm/index.html" class="pagination-link" aria-label="[4.0] GenSLM: Genome-Scale LMs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[4.0] GenSLM: Genome-Scale LMs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../01-neural-networks/0-intro/index.html" class="pagination-link" aria-label="[1.0] Intro to NNs">
-        <span class="nav-page-text">[1.0] Intro to NNs</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../05-capstone/0-chess-gpt/index.html" class="pagination-link" aria-label="[5.0] Chess GPT">
+        <span class="nav-page-text">[5.0] Chess GPT</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "Introduction to Neural Networks"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "A beginner's guide to understanding neural networks, their architecture, and how they function."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="an">categories:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a><span class="co">    - ai</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="co">    - hpc</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a><span class="an">format:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a><span class="co">  html: default</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a><span class="co">  gfm:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-label="12"></a><span class="co">    toc: true</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-label="13"></a><span class="co">---</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-label="14"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a><span class="fu">## 👋 Welcome</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-label="16"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-label="17"></a>Neural networks are the engine under everything else in this bootcamp: the LLMs</span>
-<span id="cb1-18"><a href="#cb1-18" aria-label="18"></a>in <span class="co">[</span><span class="ot">\[2\]</span><span class="co">](../02-llms/index.qmd)</span> and the science models in</span>
-<span id="cb1-19"><a href="#cb1-19" aria-label="19"></a><span class="co">[</span><span class="ot">\[3\]</span><span class="co">](../04-ai-for-science/index.qmd)</span> are all neural networks, just larger. This</span>
-<span id="cb1-20"><a href="#cb1-20" aria-label="20"></a>section builds them up from the ground: what a single neuron does, how a network</span>
-<span id="cb1-21"><a href="#cb1-21" aria-label="21"></a>learns from data, and why the whole enterprise eventually needs a supercomputer.</span>
-<span id="cb1-22"><a href="#cb1-22" aria-label="22"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-label="23"></a>It picks up where <span class="co">[</span><span class="ot">\[0\] Intro to AI &amp; HPC</span><span class="co">](../00-intro-AI-HPC/index.qmd)</span> left</span>
-<span id="cb1-24"><a href="#cb1-24" aria-label="24"></a>off (you should be comfortable reading Python and a NumPy array) and takes you</span>
-<span id="cb1-25"><a href="#cb1-25" aria-label="25"></a>from a from-scratch classifier to training that spans many GPUs.</span>
-<span id="cb1-26"><a href="#cb1-26" aria-label="26"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-label="27"></a><span class="fu">## 🗺️ Map of this section</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-label="28"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-label="29"></a>The pages are meant to be read in order; each builds on the last:</span>
-<span id="cb1-30"><a href="#cb1-30" aria-label="30"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-label="31"></a><span class="ss">- </span>📄 <span class="co">[</span><span class="ot">**\[1.0\] Intro to Neural Networks**</span><span class="co">](./0-intro/index.qmd)</span> — the neuron,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-label="32"></a>  layers, activations, and how a network learns via gradient descent, building</span>
-<span id="cb1-33"><a href="#cb1-33" aria-label="33"></a>  directly on the linear-regression example from <span class="co">[</span><span class="ot">\[0\]</span><span class="co">](../00-intro-AI-HPC/6-linear-regression/index.qmd)</span>.</span>
-<span id="cb1-34"><a href="#cb1-34" aria-label="34"></a><span class="ss">- </span>📗 <span class="co">[</span><span class="ot">**\[1.1\] MNIST Example**</span><span class="co">](./1-mnist/index.qmd)</span> — train your first real</span>
-<span id="cb1-35"><a href="#cb1-35" aria-label="35"></a>  classifier on handwritten digits, from a linear model to a multi-layer network.</span>
-<span id="cb1-36"><a href="#cb1-36" aria-label="36"></a><span class="ss">- </span>📗 <span class="co">[</span><span class="ot">**\[1.2\] Convolutional Networks**</span><span class="co">](./2-conv-nets/index.qmd)</span> — the</span>
-<span id="cb1-37"><a href="#cb1-37" aria-label="37"></a>  architecture that made computer vision work, applied to image classification.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-label="38"></a><span class="ss">- </span>📗 <span class="co">[</span><span class="ot">**\[1.3\] Representation Learning**</span><span class="co">](./3-representation-learning/index.qmd)</span> —</span>
-<span id="cb1-39"><a href="#cb1-39" aria-label="39"></a>  how networks *learn features*, and a contrastive method that only pays off at</span>
-<span id="cb1-40"><a href="#cb1-40" aria-label="40"></a>  scale (a preview of *why* we distribute training).</span>
-<span id="cb1-41"><a href="#cb1-41" aria-label="41"></a><span class="ss">- </span>📗 <span class="co">[</span><span class="ot">**\[1.4\] Distributed Training**</span><span class="co">](./4-distributed-training/index.qmd)</span> — the</span>
-<span id="cb1-42"><a href="#cb1-42" aria-label="42"></a>  bridge to HPC: <span class="in">`DDP`</span>, collective communication, and the parallelism strategies</span>
-<span id="cb1-43"><a href="#cb1-43" aria-label="43"></a>  that let a model train across many GPUs.</span>
-<span id="cb1-44"><a href="#cb1-44" aria-label="44"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-label="45"></a>Ready? Start with **[\[1.0\] Intro to Neural Networks](./0-intro/index.qmd)**.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-label="46"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-label="47"></a><span class="co">&lt;!--</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-label="48"></a><span class="co"># author:</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-label="49"></a><span class="co">#   - name: Sam Foreman</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-label="50"></a><span class="co">#     id: sf</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-label="51"></a><span class="co">#     orcid: 0000-0002-9981-0876</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-label="52"></a><span class="co">#     email: foremans@anl.gov</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-label="53"></a><span class="co">#     affiliation:</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-label="54"></a><span class="co">#       - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-label="55"></a><span class="co">#         city: Lemont</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-label="56"></a><span class="co">#         state: IL</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-label="57"></a><span class="co">#         url: https://alcf.anl.gov/about/people/sam-foreman</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-label="58"></a><span class="co">#   - name: Marieme Ngom</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-label="59"></a><span class="co">#     id: mn</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-label="60"></a><span class="co">#     # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-label="61"></a><span class="co">#     email: mngom@anl.gov</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-label="62"></a><span class="co">#     affiliation:</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-label="63"></a><span class="co">#       - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-label="64"></a><span class="co">#         city: Lemont</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-label="65"></a><span class="co">#         state: IL</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-label="66"></a><span class="co">#         url: https://alcf.anl.gov/about/people/marieme-ngom</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-label="67"></a><span class="co">#   - name: Huihuo Zheng</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-label="68"></a><span class="co">#     id: hz</span></span>
-<span id="cb1-69"><a href="#cb1-69" aria-label="69"></a><span class="co">#     # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-label="70"></a><span class="co">#     email: huihuo.zheng@anl.gov</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-label="71"></a><span class="co">#     affiliation:</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-label="72"></a><span class="co">#       - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-label="73"></a><span class="co">#         city: Lemont</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-label="74"></a><span class="co">#         state: IL</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-label="75"></a><span class="co">#         url: https://alcf.anl.gov/about/people/huihuo-zheng</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-label="76"></a><span class="co">#   - name: Bethany Lusch</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-label="77"></a><span class="co">#     id: bl</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-label="78"></a><span class="co">#     email: blusch@anl.gov</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-label="79"></a><span class="co">#     orcid: 0000-0002-9521-9990</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-label="80"></a><span class="co">#     # orcid: 0000-0002-9981-0876</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-label="81"></a><span class="co">#     affiliation:</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-label="82"></a><span class="co">#       - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb1-83"><a href="#cb1-83" aria-label="83"></a><span class="co">#         city: Lemont</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-label="84"></a><span class="co">#         state: IL</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-label="85"></a><span class="co">#         url: https://alcf.anl.gov/about/people/bethany-lusch</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-label="86"></a><span class="co">#   - name: Taylor Childers</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-label="87"></a><span class="co">#     id: tc</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-label="88"></a><span class="co">#     orcid: 0000-0002-0492-613X</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-label="89"></a><span class="co">#     email: jchilders@anl.gov</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-label="90"></a><span class="co">#     affiliation:</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-label="91"></a><span class="co">#       - name: '[ANL](https://www.anl.gov/)'</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-label="92"></a><span class="co">#         city: Lemont</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-label="93"></a><span class="co">#         state: IL</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-label="94"></a><span class="co">#         url: https://alcf.anl.gov/about/people/taylor-childers</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-label="95"></a><span class="co">#   # - name: Prasanna Balaprakash</span></span>
-<span id="cb1-96"><a href="#cb1-96" aria-label="96"></a><span class="co">#   #   id: pb</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-label="97"></a><span class="co">#   #   email: pbalapra@ornl.gov</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-label="98"></a><span class="co">#   #   orcid: 0000-0002-0292-5715</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-label="99"></a><span class="co">#   # - name: Asad Khan</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-label="100"></a><span class="co">#   #   id: ak</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-label="101"></a><span class="co">#   #   email:  akhan.cb@amu.ac.in</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-label="102"></a><span class="co">#   #   orcid: 0000-0001-9191-9423</span></span>
-<span id="cb1-103"><a href="#cb1-103" aria-label="103"></a><span class="co">#   #   affiliation:</span></span>
-<span id="cb1-104"><a href="#cb1-104" aria-label="104"></a><span class="co">#   #       - name: Aligarh Muslim University</span></span>
-<span id="cb1-105"><a href="#cb1-105" aria-label="105"></a><span class="co">#   #         # city: Aligarh, Uttar Pradesh</span></span>
-<span id="cb1-106"><a href="#cb1-106" aria-label="106"></a><span class="co">#   #         url: https://www.amu.ac.in/faculty/interdisciplinary-biotechnology-unit/asad-u-khan</span></span>
-<span id="cb1-107"><a href="#cb1-107" aria-label="107"></a><span class="co">#   # - name: Corey Adams</span></span>
-<span id="cb1-108"><a href="#cb1-108" aria-label="108"></a><span class="co">#   #   id: ca</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-label="109"></a><span class="co">#   # - name: Kyle Felker</span></span>
-<span id="cb1-110"><a href="#cb1-110" aria-label="110"></a><span class="co">#   #   id: kf</span></span>
-<span id="cb1-111"><a href="#cb1-111" aria-label="111"></a><span class="co">#   # - name: Tanwi Mallick</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-label="112"></a><span class="co">#   #   id: tm</span></span>
-<span id="cb1-113"><a href="#cb1-113" aria-label="113"></a><span class="co">--&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🎓 Capstone Projects"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Two self-contained projects that build on the bootcamp material and produce a real, objective number to present."</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-label="4"></a><span class="an">categories:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-label="5"></a><span class="co">  - ai</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="co">  - hpc</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-label="7"></a><span class="co">  - llm</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-label="8"></a><span class="an">date:</span><span class="co"> 2026-08-13</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-label="9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-label="10"></a><span class="co">---</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-label="11"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-label="12"></a>Everything up to here was a guided tour. These are the projects where **you**</span>
+<span id="cb2-13"><a href="#cb2-13" aria-label="13"></a>drive: pick one, run it, break it, and present what you found.</span>
+<span id="cb2-14"><a href="#cb2-14" aria-label="14"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-label="15"></a>Both were chosen for the same reason — they produce an **objective metric**, not</span>
+<span id="cb2-16"><a href="#cb2-16" aria-label="16"></a>a vibe check. "Does this sound Shakespearean?" is a matter of taste; "how many</span>
+<span id="cb2-17"><a href="#cb2-17" aria-label="17"></a>moves before it plays something illegal?" is a number a referee computes for</span>
+<span id="cb2-18"><a href="#cb2-18" aria-label="18"></a>you, and it either goes up or it does not.</span>
+<span id="cb2-19"><a href="#cb2-19" aria-label="19"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-label="20"></a>::: {.callout-tip title="🎯 What makes a good presentation"}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-label="21"></a>Not "we ran the code and it worked." The interesting talks are the ones with a</span>
+<span id="cb2-22"><a href="#cb2-22" aria-label="22"></a>**comparison** and a **surprise**:</span>
+<span id="cb2-23"><a href="#cb2-23" aria-label="23"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-label="24"></a><span class="ss">1. </span>A plot with your metric on the y-axis and training step on the x-axis.</span>
+<span id="cb2-25"><a href="#cb2-25" aria-label="25"></a><span class="ss">2. </span>Two curves on that plot, differing by *one* decision you made.</span>
+<span id="cb2-26"><a href="#cb2-26" aria-label="26"></a><span class="ss">3. </span>An honest account of what you expected and what actually happened.</span>
+<span id="cb2-27"><a href="#cb2-27" aria-label="27"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-label="28"></a>Both starters below already contain a built-in surprise. Reproduce it first,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-label="29"></a>then go find your own.</span>
+<span id="cb2-30"><a href="#cb2-30" aria-label="30"></a>:::</span>
+<span id="cb2-31"><a href="#cb2-31" aria-label="31"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-label="32"></a><span class="fu">## The two starters</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-label="33"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-label="34"></a><span class="ss">- </span>🏆 **[\[5.0\] Chess GPT](./0-chess-gpt/)** — train the</span>
+<span id="cb2-35"><a href="#cb2-35" aria-label="35"></a>  <span class="co">[</span><span class="ot">\[2.3\]</span><span class="co">](../02-llms/3-shakespeare-ezpz/)</span> model from scratch on real</span>
+<span id="cb2-36"><a href="#cb2-36" aria-label="36"></a>  tournament games. The metric is *legal moves before a blunder*, and the</span>
+<span id="cb2-37"><a href="#cb2-37" aria-label="37"></a>  built-in surprise is that the tokenization with the **lower loss** plays</span>
+<span id="cb2-38"><a href="#cb2-38" aria-label="38"></a>  **much worse chess**.</span>
+<span id="cb2-39"><a href="#cb2-39" aria-label="39"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-label="40"></a><span class="ss">- </span>🧮 **[\[5.1\] Arithmetic by RL](./1-arithmetic-grpo/)** — the</span>
+<span id="cb2-41"><a href="#cb2-41" aria-label="41"></a>  <span class="co">[</span><span class="ot">\[3.4\]</span><span class="co">](../03-advanced-llms/4-rl-and-reasoning/)</span> GRPO recipe where the entire</span>
+<span id="cb2-42"><a href="#cb2-42" aria-label="42"></a>  reward is a one-line Python check. The built-in surprise is **diversity</span>
+<span id="cb2-43"><a href="#cb2-43" aria-label="43"></a>  collapse**: the policy learns to give the *same* answer to every question, and one extra</span>
+<span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>  term brings it back.</span>
+<span id="cb2-45"><a href="#cb2-45" aria-label="45"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-label="46"></a>Both run in a few minutes on a laptop CPU, and both scale to many GPUs with</span>
+<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a><span class="in">`ezpz launch`</span> and no code changes.</span>
+<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a><span class="fu">## Getting the code</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a>The scripts live in the repo under <span class="in">`capstone/`</span>:</span>
+<span id="cb2-52"><a href="#cb2-52" aria-label="52"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-label="53"></a><span class="in">```bash</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-label="54"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp</span>
+<span id="cb2-55"><a href="#cb2-55" aria-label="55"></a><span class="bu">cd</span> intro-hpc-bootcamp</span>
+<span id="cb2-56"><a href="#cb2-56" aria-label="56"></a><span class="ex">python3</span> capstone/chess_gpt.py <span class="at">--help</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-label="57"></a><span class="ex">python3</span> capstone/arithmetic_grpo.py <span class="at">--help</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-label="58"></a><span class="in">```</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-label="59"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-label="60"></a>On Perlmutter, everything is already installed in the shared environment — see</span>
+<span id="cb2-61"><a href="#cb2-61" aria-label="61"></a>the <span class="co">[</span><span class="ot">running instructions</span><span class="co">](../#running-instructions)</span>.</span>
+<span id="cb2-62"><a href="#cb2-62" aria-label="62"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-label="63"></a><span class="fu">## Other directions</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-label="64"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-label="65"></a>If neither of these grabs you, the same "train from scratch on a weird corpus,</span>
+<span id="cb2-66"><a href="#cb2-66" aria-label="66"></a>then measure something objective" shape works for a lot of data:</span>
+<span id="cb2-67"><a href="#cb2-67" aria-label="67"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-label="68"></a><span class="pp">|</span> corpus <span class="pp">|</span> the metric that makes it a project <span class="pp">|</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-label="69"></a><span class="pp">|</span>:--<span class="pp">|</span>:--<span class="pp">|</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-label="70"></a><span class="pp">|</span> **SMILES molecules** (ChEMBL/ZINC) <span class="pp">|</span> % of generated strings that RDKit says are valid molecules <span class="pp">|</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-label="71"></a><span class="pp">|</span> **Protein sequences** (UniProt) <span class="pp">|</span> amino-acid composition vs. real proteins <span class="pp">|</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-label="72"></a><span class="pp">|</span> **ArXiv abstracts** in one field <span class="pp">|</span> perplexity on held-out abstracts from the same vs. a different field <span class="pp">|</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-label="73"></a><span class="pp">|</span> **Sheet music** (ABC notation) <span class="pp">|</span> % that parse as valid music; do the key signatures stay consistent? <span class="pp">|</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-label="74"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-label="75"></a>The pattern is always the same: swap the corpus, keep the model, and find a</span>
+<span id="cb2-76"><a href="#cb2-76" aria-label="76"></a>**verifier** — a piece of code that scores the output without you in the loop.</span>
+<span id="cb2-77"><a href="#cb2-77" aria-label="77"></a>That is the single most transferable idea in this bootcamp.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1403,7 +1424,7 @@ Foreman, Sam. 2025. <span>“Introduction to Neural Networks.”</span> July
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/01-neural-networks/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/01-neural-networks/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/05-capstone/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/edit/main/content/05-capstone/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/2-conv-nets/index.html</loc>
-    <lastmod>2026-08-04T06:06:46.659Z</lastmod>
+    <lastmod>2026-08-11T07:02:55.314Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/0-intro/index.html</loc>
@@ -90,7 +90,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/3-representation-learning/index.html</loc>
-    <lastmod>2026-08-04T06:10:54.914Z</lastmod>
+    <lastmod>2026-08-10T12:11:52.223Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/01-neural-networks/index.html</loc>
@@ -123,5 +123,17 @@
   <url>
     <loc>https://saforem2.github.io/intro-hpc-bootcamp/04-ai-for-science/index.html</loc>
     <lastmod>2026-08-04T05:36:03.456Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/index.html</loc>
+    <lastmod>2026-08-13T14:58:03.465Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/0-chess-gpt/index.html</loc>
+    <lastmod>2026-08-13T15:34:18.986Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/1-arithmetic-grpo/index.html</loc>
+    <lastmod>2026-08-13T15:14:30.878Z</lastmod>
   </url>
 </urlset>

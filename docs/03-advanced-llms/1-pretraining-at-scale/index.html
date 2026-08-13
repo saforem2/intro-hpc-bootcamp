@@ -4564,6 +4564,29 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../05-capstone/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5] Capstone Projects</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/0-chess-gpt/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.0] Chess GPT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/1-arithmetic-grpo/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.1] Arithmetic by RL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -4835,7 +4858,7 @@ C \approx 6 \, N \, D
 <section id="a-toy-mfu-that-really-runs" class="level3">
 <h3 class="anchored" data-anchor-id="a-toy-mfu-that-really-runs">① A toy MFU that really runs</h3>
 <p>Let’s make this concrete with a tiny example that runs anywhere. We time a real (tiny) training step, compute <code>tokens/sec</code>, and form an <strong>MFU-style ratio</strong> by comparing achieved FLOP/s against a <em>measured</em> peak (a big dense matmul on the same machine). <code>ezpz.get_torch_device_type()</code> picks whatever accelerator is present (<code>cuda</code> on Polaris, <code>xpu</code> on Aurora, <code>mps</code> on a Mac, else <code>cpu</code>), so the numbers below describe the hardware that actually rendered this page. On a GPU cluster you would swap the measured peak for <code>ezpz.flops.get_peak_flops()</code>.</p>
-<div id="34a750ed" class="cell" data-execution_count="1">
+<div id="34a750ed" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="co"># `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a><span class="co"># helpers) are both installed from GitHub, not PyPI, so Colab and site-provided</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># HPC kernels have neither and later cells raise ModuleNotFoundError.</span></span>
@@ -4847,7 +4870,7 @@ C \approx 6 \, N \, D
 <span id="cb3-9"><a href="#cb3-9" aria-label="9"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="op">\</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-label="10"></a>                    <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="226a765b" class="cell" data-execution_count="2">
+<div id="226a765b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a><span class="im">import</span> torch</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="im">import</span> ezpz</span>
@@ -4878,7 +4901,7 @@ C \approx 6 \, N \, D
 measured peak (dense matmul): 4784.0 GFLOP/s</code></pre>
 </div>
 </div>
-<div id="5570b215" class="cell" data-execution_count="3">
+<div id="5570b215" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># --- (b) Time a tiny "language-model-shaped" training step ---</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>batch, seq, d_model, vocab <span class="op">=</span> <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">256</span>, <span class="dv">512</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>tokens_per_step <span class="op">=</span> batch <span class="op">*</span> seq</span>
@@ -4920,7 +4943,7 @@ measured peak (dense matmul): 4784.0 GFLOP/s</code></pre>
 throughput : 1,208,979 tokens/sec</code></pre>
 </div>
 </div>
-<div id="008f71b1" class="cell" data-execution_count="4">
+<div id="008f71b1" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="co"># --- (c) Compute a toy MFU-style ratio using the 6*N*D rule ---</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a><span class="co"># Count the params that actually do matmuls (the linear head dominates here).</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a>N <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> lm_head.parameters())</span>
@@ -4944,7 +4967,7 @@ toy MFU          : 20.0%</code></pre>
 <section id="the-real-thing-ezpz.flops.compute_mfu" class="level3">
 <h3 class="anchored" data-anchor-id="the-real-thing-ezpz.flops.compute_mfu">The real thing: <code>ezpz.flops.compute_mfu</code></h3>
 <p>In a real run you don’t hand-roll this. <code>ezpz</code> ships <a href="https://github.com/saforem2/ezpz/blob/main/src/ezpz/flops.py"><code>ezpz.flops</code></a>, which counts FLOPs with PyTorch’s <code>FlopCounterMode</code> and knows the peak BF16 FLOP/s for common accelerators (H100/H200/B200, A100, MI300X, Intel PVC, …):</p>
-<div id="f49e3c22" class="cell" data-execution_count="5">
+<div id="f49e3c22" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="im">import</span> time</span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="im">import</span> ezpz</span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="im">from</span> ezpz.flops <span class="im">import</span> try_estimate, compute_mfu</span>
@@ -5063,7 +5086,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <section id="synthetic-data-conceptual-recipe" class="level3">
 <h3 class="anchored" data-anchor-id="synthetic-data-conceptual-recipe">Synthetic data (conceptual recipe)</h3>
 <p>When high-quality human data runs out for a domain, teams <strong>generate</strong> more with a strong existing model. This is how much of the recent gain in math/code/reasoning data was produced. The core loop (display-only pseudo-code):</p>
-<div id="d866840a" class="cell" data-execution_count="6">
+<div id="d866840a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a><span class="co"># Conceptual synthetic-data generation loop. NOT runnable here — this is</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a><span class="co"># the *shape* of the pipeline, not a drop-in implementation.</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a><span class="im">from</span> your_pipeline <span class="im">import</span> teacher_model, seed_prompts, verify</span>
@@ -5185,7 +5208,7 @@ Table&nbsp;1: A representative pretraining data mixture (domain → weight).
 <li><strong><code>MFU</code> vs node count</strong> — ideally flat. A downward slope means each added node buys less useful compute: the classic scaling wall.</li>
 </ol>
 <p>A quick sketch of the plot you’re aiming for (runs at build time with dummy numbers; replace with your measured sweep):</p>
-<div id="fbcdfff3" class="cell" data-execution_count="7">
+<div id="fbcdfff3" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-label="1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
@@ -5269,7 +5292,7 @@ if (outputEl) {{
 <li><a href="https://allenai.org/olmo">OLMo</a> and the Dolma data report — open data-mixture and curation details</li>
 <li><a href="../../01-neural-networks/4-distributed-training/index.html">[1.4] Distributed Training</a> and <a href="../../02-llms/1-parallel-training/index.html">[2.1] Parallel Training</a></li>
 </ul>
-<div id="0fc2b6b4" class="cell" data-execution_count="8">
+<div id="0fc2b6b4" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-stdout">
 <pre><code>Last updated: 2026-08-10 07:15</code></pre>
 </div>

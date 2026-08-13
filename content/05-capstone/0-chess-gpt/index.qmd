@@ -1,0 +1,434 @@
+---
+title: "🏆 Chess GPT: train a model to play legal chess"
+description: "Capstone starter: the [2.3] GPT trained from scratch on real tournament games, scored by how many legal moves it can play."
+categories:
+  - ai
+  - llm
+  - capstone
+date: 2026-08-13
+date-modified: last-modified
+jupyter: python3
+---
+
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+:::
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/05-capstone/0-chess-gpt/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/05-capstone/0-chess-gpt/index.qmd)
+
+This is the **same model** you trained on Shakespeare in
+[\[2.3\]](../../02-llms/3-shakespeare-ezpz/). Only two things change: the corpus
+becomes 1500 real chess games, and — the important part — we get a **referee**.
+
+With Shakespeare you can only squint at the output and ask "does that feel
+Shakespearean?" With chess, `python-chess` will tell you exactly how many moves
+the model played before it did something illegal. That number is your metric,
+and it is not a matter of opinion.
+
+```{python}
+# `bootcamp` (plotting theme) and `python-chess` (our referee). On Colab or a
+# fresh environment these install; on the shared NERSC env this is a no-op.
+try:
+    import bootcamp  # noqa: F401
+    import chess     # noqa: F401
+    import ezpz      # noqa: F401
+except ImportError:
+    %pip install -q python-chess \
+                    "git+https://github.com/saforem2/ezpz" \
+                    "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
+import io
+import os
+import time
+import urllib.request
+
+import chess
+import chess.pgn
+import ezpz
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
+
+torch.manual_seed(0)
+DEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'
+print(f"device: {DEVICE}")
+```
+
+## 📖 The data: real tournament games
+
+A PGN file is a plain-text record of chess games. We keep only the moves, in
+[standard algebraic notation](https://en.wikipedia.org/wiki/Algebraic_notation_(chess)),
+one game per line — so a "document" looks like `e4 c5 Nf3 d6 d4 cxd4 ...`.
+
+```{python}
+PGN_URL = "https://raw.githubusercontent.com/rozim/ChessData/master/Twic/twic1000.pgn"
+N_GAMES = 1500
+
+raw = urllib.request.urlopen(PGN_URL, timeout=60).read().decode("utf-8", errors="ignore")
+
+fh, games = io.StringIO(raw), []
+while len(games) < N_GAMES:
+    g = chess.pgn.read_game(fh)
+    if g is None:
+        break
+    board, sans = g.board(), []
+    for mv in g.mainline_moves():
+        sans.append(board.san(mv))   # read the SAN *before* pushing the move
+        board.push(mv)
+    if len(sans) >= 10:              # skip abandoned games
+        games.append(" ".join(sans))
+
+print(f"games parsed : {len(games)}")
+print(f"example      : {games[0][:78]} ...")
+```
+
+## 🔤 The decision that decides everything: tokenization
+
+Here is the fork in the road. We can feed the model **characters** (`N`, `f`,
+`3`) or whole **moves** (`Nf3`). Shakespeare used characters and it worked
+beautifully, so characters seem like the obvious choice.
+
+Build both and find out.
+
+```{python}
+def build(mode: str):
+    """Return (flat_tokens, vocab, stoi) for 'char' or 'move' tokenization."""
+    if mode == "char":
+        text = "\n".join(games)
+        vocab = sorted(set(text))
+        stoi = {c: i for i, c in enumerate(vocab)}
+        flat = torch.tensor([stoi[c] for c in text], dtype=torch.long)
+    else:
+        vocab = sorted({m for g in games for m in g.split()})
+        stoi = {m: i for i, m in enumerate(vocab)}
+        flat = torch.tensor([stoi[m] for g in games for m in g.split()], dtype=torch.long)
+    return flat, vocab, stoi
+
+for mode in ("char", "move"):
+    flat, vocab, _ = build(mode)
+    print(f"{mode:>5}-level:  vocab = {len(vocab):>5}   tokens = {len(flat):>7,}")
+```
+
+Two very different problems. The character model has a tiny vocabulary but must
+*spell* every move correctly. The move model has ~2000 possible outputs but each
+one is a complete, well-formed move by construction.
+
+## 🧱 The model
+
+Deliberately the same small GPT as [\[2.3\]](../../02-llms/3-shakespeare-ezpz/) —
+nothing here is chess-specific.
+
+```{python}
+class GPT(nn.Module):
+    def __init__(self, vocab_size, block, d=192, heads=6, layers=4):
+        super().__init__()
+        self.block = block
+        self.tok = nn.Embedding(vocab_size, d)
+        self.pos = nn.Embedding(block, d)
+        self.blocks = nn.ModuleList([
+            nn.TransformerEncoderLayer(d, heads, 4 * d, batch_first=True,
+                                       norm_first=True, dropout=0.0)
+            for _ in range(layers)
+        ])
+        self.ln = nn.LayerNorm(d)
+        self.head = nn.Linear(d, vocab_size)
+
+    def forward(self, idx):
+        T = idx.size(1)
+        h = self.tok(idx) + self.pos(torch.arange(T, device=idx.device))
+        causal = torch.triu(torch.full((T, T), float("-inf"), device=idx.device), 1)
+        for b in self.blocks:
+            h = b(h, src_mask=causal)
+        return self.head(self.ln(h))
+```
+
+## ⚖️ The referee
+
+This is what makes the project work. We hand the model's output to
+`python-chess` move by move; the moment it rejects one, we stop and report how
+far the model got.
+
+```{python}
+@torch.no_grad()
+def legal_prefix(model, vocab, stoi, mode, n_games=12, temp=0.7, max_moves=60):
+    """Play games from 1.e4; return the mean number of LEGAL moves produced."""
+    model.eval()
+    scores = []
+    for _ in range(n_games):
+        board = chess.Board()
+        board.push_san("e4")
+        ok = 1
+        if mode == "move":
+            idx = torch.tensor([[stoi["e4"]]], device=DEVICE)
+            for _ in range(max_moves):
+                logits = model(idx[:, -model.block:])[:, -1, :] / temp
+                nxt = torch.multinomial(F.softmax(logits, dim=-1), 1)
+                try:
+                    board.push_san(vocab[nxt.item()])   # the referee's verdict
+                except Exception:
+                    break
+                ok += 1
+                idx = torch.cat([idx, nxt], dim=1)
+        else:
+            idx = torch.tensor([[stoi[c] for c in "e4 "]], device=DEVICE)
+            for _ in range(max_moves * 6):
+                logits = model(idx[:, -model.block:])[:, -1, :] / temp
+                nxt = torch.multinomial(F.softmax(logits, dim=-1), 1)
+                idx = torch.cat([idx, nxt], dim=1)
+            line = "".join(vocab[i] for i in idx[0].tolist()).split("\n")[0]
+            board, ok = chess.Board(), 0
+            for tok in line.split():
+                try:
+                    board.push_san(tok)
+                except Exception:
+                    break
+                ok += 1
+        scores.append(ok)
+    model.train()
+    return sum(scores) / len(scores)
+```
+
+## 🔁 Train both, measure both
+
+Same budget, same architecture, same data. The *only* difference is how the text
+was cut into tokens.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the training loop"
+def train(mode, steps=600, bs=64, lr=3e-3, eval_every=200):
+    flat, vocab, stoi = build(mode)
+    block = 64 if mode == "move" else 128
+    model = GPT(len(vocab), block).to(DEVICE)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr)
+    flat = flat.to(DEVICE)
+    hist = []
+    for step in range(1, steps + 1):
+        ix = torch.randint(len(flat) - block - 1, (bs,), device=DEVICE)
+        x = torch.stack([flat[i:i + block] for i in ix])
+        y = torch.stack([flat[i + 1:i + block + 1] for i in ix])
+        loss = F.cross_entropy(model(x).reshape(-1, len(vocab)), y.reshape(-1))
+        opt.zero_grad(set_to_none=True)
+        loss.backward()
+        opt.step()
+        if step % eval_every == 0:
+            lp = legal_prefix(model, vocab, stoi, mode)
+            hist.append((step, loss.item(), lp))
+    return model, vocab, stoi, hist
+
+t0 = time.time()
+results = {}
+for mode in ("char", "move"):
+    model, vocab, stoi, hist = train(mode)
+    results[mode] = dict(model=model, vocab=vocab, stoi=stoi, hist=hist)
+    final = hist[-1]
+    print(f"{mode:>5}-level: final loss {final[1]:.3f} | legal moves {final[2]:.1f}")
+print(f"\ntotal: {time.time() - t0:.0f}s on {DEVICE}")
+```
+
+```{python}
+#| label: fig-chess-tokenization
+#| fig-cap: "Same model, same data, same budget. The character model reaches a *lower* loss (left) while playing dramatically *worse* chess (right)."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("training loss (lower = better)",
+                                    "legal moves before a blunder (higher = better)"))
+for mode, color in (("char", COLORS["red"]), ("move", COLORS["blue"])):
+    h = results[mode]["hist"]
+    steps = [s for s, _, _ in h]
+    fig.add_scatter(x=steps, y=[l for _, l, _ in h], name=f"{mode}-level",
+                    mode="lines+markers", line=dict(color=color, width=2),
+                    legendgroup=mode, row=1, col=1)
+    fig.add_scatter(x=steps, y=[p for _, _, p in h], name=f"{mode}-level",
+                    mode="lines+markers", line=dict(color=color, width=2),
+                    legendgroup=mode, showlegend=False, row=1, col=2)
+fig.update_xaxes(title="training step")
+fig.update_layout(height=400, margin=dict(t=60))
+fig.show()
+```
+
+::: {.callout-important title="🤯 The finding"}
+**The character model wins on loss and loses at chess.**
+
+It learns exactly what SAN *looks like* — a piece letter, maybe a file, maybe an
+`x`, a square, maybe a `+` — and it gets very good at producing strings of that
+shape. What it never learns is **where the pieces actually are**, because
+nothing in "spell the next character" requires tracking a board.
+
+The move-level model cannot produce a malformed move at all: every token in its
+vocabulary is a real move. So its capacity goes into *which* move, not *how to
+spell it*.
+
+This is the most transferable lesson in the bootcamp: **the number you optimize
+is not necessarily the number you care about.** Loss went down. The thing you
+actually wanted got worse. Always find a metric that a referee computes.
+:::
+
+## 💬 What it actually plays
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the generation code"
+r = results["move"]
+board = chess.Board()
+board.push_san("e4")
+played = ["e4"]
+idx = torch.tensor([[r["stoi"]["e4"]]], device=DEVICE)
+r["model"].eval()
+with torch.no_grad():
+    for _ in range(40):
+        logits = r["model"](idx[:, -r["model"].block:])[:, -1, :] / 0.7
+        nxt = torch.multinomial(F.softmax(logits, dim=-1), 1)
+        try:
+            board.push_san(r["vocab"][nxt.item()])
+        except Exception:
+            break
+        played.append(r["vocab"][nxt.item()])
+        idx = torch.cat([idx, nxt], dim=1)
+
+print("The model's game (stops at its first illegal move):\n")
+print("  " + " ".join(played))
+print(f"\n  {len(played)} legal moves")
+```
+
+Rather than read that move list, watch it. Press **▶ play**, or drag the slider
+to step through one ply at a time.
+
+```{python}
+#| label: fig-chess-game
+#| fig-cap: "Every position the model reached, in order. It stops at the first move `python-chess` refuses to accept."
+#| code-fold: true
+#| code-summary: "Show the board-animation code"
+# Solid glyphs for both sides; colour alone tells them apart (as on lichess).
+SOLID = {"p": "♟", "n": "♞", "b": "♝", "r": "♜", "q": "♛", "k": "♚"}
+LIGHT, DARK = "#eeeed2", "#769656"
+WHITE, BLACK = "#ffffff", "#1b1a17"
+XS = [chess.square_file(s) for s in range(64)]
+YS = [chess.square_rank(s) for s in range(64)]
+
+
+def squares(b):
+    """One entry per square, always length 64 — so frames line up elementwise."""
+    text, color = [], []
+    for sq in range(64):
+        pc = b.piece_at(sq)
+        text.append(SOLID[pc.symbol().lower()] if pc else "")
+        color.append(WHITE if (pc and pc.symbol().isupper()) else BLACK)
+    return text, color
+
+
+b = chess.Board()
+snaps, labels = [squares(b)], ["initial position"]
+for i, mv in enumerate(played):
+    b.push_san(mv)
+    snaps.append(squares(b))
+    labels.append(f"{i // 2 + 1}{'.' if i % 2 == 0 else '…'} {mv}")
+
+
+def board_trace(snap):
+    text, color = snap
+    return go.Scatter(x=XS, y=YS, mode="text", text=text,
+                      textfont=dict(size=30, color=color),
+                      hoverinfo="skip", showlegend=False)
+
+
+fig = go.Figure(
+    data=[board_trace(snaps[0])],
+    # NB: frames carry data only. A per-frame `layout` gets applied at init,
+    # which would leave the board showing the *last* position on page load.
+    frames=[go.Frame(data=[board_trace(s)], name=lab)
+            for s, lab in zip(snaps, labels)],
+)
+fig.update_layout(
+    width=520, height=600, plot_bgcolor="rgba(0,0,0,0)",
+    title=dict(text="the model's game", x=0.5),
+    shapes=[dict(type="rect", x0=f - .5, x1=f + .5, y0=r - .5, y1=r + .5,
+                 fillcolor=(LIGHT if (f + r) % 2 else DARK),
+                 line=dict(width=0), layer="below")
+            for f in range(8) for r in range(8)],
+    xaxis=dict(range=[-.5, 7.5], tickmode="array", tickvals=list(range(8)),
+               ticktext=list("abcdefgh"), showgrid=False, zeroline=False,
+               constrain="domain"),
+    yaxis=dict(range=[-.5, 7.5], tickmode="array", tickvals=list(range(8)),
+               ticktext=list("12345678"), showgrid=False, zeroline=False,
+               scaleanchor="x", scaleratio=1),
+    updatemenus=[dict(type="buttons", showactive=False, x=0.02, y=1.12, buttons=[
+        dict(label="▶ play", method="animate",
+             args=[None, dict(frame=dict(duration=800, redraw=True),
+                              fromcurrent=True, transition=dict(duration=0))]),
+        dict(label="❚❚ pause", method="animate",
+             args=[[None], dict(frame=dict(duration=0, redraw=False),
+                                mode="immediate")]),
+    ])],
+    sliders=[dict(active=0, y=-0.02, currentvalue=dict(prefix="move: "), steps=[
+        dict(label=lab, method="animate",
+             args=[[lab], dict(mode="immediate", frame=dict(duration=0, redraw=True),
+                               transition=dict(duration=0))])
+        for lab in labels])],
+)
+fig.show()
+```
+
+```{python}
+#| echo: false
+# Plotly's own init runs `animate(gd, null)`, which plays straight to the last
+# frame. Jump back to the start so the board opens on the initial position.
+from IPython.display import HTML
+
+HTML("""<script>
+(function reset(n) {
+  var gd = document.querySelectorAll('.plotly-graph-div');
+  gd = gd[gd.length - 1];
+  if (!gd || !gd._transitionData || !window.Plotly) {
+    if (n < 40) { setTimeout(function(){ reset(n + 1); }, 150); }
+    return;
+  }
+  Plotly.animate(gd, ['initial position'],
+    {mode: 'immediate', frame: {duration: 0, redraw: true},
+     transition: {duration: 0}});
+  Plotly.relayout(gd, {'sliders[0].active': 0});
+})(0);
+</script>""")
+```
+
+If you trained for long enough you should see recognizable opening theory in
+those first few moves — the model has read thousands of games that start the
+same way, so it reproduces book lines before it starts improvising.
+
+## 🎒 Your turn
+
+The starter script (`capstone/chess_gpt.py` in the repo) takes flags so you can
+run these experiments without editing code:
+
+```bash
+python3 capstone/chess_gpt.py --tokens move --steps 3000
+python3 capstone/chess_gpt.py --tokens char --steps 3000
+ezpz launch python3 capstone/chess_gpt.py --steps 20000   # all GPUs in your job
+```
+
+Questions worth answering in your presentation:
+
+1. **Does the legal-move count keep climbing?** Train 10× longer. Does it
+   plateau, and if so at what?
+2. **More data or a bigger model?** Compare `--games 400` against `--games 4000`
+   at fixed model size, then the reverse. Which buys more legality per GPU-hour?
+3. **Where does it break?** Log the position at each first-illegal-move. Is it
+   castling? En passant? Deep middlegames where the board state has drifted far
+   from anything memorized?
+4. **Does it know openings, or memorize them?** Compare its first 10 moves
+   against a book. Try a rare first move and see if quality collapses.
+5. **Train on one player.** Morphy, Tal, Carlsen — do the openings shift the way
+   you would expect?
+
+::: {.callout-tip title="📊 What to put on the slide"}
+The two-panel plot above, with your own longer runs. It tells the whole story in
+one image: two curves that disagree about which model is better.
+:::

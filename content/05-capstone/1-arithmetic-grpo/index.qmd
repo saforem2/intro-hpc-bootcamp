@@ -1,0 +1,328 @@
+---
+title: "🧮 Arithmetic by RL: teaching a model to add"
+description: "Capstone starter: the [3.4] GRPO recipe where the entire reward is a one-line Python check — plus a live demonstration of diversity collapse."
+categories:
+  - ai
+  - llm
+  - rl
+  - capstone
+date: 2026-08-13
+date-modified: last-modified
+jupyter: python3
+---
+
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+:::
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/05-capstone/1-arithmetic-grpo/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/05-capstone/1-arithmetic-grpo/index.qmd)
+
+In [\[3.4\]](../../03-advanced-llms/4-rl-and-reasoning/) you trained a tiny GPT
+with **GRPO** and a verifiable reward: generate four digits, get 1.0 if they sum
+to 10. This page keeps the machinery and swaps the task for something with a
+right answer you can look up — addition — and then shows you two ways the whole
+thing goes wrong.
+
+Neither failure is a bug. Both are real phenomena that people hit when doing
+this at scale, and you can reproduce them here in about a minute.
+
+```{python}
+try:
+    import bootcamp  # noqa: F401
+    import ezpz  # noqa: F401
+except ImportError:
+    %pip install -q "git+https://github.com/saforem2/ezpz" \
+                    "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
+import random
+import time
+
+import ezpz
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+from bootcamp.plotly_theme import apply_theme, COLORS
+apply_theme()
+
+torch.manual_seed(0)
+DEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'
+print(f"device: {DEVICE}")
+```
+
+## 🎯 The task and the verifier
+
+The model sees `37+45=` and must emit the digits of the answer. That is the whole
+task. And this is the whole supervision signal:
+
+```{python}
+DIGITS = list("0123456789")
+SPECIAL = ["+", "-", "=", "|", "<eos>", "<pad>"]
+VOCAB = DIGITS + SPECIAL
+STOI = {t: i for i, t in enumerate(VOCAB)}
+ITOS = {i: t for t, i in STOI.items()}
+EOS, PAD = STOI["<eos>"], STOI["<pad>"]
+
+encode = lambda s: [STOI[c] for c in s]
+decode = lambda ids: "".join(ITOS[i] for i in ids if i != PAD)
+
+
+def make_problem(n_digits, rng):
+    lo, hi = 10 ** (n_digits - 1), 10 ** n_digits - 1
+    a, b = rng.randint(lo, hi), rng.randint(lo, hi)
+    return f"{a}+{b}=", a + b
+
+
+def reward_fn(generated: str, answer: int) -> float:
+    """THE ENTIRE SUPERVISION SIGNAL. No labels, no reward model -- just this."""
+    tail = generated.split("|")[-1].replace("<eos>", "").strip()
+    if not tail.isdigit():
+        return 0.0
+    return 1.0 if int(tail) == answer else 0.0
+
+
+print(reward_fn("82<eos>", 82), reward_fn("81<eos>", 82), reward_fn("xy", 82))
+```
+
+Notice what is *not* here: no dataset of worked examples, no human preferences,
+no separate reward model to train. Nine lines of Python decide everything the
+model learns. That is what "verifiable reward" means, and it is why RLVR is
+such a big deal for math and code — domains where a checker already exists.
+
+## 🤖 The policy and the GRPO loop
+
+Same shape as [\[3.4\]](../../03-advanced-llms/4-rl-and-reasoning/): sample a
+**group** of `K` completions per prompt, score them all, and use the group's own
+mean as the baseline. No value network.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the model + rollout code"
+class TinyGPT(nn.Module):
+    def __init__(self, vocab=len(VOCAB), d=128, heads=4, layers=3, block=48):
+        super().__init__()
+        self.block = block
+        self.tok = nn.Embedding(vocab, d)
+        self.pos = nn.Embedding(block, d)
+        self.blocks = nn.ModuleList([
+            nn.TransformerEncoderLayer(d, heads, 4 * d, batch_first=True,
+                                       norm_first=True, dropout=0.0)
+            for _ in range(layers)
+        ])
+        self.ln = nn.LayerNorm(d)
+        self.head = nn.Linear(d, vocab)
+
+    def forward(self, idx):
+        T = idx.size(1)
+        h = self.tok(idx) + self.pos(torch.arange(T, device=idx.device))
+        causal = torch.triu(torch.full((T, T), float("-inf"), device=idx.device), 1)
+        for b in self.blocks:
+            h = b(h, src_mask=causal)
+        return self.head(self.ln(h))
+
+
+def sample_group(model, prompt_ids, k, max_new, temp=1.0):
+    """k rollouts for one prompt, tracking log-prob and entropy of each."""
+    idx = torch.tensor([prompt_ids] * k, device=DEVICE)
+    logps = torch.zeros(k, device=DEVICE)
+    ents = torch.zeros(k, device=DEVICE)
+    done = torch.zeros(k, dtype=torch.bool, device=DEVICE)
+    for _ in range(max_new):
+        logits = model(idx[:, -model.block:])[:, -1, :] / temp
+        dist = torch.distributions.Categorical(logits=logits)
+        nxt = dist.sample()
+        logps = logps + dist.log_prob(nxt) * (~done)
+        ents = ents + dist.entropy() * (~done)
+        nxt = torch.where(done, torch.full_like(nxt, PAD), nxt)
+        idx = torch.cat([idx, nxt[:, None]], dim=1)
+        done = done | (nxt == EOS)
+        if done.all():
+            break
+    n = len(prompt_ids)
+    return [decode(row[n:].tolist()) for row in idx], logps, ents
+```
+
+## 🧊 Failure 1: the cold start
+
+Try two-digit addition directly. The answer can be any of ~180 numbers, and the
+model must produce the right digits *by chance* before it ever sees a reward.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the training loop"
+def train_grpo(digits=1, steps=250, K=16, prompts_per_step=8,
+               entropy_bonus=0.0, curriculum=False, lr=3e-4, eval_every=50):
+    torch.manual_seed(0)
+    model = TinyGPT().to(DEVICE)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr)
+    rng = random.Random(0)
+    max_new = digits + 2
+    cur = 1 if curriculum else digits
+    recent, hist = [], []
+
+    @torch.no_grad()
+    def evaluate(n=64, d=None):
+        model.eval()
+        hits, outs = 0, set()
+        er = random.Random(1234)
+        for _ in range(n):
+            p, a = make_problem(d or digits, er)
+            t, _, _ = sample_group(model, encode(p), 1, max_new, temp=0.7)
+            hits += reward_fn(t[0], a)
+            outs.add(t[0])
+        model.train()
+        return hits / n, len(outs)
+
+    for step in range(1, steps + 1):
+        total, step_r = 0.0, 0.0
+        for _ in range(prompts_per_step):
+            p, a = make_problem(cur, rng)
+            texts, logps, ents = sample_group(model, encode(p), K, max_new)
+            rewards = torch.tensor([reward_fn(t, a) for t in texts],
+                                   device=DEVICE, dtype=torch.float)
+            step_r += rewards.mean().item()
+            # group-relative advantage: the group's own mean is the baseline
+            adv = (rewards - rewards.mean()) / (rewards.std() + 1e-6)
+            total = total - (adv * logps).mean() - entropy_bonus * ents.mean()
+        opt.zero_grad(set_to_none=True)
+        (total / prompts_per_step).backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step()
+
+        recent = (recent + [step_r / prompts_per_step])[-20:]
+        if curriculum and cur < digits and len(recent) == 20 and sum(recent) / 20 > 0.6:
+            cur, recent = cur + 1, []
+
+        if step % eval_every == 0:
+            acc, distinct = evaluate(d=cur)
+            hist.append((step, step_r / prompts_per_step, acc, distinct, cur))
+    return model, hist
+
+
+t0 = time.time()
+cold, hist_cold = train_grpo(digits=2, steps=150, eval_every=50)
+print("2-digit, straight from scratch:")
+for s, r, a, d, c in hist_cold:
+    print(f"  step {s:3d} | reward {r:.3f} | accuracy {a:.3f}")
+print(f"  ({time.time()-t0:.0f}s)")
+```
+
+::: {.callout-warning title="❄️ Nothing happens"}
+The reward stays at essentially zero, so the advantage is zero, so the gradient
+is zero. **The model cannot learn from a reward it never receives.**
+
+This is not a tuning problem you can fix with a bigger learning rate. RL needs a
+*reachable* reward — some non-trivial fraction of random rollouts must succeed
+for there to be any signal at all. It is exactly why real RLVR pipelines start
+from a model that has already been pretrained and instruction-tuned, rather than
+from noise.
+
+The cheap fix here is a **curriculum**: start with single digits, where random
+guessing hits ~10% of the time, and promote only once the model is reliable.
+:::
+
+## 📉 Failure 2: diversity collapse
+
+Now with the curriculum, so the model does learn. Watch a second number: how
+many **distinct** outputs it produces across 64 different questions.
+
+```{python}
+t0 = time.time()
+plain, hist_plain = train_grpo(digits=2, steps=250, curriculum=True, entropy_bonus=0.0)
+bonus, hist_bonus = train_grpo(digits=2, steps=250, curriculum=True, entropy_bonus=0.02)
+print(f"({time.time()-t0:.0f}s for both runs)")
+
+for name, h in (("plain GRPO", hist_plain), ("+ entropy bonus", hist_bonus)):
+    s, r, a, d, c = h[-1]
+    print(f"{name:>16}: reward {r:.3f} | accuracy {a:.3f} | distinct outputs {d}")
+```
+
+```{python}
+#| label: fig-grpo-collapse
+#| fig-cap: "Left: accuracy on held-out problems. Right: how many distinct answers the model produces across 64 different questions. Without an entropy bonus the policy narrows to a handful of outputs it repeats regardless of the question."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("accuracy (higher = better)",
+                                    "distinct outputs (collapse = bad)"))
+for name, h, color in (("plain GRPO", hist_plain, COLORS["red"]),
+                       ("+ entropy bonus", hist_bonus, COLORS["blue"])):
+    steps = [s for s, *_ in h]
+    fig.add_scatter(x=steps, y=[a for _, _, a, _, _ in h], name=name,
+                    mode="lines+markers", line=dict(color=color, width=2),
+                    legendgroup=name, row=1, col=1)
+    fig.add_scatter(x=steps, y=[d for _, _, _, d, _ in h], name=name,
+                    mode="lines+markers", line=dict(color=color, width=2),
+                    legendgroup=name, showlegend=False, row=1, col=2)
+fig.update_xaxes(title="training step")
+fig.update_layout(height=400, margin=dict(t=60))
+fig.show()
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the sampling code"
+er = random.Random(7)
+probs = [make_problem(1, er) for _ in range(6)]
+print(f"{'problem':<10} {'plain GRPO':<16} {'+ entropy bonus'}")
+print("-" * 46)
+for p, a in probs:
+    tp, _, _ = sample_group(plain, encode(p), 1, 3, temp=0.7)
+    tb, _, _ = sample_group(bonus, encode(p), 1, 3, temp=0.7)
+    print(f"{p + str(a):<10} {tp[0]:<16} {tb[0]}")
+```
+
+::: {.callout-important title="🎰 Reward hacking, on a 0.6M-parameter model"}
+Plain GRPO finds *one* output that scores occasionally and then stops exploring.
+Look at the table above: it gives the **same answer to every question**, because
+that answer is right often enough to beat the group average and the gradient
+never pushes it to look further. Which constant it settles on depends on the
+seed — what is reliable is that distinct outputs collapse toward 1.
+
+Adding a small **entropy bonus** to the objective —
+
+$$
+\mathcal{L} = -\mathbb{E}\left[A \cdot \log \pi\right] \;-\; \beta\,\mathcal{H}[\pi]
+$$
+
+— pays the policy to stay uncertain, so it keeps exploring long enough to find
+answers that actually depend on the question. This is the same effect you saw in
+[\[3.4\]](../../03-advanced-llms/4-rl-and-reasoning/), and the same reason
+production RLHF keeps a KL penalty to a frozen reference model.
+:::
+
+## 🎒 Your turn
+
+The starter script takes flags, so you can run these without editing code:
+
+```bash
+python3 capstone/arithmetic_grpo.py --digits 1 --steps 300
+python3 capstone/arithmetic_grpo.py --curriculum --digits 2 --steps 500
+python3 capstone/arithmetic_grpo.py --curriculum --digits 2 --steps 500 --entropy-bonus 0.02
+```
+
+Directions worth taking:
+
+1. **Sweep the entropy bonus** (0, 0.01, 0.02, 0.05, 0.1) and plot accuracy
+   *and* diversity against it. Too little and it collapses; too much and it never
+   commits to an answer. Find the knee and explain it.
+2. **Does a scratchpad help?** `--scratchpad` lets the model emit working before
+   its answer. Does "thinking out loud" let it reach 3-digit problems that direct
+   answering cannot?
+3. **Group size `K`.** GRPO's baseline is the group mean, so `K` controls how
+   noisy the advantage is. Compare `K = 4, 16, 64` at fixed total rollouts.
+4. **Change the task, keep the loop.** This is the real payoff of verifiable
+   rewards — only `reward_fn` changes:
+   - **strict JSON**: reward = `json.loads()` succeeds *and* has the right keys
+   - **sorting**: reward = the output list is sorted
+   - **the 24 game**: reward = the expression evaluates to 24
+
+::: {.callout-tip title="📊 What to put on the slide"}
+The two-panel plot above. It shows something genuinely counterintuitive: a model
+getting *better* at its reward while getting *worse* as a system. That is reward
+hacking in miniature, and you produced it yourself.
+:::

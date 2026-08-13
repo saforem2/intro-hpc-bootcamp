@@ -4517,6 +4517,29 @@ return Plotly;
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../05-capstone/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5] Capstone Projects</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/0-chess-gpt/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.0] Chess GPT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/1-arithmetic-grpo/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.1] Arithmetic by RL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -4648,7 +4671,7 @@ return Plotly;
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="bu">source</span> <span class="op">&lt;(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://bit.ly/ezpz-utils<span class="op">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">ezpz_setup_env</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a><span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The single most useful thing <code>ezpz</code> does is collapse all of PyTorch’s distributed boilerplate into <strong>one call</strong>. On a real (multi-GPU) run your script starts like this:</p>
-<div id="4f00c3ee" class="cell" data-execution_count="1">
+<div id="4f00c3ee" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co"># `bootcamp` (this repo's plotly/matplotlib theming) and `ezpz` (the distributed</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="co"># helpers) are both installed from GitHub, not PyPI, so Colab and site-provided</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="co"># HPC kernels have neither and later cells raise ModuleNotFoundError.</span></span>
@@ -4660,7 +4683,7 @@ return Plotly;
 <span id="cb2-9"><a href="#cb2-9" aria-label="9"></a>    <span class="op">%</span>pip install <span class="op">-</span>q <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="op">\</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-label="10"></a>                    <span class="st">"git+https://github.com/saforem2/intro-hpc-bootcamp"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d5ca4867" class="cell" data-execution_count="2">
+<div id="d5ca4867" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="im">import</span> ezpz</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a>rank <span class="op">=</span> ezpz.setup_torch(seed<span class="op">=</span><span class="dv">1234</span>)   <span class="co"># discovers rank/world/device/backend, inits process group</span></span>
@@ -4689,7 +4712,7 @@ return Plotly;
 </div>
 </div>
 <p>For this page we build a <strong>tiny</strong> version that actually runs here on CPU, so we import the plumbing and pick a device directly (on a cluster you’d use <code>ezpz.setup_torch()</code> above instead):</p>
-<div id="202c0e0a" class="cell" data-execution_count="3">
+<div id="202c0e0a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="im">import</span> os</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>os.environ[<span class="st">"WANDB_DISABLED"</span>] <span class="op">=</span> <span class="st">"1"</span>   <span class="co"># keep the tutorial offline</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>os.environ[<span class="st">"WANDB_MODE"</span>] <span class="op">=</span> <span class="st">"disabled"</span></span>
@@ -4720,7 +4743,7 @@ return Plotly;
 <section id="the-data-tiny-shakespeare" class="level2">
 <h2 class="anchored" data-anchor-id="the-data-tiny-shakespeare">📖 The Data: tiny-Shakespeare</h2>
 <p>We train a <strong>character-level</strong> model: the vocabulary is just the set of unique characters in the text, and the model predicts the next character.</p>
-<div id="511ddbd8" class="cell" data-execution_count="4">
+<div id="511ddbd8" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
@@ -4747,7 +4770,7 @@ return Plotly;
 </div>
 </div>
 <p>Build the char↔︎int mappings and encode the whole corpus, then split 90/10:</p>
-<div id="af3e61dd" class="cell" data-execution_count="5">
+<div id="af3e61dd" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>stoi <span class="op">=</span> {c: i <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>itos <span class="op">=</span> {i: c <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>encode <span class="op">=</span> <span class="kw">lambda</span> s: [stoi[c] <span class="cf">for</span> c <span class="kw">in</span> s]              <span class="co"># str -&gt; list[int]</span></span>
@@ -4768,7 +4791,7 @@ return Plotly;
 <section id="the-model-a-small-gpt" class="level2">
 <h2 class="anchored" data-anchor-id="the-model-a-small-gpt">🧱 The Model: a small GPT</h2>
 <p>A compact decoder-only Transformer: the same architecture as the <code>wordplay</code> model, written inline. (For the <em>why</em> behind attention, see <a href="../../02-llms/0-intro-to-llms/index.html">Intro to LLMs</a>.)</p>
-<div id="d7bc7163" class="cell" data-execution_count="6">
+<div id="d7bc7163" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-label="1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb8-2"><a href="#cb8-2" aria-label="2"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-label="3"></a><span class="at">@dataclass</span></span>
@@ -4849,7 +4872,7 @@ return Plotly;
 <section id="going-distributed-with-ezpz" class="level2">
 <h2 class="anchored" data-anchor-id="going-distributed-with-ezpz">⚡ Going distributed with <code>ezpz</code></h2>
 <p>On multiple GPUs, wrapping the model for <strong>Distributed Data Parallel</strong> is where <code>ezpz</code> shines, but the beauty is that the <em>training loop below doesn’t change</em>. On a cluster you’d add:</p>
-<div id="dbf91de0" class="cell" data-execution_count="7">
+<div id="dbf91de0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="co"># after `model = GPT(cfg).to(device)` on a real multi-GPU run:</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-label="2"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
 <span id="cb9-3"><a href="#cb9-3" aria-label="3"></a></span>
@@ -4912,7 +4935,7 @@ Table&nbsp;1: Training metrics legend
 </div>
 </figure>
 </div>
-<div id="6e716512" class="cell" data-execution_count="8">
+<div id="6e716512" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-label="1"></a><span class="co"># The config scales with the hardware: a real GPT on a GPU, a tiny fast one on a</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-label="2"></a><span class="co"># CPU build. On a GPU node (this page was rendered on a Polaris A100) you get a</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-label="3"></a><span class="co"># genuine ~1000-step run that produces Shakespeare-like text; a laptop build runs</span></span>
@@ -4947,7 +4970,7 @@ Table&nbsp;1: Training metrics legend
 </div>
 </div>
 </div>
-<div id="03fb0cb7" class="cell" data-execution_count="9">
+<div id="03fb0cb7" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>history <span class="op">=</span> ezpz.History()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-label="2"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-label="3"></a>model.train()</span>
@@ -5000,7 +5023,7 @@ Table&nbsp;1: Training metrics legend
 <section id="generating-text" class="level2">
 <h2 class="anchored" data-anchor-id="generating-text">💬 Generating Text</h2>
 <p>The <code>generate()</code> method samples one character at a time. Let’s compare <strong>before</strong> and <strong>after</strong> training. A few dozen CPU steps won’t produce Shakespeare, but the shift from pure noise toward text-like structure is already visible (train for 1000+ steps on a GPU for the real thing):</p>
-<div id="ffb129ad" class="cell" data-execution_count="10">
+<div id="ffb129ad" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a>prompt <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>ctx <span class="op">=</span> torch.tensor([encode(prompt)], dtype<span class="op">=</span>torch.<span class="bu">long</span>, device<span class="op">=</span>device)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-label="3"></a>sample <span class="op">=</span> decode(model.generate(ctx, max_new_tokens<span class="op">=</span><span class="dv">200</span>, temperature<span class="op">=</span><span class="fl">0.8</span>, top_k<span class="op">=</span><span class="dv">16</span>)[<span class="dv">0</span>].tolist())</span>
@@ -5024,7 +5047,7 @@ The wo and ind t sy ter toforlllllin bers ss ages mine and hal mer,r to indis le
 <section id="plots-report-for-free" class="level2">
 <h2 class="anchored" data-anchor-id="plots-report-for-free">📊 Plots &amp; Report, for free</h2>
 <p><code>ezpz.History</code> can turn the metrics you logged into plots and a report with a single call. It writes loss curves (matplotlib <strong>and</strong> terminal plots), an <code>xarray</code> dataset, and a <code>report.md</code>:</p>
-<div id="df46970c" class="cell" data-execution_count="11">
+<div id="df46970c" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="im">import</span> io</span>
 <span id="cb13-2"><a href="#cb13-2" aria-label="2"></a><span class="im">import</span> contextlib</span>
 <span id="cb13-3"><a href="#cb13-3" aria-label="3"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -5052,7 +5075,7 @@ invalid value encountered in cast
 </div>
 </div>
 <p><code>finalize()</code> also saves each metric as a PNG, a <code>report.md</code>, and an <code>xarray</code> dataset. The per-step numbers live in <code>history.data</code> (a dict of lists), so we can plot the four headline metrics ourselves: <strong>loss</strong> (is it learning?), <strong>mfu</strong> (how well are we using the hardware?), and <strong>sps</strong> / <strong>mtps</strong> (throughput):</p>
-<div id="cell-fig-ezpz-metrics" class="cell" data-execution_count="12">
+<div id="cell-fig-ezpz-metrics" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the plotting code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>

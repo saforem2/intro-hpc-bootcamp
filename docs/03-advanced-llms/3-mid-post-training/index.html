@@ -677,6 +677,29 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../05-capstone/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5] Capstone Projects</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/0-chess-gpt/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.0] Chess GPT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-capstone/1-arithmetic-grpo/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.1] Arithmetic by RL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -964,7 +987,7 @@ Figure&nbsp;1: The LLM lifecycle. Each stage uses <strong>less data</strong> but
 </section>
 <section id="b-supervised-fine-tuning-sft-with-a-chat-template" class="level3">
 <h3 class="anchored" data-anchor-id="b-supervised-fine-tuning-sft-with-a-chat-template">(b) Supervised fine-tuning (SFT) with a chat template</h3>
-<p>SFT teaches the base model to follow instructions. The data is a list of <strong>(prompt, completion)</strong> pairs — most commonly expressed as a <code>messages</code> list of <code>{"role", "content"}</code> turns. Before training, every conversation is rendered into a single string with <strong>special tokens</strong> that mark turn boundaries. That rendering is the job of <code>tokenizer.apply_chat_template</code>.</p>
+<p>SFT teaches the base model to follow instructions. The data is a list of <strong>(prompt, completion)</strong> pairs, most commonly expressed as a <code>messages</code> list of <code>{"role", "content"}</code> turns. Before training, every conversation is rendered into a single string with <strong>special tokens</strong> that mark turn boundaries. That rendering is the job of <code>tokenizer.apply_chat_template</code>.</p>
 <p><code>gpt2</code> ships without a chat template, so we attach a minimal <a href="https://huggingface.co/docs/transformers/main/en/chat_templating">ChatML</a>-style one to see the mechanics. Real chat models (Qwen, OLMo 2, Llama-3-Instruct) ship their template inside <code>tokenizer_config.json</code>:</p>
 <div id="90816a79" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
