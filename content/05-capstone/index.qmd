@@ -1,6 +1,6 @@
 ---
 title: "🎓 Capstone Projects"
-description: "Two self-contained projects that build on the bootcamp material and produce a real, objective number to present."
+description: "Three self-contained projects that build on the bootcamp material and produce a real, objective number to present."
 categories:
   - ai
   - hpc
@@ -12,7 +12,7 @@ date-modified: last-modified
 Everything up to here was a guided tour. These are the projects where **you**
 drive: pick one, run it, break it, and present what you found.
 
-Both were chosen for the same reason — they produce an **objective metric**, not
+All three were chosen for the same reason — they produce an **objective metric**, not
 a vibe check. "Does this sound Shakespearean?" is a matter of taste; "how many
 moves before it plays something illegal?" is a number a referee computes for
 you, and it either goes up or it does not.
@@ -25,11 +25,11 @@ Not "we ran the code and it worked." The interesting talks are the ones with a
 2. Two curves on that plot, differing by *one* decision you made.
 3. An honest account of what you expected and what actually happened.
 
-Both starters below already contain a built-in surprise. Reproduce it first,
+All three starters below already contain a built-in surprise. Reproduce it first,
 then go find your own.
 :::
 
-## The two starters
+## The three starters
 
 - 🏆 **[\[5.0\] Chess GPT](./0-chess-gpt/)** — train the
   [\[2.3\]](../02-llms/3-shakespeare-ezpz/) model from scratch on real
@@ -43,8 +43,15 @@ then go find your own.
   collapse**: the policy learns to give the *same* answer to every question, and one extra
   term brings it back.
 
-Both run in a few minutes on a laptop CPU, and both scale to many GPUs with
-`ezpz launch` and no code changes.
+- 🗣️ **[\[5.2\] Fine-tuning on slang](./2-slang-finetune/)** — the other two train
+  from scratch; this one fine-tunes a **real pretrained open model**
+  (`SmolLM2-135M-Instruct`) on a
+  [Gen Z slang dataset](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset).
+  The built-in surprise is what fine-tuning actually buys you: the loss more than
+  halves, and the model still does not know what the words mean.
+
+All three run in a few minutes on a laptop CPU, and all three scale to many GPUs
+with `ezpz launch` and no code changes.
 
 ## Getting the code
 

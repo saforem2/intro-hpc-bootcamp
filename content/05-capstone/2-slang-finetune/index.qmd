@@ -1,0 +1,457 @@
+---
+title: "🗣️ Fine-tuning an open LLM on Gen Z slang"
+description: "Capstone starter: SFT a real pretrained instruct model on a 1,779-row slang dataset — and find out what fine-tuning actually changes."
+categories:
+  - ai
+  - llm
+  - capstone
+date: 2026-08-13
+date-modified: last-modified
+jupyter: python3
+---
+
+::: {.callout-note title="Authors" collapse="false"}
+Written by [Sam Foreman](https://samforeman.me) for the [Intro to HPC Bootcamp](https://intro-hpc-bootcamp.alcf.anl.gov/).
+:::
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp/blob/main/docs/05-capstone/2-slang-finetune/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp/blob/main/content/05-capstone/2-slang-finetune/index.qmd)
+
+The other two capstones train a model **from scratch**. This one does the thing
+you are far more likely to do in practice: take a model somebody else already
+spent a fortune pretraining, and **fine-tune it on your data**.
+
+[\[3.3\]](../../03-advanced-llms/3-mid-post-training/) showed you the mechanics of
+SFT — chat templates, and the `-100` mask that puts the loss only on the
+assistant's tokens. Here we run the whole thing end to end on a real open model
+and a real dataset, and then ask the question people usually skip:
+
+> The loss went down. **What actually changed?**
+
+The answer on this dataset is genuinely interesting, and it is not "the model
+learned Gen Z slang."
+
+```{python}
+try:
+    import bootcamp  # noqa: F401
+    import ezpz  # noqa: F401
+    import transformers  # noqa: F401
+except ImportError:
+    %pip install -q "transformers>=4.40" \
+                    "git+https://github.com/saforem2/ezpz" \
+                    "git+https://github.com/saforem2/intro-hpc-bootcamp"
+```
+
+```{python}
+import time
+
+import ezpz
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import torch
+from plotly.subplots import make_subplots
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from bootcamp.plotly_theme import apply_theme, COLORS
+
+apply_theme()
+torch.manual_seed(0)
+
+MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
+DEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'
+print(f"device: {DEVICE}")
+```
+
+## 📖 The data
+
+[`MLBtrio/genz-slang-dataset`](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset)
+is 1,779 rows and four columns: the **Slang** term, a short **Description**, an
+**Example** sentence, and the social **Context**. It is a single CSV, so we can
+skip the `datasets` library entirely and just read it with pandas.
+
+```{python}
+URL = ("https://huggingface.co/datasets/MLBtrio/genz-slang-dataset/"
+       "resolve/main/all_slangs.csv")
+df = pd.read_csv(URL)
+df["key"] = df["Slang"].astype(str).str.strip().str.lower()
+
+print(f"{len(df)} rows, {df['key'].nunique()} unique terms\n")
+for _, r in df.head(3).iterrows():
+    print(f"  {r.Slang!r:12s} -> {r.Description}")
+    print(f"  {'':12s}    e.g. {r.Example}\n")
+```
+
+::: {.callout-warning title="⚠️ Read the dataset card before you trust the labels"}
+The card says the `Example` and `Context` columns were added by "scraping
+publicly available websites and using generative AI." So part of your ground
+truth is **model-generated**, which means some of it is wrong, and a model that
+scores well against it may just be agreeing with whatever model wrote it. No
+license is listed either.
+
+None of that makes the dataset useless — it makes it *normal*. Almost every
+real dataset has provenance problems like this. Knowing them is the job.
+:::
+
+## 🚨 The split that quietly lies to you
+
+Here is the first thing to check on any dataset, and the reason to check it is
+sitting in plain sight: there are 1,779 rows but only 1,571 unique terms. **170
+terms appear more than once** — `lol` appears five times.
+
+If you shuffle rows and take the last 15% as your test set, some of those
+duplicate terms land on *both* sides. The model sees `lol` in training and then
+gets graded on `lol` at test time. Your number goes up and your model did not
+get better.
+
+```{python}
+def split(kind, frac=0.85, seed=0):
+    """`random` shuffles ROWS (leaky). `grouped` shuffles TERMS (honest)."""
+    rng = np.random.default_rng(seed)
+    if kind == "random":
+        idx = rng.permutation(len(df))
+        cut = int(frac * len(df))
+        return df.iloc[idx[:cut]], df.iloc[idx[cut:]]
+    keys = df["key"].unique().copy()
+    rng.shuffle(keys)
+    keep = set(keys[:int(frac * len(keys))])
+    return df[df["key"].isin(keep)], df[~df["key"].isin(keep)]
+
+
+for kind in ("random", "grouped"):
+    tr, te = split(kind)
+    leak = te["key"].isin(set(tr["key"])).mean()
+    print(f"  {kind:8s} train={len(tr):5d} test={len(te):4d} "
+          f"| {leak:.1%} of test terms also appear in train")
+```
+
+One in five test terms is contaminated under the naive split. We will train on
+the **grouped** split, where that number is exactly zero.
+
+```{python}
+train_df, test_df = split("grouped")
+train_rows, test_rows = list(train_df.itertuples()), list(test_df.itertuples())
+EVAL = test_rows[:80]      # fixed held-out slice, used for every number below
+```
+
+## 🧩 Prompt format and the `-100` mask
+
+`SmolLM2-135M-Instruct` is an *instruct* model, so it already ships a chat
+template — unlike the bare `gpt2` in [\[3.3\]](../../03-advanced-llms/3-mid-post-training/),
+we do not have to invent one. Each row becomes a one-turn conversation whose
+assistant reply is the gloss.
+
+```{python}
+tok = AutoTokenizer.from_pretrained(MODEL)
+
+
+def render(row, with_answer=True):
+    msgs = [{"role": "user",
+             "content": f'What does the slang term "{row.Slang}" mean?'}]
+    prompt = tok.apply_chat_template(msgs, tokenize=False,
+                                     add_generation_prompt=True)
+    if not with_answer:
+        return prompt
+    return prompt + f"{str(row.Description).strip()}{tok.eos_token}"
+
+
+print(render(train_rows[0]))
+```
+
+Now the part that makes it SFT rather than plain language modelling: label the
+prompt tokens `-100` so the loss ignores them. The model is graded only on the
+gloss it was supposed to produce.
+
+```{python}
+def encode(row, maxlen=128):
+    prompt_ids = tok(render(row, False), add_special_tokens=False).input_ids
+    full = tok(render(row, True), add_special_tokens=False).input_ids[:maxlen]
+    labels = list(full)
+    for i in range(min(len(prompt_ids), len(labels))):
+        labels[i] = -100          # <- the whole trick
+    return full, labels
+
+
+ids, labels = encode(train_rows[0])
+kept = [tok.decode([i]) for i, la in zip(ids, labels) if la != -100]
+print(f"{len(ids)} tokens total, loss computed on {len(kept)} of them")
+print("  scored text:", repr("".join(kept)))
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the batching / evaluation helpers"
+def batches(rows, bs):
+    """Pad to the longest sequence in each batch; -100 pads the labels."""
+    for i in range(0, len(rows), bs):
+        chunk = [encode(r) for r in rows[i:i + bs]]
+        n = max(len(a) for a, _ in chunk)
+        ids = torch.full((len(chunk), n), tok.pad_token_id)
+        lab = torch.full((len(chunk), n), -100)
+        att = torch.zeros((len(chunk), n), dtype=torch.long)
+        for j, (a, b) in enumerate(chunk):
+            ids[j, :len(a)] = torch.tensor(a)
+            lab[j, :len(b)] = torch.tensor(b)
+            att[j, :len(a)] = 1
+        yield ids.to(DEVICE), lab.to(DEVICE), att.to(DEVICE)
+
+
+@torch.no_grad()
+def held_out_loss(model, rows, bs=8):
+    model.eval()
+    total, n = 0.0, 0
+    for ids, lab, att in batches(rows, bs):
+        total += model(input_ids=ids, attention_mask=att, labels=lab).loss.item() * len(ids)
+        n += len(ids)
+    return total / n
+
+
+@torch.no_grad()
+def generate(model, rows, max_new_tokens=24):
+    model.eval()
+    outs = []
+    for r in rows:
+        enc = tok(render(r, False), return_tensors="pt").to(DEVICE)
+        g = model.generate(**enc, max_new_tokens=max_new_tokens, do_sample=False,
+                           pad_token_id=tok.pad_token_id)
+        outs.append(tok.decode(g[0][enc.input_ids.shape[1]:],
+                               skip_special_tokens=True).strip())
+    return outs
+```
+
+## 📏 A second metric, because loss is not the point
+
+The chess capstone's lesson was that **your loss curve is not your metric**. So
+before training, let us define something that measures whether the answer is
+*right*, not just whether it is likely: what fraction of the gold gloss's
+content words show up in the generated answer?
+
+```{python}
+STOP = set("a an the of to is are be been being or and for in on with that this "
+           "it its as someone something used describe describing refers term "
+           "slang when who very you your".split())
+
+
+def content_words(s):
+    return {w for w in "".join(c.lower() if c.isalnum() else " "
+                               for c in str(s)).split()
+            if w and w not in STOP and len(w) > 2}
+
+
+def overlap(generations, rows):
+    """Mean fraction of the gold gloss's content words present in the output."""
+    vals = [len(g & content_words(gen)) / len(g)
+            for gen, r in zip(generations, rows)
+            if (g := content_words(r.Description))]
+    return float(np.mean(vals))
+```
+
+It is a crude metric. Check that it discriminates at all before relying on it —
+a scorer that gives everything the same number tells you nothing:
+
+```{python}
+gold = [str(r.Description) for r in EVAL]
+shuffled = gold[1:] + gold[:1]          # every gloss paired with the WRONG term
+print(f"  gloss vs itself        : {overlap(gold, EVAL):.3f}")
+print(f"  gloss vs a random gloss: {overlap(shuffled, EVAL):.3f}")
+```
+
+## 📊 Before: what the base model already does
+
+```{python}
+model = AutoModelForCausalLM.from_pretrained(MODEL).to(DEVICE)
+n_params = sum(p.numel() for p in model.parameters())
+
+t0 = time.time()
+base_loss = held_out_loss(model, EVAL)
+base_gen = generate(model, EVAL)
+base_overlap = overlap(base_gen, EVAL)
+base_len = float(np.mean([len(g.split()) for g in base_gen]))
+print(f"{MODEL}  ({n_params/1e6:.0f}M params)")
+print(f"  held-out loss    {base_loss:.3f}")
+print(f"  content overlap  {base_overlap:.3f}")
+print(f"  avg answer words {base_len:.1f}   ({time.time()-t0:.0f}s)")
+```
+
+## 🔧 Fine-tune
+
+One epoch of plain AdamW over ~1,500 examples. No LoRA, no TRL — at 135M
+parameters a full fine-tune fits comfortably, and the point here is that you can
+see every line of it.
+
+```{python}
+opt = torch.optim.AdamW(model.parameters(), lr=3e-5)
+order = np.random.default_rng(1).permutation(len(train_rows))
+
+t0, step, curve = time.time(), 0, []
+model.train()
+for ids, lab, att in batches([train_rows[i] for i in order], 8):
+    loss = model(input_ids=ids, attention_mask=att, labels=lab).loss
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    opt.step()
+    opt.zero_grad()
+    step += 1
+    curve.append(loss.item())
+print(f"{step} steps in {time.time()-t0:.0f}s on {DEVICE}")
+```
+
+```{python}
+ft_loss = held_out_loss(model, EVAL)
+ft_gen = generate(model, EVAL)
+ft_overlap = overlap(ft_gen, EVAL)
+ft_len = float(np.mean([len(g.split()) for g in ft_gen]))
+
+print(f"{'':16s} {'base':>8s} {'fine-tuned':>12s}")
+print(f"{'held-out loss':16s} {base_loss:8.3f} {ft_loss:12.3f}")
+print(f"{'content overlap':16s} {base_overlap:8.3f} {ft_overlap:12.3f}")
+print(f"{'avg words':16s} {base_len:8.1f} {ft_len:12.1f}")
+```
+
+```{python}
+#| label: fig-slang-finetune
+#| fig-cap: "Left: the training loss. Right: the three held-out measurements before and after, each scaled against the larger of its two bars (the real values are printed on top). The loss falls by more than half and the answers get much shorter; whether they get *more correct* is the question worth arguing about."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+fig = make_subplots(rows=1, cols=2, column_widths=[0.58, 0.42],
+                    subplot_titles=("training loss", "held-out, before vs after"))
+fig.add_scatter(x=list(range(1, len(curve) + 1)), y=curve, mode="lines",
+                line=dict(color=COLORS["blue"], width=1.5),
+                name="train loss", row=1, col=1)
+k = 15
+if len(curve) >= k:
+    sm = np.convolve(curve, np.ones(k) / k, mode="valid")
+    fig.add_scatter(x=list(range(k, len(curve) + 1)), y=sm, mode="lines",
+                    line=dict(color=COLORS["red"], width=2.5),
+                    name=f"{k}-step mean", row=1, col=1)
+# The three quantities have different units, so plot each as a fraction of the
+# larger of the two bars and print the real value on the bar.
+cats = ["held-out loss", "content overlap", "answer length"]
+pairs = [(base_loss, ft_loss), (base_overlap, ft_overlap), (base_len, ft_len)]
+fmt = ["{:.2f}", "{:.3f}", "{:.1f}w"]
+for name, pick, color in (("base", 0, COLORS["red"]), ("fine-tuned", 1, COLORS["blue"])):
+    fig.add_bar(x=cats,
+                y=[p[pick] / max(p) for p in pairs],
+                text=[f.format(p[pick]) for f, p in zip(fmt, pairs)],
+                textposition="outside", name=name, marker_color=color,
+                row=1, col=2)
+fig.update_xaxes(title="step", row=1, col=1)
+fig.update_yaxes(title="loss", row=1, col=1)
+fig.update_yaxes(title="relative to the larger bar", range=[0, 1.25], row=1, col=2)
+fig.update_layout(height=400, margin=dict(t=60), barmode="group")
+fig.show()
+```
+
+## 🤯 What actually changed
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the comparison code"
+for r, b, f in list(zip(EVAL, base_gen, ft_gen))[:6]:
+    print(f"{r.Slang!r}  (gold: {str(r.Description)[:52]})")
+    print(f"   base: {b[:88]}")
+    print(f"   ft  : {f[:88]}\n")
+```
+
+::: {.callout-important title="🎯 It learned the format, not the facts"}
+Look at the two columns. The base model answers every question with the same
+hedging boilerplate — *"The slang term X is a colloquialism that refers to..."* —
+and rambles for ~18 words. After fine-tuning it answers in ~5 words, in the
+clipped register of the dataset. That is a big, obvious change, and it is why
+the loss more than halved.
+
+Now read the answers. On terms it has never seen, they are still frequently
+**wrong** — confidently, fluently wrong. Content overlap with the gold gloss
+barely moves.
+
+That is the lesson, and it generalizes far beyond slang:
+
+> **SFT on a small dataset teaches style and format, not new knowledge.**
+
+One epoch over 1,500 short examples cannot install facts the pretrained model
+never saw. It *can* teach it how to answer, in what voice, at what length. Those
+are different things, and the loss curve cannot tell them apart. If you need the
+model to know new facts, you need much more data, much longer training, or you
+need to stop fine-tuning and start *retrieving* — which is exactly what
+[\[2.9\] RAG](../../02-llms/09-rag-tutorial/) is for.
+:::
+
+## 🔬 Proving the leaky split inflates the score
+
+Earlier we picked the grouped split on principle. Now let us pay for a second
+training run and show it was not just principle — retrain on the **random**
+split and score the leaked and clean test terms separately.
+
+```{python}
+lk_train, lk_test = split("random")
+lk_train_rows = list(lk_train.itertuples())
+seen_keys = set(lk_train["key"])
+seen = [r for r in lk_test.itertuples() if r.key in seen_keys][:60]
+unseen = [r for r in lk_test.itertuples() if r.key not in seen_keys][:60]
+
+leaky = AutoModelForCausalLM.from_pretrained(MODEL).to(DEVICE)
+opt2 = torch.optim.AdamW(leaky.parameters(), lr=3e-5)
+order2 = np.random.default_rng(1).permutation(len(lk_train_rows))
+leaky.train()
+for ids, lab, att in batches([lk_train_rows[i] for i in order2], 8):
+    leaky(input_ids=ids, attention_mask=att, labels=lab).loss.backward()
+    torch.nn.utils.clip_grad_norm_(leaky.parameters(), 1.0)
+    opt2.step()
+    opt2.zero_grad()
+
+print(f"  loss on test terms SEEN in training : {held_out_loss(leaky, seen):.3f}")
+print(f"  loss on test terms NOT seen         : {held_out_loss(leaky, unseen):.3f}")
+```
+
+The gap between those two numbers is the size of the lie. Every leaked term
+drags the headline metric toward the easier number, and nothing in your training
+logs will warn you.
+
+## 🎒 Your turn
+
+1. **Change what you predict.** We trained on `Description`. Train on `Example`
+   instead so the model *uses* the slang in a sentence rather than defining it.
+   Which is a better demo? Which is easier to score?
+2. **Does more data fix the facts?** The claim above is that 1,500 examples
+   teach style, not knowledge. Test it: train on 10%, 25%, 50%, 100% of the data
+   and plot content overlap against dataset size. Does it trend up, or is it
+   flat?
+3. **Beat the fine-tune with retrieval.** Put the gold gloss for the test term
+   into the prompt and let the *base* model answer. If that crushes your
+   fine-tuned model — and it will — you have demonstrated the single most
+   practical result in this bootcamp.
+4. **Try a bigger base.** `SmolLM2-360M-Instruct`, or `Qwen/Qwen2.5-0.5B-Instruct`
+   from [\[3.3\]](../../03-advanced-llms/3-mid-post-training/). Does the larger
+   model already know more slang before you touch it?
+5. **Catastrophic forgetting.** Ask the fine-tuned model something unrelated
+   ("What is the capital of France?"). Fine-tuning on one narrow, terse dataset
+   often wrecks general ability. Measure how much.
+
+::: {.callout-tip title="📊 What to put on the slide"}
+The before/after table plus three or four real generations. The strongest
+version of this talk states the uncomfortable result out loud: *"our loss
+improved by 54% and our model still does not know what 'cheugy' means."*
+Then show the retrieval baseline beating it.
+:::
+
+## 🚀 Scaling up
+
+Nothing here needs a GPU, but everything here is faster with one, and the same
+script scales without modification:
+
+```bash
+# one node, all its GPUs
+ezpz launch python3 slang_finetune.py --epochs 3 --model HuggingFaceTB/SmolLM2-360M-Instruct
+```
+
+`DEVICE` comes from `ezpz.get_torch_device_type()`, so the same code picks up
+`cuda` on Polaris/Perlmutter, `xpu` on Aurora, `mps` on a Mac, and CPU
+everywhere else. See
+[\[3.1\] Pretraining at Scale](../../03-advanced-llms/1-pretraining-at-scale/)
+for how to turn this single-process loop into a distributed one.
+
+## 📚 References
+
+- [`MLBtrio/genz-slang-dataset`](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset)
+- [`HuggingFaceTB/SmolLM2-135M-Instruct`](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct)
+- [Chat templating](https://huggingface.co/docs/transformers/main/en/chat_templating)
+- [\[3.3\] Mid- and Post-Training](../../03-advanced-llms/3-mid-post-training/) — where the `-100` mask comes from

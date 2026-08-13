@@ -2182,7 +2182,7 @@
     "href": "05-capstone/index.html",
     "title": "🎓 Capstone Projects",
     "section": "",
-    "text": "Everything up to here was a guided tour. These are the projects where you drive: pick one, run it, break it, and present what you found.\nBoth were chosen for the same reason — they produce an objective metric, not a vibe check. “Does this sound Shakespearean?” is a matter of taste; “how many moves before it plays something illegal?” is a number a referee computes for you, and it either goes up or it does not.",
+    "text": "Everything up to here was a guided tour. These are the projects where you drive: pick one, run it, break it, and present what you found.\nAll three were chosen for the same reason — they produce an objective metric, not a vibe check. “Does this sound Shakespearean?” is a matter of taste; “how many moves before it plays something illegal?” is a number a referee computes for you, and it either goes up or it does not.",
     "crumbs": [
       "[5] Capstone Projects"
     ]
@@ -2369,6 +2369,148 @@
     "crumbs": [
       "[5] Capstone Projects",
       "[5.1] Arithmetic by RL"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html",
+    "href": "05-capstone/2-slang-finetune/index.html",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "",
+    "text": "The other two capstones train a model from scratch. This one does the thing you are far more likely to do in practice: take a model somebody else already spent a fortune pretraining, and fine-tune it on your data.\n[3.3] showed you the mechanics of SFT — chat templates, and the -100 mask that puts the loss only on the assistant’s tokens. Here we run the whole thing end to end on a real open model and a real dataset, and then ask the question people usually skip:\nThe answer on this dataset is genuinely interesting, and it is not “the model learned Gen Z slang.”\ntry:\n    import bootcamp  # noqa: F401\n    import ezpz  # noqa: F401\n    import transformers  # noqa: F401\nexcept ImportError:\n    %pip install -q \"transformers&gt;=4.40\" \\\n                    \"git+https://github.com/saforem2/ezpz\" \\\n                    \"git+https://github.com/saforem2/intro-hpc-bootcamp\"\nimport time\n\nimport ezpz\nimport numpy as np\nimport pandas as pd\nimport plotly.graph_objects as go\nimport torch\nfrom plotly.subplots import make_subplots\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\nfrom bootcamp.plotly_theme import apply_theme, COLORS\n\napply_theme()\ntorch.manual_seed(0)\n\nMODEL = \"HuggingFaceTB/SmolLM2-135M-Instruct\"\nDEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'\nprint(f\"device: {DEVICE}\")\n\ndevice: mps",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#the-data",
+    "href": "05-capstone/2-slang-finetune/index.html#the-data",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "📖 The data",
+    "text": "📖 The data\nMLBtrio/genz-slang-dataset is 1,779 rows and four columns: the Slang term, a short Description, an Example sentence, and the social Context. It is a single CSV, so we can skip the datasets library entirely and just read it with pandas.\n\nURL = (\"https://huggingface.co/datasets/MLBtrio/genz-slang-dataset/\"\n       \"resolve/main/all_slangs.csv\")\ndf = pd.read_csv(URL)\ndf[\"key\"] = df[\"Slang\"].astype(str).str.strip().str.lower()\n\nprint(f\"{len(df)} rows, {df['key'].nunique()} unique terms\\n\")\nfor _, r in df.head(3).iterrows():\n    print(f\"  {r.Slang!r:12s} -&gt; {r.Description}\")\n    print(f\"  {'':12s}    e.g. {r.Example}\\n\")\n\n1779 rows, 1571 unique terms\n\n  'W'          -&gt; Shorthand for win\n                  e.g. Got the job today, big W!\n\n  'L'          -&gt; Shorthand for loss/losing\n                  e.g. I forgot my wallet at home, that’s an L.\n\n  'L+ratio'    -&gt; Response to a comment or action on the internet that is particularly bad.\n                  e.g. Your tweet got 5 likes and 100 replies calling you out. L + ratio.\n\n\n\n\n\n\n\n\n\nWarning⚠️ Read the dataset card before you trust the labels\n\n\n\nThe card says the Example and Context columns were added by “scraping publicly available websites and using generative AI.” So part of your ground truth is model-generated, which means some of it is wrong, and a model that scores well against it may just be agreeing with whatever model wrote it. No license is listed either.\nNone of that makes the dataset useless — it makes it normal. Almost every real dataset has provenance problems like this. Knowing them is the job.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#the-split-that-quietly-lies-to-you",
+    "href": "05-capstone/2-slang-finetune/index.html#the-split-that-quietly-lies-to-you",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🚨 The split that quietly lies to you",
+    "text": "🚨 The split that quietly lies to you\nHere is the first thing to check on any dataset, and the reason to check it is sitting in plain sight: there are 1,779 rows but only 1,571 unique terms. 170 terms appear more than once — lol appears five times.\nIf you shuffle rows and take the last 15% as your test set, some of those duplicate terms land on both sides. The model sees lol in training and then gets graded on lol at test time. Your number goes up and your model did not get better.\n\ndef split(kind, frac=0.85, seed=0):\n    \"\"\"`random` shuffles ROWS (leaky). `grouped` shuffles TERMS (honest).\"\"\"\n    rng = np.random.default_rng(seed)\n    if kind == \"random\":\n        idx = rng.permutation(len(df))\n        cut = int(frac * len(df))\n        return df.iloc[idx[:cut]], df.iloc[idx[cut:]]\n    keys = df[\"key\"].unique().copy()\n    rng.shuffle(keys)\n    keep = set(keys[:int(frac * len(keys))])\n    return df[df[\"key\"].isin(keep)], df[~df[\"key\"].isin(keep)]\n\n\nfor kind in (\"random\", \"grouped\"):\n    tr, te = split(kind)\n    leak = te[\"key\"].isin(set(tr[\"key\"])).mean()\n    print(f\"  {kind:8s} train={len(tr):5d} test={len(te):4d} \"\n          f\"| {leak:.1%} of test terms also appear in train\")\n\n  random   train= 1512 test= 267 | 19.9% of test terms also appear in train\n  grouped  train= 1499 test= 280 | 0.0% of test terms also appear in train\n\n\nOne in five test terms is contaminated under the naive split. We will train on the grouped split, where that number is exactly zero.\n\ntrain_df, test_df = split(\"grouped\")\ntrain_rows, test_rows = list(train_df.itertuples()), list(test_df.itertuples())\nEVAL = test_rows[:80]      # fixed held-out slice, used for every number below",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#prompt-format-and-the--100-mask",
+    "href": "05-capstone/2-slang-finetune/index.html#prompt-format-and-the--100-mask",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🧩 Prompt format and the -100 mask",
+    "text": "🧩 Prompt format and the -100 mask\nSmolLM2-135M-Instruct is an instruct model, so it already ships a chat template — unlike the bare gpt2 in [3.3], we do not have to invent one. Each row becomes a one-turn conversation whose assistant reply is the gloss.\n\ntok = AutoTokenizer.from_pretrained(MODEL)\n\n\ndef render(row, with_answer=True):\n    msgs = [{\"role\": \"user\",\n             \"content\": f'What does the slang term \"{row.Slang}\" mean?'}]\n    prompt = tok.apply_chat_template(msgs, tokenize=False,\n                                     add_generation_prompt=True)\n    if not with_answer:\n        return prompt\n    return prompt + f\"{str(row.Description).strip()}{tok.eos_token}\"\n\n\nprint(render(train_rows[0]))\n\n&lt;|im_start|&gt;system\nYou are a helpful AI assistant named SmolLM, trained by Hugging Face&lt;|im_end|&gt;\n&lt;|im_start|&gt;user\nWhat does the slang term \"W\" mean?&lt;|im_end|&gt;\n&lt;|im_start|&gt;assistant\nShorthand for win&lt;|im_end|&gt;\n\n\nNow the part that makes it SFT rather than plain language modelling: label the prompt tokens -100 so the loss ignores them. The model is graded only on the gloss it was supposed to produce.\n\ndef encode(row, maxlen=128):\n    prompt_ids = tok(render(row, False), add_special_tokens=False).input_ids\n    full = tok(render(row, True), add_special_tokens=False).input_ids[:maxlen]\n    labels = list(full)\n    for i in range(min(len(prompt_ids), len(labels))):\n        labels[i] = -100          # &lt;- the whole trick\n    return full, labels\n\n\nids, labels = encode(train_rows[0])\nkept = [tok.decode([i]) for i, la in zip(ids, labels) if la != -100]\nprint(f\"{len(ids)} tokens total, loss computed on {len(kept)} of them\")\nprint(\"  scored text:\", repr(\"\".join(kept)))\n\n47 tokens total, loss computed on 7 of them\n  scored text: 'Shorthand for win&lt;|im_end|&gt;'\n\n\n\n\nShow the batching / evaluation helpers\ndef batches(rows, bs):\n    \"\"\"Pad to the longest sequence in each batch; -100 pads the labels.\"\"\"\n    for i in range(0, len(rows), bs):\n        chunk = [encode(r) for r in rows[i:i + bs]]\n        n = max(len(a) for a, _ in chunk)\n        ids = torch.full((len(chunk), n), tok.pad_token_id)\n        lab = torch.full((len(chunk), n), -100)\n        att = torch.zeros((len(chunk), n), dtype=torch.long)\n        for j, (a, b) in enumerate(chunk):\n            ids[j, :len(a)] = torch.tensor(a)\n            lab[j, :len(b)] = torch.tensor(b)\n            att[j, :len(a)] = 1\n        yield ids.to(DEVICE), lab.to(DEVICE), att.to(DEVICE)\n\n\n@torch.no_grad()\ndef held_out_loss(model, rows, bs=8):\n    model.eval()\n    total, n = 0.0, 0\n    for ids, lab, att in batches(rows, bs):\n        total += model(input_ids=ids, attention_mask=att, labels=lab).loss.item() * len(ids)\n        n += len(ids)\n    return total / n\n\n\n@torch.no_grad()\ndef generate(model, rows, max_new_tokens=24):\n    model.eval()\n    outs = []\n    for r in rows:\n        enc = tok(render(r, False), return_tensors=\"pt\").to(DEVICE)\n        g = model.generate(**enc, max_new_tokens=max_new_tokens, do_sample=False,\n                           pad_token_id=tok.pad_token_id)\n        outs.append(tok.decode(g[0][enc.input_ids.shape[1]:],\n                               skip_special_tokens=True).strip())\n    return outs",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#a-second-metric-because-loss-is-not-the-point",
+    "href": "05-capstone/2-slang-finetune/index.html#a-second-metric-because-loss-is-not-the-point",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "📏 A second metric, because loss is not the point",
+    "text": "📏 A second metric, because loss is not the point\nThe chess capstone’s lesson was that your loss curve is not your metric. So before training, let us define something that measures whether the answer is right, not just whether it is likely: what fraction of the gold gloss’s content words show up in the generated answer?\n\nSTOP = set(\"a an the of to is are be been being or and for in on with that this \"\n           \"it its as someone something used describe describing refers term \"\n           \"slang when who very you your\".split())\n\n\ndef content_words(s):\n    return {w for w in \"\".join(c.lower() if c.isalnum() else \" \"\n                               for c in str(s)).split()\n            if w and w not in STOP and len(w) &gt; 2}\n\n\ndef overlap(generations, rows):\n    \"\"\"Mean fraction of the gold gloss's content words present in the output.\"\"\"\n    vals = [len(g & content_words(gen)) / len(g)\n            for gen, r in zip(generations, rows)\n            if (g := content_words(r.Description))]\n    return float(np.mean(vals))\n\nIt is a crude metric. Check that it discriminates at all before relying on it — a scorer that gives everything the same number tells you nothing:\n\ngold = [str(r.Description) for r in EVAL]\nshuffled = gold[1:] + gold[:1]          # every gloss paired with the WRONG term\nprint(f\"  gloss vs itself        : {overlap(gold, EVAL):.3f}\")\nprint(f\"  gloss vs a random gloss: {overlap(shuffled, EVAL):.3f}\")\n\n  gloss vs itself        : 1.000\n  gloss vs a random gloss: 0.020",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#before-what-the-base-model-already-does",
+    "href": "05-capstone/2-slang-finetune/index.html#before-what-the-base-model-already-does",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "📊 Before: what the base model already does",
+    "text": "📊 Before: what the base model already does\n\nmodel = AutoModelForCausalLM.from_pretrained(MODEL).to(DEVICE)\nn_params = sum(p.numel() for p in model.parameters())\n\nt0 = time.time()\nbase_loss = held_out_loss(model, EVAL)\nbase_gen = generate(model, EVAL)\nbase_overlap = overlap(base_gen, EVAL)\nbase_len = float(np.mean([len(g.split()) for g in base_gen]))\nprint(f\"{MODEL}  ({n_params/1e6:.0f}M params)\")\nprint(f\"  held-out loss    {base_loss:.3f}\")\nprint(f\"  content overlap  {base_overlap:.3f}\")\nprint(f\"  avg answer words {base_len:.1f}   ({time.time()-t0:.0f}s)\")\n\nHuggingFaceTB/SmolLM2-135M-Instruct  (135M params)\n  held-out loss    5.783\n  content overlap  0.072\n  avg answer words 18.5   (56s)",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#fine-tune",
+    "href": "05-capstone/2-slang-finetune/index.html#fine-tune",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🔧 Fine-tune",
+    "text": "🔧 Fine-tune\nOne epoch of plain AdamW over ~1,500 examples. No LoRA, no TRL — at 135M parameters a full fine-tune fits comfortably, and the point here is that you can see every line of it.\n\nopt = torch.optim.AdamW(model.parameters(), lr=3e-5)\norder = np.random.default_rng(1).permutation(len(train_rows))\n\nt0, step, curve = time.time(), 0, []\nmodel.train()\nfor ids, lab, att in batches([train_rows[i] for i in order], 8):\n    loss = model(input_ids=ids, attention_mask=att, labels=lab).loss\n    loss.backward()\n    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)\n    opt.step()\n    opt.zero_grad()\n    step += 1\n    curve.append(loss.item())\nprint(f\"{step} steps in {time.time()-t0:.0f}s on {DEVICE}\")\n\n188 steps in 30s on mps\n\n\n\nft_loss = held_out_loss(model, EVAL)\nft_gen = generate(model, EVAL)\nft_overlap = overlap(ft_gen, EVAL)\nft_len = float(np.mean([len(g.split()) for g in ft_gen]))\n\nprint(f\"{'':16s} {'base':&gt;8s} {'fine-tuned':&gt;12s}\")\nprint(f\"{'held-out loss':16s} {base_loss:8.3f} {ft_loss:12.3f}\")\nprint(f\"{'content overlap':16s} {base_overlap:8.3f} {ft_overlap:12.3f}\")\nprint(f\"{'avg words':16s} {base_len:8.1f} {ft_len:12.1f}\")\n\n                     base   fine-tuned\nheld-out loss       5.783        2.644\ncontent overlap     0.072        0.122\navg words            18.5          4.6\n\n\n\n\nShow the plotting code\nfig = make_subplots(rows=1, cols=2, column_widths=[0.58, 0.42],\n                    subplot_titles=(\"training loss\", \"held-out, before vs after\"))\nfig.add_scatter(x=list(range(1, len(curve) + 1)), y=curve, mode=\"lines\",\n                line=dict(color=COLORS[\"blue\"], width=1.5),\n                name=\"train loss\", row=1, col=1)\nk = 15\nif len(curve) &gt;= k:\n    sm = np.convolve(curve, np.ones(k) / k, mode=\"valid\")\n    fig.add_scatter(x=list(range(k, len(curve) + 1)), y=sm, mode=\"lines\",\n                    line=dict(color=COLORS[\"red\"], width=2.5),\n                    name=f\"{k}-step mean\", row=1, col=1)\n# The three quantities have different units, so plot each as a fraction of the\n# larger of the two bars and print the real value on the bar.\ncats = [\"held-out loss\", \"content overlap\", \"answer length\"]\npairs = [(base_loss, ft_loss), (base_overlap, ft_overlap), (base_len, ft_len)]\nfmt = [\"{:.2f}\", \"{:.3f}\", \"{:.1f}w\"]\nfor name, pick, color in ((\"base\", 0, COLORS[\"red\"]), (\"fine-tuned\", 1, COLORS[\"blue\"])):\n    fig.add_bar(x=cats,\n                y=[p[pick] / max(p) for p in pairs],\n                text=[f.format(p[pick]) for f, p in zip(fmt, pairs)],\n                textposition=\"outside\", name=name, marker_color=color,\n                row=1, col=2)\nfig.update_xaxes(title=\"step\", row=1, col=1)\nfig.update_yaxes(title=\"loss\", row=1, col=1)\nfig.update_yaxes(title=\"relative to the larger bar\", range=[0, 1.25], row=1, col=2)\nfig.update_layout(height=400, margin=dict(t=60), barmode=\"group\")\nfig.show()\n\n\n\n\n                                                    \n\n\nFigure 1: Left: the training loss. Right: the three held-out measurements before and after, each scaled against the larger of its two bars (the real values are printed on top). The loss falls by more than half and the answers get much shorter; whether they get more correct is the question worth arguing about.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#what-actually-changed",
+    "href": "05-capstone/2-slang-finetune/index.html#what-actually-changed",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🤯 What actually changed",
+    "text": "🤯 What actually changed\n\n\nShow the comparison code\nfor r, b, f in list(zip(EVAL, base_gen, ft_gen))[:6]:\n    print(f\"{r.Slang!r}  (gold: {str(r.Description)[:52]})\")\n    print(f\"   base: {b[:88]}\")\n    print(f\"   ft  : {f[:88]}\\n\")\n\n\n'L'  (gold: Shorthand for loss/losing)\n   base: The slang term \"L\" is a colloquialism that refers to a person who is a bit of a loner or\n   ft  : Laughing\n\n'Dank'  (gold: excellent or of very high quality)\n   base: The slang term \"Dank\" is a colloquialism that refers to something that is low, unremarka\n   ft  : Used to describe something that is unpleasant or unpleasant to someone.\n\n'Cheugy'  (gold: Derogatory term for Millennials. Used when millennia)\n   base: The slang term \"Cheugy\" is a colloquialism used in the United States to describe a perso\n   ft  : To be in a relationship\n\n'Woke'  (gold:  being politically aware)\n   base: The slang term \"Woke\" is a colloquialism that refers to a person who is highly educated,\n   ft  : Used to describe someone who is very enthusiastic about something\n\n'Bop'  (gold: An excellent song or album.)\n   base: The slang term \"Bop\" is a colloquialism that refers to a person who is a bit of a jok\n   ft  : Bop is a slang term used to describe something that is good or enjoyable.\n\n'Smol'  (gold: Something that is small, and in most cases exception)\n   base: The slang term \"Smol\" is a colloquialism that refers to a person who is a \"smoker\" or\n   ft  : Smiling\n\n\n\n\n\n\n\n\n\nImportant🎯 It learned the format, not the facts\n\n\n\nLook at the two columns. The base model answers every question with the same hedging boilerplate — “The slang term X is a colloquialism that refers to…” — and rambles for ~18 words. After fine-tuning it answers in ~5 words, in the clipped register of the dataset. That is a big, obvious change, and it is why the loss more than halved.\nNow read the answers. On terms it has never seen, they are still frequently wrong — confidently, fluently wrong. Content overlap with the gold gloss barely moves.\nThat is the lesson, and it generalizes far beyond slang:\n\nSFT on a small dataset teaches style and format, not new knowledge.\n\nOne epoch over 1,500 short examples cannot install facts the pretrained model never saw. It can teach it how to answer, in what voice, at what length. Those are different things, and the loss curve cannot tell them apart. If you need the model to know new facts, you need much more data, much longer training, or you need to stop fine-tuning and start retrieving — which is exactly what [2.9] RAG is for.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#proving-the-leaky-split-inflates-the-score",
+    "href": "05-capstone/2-slang-finetune/index.html#proving-the-leaky-split-inflates-the-score",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🔬 Proving the leaky split inflates the score",
+    "text": "🔬 Proving the leaky split inflates the score\nEarlier we picked the grouped split on principle. Now let us pay for a second training run and show it was not just principle — retrain on the random split and score the leaked and clean test terms separately.\n\nlk_train, lk_test = split(\"random\")\nlk_train_rows = list(lk_train.itertuples())\nseen_keys = set(lk_train[\"key\"])\nseen = [r for r in lk_test.itertuples() if r.key in seen_keys][:60]\nunseen = [r for r in lk_test.itertuples() if r.key not in seen_keys][:60]\n\nleaky = AutoModelForCausalLM.from_pretrained(MODEL).to(DEVICE)\nopt2 = torch.optim.AdamW(leaky.parameters(), lr=3e-5)\norder2 = np.random.default_rng(1).permutation(len(lk_train_rows))\nleaky.train()\nfor ids, lab, att in batches([lk_train_rows[i] for i in order2], 8):\n    leaky(input_ids=ids, attention_mask=att, labels=lab).loss.backward()\n    torch.nn.utils.clip_grad_norm_(leaky.parameters(), 1.0)\n    opt2.step()\n    opt2.zero_grad()\n\nprint(f\"  loss on test terms SEEN in training : {held_out_loss(leaky, seen):.3f}\")\nprint(f\"  loss on test terms NOT seen         : {held_out_loss(leaky, unseen):.3f}\")\n\n  loss on test terms SEEN in training : 2.507\n  loss on test terms NOT seen         : 2.998\n\n\nThe gap between those two numbers is the size of the lie. Every leaked term drags the headline metric toward the easier number, and nothing in your training logs will warn you.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#your-turn",
+    "href": "05-capstone/2-slang-finetune/index.html#your-turn",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🎒 Your turn",
+    "text": "🎒 Your turn\n\nChange what you predict. We trained on Description. Train on Example instead so the model uses the slang in a sentence rather than defining it. Which is a better demo? Which is easier to score?\nDoes more data fix the facts? The claim above is that 1,500 examples teach style, not knowledge. Test it: train on 10%, 25%, 50%, 100% of the data and plot content overlap against dataset size. Does it trend up, or is it flat?\nBeat the fine-tune with retrieval. Put the gold gloss for the test term into the prompt and let the base model answer. If that crushes your fine-tuned model — and it will — you have demonstrated the single most practical result in this bootcamp.\nTry a bigger base. SmolLM2-360M-Instruct, or Qwen/Qwen2.5-0.5B-Instruct from [3.3]. Does the larger model already know more slang before you touch it?\nCatastrophic forgetting. Ask the fine-tuned model something unrelated (“What is the capital of France?”). Fine-tuning on one narrow, terse dataset often wrecks general ability. Measure how much.\n\n\n\n\n\n\n\nTip📊 What to put on the slide\n\n\n\nThe before/after table plus three or four real generations. The strongest version of this talk states the uncomfortable result out loud: “our loss improved by 54% and our model still does not know what ‘cheugy’ means.” Then show the retrieval baseline beating it.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#scaling-up",
+    "href": "05-capstone/2-slang-finetune/index.html#scaling-up",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "🚀 Scaling up",
+    "text": "🚀 Scaling up\nNothing here needs a GPU, but everything here is faster with one, and the same script scales without modification:\n# one node, all its GPUs\nezpz launch python3 slang_finetune.py --epochs 3 --model HuggingFaceTB/SmolLM2-360M-Instruct\nDEVICE comes from ezpz.get_torch_device_type(), so the same code picks up cuda on Polaris/Perlmutter, xpu on Aurora, mps on a Mac, and CPU everywhere else. See [3.1] Pretraining at Scale for how to turn this single-process loop into a distributed one.",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/2-slang-finetune/index.html#references",
+    "href": "05-capstone/2-slang-finetune/index.html#references",
+    "title": "🗣️ Fine-tuning an open LLM on Gen Z slang",
+    "section": "📚 References",
+    "text": "📚 References\n\nMLBtrio/genz-slang-dataset\nHuggingFaceTB/SmolLM2-135M-Instruct\nChat templating\n[3.3] Mid- and Post-Training — where the -100 mask comes from",
+    "crumbs": [
+      "[5] Capstone Projects",
+      "[5.2] Fine-tuning on slang"
+    ]
+  },
+  {
+    "objectID": "05-capstone/index.html#the-three-starters",
+    "href": "05-capstone/index.html#the-three-starters",
+    "title": "🎓 Capstone Projects",
+    "section": "The three starters",
+    "text": "The three starters\n\n🏆 [5.0] Chess GPT — train the [2.3] model from scratch on real tournament games. The metric is legal moves before a blunder, and the built-in surprise is that the tokenization with the lower loss plays much worse chess.\n🧮 [5.1] Arithmetic by RL — the [3.4] GRPO recipe where the entire reward is a one-line Python check. The built-in surprise is diversity collapse: the policy learns to give the same answer to every question, and one extra term brings it back.\n🗣️ [5.2] Fine-tuning on slang — the other two train from scratch; this one fine-tunes a real pretrained open model (SmolLM2-135M-Instruct) on a Gen Z slang dataset. The built-in surprise is what fine-tuning actually buys you: the loss more than halves, and the model still does not know what the words mean.\n\nAll three run in a few minutes on a laptop CPU, and all three scale to many GPUs with ezpz launch and no code changes.",
+    "crumbs": [
+      "[5] Capstone Projects"
     ]
   }
 ]

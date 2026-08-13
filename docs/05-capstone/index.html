@@ -8,7 +8,7 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2026-08-13">
-<meta name="description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
+<meta name="description" content="Three self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
 
 <title>🎓 Capstone Projects – Intro to HPC Bootcamp</title>
 <style>
@@ -136,11 +136,11 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 
 <meta property="og:title" content="🎓 Capstone Projects – Intro to HPC Bootcamp">
-<meta property="og:description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
+<meta property="og:description" content="Three self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
 <meta property="og:image" content="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp">
 <meta name="twitter:title" content="🎓 Capstone Projects – Intro to HPC Bootcamp">
-<meta name="twitter:description" content="Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
+<meta name="twitter:description" content="Three self-contained projects that build on the bootcamp material and produce a real, objective number to present.">
 <meta name="twitter:image" content="https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:card" content="summary_large_image">
@@ -651,6 +651,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
  <span class="menu-text">[5.1] Arithmetic by RL</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-capstone/2-slang-finetune/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5.2] Fine-tuning on slang</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -663,7 +669,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-two-starters" id="toc-the-two-starters" class="nav-link active" data-scroll-target="#the-two-starters">The two starters</a></li>
+  <li><a href="#the-three-starters" id="toc-the-three-starters" class="nav-link active" data-scroll-target="#the-three-starters">The three starters</a></li>
   <li><a href="#getting-the-code" id="toc-getting-the-code" class="nav-link" data-scroll-target="#getting-the-code">Getting the code</a></li>
   <li><a href="#other-directions" id="toc-other-directions" class="nav-link" data-scroll-target="#other-directions">Other directions</a></li>
   </ul>
@@ -688,7 +694,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <div>
   <div class="description">
-    Two self-contained projects that build on the bootcamp material and produce a real, objective number to present.
+    Three self-contained projects that build on the bootcamp material and produce a real, objective number to present.
   </div>
 </div>
 
@@ -733,7 +739,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 
 <p>Everything up to here was a guided tour. These are the projects where <strong>you</strong> drive: pick one, run it, break it, and present what you found.</p>
-<p>Both were chosen for the same reason — they produce an <strong>objective metric</strong>, not a vibe check. “Does this sound Shakespearean?” is a matter of taste; “how many moves before it plays something illegal?” is a number a referee computes for you, and it either goes up or it does not.</p>
+<p>All three were chosen for the same reason — they produce an <strong>objective metric</strong>, not a vibe check. “Does this sound Shakespearean?” is a matter of taste; “how many moves before it plays something illegal?” is a number a referee computes for you, and it either goes up or it does not.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="🎯 What makes a good presentation">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -750,16 +756,17 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <li>Two curves on that plot, differing by <em>one</em> decision you made.</li>
 <li>An honest account of what you expected and what actually happened.</li>
 </ol>
-<p>Both starters below already contain a built-in surprise. Reproduce it first, then go find your own.</p>
+<p>All three starters below already contain a built-in surprise. Reproduce it first, then go find your own.</p>
 </div>
 </div>
-<section id="the-two-starters" class="level2">
-<h2 class="anchored" data-anchor-id="the-two-starters">The two starters</h2>
+<section id="the-three-starters" class="level2">
+<h2 class="anchored" data-anchor-id="the-three-starters">The three starters</h2>
 <ul>
 <li><p>🏆 <strong><a href="./0-chess-gpt/">[5.0] Chess GPT</a></strong> — train the <a href="../02-llms/3-shakespeare-ezpz/">[2.3]</a> model from scratch on real tournament games. The metric is <em>legal moves before a blunder</em>, and the built-in surprise is that the tokenization with the <strong>lower loss</strong> plays <strong>much worse chess</strong>.</p></li>
 <li><p>🧮 <strong><a href="./1-arithmetic-grpo/">[5.1] Arithmetic by RL</a></strong> — the <a href="../03-advanced-llms/4-rl-and-reasoning/">[3.4]</a> GRPO recipe where the entire reward is a one-line Python check. The built-in surprise is <strong>diversity collapse</strong>: the policy learns to give the <em>same</em> answer to every question, and one extra term brings it back.</p></li>
+<li><p>🗣️ <strong><a href="./2-slang-finetune/">[5.2] Fine-tuning on slang</a></strong> — the other two train from scratch; this one fine-tunes a <strong>real pretrained open model</strong> (<code>SmolLM2-135M-Instruct</code>) on a <a href="https://huggingface.co/datasets/MLBtrio/genz-slang-dataset">Gen Z slang dataset</a>. The built-in surprise is what fine-tuning actually buys you: the loss more than halves, and the model still does not know what the words mean.</p></li>
 </ul>
-<p>Both run in a few minutes on a laptop CPU, and both scale to many GPUs with <code>ezpz launch</code> and no code changes.</p>
+<p>All three run in a few minutes on a laptop CPU, and all three scale to many GPUs with <code>ezpz launch</code> and no code changes.</p>
 </section>
 <section id="getting-the-code" class="level2">
 <h2 class="anchored" data-anchor-id="getting-the-code">Getting the code</h2>
@@ -1334,7 +1341,7 @@ Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a hre
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a><span class="co">---</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "🎓 Capstone Projects"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Two self-contained projects that build on the bootcamp material and produce a real, objective number to present."</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a><span class="an">description:</span><span class="co"> "Three self-contained projects that build on the bootcamp material and produce a real, objective number to present."</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-label="4"></a><span class="an">categories:</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-label="5"></a><span class="co">  - ai</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-label="6"></a><span class="co">  - hpc</span></span>
@@ -1346,7 +1353,7 @@ Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a hre
 <span id="cb2-12"><a href="#cb2-12" aria-label="12"></a>Everything up to here was a guided tour. These are the projects where **you**</span>
 <span id="cb2-13"><a href="#cb2-13" aria-label="13"></a>drive: pick one, run it, break it, and present what you found.</span>
 <span id="cb2-14"><a href="#cb2-14" aria-label="14"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-label="15"></a>Both were chosen for the same reason — they produce an **objective metric**, not</span>
+<span id="cb2-15"><a href="#cb2-15" aria-label="15"></a>All three were chosen for the same reason — they produce an **objective metric**, not</span>
 <span id="cb2-16"><a href="#cb2-16" aria-label="16"></a>a vibe check. "Does this sound Shakespearean?" is a matter of taste; "how many</span>
 <span id="cb2-17"><a href="#cb2-17" aria-label="17"></a>moves before it plays something illegal?" is a number a referee computes for</span>
 <span id="cb2-18"><a href="#cb2-18" aria-label="18"></a>you, and it either goes up or it does not.</span>
@@ -1359,11 +1366,11 @@ Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a hre
 <span id="cb2-25"><a href="#cb2-25" aria-label="25"></a><span class="ss">2. </span>Two curves on that plot, differing by *one* decision you made.</span>
 <span id="cb2-26"><a href="#cb2-26" aria-label="26"></a><span class="ss">3. </span>An honest account of what you expected and what actually happened.</span>
 <span id="cb2-27"><a href="#cb2-27" aria-label="27"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-label="28"></a>Both starters below already contain a built-in surprise. Reproduce it first,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-label="28"></a>All three starters below already contain a built-in surprise. Reproduce it first,</span>
 <span id="cb2-29"><a href="#cb2-29" aria-label="29"></a>then go find your own.</span>
 <span id="cb2-30"><a href="#cb2-30" aria-label="30"></a>:::</span>
 <span id="cb2-31"><a href="#cb2-31" aria-label="31"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-label="32"></a><span class="fu">## The two starters</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-label="32"></a><span class="fu">## The three starters</span></span>
 <span id="cb2-33"><a href="#cb2-33" aria-label="33"></a></span>
 <span id="cb2-34"><a href="#cb2-34" aria-label="34"></a><span class="ss">- </span>🏆 **[\[5.0\] Chess GPT](./0-chess-gpt/)** — train the</span>
 <span id="cb2-35"><a href="#cb2-35" aria-label="35"></a>  <span class="co">[</span><span class="ot">\[2.3\]</span><span class="co">](../02-llms/3-shakespeare-ezpz/)</span> model from scratch on real</span>
@@ -1377,38 +1384,45 @@ Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a hre
 <span id="cb2-43"><a href="#cb2-43" aria-label="43"></a>  collapse**: the policy learns to give the *same* answer to every question, and one extra</span>
 <span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>  term brings it back.</span>
 <span id="cb2-45"><a href="#cb2-45" aria-label="45"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-label="46"></a>Both run in a few minutes on a laptop CPU, and both scale to many GPUs with</span>
-<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a><span class="in">`ezpz launch`</span> and no code changes.</span>
-<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a><span class="fu">## Getting the code</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a>The scripts live in the repo under <span class="in">`capstone/`</span>:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-label="46"></a><span class="ss">- </span>🗣️ **[\[5.2\] Fine-tuning on slang](./2-slang-finetune/)** — the other two train</span>
+<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a>  from scratch; this one fine-tunes a **real pretrained open model**</span>
+<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a>  (<span class="in">`SmolLM2-135M-Instruct`</span>) on a</span>
+<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a>  <span class="co">[</span><span class="ot">Gen Z slang dataset</span><span class="co">](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset)</span>.</span>
+<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a>  The built-in surprise is what fine-tuning actually buys you: the loss more than</span>
+<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a>  halves, and the model still does not know what the words mean.</span>
 <span id="cb2-52"><a href="#cb2-52" aria-label="52"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-label="53"></a><span class="in">```bash</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-label="54"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp</span>
-<span id="cb2-55"><a href="#cb2-55" aria-label="55"></a><span class="bu">cd</span> intro-hpc-bootcamp</span>
-<span id="cb2-56"><a href="#cb2-56" aria-label="56"></a><span class="ex">python3</span> capstone/chess_gpt.py <span class="at">--help</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-label="57"></a><span class="ex">python3</span> capstone/arithmetic_grpo.py <span class="at">--help</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-label="58"></a><span class="in">```</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-label="53"></a>All three run in a few minutes on a laptop CPU, and all three scale to many GPUs</span>
+<span id="cb2-54"><a href="#cb2-54" aria-label="54"></a>with <span class="in">`ezpz launch`</span> and no code changes.</span>
+<span id="cb2-55"><a href="#cb2-55" aria-label="55"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-label="56"></a><span class="fu">## Getting the code</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-label="57"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-label="58"></a>The scripts live in the repo under <span class="in">`capstone/`</span>:</span>
 <span id="cb2-59"><a href="#cb2-59" aria-label="59"></a></span>
-<span id="cb2-60"><a href="#cb2-60" aria-label="60"></a>On Perlmutter, everything is already installed in the shared environment — see</span>
-<span id="cb2-61"><a href="#cb2-61" aria-label="61"></a>the <span class="co">[</span><span class="ot">running instructions</span><span class="co">](../#running-instructions)</span>.</span>
-<span id="cb2-62"><a href="#cb2-62" aria-label="62"></a></span>
-<span id="cb2-63"><a href="#cb2-63" aria-label="63"></a><span class="fu">## Other directions</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-label="64"></a></span>
-<span id="cb2-65"><a href="#cb2-65" aria-label="65"></a>If neither of these grabs you, the same "train from scratch on a weird corpus,</span>
-<span id="cb2-66"><a href="#cb2-66" aria-label="66"></a>then measure something objective" shape works for a lot of data:</span>
-<span id="cb2-67"><a href="#cb2-67" aria-label="67"></a></span>
-<span id="cb2-68"><a href="#cb2-68" aria-label="68"></a><span class="pp">|</span> corpus <span class="pp">|</span> the metric that makes it a project <span class="pp">|</span></span>
-<span id="cb2-69"><a href="#cb2-69" aria-label="69"></a><span class="pp">|</span>:--<span class="pp">|</span>:--<span class="pp">|</span></span>
-<span id="cb2-70"><a href="#cb2-70" aria-label="70"></a><span class="pp">|</span> **SMILES molecules** (ChEMBL/ZINC) <span class="pp">|</span> % of generated strings that RDKit says are valid molecules <span class="pp">|</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-label="71"></a><span class="pp">|</span> **Protein sequences** (UniProt) <span class="pp">|</span> amino-acid composition vs. real proteins <span class="pp">|</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-label="72"></a><span class="pp">|</span> **ArXiv abstracts** in one field <span class="pp">|</span> perplexity on held-out abstracts from the same vs. a different field <span class="pp">|</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-label="73"></a><span class="pp">|</span> **Sheet music** (ABC notation) <span class="pp">|</span> % that parse as valid music; do the key signatures stay consistent? <span class="pp">|</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-label="60"></a><span class="in">```bash</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-label="61"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp</span>
+<span id="cb2-62"><a href="#cb2-62" aria-label="62"></a><span class="bu">cd</span> intro-hpc-bootcamp</span>
+<span id="cb2-63"><a href="#cb2-63" aria-label="63"></a><span class="ex">python3</span> capstone/chess_gpt.py <span class="at">--help</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-label="64"></a><span class="ex">python3</span> capstone/arithmetic_grpo.py <span class="at">--help</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-label="65"></a><span class="in">```</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-label="66"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-label="67"></a>On Perlmutter, everything is already installed in the shared environment — see</span>
+<span id="cb2-68"><a href="#cb2-68" aria-label="68"></a>the <span class="co">[</span><span class="ot">running instructions</span><span class="co">](../#running-instructions)</span>.</span>
+<span id="cb2-69"><a href="#cb2-69" aria-label="69"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-label="70"></a><span class="fu">## Other directions</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-label="71"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-label="72"></a>If neither of these grabs you, the same "train from scratch on a weird corpus,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-label="73"></a>then measure something objective" shape works for a lot of data:</span>
 <span id="cb2-74"><a href="#cb2-74" aria-label="74"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-label="75"></a>The pattern is always the same: swap the corpus, keep the model, and find a</span>
-<span id="cb2-76"><a href="#cb2-76" aria-label="76"></a>**verifier** — a piece of code that scores the output without you in the loop.</span>
-<span id="cb2-77"><a href="#cb2-77" aria-label="77"></a>That is the single most transferable idea in this bootcamp.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-75"><a href="#cb2-75" aria-label="75"></a><span class="pp">|</span> corpus <span class="pp">|</span> the metric that makes it a project <span class="pp">|</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-label="76"></a><span class="pp">|</span>:--<span class="pp">|</span>:--<span class="pp">|</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-label="77"></a><span class="pp">|</span> **SMILES molecules** (ChEMBL/ZINC) <span class="pp">|</span> % of generated strings that RDKit says are valid molecules <span class="pp">|</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-label="78"></a><span class="pp">|</span> **Protein sequences** (UniProt) <span class="pp">|</span> amino-acid composition vs. real proteins <span class="pp">|</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-label="79"></a><span class="pp">|</span> **ArXiv abstracts** in one field <span class="pp">|</span> perplexity on held-out abstracts from the same vs. a different field <span class="pp">|</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-label="80"></a><span class="pp">|</span> **Sheet music** (ABC notation) <span class="pp">|</span> % that parse as valid music; do the key signatures stay consistent? <span class="pp">|</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-label="81"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-label="82"></a>The pattern is always the same: swap the corpus, keep the model, and find a</span>
+<span id="cb2-83"><a href="#cb2-83" aria-label="83"></a>**verifier** — a piece of code that scores the output without you in the loop.</span>
+<span id="cb2-84"><a href="#cb2-84" aria-label="84"></a>That is the single most transferable idea in this bootcamp.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

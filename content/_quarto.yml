@@ -264,6 +264,7 @@ project:
     - "./05-capstone/index.qmd"
     - "./05-capstone/0-chess-gpt/index.qmd"
     - "./05-capstone/1-arithmetic-grpo/index.qmd"
+    - "./05-capstone/2-slang-finetune/index.qmd"
 
     # - "./02-llms/2-shakespeare-example-colab/index.ipynb"
     # - "./02-llms/4-evaluating-llms"
@@ -421,6 +422,8 @@ website:
             href: "./05-capstone/0-chess-gpt/index.qmd"
           - text: "[5.1] Arithmetic by RL"
             href: "./05-capstone/1-arithmetic-grpo/index.qmd"
+          - text: "[5.2] Fine-tuning on slang"
+            href: "./05-capstone/2-slang-finetune/index.qmd"
 
   page-footer:
     # left: |
