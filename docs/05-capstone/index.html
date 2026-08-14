@@ -727,7 +727,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 13, 2026</p>
+      <p class="date-modified">August 14, 2026</p>
     </div>
   </div>
     
@@ -764,7 +764,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <ul>
 <li><p>🏆 <strong><a href="./0-chess-gpt/">[5.0] Chess GPT</a></strong> — train the <a href="../02-llms/3-shakespeare-ezpz/">[2.3]</a> model from scratch on real tournament games. The metric is <em>legal moves before a blunder</em>, and the built-in surprise is that the tokenization with the <strong>lower loss</strong> plays <strong>much worse chess</strong>.</p></li>
 <li><p>🧮 <strong><a href="./1-arithmetic-grpo/">[5.1] Arithmetic by RL</a></strong> — the <a href="../03-advanced-llms/4-rl-and-reasoning/">[3.4]</a> GRPO recipe where the entire reward is a one-line Python check. The built-in surprise is <strong>diversity collapse</strong>: the policy learns to give the <em>same</em> answer to every question, and one extra term brings it back.</p></li>
-<li><p>🗣️ <strong><a href="./2-slang-finetune/">[5.2] Fine-tuning on slang</a></strong> — the other two train from scratch; this one fine-tunes a <strong>real pretrained open model</strong> (<code>SmolLM2-135M-Instruct</code>) on a <a href="https://huggingface.co/datasets/MLBtrio/genz-slang-dataset">Gen Z slang dataset</a>. The built-in surprise is what fine-tuning actually buys you: the loss more than halves, and the model still does not know what the words mean.</p></li>
+<li><p>🗣️ <strong><a href="./2-slang-finetune/">[5.2] Fine-tuning on slang</a></strong> — the other two train from scratch; this one fine-tunes a <strong>real pretrained open model</strong> (<code>SmolLM2</code>) on a <a href="https://huggingface.co/datasets/MLBtrio/genz-slang-dataset">Gen Z slang dataset</a>. The built-in surprise is that the <strong>held-out loss and the task metric peak at different epochs</strong> — early-stopping on loss, which is what everyone does, picks the wrong checkpoint.</p></li>
 </ul>
 <p>All three run in a few minutes on a laptop CPU, and all three scale to many GPUs with <code>ezpz launch</code> and no code changes.</p>
 </section>
@@ -1385,11 +1385,11 @@ Foreman, Sam. 2026. <span>“🎓 Capstone Projects.”</span> August 13. <a hre
 <span id="cb2-44"><a href="#cb2-44" aria-label="44"></a>  term brings it back.</span>
 <span id="cb2-45"><a href="#cb2-45" aria-label="45"></a></span>
 <span id="cb2-46"><a href="#cb2-46" aria-label="46"></a><span class="ss">- </span>🗣️ **[\[5.2\] Fine-tuning on slang](./2-slang-finetune/)** — the other two train</span>
-<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a>  from scratch; this one fine-tunes a **real pretrained open model**</span>
-<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a>  (<span class="in">`SmolLM2-135M-Instruct`</span>) on a</span>
-<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a>  <span class="co">[</span><span class="ot">Gen Z slang dataset</span><span class="co">](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset)</span>.</span>
-<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a>  The built-in surprise is what fine-tuning actually buys you: the loss more than</span>
-<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a>  halves, and the model still does not know what the words mean.</span>
+<span id="cb2-47"><a href="#cb2-47" aria-label="47"></a>  from scratch; this one fine-tunes a **real pretrained open model** (<span class="in">`SmolLM2`</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-label="48"></a>  on a <span class="co">[</span><span class="ot">Gen Z slang dataset</span><span class="co">](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset)</span>.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-label="49"></a>  The built-in surprise is that the **held-out loss and the task metric peak at</span>
+<span id="cb2-50"><a href="#cb2-50" aria-label="50"></a>  different epochs** — early-stopping on loss, which is what everyone does,</span>
+<span id="cb2-51"><a href="#cb2-51" aria-label="51"></a>  picks the wrong checkpoint.</span>
 <span id="cb2-52"><a href="#cb2-52" aria-label="52"></a></span>
 <span id="cb2-53"><a href="#cb2-53" aria-label="53"></a>All three run in a few minutes on a laptop CPU, and all three scale to many GPUs</span>
 <span id="cb2-54"><a href="#cb2-54" aria-label="54"></a>with <span class="in">`ezpz launch`</span> and no code changes.</span>

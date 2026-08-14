@@ -44,11 +44,11 @@ then go find your own.
   term brings it back.
 
 - 🗣️ **[\[5.2\] Fine-tuning on slang](./2-slang-finetune/)** — the other two train
-  from scratch; this one fine-tunes a **real pretrained open model**
-  (`SmolLM2-135M-Instruct`) on a
-  [Gen Z slang dataset](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset).
-  The built-in surprise is what fine-tuning actually buys you: the loss more than
-  halves, and the model still does not know what the words mean.
+  from scratch; this one fine-tunes a **real pretrained open model** (`SmolLM2`)
+  on a [Gen Z slang dataset](https://huggingface.co/datasets/MLBtrio/genz-slang-dataset).
+  The built-in surprise is that the **held-out loss and the task metric peak at
+  different epochs** — early-stopping on loss, which is what everyone does,
+  picks the wrong checkpoint.
 
 All three run in a few minutes on a laptop CPU, and all three scale to many GPUs
 with `ezpz launch` and no code changes.

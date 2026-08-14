@@ -57,10 +57,41 @@ from bootcamp.plotly_theme import apply_theme, COLORS
 apply_theme()
 torch.manual_seed(0)
 
-MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
 DEVICE = ezpz.get_torch_device_type()   # 'cuda' | 'xpu' | 'mps' | 'cpu'
-print(f"device: {DEVICE}")
+GPU = DEVICE in ("cuda", "xpu")
+
+# Scale the run to the hardware. On a laptop this stays a ~2-minute demo; on a
+# GPU node it trains a 4x bigger model for more epochs, which is what you want
+# when you are actually trying to answer "does more compute fix this?".
+MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct" if GPU else "HuggingFaceTB/SmolLM2-135M-Instruct"
+EPOCHS = 4 if GPU else 1
+BATCH = 16 if GPU else 8
+N_EVAL = 240 if GPU else 80
+
+print(f"device: {DEVICE}  model: {MODEL}")
+print(f"epochs: {EPOCHS}  batch: {BATCH}  eval rows: {N_EVAL}")
 ```
+
+::: {.callout-note title="🖥️ This page is GPU-aware"}
+Everything below runs unchanged on a laptop, just smaller. The numbers you see
+in *this* rendering were produced on the hardware named above — if it says
+`cuda`, a real GPU trained a 360M-parameter model; if it says `cpu` or `mps`,
+you are looking at the 135M laptop-scale run.
+:::
+
+::: {.callout-warning title="🐛 A real bug we hit: batched generation on Apple MPS"}
+While scaling this up we tried batching the evaluation generations. On CPU and
+CUDA that is a pure speedup. On **MPS** it silently returns *empty strings* for
+most of the batch, because `pad_token_id == eos_token_id` for this tokenizer
+and left-padding makes the model stop immediately.
+
+The first version of our scaling experiment reported `overlap 0.000` and we
+nearly concluded that more training made the model worse. It had not — the
+measurement was broken, on one accelerator only.
+
+This is the reason to run the same code on more than one device before you
+trust a result, and a good thing to mention in your presentation.
+:::
 
 ## 📖 The data
 
@@ -130,12 +161,12 @@ the **grouped** split, where that number is exactly zero.
 ```{python}
 train_df, test_df = split("grouped")
 train_rows, test_rows = list(train_df.itertuples()), list(test_df.itertuples())
-EVAL = test_rows[:80]      # fixed held-out slice, used for every number below
+EVAL = test_rows[:N_EVAL]  # fixed held-out slice, used for every number below
 ```
 
 ## 🧩 Prompt format and the `-100` mask
 
-`SmolLM2-135M-Instruct` is an *instruct* model, so it already ships a chat
+`SmolLM2` is an *instruct* model, so it already ships a chat
 template — unlike the bare `gpt2` in [\[3.3\]](../../03-advanced-llms/3-mid-post-training/),
 we do not have to invent one. Each row becomes a one-turn conversation whose
 assistant reply is the gloss.
@@ -274,37 +305,60 @@ print(f"  avg answer words {base_len:.1f}   ({time.time()-t0:.0f}s)")
 
 ## 🔧 Fine-tune
 
-One epoch of plain AdamW over ~1,500 examples. No LoRA, no TRL — at 135M
-parameters a full fine-tune fits comfortably, and the point here is that you can
-see every line of it.
+Plain AdamW over ~1,500 examples. No LoRA, no TRL — a full fine-tune of a model
+this size fits comfortably, and the point here is that you can see every line of
+it.
+
+We measure **after every epoch**, not just at the end, because the interesting
+question is not "did it improve?" but "do the loss and the task metric even
+agree about *when* it improved?"
 
 ```{python}
 opt = torch.optim.AdamW(model.parameters(), lr=3e-5)
-order = np.random.default_rng(1).permutation(len(train_rows))
 
-t0, step, curve = time.time(), 0, []
-model.train()
-for ids, lab, att in batches([train_rows[i] for i in order], 8):
-    loss = model(input_ids=ids, attention_mask=att, labels=lab).loss
-    loss.backward()
-    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-    opt.step()
-    opt.zero_grad()
-    step += 1
-    curve.append(loss.item())
-print(f"{step} steps in {time.time()-t0:.0f}s on {DEVICE}")
+history, curve = [], []
+t0 = time.time()
+for epoch in range(1, EPOCHS + 1):
+    model.train()
+    order = np.random.default_rng(epoch).permutation(len(train_rows))
+    for ids, lab, att in batches([train_rows[i] for i in order], BATCH):
+        loss = model(input_ids=ids, attention_mask=att, labels=lab).loss
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step()
+        opt.zero_grad()
+        curve.append(loss.item())
+    ep_loss = held_out_loss(model, EVAL)
+    ep_gen = generate(model, EVAL)
+    history.append(dict(epoch=epoch, loss=ep_loss,
+                        overlap=overlap(ep_gen, EVAL),
+                        words=float(np.mean([len(g.split()) for g in ep_gen]))))
+    h = history[-1]
+    print(f"  epoch {epoch}  held-out loss {h['loss']:.3f}  "
+          f"overlap {h['overlap']:.3f}  words {h['words']:.1f}  "
+          f"({time.time()-t0:.0f}s)")
+
+print(f"\n{len(curve)} steps in {time.time()-t0:.0f}s on {DEVICE}")
 ```
 
 ```{python}
-ft_loss = held_out_loss(model, EVAL)
+# The final epoch's numbers are already measured; reuse them rather than
+# paying for another pass over the eval set.
 ft_gen = generate(model, EVAL)
-ft_overlap = overlap(ft_gen, EVAL)
-ft_len = float(np.mean([len(g.split()) for g in ft_gen]))
+ft_loss, ft_overlap = history[-1]["loss"], history[-1]["overlap"]
+ft_len = history[-1]["words"]
 
 print(f"{'':16s} {'base':>8s} {'fine-tuned':>12s}")
 print(f"{'held-out loss':16s} {base_loss:8.3f} {ft_loss:12.3f}")
 print(f"{'content overlap':16s} {base_overlap:8.3f} {ft_overlap:12.3f}")
 print(f"{'avg words':16s} {base_len:8.1f} {ft_len:12.1f}")
+
+best = min(history, key=lambda h: h["loss"])
+peak = max(history, key=lambda h: h["overlap"])
+if len(history) > 1 and best["epoch"] != peak["epoch"]:
+    print(f"\n  ⚠️  lowest loss at epoch {best['epoch']} ({best['loss']:.3f}), "
+          f"but best overlap at epoch {peak['epoch']} ({peak['overlap']:.3f})")
+    print("      early-stopping on loss would have picked the wrong checkpoint.")
 ```
 
 ```{python}
@@ -341,6 +395,36 @@ fig.update_layout(height=400, margin=dict(t=60), barmode="group")
 fig.show()
 ```
 
+```{python}
+#| label: fig-slang-epochs
+#| fig-cap: "Held-out loss (left axis) and content overlap (right axis) after each epoch. When these two disagree about which epoch was best, the loss is not measuring the thing you care about."
+#| code-fold: true
+#| code-summary: "Show the plotting code"
+# With a single epoch (laptop run) there is no trend to draw.
+eps = [h["epoch"] for h in history]
+f2 = go.Figure()
+f2.add_scatter(x=eps, y=[h["loss"] for h in history], name="held-out loss",
+               mode="lines+markers", line=dict(color=COLORS["red"], width=2.5))
+f2.add_scatter(x=eps, y=[h["overlap"] for h in history], name="content overlap",
+               mode="lines+markers", line=dict(color=COLORS["blue"], width=2.5),
+               yaxis="y2")
+f2.update_layout(
+    height=380, margin=dict(t=50),
+    xaxis=dict(title="epoch", tickmode="array", tickvals=eps),
+    yaxis=dict(title=dict(text="held-out loss (lower better)",
+                          font=dict(color=COLORS["red"])),
+               tickfont=dict(color=COLORS["red"])),
+    yaxis2=dict(title=dict(text="content overlap (higher better)",
+                           font=dict(color=COLORS["blue"])),
+                tickfont=dict(color=COLORS["blue"]),
+                overlaying="y", side="right"),
+)
+if len(history) > 1:
+    f2.show()
+else:
+    print("single-epoch run — see the GPU rendering for the per-epoch trend")
+```
+
 ## 🤯 What actually changed
 
 ```{python}
@@ -352,27 +436,31 @@ for r, b, f in list(zip(EVAL, base_gen, ft_gen))[:6]:
     print(f"   ft  : {f[:88]}\n")
 ```
 
-::: {.callout-important title="🎯 It learned the format, not the facts"}
+::: {.callout-important title="🎯 Mostly format, a little knowledge — and the two metrics disagree"}
 Look at the two columns. The base model answers every question with the same
 hedging boilerplate — *"The slang term X is a colloquialism that refers to..."* —
-and rambles for ~18 words. After fine-tuning it answers in ~5 words, in the
-clipped register of the dataset. That is a big, obvious change, and it is why
-the loss more than halved.
+and rambles. After fine-tuning it answers in a handful of words, in the clipped
+register of the dataset. That is a big, obvious change, and it is most of why
+the loss dropped.
 
-Now read the answers. On terms it has never seen, they are still frequently
-**wrong** — confidently, fluently wrong. Content overlap with the gold gloss
-barely moves.
+Now read the answers. On terms it has **never seen**, many are still confidently,
+fluently wrong. Content overlap does improve — real, but far short of "the model
+learned Gen Z slang." Most of the loss improvement bought you *voice*, not
+*knowledge*.
 
-That is the lesson, and it generalizes far beyond slang:
+> **SFT on a small dataset mostly teaches style and format. Knowledge comes
+> slowly, if at all.**
 
-> **SFT on a small dataset teaches style and format, not new knowledge.**
+A few epochs over 1,500 short examples cannot install many facts the pretrained
+model never saw. It *can* teach it how to answer, in what voice, at what length.
+Those are different things, and **the loss curve cannot tell them apart** — see
+@fig-slang-epochs, where the held-out loss and the task metric peak at
+*different epochs*. Had you early-stopped on loss, as almost everyone does, you
+would have shipped the wrong checkpoint.
 
-One epoch over 1,500 short examples cannot install facts the pretrained model
-never saw. It *can* teach it how to answer, in what voice, at what length. Those
-are different things, and the loss curve cannot tell them apart. If you need the
-model to know new facts, you need much more data, much longer training, or you
-need to stop fine-tuning and start *retrieving* — which is exactly what
-[\[2.9\] RAG](../../02-llms/09-rag-tutorial/) is for.
+If you need the model to know new facts, you need much more data, much longer
+training, or you need to stop fine-tuning and start *retrieving* — which is
+exactly what [\[2.9\] RAG](../../02-llms/09-rag-tutorial/) is for.
 :::
 
 ## 🔬 Proving the leaky split inflates the score
@@ -392,7 +480,7 @@ leaky = AutoModelForCausalLM.from_pretrained(MODEL).to(DEVICE)
 opt2 = torch.optim.AdamW(leaky.parameters(), lr=3e-5)
 order2 = np.random.default_rng(1).permutation(len(lk_train_rows))
 leaky.train()
-for ids, lab, att in batches([lk_train_rows[i] for i in order2], 8):
+for ids, lab, att in batches([lk_train_rows[i] for i in order2], BATCH):
     leaky(input_ids=ids, attention_mask=att, labels=lab).loss.backward()
     torch.nn.utils.clip_grad_norm_(leaky.parameters(), 1.0)
     opt2.step()
@@ -411,10 +499,11 @@ logs will warn you.
 1. **Change what you predict.** We trained on `Description`. Train on `Example`
    instead so the model *uses* the slang in a sentence rather than defining it.
    Which is a better demo? Which is easier to score?
-2. **Does more data fix the facts?** The claim above is that 1,500 examples
-   teach style, not knowledge. Test it: train on 10%, 25%, 50%, 100% of the data
-   and plot content overlap against dataset size. Does it trend up, or is it
-   flat?
+2. **Does more data fix the facts?** Scaling the *model* (135M → 360M) and the
+   *epochs* helped a little — you can see it in the numbers above. Now scale the
+   **data**: train on 10%, 25%, 50%, 100% and plot content overlap against
+   dataset size. Extrapolate. How much data would you need for the model to
+   actually know the words, and is that a realistic amount to collect?
 3. **Beat the fine-tune with retrieval.** Put the gold gloss for the test term
    into the prompt and let the *base* model answer. If that crushes your
    fine-tuned model — and it will — you have demonstrated the single most
@@ -427,10 +516,11 @@ logs will warn you.
    often wrecks general ability. Measure how much.
 
 ::: {.callout-tip title="📊 What to put on the slide"}
-The before/after table plus three or four real generations. The strongest
-version of this talk states the uncomfortable result out loud: *"our loss
-improved by 54% and our model still does not know what 'cheugy' means."*
-Then show the retrieval baseline beating it.
+@fig-slang-epochs, with the two curves peaking at different epochs, plus three
+or four real generations. The strongest version of this talk states the
+uncomfortable result out loud: *"our loss got better every way we measured it,
+and the epoch with the best loss was not the epoch with the best answers."*
+Then show the retrieval baseline beating the whole thing.
 :::
 
 ## 🚀 Scaling up
