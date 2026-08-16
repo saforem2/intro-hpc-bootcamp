@@ -1,8 +1,15 @@
 # Capstone starters
 
-Two self-contained projects that build on what the bootcamp already covered.
-Both run on a laptop CPU in a few minutes, both scale up with `ezpz launch`, and
-both produce an **objective number** you can put on a slide — not a vibe check.
+Self-contained projects that build on what the bootcamp already covered. They
+run on a laptop CPU in a few minutes, scale up with `ezpz launch`, and each
+produces an **objective number** you can put on a slide — not a vibe check.
+
+The two scripts here train a model **from scratch**. There is a third capstone,
+[**\[5.2\] Fine-tuning an open LLM on Gen Z slang**](https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/2-slang-finetune/),
+which lives only as a notebook page — it fine-tunes a real pretrained
+`SmolLM2` on a HuggingFace dataset and shows that the held-out loss and the
+task metric peak at *different epochs*. All three are indexed at
+[**\[5\] Capstone Projects**](https://saforem2.github.io/intro-hpc-bootcamp/05-capstone/).
 
 Every number below was measured on the committed code. Reproduce them first, then
 go beyond them.
